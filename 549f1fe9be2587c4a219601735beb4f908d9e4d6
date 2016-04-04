@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee428f9_bbc1a7ff",
+        "filename": "net/test/srcaddr_selection_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-04-04T13:33:46Z",
+      "side": 1,
+      "message": "Perhaps in a future change this should be something like\n\n  VERY_SHORT_RETRANS_MS\u003d300\n\nor whatever is descriptive but doesn\u0027t cause any line wrapping.",
+      "range": {
+        "startLine": 165,
+        "startChar": 46,
+        "endLine": 165,
+        "endChar": 49
+      },
+      "revId": "549f1fe9be2587c4a219601735beb4f908d9e4d6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
