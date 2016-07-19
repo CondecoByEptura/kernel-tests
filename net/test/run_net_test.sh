@@ -17,6 +17,11 @@ OPTIONS="$OPTIONS IP_SCTP INET_SCTP_DIAG"
 OPTIONS="$OPTIONS CONFIG_IP_NF_TARGET_REJECT CONFIG_IP_NF_TARGET_REJECT_SKERR"
 OPTIONS="$OPTIONS CONFIG_IP6_NF_TARGET_REJECT CONFIG_IP6_NF_TARGET_REJECT_SKERR"
 
+# For trace_event_test.py.
+OPTIONS="$OPTIONS CONFIG_IPC_LOGGING"  # enables CONFIG_EVENT_TRACING
+OPTIONS="$OPTIONS CONFIG_CFG80211"
+OPTIONS="$OPTIONS CONFIG_NL80211_TESTMODE"  # cfg80211 fails without this
+
 # For 3.1 kernels, where devtmpfs is not on by default.
 OPTIONS="$OPTIONS DEVTMPFS DEVTMPFS_MOUNT"
 
@@ -168,6 +173,29 @@ Keep enter pressed to accept the defaults.
 
 EOF
   fi
+
+  # Hack to get IPC_LOGGING to compile for UML with the
+  # marlin kernel. (The patch isn't suitable for upstream,
+  # because the function that we're stubbing isn't in the
+  # mainline kernel.)
+  #
+  # We try the patch unconditionally, for simplicity.
+  # We ignore failure, because a) we only need the patch
+  # for marlin, and b) if patching the marlin kernel fails,
+  # then building the marlin kernel will fail as well.
+  patch --forward -d $KERNEL_DIR -p1 < $SCRIPT_DIR/arch_timer.patch \
+    || true
+
+  # Hack to get cfg80211 to compile for UML with the marlin
+  # kernel. (Unlike the mainline kernel, the wifi bits of the
+  # marlin kernel fail to compile when CONFIG_PM is disabled.)
+  #
+  # We try the patch unconditionally, for simplicity.
+  # We ignore failure, because a) we only need the patch
+  # for marlin, and b) if patching the marlin kernel fails,
+  # then building the marlin kernel will fail as well.
+  patch --forward -d $KERNEL_DIR -p1 < $SCRIPT_DIR/wifi_power_mgmt.patch \
+    || true
 
   # Compile the kernel.
   $MAKE -j$J linux ARCH=um SUBARCH=x86_64 CROSS_COMPILE=

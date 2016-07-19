@@ -1,0 +1,25 @@
+diff --git a/net/wireless/rdev-ops.h b/net/wireless/rdev-ops.h
+index 9153f3e..f94ec9a 100644
+--- a/net/wireless/rdev-ops.h
++++ b/net/wireless/rdev-ops.h
+@@ -6,6 +6,7 @@
+ #include "core.h"
+ #include "trace.h"
+ 
++#ifdef CONFIG_PM
+ static inline int rdev_suspend(struct cfg80211_registered_device *rdev)
+ {
+ 	int ret;
+@@ -14,6 +15,12 @@ static inline int rdev_suspend(struct cfg80211_registered_device *rdev)
+ 	trace_rdev_return_int(&rdev->wiphy, ret);
+ 	return ret;
+ }
++#else
++static inline int rdev_suspend(struct cfg80211_registered_device *rdev)
++{
++	return -ENOSYS;
++}
++#endif
+ 
+ static inline int rdev_resume(struct cfg80211_registered_device *rdev)
+ {
