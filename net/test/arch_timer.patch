@@ -1,0 +1,14 @@
+diff --git a/arch/um/include/asm/arch_timer.h b/arch/um/include/asm/arch_timer.h
+new file mode 100644
+index 0000000..a28ba6e
+--- /dev/null
++++ b/arch/um/include/asm/arch_timer.h
+@@ -0,0 +1,8 @@
++#ifndef __UM_ARCH_TIMER_H
++#define __UM_ARCH_TIMER_H
++
++#include <linux/compiler.h>
++#include <linux/types.h>
++static uint64_t arch_counter_get_cntpct(void) { return 0; }
++
++#endif

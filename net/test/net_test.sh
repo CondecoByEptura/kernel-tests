@@ -19,6 +19,11 @@ if [ "$net_test_mode" != "builder" ]; then
   trap "exec /bin/bash" ERR EXIT
 fi
 
+# For trace_event_test.py
+mount / -oremount,rw
+mkdir -p /debug  # -p: no error if existing
+mount debug /debug -t debugfs
+
 echo -e "Running $net_test\n"
 $net_test
 
