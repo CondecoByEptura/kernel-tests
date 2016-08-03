@@ -27,6 +27,17 @@ import sys
 import cstruct
 import netlink
 
+# TODO: Move the two copies of this code to one location.
+# Needed because some of our constants differ depending on kernel version.
+def LinuxVersion():
+  # Example: "3.4.67-00753-gb7a556f".
+  # Get the part before the dash.
+  version = os.uname()[2].split("-")[0]
+  # Convert it into a tuple such as (3, 4, 67). That allows comparing versions
+  # using < and >, since tuples are compared lexicographically.
+  version = tuple(int(i) for i in version.split("."))
+  return version
+
 
 ### Base netlink constants. See include/uapi/linux/netlink.h.
 NETLINK_ROUTE = 0
@@ -98,7 +109,9 @@ RTA_METRICS = 8
 RTA_CACHEINFO = 12
 RTA_TABLE = 15
 RTA_MARK = 16
-RTA_UID = 18
+RTA_UID = 25
+if LinuxVersion() < (4, 7, 0):
+  RTA_UID = 18
 
 # Route metric attributes.
 RTAX_MTU = 2
@@ -166,8 +179,11 @@ FRA_SUPPRESS_PREFIXLEN = 14
 FRA_TABLE = 15
 FRA_FWMASK = 16
 FRA_OIFNAME = 17
-FRA_UID_START = 18
-FRA_UID_END = 19
+FRA_UID_START = 20
+FRA_UID_END = 21
+if LinuxVersion() < (4, 7, 0):
+  FRA_UID_START -= 2
+  FRA_UID_END -= 2
 
 
 # Link constants. See include/uapi/linux/if_link.h.
