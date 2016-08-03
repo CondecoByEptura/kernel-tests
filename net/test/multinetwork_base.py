@@ -65,7 +65,8 @@ def HaveUidRouting():
   # Dump all the rules. If we find a rule using the UID range selector, then the
   # kernel supports UID range routing.
   rules = iproute.IPRoute().DumpRules(6)
-  result = any("FRA_UID_START" in attrs for rule, attrs in rules)
+  attrname = "FRA_UID_RANGE" if not iproute._LEGACY_UID_ROUTING else "FRA_UID_START"
+  result = any(attrname in attrs for rule, attrs in rules)
 
   # Delete the rule.
   if result:
@@ -76,6 +77,7 @@ AUTOCONF_TABLE_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_rt_table"
 
 HAVE_AUTOCONF_TABLE = os.path.isfile(AUTOCONF_TABLE_SYSCTL)
 HAVE_UID_ROUTING = HaveUidRouting()
+assert HAVE_UID_ROUTING
 
 
 class UnexpectedPacketError(AssertionError):
