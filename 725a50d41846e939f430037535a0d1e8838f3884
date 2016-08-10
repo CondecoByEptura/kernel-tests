@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f91deb1b_76ccf061",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-08-10T04:18:45Z",
+      "side": 1,
+      "message": "Seems like these ought to be in csocket, maybe.",
+      "range": {
+        "startLine": 729,
+        "startChar": 4,
+        "endLine": 729,
+        "endChar": 21
+      },
+      "revId": "725a50d41846e939f430037535a0d1e8838f3884",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f91deb1b_56c9f44f",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-08-10T04:18:45Z",
+      "side": 1,
+      "message": "Maybe these want to live in csocket...?",
+      "range": {
+        "startLine": 729,
+        "startChar": 4,
+        "endLine": 729,
+        "endChar": 21
+      },
+      "revId": "725a50d41846e939f430037535a0d1e8838f3884",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f91deb1b_b6f68891",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-08-10T04:18:45Z",
+      "side": 1,
+      "message": "Could also be expressed in terms of LINK_MTU, even just \"(LINK_MTU + 100)\".",
+      "range": {
+        "startLine": 737,
+        "startChar": 31,
+        "endLine": 737,
+        "endChar": 35
+      },
+      "revId": "725a50d41846e939f430037535a0d1e8838f3884",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
