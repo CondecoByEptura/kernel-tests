@@ -22,6 +22,30 @@
       "revId": "17bdc7bbef5936afc75117cc244c4ac3f2512a73",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ebb3dd1_99b5dbca",
+        "filename": "net/test/csocket.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-08-12T05:26:46Z",
+      "side": 1,
+      "message": "Ah, no. Done.",
+      "parentUuid": "59d8b708_518614c3",
+      "range": {
+        "startLine": 283,
+        "startChar": 11,
+        "endLine": 283,
+        "endChar": 17
+      },
+      "revId": "17bdc7bbef5936afc75117cc244c4ac3f2512a73",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
