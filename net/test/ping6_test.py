@@ -590,7 +590,13 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
         else:
           scopeid = self.ifindices[netid]
         self.assertTrue(dst.startswith("fe80:"))
-        s.sendto(net_test.IPV6_PING, (dst, 55, 0, scopeid))
+        if mode == "oif":
+          # If SO_BINDTODEVICE has been set, any attempt to send on another
+          # interface returns EINVAL.
+          self.assertRaisesErrno(
+              errno.EINVAL,
+              s.sendto, net_test.IPV6_PING, (dst, 55, 0, scopeid + 1))
+        s.sendto(net_test.IPV6_PING, (dst, 123, 0, scopeid))
         # If we got a reply, we sent the packet out on the right interface.
         self.assertValidPingResponse(s, net_test.IPV6_PING)
 
