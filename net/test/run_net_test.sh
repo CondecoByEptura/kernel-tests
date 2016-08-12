@@ -21,6 +21,10 @@ OPTIONS="$OPTIONS DEVTMPFS DEVTMPFS_MOUNT"
 DISABLE_OPTIONS=" CONFIG_REISERFS_FS CONFIG_ANDROID_PMEM"
 # This one breaks the fugu kernel due to a nonexistent sem_wait_array.
 DISABLE_OPTIONS="$DISABLE_OPTIONS CONFIG_SYSVIPC"
+# On android-3.18, disabling CFG80211 results in a compile error because the
+# rfkill code doesn't depend on CFG80211, so we either need to disable CFG80211
+# or enable rfkill.
+DISABLE_OPTIONS="$DISABLE_OPTIONS CONFIG_CFG80211"
 
 # How many TAP interfaces to create to provide the VM with real network access
 # via the host. This requires privileges (e.g., root access) on the host.
