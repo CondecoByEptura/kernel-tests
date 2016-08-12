@@ -497,10 +497,7 @@ class TCPAcceptTest(InboundMarkingTest):
     # the socket has no UID. If we're doing UID routing, the ack might be routed
     # incorrectly. Not much we can do here.
     desc, finackack = packets.ACK(version, myaddr, remoteaddr, finack)
-    if mode != self.MODE_UID:
-      self.ExpectPacketOn(netid, msg + ": expecting final ack", finackack)
-    else:
-      self.ClearTunQueues()
+    self.ExpectPacketOn(netid, msg + ": expecting final ack", finackack)
 
   def CheckTCP(self, version, modes):
     """Checks that incoming TCP connections work.
