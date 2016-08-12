@@ -473,7 +473,8 @@ class TCPAcceptTest(InboundMarkingTest):
       mark = self.GetSocketMark(s)
     finally:
       self.BounceSocket(s)
-      s.close()
+      s.shutdown(SHUT_RDWR)
+      self.BounceSocket(s)
 
     if mode == self.MODE_INCOMING_MARK:
       self.assertEquals(netid, mark,
@@ -490,6 +491,12 @@ class TCPAcceptTest(InboundMarkingTest):
     desc, fin = packets.FIN(version, myaddr, remoteaddr, ack)
     self.ExpectPacketOn(netid, msg + ": expecting %s after close" % desc, fin)
 
+    # Now close the socket. The close call shouldn't send any packets because
+    # we've already called shutdown, so at this point the socket's dst cache
+    # entry should be cleared.
+    self.BounceSocket(s)
+    s.close()
+
     desc, finack = packets.FIN(version, remoteaddr, myaddr, fin)
     self.ReceivePacketOn(netid, finack)
 
@@ -497,7 +504,7 @@ class TCPAcceptTest(InboundMarkingTest):
     # the socket has no UID. If we're doing UID routing, the ack might be routed
     # incorrectly. Not much we can do here.
     desc, finackack = packets.ACK(version, myaddr, remoteaddr, finack)
-    if mode != self.MODE_UID:
+    if mode != self.MODE_UID or net_test.LINUX_VERSION >= (4, 9, 0):
       self.ExpectPacketOn(netid, msg + ": expecting final ack", finackack)
     else:
       self.ClearTunQueues()
