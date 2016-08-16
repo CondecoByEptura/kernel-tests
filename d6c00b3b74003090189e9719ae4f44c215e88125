@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b3c77f1_bfc5370d",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-08-16T09:39:46Z",
+      "side": 1,
+      "message": "Can we know for this that this isn\u0027t failing simply because scopeid + 1 isn\u0027t valid (rather than the SO_BINDTODEVICE restriction being encountered)?",
+      "range": {
+        "startLine": 607,
+        "startChar": 57,
+        "endLine": 607,
+        "endChar": 68
+      },
+      "revId": "d6c00b3b74003090189e9719ae4f44c215e88125",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
