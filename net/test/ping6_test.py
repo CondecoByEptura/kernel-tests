@@ -562,7 +562,6 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
   def testBindAffectsIdentifier(self):
     s = net_test.IPv6PingSocket()
     s.bind((self.globaladdr, 0xf976))
-    s.sendto(net_test.IPV6_PING, (net_test.IPV6_ADDR, 55))
     self.assertEquals("\xf9\x76", s.recv(32768)[4:6])
 
     s = net_test.IPv6PingSocket()
@@ -580,7 +579,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     s.sendto(net_test.IPV6_PING, ("fe80::1", 55, 0, self.ifindex))
     # No exceptions? Good.
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 8, 0), "Not yet fixed")
+  @unittest.skipUnless(net_test.TargetsAfter("NDR"), "Not yet fixed")
   def testLinkLocalOif(self):
     """Checks that ping to link-local addresses works correctly.
 
@@ -764,7 +763,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     s.connect(("::1", 0xbeef))
     self.CheckSockStatFile("raw6", "::1", 0xff, "::1", 0, 1)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 7, 0), "Not yet fixed")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 8, 0), "Not yet fixed")
   def testIPv6MTU(self):
     """Tests IPV6_RECVERR and path MTU discovery on ping sockets.
 
