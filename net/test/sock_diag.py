@@ -52,6 +52,13 @@ INET_DIAG_TCLASS = 6
 INET_DIAG_SKMEMINFO = 7
 INET_DIAG_SHUTDOWN = 8
 INET_DIAG_DCTCPINFO = 9
+INET_DIAG_DCTCPINFO = 9
+INET_DIAG_PROTOCOL = 10
+INET_DIAG_SKV6ONLY = 11
+INET_DIAG_LOCALS = 12
+INET_DIAG_PEERS = 13
+INET_DIAG_PAD = 14
+INET_DIAG_MARK = 15
 
 # Bytecode operations.
 INET_DIAG_BC_NOP = 0
@@ -63,6 +70,8 @@ INET_DIAG_BC_D_LE = 5
 INET_DIAG_BC_AUTO = 6
 INET_DIAG_BC_S_COND = 7
 INET_DIAG_BC_D_COND = 8
+INET_DIAG_BC_DEV_COND = 9
+INET_DIAG_BC_MARK_COND = 10
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
@@ -80,6 +89,7 @@ InetDiagMeminfo = cstruct.Struct(
 InetDiagBcOp = cstruct.Struct("InetDiagBcOp", "BBH", "code yes no")
 InetDiagHostcond = cstruct.Struct("InetDiagHostcond", "=BBxxi",
                                   "family prefix_len port")
+InetDiagMarkcond = cstruct.Struct("InetDiagMarkcond", "=II", "mark mask")
 
 SkMeminfo = cstruct.Struct(
     "SkMeminfo", "=IIIIIIII",
@@ -115,8 +125,11 @@ class SockDiag(netlink.NetlinkSocket):
       # Don't know what this is. Leave it as an integer.
       name = nla_type
 
-    if name in ["INET_DIAG_SHUTDOWN", "INET_DIAG_TOS", "INET_DIAG_TCLASS"]:
+    if name in ["INET_DIAG_SHUTDOWN", "INET_DIAG_TOS", "INET_DIAG_TCLASS",
+                "INET_DIAG_SKV6ONLY"]:
       data = ord(nla_data)
+    elif name in ["INET_DIAG_MARK"]:
+      data = struct.unpack("=I", nla_data)[0]
     elif name == "INET_DIAG_CONG":
       data = nla_data.strip("\x00")
     elif name == "INET_DIAG_MEMINFO":
@@ -202,6 +215,12 @@ class SockDiag(netlink.NetlinkSocket):
         family = AF_INET6 if ":" in addr else AF_INET
         addr = inet_pton(family, addr)
         arg = InetDiagHostcond((family, prefixlen, port)).Pack() + addr
+      elif op == INET_DIAG_BC_MARK_COND:
+        if isinstance(arg, tuple):
+          mark, mask = arg
+        else:
+          mark, mask = arg, 0xffffffff
+        arg = InetDiagMarkcond((mark, mask)).Pack()
       else:
         raise ValueError("Unsupported opcode %d" % op)
 
@@ -318,6 +337,9 @@ class SockDiag(netlink.NetlinkSocket):
     """Gets an InetDiagMsg from the kernel for the specified request."""
     self._SendNlRequest(SOCK_DIAG_BY_FAMILY, req.Pack(), netlink.NLM_F_REQUEST)
     return self._GetMsg(InetDiagMsg)[0]
+
+  def GetSockDiagAttrs(self, req):
+    """Gets an InetDiagMsg from the kernel for the specified request."""
 
   @staticmethod
   def DiagReqFromDiagMsg(d, protocol):
