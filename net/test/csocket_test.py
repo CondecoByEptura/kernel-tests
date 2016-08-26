@@ -44,6 +44,9 @@ class CsocketTest(unittest.TestCase):
 
     s.close()
 
+  def testBogus(self):
+    self.assertTrue(False)
+
   def testRecvfrom(self):
     self.CheckRecvfrom(AF_INET, "127.0.0.1")
     self.CheckRecvfrom(AF_INET6, "::1")
