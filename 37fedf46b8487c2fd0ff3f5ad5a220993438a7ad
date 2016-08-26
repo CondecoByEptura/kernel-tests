@@ -22,6 +22,30 @@
       "revId": "37fedf46b8487c2fd0ff3f5ad5a220993438a7ad",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a50eea7a_a3e6badb",
+        "filename": "net/test/removed_feature_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-08-26T06:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a50eea7a_63ede2b9",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "37fedf46b8487c2fd0ff3f5ad5a220993438a7ad",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
