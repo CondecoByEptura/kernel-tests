@@ -140,7 +140,8 @@ class SockDiag(netlink.NetlinkSocket):
     elif name == "INET_DIAG_SKMEMINFO":
       data = SkMeminfo(nla_data)
     elif name == "INET_DIAG_REQ_BYTECODE":
-      data = nla_data.encode("hex")
+#      data = nla_data.encode("hex")
+       data = self.DecodeBytecode(nla_data)
     else:
       data = nla_data
 
@@ -245,6 +246,33 @@ class SockDiag(netlink.NetlinkSocket):
     #print
 
     return packed
+
+  def DecodeBytecode(self, bytecode):
+    print "bytecode len=%d" % len(bytecode)
+    instructions = []
+    while bytecode:
+      op, rest = cstruct.Read(bytecode, InetDiagBcOp)
+
+      if op.code in [INET_DIAG_BC_NOP, INET_DIAG_BC_JMP]:
+        arg = None
+      elif op.code == INET_DIAG_BC_MARK_COND:
+        arg, rest = cstruct.Read(rest, InetDiagMarkcond)
+      elif op.code in [INET_DIAG_BC_S_COND, INET_DIAG_BC_D_COND]:
+        print "InetDiagHostCond len=", len(InetDiagHostcond)
+        cond, rest = cstruct.Read(rest, InetDiagHostcond)
+        if cond.family == 0:
+          arg = (None, cond.prefix_len, cond.port)
+        else:
+          addrlen = 4 if cond.family == AF_INET else 16
+          addr, rest = rest[:addrlen], rest[addrlen:]
+          addr = inet_ntop(cond.family, addr)
+          arg = (addr, cond.prefix_len, cond.port)
+      else:
+        raise ValueError("Unknown opcode %d" % op.code)
+      instructions.append((op, arg))
+      bytecode = rest
+
+    return instructions
 
   def Dump(self, diag_req, bytecode):
     out = self._Dump(SOCK_DIAG_BY_FAMILY, diag_req, InetDiagMsg, bytecode)
