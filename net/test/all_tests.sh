@@ -15,6 +15,8 @@
 # limitations under the License.
 
 readonly PREFIX="#####"
+readonly ATTEMPTS=3
+readonly MIN_PASSING=$(( ATTEMPTS - 1 ))
 
 function maybePlural() {
   # $1 = integer to use for plural check
@@ -24,6 +26,31 @@ function maybePlural() {
     echo "$3"
   else
     echo "$2"
+  fi
+}
+
+
+function runTest() {
+  local cmd="$1"
+
+  local failing=0
+  for iteration in $(seq $ATTEMPTS); do
+    $cmd || failing=$(( failing + 1 ))
+    if [ $failing -eq 0 ]; then
+      break;
+    fi
+  done
+
+  if [ $failing -eq 0 ]; then
+    return 0;
+  else
+    echo >&2 "'$cmd' failed $failing out of $ATTEMPTS times"
+
+    if [ $(( ATTEMPTS - failing )) -ge $MIN_PASSING ]; then
+      return 0;
+    else
+      return 1;
+    fi
   fi
 }
 
@@ -40,7 +67,7 @@ for test in $tests; do
   echo ""
   echo "$PREFIX $test ($i/$count)"
   echo ""
-  $test || exit_code=$(( exit_code + 1 ))
+  runTest $test || exit_code=$(( exit_code + 1 ))
   echo ""
 done
 
