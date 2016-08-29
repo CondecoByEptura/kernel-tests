@@ -19,8 +19,14 @@ if [ "$net_test_mode" != "builder" ]; then
   trap "exec /bin/bash" ERR EXIT
 fi
 
+args=
+if [ -n "$net_test_branch" ] ; then
+  echo "Running on branch $net_test_branch"
+  args="$args --kernel_branch $net_test_branch"
+fi
+
 echo -e "Running $net_test\n"
-$net_test
+$net_test $args
 
 # Write exit code of net_test to /proc/exitcode so that the builder can use it
 # to signal failure if any tests fail.
