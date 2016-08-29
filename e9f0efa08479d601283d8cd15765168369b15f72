@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5275e49_341090a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-08-29T03:24:26Z",
+      "side": 1,
+      "message": "Also:\n\n  Bug: 31119353",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "e9f0efa08479d601283d8cd15765168369b15f72",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5275e49_d46d9c34",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-08-29T03:24:26Z",
+      "side": 1,
+      "message": "Suggest:\n\n  echo \u003e\u00262 \"Warning: $cmd FLAKY, passed $RETRIES/$((RETRIES + 1))\"",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 6
+      },
+      "revId": "e9f0efa08479d601283d8cd15765168369b15f72",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
