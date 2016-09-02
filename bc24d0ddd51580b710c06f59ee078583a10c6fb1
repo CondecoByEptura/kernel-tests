@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31d32198_b075de61",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-09-02T04:00:30Z",
+      "side": 0,
+      "message": "Why remove this line?",
+      "range": {
+        "startLine": 565,
+        "startChar": 6,
+        "endLine": 565,
+        "endChar": 12
+      },
+      "revId": "bc24d0ddd51580b710c06f59ee078583a10c6fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
