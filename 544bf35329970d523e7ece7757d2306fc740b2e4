@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31d32198_10b4aa3d",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-09-02T03:28:43Z",
+      "side": 1,
+      "message": "Who would be the consumer of this flag?  It looks like the python code will be pulling from the environment variable instead...",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "544bf35329970d523e7ece7757d2306fc740b2e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
