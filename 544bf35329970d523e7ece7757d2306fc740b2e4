@@ -22,6 +22,30 @@
       "revId": "544bf35329970d523e7ece7757d2306fc740b2e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d32198_70c6c691",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-09-02T03:55:15Z",
+      "side": 1,
+      "message": "Oops, that was left over from the previous patchset. Removed.",
+      "parentUuid": "31d32198_10b4aa3d",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "544bf35329970d523e7ece7757d2306fc740b2e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
