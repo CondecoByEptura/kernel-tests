@@ -92,15 +92,19 @@ def TargetsAfter(target):
   TODO: Find a better mechanism to do this.
 
   Args:
-    release: A string, such as "M", "N" or "NMR".
+    release: A string, such as "M", "N" or "NDR".
 
   Returns:
     True the given kernel targets a release later than target.
   """
   if target == "NDR":
-    exclude_patterns = ["nyc-security"]
+    exclude_patterns = ["-nyc-", "-ndr-"]
   else:
     exclude_patterns = []
+
+  # Security branches might not get bug fixes, so assume that if a test depends
+  # on kernel version, security branches might not pass it.
+  exclude_patterns.append("security-next")
 
   return not any(p in NET_TEST_BRANCH for p in exclude_patterns)
 
