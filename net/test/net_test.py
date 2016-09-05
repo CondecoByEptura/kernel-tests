@@ -92,13 +92,13 @@ def TargetsAfter(target):
   TODO: Find a better mechanism to do this.
 
   Args:
-    release: A string, such as "M", "N" or "NMR".
+    release: A string, such as "M", "N" or "NDR".
 
   Returns:
     True the given kernel targets a release later than target.
   """
   if target == "NDR":
-    exclude_patterns = ["nyc-security"]
+    exclude_patterns = ["-nyc-", "-ndr-"]
   else:
     exclude_patterns = []
 
