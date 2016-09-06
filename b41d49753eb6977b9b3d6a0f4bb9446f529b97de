@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6efbfc0_104a6a09",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-09-06T21:36:48Z",
+      "side": 0,
+      "message": "Shouldn\u0027t we convert this to testUdpSockets()?\n\nOtherwise, where else would this be tested/covered?",
+      "range": {
+        "startLine": 355,
+        "startChar": 6,
+        "endLine": 355,
+        "endChar": 23
+      },
+      "revId": "b41d49753eb6977b9b3d6a0f4bb9446f529b97de",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
