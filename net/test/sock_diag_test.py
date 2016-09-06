@@ -352,12 +352,6 @@ class SockDestroyTest(SockDiagBaseTest):
       # Check that both sockets in the pair are closed.
       self.assertSocketsClosed(socketpair)
 
-  def testNonTcpSockets(self):
-    s = socket(AF_INET6, SOCK_DGRAM, 0)
-    s.connect(("::1", 53))
-    self.sock_diag.FindSockDiagFromFd(s)  # No exceptions? Good.
-    self.assertRaisesErrno(EOPNOTSUPP, self.sock_diag.CloseSocketFromFd, s)
-
   # TODO:
   # Test that killing unix sockets returns EOPNOTSUPP.
 
