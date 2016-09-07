@@ -42,12 +42,19 @@ COMPRESSED_ROOTFS=$ROOTFS.xz
 URL=https://dl.google.com/dl/android/$COMPRESSED_ROOTFS
 
 # Parse arguments and figure out which test to run.
+J=${J:-64}
+OUT_DIR="${OUT_DIR:-.}"
+KERNEL_DIR="${KERNEL_DIR:-.}"
+CONFIG_SCRIPT=${KERNEL_DIR}/scripts/config
+CONFIG_FILE=${OUT_DIR}/.config
+MAKE="make"
 consolemode=
 testmode=
 while [ -n "$1" ]; do
   if [ "$1" = --builder ]; then
     consolemode="con=null,fd:1"
     testmode=builder
+    MAKE="$MAKE O=$OUT_DIR"
   elif [ "$1" = --branch ]; then
     branch=$2
     if [[ "$branch" = --* ]]; then
@@ -61,6 +68,9 @@ while [ -n "$1" ]; do
   fi
   shift
 done
+
+cd $OUT_DIR
+echo Running tests from: `pwd`
 
 if [ -z "$test" ]; then
   echo "Usage: $0 [--builder] [--branch BRANCH] <test>" >&2
@@ -111,18 +121,18 @@ if [ -z "$KERNEL_BINARY" ]; then
   # (?) results in a 32-bit kernel.
 
   # If there's no kernel config at all, create one or UML won't work.
-  [ -f .config ] || make defconfig ARCH=um SUBARCH=x86_64
+  [ -f $CONFIG_FILE ] || (cd $KERNEL_DIR && $MAKE defconfig ARCH=um SUBARCH=x86_64)
 
   # Enable the kernel config options listed in $OPTIONS.
   cmdline=${OPTIONS// / -e }
-  ./scripts/config $cmdline
+  $CONFIG_SCRIPT --file $CONFIG_FILE $cmdline
 
   # Disable the kernel config options listed in $DISABLE_OPTIONS.
   cmdline=${DISABLE_OPTIONS// / -d }
-  ./scripts/config $cmdline
+  $CONFIG_SCRIPT --file $CONFIG_FILE $cmdline
 
   # olddefconfig doesn't work on old kernels.
-  if ! make olddefconfig ARCH=um SUBARCH=x86_64 CROSS_COMPILE= ; then
+  if ! $MAKE olddefconfig ARCH=um SUBARCH=x86_64 CROSS_COMPILE= ; then
     cat >&2 << EOF
 
 Warning: "make olddefconfig" failed.
@@ -134,10 +144,9 @@ EOF
   fi
 
   # Compile the kernel.
-  make -j32 linux ARCH=um SUBARCH=x86_64 CROSS_COMPILE=
+  $MAKE -j$J linux ARCH=um SUBARCH=x86_64 CROSS_COMPILE=
   KERNEL_BINARY=./linux
 fi
-
 
 # Get the absolute path to the test file that's being run.
 dir=/host$(dirname $(readlink -f $0))
