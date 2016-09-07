@@ -35,6 +35,25 @@ NUM_SOCKETS = 30
 NO_BYTECODE = ""
 
 
+
+# TODO: delete this once all kernels support returning the mark.
+def HaveSocketMark():
+  expected = 1234567890
+  sd = sock_diag.SockDiag()
+  s = socket(AF_INET6, SOCK_DGRAM, 0)
+  s.setsockopt(SOL_SOCKET, net_test.SO_MARK, expected)
+  s.connect(("", 12345))
+  diag_msg, attrs = sd.FindSockInfoFromFd(s)
+  mark = attrs.get("INET_DIAG_MARK", None)
+  if mark is None:
+    return False
+  if mark != expected:
+    raise ValueError("Unexpected mark: %d vs %d", expected, mark)
+  return True
+
+HAVE_SOCKET_MARK = HaveSocketMark()
+
+
 class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
   """Basic tests for SOCK_DIAG functionality.
 
@@ -78,6 +97,10 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
     for sock in socketpair:
       self.assertSocketClosed(sock)
 
+  def assertMarkIs(self, mark, attrs):
+    if not HAVE_SOCKET_MARK: return
+    self.assertEqual(mark, attrs.get("INET_DIAG_MARK", None))
+
   def assertSockInfoMatchesSocket(self, s, info):
     diag_msg, attrs = info
     family = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_DOMAIN)
@@ -93,6 +116,9 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
       self.assertEqual(diag_msg.id.dport, dport)
     else:
       self.assertRaisesErrno(ENOTCONN, s.getpeername)
+
+    mark = s.getsockopt(SOL_SOCKET, net_test.SO_MARK)
+    self.assertMarkIs(mark, attrs)
 
   def PackAndCheckBytecode(self, instructions):
     bytecode = self.sock_diag.PackBytecode(instructions)
@@ -500,7 +526,6 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
         diag_msg, attrs = self.sock_diag.FindSockInfoFromReq(diag_req)
         self.assertEquals(tcp_test.TCP_FIN_WAIT2, diag_msg.state)
 
-
   def FindChildSockets(self, s):
     """Finds the SYN_RECV child sockets of a given listening socket."""
     d = self.sock_diag.FindSockDiagFromFd(self.s)
@@ -522,6 +547,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     self.assertEquals(1, len(children))
 
     is_established = (state == tcp_test.TCP_NOT_YET_ACCEPTED)
+    expected_state = tcp_test.TCP_ESTABLISHED if is_established else state
 
     # The new TCP listener code in 4.4 makes SYN_RECV sockets live in the
     # regular TCP hash tables, and inet_diag_find_one_icsk can find them.
@@ -531,7 +557,9 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
     for child in children:
       if can_close_children:
-        self.sock_diag.GetSockInfo(child)  # No errors? Good, child found.
+        diag_msg, attrs = self.sock_diag.GetSockInfo(child)
+        self.assertEquals(diag_msg.state, expected_state)
+        self.assertMarkIs(self.netid, attrs)
       else:
         self.assertRaisesErrno(ENOENT, self.sock_diag.GetSockInfo, child)
 
@@ -671,6 +699,8 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
         627cc4a net: diag: slightly refactor the inet_diag_bc_audit error checks.
   """
 
+  IPPROTO_SCTP = 132
+
   def FilterEstablishedSockets(self, mark, mask):
     instructions = [(sock_diag.INET_DIAG_BC_MARK_COND, 1, 2, (mark, mask))]
     bytecode = self.sock_diag.PackBytecode(instructions)
@@ -740,6 +770,69 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     with net_test.RunAsUid(12345):
         self.assertRaisesErrno(EPERM, self.FilterEstablishedSockets,
                                0xfff0000, 0xf0fed00)
+
+  @staticmethod
+  def SetRandomMark(s):
+    # Python doesn't like marks that don't fit into a signed int.
+    mark = random.randrange(0, 2**31 - 1)
+    s.setsockopt(SOL_SOCKET, net_test.SO_MARK, mark)
+    return mark
+
+  def assertSocketMarkIs(self, s, mark):
+    diag_msg, attrs = self.sock_diag.FindSockInfoFromFd(s)
+    self.assertMarkIs(mark, attrs)
+    with net_test.RunAsUid(12345):
+      diag_msg, attrs = self.sock_diag.FindSockInfoFromFd(s)
+      self.assertMarkIs(None, attrs)
+
+  def testMarkInAttributes(self):
+    testcases = [(AF_INET, "127.0.0.1"),
+                 (AF_INET6, "::1"),
+                 (AF_INET6, "::ffff:127.0.0.1")]
+    for family, addr in testcases:
+      # TCP listen sockets.
+      server = socket(family, SOCK_STREAM, 0)
+      server.bind((addr, 0))
+      port = server.getsockname()[1]
+      server.listen(1)  # Or the socket won't be in the hashtables.
+      server_mark = self.SetRandomMark(server)
+      self.assertSocketMarkIs(server, server_mark)
+
+      # TCP client sockets.
+      client = socket(family, SOCK_STREAM, 0)
+      client_mark = self.SetRandomMark(client)
+      client.connect((addr, port))
+      self.assertSocketMarkIs(client, client_mark)
+
+      # TCP server sockets.
+      accepted, _ = server.accept()
+      self.assertSocketMarkIs(accepted, server_mark)
+
+      accepted_mark = self.SetRandomMark(accepted)
+      self.assertSocketMarkIs(accepted, accepted_mark)
+      self.assertSocketMarkIs(server, server_mark)
+
+      # Other TCP states are tested in SockDestroyTcpTest.
+
+      # UDP sockets.
+      s = socket(family, SOCK_DGRAM, 0)
+      mark = self.SetRandomMark(s)
+      s.connect(("", 53))
+      self.assertSocketMarkIs(s, mark)
+
+      # SCTP sockets.
+      s = socket(family, SOCK_STREAM, self.IPPROTO_SCTP)
+      s.bind((addr, 0))
+      s.listen(1)
+      mark = self.SetRandomMark(s)
+      self.assertSocketMarkIs(s, mark)
+      sockets = self.sock_diag.DumpAllInetSockets(self.IPPROTO_SCTP,
+                                                  NO_BYTECODE)
+      try:
+        self.assertEqual(1, len(sockets))
+        self.assertEqual(mark, sockets[0][1].get("INET_DIAG_MARK", None))
+      finally:
+        s.close()
 
 
 if __name__ == "__main__":
