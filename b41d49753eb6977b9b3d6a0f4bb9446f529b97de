@@ -22,6 +22,30 @@
       "revId": "b41d49753eb6977b9b3d6a0f4bb9446f529b97de",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6efbfc0_c142d23e",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-09-07T04:44:23Z",
+      "side": 0,
+      "message": "Bit the bullet and wrote a unit test for the UDP SOCK_DESTROY code. In the process, discovered that udp_diag_destroy does not work on mapped addresses and sent a patch upstream to fix it.",
+      "parentUuid": "f6efbfc0_104a6a09",
+      "range": {
+        "startLine": 355,
+        "startChar": 6,
+        "endLine": 355,
+        "endChar": 23
+      },
+      "revId": "b41d49753eb6977b9b3d6a0f4bb9446f529b97de",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
