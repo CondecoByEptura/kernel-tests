@@ -58,6 +58,7 @@ INET_DIAG_SKV6ONLY = 11
 INET_DIAG_LOCALS = 12
 INET_DIAG_PEERS = 13
 INET_DIAG_PAD = 14
+INET_DIAG_MARK = 15
 
 # Bytecode operations.
 INET_DIAG_BC_NOP = 0
@@ -376,6 +377,13 @@ class SockDiag(netlink.NetlinkSocket):
     """Gets a diag_msg and attrs from the kernel for the specified request."""
     self._SendNlRequest(SOCK_DIAG_BY_FAMILY, req.Pack(), netlink.NLM_F_REQUEST)
     return self._GetMsg(InetDiagMsg)
+
+  @staticmethod
+  def UnpackSocketMark(attrs):
+    raw_mark = attrs.get("INET_DIAG_MARK", None)
+    if raw_mark is not None:
+      return struct.unpack("=I", raw_mark)[0]  # unpack always returns tuples.
+    return None
 
   @staticmethod
   def DiagReqFromDiagMsg(d, protocol):
