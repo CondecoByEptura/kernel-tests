@@ -41,31 +41,20 @@ ROOTFS=net_test.rootfs.20150203
 COMPRESSED_ROOTFS=$ROOTFS.xz
 URL=https://dl.google.com/dl/android/$COMPRESSED_ROOTFS
 
-# Parse arguments and figure out which test to run.
-consolemode=
-testmode=
-while [ -n "$1" ]; do
-  if [ "$1" = --builder ]; then
-    consolemode="con=null,fd:1"
-    testmode=builder
-  elif [ "$1" = --branch ]; then
-    branch=$2
-    if [[ "$branch" = --* ]]; then
-      # Branches must not start with -- or we'll confuse them with arguments.
-      break
-    fi
-    shift
-  else
-    test=$1
-    break
-  fi
-  shift
-done
-
-if [ -z "$test" ]; then
-  echo "Usage: $0 [--builder] [--branch BRANCH] <test>" >&2
+# Figure out which test to run.
+if [ -z "$1" ]; then
+  echo "Usage: $0 <test>" >&2
   exit 1
 fi
+
+consolemode=
+testmode=
+if [ "$1" = "--builder" ]; then
+  consolemode="con=null,fd:1"
+  testmode=builder
+  shift
+fi
+test=$1
 
 set -e
 
@@ -145,5 +134,4 @@ dir=/host$(dirname $(readlink -f $0))
 # Start the VM.
 exec $KERNEL_BINARY umid=net_test ubda=$(dirname $0)/$ROOTFS \
     mem=512M init=/sbin/net_test.sh net_test=$dir/$test \
-    net_test_mode=$testmode net_test_branch=$branch \
-    $netconfig $consolemode >&2
+    net_test_mode=$testmode $netconfig $consolemode >&2
