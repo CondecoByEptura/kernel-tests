@@ -725,10 +725,16 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     infos = self.FilterEstablishedSockets(0x1235, 0xffff)
     self.assertFoundSockets(infos, [s2])
 
+    infos = self.FilterEstablishedSockets(0x1235, 0xff00)
+    self.assertFoundSockets(infos, [s1, s2])
+
+    infos = self.FilterEstablishedSockets(0x0, 0x100000)
+    self.assertFoundSockets(infos, [s2])
+
     infos = self.FilterEstablishedSockets(0x0, 0x0)
     self.assertFoundSockets(infos, [s1, s2])
 
-    infos = self.FilterEstablishedSockets(0xfff0000, 0xf0fed00)
+    infos = self.FilterEstablishedSockets(0xfff0000, 0xf0f1200)
     self.assertEquals(0, len(infos))
 
     with net_test.RunAsUid(12345):
