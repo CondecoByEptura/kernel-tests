@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebac3670_8592024b",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-09-09T04:45:09Z",
+      "side": 1,
+      "message": "Suggest simplifying this as follows:\n\n  if [ -n \"$OUT_DIR\" ]; then\n    OUT_DIR\u003d$(readlink -f ${OUT_DIR})\n    MAKE\u003d\"make O\u003d$OUT_DIR\"\n  else\n    OUT_DIR\u003d.\n    MAKE\u003dmake\n  fi",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 2
+      },
+      "revId": "681eceba6e03052e9baf042af87b7ac88632275b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
