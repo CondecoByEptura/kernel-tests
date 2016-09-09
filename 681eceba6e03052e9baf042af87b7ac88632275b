@@ -22,6 +22,30 @@
       "revId": "681eceba6e03052e9baf042af87b7ac88632275b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1691b3ce_539c86ba",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021676
+      },
+      "writtenOn": "2016-09-09T04:46:58Z",
+      "side": 1,
+      "message": "If OUT_DIR is passed in as . then make O\u003d\u003ccurrent dir\u003e if \u003ccurrent dir\u003e \u003d\u003d KERNEL_DIR will fail.",
+      "parentUuid": "ebac3670_8592024b",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 2
+      },
+      "revId": "681eceba6e03052e9baf042af87b7ac88632275b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
