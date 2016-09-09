@@ -46,6 +46,30 @@
       "revId": "681eceba6e03052e9baf042af87b7ac88632275b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebac3670_459c0a5f",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-09-09T04:56:30Z",
+      "side": 1,
+      "message": "Is it a common or legitimate use case to set OUT_DIR to .? The same effect can be achieved by making OUT_DIR empty.\n\nIf it\u0027s not a common or legitimate use case, I\u0027d just say return an error (or even just have things break) if someone passes in an OUT_DIR of .\n\nIf it is a use case, or if there\u0027s something else I don\u0027t understand about this code (which is likely), then the code is fine, but I think it would be useful to have a comment explaining what it\u0027s trying to do.",
+      "parentUuid": "1691b3ce_539c86ba",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 2
+      },
+      "revId": "681eceba6e03052e9baf042af87b7ac88632275b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
