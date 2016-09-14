@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bd81ab1_8aa06b98",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-09-14T04:37:39Z",
+      "side": 1,
+      "message": "What is s\u0027s source address here?  Will it have been the address we would\u0027ve deleted?\n\nIn other words:\n\n  [a] before connect, sockname returns :: or 0.0.0.0\n  [b] after connect, sockname returns GetSourceAddress\n  [c] after a good sock_diag thwacking, sockname returns ...?",
+      "range": {
+        "startLine": 656,
+        "startChar": 27,
+        "endLine": 656,
+        "endChar": 28
+      },
+      "revId": "f648c3994d5e5c9c15da90d1b9b7147fe7cc6f20",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
