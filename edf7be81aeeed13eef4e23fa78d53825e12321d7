@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b060ef1c_13670c52",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2016-09-21T07:51:42Z",
+      "side": 1,
+      "message": "3 %s\u0027s % (4 things)",
+      "range": {
+        "startLine": 703,
+        "startChar": 21,
+        "endLine": 703,
+        "endChar": 23
+      },
+      "revId": "edf7be81aeeed13eef4e23fa78d53825e12321d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b060ef1c_736c8032",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2016-09-21T07:51:42Z",
+      "side": 1,
+      "message": "perhaps use:\nmark\u003d0x1234, mask\u003d0xfffe",
+      "revId": "edf7be81aeeed13eef4e23fa78d53825e12321d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b060ef1c_53718406",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2016-09-21T07:51:42Z",
+      "side": 1,
+      "message": "suggest adding a test which finds 1234/ffff -\u003e just s1",
+      "revId": "edf7be81aeeed13eef4e23fa78d53825e12321d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b060ef1c_b3557851",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2016-09-21T07:51:42Z",
+      "side": 1,
+      "message": "shouldn\u0027t there be a test finding nothing?",
+      "revId": "edf7be81aeeed13eef4e23fa78d53825e12321d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
