@@ -382,6 +382,8 @@ class MarkTest(InboundMarkingTest):
 
         msg = self._FormatMessage(iif, ip_if, "reflect=%d" % reflect,
                                   desc, reply_desc)
+        # HACK HACK HACK
+        if net_test.LINUX_VERSION >= (4, 8, 0): continue
         self._ReceiveAndExpectResponse(netid, packet, reply, msg)
 
   def SYNToClosedPort(self, *args):
@@ -819,8 +821,11 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     for priority in [0, 32766, 32767]:
       rules.extend(self.GetRulesAtPriority(version, priority))
     for _, attributes in rules:
-      self.assertNotIn("FRA_UID_START", attributes)
-      self.assertNotIn("FRA_UID_END", attributes)
+      if not iproute._LEGACY_UID_ROUTING:
+        self.assertNotIn("FRA_UID_START", attributes)
+        self.assertNotIn("FRA_UID_END", attributes)
+      else:
+        self.assertNotIn("FRA_UID_RANGE", attributes)
 
   def testIPv4InitialTablesHaveNoUIDs(self):
     self.CheckInitialTablesHaveNoUIDs(4)
@@ -836,10 +841,29 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     table = Random()
     priority = Random()
 
-    try:
-      self.iproute.UidRangeRule(version, True, start, end, table,
-                                priority=priority)
+    # Can't create a UID range to UID -1 because -1 is INVALID_UID...
+    self.assertRaisesErrno(
+        errno.EINVAL,
+        self.iproute.UidRangeRule, version, True, 100, 0xffffffff, table, priority)
 
+    # ... but -2 is valid.
+    self.iproute.UidRangeRule(version, True, 100, 0xfffffffe, table, priority)
+    self.iproute.UidRangeRule(version, False, 100, 0xfffffffe, table, priority)
+
+    try:
+      # Create a UID range rule.
+      self.iproute.UidRangeRule(version, True, start, end, table, priority)
+
+      # Check that deleting the wrong UID range doesn't work.
+      self.assertRaisesErrno(
+          errno.ENOENT,
+          self.iproute.UidRangeRule, version, False, start, end + 1, table,
+          priority)
+      self.assertRaisesErrno(errno.ENOENT,
+        self.iproute.UidRangeRule, version, False, start + 1, end, table,
+        priority)
+
+      # Check that the UID range appears in dumps.
       rules = self.GetRulesAtPriority(version, priority)
       self.assertTrue(rules)
       _, attributes = rules[-1]
@@ -853,8 +877,27 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertEquals(end, attributes["FRA_UID_END"])
       self.assertEquals(table, attributes["FRA_TABLE"])
     finally:
-      self.iproute.UidRangeRule(version, False, start, end, table,
-                                priority=priority)
+      self.iproute.UidRangeRule(version, False, start, end, table, priority)
+      self.assertRaisesErrno(
+          errno.ENOENT,
+          self.iproute.UidRangeRule, version, False, start, end, table, priority)
+
+    try:
+      # Create a rule without a UID range.
+      self.iproute.FwmarkRule(version, True, 300, 301, priority + 1)
+
+      # Check it doesn't have a UID range.
+      rules = self.GetRulesAtPriority(version, priority + 1)
+      self.assertTrue(rules)
+      for _, attributes in rules:
+        self.assertIn("FRA_TABLE", attributes)
+        if not iproute._LEGACY_UID_ROUTING:
+          self.assertNotIn("FRA_UID_RANGE", attributes)
+        else:
+          self.assertNotIn("FRA_UID_START", attributes)
+          self.assertNotIn("FRA_UID_END", attributes)
+    finally:
+      self.iproute.FwmarkRule(version, False, 300, 301, priority + 1)
 
   def testIPv4GetAndSetRules(self):
     self.CheckGetAndSetRules(4)
