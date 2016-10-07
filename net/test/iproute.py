@@ -38,7 +38,7 @@ def LinuxVersion():
   version = tuple(int(i) for i in version.split("."))
   return version
 
-_LEGACY_UID_ROUTING = False
+_LEGACY_UID_ROUTING = LinuxVersion() < (4, 8, 0)
 
 
 ### Base netlink constants. See include/uapi/linux/netlink.h.
@@ -188,8 +188,6 @@ if _LEGACY_UID_ROUTING:
 
 # Data structure formats.
 FibRuleUidRange = cstruct.Struct("FibRuleUidRange", "=II", "start end")
-
-assert not _LEGACY_UID_ROUTING
 
 # Link constants. See include/uapi/linux/if_link.h.
 IFLA_ADDRESS = 1
