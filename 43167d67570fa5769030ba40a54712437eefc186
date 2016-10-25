@@ -22,6 +22,30 @@
       "revId": "43167d67570fa5769030ba40a54712437eefc186",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "612310ed_e7a4428f",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-10-25T03:57:55Z",
+      "side": 1,
+      "message": "Ack. Done the right way in https://android-review.googlesource.com/294066 .",
+      "parentUuid": "612310ed_c7881e05",
+      "range": {
+        "startLine": 250,
+        "startChar": 28,
+        "endLine": 250,
+        "endChar": 29
+      },
+      "revId": "43167d67570fa5769030ba40a54712437eefc186",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
