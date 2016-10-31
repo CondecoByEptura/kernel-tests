@@ -212,13 +212,10 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     self.CheckOutgoingPackets("ucast_oif")
 
   def CheckRemarking(self, version, use_connect):
-    # Remarking or resetting UNICAST_IF on connected sockets does not work.
-    if use_connect:
-      modes = ["oif"]
-    else:
-      modes = ["mark", "oif", "uid"]
-      if HAVE_UNICAST_IF:
-        modes += ["ucast_oif"]
+    modes = ["mark", "oif", "uid"]
+    # Setting UNICAST_IF on connected sockets does not work.
+    if not use_connect and HAVE_UNICAST_IF:
+      modes += ["ucast_oif"]
 
     for mode in modes:
       s = net_test.UDPSocket(self.GetProtocolFamily(version))
@@ -239,16 +236,42 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
 
       # For each netid, select that network without closing the socket, and
       # check that the packets sent on that socket go out on the right network.
+      #
+      # For connected sockets, routing is cached in the socket's destination
+      # cache entry. In this case, we check that just re-selecting the netid
+      # (except via SO_BINDTODEVICE) does not change routing, but that
+      # subsequently invalidating the destination cache entry does. Arguably
+      # this is a bug in the kernel because re-selecting the netid should cause
+      # routing to change. But it is a convenient way to check that
+      # InvalidateDstCache actually works.
+      prevnetid = None
       for netid in self.tuns:
         self.SelectInterface(s, netid, mode)
         if not use_connect:
           expected.src = self.MyAddress(version, netid)
-        s.sendto(UDP_PAYLOAD, (dstaddr, 53))
-        connected_str = "Connected" if use_connect else "Unconnected"
-        msg = "%s UDPv%d socket remarked using %s: expecting %s on %s" % (
-            connected_str, version, mode, desc, self.GetInterfaceName(netid))
-        self.ExpectPacketOn(netid, msg, expected)
+
+        def ExpectSendUsesNetid(netid):
+          connected_str = "Connected" if use_connect else "Unconnected"
+          msg = "%s UDPv%d socket remarked using %s: expecting %s on %s" % (
+              connected_str, version, mode, desc, self.GetInterfaceName(netid))
+          if use_connect:
+            s.send(UDP_PAYLOAD)
+          else:
+            s.sendto(UDP_PAYLOAD, (dstaddr, 53))
+          self.ExpectPacketOn(netid, msg, expected)
+
+        if use_connect and mode in ["mark", "uid", "ucast_oif"]:
+          # If we have a destination cache entry, packets are not rerouted...
+          if prevnetid:
+            ExpectSendUsesNetid(prevnetid)
+            # ... until we invalidate it.
+            self.InvalidateDstCache(version, dstaddr, prevnetid)
+          ExpectSendUsesNetid(netid)
+        else:
+          ExpectSendUsesNetid(netid)
+
         self.SelectInterface(s, None, mode)
+        prevnetid = netid
 
   def testIPv4Remarking(self):
     """Checks that updating the mark on an IPv4 socket changes routing."""
@@ -426,18 +449,6 @@ class TCPAcceptTest(InboundMarkingTest):
     cls.listensocket = net_test.IPv6TCPSocket()
     cls.listenport = net_test.BindRandomPort(6, cls.listensocket)
 
-  def BounceSocket(self, s):
-    """Attempts to invalidate a socket's destination cache entry."""
-    if s.family == AF_INET:
-      tos = s.getsockopt(SOL_IP, IP_TOS)
-      s.setsockopt(net_test.SOL_IP, IP_TOS, 53)
-      s.setsockopt(net_test.SOL_IP, IP_TOS, tos)
-    else:
-      # UDP, 8 bytes dstopts; PAD1, 4 bytes padding; 4 bytes zeros.
-      pad8 = "".join(["\x11\x00", "\x01\x04", "\x00" * 4])
-      s.setsockopt(net_test.SOL_IPV6, IPV6_DSTOPTS, pad8)
-      s.setsockopt(net_test.SOL_IPV6, IPV6_DSTOPTS, "")
-
   def _SetTCPMarkAcceptSysctl(self, value):
     self.SetSysctl(TCP_MARK_ACCEPT_SYSCTL, value)
 
@@ -446,9 +457,22 @@ class TCPAcceptTest(InboundMarkingTest):
     establishing_ack = packets.ACK(version, remoteaddr, myaddr, reply)[1]
 
     # Attempt to confuse the kernel.
-    self.BounceSocket(listensocket)
+    self.InvalidateDstCache(version, remoteaddr, netid)
 
     self.ReceivePacketOn(netid, establishing_ack)
+
+    self.InvalidateDstCache(version, remoteaddr, netid)
+
+    # At this point the socket is established but userspace has not yet called
+    # accept. Check that routing still works.
+    data_desc, data = packets.ACK(version, remoteaddr, myaddr, reply,
+                                  payload=UDP_PAYLOAD)
+    ack_desc, ack = packets.ACK(version, myaddr, remoteaddr, data)
+
+    self._ReceiveAndExpectResponse(
+        netid, data, ack, msg +
+        ": established-not accepted socket: received %s, expecting %s" %
+        (data_desc, ack_desc))
 
     # If we're using UID routing, the accept() call has to be run as a UID that
     # is routed to the specified netid, because the UID of the socket returned
@@ -457,22 +481,24 @@ class TCPAcceptTest(InboundMarkingTest):
     with net_test.RunAsUid(self.UidForNetid(netid)):
       s, _ = listensocket.accept()
 
+    self.assertEquals(UDP_PAYLOAD, s.recv(4096))
+
     try:
       # Check that data sent on the connection goes out on the right interface.
-      desc, data = packets.ACK(version, myaddr, remoteaddr, establishing_ack,
+      desc, data = packets.ACK(version, myaddr, remoteaddr, data,
                                payload=UDP_PAYLOAD)
       s.send(UDP_PAYLOAD)
       self.ExpectPacketOn(netid, msg + ": expecting %s" % desc, data)
-      self.BounceSocket(s)
+      self.InvalidateDstCache(version, remoteaddr, netid)
 
       # Keep up our end of the conversation.
       ack = packets.ACK(version, remoteaddr, myaddr, data)[1]
-      self.BounceSocket(listensocket)
+      self.InvalidateDstCache(version, remoteaddr, netid)
       self.ReceivePacketOn(netid, ack)
 
       mark = self.GetSocketMark(s)
     finally:
-      self.BounceSocket(s)
+      self.InvalidateDstCache(version, remoteaddr, netid)
       s.close()
 
     if mode == self.MODE_INCOMING_MARK:
@@ -522,6 +548,7 @@ class TCPAcceptTest(InboundMarkingTest):
 
           accept_sysctl = 1 if mode == self.MODE_INCOMING_MARK else 0
           self._SetTCPMarkAcceptSysctl(accept_sysctl)
+          self.SetMarkReflectSysctls(accept_sysctl)
 
           bound_dev = iif if mode == self.MODE_BINDTODEVICE else None
           self.BindToDevice(listensocket, bound_dev)
