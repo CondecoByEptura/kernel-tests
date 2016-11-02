@@ -452,14 +452,66 @@ class TCPAcceptTest(InboundMarkingTest):
   def _SetTCPMarkAcceptSysctl(self, value):
     self.SetSysctl(TCP_MARK_ACCEPT_SYSCTL, value)
 
+  def CheckOutOfWindowAck(self, version, netid, reply, msg):
+    remoteaddr, myaddr = reply.dst, reply.src
+    desc, ack = packets.ACK(version, remoteaddr, myaddr, reply)
+    ack.seq = ack.seq ^ 0x10000000  # Make packet out-of-window.
+    reply_desc, reply_ack = packets.ACK(version, myaddr, remoteaddr, ack)
+    reply_ack.ack = reply.ack
+    self._ReceiveAndExpectResponse(
+        netid, ack, reply_ack, msg +
+        ": not-yet-established socket: received %s, expecting %s" %
+        (desc, reply_desc))
+
+  def CheckAfterWindowSyn(self, version, netid, remoteaddr, myaddr, fin, msg):
+    syn_desc, syn = packets.SYN(self.listenport, version, remoteaddr, myaddr,
+                                sport=fin.dport, seq=fin.ack + 100)
+    rst_desc, rst = packets.RST(version, myaddr, remoteaddr, syn)
+    self._ReceiveAndExpectResponse(
+        netid, syn, rst, msg +
+        ": SYN with future seq after FIN: received %s, expecting %s" %
+        (syn_desc, rst_desc))
+
   def CheckTCPConnection(self, mode, listensocket, netid, version,
                          myaddr, remoteaddr, packet, reply, msg):
+    # The ACK that will establish the connection when we receive it.
     establishing_ack = packets.ACK(version, remoteaddr, myaddr, reply)[1]
+
+    USING_LEGACY_UID_ROUTING = (mode == "uid" and iproute.LEGACY_UID_ROUTING)
+
+    # Out-of-window ACKs to not-yet-established sockets take a different
+    # codepath. Exercise that codepath here. This is hit-and-miss:
+    # - Legacy UID routing doesn't have the necessary changes to
+    #   ip_send_unicast_reply and tcp_v6_send_response for this to work.
+    # - Explicit marks don't work because the mark is not passed in.
+    # - SO_BINDTODEVICE works for IPv6 but not IPv4 because of what appears to
+    #   be a trivial bug.
+    if (mode == self.MODE_INCOMING_MARK or
+        (mode == self.MODE_UID and not iproute.LEGACY_UID_ROUTING) or
+        (mode == self.MODE_BINDTODEVICE and version == 6)):
+      self.CheckOutOfWindowAck(version, netid, reply, msg)
 
     # Attempt to confuse the kernel.
     self.InvalidateDstCache(version, remoteaddr, netid)
 
     self.ReceivePacketOn(netid, establishing_ack)
+    lastreceived = establishing_ack
+
+    self.InvalidateDstCache(version, remoteaddr, netid)
+
+    # At this point the socket is established but userspace has not yet called
+    # accept. Check that routing still works. Legacy UID routing doesn't get
+    # this right.
+    if not USING_LEGACY_UID_ROUTING:
+      data_desc, data = packets.ACK(version, remoteaddr, myaddr, reply,
+                                    payload=UDP_PAYLOAD)
+      ack_desc, ack = packets.ACK(version, myaddr, remoteaddr, data)
+
+      self._ReceiveAndExpectResponse(
+          netid, data, ack, msg +
+          ": established-not accepted socket: received %s, expecting %s" %
+          (data_desc, ack_desc))
+      lastreceived = data
 
     # If we're using UID routing, the accept() call has to be run as a UID that
     # is routed to the specified netid, because the UID of the socket returned
@@ -468,9 +520,12 @@ class TCPAcceptTest(InboundMarkingTest):
     with net_test.RunAsUid(self.UidForNetid(netid)):
       s, _ = listensocket.accept()
 
+    if not USING_LEGACY_UID_ROUTING:  # TODO: check flags instead.
+      self.assertEquals(UDP_PAYLOAD, s.recv(4096))
+
     try:
       # Check that data sent on the connection goes out on the right interface.
-      desc, data = packets.ACK(version, myaddr, remoteaddr, establishing_ack,
+      desc, data = packets.ACK(version, myaddr, remoteaddr, lastreceived,
                                payload=UDP_PAYLOAD)
       s.send(UDP_PAYLOAD)
       self.ExpectPacketOn(netid, msg + ": expecting %s" % desc, data)
@@ -491,10 +546,10 @@ class TCPAcceptTest(InboundMarkingTest):
       self.assertEquals(netid, mark,
                         msg + ": Accepted socket: Expected mark %d, got %d" % (
                             netid, mark))
-    elif mode != self.MODE_EXPLICIT_MARK:
+    if mode != self.MODE_EXPLICIT_MARK:
       self.assertEquals(0, self.GetSocketMark(listensocket))
 
-    # Check the FIN was sent on the right interface, and ack it. We don't expect
+    # Check the FIN was sent on the right interface. We don't expect
     # this to fail because by the time the connection is established things are
     # likely working, but a) extra tests are always good and b) extra packets
     # like the FIN (and retransmitted FINs) could cause later tests that expect
@@ -502,17 +557,44 @@ class TCPAcceptTest(InboundMarkingTest):
     desc, fin = packets.FIN(version, myaddr, remoteaddr, ack)
     self.ExpectPacketOn(netid, msg + ": expecting %s after close" % desc, fin)
 
-    desc, finack = packets.FIN(version, remoteaddr, myaddr, fin)
-    self.ReceivePacketOn(netid, finack)
-
     # Since we called close() earlier, the userspace socket object is gone, so
-    # the socket has no UID. If we're doing UID routing, the ack might be routed
-    # incorrectly. Not much we can do here.
-    desc, finackack = packets.ACK(version, myaddr, remoteaddr, finack)
-    if not (mode == self.MODE_UID and iproute.LEGACY_UID_ROUTING):
-      self.ExpectPacketOn(netid, msg + ": expecting final ack", finackack)
-    else:
+    # the socket has no UID. If we're doing legacy UID routing, any further
+    # packets will be routed incorrectly. Ack the FIN so the kernel won't send
+    # any more packets on this connection, and stop here.
+    if mode == self.MODE_UID and iproute.LEGACY_UID_ROUTING:
+      _, finack = packets.FIN(version, remoteaddr, myaddr, fin)
+      self.ReceivePacketOn(netid, finack)
       self.ClearTunQueues()
+      return
+
+    # Explore two different ways to get to TIME-WAIT.
+    if random.random() < 0.5:
+      # Receive a FIN+ACK, which takes us directly to TIME-WAIT.
+      desc, finack = packets.FIN(version, remoteaddr, myaddr, fin)
+      self.ReceivePacketOn(netid, finack)
+
+      # Expect the final ACK.
+      desc, finackack = packets.ACK(version, myaddr, remoteaddr, finack)
+      self.ExpectPacketOn(netid, msg + ": expecting final ack", finackack)
+
+      # We're now in TIME-WAIT. Check another codepath that sends ACKs in
+      # response to out-of-window ACKs. These packets aren't correctly routed
+      # because the mark and the UID are gone, so it only works with
+      # SO_BINDTODEVICE.
+      if mode == self.MODE_BINDTODEVICE:
+        self.CheckOutOfWindowAck(version, netid, finackack, msg)
+    else:
+      # Receive an ACK. This moves us from FIN-WAIT1 to FIN-WAIT2 and then
+      # immediately turns the socket into a FIN-WAIT2 mini-socket (with no mark
+      # or UID) because the default FIN-WAIT2 timer (in the tcp_fin_timeout
+      # sysctl) is the same as TCP_TIMEWAIT_LEN which is 60 seconds.
+      desc, ack = packets.ACK(version, remoteaddr, myaddr, fin)
+      self.ReceivePacketOn(netid, ack)
+      if mode == self.MODE_BINDTODEVICE:
+        # Exercise another codepath where a SYN from the same port with a
+        # sequence number in the future causes a RST. This only works in
+        # FIN-WAIT2. As above, this only works with SO_BINDTODEVICE.
+        self.CheckAfterWindowSyn(version, netid, remoteaddr, myaddr, fin, msg)
 
   def CheckTCP(self, version, modes):
     """Checks that incoming TCP connections work.
@@ -560,8 +642,8 @@ class TCPAcceptTest(InboundMarkingTest):
                                     remoteaddr, packet, reply, msg)
 
   def testBasicTCP(self):
-    self.CheckTCP(4, [None, self.MODE_BINDTODEVICE, self.MODE_EXPLICIT_MARK])
-    self.CheckTCP(6, [None, self.MODE_BINDTODEVICE, self.MODE_EXPLICIT_MARK])
+    self.CheckTCP(4, [None, self.MODE_BINDTODEVICE])
+    self.CheckTCP(6, [None, self.MODE_BINDTODEVICE])
 
   def testIPv4MarkAccept(self):
     self.CheckTCP(4, [self.MODE_INCOMING_MARK])
@@ -576,6 +658,9 @@ class TCPAcceptTest(InboundMarkingTest):
   @unittest.skipUnless(multinetwork_base.HAVE_UID_ROUTING, "no UID routes")
   def testIPv6UidAccept(self):
     self.CheckTCP(6, [self.MODE_UID])
+
+  def testIPv4ExplicitMark(self):
+    self.CheckTCP(4, [self.MODE_EXPLICIT_MARK])
 
   def testIPv6ExplicitMark(self):
     self.CheckTCP(6, [self.MODE_EXPLICIT_MARK])
