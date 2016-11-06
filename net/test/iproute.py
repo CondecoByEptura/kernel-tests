@@ -28,7 +28,7 @@ import csocket
 import cstruct
 import netlink
 
-LEGACY_UID_ROUTING = csocket.LinuxVersion() < (4, 10, 0)
+LEGACY_UID_ROUTING = csocket.LinuxVersion() < (4, 9, 0)
 
 
 ### Base netlink constants. See include/uapi/linux/netlink.h.
