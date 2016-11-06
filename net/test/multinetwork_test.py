@@ -901,6 +901,27 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     finally:
       self.iproute.FwmarkRule(version, False, 300, 301, priority + 1)
 
+    # Test that EEXIST works.
+    ranges = [(100, 101), (100, 102), (99, 101), (1234, 5678)]
+    dup = ranges[0]
+    try:
+      # Check that otherwise identical rules with different UID ranges can be
+      # created without EEXIST.
+      for start, end in ranges:
+        self.iproute.UidRangeRule(version, True, start, end, table, priority)
+      # ... but EEXIST is returned if the UID range is identical.
+      self.assertRaisesErrno(
+        errno.EEXIST,
+        self.iproute.UidRangeRule, version, True, dup[0], dup[1], table,
+        priority)
+    finally:
+      # Clean up.
+      for start, end in ranges + [dup]:
+        try:
+          self.iproute.UidRangeRule(version, False, start, end, table, priority)
+        except IOError:
+          pass
+
   def testIPv4GetAndSetRules(self):
     self.CheckGetAndSetRules(4)
 
