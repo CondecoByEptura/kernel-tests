@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab36c70d_a1eb5e36",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-11-07T08:51:02Z",
+      "side": 1,
+      "message": "Does this work?  Isn\u0027t _START and _END for \u003d\u003d LEGACY_UID?\n\nIt\u0027s easy to get turned around with all the if/if not/unless/... versions.",
+      "range": {
+        "startLine": 826,
+        "startChar": 9,
+        "endLine": 826,
+        "endChar": 12
+      },
+      "revId": "c9a1cd12bf3ecf5d2d8ca1bde3da5c534207f6a2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
