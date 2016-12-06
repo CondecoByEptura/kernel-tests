@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd915363_4b8b8570",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2016-12-06T06:18:40Z",
+      "side": 1,
+      "message": "I don\u0027t see how this condition will be true, given it\u0027s the same as the while loop above and there are no breaks.  Perhaps you wanted a break after \"test\u003d$1\"?",
+      "range": {
+        "startLine": 77,
+        "startChar": 21,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "a20f44343c8cad8312c2f058fab699cb1e4b2631",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
