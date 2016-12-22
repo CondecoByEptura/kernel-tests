@@ -52,9 +52,11 @@ import struct
 
 
 def CalcNumElements(fmt):
+  numstructs = len([c for c in fmt if c == "S"])
+  fmt = fmt.replace("S", "")
   size = struct.calcsize(fmt)
   elements = struct.unpack(fmt, "\x00" * size)
-  return len(elements)
+  return len(elements) + numstructs
 
 
 def Struct(name, fmt, fieldnames, substructs={}):
