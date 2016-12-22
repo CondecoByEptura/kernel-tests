@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "978a0eda_e4a4348f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "Basic",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_4490802b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "This statement is true of all the files in this directory. Suggest replacing it with simply \"all_tests.sh passes on android-4.4\" (or whatever kernel you tested this on).\n\nIt is important that this test passes on all kernels we have continuous builds for, otherwise we\u0027ll get build break emails. The check for LinuxVersion \u003e\u003d (4, 4, 0) will be fine for now.",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 74
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_44772041",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "I would suggest splitting this file in two. I\u0027d move all the constants and code to a new bpf.py file, and leave only the BpfTest class (and other test-only code) here.\n\nThe idea is that BPF_xxx constants and functions like CreateMap are not really test code, they are more like library code. In the future they can be used in other tests as well.\n\nThis is the approach followed by sock_diag_test.py (and sock_diag.py) as well.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 18
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_24721c52",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "Long line. Suggest wrapping and aligning \"map_type\" just below \"bpf_attr_create\".",
+      "range": {
+        "startLine": 53,
+        "startChar": 100,
+        "endLine": 53,
+        "endChar": 102
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_e47bd428",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "For consistency with our other wrappers (e.g., csocket) and general ease of use, I\u0027d use exceptions instead of returning tuples. So you could do:\n\nimport csocket\n...\n\n    ret \u003d libc.syscall(__NR_bpf, BPF_MAP_LOOKUP_ELEM, attr.CPointer(), len(attr))\n    csocket.MaybeRaiseSocketError(ret)\n    return value\n\nI would suggest making the other functions follow this pattern as well, and just make them void.",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 20
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_a485ccf4",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "If you make the *Map functions throw exceptions on failure, as suggested above, you can remove all these assertEquals(ret, 0) calls and just write this as:\n\n    self.assertEquals(1, LookupMap(map_fd, key))",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 38
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_c48250ea",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "This one would just become:\n\n    DeleteMap(map_fd, key)  # No exceptions? Good.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_64910432",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "And this would become:\n\n    self.assertRaisesErrno(errno.ENOENT, LookupMap, map_fd, key)",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 38
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_248bfc03",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "Is 0 an invalid key? If 0 is a valid key, then you can just make this \"for key in xrange(100)\"",
+      "range": {
+        "startLine": 117,
+        "startChar": 21,
+        "endLine": 117,
+        "endChar": 22
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "978a0eda_84968829",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2016-12-22T04:09:05Z",
+      "side": 1,
+      "message": "Nit: in cases like these, you can use xrange(1, 100) as unlike range(), xrange() does not create a temporary 100-element list.",
+      "range": {
+        "startLine": 117,
+        "startChar": 15,
+        "endLine": 117,
+        "endChar": 20
+      },
+      "revId": "04b1c0d67b292a0a3dcbb649d20a042be7e5715d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
