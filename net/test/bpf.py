@@ -122,7 +122,8 @@ BPF_FUNC_unspec = 0
 BPF_FUNC_map_lookup_elem = 1
 BPF_FUNC_map_update_elem = 2
 BPF_FUNC_map_delete_elem = 3
-
+BPF_FUNC_get_current_socket_cookie = 26
+BPF_FUNC_get_socket_uid = 27
 # BPF attr struct
 BpfAttrCreate = cstruct.Struct("bpf_attr_create", "=IIII",
                                "map_type key_size value_size max_entries")
@@ -292,3 +293,16 @@ def BpfFuncDeleteMap():
   dst_src = 0
   ret = BpfInsn((code, dst_src, 0, BPF_FUNC_map_delete_elem))
   return ret.Pack()
+
+def BpfFuncGetSockCookie():
+  code = BPF_JMP | BPF_CALL
+  dst_src = 0
+  ret = BpfInsn((code, dst_src, 0, BPF_FUNC_get_current_socket_cookie))
+  return ret.Pack()
+
+def BpfFuncGetSockUid():
+  code = BPF_JMP | BPF_CALL
+  dst_src = 0
+  ret = BpfInsn((code, dst_src, 0, BPF_FUNC_get_socket_uid))
+  return ret.Pack()
+

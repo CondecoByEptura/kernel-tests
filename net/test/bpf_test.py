@@ -158,6 +158,105 @@ class BpfTest(net_test.NetworkTest):
       self.assertEqual(sockaddr, retaddr)
     self.assertEquals(LookupMap(map_fd, key).value, packet_count)
 
+  @unittest.skipUnless(HAVE_EBPF_SUPPORT,
+                       "eBPF function not fully supported")
+  def testBpfGetCookie(self) :
+    map_fd = CreateMap(BPF_MAP_TYPE_HASH, 8, 8, 100)
+    self.assertGreater(map_fd, 0)
+    bpf_prog = BpfMov64Reg(BPF_REG_6, BPF_REG_1)
+    bpf_prog += BpfFuncGetSockCookie()
+    bpf_prog += BpfLoadMapFd(map_fd, BPF_REG_1)
+    bpf_prog += BpfMov64Imm(BPF_REG_7, BPF_REG_0)
+    bpf_prog += BpfStxMem(BPF_DW, BPF_REG_10, BPF_REG_7, -8)
+    bpf_prog += BpfMov64Reg(BPF_REG_8, BPF_REG_10)
+    bpf_prog += BpfAlu64Imm(BPF_ADD, BPF_REG_8, -8)
+    bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_8)
+    bpf_prog += BpfFuncLookupMap()
+    bpf_prog += BpfJumpImm(BPF_AND, BPF_REG_0, 0, 10)
+    bpf_prog += BpfLoadMapFd(map_fd, BPF_REG_1)
+    bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_8)
+    bpf_prog += BpfStMem(BPF_DW, BPF_REG_10, -16, 1)
+    bpf_prog += BpfMov64Reg(BPF_REG_3, BPF_REG_10)
+    bpf_prog += BpfAlu64Imm(BPF_ADD, BPF_REG_3, -16)
+    bpf_prog += BpfMov64Imm(BPF_REG_4, 0)
+    bpf_prog += BpfFuncUpdateMap()
+    bpf_prog += BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, 0)
+    bpf_prog += BpfExitInsn()
+    bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_0)
+    bpf_prog += BpfMov64Imm(BPF_REG_1, 1)
+    bpf_prog += BpfRawInsn(BPF_STX | BPF_XADD | BPF_W, BPF_REG_2, BPF_REG_1,
+                           0, 0)
+    bpf_prog += BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, 0)
+    bpf_prog += BpfExitInsn()
+    insn_buff = ctypes.create_string_buffer(bpf_prog)
+    prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER,
+                          ctypes.addressof(insn_buff),
+                          len(insn_buff), BpfInsn._length)
+    self.assertGreater(prog_fd, 0)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+    sock.settimeout(10000)
+    BpfProgAttach(sock.fileno(), prog_fd)
+    addr = "127.0.0.1"
+    sock.bind((addr, 0))
+    addr = sock.getsockname()
+    sockaddr = csocket.Sockaddr(addr)
+    packet_count = 100
+    for i in xrange(packet_count):
+      sock.sendto("foo", addr)
+      data, retaddr = csocket.Recvfrom(sock, 4096, 0)
+      self.assertEqual("foo", data)
+      self.assertEqual(sockaddr, retaddr)
+    self.assertEquals(LookupMap(map_fd, 0).value, packet_count) 
+
+  @unittest.skipUnless(HAVE_EBPF_SUPPORT,
+                       "eBPF function not fully supported")
+  def testBpfGetUid(self) :
+    map_fd = CreateMap(BPF_MAP_TYPE_HASH, 8, 8, 100)
+    self.assertGreater(map_fd, 0)
+    bpf_prog = BpfMov64Reg(BPF_REG_6, BPF_REG_1)
+    bpf_prog += BpfFuncGetSockUid()
+    bpf_prog += BpfLoadMapFd(map_fd, BPF_REG_1)
+    bpf_prog += BpfMov64Imm(BPF_REG_7, BPF_REG_0)
+    bpf_prog += BpfStxMem(BPF_DW, BPF_REG_10, BPF_REG_7, -8)
+    bpf_prog += BpfMov64Reg(BPF_REG_8, BPF_REG_10)
+    bpf_prog += BpfAlu64Imm(BPF_ADD, BPF_REG_8, -8)
+    bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_8)
+    bpf_prog += BpfFuncLookupMap()
+    bpf_prog += BpfJumpImm(BPF_AND, BPF_REG_0, 0, 10)
+    bpf_prog += BpfLoadMapFd(map_fd, BPF_REG_1)
+    bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_8)
+    bpf_prog += BpfStMem(BPF_DW, BPF_REG_10, -16, 1)
+    bpf_prog += BpfMov64Reg(BPF_REG_3, BPF_REG_10)
+    bpf_prog += BpfAlu64Imm(BPF_ADD, BPF_REG_3, -16)
+    bpf_prog += BpfMov64Imm(BPF_REG_4, 0)
+    bpf_prog += BpfFuncUpdateMap()
+    bpf_prog += BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, 0)
+    bpf_prog += BpfExitInsn()
+    bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_0)
+    bpf_prog += BpfMov64Imm(BPF_REG_1, 1)
+    bpf_prog += BpfRawInsn(BPF_STX | BPF_XADD | BPF_W, BPF_REG_2, BPF_REG_1,
+                           0, 0)
+    bpf_prog += BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, 0)
+    bpf_prog += BpfExitInsn()
+    insn_buff = ctypes.create_string_buffer(bpf_prog)
+    prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER,
+                          ctypes.addressof(insn_buff),
+                          len(insn_buff), BpfInsn._length)
+    self.assertGreater(prog_fd, 0)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+    sock.settimeout(10000)
+    BpfProgAttach(sock.fileno(), prog_fd)
+    addr = "127.0.0.1"
+    sock.bind((addr, 0))
+    addr = sock.getsockname()
+    sockaddr = csocket.Sockaddr(addr)
+    packet_count = 100
+    for i in xrange(packet_count):
+      sock.sendto("foo", addr)
+      data, retaddr = csocket.Recvfrom(sock, 4096, 0)
+      self.assertEqual("foo", data)
+      self.assertEqual(sockaddr, retaddr)
+    self.assertEquals(LookupMap(map_fd, 0).value, packet_count)
 
 if __name__ == "__main__":
   unittest.main()
