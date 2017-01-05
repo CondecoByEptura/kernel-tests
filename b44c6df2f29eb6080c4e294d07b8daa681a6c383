@@ -22,6 +22,30 @@
       "revId": "b44c6df2f29eb6080c4e294d07b8daa681a6c383",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77a11aaa_86fe338b",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1081399
+      },
+      "writtenOn": "2017-01-05T22:34:00Z",
+      "side": 1,
+      "message": "There are a few directories that are read-write (/dev, /proc, /host), but none of them seem appropriate for this use.\n\n# cat /proc/mounts \nrootfs / rootfs rw 0 0\n/dev/root / ext3 ro,relatime,data\u003dordered 0 0\ndevtmpfs /dev devtmpfs rw,relatime,mode\u003d755 0 0\n/proc /proc proc rw,relatime 0 0\nhostfs /host hostfs rw,relatime 0 0",
+      "parentUuid": "d7dd665f_0b9c3d41",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "b44c6df2f29eb6080c4e294d07b8daa681a6c383",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
