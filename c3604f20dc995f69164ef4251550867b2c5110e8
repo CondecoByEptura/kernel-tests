@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a11aaa_01d78daa",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1081399
+      },
+      "writtenOn": "2017-01-05T22:49:16Z",
+      "side": 1,
+      "message": "Still need to figure out what to do about this.",
+      "revId": "c3604f20dc995f69164ef4251550867b2c5110e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
