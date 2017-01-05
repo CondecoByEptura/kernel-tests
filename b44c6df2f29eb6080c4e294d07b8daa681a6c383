@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7dd665f_0b9c3d41",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-01-05T09:06:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure we want to remount the whole filesystem read-write. Is there another place we can usefully mount debugfs?\n\nIf not, then we can update the net_test fs image to include /debug.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "b44c6df2f29eb6080c4e294d07b8daa681a6c383",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
