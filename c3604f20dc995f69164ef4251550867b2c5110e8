@@ -16,6 +16,93 @@
       "revId": "c3604f20dc995f69164ef4251550867b2c5110e8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97ddaea2_295ead2e",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-01-10T14:04:35Z",
+      "side": 1,
+      "message": "On my system I have a debugfs at /sys/kernel/debug :\n\n  sysfs on /sys type sysfs (rw,noexec,nosuid,nodev)\n  none on /sys/kernel/debug type debugfs (rw)\n\nCan we use /sys/kernel/debug here too? I was able to get that to exist by enabling CONFIG_DEBUG_FS and then doing, in this script:\n\n  mount -t sysfs sys /sys\n  mount -t debugfs debug /sys/kernel/debug",
+      "parentUuid": "77a11aaa_01d78daa",
+      "revId": "c3604f20dc995f69164ef4251550867b2c5110e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97ddaea2_a969fdd9",
+        "filename": "net/test/trace_event_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-01-10T14:04:35Z",
+      "side": 1,
+      "message": "Maybe provide a bit more information on where this file is?",
+      "range": {
+        "startLine": 36,
+        "startChar": 42,
+        "endLine": 36,
+        "endChar": 56
+      },
+      "revId": "c3604f20dc995f69164ef4251550867b2c5110e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97ddaea2_896eb9dd",
+        "filename": "net/test/trace_event_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-01-10T14:04:35Z",
+      "side": 1,
+      "message": "Nit: these are files, not events, right?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "c3604f20dc995f69164ef4251550867b2c5110e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97ddaea2_e973f5c3",
+        "filename": "net/test/trace_event_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-01-10T14:04:35Z",
+      "side": 1,
+      "message": "Nit: since these are linux-specific tests,\n\n  \"%s/%s\" % (\n\nwould be fine too.",
+      "range": {
+        "startLine": 54,
+        "startChar": 32,
+        "endLine": 54,
+        "endChar": 45
+      },
+      "revId": "c3604f20dc995f69164ef4251550867b2c5110e8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
