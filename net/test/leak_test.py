@@ -46,6 +46,22 @@ class LeakTest(net_test.NetworkTest):
     self.assertEqual("", data)
     self.assertEqual(None, addr)
 
+  def testRcvBufForce(self):
+    SO_RCVBUFFORCE = 33
+
+    s = socket(AF_INET6, SOCK_DGRAM, 0)
+
+    s.setsockopt(SOL_SOCKET, SO_RCVBUF, 0)
+    minbuf = s.getsockopt(SOL_SOCKET, SO_RCVBUF)
+
+    val = 4097
+    s.setsockopt(SOL_SOCKET, SO_RCVBUFFORCE, val)
+    self.assertEquals(2 * val, s.getsockopt(SOL_SOCKET, SO_RCVBUF))
+
+    bogusval = 2 ** 31 - 5000
+    s.setsockopt(SOL_SOCKET, SO_RCVBUFFORCE, bogusval)
+    self.assertEquals(minbuf, s.getsockopt(SOL_SOCKET, SO_RCVBUF))
+
 
 if __name__ == "__main__":
   unittest.main()
