@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a856d212_195f53f6",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_43dd38f3",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a837b20b_23e2b4b6",
         "filename": "net/test/bpf.py",
         "patchSetId": 5
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "a856d212_59d70b30",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_83d740d3",
+      "range": {
+        "startLine": 120,
+        "startChar": 22,
+        "endLine": 120,
+        "endChar": 30
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a837b20b_63dcbcf5",
         "filename": "net/test/bpf.py",
         "patchSetId": 5
@@ -82,6 +130,30 @@
       "writtenOn": "2017-01-23T01:31:43Z",
       "side": 1,
       "message": "Might want to rename this to BpfAttrOps for consistency with the C structure name.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a856d212_f9635fc0",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_63dcbcf5",
       "range": {
         "startLine": 129,
         "startChar": 0,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "a856d212_9972238c",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_a3cd243f",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 12
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a837b20b_c3d028db",
         "filename": "net/test/bpf.py",
         "patchSetId": 5
@@ -128,6 +224,30 @@
       "writtenOn": "2017-01-23T01:31:43Z",
       "side": 1,
       "message": "Remove this, it\u0027s unneeded.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 8
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a856d212_796f6fa2",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_c3d028db",
       "range": {
         "startLine": 156,
         "startChar": 0,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "a856d212_597cab5d",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_e3c72c1b",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 8
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a837b20b_43025884",
         "filename": "net/test/bpf.py",
         "patchSetId": 5
@@ -174,6 +318,30 @@
       "writtenOn": "2017-01-23T01:31:43Z",
       "side": 1,
       "message": "Can you make these constants? Something like:\n\n  LOG_LEVEL \u003d 1\n  LOG_SIZE \u003d 65536\n\nSame for kern_version.",
+      "range": {
+        "startLine": 195,
+        "startChar": 7,
+        "endLine": 195,
+        "endChar": 15
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a856d212_19887348",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_43025884",
       "range": {
         "startLine": 195,
         "startChar": 7,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "a856d212_d981bb25",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_a31244ce",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 197,
+        "endChar": 12
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a837b20b_03cb3029",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 5
@@ -220,6 +412,30 @@
       "writtenOn": "2017-01-23T01:31:43Z",
       "side": 1,
       "message": "I think you might be able to put this only once at the top of the class instead of having to put it on every test method.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 59
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a856d212_99490324",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a837b20b_03cb3029",
       "range": {
         "startLine": 32,
         "startChar": 0,
@@ -335,6 +551,30 @@
       "writtenOn": "2017-01-23T01:31:43Z",
       "side": 1,
       "message": "Is this necessary? The timeout is in seconds and I don\u0027t think you\u0027re waiting 10000 seconds.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "c1d90e112eee6c27c90324477f3eb163f1a5632e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a856d212_6b72f68e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-23T22:48:37Z",
+      "side": 1,
+      "message": "yes you are right... I thought it was ms....",
+      "parentUuid": "a837b20b_43eb7882",
       "range": {
         "startLine": 103,
         "startChar": 4,
