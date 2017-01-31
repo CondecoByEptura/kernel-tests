@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "abf742b2_68f4f85b",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-31T18:32:49Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 132,
+        "startChar": 34,
+        "endLine": 132,
+        "endChar": 35
+      },
+      "revId": "66e14178239e8f136413990080a871f6aae1cdfb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c40e429c_aaefaede",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 6
@@ -48,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "47329b74_f2bbe083",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-31T18:32:49Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 30,
+        "startChar": 23,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "66e14178239e8f136413990080a871f6aae1cdfb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "409c93d0_0c1a4e3b",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 6
@@ -59,6 +105,29 @@
       "writtenOn": "2017-01-31T15:07:36Z",
       "side": 1,
       "message": "Remove the ;",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 14
+      },
+      "revId": "66e14178239e8f136413990080a871f6aae1cdfb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cfcb880_4ddb8aac",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-31T18:32:49Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 54,
         "startChar": 13,
@@ -105,6 +174,29 @@
       "writtenOn": "2017-01-31T15:07:36Z",
       "side": 1,
       "message": "the test fails.",
+      "range": {
+        "startLine": 68,
+        "startChar": 60,
+        "endLine": 68,
+        "endChar": 70
+      },
+      "revId": "66e14178239e8f136413990080a871f6aae1cdfb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9e6a798_389595ec",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-01-31T18:32:49Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 68,
         "startChar": 60,
