@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad2a437f_7401d785",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1137873
+      },
+      "writtenOn": "2017-02-01T16:15:47Z",
+      "side": 1,
+      "message": "Please add comments to this bpf program. Does not have to be every line, but every couple of lines that together implement some basic action.\n\nThis BPF assembly is pretty dense to read. Even more so for people who have no background (e.g., I know why REG_6 is copied to REG_1 here, but it is not obvious).",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 48
+      },
+      "revId": "963a49b4b755163f1a0d627fadc8c9fb7654760e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb072b2_bb143943",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1137873
+      },
+      "writtenOn": "2017-02-01T16:15:47Z",
+      "side": 1,
+      "message": "https://memegen.googleplex.com/6428945691967488",
+      "range": {
+        "startLine": 209,
+        "startChar": 50,
+        "endLine": 209,
+        "endChar": 62
+      },
+      "revId": "963a49b4b755163f1a0d627fadc8c9fb7654760e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
