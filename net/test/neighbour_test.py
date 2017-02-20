@@ -113,7 +113,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       for name in attrs:
         self.assertEquals(attrs[name], actual_attrs[name])
 
-  def ExpectProbe(self, is_unicast, addr):
+  def ExpectProbe(self, is_unicast, addr, tclass=0):
     version = 6 if ":" in addr else 4
     if version == 6:
       llsrc = self.MyMacAddress(self.netid)
@@ -126,7 +126,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
         dst = "ff02::1:ff%02x:%02x%02x" % last3bytes
         src = self.MyAddress(6, self.netid)
       expected = (
-          scapy.IPv6(src=src, dst=dst) /
+          scapy.IPv6(src=src, dst=dst, tc=tclass) /
           scapy.ICMPv6ND_NS(tgt=addr) /
           scapy.ICMPv6NDOptSrcLLAddr(lladdr=llsrc)
       )
@@ -291,6 +291,45 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect that this takes us to REACHABLE.
     self.ExpectNeighbourNotification(router6, NUD_REACHABLE)
     self.assertNeighbourState(NUD_REACHABLE, router6)
+
+  def testTrafficClass(self):
+    netid = random.choice(self.tuns.keys())
+    iface = self.GetInterfaceName(self.netid)
+    llsrc = self.MyMacAddress(self.netid)
+    src = self.MyLinkLocalAddress(self.netid)
+
+    self.SetSysctl("/proc/sys/net/ipv6/conf/%s/ndisc_tclass" % iface, "0xa0")
+
+    ### MulticastRS
+    expected = (
+        scapy.IPv6(src=src, dst="ff02::2", tc=0xa0) /
+        scapy.ICMPv6ND_RS() /
+        scapy.ICMPv6NDOptSrcLLAddr(lladdr=llsrc)
+    )
+    # Bounce the interface to observe a multicast RS.
+    self.SetSysctl("/proc/sys/net/ipv6/conf/%s/disable_ipv6" % iface, "1")
+    self.SetSysctl("/proc/sys/net/ipv6/conf/%s/disable_ipv6" % iface, "0")
+    self.ExpectPacketOn(self.netid, "Multicast RS", expected)
+
+    self.SendRA(self.netid,
+                retranstimer=self.RETRANS_TIME_MS,
+                reachabletime=self.BASE_REACHABLE_TIME_MS)
+
+    ### DAD
+    solicited = inet_pton(AF_INET6, self.MyAddress(6, netid))
+    last3bytes = tuple([ord(b) for b in solicited[-3:]])
+    dst = "ff02::1:ff%02x:%02x%02x" % last3bytes
+    expected = (
+        scapy.IPv6(src=src, dst=dst, tc=0xa0) /
+        scapy.ICMPv6ND_NS()
+    )
+    self.ExpectPacketOn(self.netid, "Multicast NS (DAD)", expected)
+
+    # MulticastNS
+
+    # UnicastNS
+
+    # UnicastNA
 
 
 if __name__ == "__main__":
