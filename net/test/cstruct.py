@@ -19,6 +19,8 @@ Example usage:
 >>> # Declare a struct type by specifying name, field formats and field names.
 ... # Field formats are the same as those used in the struct module, except:
 ... # - S: Nested Struct.
+... # - A: NULL-padded ASCII string. Like s, but printing ignores contiguous
+... #      trailing NULL blocks at the end.
 ... import cstruct
 >>> NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
 >>>
@@ -61,10 +63,15 @@ import string
 import struct
 
 
+def CalcSize(fmt):
+  if "A" in fmt:
+    fmt = fmt.replace("A", "s")
+  return struct.calcsize(fmt)
+
 def CalcNumElements(fmt):
   numstructs = len([c for c in fmt if c == "S"])
   fmt = fmt.replace("S", "")
-  size = struct.calcsize(fmt)
+  size = CalcSize(fmt)
   elements = struct.unpack(fmt, "\x00" * size)
   return len(elements) + numstructs
 
@@ -92,6 +99,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
     _fieldnames = fieldnames
     # Dict mapping field indices to nested struct classes.
     _nested = {}
+    # List of string fields that are ASCII strings.
+    _asciiz = set()
 
     if isinstance(_fieldnames, str):
       _fieldnames = _fieldnames.split(" ")
@@ -107,11 +116,16 @@ def Struct(name, fmt, fieldnames, substructs={}):
         _nested[index] = substructs[laststructindex]
         laststructindex += 1
         _format += "%ds" % len(_nested[index])
+      elif fmt[i] == "A":
+        # Null-terminated ASCII string.
+        index = CalcNumElements(fmt[:i])
+        _asciiz.add(index)
+        _format += "s"
       else:
          # Standard struct format character.
         _format += fmt[i]
 
-    _length = struct.calcsize(_format)
+    _length = CalcSize(_format)
 
     def _SetValues(self, values):
       super(CStruct, self).__setattr__("_values", list(values))
@@ -177,9 +191,11 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     def __str__(self):
       def FieldDesc(index, name, value):
-        if isinstance(value, str) and any(
-            c not in string.printable for c in value):
-          value = value.encode("hex")
+        if isinstance(value, str):
+          if index in self._asciiz:
+            value = value.rstrip("\x00")
+          elif any(c not in string.printable for c in value):
+            value = value.encode("hex")
         return "%s=%s" % (name, value)
 
       descriptions = [
