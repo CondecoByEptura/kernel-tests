@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef32ce0_12ba4f93",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "Not important here, but we might want to start thinking about how to organize these options into subgroups.  It might allow to write things that are slightly more clear for updating in the future like:\n\n    OPTIONS\u003d\"$OPTIONS $IPSEC_OPTIONS\"\n\nor even\n\n    OPTIONS\u003dappendIPSecOptions($OPTIONS)",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd973b7_ace8a852",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "[nit] 7",
+      "range": {
+        "startLine": 3,
+        "startChar": 15,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed555c62_87d34de4",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "[nit] trailing whitespace",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 4
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf0fc4cd_b2236917",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "[nit] 7",
+      "range": {
+        "startLine": 3,
+        "startChar": 15,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "673ce387_2d3de7e3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "[nit] trailing whitespace",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 4
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbd582b_ff8bf9ea",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "[nit] tabs",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 4
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff00bb03_3f3ca8de",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-02-22T04:19:37Z",
+      "side": 1,
+      "message": "[nit] more whitespaceyness",
+      "range": {
+        "startLine": 142,
+        "startChar": 3,
+        "endLine": 142,
+        "endChar": 7
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
