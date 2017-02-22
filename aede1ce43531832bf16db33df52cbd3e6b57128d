@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f10a0b39_29959370",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-02-22T04:14:33Z",
+      "side": 1,
+      "message": "Is this if statement needed? fmt.replace(\"A\", \"s\") should be a no-op on strings that do not contain \"A\"",
+      "revId": "aede1ce43531832bf16db33df52cbd3e6b57128d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
