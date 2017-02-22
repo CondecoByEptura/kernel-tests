@@ -16,6 +16,24 @@
       "revId": "aede1ce43531832bf16db33df52cbd3e6b57128d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff15420e_e05432ed",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-02-22T17:39:53Z",
+      "side": 1,
+      "message": "It\u0027s not needed, no. But it does make things a bit faster. Because I clearly have too much time on my hands, I benchmarked it.\n\nIt turns out that if fmt does not contain \"A\" (which is the common case), then keeping the if statement makes the code ~2x faster. If fmt does contain \"A\", then the if statement makes the code ~10% slower.\n\nGiven that the extra statement doesn\u0027t add too much complexity I think it\u0027s OK to keep it.\n\n    \u003e\u003e\u003e def IfAndReplace(fmt):\n    ...   if \"A\" in fmt:\n    ...     fmt \u003d fmt.replace(\"A\", \"s\")\n    ... \n    \u003e\u003e\u003e def Replace(fmt):\n    ...   fmt \u003d fmt.replace(\"A\", \"s\")\n    ... \n    \u003e\u003e\u003e # If fmt contains \"A\":\n    ... \n    \u003e\u003e\u003e timeit.timeit(stmt\u003d\u0027fmt \u003d \"\u003d16s16AHHHHHBBBxxxiI\"; IfAndReplace(fmt)\u0027, setup\u003d\"from __main__ import IfAndReplace\")\n    0.2784159183502197\n    \u003e\u003e\u003e timeit.timeit(stmt\u003d\u0027fmt \u003d \"\u003d16s16AHHHHHBBBxxxiI\"; Replace(fmt)\u0027, setup\u003d\"from __main__ import Replace\")\n    0.2526068687438965\n    \u003e\u003e\u003e \n    \u003e\u003e\u003e # If fmt does not contain \"A\":\n    ... \n    \u003e\u003e\u003e timeit.timeit(stmt\u003d\u0027fmt \u003d \"\u003d16s16sHHHHHBBBxxxiI\"; IfAndReplace(fmt)\u0027, setup\u003d\"from __main__ import IfAndReplace\")\n    0.11618781089782715\n    \u003e\u003e\u003e timeit.timeit(stmt\u003d\u0027fmt \u003d \"\u003d16s16sHHHHHBBBxxxiI\"; Replace(fmt)\u0027, setup\u003d\"from __main__ import Replace\")\n    0.23978900909423828",
+      "parentUuid": "f10a0b39_29959370",
+      "revId": "aede1ce43531832bf16db33df52cbd3e6b57128d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
