@@ -76,9 +76,12 @@ while [ -n "$1" ]; do
     shift
   else
     test=$1
-    break  # The test file must be the last argument.
+    break  # Arguments after the test file are passed to the test itself.
   fi
 done
+
+# Collect trailing arguments to pass to $test
+test_args=${@:2}
 
 function isRunningTest() {
   [[ -n "$test" ]] && ! (( norun ))
@@ -184,4 +187,5 @@ dir=/host$SCRIPT_DIR
 # Start the VM.
 exec $KERNEL_BINARY umid=net_test $blockdevice=$SCRIPT_DIR/$ROOTFS \
     mem=512M init=/sbin/net_test.sh net_test=$dir/$test \
+    net_test_args=\"$test_args\" \
     net_test_mode=$testmode $netconfig $consolemode >&2
