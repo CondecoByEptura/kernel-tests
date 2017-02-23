@@ -48,6 +48,98 @@
     },
     {
       "key": {
+        "uuid": "70f8721f_9ab55769",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "Suggest to name this with something like UDPSOCKOPT_UDP_ENCAP so that it\u0027s clear it\u0027s a sockopt rather than the value of said sockopt?",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 15
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4338a80_b2150cc0",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "Why is there a special case here?",
+      "range": {
+        "startLine": 211,
+        "startChar": 33,
+        "endLine": 211,
+        "endChar": 67
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97948e21_7fa3dba0",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "silent fail-to-decode? Open question \u003d do we want to flag something if it\u0027s unexpected (at least for test code)?",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 21
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f7fe5fc_d415f9e7",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "Since this was just a \"cheat\", do you want to fix before checkin?",
+      "range": {
+        "startLine": 254,
+        "startChar": 29,
+        "endLine": 254,
+        "endChar": 33
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed555c62_87d34de4",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -59,6 +151,30 @@
       "writtenOn": "2017-02-22T04:19:37Z",
       "side": 1,
       "message": "[nit] trailing whitespace",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 4
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daa1b5d9_c5e7b9b0",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "strongly suggest using YAPF. It\u0027s the last word in nits and promotes team harmony.\nhttps://github.com/google/yapf",
+      "parentUuid": "ed555c62_87d34de4",
       "range": {
         "startLine": 273,
         "startChar": 0,
@@ -140,6 +256,144 @@
     },
     {
       "key": {
+        "uuid": "10aab47b_bed01d70",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 69
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0da5efb_452915a2",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "define as a constant? We *could* and eventually might support setting the lifetime policy so that we can signal IKE. For Phase 1 (I haven\u0027t spent much time talking about this) we\u0027ll have to assume time-based policy and the IKE implementer will have to do the right thing without the kernel handholding.",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 44
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4b37820_d564f466",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "What happens if we set a per-socket policy without SHARE_UNIQUE?",
+      "range": {
+        "startLine": 131,
+        "startChar": 41,
+        "endLine": 131,
+        "endChar": 58
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "018514a9_e79eaa5f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "delete before checkin?",
+      "range": {
+        "startLine": 132,
+        "startChar": 13,
+        "endLine": 132,
+        "endChar": 79
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2738d9e_1b4cca8e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "does the sharing policy need to match something in the SA?",
+      "range": {
+        "startLine": 137,
+        "startChar": 61,
+        "endLine": 137,
+        "endChar": 78
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "122718b9_1423fe3d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "constant plz: ALGO_MASK_ALL_ALGOS or whatnot.",
+      "range": {
+        "startLine": 139,
+        "startChar": 30,
+        "endLine": 139,
+        "endChar": 40
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff00bb03_3f3ca8de",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 3
@@ -156,6 +410,190 @@
         "startChar": 3,
         "endLine": 142,
         "endChar": 7
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8673539_0f1aa69a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "suggest constant.",
+      "range": {
+        "startLine": 158,
+        "startChar": 33,
+        "endLine": 158,
+        "endChar": 36
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "417e74aa_018e3aab",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "rather than defining in multiple places, local variable of some kind?",
+      "range": {
+        "startLine": 160,
+        "startChar": 55,
+        "endLine": 160,
+        "endChar": 61
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55ef3de8_ccca1b4f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "I don\u0027t think these are being used... sport looks like its being captured later on as srcport?",
+      "range": {
+        "startLine": 210,
+        "startChar": 3,
+        "endLine": 211,
+        "endChar": 38
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63f50b0a_989a3872",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "flag?",
+      "range": {
+        "startLine": 244,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 15
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2964b5c_a82ceb63",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "IIRC you were going to standardize on host order... not a specific comment on this line, but did you make that sanity update?",
+      "range": {
+        "startLine": 248,
+        "startChar": 36,
+        "endLine": 248,
+        "endChar": 41
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a12187f_f485856d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "can there be a 1-line comment explaining what\u0027s going on here? (to add an encap in the reverse direction).",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 13
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e7e8440_fcbbc417",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "Flag?",
+      "range": {
+        "startLine": 263,
+        "startChar": 6,
+        "endLine": 263,
+        "endChar": 30
+      },
+      "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40a442a8_0bd1d50c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T03:55:32Z",
+      "side": 1,
+      "message": "we might want to factor this out into a different test that does all the same stuff, but just uses send().",
+      "range": {
+        "startLine": 269,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 52
       },
       "revId": "b706b45f0174212a9e9131bf6189055b7eaba01c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
