@@ -184,4 +184,5 @@ dir=/host$SCRIPT_DIR
 # Start the VM.
 exec $KERNEL_BINARY umid=net_test $blockdevice=$SCRIPT_DIR/$ROOTFS \
     mem=512M init=/sbin/net_test.sh net_test=$dir/$test \
+    net_test_args=\"${@:2}\" \
     net_test_mode=$testmode $netconfig $consolemode >&2
