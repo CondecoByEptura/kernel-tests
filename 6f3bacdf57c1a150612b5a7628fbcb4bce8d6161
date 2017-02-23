@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95d1a9fa_720ea69b",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-02-23T06:05:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12fb9e33_a14589d2",
+      "range": {
+        "startLine": 79,
+        "startChar": 13,
+        "endLine": 79,
+        "endChar": 52
+      },
+      "revId": "6f3bacdf57c1a150612b5a7628fbcb4bce8d6161",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2512ed88_50234573",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-23T05:49:32Z",
       "side": 1,
       "message": "I think it might be best to populate a test_args variable up where the rest of the commandline parsing is done (see site of previous comment).",
+      "range": {
+        "startLine": 187,
+        "startChar": 18,
+        "endLine": 187,
+        "endChar": 28
+      },
+      "revId": "6f3bacdf57c1a150612b5a7628fbcb4bce8d6161",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48cfe9f7_ef2a7d69",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-02-23T06:05:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2512ed88_50234573",
       "range": {
         "startLine": 187,
         "startChar": 18,
