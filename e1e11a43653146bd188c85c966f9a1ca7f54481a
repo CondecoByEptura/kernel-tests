@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b058e98f_37b05b94",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-02-23T06:32:54Z",
+      "side": 1,
+      "message": "Is it worth checking that $test exists and is readable? Otherwise something like:\n\n  .../run_net_test.sh --foo bar_test.py\n\nwill result in us attempting to run --foo. (To be clear, we have the problem already, so this change is not making things any worse.)",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 73
+      },
+      "revId": "e1e11a43653146bd188c85c966f9a1ca7f54481a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
