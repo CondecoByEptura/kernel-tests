@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33783d8b_9f4ab052",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-02-23T02:14:31Z",
+      "side": 1,
+      "message": "clever, but can you just perform the \"replace\" and diff the lengths before and after?",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "463ee0a187aba95c156872ff65404e26c5176231",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
