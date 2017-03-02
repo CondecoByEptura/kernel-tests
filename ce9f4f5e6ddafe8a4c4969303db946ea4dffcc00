@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bfb795f_b5b08d79",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-02T03:35:08Z",
+      "side": 1,
+      "message": "Should probably be:\n\n    self.GetSysctl(self.AUTOCONF_TABLE_OFFSET)",
+      "range": {
+        "startLine": 582,
+        "startChar": 11,
+        "endLine": 582,
+        "endChar": 15
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb4af2a_0bdfe4c8",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-02T03:35:08Z",
+      "side": 1,
+      "message": "perhaps self.SetSysctl()",
+      "range": {
+        "startLine": 587,
+        "startChar": 6,
+        "endLine": 587,
+        "endChar": 11
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fb688a_6fc04097",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-02T03:35:08Z",
+      "side": 1,
+      "message": "Maybe just:\n\n    return self.GetSysctl(\"/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_max_plen\" % self.IFACE)",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 10
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adad969f_456990fe",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-02T03:35:08Z",
+      "side": 1,
+      "message": "Not super important, but testing for -1 and 129 might be fun.",
+      "range": {
+        "startLine": 615,
+        "startChar": 4,
+        "endLine": 615,
+        "endChar": 7
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
