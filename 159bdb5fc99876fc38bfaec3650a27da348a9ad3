@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed79629d_adf44679",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-03T05:01:48Z",
+      "side": 1,
+      "message": "Let\u0027s make this:\n\n    random.choice(self.NETIDS)",
+      "range": {
+        "startLine": 578,
+        "startChar": 10,
+        "endLine": 578,
+        "endChar": 13
+      },
+      "revId": "159bdb5fc99876fc38bfaec3650a27da348a9ad3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a23019_411d0b67",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-03T05:01:48Z",
+      "side": 1,
+      "message": "and then this can be:\n\n    self.GetInterfaceName(NETID)",
+      "range": {
+        "startLine": 579,
+        "startChar": 10,
+        "endLine": 579,
+        "endChar": 29
+      },
+      "revId": "159bdb5fc99876fc38bfaec3650a27da348a9ad3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
