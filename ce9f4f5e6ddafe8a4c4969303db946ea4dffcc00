@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e5dc071f_254ccca7",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-03-03T00:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bfb795f_b5b08d79",
+      "range": {
+        "startLine": 582,
+        "startChar": 11,
+        "endLine": 582,
+        "endChar": 15
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb4af2a_0bdfe4c8",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-02T03:35:08Z",
       "side": 1,
       "message": "perhaps self.SetSysctl()",
+      "range": {
+        "startLine": 587,
+        "startChar": 6,
+        "endLine": 587,
+        "endChar": 11
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fcd9e9b_2175781b",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-03-03T00:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcb4af2a_0bdfe4c8",
       "range": {
         "startLine": 587,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d11d5964_fbf56694",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-03-03T00:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8fb688a_6fc04097",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 10
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adad969f_456990fe",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2017-03-02T03:35:08Z",
       "side": 1,
       "message": "Not super important, but testing for -1 and 129 might be fun.",
+      "range": {
+        "startLine": 615,
+        "startChar": 4,
+        "endLine": 615,
+        "endChar": 7
+      },
+      "revId": "ce9f4f5e6ddafe8a4c4969303db946ea4dffcc00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47aae7c7_2e63d540",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-03-03T00:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adad969f_456990fe",
       "range": {
         "startLine": 615,
         "startChar": 4,
