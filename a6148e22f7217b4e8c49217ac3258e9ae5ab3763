@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb641ce7_196150f5",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-03-06T07:29:27Z",
+      "side": 1,
+      "message": "Good idea. I\u0027ll do that in a followup patch.",
+      "parentUuid": "2c564af0_22283ee0",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 69
+      },
+      "revId": "a6148e22f7217b4e8c49217ac3258e9ae5ab3763",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fe53df6_ea7d1ee1",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-06T07:18:14Z",
       "side": 1,
       "message": "Do we know why this was changed? Is it a correctness fix that we should explicitly test for here (such that 3.10 devices work correctly as well), as opposed to just skipping this test?",
+      "range": {
+        "startLine": 671,
+        "startChar": 28,
+        "endLine": 672,
+        "endChar": 49
+      },
+      "revId": "a6148e22f7217b4e8c49217ac3258e9ae5ab3763",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39392f97_704566aa",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-03-06T07:29:27Z",
+      "side": 1,
+      "message": "The primary goal of this patch was to fix the test breakage and document the observed behavior while we decide what behavior we want to check for.\n\nHere\u0027s git log for the behavior change.\n\ncommit f104a567e673f382b09542a8dc3500aa689957b4\nAuthor: Duan Jiong \u003cduanj.fnst@cn.fujitsu.com\u003e\nDate:   Fri Nov 8 09:56:53 2013 +0800\n\n    ipv6: use rt6_get_dflt_router to get default router in rt6_route_rcv\n    \n    As the rfc 4191 said, the Router Preference and Lifetime values in a\n    ::/0 Route Information Option should override the preference and lifetime\n    values in the Router Advertisement header. But when the kernel deals with\n    a ::/0 Route Information Option, the rt6_get_route_info() always return\n    NULL, that means that overriding will not happen, because those default\n    routers were added without flag RTF_ROUTEINFO in rt6_add_dflt_router().\n    \n    In order to deal with that condition, we should call rt6_get_dflt_router\n    when the prefix length is 0.",
+      "parentUuid": "3fe53df6_ea7d1ee1",
       "range": {
         "startLine": 671,
         "startChar": 28,
