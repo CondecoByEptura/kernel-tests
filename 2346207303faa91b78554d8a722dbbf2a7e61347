@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e95340ec_0b3797a2",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-06T05:59:24Z",
+      "side": 1,
+      "message": "Copy \u0027n\u0027 paste error?",
+      "range": {
+        "startLine": 618,
+        "startChar": 39,
+        "endLine": 618,
+        "endChar": 57
+      },
+      "revId": "2346207303faa91b78554d8a722dbbf2a7e61347",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a43337_b6af39f5",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-03-06T05:59:24Z",
+      "side": 1,
+      "message": "Why is the sleep necessary?  A brief comment might be good.",
+      "range": {
+        "startLine": 666,
+        "startChar": 4,
+        "endLine": 666,
+        "endChar": 17
+      },
+      "revId": "2346207303faa91b78554d8a722dbbf2a7e61347",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
