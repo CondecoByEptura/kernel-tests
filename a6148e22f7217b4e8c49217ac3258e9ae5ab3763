@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c564af0_22283ee0",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-03-06T07:18:14Z",
+      "side": 1,
+      "message": "Can/should this be applied to RIOTest as a whole?",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 69
+      },
+      "revId": "a6148e22f7217b4e8c49217ac3258e9ae5ab3763",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fe53df6_ea7d1ee1",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-03-06T07:18:14Z",
+      "side": 1,
+      "message": "Do we know why this was changed? Is it a correctness fix that we should explicitly test for here (such that 3.10 devices work correctly as well), as opposed to just skipping this test?",
+      "range": {
+        "startLine": 671,
+        "startChar": 28,
+        "endLine": 672,
+        "endChar": 49
+      },
+      "revId": "a6148e22f7217b4e8c49217ac3258e9ae5ab3763",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
