@@ -20,6 +20,7 @@ import os
 import random
 import re
 from socket import *  # pylint: disable=wildcard-import
+import struct
 import threading
 import time
 import unittest
@@ -34,7 +35,7 @@ import tcp_test
 
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
-
+HAVE_KERNEL_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
 
 class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
   """Basic tests for SOCK_DIAG functionality.
@@ -305,6 +306,17 @@ class SockDiagTest(SockDiagBaseTest):
     DiagDump(op)  # No errors? Good.
     self.assertRaisesErrno(EINVAL, DiagDump, op + 17)
 
+  @unittest.skipUnless(HAVE_KERNEL_SUPPORT,
+                        "get sock opt not supported")
+  def testGetsockoptcookie(self):
+    """Tests that getsockopt SO_COOKIE can get cookie for all sockets."""
+    socketpair = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM,
+                                           "::ffff:127.0.0.1")
+    for sock in socketpair:
+      diag_msg = self.sock_diag.FindSockDiagFromFd(sock)
+      real_cookie = struct.unpack('=Q', diag_msg.id.cookie)[0]
+      cookie = sock.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE)
+      self.assertEqual(real_cookie, cookie)
 
 class SockDestroyTest(SockDiagBaseTest):
   """Tests that SOCK_DESTROY works correctly.
