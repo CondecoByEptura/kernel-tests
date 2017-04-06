@@ -43,9 +43,6 @@ TCP_MARK_ACCEPT_SYSCTL = "/proc/sys/net/ipv4/tcp_fwmark_accept"
 # The IP[V6]UNICAST_IF socket option was added between 3.1 and 3.4.
 HAVE_UNICAST_IF = net_test.LINUX_VERSION >= (3, 4, 0)
 
-MAX_PLEN_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_rt_info_max_plen"
-HAVE_MAX_PLEN = os.path.isfile(MAX_PLEN_SYSCTL)
-
 class ConfigurationError(AssertionError):
   pass
 
@@ -576,14 +573,28 @@ class TCPAcceptTest(InboundMarkingTest):
   def testIPv6ExplicitMark(self):
     self.CheckTCP(6, [self.MODE_EXPLICIT_MARK])
 
+@unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
+                     "need support for per-table autoconf")
 class RIOTest(multinetwork_base.MultiNetworkBaseTest):
 
   def setUp(self):
     self.NETID = random.choice(self.NETIDS)
     self.IFACE = self.GetInterfaceName(self.NETID)
+    # return min/max plen to default values before each test case
+    self.SetAcceptRaRtInfoMinPlen(0)
+    self.SetAcceptRaRtInfoMaxPlen(0)
 
   def GetRoutingTable(self):
     return self._TableForNetid(self.NETID)
+
+  def SetAcceptRaRtInfoMinPlen(self, plen):
+    self.SetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_min_plen"
+        % self.IFACE, str(plen))
+
+  def GetAcceptRaRtInfoMinPlen(self):
+    return int(self.GetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_min_plen" % self.IFACE))
 
   def SetAcceptRaRtInfoMaxPlen(self, plen):
     self.SetSysctl(
@@ -614,15 +625,16 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def GetRouteExpiration(self, route):
     return float(route['RTA_CACHEINFO'].expires) / 100.0
 
-  @unittest.skipUnless(HAVE_MAX_PLEN and multinetwork_base.HAVE_AUTOCONF_TABLE,
-                       "need support for RIO and per-table autoconf")
+  def testSetAcceptRaRtInfoMinPlen(self):
+    for plen in xrange(-1, 130):
+      self.SetAcceptRaRtInfoMinPlen(plen)
+      self.assertEquals(plen, self.GetAcceptRaRtInfoMinPlen())
+
   def testSetAcceptRaRtInfoMaxPlen(self):
     for plen in xrange(-1, 130):
       self.SetAcceptRaRtInfoMaxPlen(plen)
       self.assertEquals(plen, self.GetAcceptRaRtInfoMaxPlen())
 
-  @unittest.skipUnless(HAVE_MAX_PLEN and multinetwork_base.HAVE_AUTOCONF_TABLE,
-                       "need support for RIO and per-table autoconf")
   def testZeroRtLifetime(self):
     PREFIX = "2001:db8:8901:2300::"
     RTLIFETIME = 7372
@@ -639,13 +651,24 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     time.sleep(0.01)
     self.assertFalse(self.FindRoutesWithDestination(PREFIX))
 
-  @unittest.skipUnless(HAVE_MAX_PLEN and multinetwork_base.HAVE_AUTOCONF_TABLE,
-                       "need support for RIO and per-table autoconf")
+  def testMinPrefixLenRejection(self):
+    PREFIX = "2001:db8:8901:2345::"
+    RTLIFETIME = 7372
+    PRF = 0
+    for plen in xrange(-1, 130):
+      self.SetAcceptRaRtInfoMinPlen(plen)
+      # RIO with plen > min_plen should be ignored
+      self.SendRIO(RTLIFETIME, plen + 1, PREFIX, PRF)
+      # Give the kernel time to notice our RA
+      time.sleep(0.01)
+      routes = self.FindRoutesWithDestination(PREFIX)
+      self.assertFalse(routes)
+
   def testMaxPrefixLenRejection(self):
     PREFIX = "2001:db8:8901:2345::"
     RTLIFETIME = 7372
     PRF = 0
-    for plen in xrange(0, 64):
+    for plen in xrange(-1, 130):
       self.SetAcceptRaRtInfoMaxPlen(plen)
       # RIO with plen > max_plen should be ignored
       self.SendRIO(RTLIFETIME, plen + 1, PREFIX, PRF)
@@ -654,8 +677,6 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
       routes = self.FindRoutesWithDestination(PREFIX)
       self.assertFalse(routes)
 
-  @unittest.skipUnless(HAVE_MAX_PLEN and multinetwork_base.HAVE_AUTOCONF_TABLE,
-                       "need support for RIO and per-table autoconf")
   def testZeroLengthPrefix(self):
     PREFIX = "::"
     RTLIFETIME = self.RA_VALIDITY * 2
@@ -673,16 +694,8 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     time.sleep(0.01)
     default = self.FindRoutesWithGateway()
     self.assertTrue(default)
-    if net_test.LINUX_VERSION > (3, 12, 0):
-      # Vanilla linux earlier than 3.13 handles RIOs with zero length prefixes
-      # incorrectly. There's nothing useful to assert other than the existence
-      # of a default route.
-      # TODO: remove this condition after pulling bullhead/angler backports to
-      # other 3.10 flavors.
-      self.assertGreater(self.GetRouteExpiration(default[0]), self.RA_VALIDITY)
+    self.assertGreater(self.GetRouteExpiration(default[0]), self.RA_VALIDITY)
 
-  @unittest.skipUnless(HAVE_MAX_PLEN and multinetwork_base.HAVE_AUTOCONF_TABLE,
-                       "need support for RIO and per-table autoconf")
   def testManyRIOs(self):
     RTLIFETIME = 6809
     PLEN = 56
