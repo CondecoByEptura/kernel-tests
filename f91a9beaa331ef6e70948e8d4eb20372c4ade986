@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "14f713b1_6c967073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-10T07:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1338cc4c_ac80c105",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "f91a9beaa331ef6e70948e8d4eb20372c4ade986",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedaef52_d6174ded",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-07T06:35:25Z",
       "side": 1,
       "message": "Nit: I think you can dispense with this and just use plain AUTOCONF_TABLE.",
+      "range": {
+        "startLine": 576,
+        "startChar": 21,
+        "endLine": 576,
+        "endChar": 39
+      },
+      "revId": "f91a9beaa331ef6e70948e8d4eb20372c4ade986",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16dfe451_54f45ccc",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-10T07:00:27Z",
+      "side": 1,
+      "message": "If I make your suggested change I get the following error:\n\nTraceback (most recent call last):\n  File \"./multinetwork_test.py\", line 576, in \u003cmodule\u003e\n    @unittest.skipUnless(HAVE_AUTOCONF_TABLE, \"need support for per-table autoconf\")\nNameError: name \u0027HAVE_AUTOCONF_TABLE\u0027 is not defined\n\nThe other uses in this file follow the same pattern.",
+      "parentUuid": "cedaef52_d6174ded",
       "range": {
         "startLine": 576,
         "startChar": 21,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4b7a40e3_9a40dac4",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-10T07:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63301429_c5db2b48",
+      "range": {
+        "startLine": 593,
+        "startChar": 22,
+        "endLine": 593,
+        "endChar": 31
+      },
+      "revId": "f91a9beaa331ef6e70948e8d4eb20372c4ade986",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0297494_04e2c694",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2017-04-07T06:35:25Z",
       "side": 1,
       "message": "Looks like all these tests only check that RIOs are ignored. Might be worth adding a test that sets both min and max, sends an RIO with a length between the two, and then ensures that the route is added.",
+      "revId": "f91a9beaa331ef6e70948e8d4eb20372c4ade986",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dac55b4_5f680071",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-10T07:00:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0297494_04e2c694",
       "revId": "f91a9beaa331ef6e70948e8d4eb20372c4ade986",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
