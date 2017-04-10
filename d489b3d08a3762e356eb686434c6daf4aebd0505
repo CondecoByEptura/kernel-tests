@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0297f04_65be5d45",
+        "filename": "net/test/resilient_rs_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-10T03:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df8b3cf2_60db5ae8",
+      "range": {
+        "startLine": 3,
+        "startChar": 15,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "d489b3d08a3762e356eb686434c6daf4aebd0505",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84ab5cf_02828605",
         "filename": "net/test/resilient_rs_test.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-07T07:14:14Z",
       "side": 1,
       "message": "This SHA1 should be knowable at this time, yes?\n\nYou\u0027ll also want to be adding the SHA1s from the android common kernels you\u0027ve been merging.",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "d489b3d08a3762e356eb686434c6daf4aebd0505",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5756567b_55c2f54a",
+        "filename": "net/test/resilient_rs_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-10T03:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84ab5cf_02828605",
       "range": {
         "startLine": 50,
         "startChar": 6,
