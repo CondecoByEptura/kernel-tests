@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0150341_576492a8",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-04-12T06:19:27Z",
+      "side": 1,
+      "message": "Delete this space for alignment reasons.",
+      "range": {
+        "startLine": 310,
+        "startChar": 23,
+        "endLine": 310,
+        "endChar": 24
+      },
+      "revId": "41e8094aadf9f0fd998486a205f7b9154534d1d2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
