@@ -22,6 +22,30 @@
       "revId": "07a907ed76d81e38c939f766af7877c2241d17bc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1283d3b3_667610da",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-04-12T19:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81eced95_d51b16a6",
+      "range": {
+        "startLine": 309,
+        "startChar": 49,
+        "endLine": 309,
+        "endChar": 58
+      },
+      "revId": "07a907ed76d81e38c939f766af7877c2241d17bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
