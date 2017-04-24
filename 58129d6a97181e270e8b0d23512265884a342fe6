@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4001be7f_4462dc3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-04-24T08:21:55Z",
+      "side": 1,
+      "message": "RTM_DELROUTE?",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff9f46d1_faaaed61",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-04-24T08:21:55Z",
+      "side": 1,
+      "message": "Is this always RTPROT_KERNEL? What I see on my marlin is:\n\ndefault via fe80::86c9:b2ff:fe6a:ed4b dev wlan0  proto ra  metric 1024  expires 1752sec mtu 1498\n\nMight this be different in different kernel version?",
+      "range": {
+        "startLine": 671,
+        "startChar": 33,
+        "endLine": 671,
+        "endChar": 54
+      },
+      "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a93a1a47_cc0f5712",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-04-24T08:21:55Z",
+      "side": 1,
+      "message": "Limit lines to 80 characters.",
+      "range": {
+        "startLine": 671,
+        "startChar": 78,
+        "endLine": 671,
+        "endChar": 84
+      },
+      "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
