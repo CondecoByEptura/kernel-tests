@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6bc3490_8a97545c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-24T08:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4001be7f_4462dc3a",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff9f46d1_faaaed61",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 1
