@@ -68,6 +68,54 @@
       "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88d3d990_0a0d6963",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-24T08:31:09Z",
+      "side": 1,
+      "message": "net_test passes on android common 3.10, 3.18 and 4.4. Could ip -6 route be using some other information to determine RA-ness?",
+      "parentUuid": "ff9f46d1_faaaed61",
+      "range": {
+        "startLine": 671,
+        "startChar": 33,
+        "endLine": 671,
+        "endChar": 54
+      },
+      "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28068728_a5aaa18a",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-04-24T08:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a93a1a47_cc0f5712",
+      "range": {
+        "startLine": 671,
+        "startChar": 78,
+        "endLine": 671,
+        "endChar": 84
+      },
+      "revId": "58129d6a97181e270e8b0d23512265884a342fe6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
