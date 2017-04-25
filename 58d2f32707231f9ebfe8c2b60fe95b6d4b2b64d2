@@ -1,0 +1,8 @@
+Verified+1: Joel Scherpelz <jscherpelz@google.com>
+Code-Review+2: Lorenzo Colitti <lorenzo@google.com>
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Submitted-by: Joel Scherpelz <jscherpelz@google.com>
+Submitted-at: Tue, 25 Apr 2017 00:54:47 +0000
+Reviewed-on: https://android-review.googlesource.com/378852
+Project: kernel/tests
+Branch: refs/heads/master
