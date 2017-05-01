@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eb99a3d_48058175",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a6694aa_0aa62701",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "xt_qtaguid",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1437665_091ff997",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "Do you need this?",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 14
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67af4f9d_ceda757a",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "Extra blank line here",
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6063838_19c70fe1",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "Suggest:\n\n  for line in open(CTRL_PROCPATH, \u0027r\u0027).readlines():\n    if \"tag\u003d0x%x (uid\u003d%d)\" % (tag|uid, uid) in line:\n      return True\n  return false",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f03edd_eaab9eef",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "I think this would be clearer as:\n\n  command \u003d \"t %d %d %d\" % (sk.fileno(), tag, uid)",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 60
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "766bd570_da89a04f",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "Extra blank line before here.",
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c1d4560_466785bc",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-01T15:56:04Z",
+      "side": 1,
+      "message": "This space will cause an IndentationError. Remove.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
