@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce0c5159_4507496c",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb99a3d_48058175",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6694aa_0aa62701",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-01T15:56:04Z",
       "side": 1,
       "message": "xt_qtaguid",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74041ea8_418d422f",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a6694aa_0aa62701",
       "range": {
         "startLine": 17,
         "startChar": 18,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3c712ef0_dab00113",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1437665_091ff997",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 14
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67af4f9d_ceda757a",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "2553cbe1_1521a130",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67af4f9d_ceda757a",
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6063838_19c70fe1",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -99,6 +189,30 @@
       "writtenOn": "2017-05-01T15:56:04Z",
       "side": 1,
       "message": "Suggest:\n\n  for line in open(CTRL_PROCPATH, \u0027r\u0027).readlines():\n    if \"tag\u003d0x%x (uid\u003d%d)\" % (tag|uid, uid) in line:\n      return True\n  return false",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caba49e0_db646048",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6063838_19c70fe1",
       "range": {
         "startLine": 34,
         "startChar": 0,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "5617c033_e6415c92",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32f03edd_eaab9eef",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 60
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "766bd570_da89a04f",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "de3e39fd_bda5d0c2",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "766bd570_da89a04f",
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c1d4560_466785bc",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -162,6 +318,30 @@
       "writtenOn": "2017-05-01T15:56:04Z",
       "side": 1,
       "message": "This space will cause an IndentationError. Remove.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 1
+      },
+      "revId": "1747394ea6e1765a80e777fa623c0abe34902cd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f78aaacf_d9a816ae",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-01T17:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c1d4560_466785bc",
       "range": {
         "startLine": 66,
         "startChar": 0,
