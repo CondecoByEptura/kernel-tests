@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48808543_902eef69",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "Non-test methods should use SentenceCase. So this should be SetIptablesRule. Also elsewhere.",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb9dd45_b88c5abd",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "CheckTag",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87edfc54_c35a8dce",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "Can you use % for consistency with the rest of the code?\n\n  if \"tag\u003d0x%x (uid\u003d%d)\" % (tag|uid, uid) in line:",
+      "range": {
+        "startLine": 38,
+        "startChar": 9,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "780e0419_886aee69",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "SetIptablesRule",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "764557ce_72211d9f",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "Add a TODO to refactor this out to a net_test.RunIptablesCommand method.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d18f3d0_0c5b343e",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "does not pass on current kernels",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "778a26cb_eec8223d",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "does not pass on current kernels",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 35
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f5b88b0_5a6cc00e",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "Please add IPv6 support as well, there should be no IPv4-only code here.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 22
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11431df1_56e53c46",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "Why csocket.Recvfrom instead of just s.recvfrom?",
+      "range": {
+        "startLine": 90,
+        "startChar": 25,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eefd8edb_3bb3364e",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-02T02:01:52Z",
+      "side": 1,
+      "message": "does not pass on current kernels",
+      "range": {
+        "startLine": 108,
+        "startChar": 18,
+        "endLine": 108,
+        "endChar": 34
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
