@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f3a4f851_345b8204",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48808543_902eef69",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eb9dd45_b88c5abd",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-02T02:01:52Z",
       "side": 1,
       "message": "CheckTag",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbf0e98e_7bfc5754",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb9dd45_b88c5abd",
       "range": {
         "startLine": 36,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1aee2af7_a181b475",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87edfc54_c35a8dce",
+      "range": {
+        "startLine": 38,
+        "startChar": 9,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "780e0419_886aee69",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-02T02:01:52Z",
       "side": 1,
       "message": "SetIptablesRule",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4181479_677aa7c8",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "780e0419_886aee69",
       "range": {
         "startLine": 42,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d4bec655_ed2edaa3",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "764557ce_72211d9f",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d18f3d0_0c5b343e",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -128,6 +248,30 @@
       "writtenOn": "2017-05-02T02:01:52Z",
       "side": 1,
       "message": "does not pass on current kernels",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f70e8b8a_c830ca6a",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d18f3d0_0c5b343e",
       "range": {
         "startLine": 54,
         "startChar": 18,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "299f750e_525c1f63",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778a26cb_eec8223d",
+      "range": {
+        "startLine": 67,
+        "startChar": 18,
+        "endLine": 67,
+        "endChar": 35
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f5b88b0_5a6cc00e",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -174,6 +342,30 @@
       "writtenOn": "2017-05-02T02:01:52Z",
       "side": 1,
       "message": "Please add IPv6 support as well, there should be no IPv4-only code here.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 22
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b553e22_0bed0571",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5b88b0_5a6cc00e",
       "range": {
         "startLine": 83,
         "startChar": 4,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "41dbcf23_c0d60744",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11431df1_56e53c46",
+      "range": {
+        "startLine": 90,
+        "startChar": 25,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eefd8edb_3bb3364e",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -220,6 +436,30 @@
       "writtenOn": "2017-05-02T02:01:52Z",
       "side": 1,
       "message": "does not pass on current kernels",
+      "range": {
+        "startLine": 108,
+        "startChar": 18,
+        "endLine": 108,
+        "endChar": 34
+      },
+      "revId": "2fca8143fa4641cc1fd64507b465e8c1b1970f78",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b661682f_f3b8829d",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-02T03:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eefd8edb_3bb3364e",
       "range": {
         "startLine": 108,
         "startChar": 18,
