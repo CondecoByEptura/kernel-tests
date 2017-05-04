@@ -36,6 +36,8 @@ BPF_MAP_GET_NEXT_KEY = 4
 BPF_PROG_LOAD = 5
 BPF_OBJ_PIN = 6
 BPF_OBJ_GET = 7
+BPF_PROG_ATTACH = 8
+BPF_PROG_DETACH = 9
 SO_ATTACH_BPF = 50
 
 # BPF map type constant.
@@ -51,6 +53,17 @@ BPF_PROG_TYPE_SOCKET_FILTER = 1
 BPF_PROG_TYPE_KPROBE = 2
 BPF_PROG_TYPE_SCHED_CLS = 3
 BPF_PROG_TYPE_SCHED_ACT = 4
+BPF_PROG_TYPE_TRACEPOINT = 5
+BPF_PROG_TYPE_XDP = 6
+BPF_PROG_TYPE_PERF_EVENT = 7
+BPF_PROG_TYPE_CGROUP_SKB = 8
+BPF_PROG_TYPE_CGROUP_SOCK = 9
+
+# BPF program attach type.
+BPF_CGROUP_INET_INGRESS = 0
+BPF_CGROUP_INET_EGRESS = 1
+BPF_CGROUP_INET_SOCK_CREATE = 2
+__MAX_BPF_ATTACH_TYPE = 3
 
 # BPF register constant
 BPF_REG_0 = 0
@@ -124,6 +137,8 @@ BPF_FUNC_unspec = 0
 BPF_FUNC_map_lookup_elem = 1
 BPF_FUNC_map_update_elem = 2
 BPF_FUNC_map_delete_elem = 3
+BPF_FUNC_get_socket_cookie = 46
+BPF_FUNC_get_socket_uid = 47
 
 # BPF attr struct
 BpfAttrCreate = cstruct.Struct("bpf_attr_create", "=IIII",
@@ -133,6 +148,8 @@ BpfAttrOps = cstruct.Struct("bpf_attr_ops", "=QQQQ",
 BpfAttrProgLoad = cstruct.Struct(
     "bpf_attr_prog_load", "=IIQQIIQI", "prog_type insn_cnt insns"
     " license log_level log_size log_buf kern_version")
+BpfAttrProgAttach = cstruct.Struct(
+    "bpf_attr_prog_attach", "=III", "target_fd attach_bpf_fd attach_type")
 BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
@@ -204,6 +221,21 @@ def BpfProgAttachSocket(sock_fd, prog_fd):
   ret = libc.setsockopt(sock_fd, socket.SOL_SOCKET, SO_ATTACH_BPF,
                         ctypes.addressof(prog_ptr), ctypes.sizeof(prog_ptr))
   csocket.MaybeRaiseSocketError(ret)
+
+
+def BpfProgAttach(prog_fd, target_fd, prog_type):
+  attr = BpfAttrProgAttach(
+      (target_fd, prog_fd, prog_type))
+  ret = libc.syscall(__NR_bpf, BPF_PROG_ATTACH, attr.CPointer(), len(attr))
+  csocket.MaybeRaiseSocketError(ret)
+  return ret
+
+
+def BpfProgDetach(target_fd, prog_type):
+  attr = BpfAttrProgAttach((target_fd, 0, prog_type))
+  ret = libc.syscall(__NR_bpf, BPF_PROG_DETACH, attr.CPointer(), len(attr))
+  csocket.MaybeRaiseSocketError(ret)
+  return ret
 
 
 # BPF program command constructors
@@ -293,4 +325,16 @@ def BpfFuncDeleteMap():
   code = BPF_JMP | BPF_CALL
   dst_src = 0
   ret = BpfInsn((code, dst_src, 0, BPF_FUNC_map_delete_elem))
+  return ret.Pack()
+
+def BpfFuncGetSocketCookie():
+  code = BPF_JMP | BPF_CALL
+  dst_src = 0
+  ret = BpfInsn((code, dst_src, 0, BPF_FUNC_get_socket_cookie))
+  return ret.Pack()
+
+def BpfFuncGetSocketUid():
+  code = BPF_JMP | BPF_CALL
+  dst_src = 0
+  ret = BpfInsn((code, dst_src, 0, BPF_FUNC_get_socket_uid))
   return ret.Pack()
