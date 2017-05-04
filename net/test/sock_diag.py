@@ -25,7 +25,7 @@ import struct
 
 import csocket
 import qstruct
-import net_test
+import net_testbase
 import netlink
 
 ### Base netlink constants. See include/uapi/linux/netlink.h.
@@ -353,11 +353,11 @@ class SockDiag(netlink.NetlinkSocket):
   @staticmethod
   def DiagReqFromSocket(s):
     """Creates an InetDiagReqV2 that matches the specified socket."""
-    family = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_DOMAIN)
-    protocol = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_PROTOCOL)
-    if net_test.LINUX_VERSION >= (3, 8):
-      iface = s.getsockopt(SOL_SOCKET, net_test.SO_BINDTODEVICE,
-                           net_test.IFNAMSIZ)
+    family = s.getsockopt(net_testbase.SOL_SOCKET, net_testbase.SO_DOMAIN)
+    protocol = s.getsockopt(net_testbase.SOL_SOCKET, net_testbase.SO_PROTOCOL)
+    if net_testbase.LINUX_VERSION >= (3, 8):
+      iface = s.getsockopt(SOL_SOCKET, net_testbase.SO_BINDTODEVICE,
+                           net_testbase.IFNAMSIZ)
       iface = GetInterfaceIndex(iface) if iface else 0
     else:
       iface = 0
@@ -411,7 +411,7 @@ class SockDiag(netlink.NetlinkSocket):
 
   def CloseSocketFromFd(self, s):
     diag_msg, attrs = self.FindSockInfoFromFd(s)
-    protocol = s.getsockopt(SOL_SOCKET, net_test.SO_PROTOCOL)
+    protocol = s.getsockopt(SOL_SOCKET, net_testbase.SO_PROTOCOL)
     req = self.DiagReqFromDiagMsg(diag_msg, protocol)
     return self.CloseSocket(req)
 

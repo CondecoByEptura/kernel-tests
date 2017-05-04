@@ -26,12 +26,12 @@ from scapy import all as scapy
 
 import csocket
 import iproute
-import multinetwork_base
-import net_test
+import multinetwork_testbase
+import net_testbase
 import packets
 
 # For brevity.
-UDP_PAYLOAD = net_test.UDP_PAYLOAD
+UDP_PAYLOAD = net_testbase.UDP_PAYLOAD
 
 IPV6_FLOWINFO = 11
 
@@ -41,14 +41,14 @@ SYNCOOKIES_SYSCTL = "/proc/sys/net/ipv4/tcp_syncookies"
 TCP_MARK_ACCEPT_SYSCTL = "/proc/sys/net/ipv4/tcp_fwmark_accept"
 
 # The IP[V6]UNICAST_IF socket option was added between 3.1 and 3.4.
-HAVE_UNICAST_IF = net_test.LINUX_VERSION >= (3, 4, 0)
+HAVE_UNICAST_IF = net_testbase.LINUX_VERSION >= (3, 4, 0)
 
 
 class ConfigurationError(AssertionError):
   pass
 
 
-class InboundMarkingTest(multinetwork_base.MultiNetworkBaseTest):
+class InboundMarkingTest(multinetwork_testbase.MultiNetworkTest):
 
   @classmethod
   def _SetInboundMarking(cls, netid, is_add):
@@ -85,18 +85,18 @@ class InboundMarkingTest(multinetwork_base.MultiNetworkBaseTest):
       pass
 
 
-class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
+class OutgoingTest(multinetwork_testbase.MultiNetworkTest):
 
   # How many times to run outgoing packet tests.
   ITERATIONS = 5
 
   def CheckPingPacket(self, version, netid, routing_mode, dstaddr, packet):
-    s = self.BuildSocket(version, net_test.PingSocket, netid, routing_mode)
+    s = self.BuildSocket(version, net_testbase.PingSocket, netid, routing_mode)
 
     myaddr = self.MyAddress(version, netid)
     s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
     s.bind((myaddr, packets.PING_IDENT))
-    net_test.SetSocketTos(s, packets.PING_TOS)
+    net_testbase.SetSocketTos(s, packets.PING_TOS)
 
     desc, expected = packets.ICMPEcho(version, myaddr, dstaddr)
     msg = "IPv%d ping: expected %s on %s" % (
@@ -107,7 +107,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectPacketOn(netid, msg, expected)
 
   def CheckTCPSYNPacket(self, version, netid, routing_mode, dstaddr):
-    s = self.BuildSocket(version, net_test.TCPSocket, netid, routing_mode)
+    s = self.BuildSocket(version, net_testbase.TCPSocket, netid, routing_mode)
 
     if version == 6 and dstaddr.startswith("::ffff"):
       version = 4
@@ -123,7 +123,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     s.close()
 
   def CheckUDPPacket(self, version, netid, routing_mode, dstaddr):
-    s = self.BuildSocket(version, net_test.UDPSocket, netid, routing_mode)
+    s = self.BuildSocket(version, net_testbase.UDPSocket, netid, routing_mode)
 
     if version == 6 and dstaddr.startswith("::ffff"):
       version = 4
@@ -143,14 +143,14 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
       s.close()
 
   def CheckRawGrePacket(self, version, netid, routing_mode, dstaddr):
-    s = self.BuildSocket(version, net_test.RawGRESocket, netid, routing_mode)
+    s = self.BuildSocket(version, net_testbase.RawGRESocket, netid, routing_mode)
 
     inner_version = {4: 6, 6: 4}[version]
     inner_src = self.MyAddress(inner_version, netid)
     inner_dst = self.GetRemoteAddress(inner_version)
     inner = str(packets.UDP(inner_version, inner_src, inner_dst, sport=None)[1])
 
-    ethertype = {4: net_test.ETH_P_IP, 6: net_test.ETH_P_IPV6}[inner_version]
+    ethertype = {4: net_testbase.ETH_P_IP, 6: net_testbase.ETH_P_IPV6}[inner_version]
     # A GRE header can be as simple as two zero bytes and the ethertype.
     packet = struct.pack("!i", ethertype) + inner
     myaddr = self.MyAddress(version, netid)
@@ -215,10 +215,10 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
       modes += ["ucast_oif"]
 
     for mode in modes:
-      s = net_test.UDPSocket(self.GetProtocolFamily(version))
+      s = net_testbase.UDPSocket(self.GetProtocolFamily(version))
 
       # Figure out what packets to expect.
-      sport = net_test.BindRandomPort(version, s)
+      sport = net_testbase.BindRandomPort(version, s)
       dstaddr = {4: self.IPV4_ADDR, 6: self.IPV6_ADDR}[version]
       unspec = {4: "0.0.0.0", 6: "::"}[version]  # Placeholder.
       desc, expected = packets.UDP(version, unspec, dstaddr, sport)
@@ -283,11 +283,11 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
   def testIPv6StickyPktinfo(self):
     for _ in xrange(self.ITERATIONS):
       for netid in self.tuns:
-        s = net_test.UDPSocket(AF_INET6)
+        s = net_testbase.UDPSocket(AF_INET6)
 
         # Set a flowlabel.
-        net_test.SetFlowLabel(s, net_test.IPV6_ADDR, 0xdead)
-        s.setsockopt(net_test.SOL_IPV6, net_test.IPV6_FLOWINFO_SEND, 1)
+        net_testbase.SetFlowLabel(s, net_testbase.IPV6_ADDR, 0xdead)
+        s.setsockopt(net_testbase.SOL_IPV6, net_testbase.IPV6_FLOWINFO_SEND, 1)
 
         # Set some destination options.
         nonce = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c"
@@ -297,20 +297,20 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
             "\x8b\x0c",              # ILNP nonce, 12 bytes.
             nonce
         ])
-        s.setsockopt(net_test.SOL_IPV6, IPV6_DSTOPTS, dstopts)
-        s.setsockopt(net_test.SOL_IPV6, IPV6_UNICAST_HOPS, 255)
+        s.setsockopt(net_testbase.SOL_IPV6, IPV6_DSTOPTS, dstopts)
+        s.setsockopt(net_testbase.SOL_IPV6, IPV6_UNICAST_HOPS, 255)
 
-        pktinfo = multinetwork_base.MakePktInfo(6, None, self.ifindices[netid])
+        pktinfo = multinetwork_testbase.MakePktInfo(6, None, self.ifindices[netid])
 
         # Set the sticky pktinfo option.
-        s.setsockopt(net_test.SOL_IPV6, IPV6_PKTINFO, pktinfo)
+        s.setsockopt(net_testbase.SOL_IPV6, IPV6_PKTINFO, pktinfo)
 
         # Specify the flowlabel in the destination address.
-        s.sendto(UDP_PAYLOAD, (net_test.IPV6_ADDR, 53, 0xdead, 0))
+        s.sendto(UDP_PAYLOAD, (net_testbase.IPV6_ADDR, 53, 0xdead, 0))
 
         sport = s.getsockname()[1]
         srcaddr = self.MyAddress(6, netid)
-        expected = (scapy.IPv6(src=srcaddr, dst=net_test.IPV6_ADDR,
+        expected = (scapy.IPv6(src=srcaddr, dst=net_testbase.IPV6_ADDR,
                                fl=0xdead, hlim=255) /
                     scapy.IPv6ExtHdrDestOpt(
                         options=[scapy.PadN(optdata="\x00\x00\x00\x00\x00\x00"),
@@ -326,23 +326,23 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     for _ in xrange(self.ITERATIONS):
       for netid in self.tuns:
         family = self.GetProtocolFamily(version)
-        s = net_test.UDPSocket(family)
+        s = net_testbase.UDPSocket(family)
 
         if version == 6:
           # Create a flowlabel so we can use it.
-          net_test.SetFlowLabel(s, net_test.IPV6_ADDR, 0xbeef)
+          net_testbase.SetFlowLabel(s, net_testbase.IPV6_ADDR, 0xbeef)
 
           # Specify some arbitrary options.
           cmsgs = [
-              (net_test.SOL_IPV6, IPV6_HOPLIMIT, 39),
-              (net_test.SOL_IPV6, IPV6_TCLASS, 0x83),
-              (net_test.SOL_IPV6, IPV6_FLOWINFO, int(htonl(0xbeef))),
+              (net_testbase.SOL_IPV6, IPV6_HOPLIMIT, 39),
+              (net_testbase.SOL_IPV6, IPV6_TCLASS, 0x83),
+              (net_testbase.SOL_IPV6, IPV6_FLOWINFO, int(htonl(0xbeef))),
           ]
         else:
           # Support for setting IPv4 TOS and TTL via cmsg only appeared in 3.13.
           cmsgs = []
-          s.setsockopt(net_test.SOL_IP, IP_TTL, 39)
-          s.setsockopt(net_test.SOL_IP, IP_TOS, 0x83)
+          s.setsockopt(net_testbase.SOL_IP, IP_TTL, 39)
+          s.setsockopt(net_testbase.SOL_IP, IP_TOS, 0x83)
 
         dstaddr = self.GetRemoteAddress(version)
         self.SendOnNetid(version, s, dstaddr, 53, netid, UDP_PAYLOAD, cmsgs)
@@ -443,8 +443,8 @@ class TCPAcceptTest(InboundMarkingTest):
     # bug causes incoming packets to mark the listening socket instead of the
     # accepted socket, the test will fail as soon as the next address/interface
     # combination is tried.
-    cls.listensocket = net_test.IPv6TCPSocket()
-    cls.listenport = net_test.BindRandomPort(6, cls.listensocket)
+    cls.listensocket = net_testbase.IPv6TCPSocket()
+    cls.listenport = net_testbase.BindRandomPort(6, cls.listensocket)
 
   def _SetTCPMarkAcceptSysctl(self, value):
     self.SetSysctl(TCP_MARK_ACCEPT_SYSCTL, value)
@@ -462,7 +462,7 @@ class TCPAcceptTest(InboundMarkingTest):
     # is routed to the specified netid, because the UID of the socket returned
     # by accept() is the effective UID of the process that calls it. It doesn't
     # need to be the same UID; any UID that selects the same interface will do.
-    with net_test.RunAsUid(self.UidForNetid(netid)):
+    with net_testbase.RunAsUid(self.UidForNetid(netid)):
       s, _ = listensocket.accept()
 
     try:
@@ -572,9 +572,9 @@ class TCPAcceptTest(InboundMarkingTest):
   def testIPv6ExplicitMark(self):
     self.CheckTCP(6, [self.MODE_EXPLICIT_MARK])
 
-@unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
+@unittest.skipUnless(multinetwork_testbase.HAVE_AUTOCONF_TABLE,
                      "need support for per-table autoconf")
-class RIOTest(multinetwork_base.MultiNetworkBaseTest):
+class RIOTest(multinetwork_testbase.MultiNetworkTest):
   """Test for IPv6 RFC 4191 route information option
 
   Relevant kernel commits:
@@ -634,7 +634,7 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     self.SendRA(self.NETID, options=(options,))
 
   def FindRoutesWithDestination(self, destination):
-    canonical = net_test.CanonicalizeIPv6Address(destination)
+    canonical = net_testbase.CanonicalizeIPv6Address(destination)
     return [r for _, r in self.iproute.DumpRoutes(6, self.GetRoutingTable())
             if ('RTA_DST' in r and r['RTA_DST'] == canonical)]
 
@@ -796,25 +796,25 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect that we can return to baseline config without lingering routes.
     self.assertEquals(baseline, self.CountRoutes())
 
-class RATest(multinetwork_base.MultiNetworkBaseTest):
+class RATest(multinetwork_testbase.MultiNetworkTest):
 
   def testDoesNotHaveObsoleteSysctl(self):
     self.assertFalse(os.path.isfile(
         "/proc/sys/net/ipv6/route/autoconf_table_offset"))
 
-  @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
+  @unittest.skipUnless(multinetwork_testbase.HAVE_AUTOCONF_TABLE,
                        "no support for per-table autoconf")
   def testPurgeDefaultRouters(self):
 
     def CheckIPv6Connectivity(expect_connectivity):
       for netid in self.NETIDS:
-        s = net_test.UDPSocket(AF_INET6)
+        s = net_testbase.UDPSocket(AF_INET6)
         self.SetSocketMark(s, netid)
         if expect_connectivity:
-          self.assertTrue(s.sendto(UDP_PAYLOAD, (net_test.IPV6_ADDR, 1234)))
+          self.assertTrue(s.sendto(UDP_PAYLOAD, (net_testbase.IPV6_ADDR, 1234)))
         else:
           self.assertRaisesErrno(errno.ENETUNREACH, s.sendto, UDP_PAYLOAD,
-                                 (net_test.IPV6_ADDR, 1234))
+                                 (net_testbase.IPV6_ADDR, 1234))
 
     try:
       CheckIPv6Connectivity(True)
@@ -831,7 +831,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     """Checks that on-link communication goes direct and not through routers."""
     for netid in self.tuns:
       # Send a UDP packet to a random on-link destination.
-      s = net_test.UDPSocket(AF_INET6)
+      s = net_testbase.UDPSocket(AF_INET6)
       iface = self.GetInterfaceName(netid)
       self.BindToDevice(s, iface)
       # dstaddr can never be our address because GetRandomDestination only fills
@@ -865,7 +865,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
       self.ExpectPacketOn(netid, msg, expected)
 
   # This test documents a known issue: routing tables are never deleted.
-  @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
+  @unittest.skipUnless(multinetwork_testbase.HAVE_AUTOCONF_TABLE,
                        "no support for per-table autoconf")
   def testLeftoverRoutes(self):
     def GetNumRoutes():
@@ -889,20 +889,20 @@ class PMTUTest(InboundMarkingTest):
 
   def GetSocketMTU(self, version, s):
     if version == 6:
-      ip6_mtuinfo = s.getsockopt(net_test.SOL_IPV6, csocket.IPV6_PATHMTU, 32)
+      ip6_mtuinfo = s.getsockopt(net_testbase.SOL_IPV6, csocket.IPV6_PATHMTU, 32)
       unused_sockaddr, mtu = struct.unpack("=28sI", ip6_mtuinfo)
       return mtu
     else:
-      return s.getsockopt(net_test.SOL_IP, csocket.IP_MTU)
+      return s.getsockopt(net_testbase.SOL_IP, csocket.IP_MTU)
 
   def DisableFragmentationAndReportErrors(self, version, s):
     if version == 4:
-      s.setsockopt(net_test.SOL_IP, csocket.IP_MTU_DISCOVER,
+      s.setsockopt(net_testbase.SOL_IP, csocket.IP_MTU_DISCOVER,
                    csocket.IP_PMTUDISC_DO)
-      s.setsockopt(net_test.SOL_IP, net_test.IP_RECVERR, 1)
+      s.setsockopt(net_testbase.SOL_IP, net_testbase.IP_RECVERR, 1)
     else:
-      s.setsockopt(net_test.SOL_IPV6, csocket.IPV6_DONTFRAG, 1)
-      s.setsockopt(net_test.SOL_IPV6, net_test.IPV6_RECVERR, 1)
+      s.setsockopt(net_testbase.SOL_IPV6, csocket.IPV6_DONTFRAG, 1)
+      s.setsockopt(net_testbase.SOL_IPV6, net_testbase.IPV6_RECVERR, 1)
 
   def CheckPMTU(self, version, use_connect, modes):
 
@@ -914,7 +914,7 @@ class PMTUTest(InboundMarkingTest):
 
     for netid in self.tuns:
       for mode in modes:
-        s = self.BuildSocket(version, net_test.UDPSocket, netid, mode)
+        s = self.BuildSocket(version, net_testbase.UDPSocket, netid, mode)
         self.DisableFragmentationAndReportErrors(version, s)
 
         srcaddr = self.MyAddress(version, netid)
@@ -953,7 +953,7 @@ class PMTUTest(InboundMarkingTest):
 
         # If this is a connected socket, make sure the socket MTU was set.
         # Note that in IPv4 this only started working in Linux 3.6!
-        if use_connect and (version == 6 or net_test.LINUX_VERSION >= (3, 6)):
+        if use_connect and (version == 6 or net_testbase.LINUX_VERSION >= (3, 6)):
           self.assertEquals(1280, self.GetSocketMTU(version, s))
 
         s.close()
@@ -962,7 +962,7 @@ class PMTUTest(InboundMarkingTest):
         # connecting another socket to the same destination and getting its MTU.
         # This new socket can use any method to select its outgoing interface;
         # here we use a mark for simplicity.
-        s2 = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
+        s2 = self.BuildSocket(version, net_testbase.UDPSocket, netid, "mark")
         s2.connect((dstaddr, 1234))
         self.assertEquals(1280, self.GetSocketMTU(version, s2))
 
@@ -1021,7 +1021,7 @@ class PMTUTest(InboundMarkingTest):
       self.SetMarkReflectSysctls(0)
 
 
-class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
+class UidRoutingTest(multinetwork_testbase.MultiNetworkTest):
   """Tests that per-UID routing works properly.
 
   Relevant kernel commits:
@@ -1133,7 +1133,7 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
 
     # Test that EEXIST worksfor UID range rules too. This behaviour was only
     # added in 4.8.
-    if net_test.LINUX_VERSION >= (4, 8, 0):
+    if net_testbase.LINUX_VERSION >= (4, 8, 0):
       ranges = [(100, 101), (100, 102), (99, 101), (1234, 5678)]
       dup = ranges[0]
       try:
@@ -1184,10 +1184,10 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectNoRoute(addr, 0, 0, 0)
 
   def testIPv4RouteGet(self):
-    self.CheckGetRoute(4, net_test.IPV4_ADDR)
+    self.CheckGetRoute(4, net_testbase.IPV4_ADDR)
 
   def testIPv6RouteGet(self):
-    self.CheckGetRoute(6, net_test.IPV6_ADDR)
+    self.CheckGetRoute(6, net_testbase.IPV6_ADDR)
 
   def testChangeFdAttributes(self):
     netid = random.choice(self.NETIDS)
@@ -1220,7 +1220,7 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
       self.iproute.UidRangeRule(6, False, uid, uid, table, self.PRIORITY_UID)
 
 
-class RulesTest(net_test.NetworkTest):
+class RulesTest(net_testbase.NetworkTest):
 
   RULE_PRIORITY = 99999
 

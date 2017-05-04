@@ -23,8 +23,8 @@ import struct
 import subprocess
 import unittest
 
-import multinetwork_base
-import net_test
+import multinetwork_testbase
+import net_testbase
 import xfrm
 
 XFRM_ADDR_ANY = 16 * "\x00"
@@ -45,7 +45,7 @@ ALL_ALGORITHMS = 0xffffffff
 ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
 ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
-class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
+class XfrmTest(multinetwork_testbase.MultiNetworkTest):
 
   @classmethod
   def setUpClass(cls):
@@ -96,7 +96,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
       self.xfrm.DeleteSaInfo(TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP)
 
 
-  @unittest.skipUnless(net_test.LINUX_VERSION < (4, 4, 0), "regression")
+  @unittest.skipUnless(net_testbase.LINUX_VERSION < (4, 4, 0), "regression")
   def testSocketPolicy(self):
     # Open an IPv6 UDP socket and connect it.
     s = socket(AF_INET6, SOCK_DGRAM, 0)
@@ -140,7 +140,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     # matches the socket policy we set.
     self.assertRaisesErrno(
         EAGAIN,
-        s.sendto, net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
+        s.sendto, net_testbase.UDP_PAYLOAD, (TEST_ADDR1, 53))
 
     # Adding a matching SA causes the packet to go out encrypted. The SA's
     # SPI must match the one in our template, and the destination address must
@@ -152,19 +152,19 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                                ALGO_CBC_AES_256, ENCRYPTION_KEY,
                                ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
 
-    s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
+    s.sendto(net_testbase.UDP_PAYLOAD, (TEST_ADDR1, 53))
     self.expectIPv6EspPacketOn(netid, TEST_SPI, 1, 84)
 
     # Sending to another destination doesn't work: again, no matching SA.
     self.assertRaisesErrno(
         EAGAIN,
-        s.sendto, net_test.UDP_PAYLOAD, (TEST_ADDR2, 53))
+        s.sendto, net_testbase.UDP_PAYLOAD, (TEST_ADDR2, 53))
 
     # Sending on another socket without the policy applied results in an
     # unencrypted packet going out.
     s2 = socket(AF_INET6, SOCK_DGRAM, 0)
     self.SelectInterface(s2, netid, "mark")
-    s2.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
+    s2.sendto(net_testbase.UDP_PAYLOAD, (TEST_ADDR1, 53))
     packets = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(packets))
     packet = packets[0]
@@ -174,7 +174,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     self.xfrm.DeleteSaInfo(TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP)
     self.assertRaisesErrno(
         EAGAIN,
-        s.sendto, net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
+        s.sendto, net_testbase.UDP_PAYLOAD, (TEST_ADDR1, 53))
 
 
   def testUdpEncapWithSocketPolicy(self):
@@ -187,7 +187,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     # packets works without this (and potentially can send packets with a source
     # port belonging to another application), but receiving requires the port to
     # be bound and the encapsulation socket option enabled.
-    encap_socket = net_test.Socket(AF_INET, SOCK_DGRAM, 0)
+    encap_socket = net_testbase.Socket(AF_INET, SOCK_DGRAM, 0)
     encap_socket.bind((myaddr, 0))
     encap_port = encap_socket.getsockname()[1]
     encap_socket.setsockopt(IPPROTO_UDP, xfrm.UDP_ENCAP,
@@ -271,7 +271,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     # be sent from srcport to port 53. Open another socket on that port, and
     # apply the inbound policy to it.
     twisted_socket = socket(AF_INET, SOCK_DGRAM, 0)
-    net_test.SetSocketTimeout(twisted_socket, 100)
+    net_testbase.SetSocketTimeout(twisted_socket, 100)
     twisted_socket.bind(("0.0.0.0", 53))
 
     # TODO: why does this work even without the per-socket policy applied? The

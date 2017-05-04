@@ -18,7 +18,7 @@ import ctypes
 
 import csocket
 import qstruct
-import net_test
+import net_testbase
 import socket
 
 # TODO: figure out how to make this arch-dependent if we run these tests
@@ -136,7 +136,7 @@ BpfAttrProgLoad = qstruct.Struct(
 BpfInsn = qstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
-HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
+HAVE_EBPF_SUPPORT = net_testbase.LINUX_VERSION >= (4, 4, 0)
 
 
 # BPF program syscalls

@@ -20,11 +20,11 @@ import errno
 from socket import *  # pylint: disable=wildcard-import
 import unittest
 import os
-import net_test
+import net_testbase
 
 CTRL_PROCPATH = "/proc/net/xt_qtaguid/ctrl"
 
-class QtaguidTest(net_test.NetworkTest):
+class QtaguidTest(net_testbase.NetworkTest):
 
   def WriteToCtrl(self, command):
     ctrl_file = open(CTRL_PROCPATH, 'w')
@@ -41,7 +41,7 @@ class QtaguidTest(net_test.NetworkTest):
     add_del = "-A" if is_add else "-D"
     uid_gid = "--gid-owner" if is_gid else "--uid-owner"
     args = "%s OUTPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
-    self.assertFalse(net_test.RunIptablesCommand(version, args))
+    self.assertFalse(net_testbase.RunIptablesCommand(version, args))
 
   def CheckSocketOutput(self, version, is_gid):
     myId = os.getgid() if is_gid else os.getuid()

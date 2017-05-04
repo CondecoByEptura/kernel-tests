@@ -17,10 +17,10 @@
 import unittest
 
 import gzip
-import net_test
+import net_testbase
 
 
-class RemovedFeatureTest(net_test.NetworkTest):
+class RemovedFeatureTest(net_testbase.NetworkTest):
   KCONFIG = None
 
   @classmethod

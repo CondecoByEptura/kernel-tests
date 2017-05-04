@@ -22,8 +22,8 @@ import unittest
 
 from scapy import all as scapy
 
-import multinetwork_base
-import net_test
+import multinetwork_testbase
+import net_testbase
 
 
 RTMGRP_NEIGH = 4
@@ -38,7 +38,7 @@ NUD_PERMANENT = 0x80
 
 
 # TODO: Support IPv4.
-class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
+class NeighbourTest(multinetwork_testbase.MultiNetworkTest):
 
   # Set a 500-ms retrans timer so we can test for ND retransmits without
   # waiting too long. Apparently this cannot go below 500ms.
@@ -81,7 +81,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
 
     self.sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE)
     self.sock.bind((0, RTMGRP_NEIGH))
-    net_test.SetNonBlocking(self.sock)
+    net_testbase.SetNonBlocking(self.sock)
 
     self.netid = random.choice(self.tuns.keys())
     self.ifindex = self.ifindices[self.netid]
@@ -195,9 +195,9 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
 
     # Send a packet and check that we go into DELAY.
     routing_mode = random.choice(["mark", "oif", "uid"])
-    s = self.BuildSocket(6, net_test.UDPSocket, self.netid, routing_mode)
-    s.connect((net_test.IPV6_ADDR, 53))
-    s.send(net_test.UDP_PAYLOAD)
+    s = self.BuildSocket(6, net_testbase.UDPSocket, self.netid, routing_mode)
+    s.connect((net_testbase.IPV6_ADDR, 53))
+    s.send(net_testbase.UDP_PAYLOAD)
     self.assertNeighbourState(NUD_DELAY, router6)
 
     # Wait for the probe interval, then check that we're in PROBE, and that the
@@ -210,7 +210,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     # Respond to the NS and verify we're in REACHABLE again.
     self.ReceiveUnicastAdvertisement(router6, self.RouterMacAddress(self.netid))
     self.assertNeighbourState(NUD_REACHABLE, router6)
-    if net_test.LINUX_VERSION >= (3, 13, 0):
+    if net_testbase.LINUX_VERSION >= (3, 13, 0):
       # commit 53385d2 (v3.13) "neigh: Netlink notification for administrative
       # NUD state change" produces notifications for NUD_REACHABLE, but these
       # are not generated on earlier kernels.
@@ -222,7 +222,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectNeighbourNotification(router6, NUD_STALE)
 
     # Send a packet, and verify we go into DELAY and then to PROBE.
-    s.send(net_test.UDP_PAYLOAD)
+    s.send(net_testbase.UDP_PAYLOAD)
     self.assertNeighbourState(NUD_DELAY, router6)
     self.SleepMs(self.DELAY_TIME_MS * 1.1)
     self.assertNeighbourState(NUD_PROBE, router6)
@@ -277,9 +277,9 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
 
     # Send another packet and expect a multicast NS.
     routing_mode = random.choice(["mark", "oif", "uid"])
-    s = self.BuildSocket(6, net_test.UDPSocket, self.netid, routing_mode)
-    s.connect((net_test.IPV6_ADDR, 53))
-    s.send(net_test.UDP_PAYLOAD)
+    s = self.BuildSocket(6, net_testbase.UDPSocket, self.netid, routing_mode)
+    s.connect((net_testbase.IPV6_ADDR, 53))
+    s.send(net_testbase.UDP_PAYLOAD)
     self.ExpectMulticastNS(router6)
 
     # Receive a unicast NA with the R flag set to 0.

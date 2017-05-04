@@ -30,7 +30,7 @@ from scapy import all as scapy
 
 import csocket
 import iproute
-import net_test
+import net_testbase
 
 
 IFF_TUN = 1
@@ -73,7 +73,7 @@ def MakePktInfo(version, addr, ifindex):
     return csocket.InPktinfo((ifindex, addr, "\x00" * 4)).Pack()
 
 
-class MultiNetworkBaseTest(net_test.NetworkTest):
+class MultiNetworkTest(net_testbase.NetworkTest):
   """Base class for all multinetwork tests.
 
   This class does not contain any test code, but contains code to set up and
@@ -107,10 +107,10 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   PRIORITY_UNREACHABLE = 1000
 
   # For convenience.
-  IPV4_ADDR = net_test.IPV4_ADDR
-  IPV6_ADDR = net_test.IPV6_ADDR
-  IPV4_PING = net_test.IPV4_PING
-  IPV6_PING = net_test.IPV6_PING
+  IPV4_ADDR = net_testbase.IPV4_ADDR
+  IPV6_ADDR = net_testbase.IPV6_ADDR
+  IPV4_PING = net_testbase.IPV4_PING
+  IPV6_PING = net_testbase.IPV6_PING
 
   RA_VALIDITY = 300 # seconds
 
@@ -161,7 +161,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def _MyIPv6Address(cls, netid):
-    return net_test.GetLinkAddress(cls.GetInterfaceName(netid), False)
+    return net_testbase.GetLinkAddress(cls.GetInterfaceName(netid), False)
 
   @classmethod
   def MyAddress(cls, version, netid):
@@ -171,7 +171,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def MyLinkLocalAddress(cls, netid):
-    return net_test.GetLinkAddress(cls.GetInterfaceName(netid), True)
+    return net_testbase.GetLinkAddress(cls.GetInterfaceName(netid), True)
 
   @staticmethod
   def OnlinkPrefixLen(version):
@@ -204,13 +204,13 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     ifr += "\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
     # Give ourselves a predictable MAC address.
-    net_test.SetInterfaceHWAddr(iface, cls.MyMacAddress(netid))
+    net_testbase.SetInterfaceHWAddr(iface, cls.MyMacAddress(netid))
     # Disable DAD so we don't have to wait for it.
     cls.SetSysctl("/proc/sys/net/ipv6/conf/%s/accept_dad" % iface, 0)
     # Set accept_ra to 2, because that's what we use.
     cls.SetSysctl("/proc/sys/net/ipv6/conf/%s/accept_ra" % iface, 2)
-    net_test.SetInterfaceUp(iface)
-    net_test.SetNonBlocking(f)
+    net_testbase.SetInterfaceUp(iface)
+    net_testbase.SetNonBlocking(f)
     return f
 
   @classmethod
@@ -369,14 +369,14 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     for netid in cls.NETIDS:
       cls.tuns[netid] = cls.CreateTunInterface(netid)
       iface = cls.GetInterfaceName(netid)
-      cls.ifindices[netid] = net_test.GetInterfaceIndex(iface)
+      cls.ifindices[netid] = net_testbase.GetInterfaceIndex(iface)
 
       cls.SendRA(netid)
       cls._RunSetupCommands(netid, True)
 
     # Don't print lots of "device foo entered promiscuous mode" warnings.
     cls.loglevel = cls.GetConsoleLogLevel()
-    cls.SetConsoleLogLevel(net_test.KERN_INFO)
+    cls.SetConsoleLogLevel(net_testbase.KERN_INFO)
 
     # Uncomment to look around at interface and rule configuration while
     # running in the background. (Once the test finishes running, all the
@@ -404,10 +404,10 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def SetSocketMark(self, s, netid):
     if netid is None:
       netid = 0
-    s.setsockopt(SOL_SOCKET, net_test.SO_MARK, netid)
+    s.setsockopt(SOL_SOCKET, net_testbase.SO_MARK, netid)
 
   def GetSocketMark(self, s):
-    return s.getsockopt(SOL_SOCKET, net_test.SO_MARK)
+    return s.getsockopt(SOL_SOCKET, net_testbase.SO_MARK)
 
   def ClearSocketMark(self, s):
     self.SetSocketMark(s, 0)
@@ -423,9 +423,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
     # Always set the IPv4 interface, because it will be used even on IPv6
     # sockets if the destination address is a mapped address.
-    s.setsockopt(net_test.SOL_IP, IP_UNICAST_IF, ifindex)
+    s.setsockopt(net_testbase.SOL_IP, IP_UNICAST_IF, ifindex)
     if s.family == AF_INET6:
-      s.setsockopt(net_test.SOL_IPV6, IPV6_UNICAST_IF, ifindex)
+      s.setsockopt(net_testbase.SOL_IPV6, IPV6_UNICAST_IF, ifindex)
 
   def GetRemoteAddress(self, version):
     return {4: self.IPV4_ADDR,
@@ -460,8 +460,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     if netid is not None:
       pktinfo = MakePktInfo(version, None, self.ifindices[netid])
       cmsg_level, cmsg_name = {
-          4: (net_test.SOL_IP, csocket.IP_PKTINFO),
-          6: (net_test.SOL_IPV6, csocket.IPV6_PKTINFO)}[version]
+          4: (net_testbase.SOL_IP, csocket.IP_PKTINFO),
+          6: (net_testbase.SOL_IPV6, csocket.IPV6_PKTINFO)}[version]
       cmsgs.append((cmsg_level, cmsg_name, pktinfo))
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 

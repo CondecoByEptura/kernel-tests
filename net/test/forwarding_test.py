@@ -20,12 +20,12 @@ import unittest
 
 from socket import *
 
-import multinetwork_base
-import net_test
+import multinetwork_testbase
+import net_testbase
 import packets
 
 
-class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
+class ForwardingTest(multinetwork_testbase.MultiNetworkTest):
   """Checks that IPv6 forwarding doesn't crash the system.
 
   Relevant kernel commits:
@@ -54,9 +54,9 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
 
   def CheckForwardingCrash(self, netid, iface1, iface2):
     version = 6
-    listensocket = net_test.IPv6TCPSocket()
+    listensocket = net_testbase.IPv6TCPSocket()
     self.SetSocketMark(listensocket, netid)
-    listenport = net_test.BindRandomPort(version, listensocket)
+    listenport = net_testbase.BindRandomPort(version, listensocket)
 
     remoteaddr = self.GetRemoteAddress(version)
     myaddr = self.MyAddress(version, netid)
@@ -80,8 +80,8 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
 
     # Check our socket is now in TIME_WAIT.
     sockets = self.ReadProcNetSocket("tcp6")
-    mysrc = "%s:%04X" % (net_test.FormatSockStatAddress(myaddr), listenport)
-    mydst = "%s:%04X" % (net_test.FormatSockStatAddress(remoteaddr), remoteport)
+    mysrc = "%s:%04X" % (net_testbase.FormatSockStatAddress(myaddr), listenport)
+    mydst = "%s:%04X" % (net_testbase.FormatSockStatAddress(remoteaddr), remoteport)
     state = None
     sockets = [s for s in sockets if s[0] == mysrc and s[1] == mydst]
     self.assertEquals(1, len(sockets))

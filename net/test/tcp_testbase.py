@@ -17,8 +17,8 @@
 import time
 from socket import *  # pylint: disable=wildcard-import
 
-import net_test
-import multinetwork_base
+import net_testbase
+import multinetwork_testbase
 import packets
 
 # TCP states. See include/net/tcp_states.h.
@@ -38,30 +38,30 @@ TCP_NEW_SYN_RECV = 12
 TCP_NOT_YET_ACCEPTED = -1
 
 
-class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
+class TcpTest(multinetwork_testbase.MultiNetworkTest):
 
   def tearDown(self):
     if hasattr(self, "s"):
       self.s.close()
-    super(TcpBaseTest, self).tearDown()
+    super(TcpTest, self).tearDown()
 
   def OpenListenSocket(self, version, netid):
     family = {4: AF_INET, 5: AF_INET6, 6: AF_INET6}[version]
     address = {4: "0.0.0.0", 5: "::", 6: "::"}[version]
-    s = net_test.Socket(family, SOCK_STREAM, IPPROTO_TCP)
+    s = net_testbase.Socket(family, SOCK_STREAM, IPPROTO_TCP)
     # We haven't configured inbound iptables marking, so bind explicitly.
     self.SelectInterface(s, netid, "mark")
-    self.port = net_test.BindRandomPort(version, s)
+    self.port = net_testbase.BindRandomPort(version, s)
     return s
 
   def _ReceiveAndExpectResponse(self, netid, packet, reply, msg):
-    pkt = super(TcpBaseTest, self)._ReceiveAndExpectResponse(netid, packet,
+    pkt = super(TcpTest, self)._ReceiveAndExpectResponse(netid, packet,
                                                              reply, msg)
     self.last_packet = pkt
     return pkt
 
   def ReceivePacketOn(self, netid, packet):
-    super(TcpBaseTest, self).ReceivePacketOn(netid, packet)
+    super(TcpTest, self).ReceivePacketOn(netid, packet)
     self.last_packet = packet
 
   def RstPacket(self):
@@ -100,14 +100,14 @@ class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
       return
 
     self.accepted, _ = self.s.accept()
-    net_test.DisableFinWait(self.accepted)
+    net_testbase.DisableFinWait(self.accepted)
 
     if end_state == TCP_ESTABLISHED:
       return
 
     desc, data = packets.ACK(version, myaddr, remoteaddr, establishing_ack,
-                             payload=net_test.UDP_PAYLOAD)
-    self.accepted.send(net_test.UDP_PAYLOAD)
+                             payload=net_testbase.UDP_PAYLOAD)
+    self.accepted.send(net_testbase.UDP_PAYLOAD)
     self.ExpectPacketOn(netid, msg + ": expecting %s" % desc, data)
 
     desc, fin = packets.FIN(version, remoteaddr, myaddr, data)
