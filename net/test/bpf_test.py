@@ -21,14 +21,14 @@ import unittest
 
 from bpf import *  # pylint: disable=wildcard-import
 import csocket
-import net_test
+import net_testbase
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
-HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
+HAVE_EBPF_SUPPORT = net_testbase.LINUX_VERSION >= (4, 4, 0)
 
 @unittest.skipUnless(HAVE_EBPF_SUPPORT,
                      "eBPF function not fully supported")
-class BpfTest(net_test.NetworkTest):
+class BpfTest(net_testbase.NetworkTest):
 
   def testCreateMap(self):
     key, value = 1, 1

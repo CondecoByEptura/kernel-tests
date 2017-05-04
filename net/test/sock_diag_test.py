@@ -23,18 +23,18 @@ import threading
 import time
 import unittest
 
-import multinetwork_base
-import net_test
+import multinetwork_testbase
+import net_testbase
 import packets
 import sock_diag
-import tcp_test
+import tcp_testbase
 
 
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
 
 
-class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
+class SockDiagBaseTest(multinetwork_testbase.MultiNetworkTest):
   """Basic tests for SOCK_DIAG functionality.
 
     Relevant kernel commits:
@@ -61,7 +61,7 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
           (AF_INET, "127.0.0.1"),
           (AF_INET6, "::1"),
           (AF_INET6, "::ffff:127.0.0.1")])
-      socketpair = net_test.CreateSocketPair(family, socktype, addr)
+      socketpair = net_testbase.CreateSocketPair(family, socktype, addr)
       sport, dport = (socketpair[0].getsockname()[1],
                       socketpair[1].getsockname()[1])
       socketpairs[(addr, sport, dport)] = socketpair
@@ -82,7 +82,7 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
 
   def assertSockInfoMatchesSocket(self, s, info):
     diag_msg, attrs = info
-    family = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_DOMAIN)
+    family = s.getsockopt(net_testbase.SOL_SOCKET, net_testbase.SO_DOMAIN)
     self.assertEqual(diag_msg.family, family)
 
     src, sport = s.getsockname()[0:2]
@@ -96,7 +96,7 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
     else:
       self.assertRaisesErrno(ENOTCONN, s.getpeername)
 
-    mark = s.getsockopt(SOL_SOCKET, net_test.SO_MARK)
+    mark = s.getsockopt(SOL_SOCKET, net_testbase.SO_MARK)
     self.assertMarkIs(mark, attrs)
 
   def PackAndCheckBytecode(self, instructions):
@@ -135,7 +135,7 @@ class SockDiagTest(SockDiagBaseTest):
 
   def testFindsMappedSockets(self):
     """Tests that inet_diag_find_one_icsk can find mapped sockets."""
-    socketpair = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM,
+    socketpair = net_testbase.CreateSocketPair(AF_INET6, SOCK_STREAM,
                                            "::ffff:127.0.0.1")
     for sock in socketpair:
       diag_msg = self.sock_diag.FindSockDiagFromFd(sock)
@@ -203,7 +203,7 @@ class SockDiagTest(SockDiagBaseTest):
         "0508100000006566"
         "00040400"
     )
-    states = 1 << tcp_test.TCP_ESTABLISHED
+    states = 1 << tcp_testbase.TCP_ESTABLISHED
     self.assertMultiLineEqual(expected, bytecode.encode("hex"))
     self.assertEquals(76, len(bytecode))
     self.socketpairs = self._CreateLotsOfSockets(SOCK_STREAM)
@@ -242,12 +242,12 @@ class SockDiagTest(SockDiagBaseTest):
     # TODO: this is only here because the test fails if there are any open
     # sockets other than the ones it creates itself. Make the bytecode more
     # specific and remove it.
-    states = 1 << tcp_test.TCP_ESTABLISHED
+    states = 1 << tcp_testbase.TCP_ESTABLISHED
     self.assertFalse(self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, "",
                                                        states=states))
 
-    unused_pair4 = net_test.CreateSocketPair(AF_INET, SOCK_STREAM, "127.0.0.1")
-    unused_pair6 = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM, "::1")
+    unused_pair4 = net_testbase.CreateSocketPair(AF_INET, SOCK_STREAM, "127.0.0.1")
+    unused_pair6 = net_testbase.CreateSocketPair(AF_INET6, SOCK_STREAM, "::1")
 
     bytecode4 = self.PackAndCheckBytecode([
         (sock_diag.INET_DIAG_BC_S_COND, 1, 2, ("0.0.0.0", 0, -1))])
@@ -266,7 +266,7 @@ class SockDiagTest(SockDiagBaseTest):
     self.assertTrue(all(d.family == AF_INET6 for d, _ in v6socks))
 
     # Except for mapped addresses, which match both IPv4 and IPv6.
-    pair5 = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM,
+    pair5 = net_testbase.CreateSocketPair(AF_INET6, SOCK_STREAM,
                                       "::ffff:127.0.0.1")
     diag_msgs = [self.sock_diag.FindSockDiagFromFd(s) for s in pair5]
     v4socks = [d for d, _ in self.sock_diag.DumpAllInetSockets(IPPROTO_TCP,
@@ -399,7 +399,7 @@ class SocketExceptionThread(threading.Thread):
       self.exception = e
 
 
-class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
+class SockDiagTcpTest(tcp_testbase.TcpTest, SockDiagBaseTest):
 
   def testIpv4MappedSynRecvSocket(self):
     """Tests for the absence of a bug with AF_INET6 TCP SYN-RECV sockets.
@@ -409,23 +409,23 @@ class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
            457a04b inet_diag: fix oops for IPv4 AF_INET6 TCP SYN-RECV state
     """
     netid = random.choice(self.tuns.keys())
-    self.IncomingConnection(5, tcp_test.TCP_SYN_RECV, netid)
+    self.IncomingConnection(5, tcp_testbase.TCP_SYN_RECV, netid)
     sock_id = self.sock_diag._EmptyInetDiagSockId()
     sock_id.sport = self.port
-    states = 1 << tcp_test.TCP_SYN_RECV
+    states = 1 << tcp_testbase.TCP_SYN_RECV
     req = sock_diag.InetDiagReqV2((AF_INET6, IPPROTO_TCP, 0, states, sock_id))
     children = self.sock_diag.Dump(req, NO_BYTECODE)
 
     self.assertTrue(children)
     for child, unused_args in children:
-      self.assertEqual(tcp_test.TCP_SYN_RECV, child.state)
+      self.assertEqual(tcp_testbase.TCP_SYN_RECV, child.state)
       self.assertEqual(self.sock_diag.PaddedAddress(self.remoteaddr),
                        child.id.dst)
       self.assertEqual(self.sock_diag.PaddedAddress(self.myaddr),
                        child.id.src)
 
 
-class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
+class SockDestroyTcpTest(tcp_testbase.TcpTest, SockDiagBaseTest):
 
   def setUp(self):
     super(SockDestroyTcpTest, self).setUp()
@@ -457,30 +457,30 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       msg = "Closing incoming IPv%d %s socket" % (version, statename)
       self.IncomingConnection(version, state, self.netid)
       self.CheckRstOnClose(self.s, None, False, msg)
-      if state != tcp_test.TCP_LISTEN:
+      if state != tcp_testbase.TCP_LISTEN:
         msg = "Closing accepted IPv%d %s socket" % (version, statename)
         self.CheckRstOnClose(self.accepted, None, True, msg)
 
   def testTcpResets(self):
     """Checks that closing sockets in appropriate states sends a RST."""
-    self.CheckTcpReset(tcp_test.TCP_LISTEN, "TCP_LISTEN")
-    self.CheckTcpReset(tcp_test.TCP_ESTABLISHED, "TCP_ESTABLISHED")
-    self.CheckTcpReset(tcp_test.TCP_CLOSE_WAIT, "TCP_CLOSE_WAIT")
+    self.CheckTcpReset(tcp_testbase.TCP_LISTEN, "TCP_LISTEN")
+    self.CheckTcpReset(tcp_testbase.TCP_ESTABLISHED, "TCP_ESTABLISHED")
+    self.CheckTcpReset(tcp_testbase.TCP_CLOSE_WAIT, "TCP_CLOSE_WAIT")
 
   def testFinWait1Socket(self):
     for version in [4, 5, 6]:
-      self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, self.netid)
+      self.IncomingConnection(version, tcp_testbase.TCP_ESTABLISHED, self.netid)
 
       # Get the cookie so we can find this socket after we close it.
       diag_msg = self.sock_diag.FindSockDiagFromFd(self.accepted)
       diag_req = self.sock_diag.DiagReqFromDiagMsg(diag_msg, IPPROTO_TCP)
 
       # Close the socket and check that it goes into FIN_WAIT1 and sends a FIN.
-      net_test.EnableFinWait(self.accepted)
+      net_testbase.EnableFinWait(self.accepted)
       self.accepted.close()
-      diag_req.states = 1 << tcp_test.TCP_FIN_WAIT1
+      diag_req.states = 1 << tcp_testbase.TCP_FIN_WAIT1
       diag_msg, attrs = self.sock_diag.GetSockInfo(diag_req)
-      self.assertEquals(tcp_test.TCP_FIN_WAIT1, diag_msg.state)
+      self.assertEquals(tcp_testbase.TCP_FIN_WAIT1, diag_msg.state)
       desc, fin = self.FinPacket()
       self.ExpectPacketOn(self.netid, "Closing FIN_WAIT1 socket", fin)
 
@@ -490,7 +490,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
       # The socket is still there in FIN_WAIT1: SOCK_DESTROY did nothing
       # because userspace had already closed it.
-      self.assertEquals(tcp_test.TCP_FIN_WAIT1, diag_msg.state)
+      self.assertEquals(tcp_testbase.TCP_FIN_WAIT1, diag_msg.state)
 
       # ACK the FIN so we don't trip over retransmits in future tests.
       finversion = 4 if version == 5 else version
@@ -500,10 +500,10 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
       # See if we can find the resulting FIN_WAIT2 socket. This does not appear
       # to work on 3.10.
-      if net_test.LINUX_VERSION >= (3, 18):
-        diag_req.states = 1 << tcp_test.TCP_FIN_WAIT2
+      if net_testbase.LINUX_VERSION >= (3, 18):
+        diag_req.states = 1 << tcp_testbase.TCP_FIN_WAIT2
         infos = self.sock_diag.Dump(diag_req, "")
-        self.assertTrue(any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
+        self.assertTrue(any(diag_msg.state == tcp_testbase.TCP_FIN_WAIT2
                             for diag_msg, attrs in infos),
                         "Expected to find FIN_WAIT2 socket in %s" % infos)
 
@@ -511,7 +511,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     """Finds the SYN_RECV child sockets of a given listening socket."""
     d = self.sock_diag.FindSockDiagFromFd(self.s)
     req = self.sock_diag.DiagReqFromDiagMsg(d, IPPROTO_TCP)
-    req.states = 1 << tcp_test.TCP_SYN_RECV | 1 << tcp_test.TCP_ESTABLISHED
+    req.states = 1 << tcp_testbase.TCP_SYN_RECV | 1 << tcp_testbase.TCP_ESTABLISHED
     req.id.cookie = "\x00" * 8
 
     bad_bytecode = self.PackAndCheckBytecode(
@@ -525,7 +525,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
             for d, _ in children]
 
   def CheckChildSocket(self, version, statename, parent_first):
-    state = getattr(tcp_test, statename)
+    state = getattr(tcp_testbase, statename)
 
     self.IncomingConnection(version, state, self.netid)
 
@@ -534,14 +534,14 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     children = self.FindChildSockets(self.s)
     self.assertEquals(1, len(children))
 
-    is_established = (state == tcp_test.TCP_NOT_YET_ACCEPTED)
-    expected_state = tcp_test.TCP_ESTABLISHED if is_established else state
+    is_established = (state == tcp_testbase.TCP_NOT_YET_ACCEPTED)
+    expected_state = tcp_testbase.TCP_ESTABLISHED if is_established else state
 
     # The new TCP listener code in 4.4 makes SYN_RECV sockets live in the
     # regular TCP hash tables, and inet_diag_find_one_icsk can find them.
     # Before 4.4, we can see those sockets in dumps, but we can't fetch
     # or close them.
-    can_close_children = is_established or net_test.LINUX_VERSION >= (4, 4)
+    can_close_children = is_established or net_testbase.LINUX_VERSION >= (4, 4)
 
     for child in children:
       if can_close_children:
@@ -596,7 +596,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
   def testAcceptInterrupted(self):
     """Tests that accept() is interrupted by SOCK_DESTROY."""
     for version in [4, 5, 6]:
-      self.IncomingConnection(version, tcp_test.TCP_LISTEN, self.netid)
+      self.IncomingConnection(version, tcp_testbase.TCP_LISTEN, self.netid)
       self.CloseDuringBlockingCall(self.s, lambda sock: sock.accept(), EINVAL)
       self.assertRaisesErrno(ECONNABORTED, self.s.send, "foo")
       self.assertRaisesErrno(EINVAL, self.s.accept)
@@ -604,7 +604,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
   def testReadInterrupted(self):
     """Tests that read() is interrupted by SOCK_DESTROY."""
     for version in [4, 5, 6]:
-      self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, self.netid)
+      self.IncomingConnection(version, tcp_testbase.TCP_ESTABLISHED, self.netid)
       self.CloseDuringBlockingCall(self.accepted, lambda sock: sock.recv(4096),
                                    ECONNABORTED)
       self.assertRaisesErrno(EPIPE, self.accepted.send, "foo")
@@ -613,7 +613,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     """Tests that connect() is interrupted by SOCK_DESTROY."""
     for version in [4, 5, 6]:
       family = {4: AF_INET, 5: AF_INET6, 6: AF_INET6}[version]
-      s = net_test.Socket(family, SOCK_STREAM, IPPROTO_TCP)
+      s = net_testbase.Socket(family, SOCK_STREAM, IPPROTO_TCP)
       self.SelectInterface(s, self.netid, "mark")
       if version == 5:
         remoteaddr = "::ffff:" + self.GetRemoteAddress(4)
@@ -676,14 +676,14 @@ class SockDestroyUdpTest(SockDiagBaseTest):
 
       # Closing a socket that was not explicitly bound (i.e., bound via
       # connect(), not bind()) clears the source address and port.
-      s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
+      s = self.BuildSocket(version, net_testbase.UDPSocket, netid, "mark")
       self.SelectInterface(s, netid, "mark")
       s.connect((dst, 53))
       self.sock_diag.CloseSocketFromFd(s)
       self.assertEqual((unspec, 0), s.getsockname()[:2])
 
       # Closing a socket bound to an IP address leaves the address as is.
-      s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
+      s = self.BuildSocket(version, net_testbase.UDPSocket, netid, "mark")
       src = self.MyAddress(version, netid)
       s.bind((src, 0))
       s.connect((dst, 53))
@@ -692,14 +692,14 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       self.assertEqual((src, 0), s.getsockname()[:2])
 
       # Closing a socket bound to a port leaves the port as is.
-      s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
+      s = self.BuildSocket(version, net_testbase.UDPSocket, netid, "mark")
       port = self.BindToRandomPort(s, "")
       s.connect((dst, 53))
       self.sock_diag.CloseSocketFromFd(s)
       self.assertEqual((unspec, port), s.getsockname()[:2])
 
       # Closing a socket bound to IP address and port leaves both as is.
-      s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
+      s = self.BuildSocket(version, net_testbase.UDPSocket, netid, "mark")
       src = self.MyAddress(version, netid)
       port = self.BindToRandomPort(s, src)
       self.sock_diag.CloseSocketFromFd(s)
@@ -709,7 +709,7 @@ class SockDestroyUdpTest(SockDiagBaseTest):
     """Tests that read() is interrupted by SOCK_DESTROY."""
     for version in [4, 5, 6]:
       family = {4: AF_INET, 5: AF_INET6, 6: AF_INET6}[version]
-      s = net_test.UDPSocket(family)
+      s = net_testbase.UDPSocket(family)
       self.SelectInterface(s, random.choice(self.NETIDS), "mark")
       addr = self.GetRemoteAddress(version)
 
@@ -734,12 +734,12 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
     self.SelectInterface(s, random.choice(self.NETIDS), "mark")
     if socktype == SOCK_STREAM:
       s.listen(1)
-      expectedstate = tcp_test.TCP_LISTEN
+      expectedstate = tcp_testbase.TCP_LISTEN
     else:
       s.connect((self.GetRemoteAddress(6), 53))
-      expectedstate = tcp_test.TCP_ESTABLISHED
+      expectedstate = tcp_testbase.TCP_ESTABLISHED
 
-    with net_test.RunAsUid(12345):
+    with net_testbase.RunAsUid(12345):
       self.assertRaisesErrno(
           EPERM, self.sock_diag.CloseSocketFromFd, s)
 
@@ -754,7 +754,7 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
     self.CheckPermissions(SOCK_STREAM)
 
 
-class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
+class SockDiagMarkTest(tcp_testbase.TcpTest, SockDiagBaseTest):
 
   """Tests SOCK_DIAG bytecode filters that use marks.
 
@@ -771,7 +771,7 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     instructions = [(sock_diag.INET_DIAG_BC_MARK_COND, 1, 2, (mark, mask))]
     bytecode = self.sock_diag.PackBytecode(instructions)
     return self.sock_diag.DumpAllInetSockets(
-        IPPROTO_TCP, bytecode, states=(1 << tcp_test.TCP_ESTABLISHED))
+        IPPROTO_TCP, bytecode, states=(1 << tcp_testbase.TCP_ESTABLISHED))
 
   def assertSamePorts(self, ports, diag_msgs):
     expected = sorted(ports)
@@ -811,9 +811,9 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
         (AF_INET, "127.0.0.1"),
         (AF_INET6, "::1"),
         (AF_INET6, "::ffff:127.0.0.1")])
-    s1, s2 = net_test.CreateSocketPair(family, SOCK_STREAM, addr)
-    s1.setsockopt(SOL_SOCKET, net_test.SO_MARK, 0xfff1234)
-    s2.setsockopt(SOL_SOCKET, net_test.SO_MARK, 0xf0f1235)
+    s1, s2 = net_testbase.CreateSocketPair(family, SOCK_STREAM, addr)
+    s1.setsockopt(SOL_SOCKET, net_testbase.SO_MARK, 0xfff1234)
+    s2.setsockopt(SOL_SOCKET, net_testbase.SO_MARK, 0xf0f1235)
 
     infos = self.FilterEstablishedSockets(0x1234, 0xffff)
     self.assertFoundSockets(infos, [s1])
@@ -830,7 +830,7 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     infos = self.FilterEstablishedSockets(0xfff0000, 0xf0fed00)
     self.assertEquals(0, len(infos))
 
-    with net_test.RunAsUid(12345):
+    with net_testbase.RunAsUid(12345):
         self.assertRaisesErrno(EPERM, self.FilterEstablishedSockets,
                                0xfff0000, 0xf0fed00)
 
@@ -838,13 +838,13 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
   def SetRandomMark(s):
     # Python doesn't like marks that don't fit into a signed int.
     mark = random.randrange(0, 2**31 - 1)
-    s.setsockopt(SOL_SOCKET, net_test.SO_MARK, mark)
+    s.setsockopt(SOL_SOCKET, net_testbase.SO_MARK, mark)
     return mark
 
   def assertSocketMarkIs(self, s, mark):
     diag_msg, attrs = self.sock_diag.FindSockInfoFromFd(s)
     self.assertMarkIs(mark, attrs)
-    with net_test.RunAsUid(12345):
+    with net_testbase.RunAsUid(12345):
       diag_msg, attrs = self.sock_diag.FindSockInfoFromFd(s)
       self.assertMarkIs(None, attrs)
 
@@ -888,7 +888,7 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       s.close()
 
       # Basic test for SCTP. sctp_diag was only added in 4.7.
-      if net_test.LINUX_VERSION >= (4, 7, 0):
+      if net_testbase.LINUX_VERSION >= (4, 7, 0):
         s = socket(family, SOCK_STREAM, self.IPPROTO_SCTP)
         s.bind((addr, 0))
         s.listen(1)

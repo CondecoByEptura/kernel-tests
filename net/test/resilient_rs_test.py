@@ -21,7 +21,7 @@ import time
 import unittest
 from math import pow
 
-import multinetwork_base
+import multinetwork_testbase
 
 def accumulate(lis):
   total = 0
@@ -37,7 +37,7 @@ def accumulate(lis):
 #
 # If higher confidence is required, REQUIRED_SAMPLES and
 # SAMPLE_INTERVAL can be increased at the cost of increased runtime.
-class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
+class ResilientRouterSolicitationTest(multinetwork_testbase.MultiNetworkTest):
   """Tests for IPv6 'resilient rs' RFC 7559 backoff behaviour.
 
   Relevant kernel commits:
@@ -78,7 +78,7 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
   @classmethod
   def isIPv6RouterSolicitation(cls, packet):
     return ((len(packet) >= 14 + 40 + 1) and
-            # Use net_test.ETH_P_IPV6 here
+            # Use net_testbase.ETH_P_IPV6 here
             (ord(packet[12]) == 0x86) and
             (ord(packet[13]) == 0xdd) and
             (ord(packet[14]) >> 4 == 6) and

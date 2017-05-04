@@ -21,17 +21,17 @@ import time
 import unittest
 
 import csocket
-import net_test
+import net_testbase
 
 
-class LeakTest(net_test.NetworkTest):
+class LeakTest(net_testbase.NetworkTest):
 
   def testRecvfromLeak(self):
     s = socket(AF_INET6, SOCK_DGRAM, 0)
     s.bind(("::1", 0))
 
     # Call shutdown on another thread while a recvfrom is in progress.
-    net_test.SetSocketTimeout(s, 2000)
+    net_testbase.SetSocketTimeout(s, 2000)
     def ShutdownSocket():
       time.sleep(0.5)
       self.assertRaisesErrno(ENOTCONN, s.shutdown, SHUT_RDWR)

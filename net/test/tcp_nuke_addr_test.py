@@ -21,7 +21,7 @@ import unittest
 
 import csocket
 import qstruct
-import net_test
+import net_testbase
 
 IPV4_LOOPBACK_ADDR = "127.0.0.1"
 IPV6_LOOPBACK_ADDR = "::1"
@@ -62,14 +62,14 @@ def KillAddrIoctl(addr):
 
 # For convenience.
 def CreateIPv4SocketPair():
-  return net_test.CreateSocketPair(AF_INET, SOCK_STREAM, IPV4_LOOPBACK_ADDR)
+  return net_testbase.CreateSocketPair(AF_INET, SOCK_STREAM, IPV4_LOOPBACK_ADDR)
 
 def CreateIPv6SocketPair():
-  return net_test.CreateSocketPair(AF_INET6, SOCK_STREAM, IPV6_LOOPBACK_ADDR)
+  return net_testbase.CreateSocketPair(AF_INET6, SOCK_STREAM, IPV6_LOOPBACK_ADDR)
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (4, 4, 0), "grace period")
-class TcpNukeAddrTest(net_test.NetworkTest):
+@unittest.skipUnless(net_testbase.LINUX_VERSION >= (4, 4, 0), "grace period")
+class TcpNukeAddrTest(net_testbase.NetworkTest):
 
   """Tests that SIOCKILLADDR no longer exists.
 

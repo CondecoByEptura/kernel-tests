@@ -19,7 +19,7 @@ import random
 from scapy import all as scapy
 from socket import *
 
-import net_test
+import net_testbase
 
 TCP_FIN = 1
 TCP_SYN = 2
@@ -35,7 +35,7 @@ PING_SEQ = 3
 PING_TOS = 0x83
 
 # For brevity.
-UDP_PAYLOAD = net_test.UDP_PAYLOAD
+UDP_PAYLOAD = net_testbase.UDP_PAYLOAD
 
 
 def _RandomPort():
@@ -131,9 +131,9 @@ def FIN(version, srcaddr, dstaddr, packet):
 
 def GRE(version, srcaddr, dstaddr, proto, packet):
   if version == 4:
-    ip = scapy.IP(src=srcaddr, dst=dstaddr, proto=net_test.IPPROTO_GRE)
+    ip = scapy.IP(src=srcaddr, dst=dstaddr, proto=net_testbase.IPPROTO_GRE)
   else:
-    ip = scapy.IPv6(src=srcaddr, dst=dstaddr, nh=net_test.IPPROTO_GRE)
+    ip = scapy.IPv6(src=srcaddr, dst=dstaddr, nh=net_testbase.IPPROTO_GRE)
   packet = ip / scapy.GRE(proto=proto) / packet
   return ("GRE packet", packet)
 
@@ -177,7 +177,7 @@ def ICMPReply(version, srcaddr, dstaddr, packet):
   packet = (ip(src=srcaddr, dst=dstaddr) /
             icmp(id=PING_IDENT, seq=PING_SEQ) / PING_PAYLOAD)
   # IPv6 only started copying the tclass to echo replies in 3.14.
-  if version == 4 or net_test.LINUX_VERSION >= (3, 14):
+  if version == 4 or net_testbase.LINUX_VERSION >= (3, 14):
     _SetPacketTos(packet, PING_TOS)
   return ("ICMPv%d echo reply" % version, packet)
 

@@ -24,9 +24,9 @@ from scapy import all as scapy
 
 import csocket
 import iproute
-import multinetwork_base
+import multinetwork_testbase
 import packets
-import net_test
+import net_testbase
 
 # Setsockopt values.
 IPV6_ADDR_PREFERENCES = 72
@@ -38,7 +38,7 @@ IPV6_PREFER_SRC_PUBLIC = 0x0002
 RETRANS_TIMER = 150
 
 
-class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
+class IPv6SourceAddressSelectionTest(multinetwork_testbase.MultiNetworkTest):
   """Test for IPv6 source address selection.
 
   Relevant kernel commits:
@@ -73,11 +73,11 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
     self.SetSysctl("/proc/sys/net/ipv6/conf/%s/use_optimistic" % ifname, value)
 
   def GetSourceIP(self, netid, mode="mark"):
-    s = self.BuildSocket(6, net_test.UDPSocket, netid, mode)
+    s = self.BuildSocket(6, net_testbase.UDPSocket, netid, mode)
     # Because why not...testing for temporary addresses is a separate thing.
     s.setsockopt(IPPROTO_IPV6, IPV6_ADDR_PREFERENCES, IPV6_PREFER_SRC_PUBLIC)
 
-    s.connect((net_test.IPV6_ADDR, 123))
+    s.connect((net_testbase.IPV6_ADDR, 123))
     src_addr = s.getsockname()[0]
     self.assertTrue(src_addr)
     return src_addr
@@ -99,13 +99,13 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
     return ifa_msg.flags & iproute.IFA_F_TENTATIVE
 
   def BindToAddress(self, address):
-    s = net_test.UDPSocket(AF_INET6)
+    s = net_testbase.UDPSocket(AF_INET6)
     s.bind((address, 0, 0, 0))
 
-  def SendWithSourceAddress(self, address, netid, dest=net_test.IPV6_ADDR):
-    pktinfo = multinetwork_base.MakePktInfo(6, address, 0)
-    cmsgs = [(net_test.SOL_IPV6, IPV6_PKTINFO, pktinfo)]
-    s = self.BuildSocket(6, net_test.UDPSocket, netid, "mark")
+  def SendWithSourceAddress(self, address, netid, dest=net_testbase.IPV6_ADDR):
+    pktinfo = multinetwork_testbase.MakePktInfo(6, address, 0)
+    cmsgs = [(net_testbase.SOL_IPV6, IPV6_PKTINFO, pktinfo)]
+    s = self.BuildSocket(6, net_testbase.UDPSocket, netid, "mark")
     return csocket.Sendmsg(s, (dest, 53), "Hello", cmsgs, 0)
 
   def assertAddressUsable(self, address, netid):
@@ -150,7 +150,7 @@ class MultiInterfaceSourceAddressSelectionTest(IPv6SourceAddressSelectionTest):
     self.test_ip = self.MyAddress(6, self.test_netid)
     self.test_ifindex = self.ifindices[self.test_netid]
     self.test_ifname = self.GetInterfaceName(self.test_netid)
-    self.test_lladdr = net_test.GetLinkAddress(self.test_ifname, True)
+    self.test_lladdr = net_testbase.GetLinkAddress(self.test_ifname, True)
 
     # [2]  Delete the test interface's IPv6 address.
     self.iproute.DelAddress(self.test_ip, 64, self.test_ifindex)
@@ -202,7 +202,7 @@ class OptimisticAddressTest(MultiInterfaceSourceAddressSelectionTest):
         self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
 
     # Optimistic addresses are usable but are not selected.
-    if net_test.LINUX_VERSION >= (3, 18, 0):
+    if net_testbase.LINUX_VERSION >= (3, 18, 0):
       # The version checked in to android kernels <= 3.10 requires the
       # use_optimistic sysctl to be turned on.
       self.assertAddressUsable(self.test_ip, self.test_netid)
@@ -317,7 +317,7 @@ class NoNsFromOptimisticTest(MultiInterfaceSourceAddressSelectionTest):
         self.OnlinkPrefix(6, self.test_netid))
     self.SendWithSourceAddress(self.test_ip, self.test_netid, onlink_dest)
 
-    if net_test.LINUX_VERSION >= (3, 18, 0):
+    if net_testbase.LINUX_VERSION >= (3, 18, 0):
       # Older versions will actually choose the optimistic address to
       # originate Neighbor Solications (RFC violation).
       expected_ns = packets.NS(

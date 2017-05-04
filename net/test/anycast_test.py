@@ -21,8 +21,8 @@ import time
 import unittest
 
 import qstruct
-import multinetwork_base
-import net_test
+import multinetwork_testbase
+import net_testbase
 
 IPV6_JOIN_ANYCAST = 27
 IPV6_LEAVE_ANYCAST = 28
@@ -54,7 +54,7 @@ class CloseFileDescriptorThread(threading.Thread):
     self.finished = True
 
 
-class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
+class AnycastTest(multinetwork_testbase.MultiNetworkTest):
   """Tests for IPv6 anycast addresses.
 
   Relevant kernel commits:
@@ -79,7 +79,7 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
     self.tuns[netid] = self.CreateTunInterface(netid)
     self.SendRA(netid)
     iface = self.GetInterfaceName(netid)
-    self.ifindices[netid] = net_test.GetInterfaceIndex(iface)
+    self.ifindices[netid] = net_testbase.GetInterfaceIndex(iface)
 
     s = socket(AF_INET6, SOCK_DGRAM, 0)
     addr = self.MyAddress(6, netid)
