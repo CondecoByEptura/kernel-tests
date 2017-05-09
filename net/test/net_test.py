@@ -343,18 +343,21 @@ try:
 except ValueError:
   HAVE_IPV6 = False
 
+class RunAsUidGid(object):
+  """Context guard to run a code block as a given GID and UID."""
 
-class RunAsUid(object):
-  """Context guard to run a code block as a given UID."""
-
-  def __init__(self, uid):
+  def __init__(self, uid, gid):
     self.uid = uid
+    self.gid = gid
 
   def __enter__(self):
     if self.uid:
       self.saved_uid = os.geteuid()
       self.saved_groups = os.getgroups()
+      self.saved_gid = os.getgid()
       if self.uid:
+        if self.gid >= 0:
+          os.setgid(self.gid)
         os.setgroups(self.saved_groups + [AID_INET])
         os.seteuid(self.uid)
 
@@ -362,6 +365,14 @@ class RunAsUid(object):
     if self.uid:
       os.seteuid(self.saved_uid)
       os.setgroups(self.saved_groups)
+      os.setgid(self.saved_gid)
+
+
+class RunAsUid(RunAsUidGid):
+  """Context guard to run a code block as a given GID and UID."""
+
+  def __init__(self, uid):
+    RunAsUidGid.__init__(self, uid, -1)
 
 
 class NetworkTest(unittest.TestCase):
