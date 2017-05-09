@@ -38,22 +38,87 @@ class QtaguidTest(net_test.NetworkTest):
         return True
     return False
 
-  def SetIptablesRule(self, version, is_add, is_gid, my_id):
+  def SetIptablesRule(self, version, is_add, is_gid, my_id, inverted):
     add_del = "-A" if is_add else "-D"
     uid_gid = "--gid-owner" if is_gid else "--uid-owner"
-    args = "%s OUTPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
+    if inverted:
+      args = "%s OUTPUT -m owner ! %s %d -j DROP" % (add_del, uid_gid, my_id)
+    else:
+      args = "%s OUTPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
     self.assertFalse(net_test.RunIptablesCommand(version, args))
+
+  def AddIptablesRule(self, version, is_gid, myId):
+    self.SetIptablesRule(version, True, is_gid, myId, False)
+
+  def AddIptablesInvertedRule(self, version, is_gid, myId):
+    self.SetIptablesRule(version, True, is_gid, myId, True)
+
+  def DelIptablesRule(self, version, is_gid, myId):
+    self.SetIptablesRule(version, False, is_gid, myId, False)
+
+  def DelIptablesInvertedRule(self, version, is_gid, myId):
+    self.SetIptablesRule(version, False, is_gid, myId, True)
 
   def CheckSocketOutput(self, version, is_gid):
     myId = os.getgid() if is_gid else os.getuid()
-    self.SetIptablesRule(version, True, is_gid, myId);
+    self.AddIptablesRule(version, is_gid, myId)
     family = {4: AF_INET, 6: AF_INET6}[version]
     s = socket(family, SOCK_DGRAM, 0)
     addr = {4: "127.0.0.1", 6: "::1"}[version]
     s.bind((addr, 0))
     addr = s.getsockname()
     self.assertRaisesErrno(errno.EPERM, s.sendto, "foo", addr)
-    self.SetIptablesRule(version, False, is_gid, myId)
+    self.DelIptablesRule(version, is_gid, myId)
+    s.sendto("foo", addr)
+    data, sockaddr = s.recvfrom(4096)
+    self.assertEqual("foo", data)
+    self.assertEqual(sockaddr, addr)
+
+  def CheckSocketOutputUidInverted(self, version):
+    # Load a inverted iptable rule on current uid 0, traffic from other uid
+    # should be blocked and traffic from uid 0 should pass.
+    myId = os.getuid()
+    self.AddIptablesInvertedRule(version, False, myId)
+    family = {4: AF_INET, 6: AF_INET6}[version]
+    s = socket(family, SOCK_DGRAM, 0)
+    addr1 = {4: "127.0.0.1", 6: "::1"}[version]
+    s.bind((addr1, 0))
+    addr1 = s.getsockname()
+    s.sendto("foo", addr1)
+    data, sockaddr = s.recvfrom(4096)
+    self.assertEqual("foo", data)
+    self.assertEqual(sockaddr, addr1)
+    with net_test.RunAsUid(12345):
+      s2 = socket(family, SOCK_DGRAM, 0)
+      addr2 = {4: "127.0.0.1", 6: "::1"}[version]
+      s2.bind((addr2, 0))
+      addr2 = s2.getsockname()
+      self.assertRaisesErrno(errno.EPERM, s2.sendto, "foo", addr2)
+    self.DelIptablesInvertedRule(version, False, myId)
+    s.sendto("foo", addr1)
+    data, sockaddr = s.recvfrom(4096)
+    self.assertEqual("foo", data)
+    self.assertEqual(sockaddr, addr1)
+
+  def CheckSocketOutputGidInverted(self, version):
+    # Since the RunAsUid function cannot manipulate gid info, a random gid is
+    # loaded to check if it can block the traffic from gid 0. Then load an
+    # invered rule with gid 0 to see if it still blocks traffic from gid 0.
+    myId = os.getgid();
+    self.AddIptablesInvertedRule(version, True, 12345)
+    family = {4: AF_INET, 6: AF_INET6}[version]
+    s = socket(family, SOCK_DGRAM, 0)
+    addr = {4: "127.0.0.1", 6: "::1"}[version]
+    s.bind((addr, 0))
+    addr = s.getsockname()
+    self.assertRaisesErrno(errno.EPERM, s.sendto, "foo", addr)
+    self.DelIptablesInvertedRule(version, True, 12345)
+    self.AddIptablesInvertedRule(version, True, myId)
+    s.sendto("foo", addr)
+    data, sockaddr = s.recvfrom(4096)
+    self.assertEqual("foo", data)
+    self.assertEqual(sockaddr, addr)
+    self.DelIptablesInvertedRule(version, True, myId)
     s.sendto("foo", addr)
     data, sockaddr = s.recvfrom(4096)
     self.assertEqual("foo", data)
@@ -90,6 +155,10 @@ class QtaguidTest(net_test.NetworkTest):
     self.CheckSocketOutput(6, False)
     self.CheckSocketOutput(4, True)
     self.CheckSocketOutput(6, True)
+    self.CheckSocketOutputUidInverted(4)
+    self.CheckSocketOutputUidInverted(6)
+    self.CheckSocketOutputGidInverted(4)
+    self.CheckSocketOutputGidInverted(6)
 
   @unittest.skip("does not pass on current kernels")
   def testCheckNotMatchGid(self):
