@@ -24,7 +24,7 @@ from socket import *  # pylint: disable=wildcard-import
 import struct
 
 import csocket
-import cstruct
+import qstruct
 import net_test
 import netlink
 
@@ -119,47 +119,47 @@ XFRM_POLICY_ICMP = 2
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-XfrmSelector = cstruct.Struct(
+XfrmSelector = qstruct.Struct(
     "XfrmSelector", "=16s16sHHHHHBBBxxxiI",
     "daddr saddr dport dport_mask sport sport_mask "
     "family prefixlen_d prefixlen_s proto ifindex user")
 
-XfrmLifetimeCfg = cstruct.Struct(
+XfrmLifetimeCfg = qstruct.Struct(
     "XfrmLifetimeCfg", "=QQQQQQQQ",
     "soft_byte hard_byte soft_packet hard_packet "
     "soft_add_expires hard_add_expires soft_use_expires hard_use_expires")
 
-XfrmLifetimeCur = cstruct.Struct(
+XfrmLifetimeCur = qstruct.Struct(
     "XfrmLifetimeCur", "=QQQQ", "bytes packets add_time use_time")
 
-XfrmAlgo = cstruct.Struct("XfrmAlgo", "=64AI", "name key_len")
+XfrmAlgo = qstruct.Struct("XfrmAlgo", "=64AI", "name key_len")
 
-XfrmAlgoAuth = cstruct.Struct("XfrmAlgo", "=64AII", "name key_len trunc_len")
+XfrmAlgoAuth = qstruct.Struct("XfrmAlgo", "=64AII", "name key_len trunc_len")
 
-XfrmAlgoAead = cstruct.Struct("XfrmAlgoAead", "=64AII", "name key_len icv_len")
+XfrmAlgoAead = qstruct.Struct("XfrmAlgoAead", "=64AII", "name key_len icv_len")
 
-XfrmStats = cstruct.Struct(
+XfrmStats = qstruct.Struct(
     "XfrmStats", "=III", "replay_window replay integrity_failed")
 
-XfrmId = cstruct.Struct("XfrmId", "=16sIBxxx", "daddr spi proto")
+XfrmId = qstruct.Struct("XfrmId", "=16sIBxxx", "daddr spi proto")
 
-XfrmUserTmpl = cstruct.Struct(
+XfrmUserTmpl = qstruct.Struct(
     "XfrmUserTmpl", "=SHxx16sIBBBxIII",
     "id family saddr reqid mode share optional aalgos ealgos calgos",
     [XfrmId])
 
-XfrmEncapTmpl = cstruct.Struct(
+XfrmEncapTmpl = qstruct.Struct(
     "XfrmEncapTmpl", "=HHHxx16s", "type sport dport oa")
 
-XfrmUsersaInfo = cstruct.Struct(
+XfrmUsersaInfo = qstruct.Struct(
     "XfrmUsersaInfo", "=SS16sSSSIIHBBB7x",
     "sel id saddr lft curlft stats seq reqid family mode replay_window flags",
     [XfrmSelector, XfrmId, XfrmLifetimeCfg, XfrmLifetimeCur, XfrmStats])
 
-XfrmUsersaId = cstruct.Struct(
+XfrmUsersaId = qstruct.Struct(
     "XfrmUsersaInfo", "=16sIHBx", "daddr spi family proto")
 
-XfrmUserpolicyInfo = cstruct.Struct(
+XfrmUserpolicyInfo = qstruct.Struct(
     "XfrmUserpolicyInfo", "=SSSIIBBBBxxxx",
     "sel lft curlft priority index dir action flags share",
     [XfrmSelector, XfrmLifetimeCfg, XfrmLifetimeCur])
@@ -231,11 +231,11 @@ class Xfrm(netlink.NetlinkSocket):
     name = self._GetConstantName(nla_type, "XFRMA_")
 
     if name in ["XFRMA_ALG_CRYPT", "XFRMA_ALG_AUTH"]:
-      data = cstruct.Read(nla_data, XfrmAlgo)[0]
+      data = qstruct.Read(nla_data, XfrmAlgo)[0]
     elif name == "XFRMA_ALG_AUTH_TRUNC":
-      data = cstruct.Read(nla_data, XfrmAlgoAuth)[0]
+      data = qstruct.Read(nla_data, XfrmAlgoAuth)[0]
     elif name == "XFRMA_ENCAP":
-      data = cstruct.Read(nla_data, XfrmEncapTmpl)[0]
+      data = qstruct.Read(nla_data, XfrmEncapTmpl)[0]
     else:
       data = nla_data
 

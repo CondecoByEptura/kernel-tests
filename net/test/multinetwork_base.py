@@ -29,7 +29,7 @@ import time
 from scapy import all as scapy
 
 import csocket
-import cstruct
+import qstruct
 import iproute
 import net_test
 

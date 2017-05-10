@@ -21,8 +21,8 @@ Example usage:
 ... # - S: Nested Struct.
 ... # - A: NULL-padded ASCII string. Like s, but printing ignores contiguous
 ... #      trailing NULL blocks at the end.
-... import cstruct
->>> NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
+... import qstruct
+>>> NLMsgHdr = qstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
 >>>
 >>>
 >>> # Create instances from tuples or raw bytes. Data past the end is ignored.
@@ -44,15 +44,15 @@ NLMsgHdr(length=44, type=33, flags=2, seq=0, pid=510)
 ... data = ("\x2c\x00\x00\x00\x21\x00\x02\x00"
 ...         "\x00\x00\x00\x00\xfe\x01\x00\x00"
 ...         "more data")
->>> cstruct.Read(data, NLMsgHdr)
+>>> qstruct.Read(data, NLMsgHdr)
 (NLMsgHdr(length=44, type=33, flags=2, seq=0, pid=510), 'more data')
 >>>
 >>> # Structs can contain one or more nested structs. The nested struct types
 ... # are specified in a list as an optional last argument. Nested structs may
 ... # contain nested structs.
-... S = cstruct.Struct("S", "=BI", "byte1 int2")
->>> N = cstruct.Struct("N", "!BSiS", "byte1 s2 int3 s2", [S, S])
->>> NN = cstruct.Struct("NN", "SHS", "s1 word2 n3", [S, N])
+... S = qstruct.Struct("S", "=BI", "byte1 int2")
+>>> N = qstruct.Struct("N", "!BSiS", "byte1 s2 int3 s2", [S, S])
+>>> NN = qstruct.Struct("NN", "SHS", "s1 word2 n3", [S, N])
 >>> nn = NN((S((1, 25000)), -29876, N((55, S((5, 6)), 1111, S((7, 8))))))
 >>> nn.n3.s2.int2 = 5
 >>>

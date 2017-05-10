@@ -16,12 +16,12 @@
 
 import unittest
 
-import cstruct
+import qstruct
 
 
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-TestStructA = cstruct.Struct("TestStructA", "=BI", "byte1 int2")
-TestStructB = cstruct.Struct("TestStructB", "=BI", "byte1 int2")
+TestStructA = qstruct.Struct("TestStructA", "=BI", "byte1 int2")
+TestStructB = qstruct.Struct("TestStructB", "=BI", "byte1 int2")
 
 
 class CstructTest(unittest.TestCase):
@@ -56,10 +56,10 @@ class CstructTest(unittest.TestCase):
     self.CheckEquals(a1, a3)
 
   def testNestedStructs(self):
-    Nested = cstruct.Struct("Nested", "!HSSi",
+    Nested = qstruct.Struct("Nested", "!HSSi",
                             "word1 nest2 nest3 int4",
                             [TestStructA, TestStructB])
-    DoubleNested = cstruct.Struct("DoubleNested", "SSB",
+    DoubleNested = qstruct.Struct("DoubleNested", "SSB",
                                   "nest1 nest2 byte3",
                                   [TestStructA, Nested])
     d = DoubleNested((TestStructA((1, 2)),
@@ -95,7 +95,7 @@ class CstructTest(unittest.TestCase):
     self.CheckEquals(unpacked, d)
 
   def testNullTerminatedStrings(self):
-    TestStruct = cstruct.Struct("TestStruct", "B16si16AH",
+    TestStruct = qstruct.Struct("TestStruct", "B16si16AH",
                                 "byte1 string2 int3 ascii4 word5")
     nullstr = "hello" + (16 - len("hello")) * "\x00"
 

@@ -24,7 +24,7 @@ import socket
 import struct
 import sys
 
-import cstruct
+import qstruct
 
 
 # Request constants.
@@ -41,9 +41,9 @@ NLMSG_DONE = 3
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
-NLMsgErr = cstruct.Struct("NLMsgErr", "=i", "error")
-NLAttr = cstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
+NLMsgHdr = qstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
+NLMsgErr = qstruct.Struct("NLMsgErr", "=i", "error")
+NLAttr = qstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
 
 # Alignment / padding.
 NLA_ALIGNTO = 4
@@ -111,7 +111,7 @@ class NetlinkSocket(object):
     attributes = {}
     while data:
       # Read the nlattr header.
-      nla, data = cstruct.Read(data, NLAttr)
+      nla, data = qstruct.Read(data, NLAttr)
 
       # Read the data.
       datalen = nla.nla_len - len(nla)
@@ -160,7 +160,7 @@ class NetlinkSocket(object):
 
   def _ParseAck(self, response):
     # Find the error code.
-    hdr, data = cstruct.Read(response, NLMsgHdr)
+    hdr, data = qstruct.Read(response, NLMsgHdr)
     if hdr.type == NLMSG_ERROR:
       error = NLMsgErr(data).error
       if error:
@@ -187,14 +187,14 @@ class NetlinkSocket(object):
 
   def _ParseNLMsg(self, data, msgtype):
     """Parses a Netlink message into a header and a dictionary of attributes."""
-    nlmsghdr, data = cstruct.Read(data, NLMsgHdr)
+    nlmsghdr, data = qstruct.Read(data, NLMsgHdr)
     self._Debug("  %s" % nlmsghdr)
 
     if nlmsghdr.type == NLMSG_ERROR or nlmsghdr.type == NLMSG_DONE:
       print "done"
       return (None, None), data
 
-    nlmsg, data = cstruct.Read(data, msgtype)
+    nlmsg, data = qstruct.Read(data, msgtype)
     self._Debug("    %s" % nlmsg)
 
     # Parse the attributes in the nlmsg.
@@ -226,7 +226,7 @@ class NetlinkSocket(object):
     Args:
       command: An integer, the command to run (e.g., RTM_NEWADDR).
       msg: A struct, the request (e.g., a RTMsg). May be None.
-      msgtype: A cstruct.Struct, the data type to parse the dump results as.
+      msgtype: A qstruct.Struct, the data type to parse the dump results as.
       attrs: A string, the raw bytes of any request attributes to include.
 
     Returns:

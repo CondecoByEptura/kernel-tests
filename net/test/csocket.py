@@ -21,23 +21,23 @@ import socket
 import struct
 import sys
 
-import cstruct
+import qstruct
 
 
 # Data structures.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-CMsgHdr = cstruct.Struct("cmsghdr", "@Lii", "len level type")
-Iovec = cstruct.Struct("iovec", "@PL", "base len")
-MsgHdr = cstruct.Struct("msghdr", "@LLPLPLi",
+CMsgHdr = qstruct.Struct("cmsghdr", "@Lii", "len level type")
+Iovec = qstruct.Struct("iovec", "@PL", "base len")
+MsgHdr = qstruct.Struct("msghdr", "@LLPLPLi",
                         "name namelen iov iovlen control msg_controllen flags")
-SockaddrIn = cstruct.Struct("sockaddr_in", "=HH4sxxxxxxxx", "family port addr")
-SockaddrIn6 = cstruct.Struct("sockaddr_in6", "=HHI16sI",
+SockaddrIn = qstruct.Struct("sockaddr_in", "=HH4sxxxxxxxx", "family port addr")
+SockaddrIn6 = qstruct.Struct("sockaddr_in6", "=HHI16sI",
                              "family port flowinfo addr scope_id")
-SockaddrStorage = cstruct.Struct("sockaddr_storage", "=H126s", "family data")
-SockExtendedErr = cstruct.Struct("sock_extended_err", "@IBBBxII",
+SockaddrStorage = qstruct.Struct("sockaddr_storage", "=H126s", "family data")
+SockExtendedErr = qstruct.Struct("sock_extended_err", "@IBBBxII",
                                  "errno origin type code info data")
-InPktinfo = cstruct.Struct("in_pktinfo", "@i4s4s", "ifindex spec_dst addr")
-In6Pktinfo = cstruct.Struct("in6_pktinfo", "@16si", "addr ifindex")
+InPktinfo = qstruct.Struct("in_pktinfo", "@i4s4s", "ifindex spec_dst addr")
+In6Pktinfo = qstruct.Struct("in6_pktinfo", "@16si", "addr ifindex")
 
 # Constants.
 # IPv4 socket options and cmsg types.
@@ -160,7 +160,7 @@ def _ParseMsgControl(buf):
   """Parse a raw control buffer into a list of tuples."""
   msglist = []
   while len(buf) > 0:
-    cmsghdr, buf = cstruct.Read(buf, CMsgHdr)
+    cmsghdr, buf = qstruct.Read(buf, CMsgHdr)
     datalen = cmsghdr.len - len(CMsgHdr)
     data, buf = buf[:datalen], buf[PaddedLength(datalen):]
 
@@ -174,9 +174,9 @@ def _ParseMsgControl(buf):
       if cmsghdr.type == IPV6_PKTINFO:
         data = In6Pktinfo(data)
       elif cmsghdr.type == IPV6_RECVERR:
-        err, source = cstruct.Read(data, SockExtendedErr)
+        err, source = qstruct.Read(data, SockExtendedErr)
         if err.origin == SO_ORIGIN_ICMP6:
-          source, pad = cstruct.Read(source, SockaddrIn6)
+          source, pad = qstruct.Read(source, SockaddrIn6)
         data = (err, source)
       elif cmsghdr.type == IPV6_HOPLIMIT:
         data = struct.unpack("@I", data)[0]

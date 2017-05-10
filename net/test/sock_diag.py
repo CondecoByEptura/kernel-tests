@@ -24,7 +24,7 @@ from socket import *  # pylint: disable=wildcard-import
 import struct
 
 import csocket
-import cstruct
+import qstruct
 import net_test
 import netlink
 
@@ -77,26 +77,26 @@ INET_DIAG_BC_MARK_COND = 10
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-InetDiagSockId = cstruct.Struct(
+InetDiagSockId = qstruct.Struct(
     "InetDiagSockId", "!HH16s16sI8s", "sport dport src dst iface cookie")
-InetDiagReqV2 = cstruct.Struct(
+InetDiagReqV2 = qstruct.Struct(
     "InetDiagReqV2", "=BBBxIS", "family protocol ext states id",
     [InetDiagSockId])
-InetDiagMsg = cstruct.Struct(
+InetDiagMsg = qstruct.Struct(
     "InetDiagMsg", "=BBBBSLLLLL",
     "family state timer retrans id expires rqueue wqueue uid inode",
     [InetDiagSockId])
-InetDiagMeminfo = cstruct.Struct(
+InetDiagMeminfo = qstruct.Struct(
     "InetDiagMeminfo", "=IIII", "rmem wmem fmem tmem")
-InetDiagBcOp = cstruct.Struct("InetDiagBcOp", "BBH", "code yes no")
-InetDiagHostcond = cstruct.Struct("InetDiagHostcond", "=BBxxi",
+InetDiagBcOp = qstruct.Struct("InetDiagBcOp", "BBH", "code yes no")
+InetDiagHostcond = qstruct.Struct("InetDiagHostcond", "=BBxxi",
                                   "family prefix_len port")
-InetDiagMarkcond = cstruct.Struct("InetDiagMarkcond", "=II", "mark mask")
+InetDiagMarkcond = qstruct.Struct("InetDiagMarkcond", "=II", "mark mask")
 
-SkMeminfo = cstruct.Struct(
+SkMeminfo = qstruct.Struct(
     "SkMeminfo", "=IIIIIIII",
     "rmem_alloc rcvbuf wmem_alloc sndbuf fwd_alloc wmem_queued optmem backlog")
-TcpInfo = cstruct.Struct(
+TcpInfo = qstruct.Struct(
     "TcpInfo", "=BBBBBBBxIIIIIIIIIIIIIIIIIIIIIIII",
     "state ca_state retransmits probes backoff options wscale "
     "rto ato snd_mss rcv_mss "
@@ -149,7 +149,7 @@ class SockDiag(netlink.NetlinkSocket):
         # The SCTP diag code always appears to copy sizeof(sockaddr_storage)
         # bytes, but does so from a union sctp_addr which is at most as long
         # as a sockaddr_in6.
-        addr, nla_data = cstruct.Read(nla_data, csocket.SockaddrStorage)
+        addr, nla_data = qstruct.Read(nla_data, csocket.SockaddrStorage)
         if addr.family == AF_INET:
           addr = csocket.SockaddrIn(addr.Pack())
         elif addr.family == AF_INET6:
@@ -266,16 +266,16 @@ class SockDiag(netlink.NetlinkSocket):
     instructions = []
     try:
       while bytecode:
-        op, rest = cstruct.Read(bytecode, InetDiagBcOp)
+        op, rest = qstruct.Read(bytecode, InetDiagBcOp)
 
         if op.code in [INET_DIAG_BC_NOP, INET_DIAG_BC_JMP, INET_DIAG_BC_AUTO]:
           arg = None
         elif op.code in [INET_DIAG_BC_S_GE, INET_DIAG_BC_S_LE,
                          INET_DIAG_BC_D_GE, INET_DIAG_BC_D_LE]:
-          op, rest = cstruct.Read(rest, InetDiagBcOp)
+          op, rest = qstruct.Read(rest, InetDiagBcOp)
           arg = op.no
         elif op.code in [INET_DIAG_BC_S_COND, INET_DIAG_BC_D_COND]:
-          cond, rest = cstruct.Read(rest, InetDiagHostcond)
+          cond, rest = qstruct.Read(rest, InetDiagHostcond)
           if cond.family == 0:
             arg = (None, cond.prefix_len, cond.port)
           else:
@@ -288,7 +288,7 @@ class SockDiag(netlink.NetlinkSocket):
           attr, rest = rest[:attrlen], rest[attrlen:]
           arg = struct.unpack("=I", attr)
         elif op.code == INET_DIAG_BC_MARK_COND:
-          arg, rest = cstruct.Read(rest, InetDiagMarkcond)
+          arg, rest = qstruct.Read(rest, InetDiagMarkcond)
         else:
           raise ValueError("Unknown opcode %d" % op.code)
         instructions.append((op, arg))

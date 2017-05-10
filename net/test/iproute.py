@@ -25,7 +25,7 @@ import struct
 import sys
 
 import csocket
-import cstruct
+import qstruct
 import netlink
 
 ### Base netlink constants. See include/uapi/linux/netlink.h.
@@ -33,9 +33,9 @@ NETLINK_ROUTE = 0
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
-NLMsgErr = cstruct.Struct("NLMsgErr", "=i", "error")
-NLAttr = cstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
+NLMsgHdr = qstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
+NLMsgErr = qstruct.Struct("NLMsgErr", "=i", "error")
+NLAttr = qstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
 
 # Alignment / padding.
 NLA_ALIGNTO = 4
@@ -96,12 +96,12 @@ RTAX_MTU = 2
 RTAX_HOPLIMIT = 10
 
 # Data structure formats.
-IfinfoMsg = cstruct.Struct(
+IfinfoMsg = qstruct.Struct(
     "IfinfoMsg", "=BBHiII", "family pad type index flags change")
-RTMsg = cstruct.Struct(
+RTMsg = qstruct.Struct(
     "RTMsg", "=BBBBBBBBI",
     "family dst_len src_len tos table protocol scope type flags")
-RTACacheinfo = cstruct.Struct(
+RTACacheinfo = qstruct.Struct(
     "RTACacheinfo", "=IIiiI", "clntref lastuse expires error used")
 
 
@@ -124,12 +124,12 @@ IFA_F_TENTATIVE = 0x40
 IFA_F_PERMANENT = 0x80
 
 # Data structure formats.
-IfAddrMsg = cstruct.Struct(
+IfAddrMsg = qstruct.Struct(
     "IfAddrMsg", "=BBBBI",
     "family prefixlen flags scope index")
-IFACacheinfo = cstruct.Struct(
+IFACacheinfo = qstruct.Struct(
     "IFACacheinfo", "=IIII", "prefered valid cstamp tstamp")
-NDACacheinfo = cstruct.Struct(
+NDACacheinfo = qstruct.Struct(
     "NDACacheinfo", "=IIII", "confirmed used updated refcnt")
 
 
@@ -144,7 +144,7 @@ NDA_PROBES = 4
 NUD_PERMANENT = 0x80
 
 # Data structure formats.
-NdMsg = cstruct.Struct(
+NdMsg = qstruct.Struct(
     "NdMsg", "=BxxxiHBB",
     "family ifindex state flags type")
 
@@ -160,7 +160,7 @@ FRA_OIFNAME = 17
 FRA_UID_RANGE = 20
 
 # Data structure formats.
-FibRuleUidRange = cstruct.Struct("FibRuleUidRange", "=II", "start end")
+FibRuleUidRange = qstruct.Struct("FibRuleUidRange", "=II", "start end")
 
 # Link constants. See include/uapi/linux/if_link.h.
 IFLA_ADDRESS = 1
@@ -237,7 +237,7 @@ class IPRoute(netlink.NetlinkSocket):
        - name is a string (e.g., "FRA_PRIORITY") if we understood the attribute,
          or an integer if we didn't.
        - data can be an integer, a string, a nested dict of attributes as
-         returned by _ParseAttributes (e.g., for RTA_METRICS), a cstruct.Struct
+         returned by _ParseAttributes (e.g., for RTA_METRICS), a qstruct.Struct
          (e.g., RTACacheinfo), etc. If we didn't understand the attribute, it
          will be the raw byte string.
     """

@@ -24,7 +24,7 @@ import time
 import unittest
 from math import pow
 
-import cstruct
+import qstruct
 import multinetwork_base
 import net_test
 

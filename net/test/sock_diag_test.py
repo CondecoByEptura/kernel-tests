@@ -231,7 +231,7 @@ class SockDiagTest(SockDiagBaseTest):
         sockets = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, bytecode)
         self.assertEquals(1, len(sockets))
 
-        # TODO: why doesn't comparing the cstructs work?
+        # TODO: why doesn't comparing the qstructs work?
         self.assertEquals(diag_msg.Pack(), sockets[0][0].Pack())
 
   def testCrossFamilyBytecode(self):

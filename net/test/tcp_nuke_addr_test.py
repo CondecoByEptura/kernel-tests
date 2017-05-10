@@ -20,7 +20,7 @@ from socket import *  # pylint: disable=wildcard-import
 import unittest
 
 import csocket
-import cstruct
+import qstruct
 import net_test
 
 IPV4_LOOPBACK_ADDR = "127.0.0.1"
@@ -31,8 +31,8 @@ LOOPBACK_IFINDEX = 1
 SIOCKILLADDR = 0x8939
 
 
-Ifreq = cstruct.Struct("Ifreq", "=16s16s", "name data")
-In6Ifreq = cstruct.Struct("In6Ifreq", "=16sIi", "addr prefixlen ifindex")
+Ifreq = qstruct.Struct("Ifreq", "=16s16s", "name data")
+In6Ifreq = qstruct.Struct("In6Ifreq", "=16sIi", "addr prefixlen ifindex")
 
 def KillAddrIoctl(addr):
   """Calls the SIOCKILLADDR ioctl on the provided IP address.

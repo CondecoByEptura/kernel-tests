@@ -17,7 +17,7 @@
 import ctypes
 
 import csocket
-import cstruct
+import qstruct
 import net_test
 import socket
 
@@ -126,14 +126,14 @@ BPF_FUNC_map_update_elem = 2
 BPF_FUNC_map_delete_elem = 3
 
 # BPF attr struct
-BpfAttrCreate = cstruct.Struct("bpf_attr_create", "=IIII",
+BpfAttrCreate = qstruct.Struct("bpf_attr_create", "=IIII",
                                "map_type key_size value_size max_entries")
-BpfAttrOps = cstruct.Struct("bpf_attr_ops", "=QQQQ",
+BpfAttrOps = qstruct.Struct("bpf_attr_ops", "=QQQQ",
                             "map_fd key_ptr value_ptr flags")
-BpfAttrProgLoad = cstruct.Struct(
+BpfAttrProgLoad = qstruct.Struct(
     "bpf_attr_prog_load", "=IIQQIIQI", "prog_type insn_cnt insns"
     " license log_level log_size log_buf kern_version")
-BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
+BpfInsn = qstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
