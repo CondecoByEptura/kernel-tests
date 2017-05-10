@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf05a530_5a36bac8",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-10T15:57:15Z",
+      "side": 1,
+      "message": "tab instead of space",
+      "range": {
+        "startLine": 186,
+        "startChar": 15,
+        "endLine": 186,
+        "endChar": 16
+      },
+      "revId": "2bff1d53542906a257a133366337a512c4408979",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
