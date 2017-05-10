@@ -79,8 +79,8 @@ class PfKeyTest(unittest.TestCase):
     self.assertEquals(256, attrs6["XFRMA_ALG_AUTH_TRUNC"].key_len)
     self.assertEquals(256, attrs6["XFRMA_ALG_AUTH_TRUNC"].key_len)
 
-    # TODO: check truncation lengths, once they are correct.
-
+    self.assertEquals(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
+    self.assertEquals(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
 
 if __name__ == "__main__":
   unittest.main()
