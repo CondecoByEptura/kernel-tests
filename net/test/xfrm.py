@@ -20,6 +20,7 @@
 
 import os
 from socket import *  # pylint: disable=wildcard-import
+import os
 
 import cstruct
 import netlink
