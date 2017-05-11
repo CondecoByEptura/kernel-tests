@@ -16,6 +16,7 @@
 
 # pylint: disable=g-bad-todo,g-bad-file-header,wildcard-import
 from errno import *  # pylint: disable=wildcard-import
+import functools
 import random
 from scapy import all as scapy
 from socket import *  # pylint: disable=wildcard-import
@@ -364,6 +365,52 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         spi = ntohl(new_sa.id.spi)
         self.assertNotIn(spi, spis)
         spis.add(spi)
+
+  def testOutboundSaCollision(self):
+    """Test that two SAs with different destinations do not collide."""
+    # Create a helper so that we can call AddMinimalSaInfo multiple times while
+    # only changing the destination address.
+    add_sa = functools.partial(
+        self.xfrm.AddMinimalSaInfo,
+        src="::",
+        spi=0xAAAA,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=0,
+        encryption=ALGO_CBC_AES_256,
+        encryption_key=ENCRYPTION_KEY,
+        auth_trunc=ALGO_HMAC_SHA1,
+        auth_trunc_key=AUTH_TRUNC_KEY,
+        encap=None)
+    add_sa(dst=TEST_ADDR1)
+    add_sa(dst=TEST_ADDR2)
+    self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
+
+  def testInboundSaCollision(self):
+    """Test that two SAs with different sources do not collide."""
+    # Create a helper so that we can call AddMinimalSaInfo multiple times while
+    # only changing the source address.
+    add_sa = functools.partial(
+        self.xfrm.AddMinimalSaInfo,
+        dst="::",
+        spi=0xAAAA,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=0,
+        encryption=ALGO_CBC_AES_256,
+        encryption_key=ENCRYPTION_KEY,
+        auth_trunc=ALGO_HMAC_SHA1,
+        auth_trunc_key=AUTH_TRUNC_KEY,
+        encap=None)
+    # If two remote endpoints (TEST_ADDR1 and TEST_ADDR2) pick the same SPI, the
+    # kernel considers this to be a collision.
+    # TODO: This test fails as expected. Should we,
+    #  - assertRaisesErrno(EEXISTS)
+    #  - @skip this test
+    #  - delete this test
+    add_sa(src=TEST_ADDR1)
+    add_sa(src=TEST_ADDR2)
+    self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
 
 
 if __name__ == "__main__":
