@@ -19,6 +19,7 @@
 # pylint: disable=g-bad-todo
 
 from socket import *  # pylint: disable=wildcard-import
+import os
 
 import cstruct
 import netlink
