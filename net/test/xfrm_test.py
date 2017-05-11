@@ -350,6 +350,33 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+  def testOutboundSaCollision(self):
+    """Test that changing destination address prevents SA collision."""
+    self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, 0xAAAA, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 0, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None)
+    self.xfrm.AddMinimalSaInfo( "::", TEST_ADDR2, 0xAAAA, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 0, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None)
+
+  def testInboundSaCollision(self):
+    # If two remote endpoints (TEST_ADDR1 and TEST_ADDR2) pick the same SPI, the
+    # kernel considers this to be a collision.
+    # TODO: This test fails as expected. Should we,
+    #  - assertRaisesErrno(EEXISTS)
+    #  - @skip this test
+    #  - delete this test
+    self.xfrm.AddMinimalSaInfo(TEST_ADDR1, "::", 0xAAAA, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 0, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None)
+    self.xfrm.AddMinimalSaInfo(TEST_ADDR2, "::", 0xAAAA, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 0, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None)
+
 
 if __name__ == "__main__":
   unittest.main()
