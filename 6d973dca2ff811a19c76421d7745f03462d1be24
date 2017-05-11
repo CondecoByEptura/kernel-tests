@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "768b2f0f_0c739d38",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-11T04:04:31Z",
+      "side": 1,
+      "message": "If this test fails, the iptables rule (and all the others created in this test) will be left around, and future tests may fail.\n\nCan you add a a tearDown method that deletes all the rules that are created in this test? Because these deletion commands will fail if the rule was not created, and because SetIptablesRule() throws an AssertionError if the command fails, you\u0027ll likely need to catch the AssertionErrors or tearDown will fail.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 54
+      },
+      "revId": "6d973dca2ff811a19c76421d7745f03462d1be24",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef56f0a4_ceec5ae8",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-11T04:04:31Z",
+      "side": 1,
+      "message": "It seems like it would be better for these two tests to use the same testing methodology.\n\nIf the problem is that RunAsUid only changes the UID, it\u0027s simple to add a new RunAsGid or RunAsUidGid that changes the GID. (If you do this, please don\u0027t duplicate code; a good way to do it might be to have RunAsUid just call or subclass RunAsUidGid with a gid of -1)\n\n\nIf on the other hand this testing methodology is better, then should we use it in the UID tests as well?\n\nGiven that you have a comment here that explains what you\u0027re doing, leaving this as is is also fine for now.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 75
+      },
+      "revId": "6d973dca2ff811a19c76421d7745f03462d1be24",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
