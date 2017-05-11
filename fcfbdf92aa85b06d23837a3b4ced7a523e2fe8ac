@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c974accf_76f8a964",
+        "filename": "net/test/pf_key.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-05-11T06:33:03Z",
+      "side": 1,
+      "message": "This method appears unused along with some of the stuff below. Is this used in a later change?",
+      "revId": "fcfbdf92aa85b06d23837a3b4ced7a523e2fe8ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9212ba7b_776b97da",
+        "filename": "net/test/pf_key_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-05-11T06:33:03Z",
+      "side": 1,
+      "message": "Is AddDel really the right name here? I don\u0027t see any deleting.",
+      "revId": "fcfbdf92aa85b06d23837a3b4ced7a523e2fe8ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82afaa71_c5abadb4",
+        "filename": "net/test/pf_key_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-05-11T06:33:03Z",
+      "side": 1,
+      "message": "consider moving the Pack() on src/dst into AddSa?",
+      "revId": "fcfbdf92aa85b06d23837a3b4ced7a523e2fe8ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
