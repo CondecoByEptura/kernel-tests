@@ -412,6 +412,20 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     add_sa(src=TEST_ADDR2)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
 
+  def testAllocSpiSideEffect(self):
+    """Tests that failing to allocate an SPI leaves no state in xfrm."""
+    spi = 0xAAAA
+    self.assertEquals(0, len(self.xfrm.DumpSaInfo()), "xfrm not flushed before test")
+    new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
+    self.assertEquals(1, len(self.xfrm.DumpSaInfo()), "allocating 1 SPI failed to create 1 SA")
+    # Allocating the same SPI twice returns an error, but leaves an invalid
+    # object in the SAD.
+    with self.assertRaisesErrno(ENOENT):
+      new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
+    # TODO: Assert the correct behavior (only 1 object) when the kernel is
+    # fixed.
+    self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
+
 
 if __name__ == "__main__":
   unittest.main()
