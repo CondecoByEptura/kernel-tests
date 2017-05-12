@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "270526b2_3625e156",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-12T19:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25637252_b75f8c42",
+      "range": {
+        "startLine": 358,
+        "startChar": 6,
+        "endLine": 358,
+        "endChar": 18
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b6fcc05_b033bb85",
         "filename": "net/test/net_test.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-12T04:36:35Z",
       "side": 1,
       "message": "given UID",
+      "range": {
+        "startLine": 372,
+        "startChar": 44,
+        "endLine": 372,
+        "endChar": 61
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "022a69c9_3c6910ae",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-12T19:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b6fcc05_b033bb85",
       "range": {
         "startLine": 372,
         "startChar": 44,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "70871fa3_e52c55f7",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-12T19:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c0e3c26_923d7d54",
+      "range": {
+        "startLine": 375,
+        "startChar": 36,
+        "endLine": 375,
+        "endChar": 38
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e871ed89_bdce6b14",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0674972e_c66567fa",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-12T19:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e871ed89_bdce6b14",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea527d8b_e609b7d2",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2017-05-12T04:36:35Z",
       "side": 1,
       "message": "If you make the changes suggested in net_test.py, this should become 0.",
+      "range": {
+        "startLine": 97,
+        "startChar": 58,
+        "endLine": 97,
+        "endChar": 60
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d442f235_130e8c16",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-12T19:39:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea527d8b_e609b7d2",
       "range": {
         "startLine": 97,
         "startChar": 58,
