@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25637252_b75f8c42",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-12T04:36:35Z",
+      "side": 1,
+      "message": "I think it should be safe to remove this. Checking \"if self.uid\" twice seems to make no sense; I don\u0027t know what I was thinking when I wrote it. I suppose the test passes without it?\n\nAlso for correctness I\u0027d make the UID and GID separate, so something like:\n\n  def __enter__(self):\n    if self.uid:\n      self.saved_uid \u003d os.geteuid()\n      self.saved_groups \u003d os.getgroups()\n      os.seteuid(self.uid)\n      os.setgroups(self.saved_groups + [AID_INET])\n    if self.gid:\n      self.saved_gid \u003d os.getgid()\n      os.setgid(self.gid)\n\n  def __exit__(self, unused_type, unused_value, unused_traceback):\n    if self.uid:\n      os.seteuid(self.saved_uid)\n      os.setgroups(self.saved_groups)\n    if self.gid:\n      os.setgid(self.saved_gid)",
+      "range": {
+        "startLine": 358,
+        "startChar": 6,
+        "endLine": 358,
+        "endChar": 18
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b6fcc05_b033bb85",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-12T04:36:35Z",
+      "side": 1,
+      "message": "given UID",
+      "range": {
+        "startLine": 372,
+        "startChar": 44,
+        "endLine": 372,
+        "endChar": 61
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c0e3c26_923d7d54",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-12T04:36:35Z",
+      "side": 1,
+      "message": "I\u0027d use 0 here instead. The existing code assumes that it\u0027s running as UID 0, and while that should be fixed, I don\u0027t think we should do that now.",
+      "range": {
+        "startLine": 375,
+        "startChar": 36,
+        "endLine": 375,
+        "endChar": 38
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e871ed89_bdce6b14",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-12T04:36:35Z",
+      "side": 1,
+      "message": "This seems like it could break other things. Instead of flushing OUTPUT, can you use your own chain? I think you could do something like:\n\n\n  def RunIptablesCommand(self, args)\n    self.assertFalse(net_test.RunIptablesCommand(4, args))\n    self.assertFalse(net_test.RunIptablesCommand(6, args))  \n\n  def setUp(self):\n    self.RunIptablesCommand(\"-N qtaguid_OUTPUT\")\n    self.RunIptablesCommand(\"-A OUTPUT -j qtaguid_test_OUTPUT\")\n\n  def tearDown(self):\n    self.RunIptablesCommand(\"-D OUTPUT -j qtaguid_test_OUTPUT\")\n    self.RunIptablesCommand(\"-F qtaguid_OUTPUT\")\n    self.RunIptablesCommand(\"-X qtaguid_OUTPUT\")\n\nthen all the other iptables rules can just -A and -D to qtaguid_test_OUTPUT.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea527d8b_e609b7d2",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-12T04:36:35Z",
+      "side": 1,
+      "message": "If you make the changes suggested in net_test.py, this should become 0.",
+      "range": {
+        "startLine": 97,
+        "startChar": 58,
+        "endLine": 97,
+        "endChar": 60
+      },
+      "revId": "6e6e03091621d338f4d1dc4d62b8450835f459f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
