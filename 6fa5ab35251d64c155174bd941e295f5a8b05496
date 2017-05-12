@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "386d393c_69d62564",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-12T17:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1492c4f_f77c2778",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 66
+      },
+      "revId": "6fa5ab35251d64c155174bd941e295f5a8b05496",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d891755_abe619d6",
         "filename": "net/test/xfrm.py",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6fadb63a_ccf612aa",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-12T17:21:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d891755_abe619d6",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 309,
+        "endChar": 63
+      },
+      "revId": "6fa5ab35251d64c155174bd941e295f5a8b05496",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95811da5_04350327",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-12T02:03:53Z",
       "side": 1,
       "message": "If you run the test twice in a row, will it fail with EEXIST? If so, suggest cleaning up. Something like:\n\n    new_sa \u003d self.xfrm.AllocSpi(\"::\", IPPROTO_ESP, spi, spi)\n    try:\n      self.assertEquals(spi, ntohl(new_sa.id.spi))\n    finally:\n      self.xfrm.DelSa(...)  # or however it is that we delete one of these.\n\nIf you\u0027re going to end up doing this in multiple tests, you could put the cleanup code into tearDown. You could have the testcases maintain a list of all the SPIs they\u0027ve created in a new class variable, and when tearDown runs, it could just delete all of them.",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 48
+      },
+      "revId": "6fa5ab35251d64c155174bd941e295f5a8b05496",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4d0769_57aaf5dd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-12T17:21:04Z",
+      "side": 1,
+      "message": "The test doesn\u0027t fail because setUp currently flushes ip xfrm state before the test runs. You just merged a change that flushes in both setUp and tearDown - would you consider that to be sufficient cleanup, or would you rather see tests explicitly clear their state?\n\nI\u0027ve seen the pattern elsewhere where tearDown will flush state, but also fail the test if it didn\u0027t clean up after itself.\n\n\nOn a side note, testAllocSpecificSpiUnavailable tries to alloc the same SPI twice in a row and asserts ENOENT is raised as expected.",
+      "parentUuid": "95811da5_04350327",
       "range": {
         "startLine": 322,
         "startChar": 4,
