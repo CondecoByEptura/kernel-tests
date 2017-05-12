@@ -396,6 +396,26 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                                ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
                                None)
 
+  def testAllocSpiSideEffect(self):
+    """Tests that failing to allocate an SPI leaves no state in xfrm."""
+    # TODO: What is the strategy for testing broken behaviors that don't break
+    # IPsec overall? (see also: testInboundSaCollision)
+    # - write tests that break when the kernel is fixed?
+    # - write tests that assert the fix and @skip them?
+    # - do nothing and leave no breadcrumbs about the bugs?
+    spi = 0xAAAA
+    self.assertEquals(0, len(self.xfrm.DumpSaInfo()),
+                      "xfrm not flushed before test")
+    new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
+    self.assertEquals(1, len(self.xfrm.DumpSaInfo()),
+                      "allocating 1 SPI failed to create 1 SA")
+    # In a perfect world, trying to alloc the SPI again should not create
+    # another xfrm object.
+    with self.assertRaisesErrno(ENOENT):
+      new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
+    self.assertEquals(1, len(self.xfrm.DumpSaInfo()),
+                      "failed SPI allocation created an xfrm object")
+
 
 if __name__ == "__main__":
   unittest.main()
