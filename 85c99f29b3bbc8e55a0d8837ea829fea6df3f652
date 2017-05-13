@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "562b4df1_13971f19",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-13T06:26:35Z",
+      "side": 1,
+      "message": "To make sure I understand: the \"high probability\" is just that ENOENT will happen before the last attempt? There\u0027s a guarantee that ENOENT will happen on the last attempt, right?",
+      "range": {
+        "startLine": 363,
+        "startChar": 60,
+        "endLine": 363,
+        "endChar": 76
+      },
+      "revId": "85c99f29b3bbc8e55a0d8837ea829fea6df3f652",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

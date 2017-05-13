@@ -140,6 +140,30 @@
       "revId": "6fa5ab35251d64c155174bd941e295f5a8b05496",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e170aa7_aa5e44ca",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-13T06:26:35Z",
+      "side": 1,
+      "message": "Ack. This is fine for now.\n\nWhen we start running these tests on actual devices this will be a problem because we\u0027ll be interfering with existing XFRM state on the device.\n\nAny thoughts on how we\u0027d make these tests more friendly to the presence of existing XFRM state? Is there something we can put into the SAs and policies we create, such that we would then only flush SAs that we knew we had created ourselves?",
+      "parentUuid": "cd4d0769_57aaf5dd",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 48
+      },
+      "revId": "6fa5ab35251d64c155174bd941e295f5a8b05496",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
