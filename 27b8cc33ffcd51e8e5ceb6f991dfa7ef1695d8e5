@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f921b795_af539950",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-13T06:34:24Z",
+      "side": 1,
+      "message": "Optional: you could make this more readable using:\n\n    args \u003d [\"::\", TEST_ADDR1, 0xAAAA, IPPROTO_ESP,\n            xfrm.XFRM_MODE_TRANSPORT, 0, ALGO_CBC_AES_256,\n            ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,\n            None]\n    self.xfrm.AddMinimalSaInfo(*args)\n    args[1] \u003d TEST_ADDR2\n    self.xfrm.AddMinimalSaInfo(*args)",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 380,
+        "endChar": 36
+      },
+      "revId": "27b8cc33ffcd51e8e5ceb6f991dfa7ef1695d8e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29b939f2_0d166b97",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-13T06:34:24Z",
+      "side": 1,
+      "message": "Does RFC 4301 section 4.4.2 have anything useful to say about this?",
+      "range": {
+        "startLine": 384,
+        "startChar": 13,
+        "endLine": 384,
+        "endChar": 45
+      },
+      "revId": "27b8cc33ffcd51e8e5ceb6f991dfa7ef1695d8e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
