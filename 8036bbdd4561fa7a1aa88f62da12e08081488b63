@@ -1,0 +1,9 @@
+Presubmit-Ready+1: Jonathan Basseri <misterikkit@google.com>
+Autosubmit+1: Jonathan Basseri <misterikkit@google.com>
+Verified+1: Jonathan Basseri <misterikkit@google.com>
+Code-Review+2: Lorenzo Colitti <lorenzo@google.com>
+Submitted-by: Jonathan Basseri <misterikkit@google.com>
+Submitted-at: Tue, 16 May 2017 18:17:24 +0000
+Reviewed-on: https://android-review.googlesource.com/394594
+Project: kernel/tests
+Branch: refs/heads/master
