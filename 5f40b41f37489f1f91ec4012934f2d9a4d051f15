@@ -22,6 +22,30 @@
       "revId": "5f40b41f37489f1f91ec4012934f2d9a4d051f15",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cdcba82_70107191",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-16T14:56:36Z",
+      "side": 1,
+      "message": "At least we should document what the current behaviour is and what we think it should be.\n\nWe\u0027ve done \"write tests that break when the kernel is fixed\" elsewhere. The advantage is that if we end up writing code that ends up depending on the broken behaviour, we\u0027ll know when someone fixes it because the test will start failing and we can delete it.",
+      "parentUuid": "67e12823_44d5d6a7",
+      "range": {
+        "startLine": 405,
+        "startChar": 4,
+        "endLine": 405,
+        "endChar": 59
+      },
+      "revId": "5f40b41f37489f1f91ec4012934f2d9a4d051f15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
