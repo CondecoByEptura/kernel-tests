@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e12823_44d5d6a7",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-16T14:53:59Z",
+      "side": 1,
+      "message": "If this is actually a bug, then another option is to send a patch upstream to fix it. What\u0027s the current behaviour? Does it silently return success? Does it return an error but result in an object that can\u0027t be freed? ...?",
+      "range": {
+        "startLine": 405,
+        "startChar": 4,
+        "endLine": 405,
+        "endChar": 59
+      },
+      "revId": "5f40b41f37489f1f91ec4012934f2d9a4d051f15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
