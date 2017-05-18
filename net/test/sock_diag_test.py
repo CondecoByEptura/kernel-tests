@@ -807,6 +807,7 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
          self.fail("Too many sockets in dump, first unexpected: %s" % str(i))
 
   def testMarkBytecode(self):
+    self.fail()
     family, addr = random.choice([
         (AF_INET, "127.0.0.1"),
         (AF_INET6, "::1"),
