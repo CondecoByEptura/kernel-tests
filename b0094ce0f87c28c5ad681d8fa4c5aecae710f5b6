@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32acd889_07f93e42",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c988c25b_aebddb50",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 25
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd87b3bb_b27a0dc8",
         "filename": "net/test/bpf.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-18T12:09:14Z",
       "side": 1,
       "message": "Explain that this is a union and the types below (e.g., bpf_attr_create) aren\u0027t kernel struct names but just different variants of the union.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 17
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34d03c3f_601aa2f3",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd87b3bb_b27a0dc8",
       "range": {
         "startLine": 143,
         "startChar": 0,
@@ -140,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "5b82dbf3_7393a47f",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7fdf401_80dee3d4",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3afa5937_6004d07f",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 3
@@ -151,6 +223,30 @@
       "writtenOn": "2017-05-18T12:09:14Z",
       "side": 1,
       "message": "What are these magic numbers?",
+      "range": {
+        "startLine": 168,
+        "startChar": 47,
+        "endLine": 168,
+        "endChar": 55
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29d7fc96_873d1701",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afa5937_6004d07f",
       "range": {
         "startLine": 168,
         "startChar": 47,
@@ -186,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "ab1d0d2a_887d85df",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82c422b0_dd32a18c",
+      "range": {
+        "startLine": 177,
+        "startChar": 50,
+        "endLine": 177,
+        "endChar": 52
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "140cdc75_ced489fb",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 3
@@ -197,6 +317,30 @@
       "writtenOn": "2017-05-18T12:09:14Z",
       "side": 1,
       "message": "Is there any significance to the registers you choose here? If so, can you add comments to explain that, perhaps in some central location?",
+      "range": {
+        "startLine": 181,
+        "startChar": 28,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a26fa3f2_f429da72",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140cdc75_ced489fb",
       "range": {
         "startLine": 181,
         "startChar": 28,
@@ -232,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "336d39ce_83e80b49",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eba03493_4682a6cd",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 21
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7363368f_49c6d622",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 3
@@ -243,6 +411,30 @@
       "writtenOn": "2017-05-18T12:09:14Z",
       "side": 1,
       "message": "Why /media and not something under /tmp?",
+      "range": {
+        "startLine": 274,
+        "startChar": 26,
+        "endLine": 274,
+        "endChar": 32
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73f1cbcb_2029c5a3",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:32:34Z",
+      "side": 1,
+      "message": "I will switch to use tmp then, but I couldn\u0027t make new folder under it so I have to choose one of the existing place to mount the cgroup",
+      "parentUuid": "7363368f_49c6d622",
       "range": {
         "startLine": 274,
         "startChar": 26,
