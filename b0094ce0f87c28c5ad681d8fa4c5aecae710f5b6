@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c988c25b_aebddb50",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "This will change over time, and we probably won\u0027t ever need it. Delete it?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 25
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd87b3bb_b27a0dc8",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Explain that this is a union and the types below (e.g., bpf_attr_create) aren\u0027t kernel struct names but just different variants of the union.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 17
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7186055_894ac240",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Looks like this might fit on one line?",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 38
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "616682a9_f61b1ab4",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Can you add a function to simplify these tasks, and use it wherever you can? Looks like at least attach, detach and load can use it.\n\n  def BpfSyscall(op, attr):\n    ret \u003d libc.syscall(__NR_bpf, op, attr.CPointer(), len(attr))\n    csocket.MaybeRaiseSocketError(ret)\n    return ret",
+      "range": {
+        "startLine": 229,
+        "startChar": 9,
+        "endLine": 229,
+        "endChar": 75
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d461e07_29ee213b",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "These two are identical to the three just above them. Can you factor them out to a function?",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 19
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7fdf401_80dee3d4",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Please make it easier to understand this code. The easiest way to do that is probably to add lots of comments, but perhaps grouping multiple instructions into logical subunits might help.",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afa5937_6004d07f",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "What are these magic numbers?",
+      "range": {
+        "startLine": 168,
+        "startChar": 47,
+        "endLine": 168,
+        "endChar": 55
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82c422b0_dd32a18c",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Is this the jump offset? If so, how will the reader know to which instruction this jumps?\n\nI think it might help readability to introduce instruction labels. One way to do this would be to represent each instruction as a (label, instruction, jump_target) tuple, like so:\n\n  instructions \u003d [\n    (None, BpfMov64Reg(BPF_REG_6, BPF_REG_1), None),    # instruction w/o label\n    ...\n    (None, BpfJumpImm(BPF_AND, BPF_REG_0, 0), \"exit\"),  # jump to label \"exit\" if condition matches\n    ...\n    (\"exit\", BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, 0), None),  # instruction with label\n  ]\n\nYou could \"compile\" such a program in two passes: first scan the list to build a dict mapping labels to instruction offsets, then once the map is populated, replace the target of each jump instruction (i.e., the dst_src field?) with the delta between the current position in the program and the target instruction offset.\n\nTo minimize changes in this CL, I think you can just get away with taking the packed instruction (e.g., the string returned by BpfJumpImm), converting it to a BpfInsn structure, overwriting the dst_src field, and repacking it.\n\nYou needn\u0027t touch the existing code in this CL, but I think it would be helpful to do this for the new code you\u0027re adding in this CL. Otherwise programs of this type are extremely hard to review, which means that reviews are either superficial (and won\u0027t find issues or suggest improvements) or very long and slow.\n\nOnce that\u0027s done, and jump instructions are expressed via labels, we might notice common code between some of these BPF programs, and be able to group them into common subroutines that don\u0027t need to be duplicated.",
+      "range": {
+        "startLine": 177,
+        "startChar": 50,
+        "endLine": 177,
+        "endChar": 52
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "140cdc75_ced489fb",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Is there any significance to the registers you choose here? If so, can you add comments to explain that, perhaps in some central location?",
+      "range": {
+        "startLine": 181,
+        "startChar": 28,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eba03493_4682a6cd",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "::1",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 21
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7363368f_49c6d622",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-18T12:09:14Z",
+      "side": 1,
+      "message": "Why /media and not something under /tmp?",
+      "range": {
+        "startLine": 274,
+        "startChar": 26,
+        "endLine": 274,
+        "endChar": 32
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
