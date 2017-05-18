@@ -306,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "85b7d00b_a936820b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-18T20:36:38Z",
+      "side": 1,
+      "message": "I have refactored the bpf programs into several code blocks and can be concatenate by different purpose. I also added some comment about each code block. The instruction label seems pretty straight forward and easy to understand, maybe I can implement it based on the code blocks in the future CL.",
+      "parentUuid": "82c422b0_dd32a18c",
+      "range": {
+        "startLine": 177,
+        "startChar": 50,
+        "endLine": 177,
+        "endChar": 52
+      },
+      "revId": "b0094ce0f87c28c5ad681d8fa4c5aecae710f5b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "140cdc75_ced489fb",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 3
