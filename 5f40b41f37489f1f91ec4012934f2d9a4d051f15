@@ -46,6 +46,54 @@
       "revId": "5f40b41f37489f1f91ec4012934f2d9a4d051f15",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eb7980a_2906af38",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-19T22:37:47Z",
+      "side": 1,
+      "message": "understood. I\u0027ll assert the broken behavior and explain what\u0027s up in the comments.",
+      "parentUuid": "4cdcba82_70107191",
+      "range": {
+        "startLine": 405,
+        "startChar": 4,
+        "endLine": 405,
+        "endChar": 59
+      },
+      "revId": "5f40b41f37489f1f91ec4012934f2d9a4d051f15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "924f447d_0b8ea052",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-19T22:37:47Z",
+      "side": 1,
+      "message": "From my experiments it returns an error but also creates an object with a null SPI. It gets cleaned up when we flush state, but in the real world, I don\u0027t know if we have a good way to detect \u0026 correct this.\n\nBased on my current understanding, upstreaming a patch is my preference. I will dig into the source.",
+      "parentUuid": "67e12823_44d5d6a7",
+      "range": {
+        "startLine": 405,
+        "startChar": 4,
+        "endLine": 405,
+        "endChar": 59
+      },
+      "revId": "5f40b41f37489f1f91ec4012934f2d9a4d051f15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
