@@ -22,6 +22,30 @@
       "revId": "85c99f29b3bbc8e55a0d8837ea829fea6df3f652",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca24c553_5e8bc472",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-19T22:36:05Z",
+      "side": 1,
+      "message": "correct. I\u0027ve reworded the comment.",
+      "parentUuid": "562b4df1_13971f19",
+      "range": {
+        "startLine": 363,
+        "startChar": 60,
+        "endLine": 363,
+        "endChar": 76
+      },
+      "revId": "85c99f29b3bbc8e55a0d8837ea829fea6df3f652",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
