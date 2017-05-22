@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c3c0386_3261f52a",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-22T17:54:08Z",
+      "side": 1,
+      "message": "since this is going to come up a lot, is it worth having it as a small helper?",
+      "range": {
+        "startLine": 279,
+        "startChar": 14,
+        "endLine": 279,
+        "endChar": 50
+      },
+      "revId": "493b297d5906d42c663adff32d7a6453a3b78a87",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26eaf971_79e199af",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-22T17:54:08Z",
+      "side": 1,
+      "message": "Consistency between single and double quotes?",
+      "range": {
+        "startLine": 307,
+        "startChar": 21,
+        "endLine": 307,
+        "endChar": 22
+      },
+      "revId": "493b297d5906d42c663adff32d7a6453a3b78a87",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c43decbd_7ca0d528",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-22T17:54:08Z",
+      "side": 1,
+      "message": "suggest the test value use different high and low bytes.",
+      "range": {
+        "startLine": 333,
+        "startChar": 10,
+        "endLine": 333,
+        "endChar": 16
+      },
+      "revId": "493b297d5906d42c663adff32d7a6453a3b78a87",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
