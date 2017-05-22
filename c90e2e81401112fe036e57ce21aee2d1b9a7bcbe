@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5ff7e4e_5b5febb6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-22T18:04:02Z",
+      "side": 1,
+      "message": "I\u0027m a big fan of defining this as IN6ADDR_ANY",
+      "range": {
+        "startLine": 419,
+        "startChar": 32,
+        "endLine": 419,
+        "endChar": 36
+      },
+      "revId": "c90e2e81401112fe036e57ce21aee2d1b9a7bcbe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
