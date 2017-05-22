@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3606dd3_6ac018b0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-22T18:01:50Z",
+      "side": 1,
+      "message": "I wtf\u0027d on this. There are other alternatives for readability, but whatever.",
+      "range": {
+        "startLine": 373,
+        "startChar": 13,
+        "endLine": 373,
+        "endChar": 30
+      },
+      "revId": "677814997e2cf46198befd429324632b226cc1b5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
