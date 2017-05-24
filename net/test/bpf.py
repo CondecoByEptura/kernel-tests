@@ -284,6 +284,10 @@ def BpfMov64Imm(dst, imm):
   ret = BpfInsn((code, dst_src, 0, imm))
   return ret.Pack()
 
+def BpfLdAbs(size, imm):
+  code = BPF_LD | (size & 0x18) | BPF_ABS
+  ret = BpfInsn((code, 0, 0, imm))
+  return ret.Pack()
 
 def BpfExitInsn():
   code = BPF_JMP | BPF_EXIT
@@ -356,3 +360,23 @@ insPackCountUpdate = [
     BpfMov64Imm(BPF_REG_1, 1),
     BpfRawInsn(BPF_STX | BPF_XADD | BPF_W, BPF_REG_2, BPF_REG_1, 0, 0),
 ]
+
+class BpfSkBuff(ctypes.Structure):
+  _fields_ = [('len', ctypes.c_uint32),
+             ('pkt_type', ctypes.c_uint32),
+             ('mark', ctypes.c_uint32),
+             ('queue_mapping', ctypes.c_uint32),
+             ('protocol', ctypes.c_uint32),
+             ('vlan_present', ctypes.c_uint32),
+             ('vlan_tci', ctypes.c_uint32),
+             ('vlan_proto', ctypes.c_uint32),
+             ('priority', ctypes.c_uint32),
+             ('ingress_ifindex', ctypes.c_uint32),
+             ('ifindex', ctypes.c_uint32),
+             ('tc_index', ctypes.c_uint32),
+             ('cb5', ctypes.c_uint32),
+             ('hash', ctypes.c_uint32),
+             ('tc_classid', ctypes.c_uint32),
+             ('data', ctypes.c_uint32),
+             ('data_end', ctypes.c_uint32)]
+

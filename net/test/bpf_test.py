@@ -17,21 +17,26 @@
 import ctypes
 import errno
 import os
+import random
+from scapy import all as scapy
 import socket
 import struct
 import unittest
 
 from bpf import *  # pylint: disable=wildcard-import
 import csocket
+import multinetwork_base
 import net_test
+import packets
 import sock_diag
+import tcp_test
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
 HAVE_CGROUP_HELPER_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
 KEY_SIZE = 8;
 VALUE_SIZE = 4;
-TOTAL_ENTRIES = 20;
+TOTAL_ENTRIES = 100;
 
 @unittest.skipUnless(HAVE_EBPF_SUPPORT,
                      "eBPF function not fully supported")
@@ -251,6 +256,178 @@ class BpfCgroupTest(net_test.NetworkTest):
     self.socketLoopBack(packet_count, 4)
     self.socketLoopBack(packet_count, 6)
     self.assertEquals(LookupMap(self.map_fd, uid).value, packet_count*2)
+    BpfProgDetach(self.cg_fd, BPF_CGROUP_INET_INGRESS)
+
+@unittest.skipUnless(HAVE_CGROUP_HELPER_SUPPORT,
+                     "Cgroup BPF is not fully supported")
+class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
+
+  def setUp(self):
+    if not os.path.isdir("/tmp"):
+      os.mkdir('/tmp')
+    os.system('mount -t cgroup2 cg_bpf /tmp')
+    self.prog_fd = -1
+    self.map_fd = -1
+    self.cg_fd = os.open('/tmp', os.O_DIRECTORY | os.O_RDONLY)
+
+  def tearDown(self):
+    if self.prog_fd >= 0:
+      os.close(self.prog_fd)
+    if self.map_fd >= 0:
+      os.close(self.map_fd)
+    BpfProgDetach(self.cg_fd, BPF_CGROUP_INET_EGRESS)
+    BpfProgDetach(self.cg_fd, BPF_CGROUP_INET_INGRESS)
+    os.close(self.cg_fd)
+    os.system('umount cg_bpf')
+
+  # Miscellaneous helper function
+  def GetSocketCookie(self):
+    self.sock_diag = sock_diag.SockDiag()
+    real_cookie = self.sock_diag.FindSockDiagFromFd(self.s).id.cookie
+    return struct.unpack('=Q', real_cookie)[0]
+
+  def CheckUDPEgressTraffic(self, version, netid, routing_mode, dstaddr, packet_count):
+    self.s = self.BuildSocket(version, net_test.UDPSocket, netid, routing_mode)
+    myaddr = self.MyAddress(version, netid)
+    for _ in xrange(packet_count):
+      desc, expected = packets.UDP(version, myaddr, dstaddr, sport=None)
+      msg = "IPv%s UDP %%s: expected %s on %s" % (
+          version, desc, self.GetInterfaceName(netid))
+      self.s.sendto(net_test.UDP_PAYLOAD, (dstaddr, 53))
+      self.ExpectPacketOn(netid, msg % "sendto", expected)
+
+  def CheckTCPEgressTraffic(self, version, netid, routing_mode, dstaddr, packet_count):
+    self.s = self.BuildSocket(version, net_test.TCPSocket, netid, routing_mode)
+    myaddr = self.MyAddress(version, netid)
+    for _ in xrange(packet_count):
+      desc, expected = packets.SYN(53, version, myaddr, dstaddr,
+                                   sport=None, seq=None)
+      # Non-blocking TCP connects always return EINPROGRESS.
+      self.assertRaisesErrno(errno.EINPROGRESS, self.s.connect, (dstaddr, 53))
+      msg = "IPv%s TCP connect: expected %s on %s" % (
+          version, desc, self.GetInterfaceName(netid))
+      self.ExpectPacketOn(netid, msg, expected)
+
+  def ReceiveTcpPacketOn(self, version, netid, packet_count):
+    self.s = self.OpenListenSocket(version, netid)
+    remoteaddr = self.remoteaddr = self.GetRemoteAddress(version)
+    myaddr = self.myaddr = self.MyAddress(version, netid)
+    for _ in xrange (packet_count):
+      desc, syn = packets.SYN(self.port, version, remoteaddr, myaddr)
+      self.ReceivePacketOn(netid, syn)
+
+  # socket.gethostbyname does not work with IPv6, need another way to construct
+  # a IPv6 packet.
+  def ReceiveUDPPacketOn(self, version, netid, packet_count):
+    srcaddr = {4: self.IPV4_ADDR, 6: self.IPV6_ADDR}[version]
+    dstaddr = self.MyAddress(version, netid)
+    family = {4: net_test.AF_INET, 6: net_test.AF_INET6}[version]
+    self.s = net_test.Socket(family, net_test.SOCK_DGRAM, 0)
+    self.s.bind((dstaddr, 0))
+    dstport = self.s.getsockname()[1]
+    srcport = 53
+    for _ in xrange(packet_count):
+      incoming = (scapy.IP(src=srcaddr, dst=dstaddr) /
+                  scapy.UDP(sport=srcport, dport=dstport) /
+                  net_test.UDP_PAYLOAD)
+      self.ReceivePacketOn(netid, incoming)
+
+  def testCgroupCookieIPEgress(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    # The same eBPF program used in socket cookie test.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfFuncCall(BPF_FUNC_get_socket_cookie)
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + insCgroupAccept
+                     + insPackCountUpdate + insCgroupAccept)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, instructions)
+    BpfProgAttach(self.prog_fd, self.cg_fd, BPF_CGROUP_INET_EGRESS)
+    uid = os.getuid()
+    packet_count = 20
+    v4addr = self.IPV4_ADDR
+    v6addr = self.IPV6_ADDR
+    for netid in self.NETIDS:
+      self.CheckUDPEgressTraffic(4, netid, "mark", v4addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(6, netid, "mark", v6addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(4, netid, "uid", v4addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(6, netid, "uid", v6addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(4, netid, "oif", v4addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(6, netid, "oif", v6addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(4, netid, "ucast_oif", v4addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.CheckUDPEgressTraffic(6, netid, "ucast_oif", v6addr, 20)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      #TODO: Add TCP test as well.
+    BpfProgDetach(self.cg_fd, BPF_CGROUP_INET_EGRESS)
+
+  def testCgBpfCookieIngress(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    # The same eBPF program used in socket cookie test.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfFuncCall(BPF_FUNC_get_socket_cookie)
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + insCgroupAccept
+                     + insPackCountUpdate + insCgroupAccept)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, instructions)
+    BpfProgAttach(self.prog_fd, self.cg_fd, BPF_CGROUP_INET_INGRESS)
+    uid = os.getuid()
+    packet_count = 20
+    v4addr = self.IPV4_ADDR
+    v6addr = self.IPV6_ADDR
+    for netid in self.NETIDS:
+      self.ReceiveTcpPacketOn(4, netid, packet_count)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+      self.ReceiveTcpPacketOn(6, netid, packet_count)
+      # IPv6 somehow receive each packet exactly twice, need investigation
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count*2)
+      self.ReceiveUDPPacketOn(4, netid, packet_count)
+      self.assertEquals(LookupMap(self.map_fd, self.GetSocketCookie()).value,
+                        packet_count)
+    BpfProgDetach(self.cg_fd, BPF_CGROUP_INET_INGRESS)
+
+  def testCheckPacketiface(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    # The BPF program get skb portocol and iface index of each packet.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, BpfSkBuff.ifindex.offset)
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + insCgroupAccept
+                     + insPackCountUpdate + insCgroupAccept)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, instructions)
+    BpfProgAttach(self.prog_fd, self.cg_fd, BPF_CGROUP_INET_INGRESS)
+    v4addr = self.IPV4_ADDR
+    v6addr = self.IPV6_ADDR
+    packet_count = 1
+    for netid in self.NETIDS:
+      ifaceIdx = net_test.GetInterfaceIndex(self.GetInterfaceName(netid))
+      self.ReceiveTcpPacketOn(4, netid, 1)
+      self.assertEquals(LookupMap(self.map_fd, ifaceIdx).value,
+                        packet_count)
+      self.ReceiveTcpPacketOn(6, netid, 1)
+      self.assertEquals(LookupMap(self.map_fd, ifaceIdx).value,
+                        packet_count*2)
+      self.ReceiveUDPPacketOn(4, netid, 1)
+      self.assertEquals(LookupMap(self.map_fd, ifaceIdx).value,
+                        packet_count*3)
     BpfProgDetach(self.cg_fd, BPF_CGROUP_INET_INGRESS)
 
 if __name__ == "__main__":
