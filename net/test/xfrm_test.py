@@ -21,6 +21,7 @@ from scapy import all as scapy
 from socket import *  # pylint: disable=wildcard-import
 import struct
 import subprocess
+import sys
 import unittest
 
 import multinetwork_base
@@ -328,6 +329,68 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     unencrypted = (scapy.IP(src=remoteaddr, dst=myaddr) /
                    scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
+
+  def testAllAlgorithmCombos(self):
+    """Test every pair of supported encryption and authentication algorithm.
+
+    It is important that all supported block ciphers and hmacs are covered here.
+    The supported list is defined in IpSecAlgorithm.java.
+
+    This doesn't cover AEAD algorithms.
+    """
+
+    def makeCipher(name, key_len_bits):
+      key_len_bytes = key_len_bits / 8
+      return (xfrm.XfrmAlgo((name, key_len_bits)),
+              ENCRYPTION_KEY[:key_len_bytes])
+
+    def makeAuth(name, key_len_bits, trunc_len_bits):
+      key_len_bytes = key_len_bits / 8
+      key_material = AUTH_TRUNC_KEY * 4  # TODO: this, in a better way
+      return (xfrm.XfrmAlgoAuth((name, key_len_bits, trunc_len_bits)),
+              key_material[:key_len_bytes])
+
+    ciphers = [
+        makeCipher("cbc(aes)", 128),
+        makeCipher("cbc(aes)", 192),
+        makeCipher("cbc(aes)", 256),
+    ]
+    # Note: HMAC key sizes are fixed. (MD5=128, SHA1=160)
+    # We currently test only the min and max truncation lengths.
+    hmacs = [
+        makeAuth("hmac(md5)", 128, 96),
+        makeAuth("hmac(md5)", 128, 128),
+        makeAuth("hmac(sha1)", 160, 96),
+        makeAuth("hmac(sha1)", 160, 160),
+        makeAuth("hmac(sha256)", 256, 128),
+        makeAuth("hmac(sha256)", 256, 256),
+        makeAuth("hmac(sha384)", 384, 192),
+        makeAuth("hmac(sha384)", 384, 384),
+        makeAuth("hmac(sha512)", 512, 256),
+        makeAuth("hmac(sha512)", 512, 512),
+    ]
+    for cipher, cipher_key in ciphers:
+      for hmac, hmac_key in hmacs:
+        try:
+          self.xfrm.AddMinimalSaInfo(
+              src="::",
+              dst=TEST_ADDR1,
+              spi=htonl(TEST_SPI),
+              proto=IPPROTO_ESP,
+              mode=xfrm.XFRM_MODE_TRANSPORT,
+              reqid=1234,
+              encryption=cipher,
+              encryption_key=cipher_key,
+              auth_trunc=hmac,
+              auth_trunc_key=hmac_key,
+              encap=None)
+          self.xfrm.DeleteSaInfo(
+              daddr=TEST_ADDR1,
+              spi=htonl(TEST_SPI),
+              proto=IPPROTO_ESP)
+        except:
+          sys.stderr.write('Error with {} and {}\n'.format(cipher, hmac))
+          raise
 
 
 if __name__ == "__main__":
