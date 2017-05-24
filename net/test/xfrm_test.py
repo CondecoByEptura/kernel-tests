@@ -21,6 +21,7 @@ from scapy import all as scapy
 from socket import *  # pylint: disable=wildcard-import
 import struct
 import subprocess
+import sys
 import unittest
 
 import multinetwork_base
@@ -328,6 +329,73 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     unencrypted = (scapy.IP(src=remoteaddr, dst=myaddr) /
                    scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
+
+  def testAllAlgorithmCombos(self):
+    """Test every pair of supported encryption and authentication algorithm.
+
+    It is important that all supported block ciphers and hmacs are covered here.
+    The supported list is defined in IpSecAlgorithm.java.
+
+    This doesn't cover AEAD algorithms.
+    """
+
+    def MakeCipher(name, key_len_bits):
+      key_len_bytes = key_len_bits / 8
+      return (xfrm.XfrmAlgo((name, key_len_bits)),
+              ENCRYPTION_KEY[:key_len_bytes])
+
+    def MakeAuth(name, key_len_bits, trunc_len_bits):
+      key_len_bytes = key_len_bits / 8
+      key_material = AUTH_TRUNC_KEY * 4  # TODO: this, in a better way
+      return (xfrm.XfrmAlgoAuth((name, key_len_bits, trunc_len_bits)),
+              key_material[:key_len_bytes])
+
+    ciphers = [
+        MakeCipher("cbc(aes)", 128),
+        MakeCipher("cbc(aes)", 192),
+        MakeCipher("cbc(aes)", 256),
+    ]
+    # Note: HMAC key sizes are fixed. (MD5=128, SHA1=160)
+    hmacs = [
+        # Test only the min and max truncation lengths.
+        MakeAuth("hmac(md5)", 128, 96),
+        MakeAuth("hmac(md5)", 128, 128),
+        MakeAuth("hmac(sha1)", 160, 96),
+        MakeAuth("hmac(sha1)", 160, 160),
+        # RFC 4868 specifies that the only supported truncation length is half
+        # the hash size.
+        MakeAuth("hmac(sha256)", 256, 128),
+        MakeAuth("hmac(sha384)", 384, 192),
+        MakeAuth("hmac(sha512)", 512, 256),
+        # Test larger truncation length for good measure.
+        MakeAuth("hmac(sha256)", 256, 256),
+        MakeAuth("hmac(sha384)", 384, 384),
+        MakeAuth("hmac(sha512)", 512, 512),
+    ]
+    for cipher, cipher_key in ciphers:
+      for hmac, hmac_key in hmacs:
+        try:
+          # TODO: Test both IPv4 and IPv6.
+          self.xfrm.AddMinimalSaInfo(
+              src="::",
+              dst=TEST_ADDR1,
+              spi=htonl(TEST_SPI),
+              proto=IPPROTO_ESP,
+              mode=xfrm.XFRM_MODE_TRANSPORT,
+              reqid=1234,
+              encryption=cipher,
+              encryption_key=cipher_key,
+              auth_trunc=hmac,
+              auth_trunc_key=hmac_key,
+              encap=None)
+          # TODO: Test packets actually transformed, both inbound and outbound.
+          self.xfrm.DeleteSaInfo(
+              daddr=TEST_ADDR1,
+              spi=htonl(TEST_SPI),
+              proto=IPPROTO_ESP)
+        except IOError:
+          sys.stderr.write("Error with %s and %s\n" % (cipher, hmac))
+          raise
 
 
 if __name__ == "__main__":

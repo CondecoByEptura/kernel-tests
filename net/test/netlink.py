@@ -163,7 +163,7 @@ class NetlinkSocket(object):
     if hdr.type == NLMSG_ERROR:
       error = NLMsgErr(data).error
       if error:
-        raise IOError(error, os.strerror(-error))
+        raise IOError(error, "Netlink response: %s" % os.strerror(-error))
     else:
       raise ValueError("Expected ACK, got type %d" % hdr.type)
 
