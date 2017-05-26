@@ -127,18 +127,32 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     # Create a selector that matches all UDP packets. It's not actually used to
     # select traffic, that will be done by the socket policy, which selects the
     # SA entry (i.e., xfrm state) via the SPI and reqid.
-    sel = xfrm.XfrmSelector((XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0,
-                             AF_INET6, 0, 0, IPPROTO_UDP, 0, 0))
+    sel = xfrm.XfrmSelector(
+        daddr=XFRM_ADDR_ANY,
+        saddr=XFRM_ADDR_ANY,
+        dport=0,
+        dport_mask=0,
+        sport=0,
+        sport_mask=0,
+        family=AF_INET6,
+        prefixlen_d=0,
+        prefixlen_s=0,
+        proto=IPPROTO_UDP,
+        ifindex=0,
+        user=0)
 
     # Create a user policy that specifies that all outbound packets matching the
     # (essentially no-op) selector should be encrypted.
-    info = xfrm.XfrmUserpolicyInfo((sel,
-                                    xfrm.NO_LIFETIME_CFG, xfrm.NO_LIFETIME_CUR,
-                                    100, 0,
-                                    xfrm.XFRM_POLICY_OUT,
-                                    xfrm.XFRM_POLICY_ALLOW,
-                                    xfrm.XFRM_POLICY_LOCALOK,
-                                    xfrm.XFRM_SHARE_UNIQUE))
+    info = xfrm.XfrmUserpolicyInfo(
+        sel=sel,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        priority=100,
+        index=0,
+        dir=xfrm.XFRM_POLICY_OUT,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_UNIQUE)
 
     # Create a template that specifies the SPI and the protocol.
     xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, htonl(TEST_SPI), IPPROTO_ESP))
