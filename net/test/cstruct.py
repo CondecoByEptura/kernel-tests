@@ -25,7 +25,8 @@ Example usage:
 >>> NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
 >>>
 >>>
->>> # Create instances from tuples or raw bytes. Data past the end is ignored.
+>>> # Create instances from a tuple of values, raw bytes, zero-initialized, or
+>>> # using keywords.
 ... n1 = NLMsgHdr((44, 32, 0x2, 0, 491))
 >>> print n1
 NLMsgHdr(length=44, type=32, flags=2, seq=0, pid=491)
@@ -34,6 +35,14 @@ NLMsgHdr(length=44, type=32, flags=2, seq=0, pid=491)
 ...               "\x00\x00\x00\x00\xfe\x01\x00\x00" + "junk at end")
 >>> print n2
 NLMsgHdr(length=44, type=33, flags=2, seq=0, pid=510)
+>>>
+>>> n3 = netlink.NLMsgHdr() # Zero-initialized
+>>> print n3
+NLMsgHdr(length=0, type=0, flags=0, seq=0, pid=0)
+>>>
+>>> n4 = netlink.NLMsgHdr(length=44, type=33) # Other fields zero-initialized
+>>> print n4
+NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 >>>
 >>> # Serialize to raw bytes.
 ... print n1.Pack().encode("hex")
@@ -123,7 +132,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
         _asciiz.add(index)
         _format += "s"
       else:
-         # Standard struct format character.
+        # Standard struct format character.
         _format += fmt[i]
 
     _length = CalcSize(_format)
@@ -139,19 +148,40 @@ def Struct(name, fmt, fieldnames, substructs={}):
           values[index] = self._nested[index](value)
       self._SetValues(values)
 
-    def __init__(self, values):
-      # Initializing from a string.
-      if isinstance(values, str):
-        if len(values) < self._length:
-          raise TypeError("%s requires string of length %d, got %d" %
-                          (self._name, self._length, len(values)))
-        self._Parse(values)
+    def __init__(self, tuple_or_bytes=None, **kwargs):
+      """Construct an instance of this Struct.
+
+      1. With no args, the whole struct is zero-initialized.
+      2. With keyword args, the matching fields are populated; rest are zeroed.
+      3. With one tuple as the arg, the fields are assigned based on position.
+      4. With one string arg, the Struct is parsed from bytes.
+      """
+      if tuple_or_bytes and kwargs:
+        raise TypeError(
+            "%s requires keyword args or a single arg (bytes or a tuple)" %
+            self._name)
+
+      if tuple_or_bytes is None:
+        # Default construct from null bytes.
+        self._Parse("\x00" * len(self))
+        # If any keywords were supplied, set those fields.
+        for k, v in kwargs.iteritems():
+          setattr(self, k, v)
       else:
-        # Initializing from a tuple.
-        if len(values) != len(self._fieldnames):
-          raise TypeError("%s has exactly %d fieldnames (%d given)" %
-                          (self._name, len(self._fieldnames), len(values)))
-        self._SetValues(values)
+        if isinstance(tuple_or_bytes, str):
+          # Initializing from a string.
+          data = tuple_or_bytes
+          if len(data) < self._length:
+            raise TypeError("%s requires string of length %d, got %d" %
+                            (self._name, self._length, len(data)))
+          self._Parse(data)
+        else:
+          # Initializing from a tuple.
+          values = tuple_or_bytes
+          if len(values) != len(self._fieldnames):
+            raise TypeError("%s has exactly %d fieldnames (%d given)" %
+                            (self._name, len(self._fieldnames), len(values)))
+          self._SetValues(values)
 
     def _FieldIndex(self, attr):
       try:
@@ -164,6 +194,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
       return self._values[self._FieldIndex(name)]
 
     def __setattr__(self, name, value):
+      # TODO: check value type against self._format and throw here, or else
+      # callers get an unhelpful exception when they call Pack.
       self._values[self._FieldIndex(name)] = value
 
     @classmethod
