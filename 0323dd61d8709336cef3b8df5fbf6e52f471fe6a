@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d039084d_eaeb26da",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-31T17:37:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84e7fddb_dae34841",
+      "range": {
+        "startLine": 310,
+        "startChar": 25,
+        "endLine": 310,
+        "endChar": 37
+      },
+      "revId": "0323dd61d8709336cef3b8df5fbf6e52f471fe6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb9dac67_b603e991",
         "filename": "net/test/sock_diag_test.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-31T01:09:10Z",
       "side": 1,
       "message": "Please try IPv4 as well.",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 314,
+        "endChar": 62
+      },
+      "revId": "0323dd61d8709336cef3b8df5fbf6e52f471fe6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f201920e_2b10e94b",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-05-31T17:37:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9dac67_b603e991",
       "range": {
         "startLine": 313,
         "startChar": 0,
