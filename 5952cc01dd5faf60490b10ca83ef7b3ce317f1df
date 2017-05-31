@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fda76f64_bba48b3b",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-31T01:50:11Z",
+      "side": 1,
+      "message": "Can we make this a cstruct instead, for consistency with the other structs?",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 34
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd7c12a1_6513070b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-31T01:50:11Z",
+      "side": 1,
+      "message": "Is this slow? if so, consider putting it into setUpClass instead of setUp.",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 11
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "555945c1_6c810352",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-31T01:50:11Z",
+      "side": 1,
+      "message": "Can you use SO_COOKIE instead? Maybe add a TODO?",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 46
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27b59f2a_88e90f13",
+        "filename": "net/test/sock_diag.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-31T01:50:11Z",
+      "side": 1,
+      "message": "This change looks correct, but I\u0027m curious why you had to make it. Are you using sockets with SO_BINDTODEVICE set?",
+      "range": {
+        "startLine": 361,
+        "startChar": 14,
+        "endLine": 361,
+        "endChar": 23
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

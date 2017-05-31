@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b201c82_2f545f5f",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-05-31T01:50:11Z",
+      "side": 1,
+      "message": "EEXIST.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 62
+      },
+      "revId": "365da16a31dd77bedbf3a9c380ae66d8d2a784b8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
