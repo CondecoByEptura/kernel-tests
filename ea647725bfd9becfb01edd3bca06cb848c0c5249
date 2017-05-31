@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4fac3ce_0a25c9be",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-31T19:07:11Z",
+      "side": 1,
+      "message": "suggest elif for clarity",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "ea647725bfd9becfb01edd3bca06cb848c0c5249",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42444cca_9cfd412f",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-31T19:07:11Z",
+      "side": 1,
+      "message": "since this is done any time tuple_or_bytes is None... (including w/ kwargs) is there a way to avoid doing it in two separate \"cases\" or does that just make a bigger mess? Can these be reordered?",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 39
+      },
+      "revId": "ea647725bfd9becfb01edd3bca06cb848c0c5249",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88346ff6_d26f31df",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-31T19:07:11Z",
+      "side": 1,
+      "message": "I think you can use self.__dict__.update() to just mush the dictionaries together. Are there any keys that you want to blacklist?",
+      "range": {
+        "startLine": 170,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 28
+      },
+      "revId": "ea647725bfd9becfb01edd3bca06cb848c0c5249",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
