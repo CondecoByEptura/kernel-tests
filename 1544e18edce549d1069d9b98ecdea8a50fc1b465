@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a4d178_21963231",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-05-31T20:44:52Z",
+      "side": 1,
+      "message": "why does \"values\" exist?",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 180,
+        "endChar": 16
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
