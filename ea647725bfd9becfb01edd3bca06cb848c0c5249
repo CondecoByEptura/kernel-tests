@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec99cbd4_05273589",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-31T20:28:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4fac3ce_0a25c9be",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "ea647725bfd9becfb01edd3bca06cb848c0c5249",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42444cca_9cfd412f",
         "filename": "net/test/cstruct.py",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5a3c94d8_a3511b53",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-31T20:28:48Z",
+      "side": 1,
+      "message": "As discussed, kwargs will always be a dict, so the two cases could be combined. I think that harms readability here. We could unconditionally zero-initialize at the top of the constructor to avoid writing the same line of code twice. It\u0027s wasted effort when we get a value in tuple_or_bytes, but I\u0027m not at all worried about the performance ramifications.\n\nAll that considered, I feel that duplicating the line of code is somewhat more readable than zero-initializing once elsewhere.",
+      "parentUuid": "42444cca_9cfd412f",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 39
+      },
+      "revId": "ea647725bfd9becfb01edd3bca06cb848c0c5249",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88346ff6_d26f31df",
         "filename": "net/test/cstruct.py",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-31T19:07:11Z",
       "side": 1,
       "message": "I think you can use self.__dict__.update() to just mush the dictionaries together. Are there any keys that you want to blacklist?",
+      "range": {
+        "startLine": 170,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 28
+      },
+      "revId": "ea647725bfd9becfb01edd3bca06cb848c0c5249",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1095db56_31e23797",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-05-31T20:28:48Z",
+      "side": 1,
+      "message": "We want to blacklist keys that don\u0027t match field names.\n__setattr__ below raises if a key doesn\u0027t match a field name.\nAlso, values aren\u0027t stored in __dict__, they are stored in a list called _values.",
+      "parentUuid": "88346ff6_d26f31df",
       "range": {
         "startLine": 170,
         "startChar": 8,
