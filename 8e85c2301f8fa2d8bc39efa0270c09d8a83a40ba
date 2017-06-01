@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a282c9d2_faaf631f",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T11:41:04Z",
+      "side": 1,
+      "message": "Do you need the struct.unpack statements? Can you just do:\n\n    self.assertEqual(diag_msg.id.cookie, cookieStruct)",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 51
+      },
+      "revId": "8e85c2301f8fa2d8bc39efa0270c09d8a83a40ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
