@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a384c86_80a2a876",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T15:06:36Z",
+      "side": 1,
+      "message": "Limit lines to 80 characters.",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 85
+      },
+      "revId": "ba48282df46739a893d4b466c6c2678b07721d11",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03b93e17_b01cf84f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T15:06:36Z",
+      "side": 1,
+      "message": "Does this object time out? Or does it stay there forever? Have we looked into submitting a fix upstream?",
+      "range": {
+        "startLine": 421,
+        "startChar": 58,
+        "endLine": 422,
+        "endChar": 24
+      },
+      "revId": "ba48282df46739a893d4b466c6c2678b07721d11",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
