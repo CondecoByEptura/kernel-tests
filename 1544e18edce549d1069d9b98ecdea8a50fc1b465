@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d070e39c_b06797bf",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T21:28:34Z",
+      "side": 1,
+      "message": "updated error",
+      "parentUuid": "764f3502_e651bbee",
+      "range": {
+        "startLine": 161,
+        "startChar": 12,
+        "endLine": 161,
+        "endChar": 73
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f40f997_f253658b",
         "filename": "net/test/cstruct.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-01T14:41:34Z",
       "side": 1,
       "message": "Is it safe to call setattr here? _SetValues goes out of its way to use super(CStruct, self).__setattr__ instead of setattr.",
+      "range": {
+        "startLine": 169,
+        "startChar": 10,
+        "endLine": 169,
+        "endChar": 17
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb88519e_ae29ec20",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T21:28:34Z",
+      "side": 1,
+      "message": "_SetValues is replacing the _values member on self, which can\u0027t be done though assignment because there is a local override of __setattr__. OTOH, the local __setattr__ populates the _values list based on the struct\u0027s fields, which is exactly what we\u0027re going for here. I\u0027ve added a comment for clarity.",
+      "parentUuid": "3f40f997_f253658b",
       "range": {
         "startLine": 169,
         "startChar": 10,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a964bb7d_c8725817",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T21:28:34Z",
+      "side": 1,
+      "message": "flattened the logic.",
+      "parentUuid": "656e699f_7af7f122",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 10
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6a4d178_21963231",
         "filename": "net/test/cstruct.py",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de84539_58e03ae6",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T21:28:34Z",
+      "side": 1,
+      "message": "Because the constructor arg has an overloaded meaning, I thought it would aid readability to rename the variable when we use it in a specific way. After discussing, it seems readability would be best served by not renaming variables. (:",
+      "parentUuid": "a6a4d178_21963231",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 180,
+        "endChar": 16
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
