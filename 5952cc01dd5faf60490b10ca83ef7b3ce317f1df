@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "69fbf1d2_847234fc",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-01T01:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fda76f64_bba48b3b",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 34
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd7c12a1_6513070b",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-31T01:50:11Z",
       "side": 1,
       "message": "Is this slow? if so, consider putting it into setUpClass instead of setUp.",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 11
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8fdc81d_961a3312",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-01T01:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd7c12a1_6513070b",
       "range": {
         "startLine": 266,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b9e7c010_4027ba3e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-01T01:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "555945c1_6c810352",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 46
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27b59f2a_88e90f13",
         "filename": "net/test/sock_diag.py",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-05-31T01:50:11Z",
       "side": 1,
       "message": "This change looks correct, but I\u0027m curious why you had to make it. Are you using sockets with SO_BINDTODEVICE set?",
+      "range": {
+        "startLine": 361,
+        "startChar": 14,
+        "endLine": 361,
+        "endChar": 23
+      },
+      "revId": "5952cc01dd5faf60490b10ca83ef7b3ce317f1df",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5742388a_8cd8122d",
+        "filename": "net/test/sock_diag.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-01T01:06:58Z",
+      "side": 1,
+      "message": "It seems it implies the socket is under SO_BINDTODEVICE set since this is the code path for kernel version newer than 3.8 to get the iface index. Or maybe I used the wrong method.",
+      "parentUuid": "27b59f2a_88e90f13",
       "range": {
         "startLine": 361,
         "startChar": 14,
