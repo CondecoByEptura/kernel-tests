@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "764f3502_e651bbee",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:41:34Z",
+      "side": 1,
+      "message": "Suggest something like \"cannot specify both a tuple and keyword args\"",
+      "range": {
+        "startLine": 161,
+        "startChar": 12,
+        "endLine": 161,
+        "endChar": 73
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f40f997_f253658b",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:41:34Z",
+      "side": 1,
+      "message": "Is it safe to call setattr here? _SetValues goes out of its way to use super(CStruct, self).__setattr__ instead of setattr.",
+      "range": {
+        "startLine": 169,
+        "startChar": 10,
+        "endLine": 169,
+        "endChar": 17
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656e699f_7af7f122",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:41:34Z",
+      "side": 1,
+      "message": "This looks like a series of mutually-exclusive cases. If so, I think using one if ... elif ... elif ... else statement would improve readability.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 10
+      },
+      "revId": "1544e18edce549d1069d9b98ecdea8a50fc1b465",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6a4d178_21963231",
         "filename": "net/test/cstruct.py",
         "patchSetId": 4
