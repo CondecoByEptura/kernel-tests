@@ -22,6 +22,53 @@
       "revId": "677814997e2cf46198befd429324632b226cc1b5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76759a5f_2a51e3e4",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T15:01:16Z",
+      "side": 1,
+      "message": "+1.\n\nI think it\u0027s better to define a class-level method so you don\u0027t have to duplicate the code below in testInboundSaCollision.\n\n    def AddCannedSaInfo(dst):\n      self.xfrm.AddMinimalSaInfo(\"::\", 0xAAAA\", IPPROTO_ESP ...\n\nFailing that, doing something like:\n\n    args \u003d [\"::\", None, 0xAAAA, proto, ...]\n\n    args[1] \u003d TEST_ADDR1\n    self.xfrm.AddMinimalSaInfo(*args)\n\n    args[1] \u003d TEST_ADDR2\n    self.xfrm.AddMinimalSaInfo(*args)\n\nwould be easier to understand for those who don\u0027t know how to use functools.partial. Does functools.partial provide other advantages?",
+      "parentUuid": "e3606dd3_6ac018b0",
+      "range": {
+        "startLine": 373,
+        "startChar": 13,
+        "endLine": 373,
+        "endChar": 30
+      },
+      "revId": "677814997e2cf46198befd429324632b226cc1b5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc6eb3ee_aaf53421",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T15:01:16Z",
+      "side": 1,
+      "message": "Mild preference for assertRaisesErrno(EEXIST), but stating in the test docstring, or in comments, that we\u0027re not sure whether this is correct.",
+      "range": {
+        "startLine": 408,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 25
+      },
+      "revId": "677814997e2cf46198befd429324632b226cc1b5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
