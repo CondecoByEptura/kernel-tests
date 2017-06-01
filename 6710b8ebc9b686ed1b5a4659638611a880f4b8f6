@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16447430_8d7721b2",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc686d6e_ecd93540",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 78
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "411c836c_6749755b",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d312b99d_911fa8c6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "411c836c_6749755b",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 18
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91c40bad_51b0aa39",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-01T14:51:41Z",
       "side": 1,
       "message": "FWIW, some of these aren\u0027t strictly needed. RFC 4868 specifies that HMAC-SHA-{256,384,512} truncate the hashes to exactly half the output length.",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 371,
+        "endChar": 1
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "158eb7bb_9d518cd9",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "I didn\u0027t know about that. I guess linux is going the extra mile to support those other trunc lengths.",
+      "parentUuid": "91c40bad_51b0aa39",
       "range": {
         "startLine": 365,
         "startChar": 0,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "8b5cdd09_f1659c06",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "The goal here is not to hide any exceptions, but to print a \"context\" to stderr before the exception bubbles up. \"raise\" with no args re-raises whatever was thrown. That being said, I think IOError is the only interesting exception we expect from netlink.py.",
+      "parentUuid": "bb014fcb_80cc55de",
+      "range": {
+        "startLine": 391,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 14
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ff0978_66540a19",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -163,6 +259,54 @@
     },
     {
       "key": {
+        "uuid": "c349e27d_1b677d8d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "updated for consistency.",
+      "parentUuid": "94853172_ef2fe957",
+      "range": {
+        "startLine": 392,
+        "startChar": 34,
+        "endLine": 392,
+        "endChar": 72
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d3f880_e31778a0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "whoops, forgot.",
+      "parentUuid": "67ff0978_66540a19",
+      "range": {
+        "startLine": 392,
+        "startChar": 27,
+        "endLine": 392,
+        "endChar": 28
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b41b07bc_96505f50",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -174,6 +318,30 @@
       "writtenOn": "2017-06-01T14:51:41Z",
       "side": 1,
       "message": "Can you combine these two using something like:\n\n    except WhateverError, e:\n      self.fail(\"Error with %s and %s: %s\" % (cipher, hmac, e))",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 15
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d4ad3de_31084f26",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-01T18:01:12Z",
+      "side": 1,
+      "message": "The intention here was to let the original exception bubble all the way up to the unittest framework where it will be displayed to the user with stack trace. str(e) gives only the message. In particular, I would be happy to remove the \"try:\" entirely except that we wouldn\u0027t know which loop iteration failed.",
+      "parentUuid": "b41b07bc_96505f50",
       "range": {
         "startLine": 392,
         "startChar": 0,
