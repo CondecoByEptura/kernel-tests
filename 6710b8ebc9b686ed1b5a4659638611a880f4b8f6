@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc686d6e_ecd93540",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "We don\u0027t use {} anywhere. Can you use %s for consistency?",
+      "range": {
+        "startLine": 166,
+        "startChar": 48,
+        "endLine": 166,
+        "endChar": 78
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "411c836c_6749755b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "Style guide says method names should be SentenceCase.",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 18
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91c40bad_51b0aa39",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "FWIW, some of these aren\u0027t strictly needed. RFC 4868 specifies that HMAC-SHA-{256,384,512} truncate the hashes to exactly half the output length.",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 371,
+        "endChar": 1
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0758380_275732d3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "Add a TODO to test IPv4 as well?",
+      "range": {
+        "startLine": 377,
+        "startChar": 18,
+        "endLine": 377,
+        "endChar": 28
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb014fcb_80cc55de",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "Don\u0027t blanket-catch all exceptions as it can masks critical things like SyntaxError.",
+      "range": {
+        "startLine": 391,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 14
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67ff0978_66540a19",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "Use \" everywhere for consistency instead of mixing \" and \u0027.",
+      "range": {
+        "startLine": 392,
+        "startChar": 27,
+        "endLine": 392,
+        "endChar": 28
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94853172_ef2fe957",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "with %s and %s\\n\u0027 % (cipher, hmac))",
+      "range": {
+        "startLine": 392,
+        "startChar": 34,
+        "endLine": 392,
+        "endChar": 72
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b41b07bc_96505f50",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-01T14:51:41Z",
+      "side": 1,
+      "message": "Can you combine these two using something like:\n\n    except WhateverError, e:\n      self.fail(\"Error with %s and %s: %s\" % (cipher, hmac, e))",
+      "range": {
+        "startLine": 392,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 15
+      },
+      "revId": "6710b8ebc9b686ed1b5a4659638611a880f4b8f6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
