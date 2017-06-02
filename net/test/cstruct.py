@@ -103,8 +103,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
     # List of string fields that are ASCII strings.
     _asciiz = set()
 
-    if isinstance(_fieldnames, str):
-      _fieldnames = _fieldnames.split(" ")
+    _fieldnames = _fieldnames.split(" ")
 
     # Parse fmt into _format, converting any S format characters to "XXs",
     # where XX is the length of the struct type's packed representation.
@@ -123,10 +122,20 @@ def Struct(name, fmt, fieldnames, substructs={}):
         _asciiz.add(index)
         _format += "s"
       else:
-         # Standard struct format character.
+        # Standard struct format character.
         _format += fmt[i]
 
     _length = CalcSize(_format)
+
+    offsetList = [0]
+    last_offset = 0
+    for i in xrange(len(_format)):
+      offset = CalcSize(_format[:i])
+      if offset > last_offset:
+        last_offset = offset
+        offsetList.append(offset)
+
+    _offset = dict(zip(_fieldnames, offsetList))
 
     def _SetValues(self, values):
       super(CStruct, self).__setattr__("_values", list(values))
@@ -165,6 +174,9 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     def __setattr__(self, name, value):
       self._values[self._FieldIndex(name)] = value
+
+    def offset(self, name):
+      return self._offset[name]
 
     @classmethod
     def __len__(cls):
