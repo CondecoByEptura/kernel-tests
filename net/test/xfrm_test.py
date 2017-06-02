@@ -343,6 +343,46 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                    scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
 
+  def testReceiveSimplePacket(self):
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    netid = random.choice(self.NETIDS)
+    self.SelectInterface(s, netid, "mark")
+    local_addr = self.MyAddress(4, netid)
+    remote_addr = self.GetRemoteAddress(4)
+    s.bind((local_addr, 8080))  # listen on 8080
+    pkt = (scapy.IP(src=remote_addr, dst=local_addr) / scapy.UDP(
+        sport=9999, dport=8080) / "hello socket")
+    self.ReceivePacketOn(netid, pkt.build())
+
+    s.settimeout(1)
+    data, src = s.recvfrom(4096)
+    print src
+    print data
+
+  def testSendThenReceive(self):
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    netid = random.choice(self.NETIDS)
+    self.SelectInterface(s, netid, "mark")
+    local_addr = self.MyAddress(4, netid)
+    remote_addr = self.GetRemoteAddress(4)
+    s.sendto('hello socket1', (remote_addr, 9999))
+    s.sendto('hello socket2', (remote_addr, 9999))
+
+    pkts = self.ReadAllPacketsOn(netid)
+    self.assertEquals(2, len(pkts))
+    for pkt in pkts:
+      pkt.show()
+
+    local_port = s.getsockname()[1]
+    pkt = (scapy.IP(src=remote_addr, dst=local_addr) / scapy.UDP(
+        sport=9999, dport=local_port) / "well hello there")
+    pkt.show()
+    self.ReceivePacketOn(netid, pkt.build())
+    s.settimeout(1)
+    data, src = s.recvfrom(4096)
+    print src
+    print data
+
 
 if __name__ == "__main__":
   unittest.main()
