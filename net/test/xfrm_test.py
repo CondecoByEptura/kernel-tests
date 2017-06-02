@@ -383,6 +383,54 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                    scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
 
+  def testInboundThingy(self):
+    crypt = xfrm.XfrmAlgo(name="cbc(aes)", key_len=256)
+    ekey = ("fd84f7dc021f541160b67537a8bdfa18"
+            "744e86c85154c5cbf193391a5276af68").decode("hex")
+    auth = xfrm.XfrmAlgoAuth(name="hmac(sha256)", key_len=256, trunc_len=128)
+    akey = ("d1f990a0e43a2e1d9e9af7965f5b757d"
+            "69fd30faa5233d2e39ff67cf9e8e35a1").decode("hex")
+    # Complete with IP header.
+    # UDP sport=54321, dport=7777
+    esp_pkt = ("4500005c000100004032666b0a010001"
+               "0a010002deadbeef000000019de09b61"
+               "33fa36516e7828a33b405c48144430d8"
+               "8731aead445789f5c79cc6250d905442"
+               "a9c356c29f9c362ad21963943d397e28"
+               "3becc2ed4f294e833b0ce64c").decode("hex")
+
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    netid = random.choice(self.NETIDS)
+    self.SelectInterface(s, netid, "mark")
+    #s.connect((TEST_V4_ADDR1, 54321)) # IP and port shouldn't restrict receiving anything.
+    s.bind(("0.0.0.0",
+            7777))  # listen on 7777 to receive the incoming esp packet?
+
+    self.xfrm.AddMinimalSaInfo(
+        src="0.0.0.0",
+        dst="0.0.0.0",
+        spi=0xdeadbeef,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=0,
+        encryption=crypt,
+        encryption_key=ekey,
+        auth_trunc=auth,
+        auth_trunc_key=akey,
+        encap=None)
+    policy = MakeUserPolicy(AF_INET)
+    template = MakeUserTemplate(AF_INET)
+    template.id.spi = 0xdeadbeef
+    data = policy.Pack() + template.Pack()
+    s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
+
+    # This sends our packet to the tap interface.
+    self.ReceivePacketOn(netid, esp_pkt)
+    s.settimeout(1)
+    data, src = s.recvfrom(4096)
+    print src
+    print data
+
   def testReceiveSimplePacket(self):
     s = socket(AF_INET, SOCK_DGRAM, 0)
     netid = random.choice(self.NETIDS)
