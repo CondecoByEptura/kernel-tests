@@ -466,12 +466,25 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 
   def ReceiveEtherPacketOn(self, netid, packet):
-    posix.write(self.tuns[netid].fileno(), str(packet))
+    """Simulate receiving an Ethernet frame.
+
+    Args:
+      netid: The ID specifying which TAP interface receives the packet
+      packet: A scapy.Ether object
+    """
+    posix.write(self.tuns[netid].fileno(), packet.build())
 
   def ReceivePacketOn(self, netid, ip_packet):
+    """Simulate receiving an IP packet.
+
+    Args:
+      netid: The ID specifying which TAP interface receives the packet
+      ip_packet: A scapy.IP or scapy.IPv6 object
+    """
     routermac = self.RouterMacAddress(netid)
     mymac = self.MyMacAddress(netid)
     packet = scapy.Ether(src=routermac, dst=mymac) / ip_packet
+    self.assertNotEquals(0, packet.type, "Could not determine EtherType")
     self.ReceiveEtherPacketOn(netid, packet)
 
   def ReadAllPacketsOn(self, netid, include_multicast=False):
