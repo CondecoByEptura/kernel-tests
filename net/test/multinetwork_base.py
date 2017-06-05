@@ -466,11 +466,31 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 
   def ReceiveEtherPacketOn(self, netid, packet):
+    """Simulate receiving an Ethernet frame.
+
+    This causes the TAP interface specified by `netid` to receive `packet`. The
+    packet should be a scapy.Ether object or the raw bytes of an Ethernet frame.
+    """
     posix.write(self.tuns[netid].fileno(), str(packet))
 
   def ReceivePacketOn(self, netid, ip_packet):
+    """Simulate receiving an IP packet.
+
+    This causes the TAP interface specified by `netid` to receive `ip_packet`.
+    The packet should be a scapy.IP, scapy.IPv6, or the raw bytes of an IP (4 or
+    6) datagram.
+    """
     routermac = self.RouterMacAddress(netid)
     mymac = self.MyMacAddress(netid)
+    if type(ip_packet) is str:
+      # scapy.Ether cannot determine frame type from raw bytes.
+      ip_ver = (ord(ip_packet[0]) & 0xF0) >> 4
+      if ip_ver == 4:
+        ip_packet = scapy.IP(ip_packet)
+      elif ip_ver == 6:
+        ip_packet = scapy.IPv6(ip_packet)
+      else:
+        raise ValueError("ip_packet is not a valid IPv4 or IPv6 packet")
     packet = scapy.Ether(src=routermac, dst=mymac) / ip_packet
     self.ReceiveEtherPacketOn(netid, packet)
 
