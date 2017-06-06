@@ -159,6 +159,7 @@ XfrmUserSpiInfo = cstruct.Struct("XfrmUserSpiInfo", "=SII", "info min max",
 XfrmUsersaId = cstruct.Struct("XfrmUsersaInfo", "=16sIHBx",
                               "daddr spi family proto")
 
+# xfrm.h - struct xfrm_userpolicy_info
 XfrmUserpolicyInfo = cstruct.Struct(
     "XfrmUserpolicyInfo", "=SSSIIBBBBxxxx",
     "sel lft curlft priority index dir action flags share",
@@ -248,6 +249,42 @@ class Xfrm(netlink.NetlinkSocket):
 
     return name, data
 
+  def AddPolicyInfo(self, policy, tmpl=None):
+    """Add a new policy to the Security Policy Database
+
+    Args:
+      policy: an unpacked XfrmUserpolicyInfo cstruct
+      tmpl: an unpacked XfrmUserTmpl cstruct
+    """
+    nlattrs = None
+    if tmpl:
+      nlattrs = [(XFRMA_TMPL, tmpl)]
+    self.SendXfrmNlRequest(XFRM_MSG_NEWPOLICY, policy, nlattrs)
+
+  # TODO: this function really needs to be in netlink.py
+  def SendXfrmNlRequest(self,
+                        msg_type,
+                        req,
+                        nlattrs=None,
+                        flags=netlink.NLM_F_ACK):
+    """Sends a netlink request message
+
+    Args:
+      msg_type: an XFRM_MSG_* type
+      req: an unpacked netlink request message body cstruct
+      nlattrs: an unpacked list of two-tuples of (NLATTR_* type, body) where
+          the body is an unpacked cstruct
+      flags: a list of flags for the expected handling; if no flags are
+          provided, an ACK response is assumed.
+    """
+    msg = req.Pack()
+    if not nlattrs:
+      nlattrs = []
+    for attr_type, attr_msg in nlattrs:
+      msg += self._NlAttr(attr_type, attr_msg.Pack())
+    flags |= netlink.NLM_F_REQUEST
+    return self._SendNlRequest(msg_type, msg, flags)
+
   def AddSaInfo(self, selector, xfrm_id, saddr, lifetimes, reqid, family, mode,
                 replay_window, flags, nlattrs):
     # The kernel ignores these on input.
@@ -312,6 +349,16 @@ class Xfrm(netlink.NetlinkSocket):
   def FindSaInfo(self, spi):
     sainfo = [sa for sa, attrs in self.DumpSaInfo() if sa.id.spi == spi]
     return sainfo[0] if sainfo else None
+
+  def FlushPolicyInfo(self):
+    """Flush all records from the SPD
+
+    Sends a netlink request to flush all policy from the
+    xfrm policy database.
+    """
+
+    flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
+    self._SendNlRequest(XFRM_MSG_FLUSHPOLICY, "", flags)
 
   def FlushSaInfo(self):
     usersa_flush = XfrmUsersaFlush((IPSEC_PROTO_ANY,))
