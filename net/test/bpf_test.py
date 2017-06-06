@@ -91,6 +91,18 @@ def SocketUDPLoopBack(packet_count, version, prog_fd):
   return sock
 
 
+def BpfFuncGetSkbProtocol(protocol_offset):
+  ins_get_skb_protocol = [
+      # The BPF program get skb portocol of each packet.
+      BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+      BpfMov64Imm(BPF_REG_2, protocol_offset),
+      BpfMov64Reg(BPF_REG_3, BPF_REG_10),
+      BpfAlu64Imm(BPF_ADD, BPF_REG_3, -8),
+      BpfMov64Imm(BPF_REG_4, 1),
+      BpfFuncCall(BPF_FUNC_skb_load_bytes),
+  ]
+  return ins_get_skb_protocol
+
 # The main code block for eBPF packet counting program. It takes a preloaded
 # key from BPF_REG_0 and use it to look up the bpf map, if the element does not
 # exist in the map yet, the program will update the map with a new <key, 1>
@@ -682,6 +694,27 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
     packet_count = 1
     self.IngressCgroupCount(6, packet_count, instruction_ingress, TYPE_IFACE_INGRESS)
     self.EgressCgroupCount(6, packet_count, instruction_egress, v6addr, TYPE_IFACE_EGRESS)
+
+  def testCheckPacketProtocolV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    instructions = (BpfFuncGetSkbProtocol(IPV4_PROTOCOL_OFFSET)
+                    + BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                    + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v4addr = self.IPV4_ADDR
+    packet_count = 1
+    self.IngressCgroupCount(4, packet_count, instructions, TYPE_PROTOCOL_INGRESS)
+    self.EgressCgroupCount(4, packet_count, instructions, v4addr, TYPE_PROTOCOL_EGRESS)
+
+  def testCheckPacketProtocolV6(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    instructions = (BpfFuncGetSkbProtocol(IPV6_PROTOCOL_OFFSET)
+                     + BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                     + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v6addr = self.GetRemoteAddress(6)
+    packet_count = 1
+    self.IngressCgroupCount(6, packet_count, instructions, TYPE_PROTOCOL_INGRESS)
+    self.EgressCgroupCount(6, packet_count, instructions, v6addr, TYPE_PROTOCOL_EGRESS)
+
 
 if __name__ == "__main__":
   unittest.main()
