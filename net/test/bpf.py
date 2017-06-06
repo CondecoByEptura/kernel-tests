@@ -27,6 +27,10 @@ __NR_bpf = 321
 LOG_LEVEL = 1
 LOG_SIZE = 65536
 
+ETH_HLEN = 14
+IPPROTO_UDP = 17
+IPPROTO_TCP = 6
+
 # BPF syscall commands constants.
 BPF_MAP_CREATE = 0
 BPF_MAP_LOOKUP_ELEM = 1
@@ -136,6 +140,7 @@ BPF_FUNC_unspec = 0
 BPF_FUNC_map_lookup_elem = 1
 BPF_FUNC_map_update_elem = 2
 BPF_FUNC_map_delete_elem = 3
+BPF_FUNC_skb_load_bytes = 26
 BPF_FUNC_get_socket_cookie = 46
 BPF_FUNC_get_socket_uid = 47
 
@@ -156,6 +161,11 @@ BpfSkBuff = cstruct.Struct("bpf_sk_buff", "=LLLLLLLLLLLLLLLLL",
                            "len pkt_type mark queue_mapping protocol vlan_present"
                            " vlan_tci vlan_proto priority ingress_ifindex"
                            " ifindex tc_index cb5 hash tc_classid data data_end")
+IPHeader = cstruct.Struct("iphdr", "=BBHHHBBHLL", "ihlVersion tos tot_len id"
+                          " frag_off ttl protocol check saddr daddr")
+inet6addr = cstruct.Struct("in6_addr", "=16s", "in6_u")
+IPv6Header = cstruct.Struct("ipv6hdr", "=B3sHBBSS", "ihlVersion flow_lbl payload_len nexthdr"
+                            " hop_limit saddr daddr", [inet6addr, inet6addr])
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
