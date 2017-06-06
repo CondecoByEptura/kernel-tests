@@ -323,7 +323,7 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
 
   # Debug usage only.
   def PrintMapInfo(self):
-    key = 10086
+    ke = 10086
     while 1:
       try:
         nextKey = GetNextKey(self.map_fd, key).value
@@ -540,6 +540,71 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
       self.CheckUDPEgressTraffic(4, netid, "ucast_oif", v4addr, packet_count, ifaceIdx)
       # The ifindex for egress IPv6 packet is always 0.
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+
+  def testCheckPacketProtocolV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    iphdr = IPHeader((0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    # The BPF program get skb portocol and iface index of each packet.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdAbs(BPF_B, iphdr.offset("protocol"))
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + insCgroupAccept
+                     + insPackCountUpdate + insCgroupAccept)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, instructions)
+    v4addr = self.IPV4_ADDR
+    v6addr = self.IPV6_ADDR
+    packet_count = 1
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    for netid in self.NETIDS:
+      ifaceIdx = net_test.GetInterfaceIndex(self.GetInterfaceName(netid))
+      self.TcpFullStateCheck(4, netid, packet_count, IPPROTO_TCP, TYPE_PROTOCOL_INGRESS)
+      self.ReceiveUDPPacketOn(4, netid, packet_count, IPPROTO_UDP)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    DeleteMap(self.map_fd, IPPROTO_UDP)
+
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    for netid in self.NETIDS:
+      self.CheckUDPEgressTraffic(4, netid, "mark", v4addr, packet_count, IPPROTO_UDP)
+      self.CheckUDPEgressTraffic(4, netid, "uid", v4addr, packet_count, IPPROTO_UDP)
+      self.CheckUDPEgressTraffic(4, netid, "oif", v4addr, packet_count, IPPROTO_UDP)
+      self.CheckUDPEgressTraffic(4, netid, "ucast_oif", v4addr, packet_count, IPPROTO_UDP)
+      # The ifindex for egress IPv6 packet is always 0.
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+
+  def testCheckPacketProtocolV6(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    ip6hdr = IPv6Header((0, 0, 0, 0, 0, 0, 0))
+    # The BPF program get skb portocol and iface index of each packet.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdAbs(BPF_B, ip6hdr.offset("nexthdr"))
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + insCgroupAccept
+                     + insPackCountUpdate + insCgroupAccept)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, instructions)
+    v6addr = self.IPV6_ADDR
+    packet_count = 1
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    for netid in self.NETIDS:
+      ifaceIdx = net_test.GetInterfaceIndex(self.GetInterfaceName(netid))
+      self.TcpFullStateCheck(6, netid, packet_count, IPPROTO_TCP, TYPE_PROTOCOL_INGRESS)
+      self.ReceiveUDPPacketOn(6, netid, packet_count, IPPROTO_UDP)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    DeleteMap(self.map_fd, IPPROTO_UDP)
+
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    for netid in self.NETIDS:
+      self.CheckUDPEgressTraffic(6, netid, "mark", v6addr, packet_count, IPPROTO_UDP)
+      self.CheckUDPEgressTraffic(6, netid, "uid", v6addr, packet_count, IPPROTO_UDP)
+      self.CheckUDPEgressTraffic(6, netid, "oif", v6addr, packet_count, IPPROTO_UDP)
+      self.CheckUDPEgressTraffic(6, netid, "ucast_oif", v6addr, packet_count, IPPROTO_UDP)
+      self.CheckTCPEgressTraffic(6, netid, "mark", v6addr, packet_count, IPPROTO_TCP)
+      self.CheckTCPEgressTraffic(6, netid, "uid", v6addr, packet_count, IPPROTO_TCP)
+      self.CheckTCPEgressTraffic(6, netid, "oif", v6addr, packet_count, IPPROTO_TCP)
+      self.TcpFullStateCheck(6, netid, packet_count, IPPROTO_TCP, TYPE_PROTOCOL_EGRESS)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+
 
 if __name__ == "__main__":
   unittest.main()
