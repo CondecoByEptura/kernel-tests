@@ -329,6 +329,81 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                    scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
 
+  # What follows are 4 basic socket tests to serve as examples.
+
+  def testSock6In(self):
+    netid = self.NETIDS[0]
+    local = self.MyAddress(6, netid)
+    remote = TEST_ADDR1
+
+    s = socket(AF_INET6, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+    s.bind(("::0", 9999))
+
+    pkt = (scapy.IPv6(src=remote, dst=local) /
+           scapy.UDP(sport=8081, dport=9999) /
+           "echo echo")
+    self.ReceivePacketOn(netid, pkt)
+    s.settimeout(1)
+    msg, addr = s.recvfrom(1024)
+    self.assertEquals("echo echo", msg)
+    self.assertEquals(remote, addr[0])
+    self.assertEquals(8081, addr[1])
+
+  def testSock4In(self):
+    netid = self.NETIDS[0]
+    local = self.MyAddress(4, netid)
+    remote = "8.8.8.8"
+
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+    s.bind(("0.0.0.0", 9999))
+
+    pkt = (scapy.IP(src=remote, dst=local) /
+           scapy.UDP(sport=8081, dport=9999) /
+           "echo echo")
+    self.ReceivePacketOn(netid, pkt)
+    s.settimeout(1)
+    msg, addr = s.recvfrom(1024)
+    self.assertEquals("echo echo", msg)
+    self.assertEquals(remote, addr[0])
+    self.assertEquals(8081, addr[1])
+
+  def testSock6Out(self):
+    netid = self.NETIDS[0]
+    local = self.MyAddress(6, netid)
+    remote = TEST_ADDR1
+
+    s = socket(AF_INET6, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+
+    s.sendto("hello", (remote, 8081))
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    ip = packets[0].getlayer(scapy.IPv6)
+    self.assertEquals(local, ip.src)
+    self.assertEquals(remote, ip.dst)
+    udp = packets[0].getlayer(scapy.UDP)
+    self.assertEquals(8081, udp.dport)
+    self.assertEquals("hello", str(udp.payload))
+
+  def testSock4Out(self):
+    netid = self.NETIDS[0]
+    local = self.MyAddress(4, netid)
+    remote = "8.8.8.8"
+
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+
+    s.sendto("hello", (remote, 8081))
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    ip = packets[0].getlayer(scapy.IP)
+    self.assertEquals(local, ip.src)
+    self.assertEquals(remote, ip.dst)
+    udp = packets[0].getlayer(scapy.UDP)
+    self.assertEquals(8081, udp.dport)
+    self.assertEquals("hello", str(udp.payload))
 
 if __name__ == "__main__":
   unittest.main()
