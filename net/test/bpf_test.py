@@ -687,5 +687,42 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
     self.ingressCgroupCountIface(6, packet_count, instructionIngress, TYPE_IFACE_INGRESS)
     self.egressCgroupCountIface(6, packet_count, instructionEgress, v6addr, TYPE_IFACE_EGRESS)
 
+  def testCheckPacketProtocolV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    # The BPF program get skb portocol of each packet.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfMov64Imm(BPF_REG_2, IPV4_PROTOCOL_OFFSET),
+        BpfMov64Reg(BPF_REG_3, BPF_REG_10),
+        BpfAlu64Imm(BPF_ADD, BPF_REG_3, -8),
+        BpfMov64Imm(BPF_REG_4, 1),
+        BpfFuncCall(BPF_FUNC_skb_load_bytes),
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                     + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v4addr = self.IPV4_ADDR
+    packet_count = 1
+    self.ingressCgroupCountIface(4, packet_count, instructions, TYPE_PROTOCOL_INGRESS)
+    self.egressCgroupCountIface(4, packet_count, instructions, v4addr, TYPE_PROTOCOL_EGRESS)
+
+  def testCheckPacketProtocolV6(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    # The BPF program get skb portocol and iface index of each packet.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfMov64Imm(BPF_REG_2, IPV6_PROTOCOL_OFFSET),
+        BpfMov64Reg(BPF_REG_3, BPF_REG_10),
+        BpfAlu64Imm(BPF_ADD, BPF_REG_3, -8),
+        BpfMov64Imm(BPF_REG_4, 1),
+        BpfFuncCall(BPF_FUNC_skb_load_bytes),
+    ]
+    instructions += (BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                     + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v6addr = self.GetRemoteAddress(6)
+    packet_count = 1
+    self.ingressCgroupCountIface(6, packet_count, instructions, TYPE_PROTOCOL_INGRESS)
+    self.egressCgroupCountIface(6, packet_count, instructions, v6addr, TYPE_PROTOCOL_EGRESS)
+
+
 if __name__ == "__main__":
   unittest.main()
