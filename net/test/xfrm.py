@@ -246,6 +246,25 @@ class Xfrm(netlink.NetlinkSocket):
 
     return name, data
 
+  # Policy should be pre-constructed
+  # TODO: the naming on these functions isn't the best. consider
+  # making them more explicit
+  def AddPolicyInfo(self, policy, tmpl=None):
+    nlattrs = None
+    if tmpl:
+      nlattrs = [(XFRMA_TMPL, tmpl)]
+    self.SendXfrmNlRequest(XFRM_MSG_NEWPOLICY, policy, nlattrs)
+
+  # TODO: this function really needs to be in netlink.py
+  def SendXfrmNlRequest(self, msg_type, req, nlattrs=None):
+    msg = req.Pack()
+    if not nlattrs:
+      nlattrs = []
+    for attr_type, attr_msg in nlattrs:
+      msg += self._NlAttr(attr_type, attr_msg.Pack())
+    flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
+    self._SendNlRequest(msg_type, msg, flags)
+
   def AddSaInfo(self, selector, xfrm_id, saddr, lifetimes, reqid, family, mode,
                 replay_window, flags, nlattrs):
     # The kernel ignores these on input.
@@ -309,6 +328,10 @@ class Xfrm(netlink.NetlinkSocket):
   def FindSaInfo(self, spi):
     sainfo = [sa for sa, attrs in self.DumpSaInfo() if sa.id.spi == spi]
     return sainfo[0] if sainfo else None
+
+  def FlushPolicyInfo(self):
+    flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
+    self._SendNlRequest(XFRM_MSG_FLUSHPOLICY, "", flags)
 
   def FlushSaInfo(self):
     usersa_flush = XfrmUsersaFlush((IPSEC_PROTO_ANY,))
