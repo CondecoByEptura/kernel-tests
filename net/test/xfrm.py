@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Partial implementation of xfrm netlink code and socket options."""
 
 # pylint: disable=g-bad-todo
@@ -91,10 +90,10 @@ XFRM_POLICY_FWD = 2
 XFRM_POLICY_MASK = 3
 
 # Policy sharing.
-XFRM_SHARE_ANY     = 0  #  /* No limitations */
+XFRM_SHARE_ANY = 0  #  /* No limitations */
 XFRM_SHARE_SESSION = 1  #  /* For this session only */
-XFRM_SHARE_USER    = 2  #  /* For this user only */
-XFRM_SHARE_UNIQUE  = 3  #  /* Use once */
+XFRM_SHARE_USER = 2  #  /* For this user only */
+XFRM_SHARE_UNIQUE = 3  #  /* Use once */
 
 # Modes.
 XFRM_MODE_TRANSPORT = 0
@@ -124,8 +123,8 @@ XfrmLifetimeCfg = cstruct.Struct(
     "soft_byte hard_byte soft_packet hard_packet "
     "soft_add_expires hard_add_expires soft_use_expires hard_use_expires")
 
-XfrmLifetimeCur = cstruct.Struct(
-    "XfrmLifetimeCur", "=QQQQ", "bytes packets add_time use_time")
+XfrmLifetimeCur = cstruct.Struct("XfrmLifetimeCur", "=QQQQ",
+                                 "bytes packets add_time use_time")
 
 XfrmAlgo = cstruct.Struct("XfrmAlgo", "=64AI", "name key_len")
 
@@ -134,26 +133,25 @@ XfrmAlgoAuth = cstruct.Struct("XfrmAlgoAuth", "=64AII",
 
 XfrmAlgoAead = cstruct.Struct("XfrmAlgoAead", "=64AII", "name key_len icv_len")
 
-XfrmStats = cstruct.Struct(
-    "XfrmStats", "=III", "replay_window replay integrity_failed")
+XfrmStats = cstruct.Struct("XfrmStats", "=III",
+                           "replay_window replay integrity_failed")
 
 XfrmId = cstruct.Struct("XfrmId", "=16sIBxxx", "daddr spi proto")
 
 XfrmUserTmpl = cstruct.Struct(
     "XfrmUserTmpl", "=SHxx16sIBBBxIII",
-    "id family saddr reqid mode share optional aalgos ealgos calgos",
-    [XfrmId])
+    "id family saddr reqid mode share optional aalgos ealgos calgos", [XfrmId])
 
-XfrmEncapTmpl = cstruct.Struct(
-    "XfrmEncapTmpl", "=HHHxx16s", "type sport dport oa")
+XfrmEncapTmpl = cstruct.Struct("XfrmEncapTmpl", "=HHHxx16s",
+                               "type sport dport oa")
 
 XfrmUsersaInfo = cstruct.Struct(
     "XfrmUsersaInfo", "=SS16sSSSIIHBBB7x",
     "sel id saddr lft curlft stats seq reqid family mode replay_window flags",
     [XfrmSelector, XfrmId, XfrmLifetimeCfg, XfrmLifetimeCur, XfrmStats])
 
-XfrmUsersaId = cstruct.Struct(
-    "XfrmUsersaInfo", "=16sIHBx", "daddr spi family proto")
+XfrmUsersaId = cstruct.Struct("XfrmUsersaInfo", "=16sIHBx",
+                              "daddr spi family proto")
 
 XfrmUserpolicyInfo = cstruct.Struct(
     "XfrmUserpolicyInfo", "=SSSIIBBBBxxxx",
@@ -173,12 +171,12 @@ UDP_ENCAP = 100
 UDP_ENCAP_ESPINUDP_NON_IKE = 1
 UDP_ENCAP_ESPINUDP = 2
 
-_INF = 2 ** 64 -1
+_INF = 2**64 - 1
 NO_LIFETIME_CFG = XfrmLifetimeCfg((_INF, _INF, _INF, _INF, 0, 0, 0, 0))
 NO_LIFETIME_CUR = "\x00" * len(XfrmLifetimeCur)
 
 # IPsec constants.
-IPSEC_PROTO_ANY	= 255
+IPSEC_PROTO_ANY = 255
 
 
 def RawAddress(addr):
@@ -242,6 +240,25 @@ class Xfrm(netlink.NetlinkSocket):
 
     return name, data
 
+  # Policy should be pre-constructed
+  # TODO: the naming on these functions isn't the best. consider
+  # making them more explicit
+  def AddPolicyInfo(self, policy, tmpl=None):
+    nlattrs = None
+    if tmpl:
+      nlattrs = [(XFRMA_TMPL, tmpl)]
+    self.SendXfrmNlRequest(XFRM_MSG_NEWPOLICY, policy, nlattrs)
+
+  # TODO: this function really needs to be in netlink.py
+  def SendXfrmNlRequest(self, msg_type, req, nlattrs=None):
+    msg = req.Pack()
+    if not nlattrs:
+      nlattrs = []
+    for attr_type, attr_msg in nlattrs:
+      msg += self._NlAttr(attr_type, attr_msg.Pack())
+    flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
+    self._SendNlRequest(msg_type, msg, flags)
+
   def AddSaInfo(self, selector, xfrm_id, saddr, lifetimes, reqid, family, mode,
                 replay_window, flags, nlattrs):
     # The kernel ignores these on input.
@@ -254,14 +271,12 @@ class Xfrm(netlink.NetlinkSocket):
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
     self._SendNlRequest(XFRM_MSG_NEWSA, msg, flags)
 
-  def AddMinimalSaInfo(self, src, dst, spi, proto, mode, reqid,
-                       encryption, encryption_key,
-                       auth_trunc, auth_trunc_key, encap):
+  def AddMinimalSaInfo(self, src, dst, spi, proto, mode, reqid, encryption,
+                       encryption_key, auth_trunc, auth_trunc_key, encap):
     selector = XfrmSelector("\x00" * len(XfrmSelector))
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
     family = AF_INET6 if ":" in dst else AF_INET
-    nlattrs = self._NlAttr(XFRMA_ALG_CRYPT,
-                           encryption.Pack() + encryption_key)
+    nlattrs = self._NlAttr(XFRMA_ALG_CRYPT, encryption.Pack() + encryption_key)
     nlattrs += self._NlAttr(XFRMA_ALG_AUTH_TRUNC,
                             auth_trunc.Pack() + auth_trunc_key)
     if encap is not None:
@@ -282,6 +297,10 @@ class Xfrm(netlink.NetlinkSocket):
   def FindSaInfo(self, spi):
     sainfo = [sa for sa, attrs in self.DumpSaInfo() if sa.id.spi == spi]
     return sainfo[0] if sainfo else None
+
+  def FlushPolicyInfo(self):
+    flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
+    self._SendNlRequest(XFRM_MSG_FLUSHPOLICY, "", flags)
 
   def FlushSaInfo(self):
     usersa_flush = XfrmUsersaFlush((IPSEC_PROTO_ANY,))
