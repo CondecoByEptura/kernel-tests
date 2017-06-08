@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5928dff3_ea0b76c5",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T15:58:04Z",
+      "side": 1,
+      "message": "Per style guide this should be offset_list.",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 14
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9757364_d9ca4121",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T15:58:04Z",
+      "side": 1,
+      "message": "Call this \"_offsets\" and add a brief comment explaining what it is. Something like (assuming it\u0027s correct):\n\n  # Maps field names to their offsets in the struct.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60559186_98d02665",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T15:58:04Z",
+      "side": 1,
+      "message": "Suggest being a bit more helpful and doing something like:\n\n  if \".\" in name:\n    raise NotImplementedError(\"offset() on nested field\")\n  return self._offset[name]",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 31
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4f5bfdd_7cb82ee7",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T15:58:04Z",
+      "side": 1,
+      "message": "Nit: align with # on previous line.",
+      "range": {
+        "startLine": 120,
+        "startChar": 45,
+        "endLine": 120,
+        "endChar": 77
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbcac6ac_e0195bd8",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T15:58:04Z",
+      "side": 1,
+      "message": "Suggest:\n\n  # The integer is automatically padded by the struct module\n  # to match native alignment.\n\nIf you want, you can stop that from happening by adding \"\u003d\" to the beginning of the format. I think what you have now is fine though.",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 69
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
