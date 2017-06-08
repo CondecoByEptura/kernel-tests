@@ -39,8 +39,6 @@ TEST_ADDR2 = "2001:4860:4860::8844"
 
 TEST_SPI = 0x1234
 
-# XfrmTest._ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
-
 class XfrmTest(xfrm_base.XfrmBaseTest):
 
   def setUp(self):
@@ -52,15 +50,6 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
   def tearDown(self):
     super(XfrmTest, self).tearDown()
     self.xfrm.FlushSaInfo()
-
-  def expectIPv6EspPacketOn(self, netid, spi, seq, length):
-    packets = self.ReadAllPacketsOn(netid)
-    self.assertEquals(1, len(packets))
-    packet = packets[0]
-    self.assertEquals(IPPROTO_ESP, packet.nh)
-    spi_seq = struct.pack("!II", spi, seq)
-    self.assertEquals(spi_seq, str(packet.payload)[:len(spi_seq)])
-    self.assertEquals(length, len(packet.payload))
 
   def assertIsUdpEncapEsp(self, packet, spi, seq, length):
     self.assertEquals(IPPROTO_UDP, packet.proto)
@@ -74,9 +63,10 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
   def testAddSa(self):
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, 3320,
-                               XfrmTest._ALGO_CBC_AES_256,
-                               XfrmTest._ENCRYPTION_KEY_256,
-                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
                                None, None, None)
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
@@ -85,8 +75,8 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
         "\tauth-trunc hmac(sha1) 0x%s 96\n"
         "\tenc cbc(aes) 0x%s\n"
         "\tsel src ::/0 dst ::/0 \n" % (
-            XfrmTest._AUTH_KEY_128.encode("hex"),
-            XfrmTest._ENCRYPTION_KEY_256.encode("hex")))
+            xfrm_base._AUTHENTICATION_KEY_128.encode("hex"),
+            xfrm_base._ENCRYPTION_KEY_256.encode("hex")))
 
     actual = subprocess.check_output("ip xfrm state".split())
     try:
@@ -98,15 +88,17 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
     self.xfrm.AddMinimalSaInfo("::", "2000::", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 1234,
-                               XfrmTest._ALGO_CBC_AES_256,
-                               XfrmTest._ENCRYPTION_KEY_256,
-                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
                                None, None, None)
     self.xfrm.AddMinimalSaInfo("0.0.0.0", "192.0.2.1", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 4321,
-                               XfrmTest._ALGO_CBC_AES_256,
-                               XfrmTest._ENCRYPTION_KEY_256,
-                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
                                None, None, None)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
@@ -116,7 +108,7 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
   def testSocketPolicy(self):
     # Open an IPv6 UDP socket and connect it.
     s = socket(AF_INET6, SOCK_DGRAM, 0)
-    netid = random.choice(self.NETIDS)
+    netid = self._RandomNetid()
     self.SelectInterface(s, netid, "mark")
     s.connect((TEST_ADDR1, 53))
     saddr, sport = s.getsockname()[:2]
@@ -143,9 +135,9 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
     tmpl = xfrm.XfrmUserTmpl((xfrmid, AF_INET6, XFRM_ADDR_ANY, 0,
                               xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
                               0,                # require
-                              XfrmTest._ALL_ALGORITHMS,   # auth algos
-                              XfrmTest._ALL_ALGORITHMS,   # encryption algos
-                              XfrmTest._ALL_ALGORITHMS))  # compression algos
+                              xfrm_base._ALL_ALGORITHMS,   # auth algos
+                              xfrm_base._ALL_ALGORITHMS,   # encryption algos
+                              xfrm_base._ALL_ALGORITHMS))  # compression algos
 
     # Set the policy and template on our socket.
     data = info.Pack() + tmpl.Pack()
@@ -165,12 +157,13 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
     reqid = 0
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, reqid,
-                               XfrmTest._ALGO_CBC_AES_256,
-                               XfrmTest._ENCRYPTION_KEY_256,
-                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
                                None, None, None)
     s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
-    self.expectIPv6EspPacketOn(netid, TEST_SPI, 1, 84)
+    self._ExpectEspPacketOn(netid, TEST_SPI, 1, 84, None, None)
 
     # Sending to another destination doesn't work: again, no matching SA.
     self.assertRaisesErrno(
@@ -196,7 +189,7 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
 
   def testUdpEncapWithSocketPolicy(self):
     # TODO: test IPv6 instead of IPv4.
-    netid = random.choice(self.NETIDS)
+    netid = self._RandomNetid()
     myaddr = self.MyAddress(4, netid)
     remoteaddr = self.GetRemoteAddress(4)
 
@@ -240,9 +233,9 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
     usertmpl = xfrm.XfrmUserTmpl((xfrmid, AF_INET, XFRM_ADDR_ANY, out_reqid,
                               xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
                               0,                # require
-                              XfrmTest._ALL_ALGORITHMS,   # auth algos
-                              XfrmTest._ALL_ALGORITHMS,   # encryption algos
-                              XfrmTest._ALL_ALGORITHMS))  # compression algos
+                              xfrm_base._ALL_ALGORITHMS,   # auth algos
+                              xfrm_base._ALL_ALGORITHMS,   # encryption algos
+                              xfrm_base._ALL_ALGORITHMS))  # compression algos
 
     data = info.Pack() + usertmpl.Pack()
     s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
@@ -255,18 +248,20 @@ class XfrmTest(xfrm_base.XfrmBaseTest):
                                     htons(4500), 16 * "\x00"))
     self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, out_reqid,
-                               XfrmTest._ALGO_CBC_AES_256,
-                               XfrmTest._ENCRYPTION_KEY_256,
-                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
                                encaptmpl, None, None)
 
     # Add an encap template that's the mirror of the outbound one.
     encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
     self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, in_reqid,
-                               XfrmTest._ALGO_CBC_AES_256,
-                               XfrmTest._ENCRYPTION_KEY_256,
-                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
                                encaptmpl, None, None)
 
     # Uncomment for debugging.
