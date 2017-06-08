@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f68471f4_208d9980",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-08T21:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5928dff3_ea0b76c5",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 14
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9757364_d9ca4121",
         "filename": "net/test/cstruct.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c493e124_e8ad62d2",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-08T21:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9757364_d9ca4121",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60559186_98d02665",
         "filename": "net/test/cstruct.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-08T15:58:04Z",
       "side": 1,
       "message": "Suggest being a bit more helpful and doing something like:\n\n  if \".\" in name:\n    raise NotImplementedError(\"offset() on nested field\")\n  return self._offset[name]",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 31
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79187348_b29808c6",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-08T21:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60559186_98d02665",
       "range": {
         "startLine": 179,
         "startChar": 0,
