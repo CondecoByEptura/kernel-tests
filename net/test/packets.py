@@ -54,14 +54,14 @@ def _SetPacketTos(packet, tos):
   else:
     raise ValueError("Can't find ToS Field")
 
-def UDP(version, srcaddr, dstaddr, sport=0):
+def UDP(version, srcaddr, dstaddr, sport=0, dport=53):
   ip = _GetIpLayer(version)
   # Can't just use "if sport" because None has meaning (it means unspecified).
   if sport == 0:
     sport = _RandomPort()
   return ("UDPv%d packet" % version,
           ip(src=srcaddr, dst=dstaddr) /
-          scapy.UDP(sport=sport, dport=53) / UDP_PAYLOAD)
+          scapy.UDP(sport=sport, dport=dport) / UDP_PAYLOAD)
 
 def UDPWithOptions(version, srcaddr, dstaddr, sport=0, lifetime=39):
   if version == 4:
