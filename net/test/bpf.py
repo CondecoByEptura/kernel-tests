@@ -141,6 +141,7 @@ BPF_FUNC_unspec = 0
 BPF_FUNC_map_lookup_elem = 1
 BPF_FUNC_map_update_elem = 2
 BPF_FUNC_map_delete_elem = 3
+BPF_FUNC_skb_load_bytes = 26
 BPF_FUNC_get_socket_cookie = 46
 BPF_FUNC_get_socket_uid = 47
 
@@ -157,9 +158,16 @@ BpfAttrOps = cstruct.Struct("bpf_attr_ops", "=QQQQ",
 BpfAttrProgLoad = cstruct.Struct(
     "bpf_attr_prog_load", "=IIQQIIQI", "prog_type insn_cnt insns"
     " license log_level log_size log_buf kern_version")
-BpfAttrProgAttach = cstruct.Struct(
-    "bpf_attr_prog_attach", "=III", "target_fd attach_bpf_fd attach_type")
+BpfAttrProgAttach = cstruct.Struct("bpf_attr_prog_attach", "=III",
+                                   "target_fd attach_bpf_fd attach_type")
 BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
+BpfSkBuff = cstruct.Struct("bpf_sk_buff", "=IIIIIIIIIIIIIIIII",
+                           "len pkt_type mark queue_mapping protocol vlan_present"
+                           " vlan_tci vlan_proto priority ingress_ifindex"
+                           " ifindex tc_index cb5 hash tc_classid data data_end")
+
+IPV4_PROTOCOL_OFFSET = 9
+IPV6_PROTOCOL_OFFSET = 6
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
@@ -299,6 +307,10 @@ def BpfMov64Imm(dst, imm):
   ret = BpfInsn((code, dst_src, 0, imm))
   return ret.Pack()
 
+def BpfLdAbs(size, imm):
+  code = BPF_LD | (size & 0x18) | BPF_ABS
+  ret = BpfInsn((code, 0, 0, imm))
+  return ret.Pack()
 
 def BpfExitInsn():
   code = BPF_JMP | BPF_EXIT
