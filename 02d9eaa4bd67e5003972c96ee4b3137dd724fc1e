@@ -117,6 +117,30 @@
       "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7361de5d_fd5d8ed0",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-08T16:14:16Z",
+      "side": 1,
+      "message": "Ah, I think I didn\u0027t make this part clear. We don\u0027t intend to assert the contents of /proc/net/xfrm_stat, we just want to look at it while debugging \u0026 experimenting. (moot point though)",
+      "parentUuid": "309129ba_fb5155b3",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
