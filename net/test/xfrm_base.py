@@ -15,15 +15,24 @@
 # limitations under the License.
 
 import multinetwork_base
+import random
 import struct
 import xfrm
 
 class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
   _ENCRYPTION_KEY_256 = ("308146eb3bd84b044573d60f5a5fd159"
                      "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
-  _AUTH_KEY_128 = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
+  _AUTHENTICATION_KEY_128 = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
 
   _ALL_ALGORITHMS = 0xffffffff
   _ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
   _ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
+  def setUp(self):
+    super(XfrmBaseTest, self).setUp()
+
+  def tearDown(self):
+    super(XfrmBaseTest, self).tearDown()
+
+  def _RandomNetid(self):
+      return random.choice(self.NETIDS)
