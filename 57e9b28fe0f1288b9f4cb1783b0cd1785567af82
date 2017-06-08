@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "f20c4b97_e6a280ca",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-08T21:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f5bfdd_7cb82ee7",
+      "range": {
+        "startLine": 120,
+        "startChar": 45,
+        "endLine": 120,
+        "endChar": 77
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbcac6ac_e0195bd8",
         "filename": "net/test/cstruct_test.py",
         "patchSetId": 1
@@ -105,6 +129,30 @@
       "writtenOn": "2017-06-08T15:58:04Z",
       "side": 1,
       "message": "Suggest:\n\n  # The integer is automatically padded by the struct module\n  # to match native alignment.\n\nIf you want, you can stop that from happening by adding \"\u003d\" to the beginning of the format. I think what you have now is fine though.",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 69
+      },
+      "revId": "57e9b28fe0f1288b9f4cb1783b0cd1785567af82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "568e33d1_8282cbb0",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-08T21:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbcac6ac_e0195bd8",
       "range": {
         "startLine": 121,
         "startChar": 4,
