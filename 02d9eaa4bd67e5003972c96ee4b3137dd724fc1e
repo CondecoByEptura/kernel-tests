@@ -69,6 +69,54 @@
       "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8981d31_7af7e421",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-08T16:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84348bd0_d106a1a2",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309129ba_fb5155b3",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-08T16:10:00Z",
+      "side": 1,
+      "message": "This does seem to be enabled on the production kernel configs, if I\u0027m reading the correct file. I found XFRM_STATISTICS\u003dy at the path,\nprivate/*/arch/arm64/${device}_defconfig",
+      "parentUuid": "f738e53d_bd86ce8a",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
