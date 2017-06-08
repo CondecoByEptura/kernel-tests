@@ -22,6 +22,53 @@
       "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f738e53d_bd86ce8a",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T01:53:06Z",
+      "side": 1,
+      "message": "Is this something we have turned on on production devices? If not, I\u0027d prefer not to enable it. Ideally we should be able to run these tests on production device kernels and have them pass.",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84348bd0_d106a1a2",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T01:53:06Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c58ac885_6896f936",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "02d9eaa4bd67e5003972c96ee4b3137dd724fc1e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
