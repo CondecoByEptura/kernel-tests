@@ -135,8 +135,13 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       return netid
 
   @staticmethod
-  def GetInterfaceName(netid):
+  def _GetDefaultInterfaceName(netid):
     return "nettest%d" % netid
+
+  @classmethod
+  def GetInterfaceName(cls, netid):
+    return (cls.ifnames[netid] if cls.ifnames and (netid in cls.ifnames)
+        else cls._GetDefaultInterfaceName(netid))
 
   @staticmethod
   def RouterMacAddress(netid):
@@ -194,8 +199,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     return {4: AF_INET, 6: AF_INET6}[version]
 
   @classmethod
-  def CreateTunInterface(cls, netid):
-    iface = cls.GetInterfaceName(netid)
+  def CreateTunInterface(cls, netid, iface):
     try:
       f = open("/dev/net/tun", "r+b")
     except IOError:
@@ -245,21 +249,21 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     posix.write(cls.tuns[netid].fileno(), str(ra))
 
   @classmethod
-  def _RunSetupCommands(cls, netid, is_add):
+  def _RunSetupCommands(cls, netid, has_router=True):
     for version in [4, 6]:
       # Find out how to configure things.
       iface = cls.GetInterfaceName(netid)
       ifindex = cls.ifindices[netid]
       macaddr = cls.RouterMacAddress(netid)
-      router = cls._RouterAddress(netid, version)
+      router = cls._RouterAddress(netid, version) if has_router else None
       table = cls._TableForNetid(netid)
 
       # Set up routing rules.
       start, end = cls.UidRangeForNetid(netid)
-      cls.iproute.UidRangeRule(version, is_add, start, end, table,
+      cls.iproute.UidRangeRule(version, True, start, end, table,
                                cls.PRIORITY_UID)
-      cls.iproute.OifRule(version, is_add, iface, table, cls.PRIORITY_OIF)
-      cls.iproute.FwmarkRule(version, is_add, netid, table,
+      cls.iproute.OifRule(version, True, iface, table, cls.PRIORITY_OIF)
+      cls.iproute.FwmarkRule(version, True, netid, table,
                              cls.PRIORITY_FWMARK)
 
       # Configure routing and addressing.
@@ -276,26 +280,47 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       # directly-connected subnets in the per-interface routing tables. Ensure
       # we create those as well.
       do_routing = (version == 4 or cls.AUTOCONF_TABLE_OFFSET is None)
-      if is_add:
-        if version == 4:
-          cls.iproute.AddAddress(cls._MyIPv4Address(netid),
-                                 cls.OnlinkPrefixLen(4), ifindex)
+      if version == 4:
+        cls.iproute.AddAddress(cls._MyIPv4Address(netid),
+                               cls.OnlinkPrefixLen(4), ifindex)
+        if has_router:
           cls.iproute.AddNeighbour(version, router, macaddr, ifindex)
-        if do_routing:
+      if do_routing:
+        if has_router:
           cls.iproute.AddRoute(version, table,
-                               cls.OnlinkPrefix(version, netid),
-                               cls.OnlinkPrefixLen(version), None, ifindex)
-          cls.iproute.AddRoute(version, table, "default", 0, router, ifindex)
-      else:
-        if do_routing:
-          cls.iproute.DelRoute(version, table, "default", 0, router, ifindex)
+                             cls.OnlinkPrefix(version, netid),
+                             cls.OnlinkPrefixLen(version), None, ifindex)
+        cls.iproute.AddRoute(version, table, "default", 0, router, ifindex)
+
+  @classmethod
+  def _RunTeardownCommands(cls, netid, has_router=True):
+    for version in [4, 6]:
+      # Find out how to configure things.
+      iface = cls.GetInterfaceName(netid)
+      ifindex = cls.ifindices[netid]
+      macaddr = cls.RouterMacAddress(netid)
+      router = cls._RouterAddress(netid, version) if has_router else None
+      table = cls._TableForNetid(netid)
+
+      # up routing rules.
+      start, end = cls.UidRangeForNetid(netid)
+      cls.iproute.UidRangeRule(version, False, start, end, table,
+                               cls.PRIORITY_UID)
+      cls.iproute.OifRule(version, False, iface, table, cls.PRIORITY_OIF)
+      cls.iproute.FwmarkRule(version, False, netid, table,
+                             cls.PRIORITY_FWMARK)
+      do_routing = (version == 4 or cls.AUTOCONF_TABLE_OFFSET is None)
+      if do_routing:
+        cls.iproute.DelRoute(version, table, "default", 0, router, ifindex)
+        if has_router:
           cls.iproute.DelRoute(version, table,
                                cls.OnlinkPrefix(version, netid),
                                cls.OnlinkPrefixLen(version), None, ifindex)
-        if version == 4:
+      if version == 4:
+        if has_router:
           cls.iproute.DelNeighbour(version, router, macaddr, ifindex)
-          cls.iproute.DelAddress(cls._MyIPv4Address(netid),
-                                 cls.OnlinkPrefixLen(4), ifindex)
+        cls.iproute.DelAddress(cls._MyIPv4Address(netid),
+                               cls.OnlinkPrefixLen(4), ifindex)
 
   @classmethod
   def SetDefaultNetwork(cls, netid):
@@ -346,6 +371,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     cls.SetSysctl(cls._ICMPRatelimitFilename(version), limit)
 
   @classmethod
+  def AddInterface(cls, netid, iface):
+    cls.ifindices[netid] = net_test.GetInterfaceIndex(iface)
+    cls.ifnames[netid] = iface
+
+  @classmethod
   def setUpClass(cls):
     # This is per-class setup instead of per-testcase setup because shelling out
     # to ip and iptables is slow, and because routing configuration doesn't
@@ -353,6 +383,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     cls.iproute = iproute.IPRoute()
     cls.tuns = {}
     cls.ifindices = {}
+    cls.ifnames = {}
+
     if HAVE_AUTOCONF_TABLE:
       cls.SetSysctl(AUTOCONF_TABLE_SYSCTL, -1000)
       cls.AUTOCONF_TABLE_OFFSET = -1000
@@ -367,12 +399,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       cls.iproute.UnreachableRule(version, True, cls.PRIORITY_UNREACHABLE)
 
     for netid in cls.NETIDS:
-      cls.tuns[netid] = cls.CreateTunInterface(netid)
-      iface = cls.GetInterfaceName(netid)
-      cls.ifindices[netid] = net_test.GetInterfaceIndex(iface)
-
+      ifname = cls._GetDefaultInterfaceName(netid)
+      cls.tuns[netid] = cls.CreateTunInterface(netid, ifname)
+      cls.AddInterface(netid, ifname)
       cls.SendRA(netid)
-      cls._RunSetupCommands(netid, True)
+      cls._RunSetupCommands(netid)
 
     # Don't print lots of "device foo entered promiscuous mode" warnings.
     cls.loglevel = cls.GetConsoleLogLevel()
@@ -392,7 +423,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
         pass
 
     for netid in cls.tuns:
-      cls._RunSetupCommands(netid, False)
+      cls._RunTeardownCommands(netid)
       cls.tuns[netid].close()
 
     cls._RestoreSysctls()

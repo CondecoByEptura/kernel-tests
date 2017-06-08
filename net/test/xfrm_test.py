@@ -53,6 +53,11 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     super(XfrmTest, cls).setUpClass()
     cls.xfrm = xfrm.Xfrm()
 
+  @classmethod
+  def tearDownClass(cls):
+    super(XfrmTest, cls).tearDownClass()
+    return
+
   def setUp(self):
     # TODO: delete this when we're more diligent about deleting our SAs.
     super(XfrmTest, self).setUp()

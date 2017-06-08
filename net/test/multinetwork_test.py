@@ -873,8 +873,9 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
 
     num_routes = GetNumRoutes()
     for i in xrange(10, 20):
+      ifname = self.GetInterfaceName(i)
+      self.tuns[i] = self.CreateTunInterface(i, ifname)
       try:
-        self.tuns[i] = self.CreateTunInterface(i)
         self.SendRA(i)
         self.tuns[i].close()
       finally:

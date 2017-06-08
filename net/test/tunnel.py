@@ -121,9 +121,9 @@ class IPTunnel(netlink.NetlinkSocket):
     ifdata += self._NlAttrIPAddress(IFLA_VTI_REMOTE, socket.AF_INET,
                                     remote_addr)
     if i_key is not None:
-      ifdata += self._NlAttrU32(IFLA_VTI_IKEY, i_key)
+      ifdata += self._NlAttrU32(IFLA_VTI_IKEY, socket.htonl(i_key))
     if o_key is not None:
-      ifdata += self._NlAttrU32(IFLA_VTI_OKEY, o_key)
+      ifdata += self._NlAttrU32(IFLA_VTI_OKEY, socket.htonl(o_key))
     linkinfo += self._NlAttr(IFLA_INFO_DATA, ifdata)
 
     ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
