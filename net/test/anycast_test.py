@@ -76,7 +76,8 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
   def testAnycastNetdeviceUnregister(self):
     netid = self._TEST_NETID
     self.assertNotIn(netid, self.tuns)
-    self.tuns[netid] = self.CreateTunInterface(netid)
+    self.tuns[netid] = self.CreateTunInterface(netid,
+        self.GetInterfaceName(netid))
     self.SendRA(netid)
     iface = self.GetInterfaceName(netid)
     self.ifindices[netid] = net_test.GetInterfaceIndex(iface)
