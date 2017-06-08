@@ -80,7 +80,6 @@ class IPTunnel(netlink.NetlinkSocket):
   def __init__(self):
     super(IPTunnel, self).__init__(netlink.NETLINK_ROUTE)
 
-  # TODO: IPv6
   def CreateVti(self, dev_name, local_addr, remote_addr, i_key=None,
                 o_key=None):
     """
@@ -110,19 +109,19 @@ class IPTunnel(netlink.NetlinkSocket):
         |-IFLA_VTI_OKEY = [outbound mark]
         |-IFLA_VTI_IKEY = [inbound mark]
     """
-
+    addr_fam = socket.AF_INET6 if ":" in remote_addr else socket.AF_INET
     ifinfo = IfInfoMsg(ifi_family=socket.AF_UNSPEC).Pack()
     ifinfo += self._NlAttrStr(IFLA_IFNAME, dev_name)
 
-    linkinfo = self._NlAttrStr(IFLA_INFO_KIND, "vti")
+    linkinfo = self._NlAttrStr(IFLA_INFO_KIND, "vti6" if ":" in remote_addr else "vti")
 
-    ifdata = self._NlAttrIPAddress(IFLA_VTI_LOCAL, socket.AF_INET, local_addr)
-    ifdata += self._NlAttrIPAddress(IFLA_VTI_REMOTE, socket.AF_INET,
+    ifdata = self._NlAttrIPAddress(IFLA_VTI_LOCAL, addr_fam, local_addr)
+    ifdata += self._NlAttrIPAddress(IFLA_VTI_REMOTE, addr_fam,
                                     remote_addr)
     if i_key is not None:
-      ifdata += self._NlAttrU32(IFLA_VTI_IKEY, i_key)
+      ifdata += self._NlAttrU32(IFLA_VTI_IKEY, socket.htonl(i_key))
     if o_key is not None:
-      ifdata += self._NlAttrU32(IFLA_VTI_OKEY, o_key)
+      ifdata += self._NlAttrU32(IFLA_VTI_OKEY, socket.htonl(o_key))
     linkinfo += self._NlAttr(IFLA_INFO_DATA, ifdata)
 
     ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
