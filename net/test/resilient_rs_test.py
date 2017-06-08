@@ -63,6 +63,7 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
 
   @classmethod
   def setUpClass(cls):
+    super(ResilientRouterSolicitationTest, cls).setUpClass()
     return
 
   def setUp(self):
@@ -70,6 +71,7 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
 
   @classmethod
   def tearDownClass(cls):
+    super(ResilientRouterSolicitationTest, cls).tearDownClass()
     return
 
   def tearDown(self):
@@ -88,7 +90,7 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
     defaultDisableIPv6Path = self._PROC_NET_TUNABLE % ("default", "disable_ipv6")
     savedDefaultDisableIPv6 = self.GetSysctl(defaultDisableIPv6Path)
     self.SetSysctl(defaultDisableIPv6Path, 1)
-    tun = self.CreateTunInterface(netid)
+    tun = self.CreateTunInterface(netid, self.GetInterfaceName(netid))
     self.SetSysctl(defaultDisableIPv6Path, savedDefaultDisableIPv6)
     return tun
 
