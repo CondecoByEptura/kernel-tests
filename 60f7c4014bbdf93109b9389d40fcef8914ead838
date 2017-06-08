@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8512a2e_324f5c91",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Does it make sense to add a brief comment explaining how these are different? What is BpfProgAttach used for?",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 42
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e47db32d_6eb3ea19",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Start sentences with capital letters.",
+      "range": {
+        "startLine": 309,
+        "startChar": 2,
+        "endLine": 309,
+        "endChar": 3
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f53a87b4_6f2dd07e",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Does this belong here? Seems like it might be more appropriate to have this in the test file.",
+      "range": {
+        "startLine": 313,
+        "startChar": 4,
+        "endLine": 313,
+        "endChar": 26
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "53a8b82d_21e8d548",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "I still find this code very hard to read. I wonder if it would help if the comments were in between the instructions instead of at the top of the function?\n\nI think one comment every two lines would help :-)\n\nWould it help if you used variable names? For example:\n\n  key \u003d BPF_REG_0",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 41
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59f632de_b90bb572",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "drop a packet and exit the filter.",
+      "range": {
+        "startLine": 334,
+        "startChar": 21,
+        "endLine": 334,
+        "endChar": 57
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f5f3b01_1ecce422",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Do these both matter? If the return value is in R0, and it\u0027s 0, why do we write to R6?",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 337,
+        "endChar": 30
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee8ba1c8_4f4a0931",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "and",
+      "range": {
+        "startLine": 341,
+        "startChar": 59,
+        "endLine": 341,
+        "endChar": 65
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9fe796b_cc61a408",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "How does this work? What are registers 0 and 6? Is R6 the packet length? If so, does this only work if previous instructions have put the length into R6? If so, the docstring should say that.",
+      "range": {
+        "startLine": 347,
+        "startChar": 70,
+        "endLine": 347,
+        "endChar": 71
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34d147a8_7d44e2b1",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "and",
+      "range": {
+        "startLine": 347,
+        "startChar": 59,
+        "endLine": 347,
+        "endChar": 65
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e459603c_c4208daa",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Document the preconditions. Must R2 and R0 contain something specific before this code is called?",
+      "range": {
+        "startLine": 353,
+        "startChar": 39,
+        "endLine": 353,
+        "endChar": 40
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ab76720_02cf909d",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Per style guide non-test methods start with capital letters, so this should be SocketLoopbackWithFilter or SocketLoopBackWithFilter.",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cb7dbc0_c36c6679",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "These two bits of code are identical. Can you move them to a function that just takes a version argument?\n\nIf it\u0027s useful, you can take advantage of the fact that in Python functions can be nested, and nested functions have read-only access to variables in their enclosing function.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 73
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e62a9ed_262be5bc",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "This annotation is misleading - this test requires UID support, not cgroup support. Instead of calling this HAVE_CGROUP_HELPER_SUPPORT, maybe call this HAVE_EBPF_ACCOUNTING support or similar?",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 68
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43ef2107_0923761e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "You don\u0027t need this ;",
+      "range": {
+        "startLine": 170,
+        "startChar": 21,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e541f92_fb899084",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Before doing this, maybe check that the map contains nothing for our UID? Also consider changing UID with RunAsUid, since 0 is not a very distinctive UID.",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 50
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "376796c9_286f32ff",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Is it possible to de-duplicate this code with the with-filter variant above? It seems like you could add a prog_fd argument, and if that argument was None, not program any filter.",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 16
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e861fba_403ee03e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Cgroup",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 227,
+        "endChar": 12
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16b21bf6_48a311c3",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Suggest:\n\n  # Similar to the program used in testGetSocketUid.",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 252,
+        "endChar": 53
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7919bb_52858bb2",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-08T16:27:41Z",
+      "side": 1,
+      "message": "Put spaces around this *",
+      "range": {
+        "startLine": 265,
+        "startChar": 69,
+        "endLine": 265,
+        "endChar": 70
+      },
+      "revId": "60f7c4014bbdf93109b9389d40fcef8914ead838",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
