@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "000109eb_dd410bf4",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-09T18:34:15Z",
+      "side": 1,
+      "message": "Just FYI expected values should go before actual values in assertEquals. The only difference is that when the test fails, the output will make more sense.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 79
+      },
+      "revId": "8f4cba11b103cc9ba6403b0f2728fc3708579d91",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
