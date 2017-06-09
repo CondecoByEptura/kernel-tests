@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "27522c39_c112d84b",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-09T17:09:10Z",
+      "side": 1,
+      "message": "There is some inconsistent handling of trailing null bytes on string fields. Packing and unpacking result in strings padded with null bytes to the length of the field, but assigning a short string to a field (including through the keyword args constructor) will not add the padding (until Pack is called).\n\nTo that end, I am unsure whether to assert t1.string2 is a padded or a stripped string.\n\nI was hesitant to enshrine any of this behavior in a test since it is not part of the API contract of the cstruct library. In other words, no test depends on whether a string is padded or stripped in the scenario described above; it would be incorrect to depend on one or another.",
+      "parentUuid": "8176b3dd_e4d829cc",
+      "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4096443_d682630e",
         "filename": "net/test/cstruct_test.py",
         "patchSetId": 6
