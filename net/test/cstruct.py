@@ -174,13 +174,15 @@ def Struct(name, fmt, fieldnames, substructs={}):
           raise TypeError("%s requires string of length %d, got %d" %
                           (self._name, self._length, len(tuple_or_bytes)))
         self._Parse(tuple_or_bytes)
-      else:
+      elif isinstance(tuple_or_bytes, tuple):
         # Initializing from a tuple.
         if len(tuple_or_bytes) != len(self._fieldnames):
           raise TypeError("%s has exactly %d fieldnames (%d given)" %
                           (self._name, len(self._fieldnames),
                            len(tuple_or_bytes)))
         self._SetValues(tuple_or_bytes)
+      else:
+        raise TypeError("Not a tuple or byte string: " + tuple_or_bytes)
 
     def _FieldIndex(self, attr):
       try:

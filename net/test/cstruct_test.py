@@ -18,7 +18,6 @@ import unittest
 
 import cstruct
 
-
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
 TestStructA = cstruct.Struct("TestStructA", "=BI", "byte1 int2")
 TestStructB = cstruct.Struct("TestStructB", "=BI", "byte1 int2")
@@ -55,20 +54,48 @@ class CstructTest(unittest.TestCase):
       self.CheckEquals(i, i)
     self.CheckEquals(a1, a3)
 
-  def testNestedStructs(self):
-    Nested = cstruct.Struct("Nested", "!HSSi",
-                            "word1 nest2 nest3 int4",
-                            [TestStructA, TestStructB])
-    DoubleNested = cstruct.Struct("DoubleNested", "SSB",
-                                  "nest1 nest2 byte3",
-                                  [TestStructA, Nested])
-    d = DoubleNested((TestStructA((1, 2)),
-                      Nested((5, TestStructA((3, 4)), TestStructB((7, 8)), 9)),
-                      6))
+  def testSimplePack(self):
+    S = cstruct.Struct("S", "=IHBx16sQ", "int1 short2 byte3 text4 long5")
+    s = S()
+    s.int1 = 0xabcdef01
+    s.short2 = 0xddbb
+    s.byte3 = 0xff
+    s.text4 = "hello world"  # "68656c6c6f20776f726c64" in hex
+    s.long5 = 0xfeed1337d00dbeef
+    expected = ("01efcdab"
+                "bbdd"
+                "ff"
+                "00"
+                "68656c6c6f20776f726c640000000000"
+                "efbe0dd03713edfe")
+    # Assert hex strings for more readable output.
+    self.assertMultiLineEqual(expected, s.Pack().encode('hex'))
 
-    expectedlen = (len(TestStructA) +
-                   2 + len(TestStructA) + len(TestStructB) + 4 +
-                   1)
+  def testSimpleUnpack(self):
+    S = cstruct.Struct("S", "=IHBx16sQ", "int1 short2 byte3 text4 long5")
+    data = ("01efcdab"
+            "bbdd"
+            "ff"
+            "00"
+            "68656c6c6f20776f726c640000000000"
+            "efbe0dd03713edfe").decode("hex")
+    s = S(data)
+    self.assertEquals(0xabcdef01, s.int1)
+    self.assertEquals(0xddbb, s.short2)
+    self.assertEquals(0xff, s.byte3)
+    self.assertEquals("hello world\x00\x00\x00\x00\x00", s.text4)
+    self.assertEquals(0xfeed1337d00dbeef, s.long5)
+
+  def testNestedStructs(self):
+    Nested = cstruct.Struct("Nested", "!HSSi", "word1 nest2 nest3 int4",
+                            [TestStructA, TestStructB])
+    DoubleNested = cstruct.Struct("DoubleNested", "SSB", "nest1 nest2 byte3",
+                                  [TestStructA, Nested])
+    d = DoubleNested((TestStructA((1, 2)), Nested((5, TestStructA((3, 4)),
+                                                   TestStructB((7, 8)), 9)), 6))
+
+    expectedlen = (
+        len(TestStructA) + 2 + len(TestStructA) + len(TestStructB) + 4 + 1)
     self.assertEquals(expectedlen, len(DoubleNested))
 
     self.assertEquals(7, d.nest2.nest3.byte1)
@@ -87,9 +114,15 @@ class CstructTest(unittest.TestCase):
         " nest2=Nested(word1=33214, nest2=TestStructA(byte1=3, int2=4),"
         " nest3=TestStructB(byte1=7, int2=33627591), int4=-55), byte3=252)")
     self.assertEquals(expected, str(d))
-    expected = ("01" "02000000"
-                "81be" "03" "04000000"
-                "07" "c71d0102" "ffffffc9" "fc").decode("hex")
+    expected = ("01"
+                "02000000"
+                "81be"
+                "03"
+                "04000000"
+                "07"
+                "c71d0102"
+                "ffffffc9"
+                "fc").decode("hex")
     self.assertEquals(expected, d.Pack())
     unpacked = DoubleNested(expected)
     self.CheckEquals(unpacked, d)
