@@ -365,6 +365,85 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+  def testSimpleInboundSocketPolicy(self):
+    # Precomputed ESP Packet with keys
+    # IP src=8.8.8.8 dst=10.0.150.2
+    # ESP spi=0xdeadbeef
+    # UDP sport=6666 dport=7777 payload="hello"
+    pkt = scapy.IP("4500004c000100004032fc6d08080808"
+                   "0a006402deadbeef0000000111160d73"
+                   "ff9e1437280fa96b02b8f9f839fcba33"
+                   "4d571f75855f8337e1650f0ba880e05b"
+                   "8a3e28bf93e267c63302826f".decode("hex"))
+    ealgo = xfrm.XfrmAlgo(name="cbc(aes)", key_len=256)
+    aalgo = xfrm.XfrmAlgoAuth(name="hmac(sha256)", key_len=256, trunc_len=128)
+    ekey = ("93b7b6d70947c906ca55e21e228f6e58"
+            "f7b35f9de72a9edf7293bba9167645e3").decode("hex")
+    akey = ("eef973b29991f385e121aff9140a923b"
+            "75338ab4b8d2a744a0e41e93b02b7305").decode("hex")
+
+    # Choose network parameters to match the packet above.
+    netid = self.NETIDS[0]
+    local_addr = self.MyAddress(4, netid)
+    remote_addr = self.GetRemoteAddress(4)
+
+    # Open a socket and bind to the expected port.
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    s.bind(("0.0.0.0", 7777))
+
+    # Create an inbound SA.
+    # SPI in XfrmId is expected in network byte order.
+    self.xfrm.AddMinimalSaInfo(
+        src=remote_addr,
+        dst=local_addr,
+        spi=htonl(0xdeadbeef),
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=314,
+        encryption=ealgo,
+        encryption_key=ekey,
+        auth_trunc=aalgo,
+        auth_trunc_key=akey,
+        encap=None)
+
+    # Create an inbound socket policy.
+    selector = xfrm.XfrmSelector(
+        daddr=XFRM_ADDR_ANY, saddr=XFRM_ADDR_ANY, family=AF_INET)
+    policy = xfrm.XfrmUserpolicyInfo(
+        sel=selector,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        dir=xfrm.XFRM_POLICY_IN,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_UNIQUE)
+    # SPI in XfrmId is expected in network byte order.
+    xfrmid = xfrm.XfrmId(
+        daddr=XFRM_ADDR_ANY, spi=htonl(0xdeadbeef), proto=IPPROTO_ESP)
+    template = xfrm.XfrmUserTmpl(
+        id=xfrmid,
+        family=AF_INET,
+        saddr=XFRM_ADDR_ANY,
+        reqid=314,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        share=xfrm.XFRM_SHARE_UNIQUE,
+        optional=0,  #require
+        aalgos=ALL_ALGORITHMS,
+        ealgos=ALL_ALGORITHMS,
+        calgos=ALL_ALGORITHMS)
+
+    # Apply the inbound socket policy.
+    opt_data = policy.Pack() + template.Pack()
+    s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
+
+    # Decrypt and read the packet!
+    self.ReceivePacketOn(netid, pkt)
+    s.settimeout(1)
+    msg, remote_sockaddr = s.recvfrom(4000)
+    self.assertEquals("hello", msg)
+    self.assertEquals(remote_addr, remote_sockaddr[0])
+    self.assertEquals(6666, remote_sockaddr[1])
+
 
 if __name__ == "__main__":
   unittest.main()
