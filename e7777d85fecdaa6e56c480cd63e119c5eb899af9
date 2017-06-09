@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "dfc83ca5_7f43fb4f",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-09T18:28:28Z",
+      "side": 1,
+      "message": "After some discussion, it seems that the current unpacking behavior is not only correct, but should be enforced. Unpacking will always populate string fields with the appropriate number of trailing bytes. This is important because sometimes those fields are actually other structs that cstruct can\u0027t model. (i.e. xfrm_address_t which has a union.)",
+      "parentUuid": "27522c39_c112d84b",
+      "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4096443_d682630e",
         "filename": "net/test/cstruct_test.py",
         "patchSetId": 6
@@ -71,6 +89,24 @@
       "writtenOn": "2017-06-09T08:35:01Z",
       "side": 1,
       "message": "Do we already have a simple testcase for string initialization, to ensure it hasn\u0027t regressed? If not, can you add one? It could be as simple enough as just taking a string, initializing a struct from it, and testing its members.",
+      "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02e0cd45_bdc5e34b",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-09T18:28:28Z",
+      "side": 1,
+      "message": "added in separate CL",
+      "parentUuid": "a4096443_d682630e",
       "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
