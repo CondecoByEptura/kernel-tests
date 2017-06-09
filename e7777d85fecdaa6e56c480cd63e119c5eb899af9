@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d59910cf_bd08c34b",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-09T08:35:01Z",
+      "side": 1,
+      "message": "Nit: consider making this:\n\n    elif isinstance(tuple_or_bytes, tuple):\n      ...\n    else:\n      raise TypeError(\"Not a tuple or bytes: \" + tuple_or_bytes)",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 10
+      },
+      "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8176b3dd_e4d829cc",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-09T08:35:01Z",
+      "side": 1,
+      "message": "Instead of or in addition to checking the packed form, I\u0027d suggest checking all the fields explicitly. Here you\u0027d do:\n\n    self.assertEquals(0, t1.byte1)\n    self.assertEquals(text, t1.string2)\n    self.assertEquals(0, t1.int3)\n    self.assertEquals(0x1234, t1.word4)\n\nAlso above.",
+      "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4096443_d682630e",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-09T08:35:01Z",
+      "side": 1,
+      "message": "Do we already have a simple testcase for string initialization, to ensure it hasn\u0027t regressed? If not, can you add one? It could be as simple enough as just taking a string, initializing a struct from it, and testing its members.",
+      "revId": "e7777d85fecdaa6e56c480cd63e119c5eb899af9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
