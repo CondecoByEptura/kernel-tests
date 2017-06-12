@@ -1,0 +1,17 @@
+[
+    {
+        "IN": {
+            "auth": {
+                "algo": "hmac(sha256)",
+                "key": "eef973b29991f385e121aff9140a923b75338ab4b8d2a744a0e41e93b02b7305",
+                "trunc_len": 128
+            },
+            "crypt": {
+                "algo": "cbc(aes)",
+                "key": "93b7b6d70947c906ca55e21e228f6e58f7b35f9de72a9edf7293bba9167645e3"
+            },
+            "ipv4_payload": "4500004c000100004032fc6d080808080a006402deadbeef0000000111160d73ff9e1437280fa96b02b8f9f839fcba334d571f75855f8337e1650f0ba880e05b8a3e28bf93e267c63302826f"
+        },
+        "name": "The one and only test"
+    }
+]
