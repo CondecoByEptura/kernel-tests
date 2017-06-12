@@ -1,0 +1,662 @@
+[
+  {
+    "name": "cbc(aes)-256 hmac(md5)-128-96 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "64303ec37c98cb64f58270f08a9097809652c27c07d173263cb3e9bca288296d"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000018670438957f2837a1f5a763c602a59eec95221373599a963bf331a8f150379ec648be99a9735f661c9b649761fd69f3b1e6946678411f1f4d8aca609", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(md5)", 
+        "key": "db1099a8d8ec4d3dd70e8bd2b6f1716e", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(md5)-128-96 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "8e4317909490967fd4f54487f5389598250548cae6236164aac63a3ddcc8865f"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface000000014b61e1b0bf1fa88a24a2823c2dfc9f339d55d542b7057bb6c736a6defdfa30678ffd9c3bfae4611b68e527bc71fbdf9021f0f54975e68d10313a3e1c", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(md5)", 
+        "key": "9232623adb1dda7369251beff0d1854a", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha1)-160-96 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "be3e5cbd6942201922addb40d26c5f6c2051257264dd754d16640834dfc5d040"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000010ab8463f10c91a40e69d8fda7a0bafbdd6669c9423e2bc2c5e6720962bfc48458f55ae9f59a7777f4d0c34cf2c9c1f1df8ee1ecd19205ba96e36a84b", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha1)", 
+        "key": "578e6b59b555edd9c10846bb53cb07524e726799", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha1)-160-96 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "57c539c233e33868e664dc90089c70226293365ee9cbbe7e07d4e41e8f3a0ea9"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface000000017d9037a629aee798214fabc2c3803b2fd296fa65a36b21a704245d968d0511590502b523322cccc14bb62c4bbba779607bec2ca01243e399da0565fb", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha1)", 
+        "key": "0121b01ba8882efcdcf275140cf8fd75d83177a6", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha256)-256-128 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "97b153faca6bf4fb0340e4f00e9a779302a5a50d7da432ab70cac0baf2ae4beb"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface00000001b1c776a71a030d1a6ef0071b558395b825b7d387d6654f95b729330717527c585b3dfad53df46b34fb28d6981def75dd3f6933ff93b913acb57dd071815a47c1", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha256)", 
+        "key": "74b7d7c1d2c65d3fa5765b37bcd0e57fd4bfecb29e75233a89a9eb5b0f4b9f41", 
+        "trunc_len": 128
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha256)-256-128 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "10fa307854737f005e36f6a51e06ab4320271e42a48c32d6bd4c8431714f750f"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface000000011403e10fc0e606564015674d042d761158242c45950dd8a917be586eaa230936c106ea6bbde70d5da5a8f58b578e6e2f6a6c25a43f35b656d33f66538f789595", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha256)", 
+        "key": "1506151db74efb51d73117669898ed752203b285d8764aae7de411fe2e0fc847", 
+        "trunc_len": 128
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha384)-384-192 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "14ac8b0ef7d7b6276c82224b8b132ee900577ee885c9f325ab457d93d0734533"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface00000001a51fdf4696f0ec414988d9590a7dccf49a15b6f3bf862135aab9d65fa5fb74bd4f0baa54c334779fff54fb0c47867edd6fa7a2a3b46f6de7c025fe33b2cc274c0322b0f32e06ca78", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha384)", 
+        "key": "6a1902856c5390a0989687a460ec0bc745bda269def8b4144ee3c1ca353242eb58198ead9486829a8eab771048c5e5a2", 
+        "trunc_len": 192
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha384)-384-192 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "9349890aad25f136c722e1f8cc71ea7dae4a57cea2e6a48bcc7a158290081e8e"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001a2f198cbf30dd66096bebc52fd02b74c111f0f1d964388b05f11035ef46ce1a1cbd47769565c0f77e611882ed75ef234ad84b3e80e71e58ff24e6731822f0af3767d40517e516a70", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha384)", 
+        "key": "f74c2fd4bdcc1b7dc833f9ec1d80bf55c4b6e1374aa84c80bee2a7d2195b38ee4ff64dbd78c84b3a0718da954b728ee8", 
+        "trunc_len": 192
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha512)-512-256 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "0e6e93c076a70eb5868e2aa7c0bb92594c5b20710d0a2cf9b3bd607dbe491257"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface00000001fee045f436aaa32f5e2747202ce832a251a3eae8e15251ec7e92004917a8d80cba77f8729dea317276706eb69e0e026fd4418b369524d06a45f63ca8610f08fca7e3c4df561db95ca21a4ee3d739a809", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha512)", 
+        "key": "bbdd14b06f982f8c8060dcaf5750bf5965c2900e5815d881f05ab1c64870983d1d9b2b6281f1db86b80e288375966a5431e6f9d9cdbfc21548e87400fcff4ccb", 
+        "trunc_len": 256
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-256 hmac(sha512)-512-256 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "2cf3fd871aacf714eab682918a9a80d143ed5f7c8dde24d8d6a6c97338efddeb"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001e4b079d9480554fcb74a51601206e3c1cafb5c55e67734d9a1e3ab4914336b38843c1e19bece332c2cbac6c382a577c8444e1f2217d35d1cdeb8e2cefce9e7b2968348cb390496be63f5fb670ed5e33b", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha512)", 
+        "key": "6c9d7a701cd2d2bfcb7ec64e8f701b3f518ca4398f83eb48c27a6f5344f01208473b4920cc3e65885113c388ac94ec58052e461868da1a52ca3c6196c54a4328", 
+        "trunc_len": 256
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(md5)-128-96 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "902333f534eff0eb6aa9d77701221a2b08746020f04a06a1"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface00000001d966eeb88f1cdabbddcf9c74f5b5bba3fcc8885a7373c30c83bbc2d57cd9a09a7e5d0f268ebf5696485c2e4925e0ac01b9b91b47b276e7f64e3cf59d", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(md5)", 
+        "key": "a953f7762b1ca94a3d950a98a3212684", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(md5)-128-96 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "bcdd761eda989fa97febe62e7a65c2dcbdfb096a1e78813f"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface000000010d49332d56e397e79127b98ac32cd6a2831c5b5b463729dab98170d0b59d849efe969843e4e3539d5dbaa9a24d3392fdd6e4af43438fbfc06642e968", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(md5)", 
+        "key": "019ecdf24db9428faeefbeb152e0cbd7", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha1)-160-96 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "bd69b94b5cef8252bed1748e75293f93ff391a0918175a80"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000014be8b85607b64c560050501903a8693b524768f1835a1f940c2bfaee2672294b550590fd9b6db099228fad6b33a6ceab4c77a88ed3045d7cdf5df5b7", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha1)", 
+        "key": "ddad8750b6471b25064ac9906fd8b4a7f21c9c1f", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha1)-160-96 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "b25c30ef6a522dd94762c57014a010eb2b80141a5b45cd6d"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface000000013505aea7b493c82281d277e3d335ee4c7a72ee068283547ffe79ddd4155cd5072bf21e451a57d1afda7060a71c374924de3b8e9cd65cf3a4cd44116f", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha1)", 
+        "key": "e71a0c690a57c5b7bfad74b0c5be836a8ed80ce9", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha256)-256-128 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "62bca392944b68f77ddee0d9d20fb9d4caf1f13905550fb5"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000017a58d438d2364313ae31265f9856d5a406e7023589b17ae7dffd1e8c27cc001d3d5fa696376b86f1389b18dc837178540686122f38a25e2772f791cb1822609a", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha256)", 
+        "key": "f6dc9628a1d23f12e3795df6f7645e77c4eb64619e9330d50f65872a44a23e85", 
+        "trunc_len": 128
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha256)-256-128 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "661984aa00db2f2b7fd4d175e7061ee35ec990ffa6b1c7ef"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface0000000197f24e771a521f1fa06ee8403ff106e5e676ab74a461c3e83713d1ed2007a4194b9ad0672dfa284cb5e9548858a0f48154adb6965ac085abccf36d2ce5a3a1c2", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha256)", 
+        "key": "66effd23d413a748c47a31ab448f8628f55ea608b04f207d747c3bf5deb7ce03", 
+        "trunc_len": 128
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha384)-384-192 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "4cdf4d025cfc210667d8f268844bd044c0ab4330a39f8bd9"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000014b321f39492f773bdce462eb7e6c6ff812079fe403591ac52438a48585877e1228d21471cf0bb8a0ac12225b3b166a0dbeeeead83e5f371cc1c0baeeb0c61b46d66d9196fac38ecf", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha384)", 
+        "key": "fa642985905cad6992940a85770fc227cfdaadabf1beb86b0ca2bd0ac6bd52f4deee7538c08b668b7533ef5b08c8581c", 
+        "trunc_len": 192
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha384)-384-192 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "9b47e34dd4625be6980710d4ada785e219c2399f3fbae7c1"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface000000013e8388ad10ecc82091bdb263a8c80cc0150470f35fadae55f03597d6263f9399a01f083513f199dc3527d1ec49e46d04c90813649a930945d279178cc9ad9bf82b8518299fdbb8d3", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha384)", 
+        "key": "8c8b83896cb7a276928be9ce374b232c8d3974b44cde63effa5825cc450d986fa2d3569580c20144486bfef2f2e5a80c", 
+        "trunc_len": 192
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha512)-512-256 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "42ab8008e401494cbf2b5ff0fc63fd45f0f58661c289e1c4"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface00000001c9cef2f3f81ae664f0a6082863ddd223b16f3518c8947590f4898b58d23c2e67dfcbe6ad8167a7d7cf81b0e4c6fbd6992d41844d730aa4d93beb680a7561a2e1745252211f133ff8a349a4a4384393a5", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha512)", 
+        "key": "c5f9430a5c5fc832c6d1a2ef51cfb1adc51533b1de3f8163735c3dbea23d12085f705b1d30a570260f8a947a69865b1fcacf77d3fa44948ca6a62fc92762acd2", 
+        "trunc_len": 256
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-192 hmac(sha512)-512-256 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "d108ba1851550a6a315ac43c384983cfcebfddeed5f14397"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001053e702fbb5af16949b26dfb8e03d71bbd823738aa2c401fbaa46886ada59fece71d744eda6506232f4678869ad2c2058c92f23ed8fc5f6d8579eb5d97e1c4d40da506dfa8bf45d71f9d7141ef58f5f0", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha512)", 
+        "key": "dece0790bdfd04d876083027935d881407951dc5bdc5bc8beb3fe35ddf17f05efe2695e1d98e09a29c66c87f619c21c3d426f24d1d13e94e8bb576fb2382493a", 
+        "trunc_len": 256
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(md5)-128-96 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "01d06c116953b37c3868075eaa0c10e6"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000011b4d31ee9d512973c1fad1f97dae63b530a53f2447f6bb159f3b58a6067fca7183839119362a658be4572709c76d794d4881a5e987428cdfdce2378a", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(md5)", 
+        "key": "26ff6a9f1b0049220f1ab85dccd1463d", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(md5)-128-96 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "8ae8d7615c48ed3ccdf57a7fba8affba"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001660c9be53571286a18f081ef48a0e5cf8fa4f19969bb947a48720fbd85f93d4eda3673a685754bad557182fd39107351d1122fd378cb14c7aec23ed5", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(md5)", 
+        "key": "661ada50f9d38d81cbbc29abbec7d9b2", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha1)-160-96 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "70a110d6d9df9586826ee43bdbc51657"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface0000000195918a99d138ab9360e85fe80d17b3bd81f0ad3761e547d6d4aafc407dfda4ada8d8f553b140ebd8db6d34a8b37725744b4579449b3a09a6664dc4f2", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha1)", 
+        "key": "ab0f96c1c60793f40e4f01b092a892ad239b8976", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha1)-160-96 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "9acb9520ac38711892ee213e2341befc"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001db4553cc08d0d2cd399182b7ef3c3bcf40dc4f7dc9a6f7011a84894a94953f04a14b930c8bab1097b57e54acb845f56a7924a9b0c0490165be6ce60b", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha1)", 
+        "key": "b6b68629f4de3cb7a8ff47df2c11711ced61c70d", 
+        "trunc_len": 96
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha256)-256-128 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "d04090c1c6e69145155c1cd7b5db9440"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface0000000170cc2d004f6c4f328aef421b7bc4ec231304986ec2586ec14e4c5cc449920e81caa34a1a749a8cb9a3607109337c7bddd32016014cbfa14923758e2c97a7786d", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha256)", 
+        "key": "5b95f1201d1a3bed0e0b477128b3bbb791c8c1928dd6cefa25bac5f00e85a5ae", 
+        "trunc_len": 128
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha256)-256-128 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "5f57d6becdc23664d59b030693c0b1af"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001881457d77fe802a62c42e043293c2d765e11e8553c7bd2c59cb75f2cae02593e6ad5aebcdd4302d451af36bfb49bd76ec044f42b15668e1665fbd01aebc15581", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha256)", 
+        "key": "0ad928244e9a60581fc8ce4cc2c5161d90a4374fb51e8829374d26003659bf32", 
+        "trunc_len": 128
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha384)-384-192 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "9b28273d7df63f3fe6b9f4f98fafb0d8"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface000000016ff4d37e37f4b6ddedc5a276dbc87208953b1c897fa6fd7aa666dad81386fb46d2a402e45bb68758d7c058ed490f7228567d8f7480699dea290223c090fc3adc9e8a9053f78c44f0", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha384)", 
+        "key": "f6b7e8395a69099419904d900d18e49c9522a43b6e5b1062a3a06e9a2da6dd8ac440eef17b1bb7744549012cae7e8159", 
+        "trunc_len": 192
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha384)-384-192 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "f935ef84449213248eac0912c05a240d"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface0000000122f266dce3ecef49626f528ba7ef1989317a11ce4213b8b729bb152633f6afc8839b087d512a863a6cff951713452381ea26780fda2c0ff15ba24c010f7af38d82ab4b24001542d6", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha384)", 
+        "key": "f042009f53fc2df149bfcbee4cdf7bbcebb72eddea1902ccd76c0c88920a33ea4c5757491a7e18a96b2f5bac3ff0f8cb", 
+        "trunc_len": 192
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha512)-512-256 UDP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "a000630f0808636f89c58b67e5befd7e"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "hello from remote", 
+        "esp_input": "f00dface00000001f441b3252c9fdb2fae597c2e5cae8facc4b663d21f4e09150c2b3f603d5f9280e196511dc34bc8eb82ad8f88980cde02591083e530a292179d5a1f557a199c0c1e7d1383cdfaad7f233d39703da4fba3", 
+        "inner_type": "UDP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha512)", 
+        "key": "008fdda153a7f179e354f8552b09616a321050a098edf4cfa4023170c76e0a8bca2e55f78ed8a20b2bc37b23068fefb4ba816b0a79974ad521c579f62499aa5d", 
+        "trunc_len": 256
+      }
+    }
+  }, 
+  {
+    "name": "cbc(aes)-128 hmac(sha512)-512-256 TCP", 
+    "IN": {
+      "crypt": {
+        "algo": "cbc(aes)", 
+        "key": "5dc583647f4bfdaee3707ebe8a892fc7"
+      }, 
+      "sa": {
+        "spi": 4027448014
+      }, 
+      "packet": {
+        "expected_data": "", 
+        "esp_input": "f00dface00000001fdabd6abfc6efddef57c7c5c2b968bdc3f50d49dfcd3010d62ca344c66e553841604438c04a045b6200acd86b4b92c2410b846f7738f756ac94af15d92f2b68de5af775a0e5bb47e51e98d1520000a3a", 
+        "inner_type": "TCP"
+      }, 
+      "auth": {
+        "algo": "hmac(sha512)", 
+        "key": "9a20f9b1223f4bcc3f43b992a6fd2e8df260f3859f339c272934c38fc59042241a25c9b3ab4cd27c9a3476df2ba575481100b32a911553b60f8038e35ea9bff7", 
+        "trunc_len": 256
+      }
+    }
+  }
+]
