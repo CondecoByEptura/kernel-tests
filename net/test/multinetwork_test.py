@@ -40,9 +40,6 @@ IPV6_MARK_REFLECT_SYSCTL = "/proc/sys/net/ipv6/fwmark_reflect"
 SYNCOOKIES_SYSCTL = "/proc/sys/net/ipv4/tcp_syncookies"
 TCP_MARK_ACCEPT_SYSCTL = "/proc/sys/net/ipv4/tcp_fwmark_accept"
 
-# The IP[V6]UNICAST_IF socket option was added between 3.1 and 3.4.
-HAVE_UNICAST_IF = net_test.LINUX_VERSION >= (3, 4, 0)
-
 
 class ConfigurationError(AssertionError):
   pass
@@ -199,21 +196,17 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     """Checks that UID routing selects the right outgoing interface."""
     self.CheckOutgoingPackets("uid")
 
+  @multinetwork_base.UseOifRouting
   def testOifRouting(self):
     """Checks that oif routing selects the right outgoing interface."""
     self.CheckOutgoingPackets("oif")
 
-  @unittest.skipUnless(HAVE_UNICAST_IF, "no support for UNICAST_IF")
+  @multinetwork_base.UseOifRouting
   def testUcastOifRouting(self):
     """Checks that ucast oif routing selects the right outgoing interface."""
     self.CheckOutgoingPackets("ucast_oif")
 
-  def CheckRemarking(self, version, use_connect):
-    modes = ["mark", "oif", "uid"]
-    # Setting UNICAST_IF on connected sockets does not work.
-    if not use_connect and HAVE_UNICAST_IF:
-      modes += ["ucast_oif"]
-
+  def CheckRemarking(self, version, modes, use_connect):
     for mode in modes:
       s = net_test.UDPSocket(self.GetProtocolFamily(version))
 
@@ -271,15 +264,25 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         prevnetid = netid
 
   def testIPv4Remarking(self):
-    """Checks that updating the mark on an IPv4 socket changes routing."""
-    self.CheckRemarking(4, False)
-    self.CheckRemarking(4, True)
+    self.CheckRemarking(4, ["mark", "uid"], False)
+    self.CheckRemarking(4, ["mark", "uid"], True)
 
   def testIPv6Remarking(self):
-    """Checks that updating the mark on an IPv6 socket changes routing."""
-    self.CheckRemarking(6, False)
-    self.CheckRemarking(6, True)
+    self.CheckRemarking(6, ["mark", "uid"], False)
+    self.CheckRemarking(6, ["mark", "uid"], True)
 
+  @multinetwork_base.UseOifRouting
+  def testIPv4RemarkingOif(self):
+    self.CheckRemarking(4, ["oif", "ucast_oif"], False)
+     # Setting UNICAST_IF on connected sockets does not work.
+    self.CheckRemarking(4, ["oif"], True)
+
+  @multinetwork_base.UseOifRouting
+  def testIPv4RemarkingOif(self):
+    self.CheckRemarking(6, ["oif", "ucast_oif"], False)
+    self.CheckRemarking(6, ["oif"], True)
+
+  @multinetwork_base.UseOifRouting
   def testIPv6StickyPktinfo(self):
     for _ in xrange(self.ITERATIONS):
       for netid in self.tuns:
@@ -357,9 +360,11 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
             version, desc, self.GetInterfaceName(netid))
         self.ExpectPacketOn(netid, msg, expected)
 
+  @multinetwork_base.UseOifRouting
   def testIPv4PktinfoRouting(self):
     self.CheckPktinfoRouting(4)
 
+  @multinetwork_base.UseOifRouting
   def testIPv6PktinfoRouting(self):
     self.CheckPktinfoRouting(6)
 
@@ -391,11 +396,7 @@ class MarkTest(InboundMarkingTest):
       # Test with mark reflection enabled and disabled.
       for reflect in [0, 1]:
         self.SetMarkReflectSysctls(reflect)
-        # HACK: IPv6 ping replies always do a routing lookup with the
-        # interface the ping came in on. So even if mark reflection is not
-        # working, IPv6 ping replies will be properly reflected. Don't
-        # fail when that happens.
-        if reflect or desc == "ICMPv6 echo":
+        if reflect:
           reply_desc, reply = gen_reply(version, myaddr, remoteaddr, packet)
         else:
           reply_desc, reply = None, None
@@ -502,9 +503,6 @@ class TCPAcceptTest(InboundMarkingTest):
     desc, finack = packets.FIN(version, remoteaddr, myaddr, fin)
     self.ReceivePacketOn(netid, finack)
 
-    # Since we called close() earlier, the userspace socket object is gone, so
-    # the socket has no UID. If we're doing UID routing, the ack might be routed
-    # incorrectly. Not much we can do here.
     desc, finackack = packets.ACK(version, myaddr, remoteaddr, finack)
     self.ExpectPacketOn(netid, msg + ": expecting final ack", finackack)
 
@@ -554,8 +552,13 @@ class TCPAcceptTest(InboundMarkingTest):
                                     remoteaddr, packet, reply, msg)
 
   def testBasicTCP(self):
-    self.CheckTCP(4, [None, self.MODE_BINDTODEVICE, self.MODE_EXPLICIT_MARK])
-    self.CheckTCP(6, [None, self.MODE_BINDTODEVICE, self.MODE_EXPLICIT_MARK])
+    self.CheckTCP(4, [None, self.MODE_EXPLICIT_MARK])
+    self.CheckTCP(6, [None, self.MODE_EXPLICIT_MARK])
+
+  @multinetwork_base.UseOifRouting
+  def testOif(self):
+    self.CheckTCP(4, [self.MODE_BINDTODEVICE])
+    self.CheckTCP(6, [self.MODE_BINDTODEVICE])
 
   def testIPv4MarkAccept(self):
     self.CheckTCP(4, [self.MODE_INCOMING_MARK])
@@ -832,8 +835,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     for netid in self.tuns:
       # Send a UDP packet to a random on-link destination.
       s = net_test.UDPSocket(AF_INET6)
-      iface = self.GetInterfaceName(netid)
-      self.BindToDevice(s, iface)
+      self.SelectInterface(s, netid, "mark")
       # dstaddr can never be our address because GetRandomDestination only fills
       # in the lower 32 bits, but our address has 0xff in the byte before that
       # (since it's constructed from the EUI-64 and so has ff:fe in the middle).
@@ -966,8 +968,8 @@ class PMTUTest(InboundMarkingTest):
         s2.connect((dstaddr, 1234))
         self.assertEquals(1280, self.GetSocketMTU(version, s2))
 
-        # Also check the MTU reported by ip route get, this time using the oif.
-        routes = self.iproute.GetRoutes(dstaddr, self.ifindices[netid], 0, None)
+        # Also check the MTU reported by ip route get.
+        routes = self.iproute.GetRoutes(dstaddr, None, netid, None)
         self.assertTrue(routes)
         route = routes[0]
         rtmsg, attributes = route
@@ -975,7 +977,7 @@ class PMTUTest(InboundMarkingTest):
         metrics = attributes["RTA_METRICS"]
         self.assertEquals(metrics["RTAX_MTU"], 1280)
 
-  def testIPv4BasicPMTU(self):
+  def testIPv4MarkPMTU(self):
     """Tests IPv4 path MTU discovery.
 
     Relevant kernel commits:
@@ -986,12 +988,22 @@ class PMTUTest(InboundMarkingTest):
         4bc64dd ipv4, fib: pass LOOPBACK_IFINDEX instead of 0 to flowi4_iif
     """
 
-    self.CheckPMTU(4, True, ["mark", "oif"])
-    self.CheckPMTU(4, False, ["mark", "oif"])
+    self.CheckPMTU(4, True, ["mark"])
+    self.CheckPMTU(4, False, ["mark"])
+
+  @multinetwork_base.UseOifRouting
+  def testIPv4OifPMTU(self):
+    self.CheckPMTU(4, True, ["oif"])
+    self.CheckPMTU(4, False, ["oif"])
 
   def testIPv6BasicPMTU(self):
-    self.CheckPMTU(6, True, ["mark", "oif"])
-    self.CheckPMTU(6, False, ["mark", "oif"])
+    self.CheckPMTU(6, True, ["mark"])
+    self.CheckPMTU(6, False, ["mark"])
+
+  @multinetwork_base.UseOifRouting
+  def testIPv6OifPMTU(self):
+    self.CheckPMTU(6, True, ["oif"])
+    self.CheckPMTU(6, False, ["oif"])
 
   def testIPv4UIDPMTU(self):
     self.CheckPMTU(4, True, ["uid"])
@@ -1001,11 +1013,14 @@ class PMTUTest(InboundMarkingTest):
     self.CheckPMTU(6, True, ["uid"])
     self.CheckPMTU(6, False, ["uid"])
 
-  # Making Path MTU Discovery work on unmarked  sockets requires that mark
+  # Making Path MTU Discovery work on unmarked sockets requires that mark
   # reflection be enabled. Otherwise the kernel has no way to know what routing
   # table the original packet used, and thus it won't be able to clone the
-  # correct route.
+  # correct route. Also, use the oif rules for this test: even though the socket
+  # is not bound to the interface, the sendmsg call that sends the original
+  # packet needs to go somewhere.
 
+  @multinetwork_base.UseOifRouting
   def testIPv4UnmarkedSocketPMTU(self):
     self.SetMarkReflectSysctls(1)
     try:
@@ -1013,6 +1028,7 @@ class PMTUTest(InboundMarkingTest):
     finally:
       self.SetMarkReflectSysctls(0)
 
+  @multinetwork_base.UseOifRouting
   def testIPv6UnmarkedSocketPMTU(self):
     self.SetMarkReflectSysctls(1)
     try:
@@ -1131,7 +1147,7 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     finally:
       self.iproute.FwmarkRule(version, False, 300, 301, priority + 1)
 
-    # Test that EEXIST worksfor UID range rules too. This behaviour was only
+    # Test that EEXIST works for UID range rules too. This behaviour was only
     # added in 4.8.
     if net_test.LINUX_VERSION >= (4, 8, 0):
       ranges = [(100, 101), (100, 102), (99, 101), (1234, 5678)]

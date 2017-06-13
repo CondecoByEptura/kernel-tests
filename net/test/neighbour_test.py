@@ -40,6 +40,8 @@ NUD_PERMANENT = 0x80
 # TODO: Support IPv4.
 class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
 
+  USE_OIF_ROUTING = True
+
   # Set a 500-ms retrans timer so we can test for ND retransmits without
   # waiting too long. Apparently this cannot go below 500ms.
   RETRANS_TIME_MS = 500

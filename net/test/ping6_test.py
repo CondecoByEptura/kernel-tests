@@ -608,6 +608,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     s.sendto(net_test.IPV6_PING, ("fe80::1", 55, 0, self.ifindex))
     # No exceptions? Good.
 
+  @multinetwork_base.UseOifRouting
   def testLinkLocalOif(self):
     """Checks that ping to link-local addresses works correctly.
 

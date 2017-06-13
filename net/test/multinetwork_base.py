@@ -73,6 +73,18 @@ def MakePktInfo(version, addr, ifindex):
     return csocket.InPktinfo((ifindex, addr, "\x00" * 4)).Pack()
 
 
+# Decorator for unit tests that rely on UID rules.
+def UseOifRouting(testcase):
+  def wrapped(*args, **kwargs):
+    self = args[0]
+    try:
+      self.SetOifRules(True)
+      testcase(*args, **kwargs)
+    finally:
+      self.SetOifRules(False)
+  return wrapped
+
+
 class MultiNetworkBaseTest(net_test.NetworkTest):
   """Base class for all multinetwork tests.
 
@@ -105,6 +117,12 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   PRIORITY_IIF = 400
   PRIORITY_DEFAULT = 999
   PRIORITY_UNREACHABLE = 1000
+
+  # Enable oif rules only for tests that need them. On real systems, these are
+  # always enabled, but in tests, they tend to cover up bugs where the kernel
+  # unconditionally sets the oif to the iff of a packet it's replying to instead
+  # of doing something more correct.
+  USE_OIF_ROUTING = False
 
   # For convenience.
   IPV4_ADDR = net_test.IPV4_ADDR
@@ -258,7 +276,6 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       start, end = cls.UidRangeForNetid(netid)
       cls.iproute.UidRangeRule(version, is_add, start, end, table,
                                cls.PRIORITY_UID)
-      cls.iproute.OifRule(version, is_add, iface, table, cls.PRIORITY_OIF)
       cls.iproute.FwmarkRule(version, is_add, netid, table,
                              cls.PRIORITY_FWMARK)
 
@@ -296,6 +313,14 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
           cls.iproute.DelNeighbour(version, router, macaddr, ifindex)
           cls.iproute.DelAddress(cls._MyIPv4Address(netid),
                                  cls.OnlinkPrefixLen(4), ifindex)
+
+  @classmethod
+  def SetOifRules(cls, is_add):
+    for netid in cls.NETIDS:
+      for version in [4, 6]:
+        iface = cls.GetInterfaceName(netid)
+        table = cls._TableForNetid(netid)
+        cls.iproute.OifRule(version, is_add, iface, table, cls.PRIORITY_OIF)
 
   @classmethod
   def SetDefaultNetwork(cls, netid):
@@ -374,6 +399,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       cls.SendRA(netid)
       cls._RunSetupCommands(netid, True)
 
+    if cls.USE_OIF_ROUTING:
+      cls.SetOifRules(True)
+
     # Don't print lots of "device foo entered promiscuous mode" warnings.
     cls.loglevel = cls.GetConsoleLogLevel()
     cls.SetConsoleLogLevel(net_test.KERN_INFO)
@@ -390,6 +418,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
         cls.iproute.UnreachableRule(version, False, cls.PRIORITY_UNREACHABLE)
       except IOError:
         pass
+
+    if cls.USE_OIF_ROUTING:
+      cls.SetOifRules(False)
 
     for netid in cls.tuns:
       cls._RunSetupCommands(netid, False)
