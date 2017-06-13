@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c98a2c65_fb92e02d",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-13T04:01:35Z",
+      "side": 1,
+      "message": "Oops, looks like someone wanted to say CRYPTO_SHA512 and forgot the 5. We should probably fix this and remove the CRYPTO_SHA{256,512} declarations below. Not something for this CL though.",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "f85db3477dfd520a30827cfd3d7c74ab1d607701",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
