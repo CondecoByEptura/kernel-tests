@@ -29,9 +29,6 @@ import netlink
 # TODO: move this somewhere more appropriate when possible
 EspHdr = cstruct.Struct("EspHdr", "!II", "spi seqnum")
 
-# Base netlink constants. See include/uapi/linux/netlink.h.
-NETLINK_XFRM = 6
-
 # Netlink constants. See include/uapi/linux/xfrm.h.
 # Message types.
 XFRM_MSG_NEWSA = 16
@@ -218,11 +215,10 @@ def PaddedAddress(addr):
 class Xfrm(netlink.NetlinkSocket):
   """Netlink interface to xfrm."""
 
-  FAMILY = NETLINK_XFRM
   DEBUG = False
 
   def __init__(self):
-    super(Xfrm, self).__init__()
+    super(Xfrm, self).__init__(netlink.NETLINK_XFRM)
 
   def _GetConstantName(self, value, prefix):
     return super(Xfrm, self)._GetConstantName(__name__, value, prefix)
