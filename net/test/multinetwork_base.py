@@ -87,6 +87,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   """
 
   # Must be between 1 and 256, since we put them in MAC addresses and IIDs.
+  # value 50 is reserved for networks managed by test cases directly
   NETIDS = [100, 150, 200, 250]
 
   # Stores sysctl values to write back when the test completes.
