@@ -24,18 +24,6 @@ import struct
 import cstruct
 import netlink
 
-### Base netlink constants. See include/uapi/linux/netlink.h.
-NETLINK_ROUTE = 0
-
-# Data structure formats.
-# These aren't constants, they're classes. So, pylint: disable=invalid-name
-NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
-NLMsgErr = cstruct.Struct("NLMsgErr", "=i", "error")
-NLAttr = cstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
-
-# Alignment / padding.
-NLA_ALIGNTO = 4
-
 ### rtnetlink constants. See include/uapi/linux/rtnetlink.h.
 # Message types.
 RTM_NEWLINK = 16
@@ -190,11 +178,6 @@ def CommandName(command):
 class IPRoute(netlink.NetlinkSocket):
   """Provides a tiny subset of iproute functionality."""
 
-  FAMILY = NETLINK_ROUTE
-
-  def _NlAttrIPAddress(self, nla_type, family, address):
-    return self._NlAttr(nla_type, socket.inet_pton(family, address))
-
   def _NlAttrInterfaceName(self, nla_type, interface):
     return self._NlAttr(nla_type, interface + "\x00")
 
@@ -284,7 +267,7 @@ class IPRoute(netlink.NetlinkSocket):
     return name, data
 
   def __init__(self):
-    super(IPRoute, self).__init__()
+    super(IPRoute, self).__init__(netlink.NETLINK_ROUTE)
 
   def _AddressFamily(self, version):
     return {4: socket.AF_INET, 6: socket.AF_INET6}[version]
@@ -391,11 +374,11 @@ class IPRoute(netlink.NetlinkSocket):
     print self.CommandToString(command, data)
 
   def MaybeDebugMessage(self, message):
-    hdr = NLMsgHdr(message)
+    hdr = netlink.NLMsgHdr(message)
     self.MaybeDebugCommand(hdr.type, message)
 
   def PrintMessage(self, message):
-    hdr = NLMsgHdr(message)
+    hdr = netlink.NLMsgHdr(message)
     print self.CommandToString(hdr.type, message)
 
   def DumpRules(self, version):
@@ -481,7 +464,7 @@ class IPRoute(netlink.NetlinkSocket):
                 oif, mark, uid)
     data = self._Recv()
     # The response will either be an error or a list of routes.
-    if NLMsgHdr(data).type == netlink.NLMSG_ERROR:
+    if netlink.NLMsgHdr(data).type == netlink.NLMSG_ERROR:
       self._ParseAck(data)
     routes = self._GetMsgList(RTMsg, data, False)
     return routes
