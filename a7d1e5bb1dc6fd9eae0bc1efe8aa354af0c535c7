@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9842d10d_94d06b58",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-14T23:58:46Z",
+      "side": 1,
+      "message": "Needs a docstring or comment stating that address is text.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 56
+      },
+      "revId": "a7d1e5bb1dc6fd9eae0bc1efe8aa354af0c535c7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09578ad0_bb65637c",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-14T23:58:46Z",
+      "side": 1,
+      "message": "Is detecting the family inappropriate for this method?",
+      "range": {
+        "startLine": 79,
+        "startChar": 39,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "a7d1e5bb1dc6fd9eae0bc1efe8aa354af0c535c7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
