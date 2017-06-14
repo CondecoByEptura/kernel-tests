@@ -23,6 +23,8 @@ from socket import *  # pylint: disable=wildcard-import
 import cstruct
 import netlink
 
+EspHdr = cstruct.Struct("EspHdr", "!II", "spi seqnum")
+
 # Base netlink constants. See include/uapi/linux/netlink.h.
 NETLINK_XFRM = 6
 
