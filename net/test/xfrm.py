@@ -24,8 +24,7 @@ from socket import *  # pylint: disable=wildcard-import
 import cstruct
 import netlink
 
-# Base netlink constants. See include/uapi/linux/netlink.h.
-NETLINK_XFRM = 6
+EspHdr = cstruct.Struct("EspHdr", "!II", "spi seqnum")
 
 # Netlink constants. See include/uapi/linux/xfrm.h.
 # Message types.
@@ -213,11 +212,10 @@ def PaddedAddress(addr):
 class Xfrm(netlink.NetlinkSocket):
   """Netlink interface to xfrm."""
 
-  FAMILY = NETLINK_XFRM
   DEBUG = False
 
   def __init__(self):
-    super(Xfrm, self).__init__()
+    super(Xfrm, self).__init__(netlink.NETLINK_XFRM)
 
   def _GetConstantName(self, value, prefix):
     return super(Xfrm, self)._GetConstantName(__name__, value, prefix)
