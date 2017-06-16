@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54ffc97d_bed6892f",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:37:05Z",
+      "side": 1,
+      "message": "In a perfect world, there would be a comment explaining that these methods pack nlattr headers + bodies.",
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "623f36b1_7f50f126",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:37:05Z",
+      "side": 1,
+      "message": "The fact that all these methods need to be \"hidden\" with a prefix underscore is another hint that \"NetlinkSocket\" should be a member variable of each netlink client.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "260d51ca_a6ba0fc5",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:37:05Z",
+      "side": 1,
+      "message": "If family is now required, drop the \u003dNone.",
+      "range": {
+        "startLine": 144,
+        "startChar": 21,
+        "endLine": 144,
+        "endChar": 32
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a825d6f_3317cd20",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:37:05Z",
+      "side": 1,
+      "message": "they",
+      "range": {
+        "startLine": 85,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aa5cceb_e4e85a18",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:37:05Z",
+      "side": 1,
+      "message": "I think this block can be made clearer, but I\u0027m not sure how. I\u0027ll give it some thought.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 58
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db74eb35_a5772553",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:37:05Z",
+      "side": 1,
+      "message": "Is this just some debug code that can be deleted now? Seems out of place.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 39
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
