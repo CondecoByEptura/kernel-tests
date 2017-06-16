@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2949e1ba_39b6b831",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:18:23Z",
+      "side": 1,
+      "message": "As someone reading this code, \"policy should be pre-constructed\" doesn\u0027t tell me what I need to do to use this method. If the object is expected to be an XfrmUserpolicyInfo struct, say so.",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 249,
+        "endChar": 36
+      },
+      "revId": "863c8c92ee8270e66a2390f740d1764a72ecac4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d0c77e_de6dc56b",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:18:23Z",
+      "side": 1,
+      "message": "Not sure what you imagine to be more explicit here. I would suggest that every instance of \"info\" is redundant in the context of XFRM. I think AddPolicy is a succinct function name.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 29
+      },
+      "revId": "863c8c92ee8270e66a2390f740d1764a72ecac4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a32cb2_32ae0f86",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:18:23Z",
+      "side": 1,
+      "message": "This needs documentation on the expected types of the args. (at the very least, that can be a TODO addressed when this method moves to netlink.py)",
+      "range": {
+        "startLine": 259,
+        "startChar": 59,
+        "endLine": 259,
+        "endChar": 0
+      },
+      "revId": "863c8c92ee8270e66a2390f740d1764a72ecac4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a1949f1_c9ae9faf",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:18:23Z",
+      "side": 1,
+      "message": "Alternative spellings:\n\nif nlattrs is None:  # because someone could pass in []?\n\nnlattrs \u003d nlattrs or []",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 262,
+        "endChar": 18
+      },
+      "revId": "863c8c92ee8270e66a2390f740d1764a72ecac4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b338b27_2f9b7636",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:18:23Z",
+      "side": 1,
+      "message": "ALLOCSPI doesn\u0027t use NLM_F_ACK. Thoughts?",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 53
+      },
+      "revId": "863c8c92ee8270e66a2390f740d1764a72ecac4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

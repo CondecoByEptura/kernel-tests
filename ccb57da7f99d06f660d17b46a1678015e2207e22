@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20515a39_4c4eb05a",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-16T01:18:23Z",
+      "side": 1,
+      "message": "I thought I saw a constant equal to this value somewhere in this folder, but I could be getting confused with netd tests. Either way, it\u0027s clearly not being used elsewhere in this file.",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 53
+      },
+      "revId": "ccb57da7f99d06f660d17b46a1678015e2207e22",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
