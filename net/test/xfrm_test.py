@@ -25,6 +25,7 @@ import unittest
 
 import multinetwork_base
 import net_test
+from tun_twister import TunTwister
 import xfrm
 
 XFRM_ADDR_ANY = 16 * "\x00"
@@ -364,6 +365,18 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         spi = ntohl(new_sa.id.spi)
         self.assertNotIn(spi, spis)
         spis.add(spi)
+
+  def testTwist(self):
+    netid = random.choice(self.NETIDS)
+    twister = TunTwister(tap_fd=self.tuns[netid].fileno())
+    twister.Start()
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+    s.bind(("0.0.0.0", 8080))
+    s.sendto("hello", ("1.2.3.4", 8080))
+    print s.recvfrom(4096)
+    twister.Stop()
+
 
 
 if __name__ == "__main__":
