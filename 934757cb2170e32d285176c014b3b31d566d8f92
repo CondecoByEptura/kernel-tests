@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e36f99ac_c4a3556d",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-19T23:48:50Z",
+      "side": 1,
+      "message": "This is a rebase artifact. It\u0027s part of a different CL.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "934757cb2170e32d285176c014b3b31d566d8f92",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6898a7cc_9ca0301b",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-19T23:48:50Z",
+      "side": 1,
+      "message": "This is a rebase artifact. It\u0027s part of a different CL.",
+      "range": {
+        "startLine": 206,
+        "startChar": 11,
+        "endLine": 206,
+        "endChar": 23
+      },
+      "revId": "934757cb2170e32d285176c014b3b31d566d8f92",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ad74921_d6b2be33",
         "filename": "net/test/xfrm.py",
         "patchSetId": 5
