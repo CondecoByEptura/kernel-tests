@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad74921_d6b2be33",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-19T22:31:20Z",
+      "side": 1,
+      "message": "pydoc does not require a paragraph in the middle, so you have the choice to not repeat the same sentence twice. e.g., this should just be,\n\n    \"\"\"Add a new policy to the Security Policy Database.\n\n    Args:\n      policy: an unpacked XfrmUserpolicyInfo cstruct\n      tmpl: an unpacked XfrmUserTmpl cstruct\n    \"\"\"",
+      "range": {
+        "startLine": 253,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 54
+      },
+      "revId": "934757cb2170e32d285176c014b3b31d566d8f92",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dbd9cdd_6f1c3df5",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-19T22:31:20Z",
+      "side": 1,
+      "message": "This won\u0027t support algorithm attrs if we want to use this for creating SAs. Those structs have keys stuck onto the end in a way that isn\u0027t part of cstruct.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 69
+      },
+      "revId": "934757cb2170e32d285176c014b3b31d566d8f92",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
