@@ -34,6 +34,10 @@ class TunTwister(object):
   Setting up routing such that packets will be routed to the tun interface is
   beyond the scope of this class.
 
+  Two sockets can communicate with each other through a TunTwister as if they
+  were each connecting to a remote endpoint. Both sockets will have the
+  perspective that the address of the other is a remote address.
+
   Packet inspection can be done with a validator function. This can be any
   function that takes a scapy packet object as its only argument. Exceptions
   raised by your validator function will be re-raised on the main thread to fail
@@ -77,7 +81,7 @@ class TunTwister(object):
     """
     self._fd = fd
     # Use a pipe to signal the thread to exit.
-    self._pipe_r, self._pipe_w = os.pipe()
+    self._signal_read, self._signal_write = os.pipe()
     self._thread = threading.Thread(target=self._RunLoop, name="TunTwister")
     self._validator = validator
     self._error = None
@@ -87,10 +91,10 @@ class TunTwister(object):
 
   def __exit__(self, *args):
     # Signal thread exit.
-    os.write(self._pipe_w, "bye")
-    os.close(self._pipe_w)
+    os.write(self._signal_write, "bye")
+    os.close(self._signal_write)
     self._thread.join(TunTwister._POLL_TIMEOUT)
-    os.close(self._pipe_r)
+    os.close(self._signal_read)
     if self._thread.isAlive():
       raise RuntimeError("Thread did not exit gracefully")
     # Re-raise any error thrown from our thread.
@@ -101,9 +105,9 @@ class TunTwister(object):
     """Twist packets until exit signal."""
     try:
       while True:
-        read_fds, _, _ = select.select([self._fd, self._pipe_r], [], [],
+        read_fds, _, _ = select.select([self._fd, self._signal_read], [], [],
                                        TunTwister._POLL_TIMEOUT)
-        if self._pipe_r in read_fds:
+        if self._signal_read in read_fds:
           self._Flush()
           return
         if self._fd in read_fds:
@@ -128,6 +132,7 @@ class TunTwister(object):
     os.write(self._fd, packet.build())
 
   def _DecodePacket(self, bytes_in):
+    """Decode a byte array into a scapy object."""
     return self._DecodeIpPacket(bytes_in)
 
   def _TwistPacket(self, packet):
