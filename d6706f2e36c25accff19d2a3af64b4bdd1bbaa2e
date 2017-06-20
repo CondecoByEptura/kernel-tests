@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "891e6038_86dd119d",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-20T00:42:18Z",
+      "side": 1,
+      "message": "The fact that this is tun ^ tap makes me think that a better pattern is (fd, type) and to just expose _TUN and _TAP.\n\nOr... a small type-object that is just a Class around a TUN fd or TAP fd would allow the type to be passed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 20,
+        "endLine": 64,
+        "endChar": 46
+      },
+      "revId": "d6706f2e36c25accff19d2a3af64b4bdd1bbaa2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "673db519_430dda32",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-20T00:42:18Z",
+      "side": 1,
+      "message": "The thread documentation is horrifyingly bad, but I believe this creates a race condition with the new thread being run. Can you confirm or dis-confirm?",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 34
+      },
+      "revId": "d6706f2e36c25accff19d2a3af64b4bdd1bbaa2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbab889a_2a6d602a",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-20T00:42:18Z",
+      "side": 1,
+      "message": "Is this supposed to be \u0027\\0\u0027 or EOF? I\u0027m wondering if this is working because of a happy accident.",
+      "range": {
+        "startLine": 101,
+        "startChar": 28,
+        "endLine": 101,
+        "endChar": 32
+      },
+      "revId": "d6706f2e36c25accff19d2a3af64b4bdd1bbaa2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60e2d740_5844b753",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-20T00:42:18Z",
+      "side": 1,
+      "message": "Internal constant plz?",
+      "range": {
+        "startLine": 103,
+        "startChar": 22,
+        "endLine": 103,
+        "endChar": 25
+      },
+      "revId": "d6706f2e36c25accff19d2a3af64b4bdd1bbaa2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f0edd73_c027ffa2",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-20T00:42:18Z",
+      "side": 1,
+      "message": "EMAGICNUMBER.\n\nCan we validate that the read length is \u003e MAGICNUMBER?",
+      "range": {
+        "startLine": 126,
+        "startChar": 33,
+        "endLine": 126,
+        "endChar": 37
+      },
+      "revId": "d6706f2e36c25accff19d2a3af64b4bdd1bbaa2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1696f9e5_40eef26e",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-20T00:42:18Z",
+      "side": 1,
+      "message": "Can this whole thing be cleaner by having TapTwister inherit from TunTwister and call the right methods at the right time? I see a ton of very generic functionality, and then a few functions where we have TAP do additional work on top of TUN. In this case we have a stealth-mode parameter pass because the type of the packet is determined in _Process() and then re-determined here by inspection.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 17
+      },
+      "revId": "d6706f2e36c25accff19d2a3af64b4bdd1bbaa2e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
