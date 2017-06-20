@@ -44,6 +44,13 @@ NLMsgHdr = cstruct.Struct("NLMsgHdr", "=LHHLL", "length type flags seq pid")
 NLMsgErr = cstruct.Struct("NLMsgErr", "=i", "error")
 NLAttr = cstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
 
+class VariableAttribute(object):
+  def __init__(self, struct, append_bytes):
+    self._struct = struct
+    self._append_bytes = append_bytes
+  def Pack(self):
+    return self._struct.Pack() + self._append_bytes
+
 # Alignment / padding.
 NLA_ALIGNTO = 4
 
