@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf4a5d82_4c2b5cad",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "I think you can just use:\n\n    len(BpfInsn)\n\nwhich seems nicer.",
+      "range": {
+        "startLine": 209,
+        "startChar": 54,
+        "endLine": 209,
+        "endChar": 69
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "554c1e4b_6964ce39",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "func?",
+      "range": {
+        "startLine": 302,
+        "startChar": 16,
+        "endLine": 302,
+        "endChar": 18
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "934dbf75_c3d96afb",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Can you explain what this is? Would any number work here?",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 13
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "256f67c7_3a5e8e52",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "that causes a socket to send traffic to itself",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 64
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd47a9b0_d4e70f18",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Might want to mention UDP in the name of the function.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 28
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3794cf51_933ed163",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Can you explain in the comments what reg 10 is used for? Is it just temporary storage? (Also for registers 1 and 2)",
+      "range": {
+        "startLine": 78,
+        "startChar": 24,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "077b45c3_f42e9b9d",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Can you add a comment somewhere explaining what these -8 and -16 values are? Given that they seem to be common, does it make sense to introduce constant names for them?",
+      "range": {
+        "startLine": 78,
+        "startChar": 47,
+        "endLine": 78,
+        "endChar": 49
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8becd262_85ac0d20",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Thank you for these comments, they are very helpful.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 68
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc29cd8d_bee6e74e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Nit: instead of hasattr you could also add:\n\n    self.sock \u003d None\n\nto setUp, and here do:\n\n    if self.sock:\n      self.sock.close()",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0979eca5_dfc33fd4",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Per style guide and for consistency, wrap lines at 80 characters. Also everywhere else.",
+      "range": {
+        "startLine": 149,
+        "startChar": 69,
+        "endLine": 149,
+        "endChar": 83
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a4fedc8_1488579e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Can you add a comment explaining how this result gets used? Does it end up in some register that then gets used by a subsequent bit of the program?",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7022fa2f_542aaff4",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "We should probably add a helper function to sock_diag.py to get the cookie from a socket.",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 50
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "439439fe_16045eb1",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "Add a comment explaining this (if it\u0027s still an issue).",
+      "range": {
+        "startLine": 250,
+        "startChar": 37,
+        "endLine": 250,
+        "endChar": 40
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7f9bca5_05139dbf",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-21T16:54:03Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 324,
+        "startChar": 35,
+        "endLine": 324,
+        "endChar": 38
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
