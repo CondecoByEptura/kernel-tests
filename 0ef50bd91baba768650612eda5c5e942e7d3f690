@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "a4dfc319_fefadc5d",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Any number that is not used in the map is work, Also, this whole function is only used when I want to debug the map content, so it will not be used when the test is actually running, I am just too lazy to delete it and re-implemented again when I need it.",
+      "parentUuid": "934dbf75_c3d96afb",
+      "range": {
+        "startLine": 39,
+        "startChar": 8,
+        "endLine": 39,
+        "endChar": 13
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "256f67c7_3a5e8e52",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 13
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "eee95267_664704e1",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "256f67c7_3a5e8e52",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 64
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd47a9b0_d4e70f18",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 13
@@ -105,6 +153,30 @@
       "writtenOn": "2017-06-21T16:54:03Z",
       "side": 1,
       "message": "Might want to mention UDP in the name of the function.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 28
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fbfdb4d_949b466a",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd47a9b0_d4e70f18",
       "range": {
         "startLine": 52,
         "startChar": 4,
@@ -163,6 +235,54 @@
     },
     {
       "key": {
+        "uuid": "5a0c1365_4a478fca",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3794cf51_933ed163",
+      "range": {
+        "startLine": 78,
+        "startChar": 24,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9048735b_c18d93ea",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "077b45c3_f42e9b9d",
+      "range": {
+        "startLine": 78,
+        "startChar": 47,
+        "endLine": 78,
+        "endChar": 49
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8becd262_85ac0d20",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 13
@@ -174,6 +294,30 @@
       "writtenOn": "2017-06-21T16:54:03Z",
       "side": 1,
       "message": "Thank you for these comments, they are very helpful.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 68
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdd55502_a8c3ed3a",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8becd262_85ac0d20",
       "range": {
         "startLine": 112,
         "startChar": 0,
@@ -209,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "bdfe338a_8749698b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc29cd8d_bee6e74e",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0979eca5_dfc33fd4",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 13
@@ -220,6 +388,30 @@
       "writtenOn": "2017-06-21T16:54:03Z",
       "side": 1,
       "message": "Per style guide and for consistency, wrap lines at 80 characters. Also everywhere else.",
+      "range": {
+        "startLine": 149,
+        "startChar": 69,
+        "endLine": 149,
+        "endChar": 83
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33d6a58f_67e38d3d",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0979eca5_dfc33fd4",
       "range": {
         "startLine": 149,
         "startChar": 69,
@@ -255,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "5d5ff9a1_a626705c",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a4fedc8_1488579e",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7022fa2f_542aaff4",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 13
@@ -266,6 +482,30 @@
       "writtenOn": "2017-06-21T16:54:03Z",
       "side": 1,
       "message": "We should probably add a helper function to sock_diag.py to get the cookie from a socket.",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 50
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55421690_28cb3aed",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7022fa2f_542aaff4",
       "range": {
         "startLine": 224,
         "startChar": 6,
@@ -301,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "0075d563_90c67e80",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "This is because v4 and v6 use the same uid for counting so we have 2*packet_count in total.",
+      "parentUuid": "439439fe_16045eb1",
+      "range": {
+        "startLine": 250,
+        "startChar": 37,
+        "endLine": 250,
+        "endChar": 40
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7f9bca5_05139dbf",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 13
@@ -312,6 +576,30 @@
       "writtenOn": "2017-06-21T16:54:03Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 324,
+        "startChar": 35,
+        "endLine": 324,
+        "endChar": 38
+      },
+      "revId": "0ef50bd91baba768650612eda5c5e942e7d3f690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c0fe8d2_144d5f26",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-06-21T19:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7f9bca5_05139dbf",
       "range": {
         "startLine": 324,
         "startChar": 35,
