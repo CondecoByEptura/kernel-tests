@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff41f73a_a45a37db",
+        "filename": "net/test/bpf.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "Aren\u0027t these defined in socket.py? If so, you can just access them via, e.g., socket.IPPROTO_UDP.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "003f3ffa_0868f221",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "Consider using scapy instead? Creating IPv4 and IPv6 header objects is as simple as just:\n\n  v4 \u003d scapy.IP()\n  v6 \u003d scapy.IPv6()\n\nYou can create more realistic packets like this:\n\n  v4 \u003d scapy.IP() / scapy.UDP()",
+      "range": {
+        "startLine": 650,
+        "startChar": 4,
+        "endLine": 650,
+        "endChar": 52
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba618436_a0ee5a78",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "Since this is never changes, you can also make it a constant, e.g.:\n\n  IPV4_PROTOCOL_OFFSET \u003d 9",
+      "range": {
+        "startLine": 654,
+        "startChar": 31,
+        "endLine": 654,
+        "endChar": 56
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fdefce9_43bfcb88",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "You don\u0027t use this. Delete?",
+      "range": {
+        "startLine": 664,
+        "startChar": 4,
+        "endLine": 664,
+        "endChar": 27
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcb91208_56285992",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "Add a blank line and a comment before here to explain what you\u0027re doing?\n\n   # Test that inbound IPv4 packets are counted.",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 666,
+        "endChar": 69
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6fb0153_b8218c11",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "I think you can just use:\n\n  self.ifindices[netid]",
+      "range": {
+        "startLine": 668,
+        "startChar": 17,
+        "endLine": 668,
+        "endChar": 73
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2124cbef_be3695b3",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "# Test that outbound IPv4 packets are counted.",
+      "range": {
+        "startLine": 673,
+        "startChar": 0,
+        "endLine": 673,
+        "endChar": 68
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fd3dd4_fa056c71",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "This looks mostly identical to the previous function. Can you move most of the code to a function and call it in two places?\n\nLooks like the only things that need to change between v4 and v6 are the version, the program, and the remote address.\n\nIn general there seems to be a lot of code duplication in this class and it would be good to reduce it if we can",
+      "range": {
+        "startLine": 686,
+        "startChar": 6,
+        "endLine": 686,
+        "endChar": 31
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5ec9289_16764ba5",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T15:40:05Z",
+      "side": 1,
+      "message": "Also consider self.GetRemoteAddress(6)",
+      "range": {
+        "startLine": 701,
+        "startChar": 13,
+        "endLine": 701,
+        "endChar": 27
+      },
+      "revId": "7d3db35df164fcc88b273f3f76eedb45af222047",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
