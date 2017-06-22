@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Unit tests for xt_qtaguid."""
 
 import errno
@@ -23,6 +22,7 @@ import os
 import net_test
 
 CTRL_PROCPATH = "/proc/net/xt_qtaguid/ctrl"
+
 
 class QtaguidTest(net_test.NetworkTest):
 
@@ -46,7 +46,7 @@ class QtaguidTest(net_test.NetworkTest):
 
   def CheckTag(self, tag, uid):
     for line in open(CTRL_PROCPATH, 'r').readlines():
-      if "tag=0x%x (uid=%d)" % ((tag|uid), uid) in line:
+      if "tag=0x%x (uid=%d)" % ((tag | uid), uid) in line:
         return True
     return False
 
@@ -54,9 +54,12 @@ class QtaguidTest(net_test.NetworkTest):
     add_del = "-A" if is_add else "-D"
     uid_gid = "--gid-owner" if is_gid else "--uid-owner"
     if inverted:
-      args = "%s qtaguid_test_OUTPUT -m owner ! %s %d -j DROP" % (add_del, uid_gid, my_id)
+      args = "%s qtaguid_test_OUTPUT -m owner ! %s %d -j DROP" % (add_del,
+                                                                  uid_gid,
+                                                                  my_id)
     else:
-      args = "%s qtaguid_test_OUTPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
+      args = "%s qtaguid_test_OUTPUT -m owner %s %d -j DROP" % (add_del,
+                                                                uid_gid, my_id)
     self.assertFalse(net_test.RunIptablesCommand(version, args))
 
   def AddIptablesRule(self, version, is_gid, myId):
@@ -100,8 +103,7 @@ class QtaguidTest(net_test.NetworkTest):
     data, sockaddr = s.recvfrom(4096)
     self.assertEqual("foo", data)
     self.assertEqual(sockaddr, addr1)
-    with net_test.RunAsUidGid(0 if is_gid else 12345,
-                              12345 if is_gid else 0):
+    with net_test.RunAsUidGid(0 if is_gid else 12345, 12345 if is_gid else 0):
       s2 = socket(family, SOCK_DGRAM, 0)
       addr2 = {4: "127.0.0.1", 6: "::1"}[version]
       s2.bind((addr2, 0))
@@ -114,16 +116,16 @@ class QtaguidTest(net_test.NetworkTest):
     self.assertEqual(sockaddr, addr1)
 
   def testCloseWithoutUntag(self):
-    self.dev_file = open("/dev/xt_qtaguid", "r");
+    self.dev_file = open("/dev/xt_qtaguid", "r")
     sk = socket(AF_INET, SOCK_DGRAM, 0)
     uid = os.getuid()
     tag = 0xff00ff00 << 32
-    command =  "t %d %d %d" % (sk.fileno(), tag, uid)
+    command = "t %d %d %d" % (sk.fileno(), tag, uid)
     self.WriteToCtrl(command)
     self.assertTrue(self.CheckTag(tag, uid))
-    sk.close();
+    sk.close()
     self.assertFalse(self.CheckTag(tag, uid))
-    self.dev_file.close();
+    self.dev_file.close()
 
   def testTagWithoutDeviceOpen(self):
     sk = socket(AF_INET, SOCK_DGRAM, 0)
@@ -135,7 +137,7 @@ class QtaguidTest(net_test.NetworkTest):
     self.dev_file = open("/dev/xt_qtaguid", "r")
     sk.close()
     self.assertFalse(self.CheckTag(tag, uid))
-    self.dev_file.close();
+    self.dev_file.close()
 
   def testUidGidMatch(self):
     self.CheckSocketOutput(4, False)
