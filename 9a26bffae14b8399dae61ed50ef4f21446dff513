@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af811c4a_f929fc5b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T02:07:35Z",
+      "side": 1,
+      "message": "Per style guide, all variables should be lowercase with underscores. So this should be called ins_bpf_exit_block.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 15
+      },
+      "revId": "9a26bffae14b8399dae61ed50ef4f21446dff513",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
