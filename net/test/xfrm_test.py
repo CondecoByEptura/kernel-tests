@@ -81,10 +81,11 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     self.assertEquals(spi_seq, str(payload)[:len(spi_seq)])
 
   def testAddSa(self):
-    self.xfrm.AddMinimalSaInfo(
-        "::", TEST_ADDR1,
-        htonl(TEST_SPI), IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 3320,
-        ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
+    self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1,
+                               htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 3320, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None, None, None)
     expected = ("src :: dst 2001:4860:4860::8888\n"
                 "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
                 "\treplay-window 4 \n"
@@ -101,14 +102,16 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
 
   def testFlush(self):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
-    self.xfrm.AddMinimalSaInfo(
-        "::", "2000::",
-        htonl(TEST_SPI), IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 1234,
-        ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
-    self.xfrm.AddMinimalSaInfo(
-        "0.0.0.0", "192.0.2.1",
-        htonl(TEST_SPI), IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 4321,
-        ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
+    self.xfrm.AddMinimalSaInfo("::", "2000::",
+                               htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 1234, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None, None, None)
+    self.xfrm.AddMinimalSaInfo("0.0.0.0", "192.0.2.1",
+                               htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 4321, ALGO_CBC_AES_256,
+                               ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY,
+                               None, None, None)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
@@ -165,10 +168,11 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     # match the packet's destination address (in tunnel mode, it has to match
     # the tunnel destination).
     reqid = 0
-    self.xfrm.AddMinimalSaInfo(
-        "::", TEST_ADDR1,
-        htonl(TEST_SPI), IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, reqid,
-        ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
+    self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1,
+                               htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, reqid,
+                               ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1,
+                               AUTH_TRUNC_KEY, None, None, None)
 
     s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
     self.expectIPv6EspPacketOn(netid, TEST_SPI, 1, 84)
@@ -256,14 +260,14 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, out_reqid,
                                ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1,
-                               AUTH_TRUNC_KEY, encaptmpl)
+                               AUTH_TRUNC_KEY, encaptmpl, None, None)
 
     # Add an encap template that's the mirror of the outbound one.
     encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
     self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, in_reqid,
                                ALGO_CBC_AES_256, ENCRYPTION_KEY, ALGO_HMAC_SHA1,
-                               AUTH_TRUNC_KEY, encaptmpl)
+                               AUTH_TRUNC_KEY, encaptmpl, None, None)
 
     # Uncomment for debugging.
     # subprocess.call("ip xfrm state".split())
