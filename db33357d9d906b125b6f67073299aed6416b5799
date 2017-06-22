@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7373f61_532ae5ed",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T03:16:31Z",
+      "side": 1,
+      "message": "Agreed, but I\u0027m not going to be the one to add them in this CL.",
+      "parentUuid": "54ffc97d_bed6892f",
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "623f36b1_7f50f126",
         "filename": "net/test/netlink.py",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "81dd68f6_304362de",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T03:16:31Z",
+      "side": 1,
+      "message": "Also agreed, but step 1 to cleanup is to make it consistent.",
+      "parentUuid": "623f36b1_7f50f126",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "260d51ca_a6ba0fc5",
         "filename": "net/test/netlink.py",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2017-06-16T01:37:05Z",
       "side": 1,
       "message": "If family is now required, drop the \u003dNone.",
+      "range": {
+        "startLine": 144,
+        "startChar": 21,
+        "endLine": 144,
+        "endChar": 32
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d26b540_89f96d46",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T03:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "260d51ca_a6ba0fc5",
       "range": {
         "startLine": 144,
         "startChar": 21,
@@ -111,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "8c5cb43d_2c6218ac",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T03:16:31Z",
+      "side": 1,
+      "message": "Perfect is the enemy of marginal.",
+      "parentUuid": "6aa5cceb_e4e85a18",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 58
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db74eb35_a5772553",
         "filename": "net/test/tunnel.py",
         "patchSetId": 3
@@ -122,6 +212,30 @@
       "writtenOn": "2017-06-16T01:37:05Z",
       "side": 1,
       "message": "Is this just some debug code that can be deleted now? Seems out of place.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 39
+      },
+      "revId": "db33357d9d906b125b6f67073299aed6416b5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49daea19_6c633a2a",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T03:16:31Z",
+      "side": 1,
+      "message": "We have this in a bunch of files. It\u0027s not only sanity checking, it provides a basic working example of the code in use. That said, I\u0027m willing to remove it in the interest of getting this CL in (understanding that I need it, so I\u0027ll be adding it back and carrying forward yet another another local patch).\n\ntl;dr Done.",
+      "parentUuid": "db74eb35_a5772553",
       "range": {
         "startLine": 138,
         "startChar": 0,
