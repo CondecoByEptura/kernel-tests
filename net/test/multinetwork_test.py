@@ -19,7 +19,7 @@ import os
 import random
 from socket import *  # pylint: disable=wildcard-import
 import struct
-import time           # pylint: disable=unused-import
+import time  # pylint: disable=unused-import
 import unittest
 
 from scapy import all as scapy
@@ -57,8 +57,8 @@ class InboundMarkingTest(multinetwork_base.MultiNetworkBaseTest):
       iface = cls.GetInterfaceName(netid)
       add_del = "-A" if is_add else "-D"
       iptables = {4: "iptables", 6: "ip6tables"}[version]
-      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (
-          add_del, iface, netid)
+      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (add_del, iface,
+                                                                 netid)
       if net_test.RunIptablesCommand(version, args):
         raise ConfigurationError("Setup command failed: %s" % args)
 
@@ -99,8 +99,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     net_test.SetSocketTos(s, packets.PING_TOS)
 
     desc, expected = packets.ICMPEcho(version, myaddr, dstaddr)
-    msg = "IPv%d ping: expected %s on %s" % (
-        version, desc, self.GetInterfaceName(netid))
+    msg = "IPv%d ping: expected %s on %s" % (version, desc,
+                                             self.GetInterfaceName(netid))
 
     s.sendto(packet + packets.PING_PAYLOAD, (dstaddr, 19321))
 
@@ -112,8 +112,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     if version == 6 and dstaddr.startswith("::ffff"):
       version = 4
     myaddr = self.MyAddress(version, netid)
-    desc, expected = packets.SYN(53, version, myaddr, dstaddr,
-                                 sport=None, seq=None)
+    desc, expected = packets.SYN(
+        53, version, myaddr, dstaddr, sport=None, seq=None)
 
     # Non-blocking TCP connects always return EINPROGRESS.
     self.assertRaisesErrno(errno.EINPROGRESS, s.connect, (dstaddr, 53))
@@ -129,8 +129,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
       version = 4
     myaddr = self.MyAddress(version, netid)
     desc, expected = packets.UDP(version, myaddr, dstaddr, sport=None)
-    msg = "IPv%s UDP %%s: expected %s on %s" % (
-        version, desc, self.GetInterfaceName(netid))
+    msg = "IPv%s UDP %%s: expected %s on %s" % (version, desc,
+                                                self.GetInterfaceName(netid))
 
     s.sendto(UDP_PAYLOAD, (dstaddr, 53))
     self.ExpectPacketOn(netid, msg % "sendto", expected)
@@ -292,9 +292,10 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         # Set some destination options.
         nonce = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c"
         dstopts = "".join([
-            "\x11\x02",              # Next header=UDP, 24 bytes of options.
-            "\x01\x06", "\x00" * 6,  # PadN, 6 bytes of padding.
-            "\x8b\x0c",              # ILNP nonce, 12 bytes.
+            "\x11\x02",  # Next header=UDP, 24 bytes of options.
+            "\x01\x06",
+            "\x00" * 6,  # PadN, 6 bytes of padding.
+            "\x8b\x0c",  # ILNP nonce, 12 bytes.
             nonce
         ])
         s.setsockopt(net_test.SOL_IPV6, IPV6_DSTOPTS, dstopts)
@@ -310,14 +311,12 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
 
         sport = s.getsockname()[1]
         srcaddr = self.MyAddress(6, netid)
-        expected = (scapy.IPv6(src=srcaddr, dst=net_test.IPV6_ADDR,
-                               fl=0xdead, hlim=255) /
-                    scapy.IPv6ExtHdrDestOpt(
-                        options=[scapy.PadN(optdata="\x00\x00\x00\x00\x00\x00"),
-                                 scapy.HBHOptUnknown(otype=0x8b,
-                                                     optdata=nonce)]) /
-                    scapy.UDP(sport=sport, dport=53) /
-                    UDP_PAYLOAD)
+        expected = (scapy.IPv6(
+            src=srcaddr, dst=net_test.IPV6_ADDR, fl=0xdead, hlim=255) /
+                    scapy.IPv6ExtHdrDestOpt(options=[
+                        scapy.PadN(optdata="\x00\x00\x00\x00\x00\x00"),
+                        scapy.HBHOptUnknown(otype=0x8b, optdata=nonce)
+                    ]) / scapy.UDP(sport=sport, dport=53) / UDP_PAYLOAD)
         msg = "IPv6 UDP using sticky pktinfo: expected UDP packet on %s" % (
             self.GetInterfaceName(netid))
         self.ExpectPacketOn(netid, msg, expected)
@@ -350,8 +349,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         sport = s.getsockname()[1]
         srcaddr = self.MyAddress(version, netid)
 
-        desc, expected = packets.UDPWithOptions(version, srcaddr, dstaddr,
-                                                sport=sport)
+        desc, expected = packets.UDPWithOptions(
+            version, srcaddr, dstaddr, sport=sport)
 
         msg = "IPv%d UDP using pktinfo routing: expected %s on %s" % (
             version, desc, self.GetInterfaceName(netid))
@@ -400,8 +399,8 @@ class MarkTest(InboundMarkingTest):
         else:
           reply_desc, reply = None, None
 
-        msg = self._FormatMessage(iif, ip_if, "reflect=%d" % reflect,
-                                  desc, reply_desc)
+        msg = self._FormatMessage(iif, ip_if, "reflect=%d" % reflect, desc,
+                                  reply_desc)
         self._ReceiveAndExpectResponse(netid, packet, reply, msg)
 
   def SYNToClosedPort(self, *args):
@@ -449,8 +448,8 @@ class TCPAcceptTest(InboundMarkingTest):
   def _SetTCPMarkAcceptSysctl(self, value):
     self.SetSysctl(TCP_MARK_ACCEPT_SYSCTL, value)
 
-  def CheckTCPConnection(self, mode, listensocket, netid, version,
-                         myaddr, remoteaddr, packet, reply, msg):
+  def CheckTCPConnection(self, mode, listensocket, netid, version, myaddr,
+                         remoteaddr, packet, reply, msg):
     establishing_ack = packets.ACK(version, remoteaddr, myaddr, reply)[1]
 
     # Attempt to confuse the kernel.
@@ -467,8 +466,8 @@ class TCPAcceptTest(InboundMarkingTest):
 
     try:
       # Check that data sent on the connection goes out on the right interface.
-      desc, data = packets.ACK(version, myaddr, remoteaddr, establishing_ack,
-                               payload=UDP_PAYLOAD)
+      desc, data = packets.ACK(
+          version, myaddr, remoteaddr, establishing_ack, payload=UDP_PAYLOAD)
       s.send(UDP_PAYLOAD)
       self.ExpectPacketOn(netid, msg + ": expecting %s" % desc, data)
       self.InvalidateDstCache(version, remoteaddr, netid)
@@ -486,8 +485,8 @@ class TCPAcceptTest(InboundMarkingTest):
 
     if mode == self.MODE_INCOMING_MARK:
       self.assertEquals(netid, mark,
-                        msg + ": Accepted socket: Expected mark %d, got %d" % (
-                            netid, mark))
+                        msg + ": Accepted socket: Expected mark %d, got %d" %
+                        (netid, mark))
     elif mode != self.MODE_EXPLICIT_MARK:
       self.assertEquals(0, self.GetSocketMark(listensocket))
 
@@ -572,6 +571,7 @@ class TCPAcceptTest(InboundMarkingTest):
   def testIPv6ExplicitMark(self):
     self.CheckTCP(6, [self.MODE_EXPLICIT_MARK])
 
+
 @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
                      "need support for per-table autoconf")
 class RIOTest(multinetwork_base.MultiNetworkBaseTest):
@@ -612,35 +612,41 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
 
   def SetAcceptRaRtInfoMinPlen(self, plen):
     self.SetSysctl(
-        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_min_plen"
-        % self.IFACE, plen)
+        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_min_plen" % self.IFACE,
+        plen)
 
   def GetAcceptRaRtInfoMinPlen(self):
-    return int(self.GetSysctl(
-        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_min_plen" % self.IFACE))
+    return int(
+        self.GetSysctl("/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_min_plen" %
+                       self.IFACE))
 
   def SetAcceptRaRtInfoMaxPlen(self, plen):
     self.SetSysctl(
-        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_max_plen"
-        % self.IFACE, plen)
+        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_max_plen" % self.IFACE,
+        plen)
 
   def GetAcceptRaRtInfoMaxPlen(self):
-    return int(self.GetSysctl(
-        "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_max_plen" % self.IFACE))
+    return int(
+        self.GetSysctl("/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_max_plen" %
+                       self.IFACE))
 
   def SendRIO(self, rtlifetime, plen, prefix, prf):
-    options = scapy.ICMPv6NDOptRouteInfo(rtlifetime=rtlifetime, plen=plen,
-                                         prefix=prefix, prf=prf)
+    options = scapy.ICMPv6NDOptRouteInfo(
+        rtlifetime=rtlifetime, plen=plen, prefix=prefix, prf=prf)
     self.SendRA(self.NETID, options=(options,))
 
   def FindRoutesWithDestination(self, destination):
     canonical = net_test.CanonicalizeIPv6Address(destination)
-    return [r for _, r in self.iproute.DumpRoutes(6, self.GetRoutingTable())
-            if ('RTA_DST' in r and r['RTA_DST'] == canonical)]
+    return [
+        r for _, r in self.iproute.DumpRoutes(6, self.GetRoutingTable())
+        if ('RTA_DST' in r and r['RTA_DST'] == canonical)
+    ]
 
   def FindRoutesWithGateway(self):
-    return [r for _, r in self.iproute.DumpRoutes(6, self.GetRoutingTable())
-            if 'RTA_GATEWAY' in r]
+    return [
+        r for _, r in self.iproute.DumpRoutes(6, self.GetRoutingTable())
+        if 'RTA_GATEWAY' in r
+    ]
 
   def CountRoutes(self):
     return len(self.iproute.DumpRoutes(6, self.GetRoutingTable()))
@@ -796,11 +802,12 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect that we can return to baseline config without lingering routes.
     self.assertEquals(baseline, self.CountRoutes())
 
+
 class RATest(multinetwork_base.MultiNetworkBaseTest):
 
   def testDoesNotHaveObsoleteSysctl(self):
-    self.assertFalse(os.path.isfile(
-        "/proc/sys/net/ipv6/route/autoconf_table_offset"))
+    self.assertFalse(
+        os.path.isfile("/proc/sys/net/ipv6/route/autoconf_table_offset"))
 
   @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
                        "no support for per-table autoconf")
@@ -868,6 +875,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
   @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
                        "no support for per-table autoconf")
   def testLeftoverRoutes(self):
+
     def GetNumRoutes():
       return len(open("/proc/net/ipv6_route").readlines())
 
@@ -940,16 +948,16 @@ class PMTUTest(InboundMarkingTest):
         # Send a packet and receive a packet too big.
         SendBigPacket(version, s, dstaddr, netid, payload)
         received = self.ReadAllPacketsOn(netid)
-        self.assertEquals(1, len(received),
+        self.assertEquals(1,
+                          len(received),
                           "unexpected packets: %s" % received[1:])
         _, toobig = packets.ICMPPacketTooBig(version, intermediate, srcaddr,
                                              received[0])
         self.ReceivePacketOn(netid, toobig)
 
         # Check that another send on the same socket returns EMSGSIZE.
-        self.assertRaisesErrno(
-            errno.EMSGSIZE,
-            SendBigPacket, version, s, dstaddr, netid, payload)
+        self.assertRaisesErrno(errno.EMSGSIZE, SendBigPacket, version, s,
+                               dstaddr, netid, payload)
 
         # If this is a connected socket, make sure the socket MTU was set.
         # Note that in IPv4 this only started working in Linux 3.6!
@@ -1080,10 +1088,8 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     priority = self._Random()
 
     # Can't create a UID range to UID -1 because -1 is INVALID_UID...
-    self.assertRaisesErrno(
-        errno.EINVAL,
-        self.iproute.UidRangeRule, version, True, 100, 0xffffffff, table,
-        priority)
+    self.assertRaisesErrno(errno.EINVAL, self.iproute.UidRangeRule, version,
+                           True, 100, 0xffffffff, table, priority)
 
     # ... but -2 is valid.
     self.iproute.UidRangeRule(version, True, 100, 0xfffffffe, table, priority)
@@ -1094,13 +1100,10 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
       self.iproute.UidRangeRule(version, True, start, end, table, priority)
 
       # Check that deleting the wrong UID range doesn't work.
-      self.assertRaisesErrno(
-          errno.ENOENT,
-          self.iproute.UidRangeRule, version, False, start, end + 1, table,
-          priority)
-      self.assertRaisesErrno(errno.ENOENT,
-        self.iproute.UidRangeRule, version, False, start + 1, end, table,
-        priority)
+      self.assertRaisesErrno(errno.ENOENT, self.iproute.UidRangeRule, version,
+                             False, start, end + 1, table, priority)
+      self.assertRaisesErrno(errno.ENOENT, self.iproute.UidRangeRule, version,
+                             False, start + 1, end, table, priority)
 
       # Check that the UID range appears in dumps.
       rules = self.GetRulesAtPriority(version, priority)
@@ -1113,10 +1116,8 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
       self.assertEquals(table, attributes["FRA_TABLE"])
     finally:
       self.iproute.UidRangeRule(version, False, start, end, table, priority)
-      self.assertRaisesErrno(
-          errno.ENOENT,
-          self.iproute.UidRangeRule, version, False, start, end, table,
-          priority)
+      self.assertRaisesErrno(errno.ENOENT, self.iproute.UidRangeRule, version,
+                             False, start, end, table, priority)
 
     try:
       # Create a rule without a UID range.
@@ -1142,10 +1143,8 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
         for start, end in ranges:
           self.iproute.UidRangeRule(version, True, start, end, table, priority)
         # ... but EEXIST is returned if the UID range is identical.
-        self.assertRaisesErrno(
-          errno.EEXIST,
-          self.iproute.UidRangeRule, version, True, dup[0], dup[1], table,
-          priority)
+        self.assertRaisesErrno(errno.EEXIST, self.iproute.UidRangeRule, version,
+                               True, dup[0], dup[1], table, priority)
       finally:
         # Clean up.
         for start, end in ranges + [dup]:
@@ -1197,8 +1196,9 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     s = socket(AF_INET6, SOCK_DGRAM, 0)
 
     def CheckSendFails():
-      self.assertRaisesErrno(errno.ENETUNREACH,
-                             s.sendto, "foo", (remoteaddr, 53))
+      self.assertRaisesErrno(errno.ENETUNREACH, s.sendto, "foo", (remoteaddr,
+                                                                  53))
+
     def CheckSendSucceeds():
       self.assertEquals(len("foo"), s.sendto("foo", (remoteaddr, 53)))
 
@@ -1238,16 +1238,18 @@ class RulesTest(net_test.NetworkTest):
       # Add rules with mark 300 pointing at tables 301 and 302.
       # This checks for a kernel bug where deletion request for tables > 256
       # ignored the table.
-      self.iproute.FwmarkRule(version, True, 300, 301,
-                              priority=self.RULE_PRIORITY)
-      self.iproute.FwmarkRule(version, True, 300, 302,
-                              priority=self.RULE_PRIORITY)
+      self.iproute.FwmarkRule(
+          version, True, 300, 301, priority=self.RULE_PRIORITY)
+      self.iproute.FwmarkRule(
+          version, True, 300, 302, priority=self.RULE_PRIORITY)
       # Delete rule with mark 300 pointing at table 302.
-      self.iproute.FwmarkRule(version, False, 300, 302,
-                              priority=self.RULE_PRIORITY)
+      self.iproute.FwmarkRule(
+          version, False, 300, 302, priority=self.RULE_PRIORITY)
       # Check that the rule pointing at table 301 is still around.
-      attributes = [a for _, a in self.iproute.DumpRules(version)
-                    if a.get("FRA_PRIORITY", 0) == self.RULE_PRIORITY]
+      attributes = [
+          a for _, a in self.iproute.DumpRules(version)
+          if a.get("FRA_PRIORITY", 0) == self.RULE_PRIORITY
+      ]
       self.assertEquals(1, len(attributes))
       self.assertEquals(301, attributes[0]["FRA_TABLE"])
 

@@ -153,18 +153,16 @@ def UpdateMap(map_fd, key, value, flags=0):
   value_ptr = ctypes.addressof(c_value)
   key_ptr = ctypes.addressof(c_key)
   attr = BpfAttrOps((map_fd, key_ptr, value_ptr, flags))
-  ret = libc.syscall(__NR_bpf, BPF_MAP_UPDATE_ELEM,
-                     attr.CPointer(), len(attr))
+  ret = libc.syscall(__NR_bpf, BPF_MAP_UPDATE_ELEM, attr.CPointer(), len(attr))
   csocket.MaybeRaiseSocketError(ret)
 
 
 def LookupMap(map_fd, key):
   c_value = ctypes.c_uint32(0)
   c_key = ctypes.c_uint32(key)
-  attr = BpfAttrOps(
-      (map_fd, ctypes.addressof(c_key), ctypes.addressof(c_value), 0))
-  ret = libc.syscall(__NR_bpf, BPF_MAP_LOOKUP_ELEM,
-                     attr.CPointer(), len(attr))
+  attr = BpfAttrOps((map_fd, ctypes.addressof(c_key), ctypes.addressof(c_value),
+                     0))
+  ret = libc.syscall(__NR_bpf, BPF_MAP_LOOKUP_ELEM, attr.CPointer(), len(attr))
   csocket.MaybeRaiseSocketError(ret)
   return c_value
 
@@ -172,10 +170,9 @@ def LookupMap(map_fd, key):
 def GetNextKey(map_fd, key):
   c_key = ctypes.c_uint32(key)
   c_next_key = ctypes.c_uint32(0)
-  attr = BpfAttrOps(
-      (map_fd, ctypes.addressof(c_key), ctypes.addressof(c_next_key), 0))
-  ret = libc.syscall(__NR_bpf, BPF_MAP_GET_NEXT_KEY,
-                     attr.CPointer(), len(attr))
+  attr = BpfAttrOps((map_fd, ctypes.addressof(c_key),
+                     ctypes.addressof(c_next_key), 0))
+  ret = libc.syscall(__NR_bpf, BPF_MAP_GET_NEXT_KEY, attr.CPointer(), len(attr))
   csocket.MaybeRaiseSocketError(ret)
   return c_next_key
 
@@ -183,8 +180,7 @@ def GetNextKey(map_fd, key):
 def DeleteMap(map_fd, key):
   c_key = ctypes.c_uint32(key)
   attr = BpfAttrOps((map_fd, ctypes.addressof(c_key), 0, 0))
-  ret = libc.syscall(__NR_bpf, BPF_MAP_DELETE_ELEM,
-                     attr.CPointer(), len(attr))
+  ret = libc.syscall(__NR_bpf, BPF_MAP_DELETE_ELEM, attr.CPointer(), len(attr))
   csocket.MaybeRaiseSocketError(ret)
 
 

@@ -30,7 +30,6 @@ IPV6_LEAVE_ANYCAST = 28
 # pylint: disable=invalid-name
 IPv6Mreq = cstruct.Struct("IPv6Mreq", "=16si", "multiaddr ifindex")
 
-
 _CLOSE_HUNG = False
 
 
