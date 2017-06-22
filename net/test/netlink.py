@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Partial Python implementation of iproute functionality."""
 
 # pylint: disable=g-bad-todo
@@ -24,7 +23,6 @@ import struct
 import sys
 
 import cstruct
-
 
 # Request constants.
 NLM_F_REQUEST = 1
@@ -80,10 +78,9 @@ class NetlinkSocket(object):
     for name in dir(thismodule):
       if name.startswith("INET_DIAG_BC"):
         continue
-      if (name.startswith(prefix) and
-          not name.startswith(prefix + "F_") and
+      if (name.startswith(prefix) and not name.startswith(prefix + "F_") and
           name.isupper() and getattr(thismodule, name) == value):
-          return name
+        return name
     return value
 
   def _Decode(self, command, msg, nla_type, nla_data):

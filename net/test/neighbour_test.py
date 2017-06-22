@@ -25,7 +25,6 @@ from scapy import all as scapy
 import multinetwork_base
 import net_test
 
-
 RTMGRP_NEIGH = 4
 
 NUD_INCOMPLETE = 0x01
@@ -75,9 +74,10 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       self.iproute.UpdateNeighbour(6, addr, None, ifindex, NUD_FAILED)
 
       # Configure IPv6 by sending an RA.
-      self.SendRA(netid,
-                  retranstimer=self.RETRANS_TIME_MS,
-                  reachabletime=self.BASE_REACHABLE_TIME_MS)
+      self.SendRA(
+          netid,
+          retranstimer=self.RETRANS_TIME_MS,
+          reachabletime=self.BASE_REACHABLE_TIME_MS)
 
     self.sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE)
     self.sock.bind((0, RTMGRP_NEIGH))
@@ -125,11 +125,8 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
         last3bytes = tuple([ord(b) for b in solicited[-3:]])
         dst = "ff02::1:ff%02x:%02x%02x" % last3bytes
         src = self.MyAddress(6, self.netid)
-      expected = (
-          scapy.IPv6(src=src, dst=dst) /
-          scapy.ICMPv6ND_NS(tgt=addr) /
-          scapy.ICMPv6NDOptSrcLLAddr(lladdr=llsrc)
-      )
+      expected = (scapy.IPv6(src=src, dst=dst) / scapy.ICMPv6ND_NS(tgt=addr) /
+                  scapy.ICMPv6NDOptSrcLLAddr(lladdr=llsrc))
       msg = "%s probe" % ("Unicast" if is_unicast else "Multicast")
       self.ExpectPacketOn(self.netid, msg, expected)
     else:
@@ -141,8 +138,14 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
   def ExpectMulticastNS(self, addr):
     self.ExpectProbe(False, addr)
 
-  def ReceiveUnicastAdvertisement(self, addr, mac, srcaddr=None, dstaddr=None,
-                                  S=1, O=0, R=1):
+  def ReceiveUnicastAdvertisement(self,
+                                  addr,
+                                  mac,
+                                  srcaddr=None,
+                                  dstaddr=None,
+                                  S=1,
+                                  O=0,
+                                  R=1):
     version = 6 if ":" in addr else 4
     if srcaddr is None:
       srcaddr = addr
@@ -151,10 +154,8 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     if version == 6:
       packet = (
           scapy.Ether(src=mac, dst=self.MyMacAddress(self.netid)) /
-          scapy.IPv6(src=srcaddr, dst=dstaddr) /
-          scapy.ICMPv6ND_NA(tgt=addr, S=S, O=O, R=R) /
-          scapy.ICMPv6NDOptDstLLAddr(lladdr=mac)
-      )
+          scapy.IPv6(src=srcaddr, dst=dstaddr) / scapy.ICMPv6ND_NA(
+              tgt=addr, S=S, O=O, R=R) / scapy.ICMPv6NDOptDstLLAddr(lladdr=mac))
       self.ReceiveEtherPacketOn(self.netid, packet)
     else:
       raise NotImplementedError
@@ -283,10 +284,14 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectMulticastNS(router6)
 
     # Receive a unicast NA with the R flag set to 0.
-    self.ReceiveUnicastAdvertisement(router6, self.RouterMacAddress(self.netid),
-                                     srcaddr=self._RouterAddress(self.netid, 6),
-                                     dstaddr=self.MyAddress(6, self.netid),
-                                     S=1, O=0, R=0)
+    self.ReceiveUnicastAdvertisement(
+        router6,
+        self.RouterMacAddress(self.netid),
+        srcaddr=self._RouterAddress(self.netid, 6),
+        dstaddr=self.MyAddress(6, self.netid),
+        S=1,
+        O=0,
+        R=0)
 
     # Expect that this takes us to REACHABLE.
     self.ExpectNeighbourNotification(router6, NUD_REACHABLE)

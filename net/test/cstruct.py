@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """A simple module for declaring C-like structures.
 
 Example usage:
@@ -76,6 +75,7 @@ def CalcSize(fmt):
   if "A" in fmt:
     fmt = fmt.replace("A", "s")
   return struct.calcsize(fmt)
+
 
 def CalcNumElements(fmt):
   prevlen = len(fmt)
@@ -196,8 +196,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       try:
         return self._fieldnames.index(attr)
       except ValueError:
-        raise AttributeError("'%s' has no attribute '%s'" %
-                             (self._name, attr))
+        raise AttributeError("'%s' has no attribute '%s'" % (self._name, attr))
 
     def __getattr__(self, name):
       return self._values[self._FieldIndex(name)]
@@ -227,7 +226,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     @staticmethod
     def _MaybePackStruct(value):
-      if hasattr(value, "__metaclass__"):# and value.__metaclass__ == Meta:
+      if hasattr(value, "__metaclass__"):  # and value.__metaclass__ == Meta:
         return value.Pack()
       else:
         return value
@@ -237,6 +236,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       return struct.pack(self._format, *values)
 
     def __str__(self):
+
       def FieldDesc(index, name, value):
         if isinstance(value, str):
           if index in self._asciiz:
@@ -246,8 +246,9 @@ def Struct(name, fmt, fieldnames, substructs={}):
         return "%s=%s" % (name, value)
 
       descriptions = [
-          FieldDesc(i, n, v) for i, (n, v) in
-          enumerate(zip(self._fieldnames, self._values))]
+          FieldDesc(i, n, v)
+          for i, (n, v) in enumerate(zip(self._fieldnames, self._values))
+      ]
 
       return "%s(%s)" % (self._name, ", ".join(descriptions))
 
