@@ -30,9 +30,9 @@ LOOPBACK_IFINDEX = 1
 
 SIOCKILLADDR = 0x8939
 
-
 Ifreq = cstruct.Struct("Ifreq", "=16s16s", "name data")
 In6Ifreq = cstruct.Struct("In6Ifreq", "=16sIi", "addr prefixlen ifindex")
+
 
 def KillAddrIoctl(addr):
   """Calls the SIOCKILLADDR ioctl on the provided IP address.
@@ -60,9 +60,11 @@ def KillAddrIoctl(addr):
   finally:
     datagram_socket.close()
 
+
 # For convenience.
 def CreateIPv4SocketPair():
   return net_test.CreateSocketPair(AF_INET, SOCK_STREAM, IPV4_LOOPBACK_ADDR)
+
 
 def CreateIPv6SocketPair():
   return net_test.CreateSocketPair(AF_INET6, SOCK_STREAM, IPV6_LOOPBACK_ADDR)
@@ -70,7 +72,6 @@ def CreateIPv6SocketPair():
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 4, 0), "grace period")
 class TcpNukeAddrTest(net_test.NetworkTest):
-
   """Tests that SIOCKILLADDR no longer exists.
 
   The out-of-tree SIOCKILLADDR was replaced by the upstream SOCK_DESTROY

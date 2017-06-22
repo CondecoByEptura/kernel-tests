@@ -75,10 +75,11 @@ IPV6_SEQ_DGRAM_HEADER = ("  sl  "
                          "   uid  timeout inode ref pointer drops\n")
 
 # Arbitrary packet payload.
-UDP_PAYLOAD = str(scapy.DNS(rd=1,
-                            id=random.randint(0, 65535),
-                            qd=scapy.DNSQR(qname="wWW.GoOGle.CoM",
-                                           qtype="AAAA")))
+UDP_PAYLOAD = str(
+    scapy.DNS(
+        rd=1,
+        id=random.randint(0, 65535),
+        qd=scapy.DNSQR(qname="wWW.GoOGle.CoM", qtype="AAAA")))
 
 # Unix group to use if we want to open sockets as non-root.
 AID_INET = 3003
@@ -233,7 +234,7 @@ def CanonicalizeIPv6Address(addr):
 def FormatProcAddress(unformatted):
   groups = []
   for i in xrange(0, len(unformatted), 4):
-    groups.append(unformatted[i:i+4])
+    groups.append(unformatted[i:i + 4])
   formatted = ":".join(groups)
   # Compress the address.
   address = CanonicalizeIPv6Address(formatted)
@@ -248,7 +249,7 @@ def FormatSockStatAddress(address):
   binary = inet_pton(family, address)
   out = ""
   for i in xrange(0, len(binary), 4):
-    out += "%08X" % struct.unpack("=L", binary[i:i+4])
+    out += "%08X" % struct.unpack("=L", binary[i:i + 4])
   return out
 
 
@@ -257,8 +258,8 @@ def GetLinkAddress(ifname, linklocal):
   for address in addresses:
     address = [s for s in address.strip().split(" ") if s]
     if address[5] == ifname:
-      if (linklocal and address[0].startswith("fe80")
-          or not linklocal and not address[0].startswith("fe80")):
+      if (linklocal and address[0].startswith("fe80") or
+          not linklocal and not address[0].startswith("fe80")):
         # Convert the address from raw hex to something with colons in it.
         return FormatProcAddress(address[0])
   return None
@@ -343,6 +344,7 @@ try:
 except ValueError:
   HAVE_IPV6 = False
 
+
 class RunAsUidGid(object):
   """Context guard to run a code block as a given UID."""
 
@@ -366,6 +368,7 @@ class RunAsUidGid(object):
       os.setgroups(self.saved_groups)
     if self.gid:
       os.setgid(self.saved_gid)
+
 
 class RunAsUid(RunAsUidGid):
   """Context guard to run a code block as a given GID and UID."""
@@ -423,26 +426,26 @@ class NetworkTest(unittest.TestCase):
     else:
       raise ValueError("Don't know how to parse %s" % filename)
 
-    regexp = re.compile(r" *(\d+): "                    # bucket
-                        "([0-9A-F]{%d}:[0-9A-F]{4}) "   # srcaddr, port
-                        "([0-9A-F]{%d}:[0-9A-F]{4}) "   # dstaddr, port
-                        "([0-9A-F][0-9A-F]) "           # state
-                        "([0-9A-F]{8}:[0-9A-F]{8}) "    # mem
-                        "([0-9A-F]{2}:[0-9A-F]{8}) "    # ?
-                        "([0-9A-F]{8}) +"               # ?
-                        "([0-9]+) +"                    # uid
-                        "([0-9]+) +"                    # timeout
-                        "([0-9]+) +"                    # inode
-                        "([0-9]+) +"                    # refcnt
-                        "([0-9a-f]+)"                   # sp
-                        "%s"                            # icmp has spaces
+    regexp = re.compile(r" *(\d+): "  # bucket
+                        "([0-9A-F]{%d}:[0-9A-F]{4}) "  # srcaddr, port
+                        "([0-9A-F]{%d}:[0-9A-F]{4}) "  # dstaddr, port
+                        "([0-9A-F][0-9A-F]) "  # state
+                        "([0-9A-F]{8}:[0-9A-F]{8}) "  # mem
+                        "([0-9A-F]{2}:[0-9A-F]{8}) "  # ?
+                        "([0-9A-F]{8}) +"  # ?
+                        "([0-9]+) +"  # uid
+                        "([0-9]+) +"  # timeout
+                        "([0-9]+) +"  # inode
+                        "([0-9]+) +"  # refcnt
+                        "([0-9a-f]+)"  # sp
+                        "%s"  # icmp has spaces
                         % (addrlen, addrlen, end_regexp))
     # Return a list of lists with only source / dest addresses for now.
     # TODO: consider returning a dict or namedtuple instead.
     out = []
     for line in lines:
-      (_, src, dst, state, mem,
-       _, _, uid, _, _, refcnt, _, extra) = regexp.match(line).groups()
+      (_, src, dst, state, mem, _, _, uid, _, _, refcnt, _,
+       extra) = regexp.match(line).groups()
       out.append([src, dst, state, mem, uid, refcnt, extra])
     return out
 

@@ -55,8 +55,8 @@ class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
     return s
 
   def _ReceiveAndExpectResponse(self, netid, packet, reply, msg):
-    pkt = super(TcpBaseTest, self)._ReceiveAndExpectResponse(netid, packet,
-                                                             reply, msg)
+    pkt = super(TcpBaseTest, self)._ReceiveAndExpectResponse(
+        netid, packet, reply, msg)
     self.last_packet = pkt
     return pkt
 
@@ -72,7 +72,6 @@ class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
     return packets.FIN(self.version, self.myaddr, self.remoteaddr,
                        self.last_packet)
 
-
   def IncomingConnection(self, version, end_state, netid):
     self.s = self.OpenListenSocket(version, netid)
     self.end_state = end_state
@@ -80,7 +79,8 @@ class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
     remoteaddr = self.remoteaddr = self.GetRemoteAddress(version)
     myaddr = self.myaddr = self.MyAddress(version, netid)
 
-    if version == 5: version = 4
+    if version == 5:
+      version = 4
     self.version = version
 
     if end_state == TCP_LISTEN:
@@ -105,8 +105,12 @@ class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
     if end_state == TCP_ESTABLISHED:
       return
 
-    desc, data = packets.ACK(version, myaddr, remoteaddr, establishing_ack,
-                             payload=net_test.UDP_PAYLOAD)
+    desc, data = packets.ACK(
+        version,
+        myaddr,
+        remoteaddr,
+        establishing_ack,
+        payload=net_test.UDP_PAYLOAD)
     self.accepted.send(net_test.UDP_PAYLOAD)
     self.ExpectPacketOn(netid, msg + ": expecting %s" % desc, data)
 

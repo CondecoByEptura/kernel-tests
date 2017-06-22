@@ -55,8 +55,8 @@ class PfKeyTest(unittest.TestCase):
 
     pfkey_sainfos = self.pf_key.DumpSaInfo()
     self.assertEquals(2, len(pfkey_sainfos))
-    self.assertTrue(all(msg.satype == pf_key.SDB_TYPE_ESP)
-                    for msg, _ in pfkey_sainfos)
+    self.assertTrue(
+        all(msg.satype == pf_key.SDB_TYPE_ESP) for msg, _ in pfkey_sainfos)
 
     self.assertEquals(xfrm.IPPROTO_ESP, state4.id.proto)
     self.assertEquals(xfrm.IPPROTO_ESP, state6.id.proto)

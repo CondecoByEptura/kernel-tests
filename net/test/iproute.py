@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Partial Python implementation of iproute functionality."""
 
 # pylint: disable=g-bad-todo
@@ -36,7 +35,6 @@ NLAttr = cstruct.Struct("NLAttr", "=HH", "nla_len nla_type")
 
 # Alignment / padding.
 NLA_ALIGNTO = 4
-
 
 ### rtnetlink constants. See include/uapi/linux/rtnetlink.h.
 # Message types.
@@ -93,14 +91,13 @@ RTAX_MTU = 2
 RTAX_HOPLIMIT = 10
 
 # Data structure formats.
-IfinfoMsg = cstruct.Struct(
-    "IfinfoMsg", "=BBHiII", "family pad type index flags change")
+IfinfoMsg = cstruct.Struct("IfinfoMsg", "=BBHiII",
+                           "family pad type index flags change")
 RTMsg = cstruct.Struct(
     "RTMsg", "=BBBBBBBBI",
     "family dst_len src_len tos table protocol scope type flags")
-RTACacheinfo = cstruct.Struct(
-    "RTACacheinfo", "=IIiiI", "clntref lastuse expires error used")
-
+RTACacheinfo = cstruct.Struct("RTACacheinfo", "=IIiiI",
+                              "clntref lastuse expires error used")
 
 ### Interface address constants. See include/uapi/linux/if_addr.h.
 # Interface address attributes.
@@ -121,14 +118,12 @@ IFA_F_TENTATIVE = 0x40
 IFA_F_PERMANENT = 0x80
 
 # Data structure formats.
-IfAddrMsg = cstruct.Struct(
-    "IfAddrMsg", "=BBBBI",
-    "family prefixlen flags scope index")
-IFACacheinfo = cstruct.Struct(
-    "IFACacheinfo", "=IIII", "prefered valid cstamp tstamp")
-NDACacheinfo = cstruct.Struct(
-    "NDACacheinfo", "=IIII", "confirmed used updated refcnt")
-
+IfAddrMsg = cstruct.Struct("IfAddrMsg", "=BBBBI",
+                           "family prefixlen flags scope index")
+IFACacheinfo = cstruct.Struct("IFACacheinfo", "=IIII",
+                              "prefered valid cstamp tstamp")
+NDACacheinfo = cstruct.Struct("NDACacheinfo", "=IIII",
+                              "confirmed used updated refcnt")
 
 ### Neighbour table entry constants. See include/uapi/linux/neighbour.h.
 # Neighbour cache entry attributes.
@@ -141,10 +136,7 @@ NDA_PROBES = 4
 NUD_PERMANENT = 0x80
 
 # Data structure formats.
-NdMsg = cstruct.Struct(
-    "NdMsg", "=BxxxiHBB",
-    "family ifindex state flags type")
-
+NdMsg = cstruct.Struct("NdMsg", "=BxxxiHBB", "family ifindex state flags type")
 
 ### FIB rule constants. See include/uapi/linux/fib_rules.h.
 FRA_IIFNAME = 3
@@ -254,23 +246,25 @@ class IPRoute(netlink.NetlinkSocket):
       # Don't know what this is. Leave it as an integer.
       name = nla_type
 
-    if name in ["FRA_PRIORITY", "FRA_FWMARK", "FRA_TABLE", "FRA_FWMASK",
-                "RTA_OIF", "RTA_PRIORITY", "RTA_TABLE", "RTA_MARK",
-                "IFLA_MTU", "IFLA_TXQLEN", "IFLA_GROUP", "IFLA_EXT_MASK",
-                "IFLA_PROMISCUITY", "IFLA_NUM_RX_QUEUES",
-                "IFLA_NUM_TX_QUEUES", "NDA_PROBES", "RTAX_MTU",
-                "RTAX_HOPLIMIT"]:
+    if name in [
+        "FRA_PRIORITY", "FRA_FWMARK", "FRA_TABLE", "FRA_FWMASK", "RTA_OIF",
+        "RTA_PRIORITY", "RTA_TABLE", "RTA_MARK", "IFLA_MTU", "IFLA_TXQLEN",
+        "IFLA_GROUP", "IFLA_EXT_MASK", "IFLA_PROMISCUITY", "IFLA_NUM_RX_QUEUES",
+        "IFLA_NUM_TX_QUEUES", "NDA_PROBES", "RTAX_MTU", "RTAX_HOPLIMIT"
+    ]:
       data = struct.unpack("=I", nla_data)[0]
     elif name == "FRA_SUPPRESS_PREFIXLEN":
       data = struct.unpack("=i", nla_data)[0]
     elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER"]:
       data = ord(nla_data)
-    elif name in ["IFA_ADDRESS", "IFA_LOCAL", "RTA_DST", "RTA_SRC",
-                  "RTA_GATEWAY", "RTA_PREFSRC", "RTA_UID",
-                  "NDA_DST"]:
+    elif name in [
+        "IFA_ADDRESS", "IFA_LOCAL", "RTA_DST", "RTA_SRC", "RTA_GATEWAY",
+        "RTA_PREFSRC", "RTA_UID", "NDA_DST"
+    ]:
       data = socket.inet_ntop(msg.family, nla_data)
-    elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
-                  "IFA_LABEL"]:
+    elif name in [
+        "FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC", "IFA_LABEL"
+    ]:
       data = nla_data.strip("\x00")
     elif name == "RTA_METRICS":
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data)
@@ -325,8 +319,8 @@ class IPRoute(netlink.NetlinkSocket):
     """
     # Create a struct rtmsg specifying the table and the given match attributes.
     family = self._AddressFamily(version)
-    rtmsg = RTMsg((family, 0, 0, 0, RT_TABLE_UNSPEC,
-                   RTPROT_STATIC, RT_SCOPE_UNIVERSE, rule_type, 0)).Pack()
+    rtmsg = RTMsg((family, 0, 0, 0, RT_TABLE_UNSPEC, RTPROT_STATIC,
+                   RT_SCOPE_UNIVERSE, rule_type, 0)).Pack()
     rtmsg += self._NlAttrU32(FRA_PRIORITY, priority)
     if match_nlattr:
       rtmsg += match_nlattr
@@ -339,8 +333,8 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DeleteRulesAtPriority(self, version, priority):
     family = self._AddressFamily(version)
-    rtmsg = RTMsg((family, 0, 0, 0, RT_TABLE_UNSPEC,
-                   RTPROT_STATIC, RT_SCOPE_UNIVERSE, RTN_UNICAST, 0)).Pack()
+    rtmsg = RTMsg((family, 0, 0, 0, RT_TABLE_UNSPEC, RTPROT_STATIC,
+                   RT_SCOPE_UNIVERSE, RTN_UNICAST, 0)).Pack()
     rtmsg += self._NlAttrU32(FRA_PRIORITY, priority)
     while True:
       try:
@@ -365,8 +359,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def UidRangeRule(self, version, is_add, start, end, table, priority):
     nlattr = self._NlAttrInterfaceName(FRA_IIFNAME, "lo")
-    nlattr += self._NlAttr(FRA_UID_RANGE,
-                           FibRuleUidRange((start, end)).Pack())
+    nlattr += self._NlAttr(FRA_UID_RANGE, FibRuleUidRange((start, end)).Pack())
     return self._Rule(version, is_add, RTN_UNICAST, table, nlattr, priority)
 
   def UnreachableRule(self, version, is_add, priority):
@@ -431,13 +424,12 @@ class IPRoute(netlink.NetlinkSocket):
     self._SendNlRequest(command, ifaddrmsg)
 
   def AddAddress(self, address, prefixlen, ifindex):
-    self._Address(6 if ":" in address else 4,
-                  RTM_NEWADDR, address, prefixlen,
+    self._Address(6 if ":" in address else 4, RTM_NEWADDR, address, prefixlen,
                   IFA_F_PERMANENT, RT_SCOPE_UNIVERSE, ifindex)
 
   def DelAddress(self, address, prefixlen, ifindex):
-    self._Address(6 if ":" in address else 4,
-                  RTM_DELADDR, address, prefixlen, 0, 0, ifindex)
+    self._Address(6 if ":" in address else 4, RTM_DELADDR, address, prefixlen,
+                  0, 0, ifindex)
 
   def GetAddress(self, address, ifindex=0):
     """Returns an ifaddrmsg for the requested address."""
@@ -454,8 +446,8 @@ class IPRoute(netlink.NetlinkSocket):
     """Adds, deletes, or queries a route."""
     family = self._AddressFamily(version)
     scope = RT_SCOPE_UNIVERSE if nexthop else RT_SCOPE_LINK
-    rtmsg = RTMsg((family, prefixlen, 0, 0, RT_TABLE_UNSPEC,
-                   proto, scope, RTN_UNICAST, 0)).Pack()
+    rtmsg = RTMsg((family, prefixlen, 0, 0, RT_TABLE_UNSPEC, proto, scope,
+                   RTN_UNICAST, 0)).Pack()
     if command == RTM_NEWROUTE and not table:
       # Don't allow setting routes in table 0, since its behaviour is confusing
       # and differs between IPv4 and IPv6.
@@ -524,8 +516,8 @@ class IPRoute(netlink.NetlinkSocket):
     self._Neighbour(version, False, addr, lladdr, dev, 0)
 
   def UpdateNeighbour(self, version, addr, lladdr, dev, state):
-    self._Neighbour(version, True, addr, lladdr, dev, state,
-                    flags=netlink.NLM_F_REPLACE)
+    self._Neighbour(
+        version, True, addr, lladdr, dev, state, flags=netlink.NLM_F_REPLACE)
 
   def DumpNeighbours(self, version):
     ndmsg = NdMsg((self._AddressFamily(version), 0, 0, 0, 0))
