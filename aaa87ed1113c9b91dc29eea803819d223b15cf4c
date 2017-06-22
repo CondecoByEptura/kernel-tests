@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "db3642cb_b11bf3d2",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T14:55:10Z",
+      "side": 1,
+      "message": "If the paradigm can be \"we match the kernel\" then it\u0027s possible to be objectively correct. My initial reaction to the kernel calling these \u0027v\u0027 and \u0027m\u0027 was to call Jonathan over so he could see just how bad the kernel code is (true story, it took me a few minutes to regain my composure), but we shouldn\u0027t underestimate the cost of having subjective discussions about when a name is sufficiently bad so as to justify not matching the kernel struct. Moreover, there is inherent value in matching the kernel\u0027s structures name-for-name (even when those names are terrible). There are a lot of structure fields that have terrible names (see line 165); so if \"v\" and \"m\" are too bad, what about \"sel\" and \"lft\"? The slope is slippery, and I have bad knees.",
+      "parentUuid": "527ab6b0_c48eeecd",
+      "range": {
+        "startLine": 170,
+        "startChar": 45,
+        "endLine": 170,
+        "endChar": 48
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b55bc92_e7bc980e",
         "filename": "net/test/xfrm.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-22T04:33:52Z",
       "side": 1,
       "message": "Is this code still unused? If so, we probably shouldn\u0027t be adding or modifying it.",
+      "range": {
+        "startLine": 254,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 56
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59add0a7_a2405e54",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T14:55:10Z",
+      "side": 1,
+      "message": "This function is being added in another patch set down the stack you just reviewed. It\u0027s being used in a different patch set that\u0027s up the stack, which you haven\u0027t yet reviewed.",
+      "parentUuid": "6b55bc92_e7bc980e",
       "range": {
         "startLine": 254,
         "startChar": 2,
@@ -82,6 +130,54 @@
       "writtenOn": "2017-06-22T04:33:52Z",
       "side": 1,
       "message": "Shouldn\u0027t this be \u0026 instead of |?",
+      "range": {
+        "startLine": 314,
+        "startChar": 59,
+        "endLine": 314,
+        "endChar": 60
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aebdb7da_db7f60e5",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T14:55:10Z",
+      "side": 1,
+      "message": "Two counterpoints:\n1) I think this goes back to your argument of \"that\u0027s not what the code does today\". Today we never send a mark with an SA.\n\n2) Sending unnecessary attributes is both more rigid and not the right thing to do. If both the mark and the mask are zero, the kernel will ignore them.",
+      "parentUuid": "3873e8b1_fb0ea22d",
+      "range": {
+        "startLine": 314,
+        "startChar": 4,
+        "endLine": 314,
+        "endChar": 71
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15aff48a_7c6246a1",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-22T14:55:10Z",
+      "side": 1,
+      "message": "No. This will send if either is non-zero. If someone takes the time to send mark\u003d0xFF00 and mask of 0xFF, then they\u0027ve consciously done something strange.",
+      "parentUuid": "7a430551_5a519b18",
       "range": {
         "startLine": 314,
         "startChar": 59,
