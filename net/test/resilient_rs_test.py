@@ -23,11 +23,13 @@ from math import pow
 
 import multinetwork_base
 
+
 def accumulate(lis):
   total = 0
   for x in lis:
     total += x
     yield total
+
 
 # This test attempts to validate time related behavior of the kernel
 # under test and is therefore inherently prone to races. To avoid
@@ -79,13 +81,13 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
   def isIPv6RouterSolicitation(cls, packet):
     return ((len(packet) >= 14 + 40 + 1) and
             # Use net_test.ETH_P_IPV6 here
-            (ord(packet[12]) == 0x86) and
-            (ord(packet[13]) == 0xdd) and
+            (ord(packet[12]) == 0x86) and (ord(packet[13]) == 0xdd) and
             (ord(packet[14]) >> 4 == 6) and
             (ord(packet[14 + 40]) == cls.ROUTER_SOLICIT))
 
   def makeTunInterface(self, netid):
-    defaultDisableIPv6Path = self._PROC_NET_TUNABLE % ("default", "disable_ipv6")
+    defaultDisableIPv6Path = self._PROC_NET_TUNABLE % ("default",
+                                                       "disable_ipv6")
     savedDefaultDisableIPv6 = self.GetSysctl(defaultDisableIPv6Path)
     self.SetSysctl(defaultDisableIPv6Path, 1)
     tun = self.CreateTunInterface(netid)
@@ -134,7 +136,7 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
 
     rsSendTimes = []
     while True:
-      now = time.time();
+      now = time.time()
       epoll.poll(deadline - now)
       try:
         packet = posix.read(tun.fileno(), 4096)
@@ -143,7 +145,7 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
 
       txTime = time.time()
       if txTime > deadline:
-        break;
+        break
       if not self.isIPv6RouterSolicitation(packet):
         continue
 
@@ -159,14 +161,18 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
 
     # Compute minimum and maximum bounds for RFC3315 S14 exponential backoff.
     # First retransmit is linear backoff, subsequent retransmits are exponential
-    min_exp_bound = accumulate(map(lambda i: MIN_LIN * pow(MIN_EXP, i), range(0, len(rsSendTimes))))
-    max_exp_bound = accumulate(map(lambda i: MAX_LIN * pow(MAX_EXP, i), range(0, len(rsSendTimes))))
+    min_exp_bound = accumulate(
+        map(lambda i: MIN_LIN * pow(MIN_EXP, i), range(0, len(rsSendTimes))))
+    max_exp_bound = accumulate(
+        map(lambda i: MAX_LIN * pow(MAX_EXP, i), range(0, len(rsSendTimes))))
 
     # Assert that each sample falls within the worst case interval. If all samples fit we accept
     # the exponential backoff hypothesis
-    for (t, min_exp, max_exp) in zip(rsSendTimes[1:], min_exp_bound, max_exp_bound):
+    for (t, min_exp, max_exp) in zip(rsSendTimes[1:], min_exp_bound,
+                                     max_exp_bound):
       self.assertLess(min_exp, t)
       self.assertGreater(max_exp, t)
+
 
 if __name__ == "__main__":
   unittest.main()

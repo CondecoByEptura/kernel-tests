@@ -27,8 +27,8 @@ import net_test
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
 
-@unittest.skipUnless(HAVE_EBPF_SUPPORT,
-                     "eBPF function not fully supported")
+
+@unittest.skipUnless(HAVE_EBPF_SUPPORT, "eBPF function not fully supported")
 class BpfTest(net_test.NetworkTest):
 
   def setUp(self):
@@ -78,8 +78,8 @@ class BpfTest(net_test.NetworkTest):
     # Load a program that does nothing except pass every packet it receives
     # It should not block the packet transmission otherwise the test fails.
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER,
-                          ctypes.addressof(insn_buff),
-                          len(insn_buff), BpfInsn._length)
+                               ctypes.addressof(insn_buff),
+                               len(insn_buff), BpfInsn._length)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
     sock.settimeout(1)
     BpfProgAttachSocket(sock.fileno(), self.prog_fd)
@@ -98,8 +98,8 @@ class BpfTest(net_test.NetworkTest):
     bpf_prog += BpfExitInsn()
     insn_buff = ctypes.create_string_buffer(bpf_prog)
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER,
-                          ctypes.addressof(insn_buff),
-                          len(insn_buff), BpfInsn._length)
+                               ctypes.addressof(insn_buff),
+                               len(insn_buff), BpfInsn._length)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
     sock.settimeout(1)
     BpfProgAttachSocket(sock.fileno(), self.prog_fd)
@@ -132,8 +132,8 @@ class BpfTest(net_test.NetworkTest):
     bpf_prog += BpfExitInsn()
     bpf_prog += BpfMov64Reg(BPF_REG_2, BPF_REG_0)
     bpf_prog += BpfMov64Imm(BPF_REG_1, 1)
-    bpf_prog += BpfRawInsn(BPF_STX | BPF_XADD | BPF_W, BPF_REG_2, BPF_REG_1,
-                           0, 0)
+    bpf_prog += BpfRawInsn(BPF_STX | BPF_XADD | BPF_W, BPF_REG_2, BPF_REG_1, 0,
+                           0)
     bpf_prog += BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, 0)
     bpf_prog += BpfExitInsn()
     insn_buff = ctypes.create_string_buffer(bpf_prog)
@@ -141,8 +141,8 @@ class BpfTest(net_test.NetworkTest):
     # a target socket. It will store the packet count into the eBPF map and we
     # will verify if the counting result is correct.
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER,
-                          ctypes.addressof(insn_buff),
-                          len(insn_buff), BpfInsn._length)
+                               ctypes.addressof(insn_buff),
+                               len(insn_buff), BpfInsn._length)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
     sock.settimeout(1)
     BpfProgAttachSocket(sock.fileno(), self.prog_fd)

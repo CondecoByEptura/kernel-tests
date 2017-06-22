@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Python wrapper for C socket calls and data structures."""
 
 import ctypes
@@ -21,7 +20,6 @@ import socket
 import struct
 
 import cstruct
-
 
 # Data structures.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
@@ -252,8 +250,8 @@ def Sendmsg(s, to, data, control, flags):
     msg_controllen = 0
 
   # Assemble the struct msghdr.
-  msghdr = MsgHdr((msg_name, msg_namelen, msg_iov, msg_iovlen,
-                   msg_control, msg_controllen, flags)).Pack()
+  msghdr = MsgHdr((msg_name, msg_namelen, msg_iov, msg_iovlen, msg_control,
+                   msg_controllen, flags)).Pack()
 
   # Call sendmsg.
   ret = libc.sendmsg(s.fileno(), msghdr, 0)
@@ -306,8 +304,8 @@ def Recvmsg(s, buflen, controllen, flags, addrlen=len(SockaddrStorage)):
   msg_control = ctypes.addressof(control)
   msg_controllen = controllen
 
-  msghdr = MsgHdr((msg_name, msg_namelen, msg_iov, msg_iovlen,
-                   msg_control, msg_controllen, flags))
+  msghdr = MsgHdr((msg_name, msg_namelen, msg_iov, msg_iovlen, msg_control,
+                   msg_controllen, flags))
   ret = libc.recvmsg(s.fileno(), VoidPointer(msghdr), flags)
   MaybeRaiseSocketError(ret)
 
@@ -326,8 +324,8 @@ def Recvfrom(s, size, flags=0):
   addr = ctypes.create_string_buffer(len(SockaddrStorage))
   alen = ctypes.c_int(len(addr))
 
-  ret = libc.recvfrom(s.fileno(), buf, len(buf), flags,
-                      addr, ctypes.byref(alen))
+  ret = libc.recvfrom(s.fileno(), buf, len(buf), flags, addr,
+                      ctypes.byref(alen))
   MaybeRaiseSocketError(ret)
 
   data = buf[:ret]
