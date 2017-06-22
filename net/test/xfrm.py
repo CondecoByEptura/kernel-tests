@@ -16,10 +16,8 @@
 
 """Partial implementation of xfrm netlink code and socket options."""
 
-# pylint: disable=g-bad-todo
-
 import os
-from socket import *  # pylint: disable=wildcard-import
+from socket import *  # pylint: disable=wildcard-import,unused-wildcard-import
 
 import cstruct
 import netlink
@@ -92,10 +90,10 @@ XFRM_POLICY_FWD = 2
 XFRM_POLICY_MASK = 3
 
 # Policy sharing.
-XFRM_SHARE_ANY     = 0  #  /* No limitations */
+XFRM_SHARE_ANY = 0      #  /* No limitations */
 XFRM_SHARE_SESSION = 1  #  /* For this session only */
-XFRM_SHARE_USER    = 2  #  /* For this user only */
-XFRM_SHARE_UNIQUE  = 3  #  /* Use once */
+XFRM_SHARE_USER = 2     #  /* For this user only */
+XFRM_SHARE_UNIQUE = 3   #  /* Use once */
 
 # Modes.
 XFRM_MODE_TRANSPORT = 0
@@ -114,7 +112,7 @@ XFRM_POLICY_LOCALOK = 1
 XFRM_POLICY_ICMP = 2
 
 # Data structure formats.
-# These aren't constants, they're classes. So, pylint: disable=invalid-name
+# These aren't constants, they're classes.
 XfrmSelector = cstruct.Struct(
     "XfrmSelector", "=16s16sHHHHHBBBxxxiI",
     "daddr saddr dport dport_mask sport sport_mask "
@@ -303,7 +301,7 @@ class Xfrm(netlink.NetlinkSocket):
     if nl_hdr.type == XFRM_MSG_NEWSA:
       return XfrmUsersaInfo(data)
     if nl_hdr.type == netlink.NLMSG_ERROR:
-      error = netlink.NLMsgErr(data).error
+      error = netlink.NLMsgErr(data).error  # pylint: disable=redefined-outer-name
       raise IOError(error, os.strerror(-error))
     raise ValueError("Unexpected netlink message type: %d" % nl_hdr.type)
 
@@ -311,7 +309,7 @@ class Xfrm(netlink.NetlinkSocket):
     return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo, "")
 
   def FindSaInfo(self, spi):
-    sainfo = [sa for sa, attrs in self.DumpSaInfo() if sa.id.spi == spi]
+    sainfo = [sa for sa, _ in self.DumpSaInfo() if sa.id.spi == spi]
     return sainfo[0] if sainfo else None
 
   def FlushSaInfo(self):

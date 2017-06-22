@@ -1,0 +1,13 @@
+[FORMAT]
+
+indent-string='  '
+
+[MESSAGES CONTROL]
+
+disable=
+  fixme,
+  invalid-name,
+  missing-docstring,
+  too-many-arguments,
+  too-many-locals,
+

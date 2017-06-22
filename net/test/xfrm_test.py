@@ -14,14 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# pylint: disable=g-bad-todo,g-bad-file-header,wildcard-import
-from errno import *  # pylint: disable=wildcard-import
+from errno import *  # pylint: disable=wildcard-import,unused-wildcard-import
 import random
-from scapy import all as scapy
-from socket import *  # pylint: disable=wildcard-import
+from socket import *  # pylint: disable=wildcard-import,unused-wildcard-import
 import struct
 import subprocess
 import unittest
+from scapy import all as scapy
 
 import multinetwork_base
 import net_test
@@ -121,8 +120,6 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     netid = random.choice(self.NETIDS)
     self.SelectInterface(s, netid, "mark")
     s.connect((TEST_ADDR1, 53))
-    saddr, sport = s.getsockname()[:2]
-    daddr, dport = s.getpeername()[:2]
 
     # Create a selector that matches all UDP packets. It's not actually used to
     # select traffic, that will be done by the socket policy, which selects the
@@ -209,7 +206,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     encap_socket.bind((myaddr, 0))
     encap_port = encap_socket.getsockname()[1]
     encap_socket.setsockopt(IPPROTO_UDP, xfrm.UDP_ENCAP,
-                               xfrm.UDP_ENCAP_ESPINUDP)
+                            xfrm.UDP_ENCAP_ESPINUDP)
 
     # Open a socket to send traffic.
     s = socket(AF_INET, SOCK_DGRAM, 0)
@@ -239,11 +236,11 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                                     xfrm.XFRM_SHARE_UNIQUE))
     xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, out_spi, IPPROTO_ESP))
     usertmpl = xfrm.XfrmUserTmpl((xfrmid, AF_INET, XFRM_ADDR_ANY, out_reqid,
-                              xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
-                              0,                # require
-                              ALL_ALGORITHMS,   # auth algos
-                              ALL_ALGORITHMS,   # encryption algos
-                              ALL_ALGORITHMS))  # compression algos
+                                  xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
+                                  0,                # require
+                                  ALL_ALGORITHMS,   # auth algos
+                                  ALL_ALGORITHMS,   # encryption algos
+                                  ALL_ALGORITHMS))  # compression algos
 
     data = info.Pack() + usertmpl.Pack()
     s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
@@ -325,9 +322,8 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     self.assertEquals((remoteaddr, srcport), src)
 
     # Check that unencrypted packets are not received.
-    unencrypted = (scapy.IP(src=remoteaddr, dst=myaddr) /
-                   scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
+    self.ExpectNoPacketsOn(netid,  "unencrypted packet")
 
   def testAllocSpecificSpi(self):
     spi = 0xABCD
@@ -359,7 +355,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
       # Allocating range_size + 1 SPIs is guaranteed to fail.  Due to the way
       # kernel picks random SPIs, this has a high probability of failing before
       # reaching that limit.
-      for i in xrange(range_size + 1):
+      for _ in xrange(range_size + 1):
         new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, start, end)
         spi = ntohl(new_sa.id.spi)
         self.assertNotIn(spi, spis)
