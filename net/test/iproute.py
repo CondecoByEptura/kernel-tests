@@ -366,7 +366,7 @@ class IPRoute(netlink.NetlinkSocket):
     return self._Rule(version, is_add, RTN_UNREACHABLE, None, None, priority)
 
   def DefaultRule(self, version, is_add, table, priority):
-    return self.FwmarkRule(version, is_add, 0, table, priority)
+    return self._Rule(version, is_add, RTN_UNICAST, table, None, priority)
 
   def CommandToString(self, command, data):
     try:
