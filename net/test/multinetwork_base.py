@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Base module for multinetwork tests."""
 
 import errno
@@ -32,7 +31,6 @@ import csocket
 import iproute
 import net_test
 
-
 IFF_TUN = 1
 IFF_TAP = 2
 IFF_NO_PI = 0x1000
@@ -50,7 +48,6 @@ IP_TTL = 2
 IPV6_2292PKTOPTIONS = 6
 IPV6_FLOWINFO = 11
 IPV6_HOPLIMIT = 52  # Different from IPV6_UNICAST_HOPS, this is cmsg only.
-
 
 AUTOCONF_TABLE_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_rt_table"
 
@@ -112,14 +109,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   IPV4_PING = net_test.IPV4_PING
   IPV6_PING = net_test.IPV6_PING
 
-  RA_VALIDITY = 300 # seconds
+  RA_VALIDITY = 300  # seconds
 
   @classmethod
   def UidRangeForNetid(cls, netid):
-    return (
-        cls.UID_RANGE_SIZE * netid,
-        cls.UID_RANGE_SIZE * (netid + 1) - 1
-    )
+    return (cls.UID_RANGE_SIZE * netid, cls.UID_RANGE_SIZE * (netid + 1) - 1)
 
   @classmethod
   def UidForNetid(cls, netid):
@@ -165,9 +159,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def MyAddress(cls, version, netid):
-    return {4: cls._MyIPv4Address(netid),
-            5: "::ffff:" + cls._MyIPv4Address(netid),
-            6: cls._MyIPv6Address(netid)}[version]
+    return {
+        4: cls._MyIPv4Address(netid),
+        5: "::ffff:" + cls._MyIPv4Address(netid),
+        6: cls._MyIPv6Address(netid)
+    }[version]
 
   @classmethod
   def MyLinkLocalAddress(cls, netid):
@@ -179,8 +175,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @staticmethod
   def OnlinkPrefix(version, netid):
-    return {4: "10.0.%d.0" % netid,
-            6: "2001:db8:%02x::" % netid}[version]
+    return {4: "10.0.%d.0" % netid, 6: "2001:db8:%02x::" % netid}[version]
 
   @staticmethod
   def GetRandomDestination(prefix):
@@ -215,7 +210,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def SendRA(cls, netid, retranstimer=None, reachabletime=0, options=()):
-    validity = cls.RA_VALIDITY # seconds
+    validity = cls.RA_VALIDITY  # seconds
     macaddr = cls.RouterMacAddress(netid)
     lladdr = cls._RouterAddress(netid, 6)
 
@@ -229,17 +224,18 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     # putting RA routes into per-interface tables, configure routing manually.
     routerlifetime = validity if HAVE_AUTOCONF_TABLE else 0
 
-    ra = (scapy.Ether(src=macaddr, dst="33:33:00:00:00:01") /
-          scapy.IPv6(src=lladdr, hlim=255) /
-          scapy.ICMPv6ND_RA(reachabletime=reachabletime,
-                            retranstimer=retranstimer,
-                            routerlifetime=routerlifetime) /
-          scapy.ICMPv6NDOptSrcLLAddr(lladdr=macaddr) /
-          scapy.ICMPv6NDOptPrefixInfo(prefix=cls.OnlinkPrefix(6, netid),
-                                      prefixlen=cls.OnlinkPrefixLen(6),
-                                      L=1, A=1,
-                                      validlifetime=validity,
-                                      preferredlifetime=validity))
+    ra = (scapy.Ether(src=macaddr, dst="33:33:00:00:00:01") / scapy.IPv6(
+        src=lladdr, hlim=255) / scapy.ICMPv6ND_RA(
+            reachabletime=reachabletime,
+            retranstimer=retranstimer,
+            routerlifetime=routerlifetime) / scapy.ICMPv6NDOptSrcLLAddr(
+                lladdr=macaddr) / scapy.ICMPv6NDOptPrefixInfo(
+                    prefix=cls.OnlinkPrefix(6, netid),
+                    prefixlen=cls.OnlinkPrefixLen(6),
+                    L=1,
+                    A=1,
+                    validlifetime=validity,
+                    preferredlifetime=validity))
     for option in options:
       ra /= option
     posix.write(cls.tuns[netid].fileno(), str(ra))
@@ -259,8 +255,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       cls.iproute.UidRangeRule(version, is_add, start, end, table,
                                cls.PRIORITY_UID)
       cls.iproute.OifRule(version, is_add, iface, table, cls.PRIORITY_OIF)
-      cls.iproute.FwmarkRule(version, is_add, netid, table,
-                             cls.PRIORITY_FWMARK)
+      cls.iproute.FwmarkRule(version, is_add, netid, table, cls.PRIORITY_FWMARK)
 
       # Configure routing and addressing.
       #
@@ -278,8 +273,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       do_routing = (version == 4 or cls.AUTOCONF_TABLE_OFFSET is None)
       if is_add:
         if version == 4:
-          cls.iproute.AddAddress(cls._MyIPv4Address(netid),
-                                 cls.OnlinkPrefixLen(4), ifindex)
+          cls.iproute.AddAddress(
+              cls._MyIPv4Address(netid), cls.OnlinkPrefixLen(4), ifindex)
           cls.iproute.AddNeighbour(version, router, macaddr, ifindex)
         if do_routing:
           cls.iproute.AddRoute(version, table,
@@ -294,8 +289,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
                                cls.OnlinkPrefixLen(version), None, ifindex)
         if version == 4:
           cls.iproute.DelNeighbour(version, router, macaddr, ifindex)
-          cls.iproute.DelAddress(cls._MyIPv4Address(netid),
-                                 cls.OnlinkPrefixLen(4), ifindex)
+          cls.iproute.DelAddress(
+              cls._MyIPv4Address(netid), cls.OnlinkPrefixLen(4), ifindex)
 
   @classmethod
   def SetDefaultNetwork(cls, netid):
@@ -338,8 +333,10 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def _ICMPRatelimitFilename(cls, version):
-    return "/proc/sys/net/" + {4: "ipv4/icmp_ratelimit",
-                               6: "ipv6/icmp/ratelimit"}[version]
+    return "/proc/sys/net/" + {
+        4: "ipv4/icmp_ratelimit",
+        6: "ipv6/icmp/ratelimit"
+    }[version]
 
   @classmethod
   def _SetICMPRatelimit(cls, version, limit):
@@ -428,9 +425,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       s.setsockopt(net_test.SOL_IPV6, IPV6_UNICAST_IF, ifindex)
 
   def GetRemoteAddress(self, version):
-    return {4: self.IPV4_ADDR,
-            5: "::ffff:" + self.IPV4_ADDR,
-            6: self.IPV6_ADDR}[version]
+    return {
+        4: self.IPV4_ADDR,
+        5: "::ffff:" + self.IPV4_ADDR,
+        6: self.IPV6_ADDR
+    }[version]
 
   def SelectInterface(self, s, netid, mode):
     if mode == "uid":
@@ -446,7 +445,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       raise ValueError("Unknown interface selection mode %s" % mode)
 
   def BuildSocket(self, version, constructor, netid, routing_mode):
-    if version == 5: version = 6
+    if version == 5:
+      version = 6
     s = constructor(self.GetProtocolFamily(version))
 
     if routing_mode not in [None, "uid"]:
@@ -461,7 +461,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       pktinfo = MakePktInfo(version, None, self.ifindices[netid])
       cmsg_level, cmsg_name = {
           4: (net_test.SOL_IP, csocket.IP_PKTINFO),
-          6: (net_test.SOL_IPV6, csocket.IPV6_PKTINFO)}[version]
+          6: (net_test.SOL_IPV6, csocket.IPV6_PKTINFO)
+      }[version]
       cmsgs.append((cmsg_level, cmsg_name, pktinfo))
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 
@@ -639,8 +640,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     try:
       self.assertPacketMatches(expected, packets[-1])
     except Exception, e:
-      raise UnexpectedPacketError(
-          "%s: diff with last packet:\n%s" % (msg, e.message))
+      raise UnexpectedPacketError("%s: diff with last packet:\n%s" %
+                                  (msg, e.message))
 
   def Combinations(self, version):
     """Produces a list of combinations to test."""

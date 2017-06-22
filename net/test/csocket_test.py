@@ -13,14 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Unit tests for csocket."""
 
 from socket import *  # pylint: disable=wildcard-import
 import unittest
 
 import csocket
-
 
 LOOPBACK_IFINDEX = 1
 SOL_IPV6 = 41
@@ -55,16 +53,15 @@ class CsocketTest(unittest.TestCase):
       s.setsockopt(SOL_IP, csocket.IP_PKTINFO, 1)
       s.setsockopt(SOL_IP, csocket.IP_RECVTTL, 1)
       pktinfo_addr = inet_pton(AF_INET, addr)
-      pktinfo = (SOL_IP, csocket.IP_PKTINFO,
-                 csocket.InPktinfo((LOOPBACK_IFINDEX,
-                                    pktinfo_addr, pktinfo_addr)))
+      pktinfo = (SOL_IP, csocket.IP_PKTINFO, csocket.InPktinfo(
+          (LOOPBACK_IFINDEX, pktinfo_addr, pktinfo_addr)))
       ttl = (SOL_IP, csocket.IP_TTL, 64)
     elif family == AF_INET6:
       s.setsockopt(SOL_IPV6, csocket.IPV6_RECVPKTINFO, 1)
       s.setsockopt(SOL_IPV6, csocket.IPV6_RECVHOPLIMIT, 1)
       pktinfo_addr = inet_pton(AF_INET6, addr)
-      pktinfo = (SOL_IPV6, csocket.IPV6_PKTINFO,
-                 csocket.In6Pktinfo((pktinfo_addr, LOOPBACK_IFINDEX)))
+      pktinfo = (SOL_IPV6, csocket.IPV6_PKTINFO, csocket.In6Pktinfo(
+          (pktinfo_addr, LOOPBACK_IFINDEX)))
       ttl = (SOL_IPV6, csocket.IPV6_HOPLIMIT, 64)
 
     addr = s.getsockname()

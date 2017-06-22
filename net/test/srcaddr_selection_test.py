@@ -85,8 +85,8 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
   def assertAddressNotPresent(self, address):
     self.assertRaises(IOError, self.iproute.GetAddress, address)
 
-  def assertAddressHasExpectedAttributes(
-      self, address, expected_ifindex, expected_flags):
+  def assertAddressHasExpectedAttributes(self, address, expected_ifindex,
+                                         expected_flags):
     ifa_msg = self.iproute.GetAddress(address)[0]
     self.assertEquals(AF_INET6 if ":" in address else AF_INET, ifa_msg.family)
     self.assertEquals(64, ifa_msg.prefixlen)
@@ -115,8 +115,8 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
 
   def assertAddressNotUsable(self, address, netid):
     self.assertRaisesErrno(errno.EADDRNOTAVAIL, self.BindToAddress, address)
-    self.assertRaisesErrno(errno.EINVAL,
-                           self.SendWithSourceAddress, address, netid)
+    self.assertRaisesErrno(errno.EINVAL, self.SendWithSourceAddress, address,
+                           netid)
 
   def assertAddressSelected(self, address, netid):
     self.assertEquals(address, self.GetSourceIP(netid))
@@ -172,8 +172,8 @@ class TentativeAddressTest(MultiInterfaceSourceAddressSelectionTest):
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
     # Get flags and prove tentative-ness.
-    self.assertAddressHasExpectedAttributes(
-        self.test_ip, self.test_ifindex, iproute.IFA_F_TENTATIVE)
+    self.assertAddressHasExpectedAttributes(self.test_ip, self.test_ifindex,
+                                            iproute.IFA_F_TENTATIVE)
 
     # Even though the interface has an IPv6 address, its tentative nature
     # prevents it from being selected.
@@ -198,8 +198,8 @@ class OptimisticAddressTest(MultiInterfaceSourceAddressSelectionTest):
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
     # Get flags and prove optimism.
-    self.assertAddressHasExpectedAttributes(
-        self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
+    self.assertAddressHasExpectedAttributes(self.test_ip, self.test_ifindex,
+                                            iproute.IFA_F_OPTIMISTIC)
 
     # Optimistic addresses are usable but are not selected.
     if net_test.LINUX_VERSION >= (3, 18, 0):
@@ -227,8 +227,8 @@ class OptimisticAddressOkayTest(MultiInterfaceSourceAddressSelectionTest):
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
     # Get flags and prove optimistism.
-    self.assertAddressHasExpectedAttributes(
-        self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
+    self.assertAddressHasExpectedAttributes(self.test_ip, self.test_ifindex,
+                                            iproute.IFA_F_OPTIMISTIC)
 
     # The interface has an IPv6 address and, despite its optimistic nature,
     # the use_optimistic option allows it to be selected.
@@ -243,8 +243,8 @@ class ValidBeforeOptimisticTest(MultiInterfaceSourceAddressSelectionTest):
     # selected as the source address.
     preferred_ip = self.OnlinkPrefix(6, self.test_netid) + "cafe"
     self.iproute.AddAddress(preferred_ip, 64, self.test_ifindex)
-    self.assertAddressHasExpectedAttributes(
-        preferred_ip, self.test_ifindex, iproute.IFA_F_PERMANENT)
+    self.assertAddressHasExpectedAttributes(preferred_ip, self.test_ifindex,
+                                            iproute.IFA_F_PERMANENT)
     self.assertEquals(preferred_ip, self.GetSourceIP(self.test_netid))
 
     # [4]  Get another IPv6 address, in optimistic DAD start-up.
@@ -254,8 +254,8 @@ class ValidBeforeOptimisticTest(MultiInterfaceSourceAddressSelectionTest):
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
     # Get flags and prove optimism.
-    self.assertAddressHasExpectedAttributes(
-        self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
+    self.assertAddressHasExpectedAttributes(self.test_ip, self.test_ifindex,
+                                            iproute.IFA_F_OPTIMISTIC)
 
     # Since the interface has another IPv6 address, the optimistic address
     # is not selected--the other, valid address is chosen.
@@ -274,8 +274,8 @@ class DadFailureTest(MultiInterfaceSourceAddressSelectionTest):
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
     # Prove optimism and usability.
-    self.assertAddressHasExpectedAttributes(
-        self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
+    self.assertAddressHasExpectedAttributes(self.test_ip, self.test_ifindex,
+                                            iproute.IFA_F_OPTIMISTIC)
     self.assertAddressUsable(self.test_ip, self.test_netid)
     self.assertAddressSelected(self.test_ip, self.test_netid)
 
@@ -305,8 +305,8 @@ class NoNsFromOptimisticTest(MultiInterfaceSourceAddressSelectionTest):
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
     # Prove optimism and usability.
-    self.assertAddressHasExpectedAttributes(
-        self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
+    self.assertAddressHasExpectedAttributes(self.test_ip, self.test_ifindex,
+                                            iproute.IFA_F_OPTIMISTIC)
     self.assertAddressUsable(self.test_ip, self.test_netid)
     self.assertAddressSelected(self.test_ip, self.test_netid)
 
@@ -320,10 +320,8 @@ class NoNsFromOptimisticTest(MultiInterfaceSourceAddressSelectionTest):
     if net_test.LINUX_VERSION >= (3, 18, 0):
       # Older versions will actually choose the optimistic address to
       # originate Neighbor Solications (RFC violation).
-      expected_ns = packets.NS(
-          self.test_lladdr,
-          onlink_dest,
-          self.MyMacAddress(self.test_netid))[1]
+      expected_ns = packets.NS(self.test_lladdr, onlink_dest,
+                               self.MyMacAddress(self.test_netid))[1]
       self.ExpectPacketOn(self.test_netid, "link-local NS", expected_ns)
 
 
@@ -336,9 +334,10 @@ class DefaultCandidateSrcAddrsTest(MultiInterfaceSourceAddressSelectionTest):
     self.SetIPv6Sysctl(self.test_ifname, "use_oif_addrs_only", 0)
     src_ip = self.GetSourceIP(self.test_netid)
     self.assertFalse(src_ip in [self.test_ip, self.test_lladdr])
-    self.assertTrue(src_ip in
-                    [self.MyAddress(6, netid)
-                     for netid in self.tuns if netid != self.test_netid])
+    self.assertTrue(src_ip in [
+        self.MyAddress(6, netid) for netid in self.tuns
+        if netid != self.test_netid
+    ])
 
 
 class RestrictedCandidateSrcAddrsTest(MultiInterfaceSourceAddressSelectionTest):

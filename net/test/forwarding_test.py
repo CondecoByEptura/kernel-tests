@@ -43,7 +43,8 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
 
   def ForwardBetweenInterfaces(self, enabled, iface1, iface2):
     for iif, oif in itertools.permutations([iface1, iface2]):
-      self.iproute.IifRule(6, enabled, self.GetInterfaceName(iif),
+      self.iproute.IifRule(6, enabled,
+                           self.GetInterfaceName(iif),
                            self._TableForNetid(oif), self.PRIORITY_IIF)
 
   def setUp(self):

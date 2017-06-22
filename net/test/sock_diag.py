@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """Partial Python implementation of sock_diag functionality."""
 
 # pylint: disable=g-bad-todo
@@ -77,17 +76,17 @@ INET_DIAG_BC_MARK_COND = 10
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
-InetDiagSockId = cstruct.Struct(
-    "InetDiagSockId", "!HH16s16sI8s", "sport dport src dst iface cookie")
-InetDiagReqV2 = cstruct.Struct(
-    "InetDiagReqV2", "=BBBxIS", "family protocol ext states id",
-    [InetDiagSockId])
+InetDiagSockId = cstruct.Struct("InetDiagSockId", "!HH16s16sI8s",
+                                "sport dport src dst iface cookie")
+InetDiagReqV2 = cstruct.Struct("InetDiagReqV2", "=BBBxIS",
+                               "family protocol ext states id",
+                               [InetDiagSockId])
 InetDiagMsg = cstruct.Struct(
     "InetDiagMsg", "=BBBBSLLLLL",
     "family state timer retrans id expires rqueue wqueue uid inode",
     [InetDiagSockId])
-InetDiagMeminfo = cstruct.Struct(
-    "InetDiagMeminfo", "=IIII", "rmem wmem fmem tmem")
+InetDiagMeminfo = cstruct.Struct("InetDiagMeminfo", "=IIII",
+                                 "rmem wmem fmem tmem")
 InetDiagBcOp = cstruct.Struct("InetDiagBcOp", "BBH", "code yes no")
 InetDiagHostcond = cstruct.Struct("InetDiagHostcond", "=BBxxi",
                                   "family prefix_len port")
@@ -127,8 +126,10 @@ class SockDiag(netlink.NetlinkSocket):
       # Don't know what this is. Leave it as an integer.
       name = nla_type
 
-    if name in ["INET_DIAG_SHUTDOWN", "INET_DIAG_TOS", "INET_DIAG_TCLASS",
-                "INET_DIAG_SKV6ONLY"]:
+    if name in [
+        "INET_DIAG_SHUTDOWN", "INET_DIAG_TOS", "INET_DIAG_TCLASS",
+        "INET_DIAG_SKV6ONLY"
+    ]:
       data = ord(nla_data)
     elif name == "INET_DIAG_CONG":
       data = nla_data.strip("\x00")
@@ -222,8 +223,10 @@ class SockDiag(netlink.NetlinkSocket):
 
       if op in [INET_DIAG_BC_NOP, INET_DIAG_BC_JMP, INET_DIAG_BC_AUTO]:
         arg = ""
-      elif op in [INET_DIAG_BC_S_GE, INET_DIAG_BC_S_LE,
-                  INET_DIAG_BC_D_GE, INET_DIAG_BC_D_LE]:
+      elif op in [
+          INET_DIAG_BC_S_GE, INET_DIAG_BC_S_LE, INET_DIAG_BC_D_GE,
+          INET_DIAG_BC_D_LE
+      ]:
         arg = "\x00\x00" + struct.pack("=H", arg)
       elif op in [INET_DIAG_BC_S_COND, INET_DIAG_BC_D_COND]:
         addr, prefixlen, port = arg
@@ -270,8 +273,10 @@ class SockDiag(netlink.NetlinkSocket):
 
         if op.code in [INET_DIAG_BC_NOP, INET_DIAG_BC_JMP, INET_DIAG_BC_AUTO]:
           arg = None
-        elif op.code in [INET_DIAG_BC_S_GE, INET_DIAG_BC_S_LE,
-                         INET_DIAG_BC_D_GE, INET_DIAG_BC_D_LE]:
+        elif op.code in [
+            INET_DIAG_BC_S_GE, INET_DIAG_BC_S_LE, INET_DIAG_BC_D_GE,
+            INET_DIAG_BC_D_LE
+        ]:
           op, rest = cstruct.Read(rest, InetDiagBcOp)
           arg = op.no
         elif op.code in [INET_DIAG_BC_S_COND, INET_DIAG_BC_D_COND]:
@@ -305,7 +310,11 @@ class SockDiag(netlink.NetlinkSocket):
     out = self._Dump(SOCK_DIAG_BY_FAMILY, diag_req, InetDiagMsg, bytecode)
     return out
 
-  def DumpAllInetSockets(self, protocol, bytecode, sock_id=None, ext=0,
+  def DumpAllInetSockets(self,
+                         protocol,
+                         bytecode,
+                         sock_id=None,
+                         ext=0,
                          states=ALL_NON_TIME_WAIT):
     """Dumps IPv4 or IPv6 sockets matching the specified parameters."""
     # DumpSockets(AF_UNSPEC) does not result in dumping all inet sockets, it
@@ -323,7 +332,7 @@ class SockDiag(netlink.NetlinkSocket):
   @staticmethod
   def GetRawAddress(family, addr):
     """Fetches the source address from an InetDiagMsg."""
-    addrlen = {AF_INET:4, AF_INET6: 16}[family]
+    addrlen = {AF_INET: 4, AF_INET6: 16}[family]
     return inet_ntop(family, addr[:addrlen])
 
   @staticmethod
@@ -411,8 +420,8 @@ class SockDiag(netlink.NetlinkSocket):
     return InetDiagReqV2((d.family, protocol, 0, 1 << d.state, d.id))
 
   def CloseSocket(self, req):
-    self._SendNlRequest(SOCK_DESTROY, req.Pack(),
-                        netlink.NLM_F_REQUEST | netlink.NLM_F_ACK)
+    self._SendNlRequest(SOCK_DESTROY,
+                        req.Pack(), netlink.NLM_F_REQUEST | netlink.NLM_F_ACK)
 
   def CloseSocketFromFd(self, s):
     diag_msg, attrs = self.FindSockInfoFromFd(s)
@@ -429,6 +438,6 @@ if __name__ == "__main__":
   sock_id.dport = 443
   ext = 1 << (INET_DIAG_TOS - 1) | 1 << (INET_DIAG_TCLASS - 1)
   states = 0xffffffff
-  diag_msgs = n.DumpAllInetSockets(IPPROTO_TCP, "",
-                                   sock_id=sock_id, ext=ext, states=states)
+  diag_msgs = n.DumpAllInetSockets(
+      IPPROTO_TCP, "", sock_id=sock_id, ext=ext, states=states)
   print diag_msgs
