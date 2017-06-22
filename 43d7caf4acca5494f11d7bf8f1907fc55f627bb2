@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6cab3da_0d326efc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "Nit: ISTM that this new code is untested and has no callers, so technically there\u0027s not really any testing here beyond the lack of syntax errors :-)",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5621225c_58ddb819",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t seem to add much (the mapping between XfrmUserPolicyInfo and xfrm_userpolicy_info is fairly obvious because it\u0027s consistenf for all the structs we have) and is inconsistent with the fact that none of the others have it. Remove?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 38
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37443d6_ef1d3cf3",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of the default argument - seems like it would be better to have the caller think about whether to pass in an template or explicitly pass in None - but without seeing any callers it\u0027s hard to tell. Does having the default argument simplify callers? If not, consider removing.",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 19
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab6c88ef_82a39046",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "If there are more than 3-4 sites where we using this method would simplify code, feel free to move this method to netlink.py and convert the callers to it.",
+      "range": {
+        "startLine": 264,
+        "startChar": 24,
+        "endLine": 264,
+        "endChar": 56
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae855f31_e4302a3c",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "For consistency with the rest of the code, group args on fewer lines.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 29
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b81db4d_62943d14",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "Change this to [] and get rid of the \"if not nlattrs\" if statement below.",
+      "range": {
+        "startLine": 268,
+        "startChar": 32,
+        "endLine": 268,
+        "endChar": 36
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d0860f8_6131d3c4",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "Should this say \"all policies\" instead? In other words, does it flush all XFRM user policies?",
+      "range": {
+        "startLine": 355,
+        "startChar": 37,
+        "endLine": 355,
+        "endChar": 47
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f84885ba_4a2a17a6",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "Style guide says short docstrings should be one line only.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 25
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a3d09f6_7a4b94a9",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:16:27Z",
+      "side": 1,
+      "message": "Consider either removing this flag from here or removing it from SendXfrmNlRequest.",
+      "range": {
+        "startLine": 359,
+        "startChar": 12,
+        "endLine": 359,
+        "endChar": 33
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
