@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "527ab6b0_c48eeecd",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:33:52Z",
+      "side": 1,
+      "message": "Consider calling these value and mask instead of v and m. I know that\u0027s what they\u0027re called in the kernel, but not all of our struct field names are identical, and v and m seem a bit terse.",
+      "range": {
+        "startLine": 170,
+        "startChar": 45,
+        "endLine": 170,
+        "endChar": 48
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b55bc92_e7bc980e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:33:52Z",
+      "side": 1,
+      "message": "Is this code still unused? If so, we probably shouldn\u0027t be adding or modifying it.",
+      "range": {
+        "startLine": 254,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 56
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3873e8b1_fb0ea22d",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:33:52Z",
+      "side": 1,
+      "message": "Does the kernel distinguish between no XFRMA_MARK attribute and an XFRMA_MARK attribute with mark\u003d0 mask\u003d0?\n\nIf it does not, then remove the explicit comparisons with None and just use \"if mark and mark_mask and...\".\n\nAnd actually - what\u0027s the point of checking these arguments at all? If we just pass them down to the kernel and have the kernel do whatever it wants with them, will that lead to loss of correctness or generality? If so, maybe just pass them in regardless...",
+      "range": {
+        "startLine": 314,
+        "startChar": 4,
+        "endLine": 314,
+        "endChar": 71
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a430551_5a519b18",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-22T04:33:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0026 instead of |?",
+      "range": {
+        "startLine": 314,
+        "startChar": 59,
+        "endLine": 314,
+        "endChar": 60
+      },
+      "revId": "aaa87ed1113c9b91dc29eea803819d223b15cf4c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
