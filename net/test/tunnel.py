@@ -21,11 +21,14 @@ import socket
 
 import cstruct
 import netlink
+import net_test
 
 ### rtnetlink constants. See include/uapi/linux/rtnetlink.h.
 # Message types.
 RTM_NEWLINK = 16
-RTM_DELLINK = 17
+RTM_DELLINK = RTM_NEWLINK + 1
+RTM_GETLINK = RTM_DELLINK + 1
+RTM_SETLINK = RTM_GETLINK + 1
 
 # linux/if_tunnel.h
 IFLA_VTI_UNSPEC = 0
@@ -133,4 +136,13 @@ class IPTunnel(netlink.NetlinkSocket):
     ifinfo += self._NlAttrStr(IFLA_IFNAME, dev_name)
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
     return self._SendNlRequest(RTM_DELLINK, ifinfo, flags)
+
+  def GetIfIndex(self, dev_name):
+    ifinfo = IfInfoMsg(ifi_family=socket.AF_UNSPEC).Pack()
+    ifinfo += self._NlAttrStr(IFLA_IFNAME, dev_name)
+    self._SendNlRequest(RTM_GETLINK, ifinfo, netlink.NLM_F_REQUEST)
+    hdr, data = cstruct.Read(self._Recv(), netlink.NLMsgHdr)
+    if hdr.type == RTM_NEWLINK:
+        return IfInfoMsg(data).ifi_index
+    return -1 # TODO: EMAGICNUMBER
 
