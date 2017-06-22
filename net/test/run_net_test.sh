@@ -32,6 +32,10 @@ OPTIONS="$OPTIONS CRYPTO_ECHAINIV"
 # For 3.1 kernels, where devtmpfs is not on by default.
 OPTIONS="$OPTIONS DEVTMPFS DEVTMPFS_MOUNT"
 
+# For 3.18+ kernels, VTI options compile cleanly, so we add them.
+# For 3.10 kernels, these options will not compile
+OPTIONS_3_18="NET_IPVTI IP6_VTI"
+
 # These two break the flo kernel due to differences in -Werror on recent GCC.
 DISABLE_OPTIONS=" CONFIG_REISERFS_FS CONFIG_ANDROID_PMEM"
 # This one breaks the fugu kernel due to a nonexistent sem_wait_array.
@@ -70,6 +74,24 @@ testmode=
 blockdevice=ubda
 nobuild=0
 norun=0
+
+# Query the kernel version
+kernel_version=$(cd ${KERNEL_DIR} && make kernelversion)
+[ -z "${kernel_version}" ] && echo "Failed to get kernel version" && exit 1
+kernel_major=$(expr ${kernel_version} : '\([0-9]*\)')
+kernel_minor=$(expr ${kernel_version} : '[0-9]*\.\([0-9]*\)')
+kernel_patch=$(expr ${kernel_version} : '[0-9]*\.[0-9]*\.\([0-9]*\)')
+echo "Reported Kernel Version: Major=${kernel_major}, "\
+    "Minor=${kernel_minor}, Patch=${kernel_patch}"
+
+# Add 3.18+ kernel options
+if [ "${kernel_major}" -ge "4" ] || \
+    [ "${kernel_major}" -ge "3" ] && [ "${kernel_minor}" -ge "18" ] ; then
+  OPTIONS="${OPTIONS} ${OPTIONS_3_18}";
+  echo "Adding Options for >=3.18 kernel"
+else
+  echo "Skipping Options for <3.18 kernel"
+fi
 
 while [ -n "$1" ]; do
   if [ "$1" = "--builder" ]; then
