@@ -30,7 +30,6 @@ import packets
 import sock_diag
 import tcp_test
 
-
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
 HAVE_KERNEL_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
@@ -54,15 +53,14 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
       android-4.4:
         525ee59 net: diag: support v4mapped sockets in inet_diag_find_one_icsk()
   """
+
   @staticmethod
   def _CreateLotsOfSockets(socktype):
     # Dict mapping (addr, sport, dport) tuples to socketpairs.
     socketpairs = {}
     for _ in xrange(NUM_SOCKETS):
-      family, addr = random.choice([
-          (AF_INET, "127.0.0.1"),
-          (AF_INET6, "::1"),
-          (AF_INET6, "::ffff:127.0.0.1")])
+      family, addr = random.choice([(AF_INET, "127.0.0.1"), (AF_INET6, "::1"),
+                                    (AF_INET6, "::ffff:127.0.0.1")])
       socketpair = net_test.CreateSocketPair(family, socktype, addr)
       sport, dport = (socketpair[0].getsockname()[1],
                       socketpair[1].getsockname()[1])
@@ -116,8 +114,9 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
     thread.join(1)
     self.assertFalse(thread.is_alive())
     self.assertIsNotNone(thread.exception)
-    self.assertTrue(isinstance(thread.exception, IOError),
-                    "Expected IOError, got %s" % thread.exception)
+    self.assertTrue(
+        isinstance(thread.exception, IOError),
+        "Expected IOError, got %s" % thread.exception)
     self.assertEqual(expected_errno, thread.exception.errno)
     self.assertSocketClosed(sock)
 
@@ -171,8 +170,7 @@ class SockDiagTest(SockDiagBaseTest):
       for sock in socketpair:
         # Check that we can find a diag_msg by scanning a dump.
         self.assertSockInfoMatchesSocket(
-            sock,
-            self.sock_diag.FindSockInfoFromFd(sock))
+            sock, self.sock_diag.FindSockInfoFromFd(sock))
         cookie = self.sock_diag.FindSockDiagFromFd(sock).id.cookie
 
         # Check that we can find a diag_msg once we know the cookie.
@@ -184,35 +182,33 @@ class SockDiagTest(SockDiagBaseTest):
   def testBytecodeCompilation(self):
     # pylint: disable=bad-whitespace
     instructions = [
-        (sock_diag.INET_DIAG_BC_S_GE,   1, 8, 0),                      # 0
-        (sock_diag.INET_DIAG_BC_D_LE,   1, 7, 0xffff),                 # 8
-        (sock_diag.INET_DIAG_BC_S_COND, 1, 2, ("::1", 128, -1)),       # 16
-        (sock_diag.INET_DIAG_BC_JMP,    1, 3, None),                   # 44
+        (sock_diag.INET_DIAG_BC_S_GE, 1, 8, 0),  # 0
+        (sock_diag.INET_DIAG_BC_D_LE, 1, 7, 0xffff),  # 8
+        (sock_diag.INET_DIAG_BC_S_COND, 1, 2, ("::1", 128, -1)),  # 16
+        (sock_diag.INET_DIAG_BC_JMP, 1, 3, None),  # 44
         (sock_diag.INET_DIAG_BC_S_COND, 2, 4, ("127.0.0.1", 32, -1)),  # 48
-        (sock_diag.INET_DIAG_BC_D_LE,   1, 3, 0x6665),  # not used     # 64
-        (sock_diag.INET_DIAG_BC_NOP,    1, 1, None),                   # 72
-                                                                       # 76 acc
-                                                                       # 80 rej
+        (sock_diag.INET_DIAG_BC_D_LE, 1, 3, 0x6665),  # not used     # 64
+        (sock_diag.INET_DIAG_BC_NOP, 1, 1, None),  # 72
+        # 76 acc
+        # 80 rej
     ]
     # pylint: enable=bad-whitespace
     bytecode = self.PackAndCheckBytecode(instructions)
-    expected = (
-        "0208500000000000"
-        "050848000000ffff"
-        "071c20000a800000ffffffff00000000000000000000000000000001"
-        "01041c00"
-        "0718200002200000ffffffff7f000001"
-        "0508100000006566"
-        "00040400"
-    )
+    expected = ("0208500000000000"
+                "050848000000ffff"
+                "071c20000a800000ffffffff00000000000000000000000000000001"
+                "01041c00"
+                "0718200002200000ffffffff7f000001"
+                "0508100000006566"
+                "00040400")
     states = 1 << tcp_test.TCP_ESTABLISHED
     self.assertMultiLineEqual(expected, bytecode.encode("hex"))
     self.assertEquals(76, len(bytecode))
     self.socketpairs = self._CreateLotsOfSockets(SOCK_STREAM)
-    filteredsockets = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, bytecode,
-                                                        states=states)
-    allsockets = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, NO_BYTECODE,
-                                                   states=states)
+    filteredsockets = self.sock_diag.DumpAllInetSockets(
+        IPPROTO_TCP, bytecode, states=states)
+    allsockets = self.sock_diag.DumpAllInetSockets(
+        IPPROTO_TCP, NO_BYTECODE, states=states)
     self.assertItemsEqual(allsockets, filteredsockets)
 
     # Pick a few sockets in hash table order, and check that the bytecode we
@@ -245,38 +241,41 @@ class SockDiagTest(SockDiagBaseTest):
     # sockets other than the ones it creates itself. Make the bytecode more
     # specific and remove it.
     states = 1 << tcp_test.TCP_ESTABLISHED
-    self.assertFalse(self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, "",
-                                                       states=states))
+    self.assertFalse(
+        self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, "", states=states))
 
     unused_pair4 = net_test.CreateSocketPair(AF_INET, SOCK_STREAM, "127.0.0.1")
     unused_pair6 = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM, "::1")
 
-    bytecode4 = self.PackAndCheckBytecode([
-        (sock_diag.INET_DIAG_BC_S_COND, 1, 2, ("0.0.0.0", 0, -1))])
-    bytecode6 = self.PackAndCheckBytecode([
-        (sock_diag.INET_DIAG_BC_S_COND, 1, 2, ("::", 0, -1))])
+    bytecode4 = self.PackAndCheckBytecode([(sock_diag.INET_DIAG_BC_S_COND, 1, 2,
+                                            ("0.0.0.0", 0, -1))])
+    bytecode6 = self.PackAndCheckBytecode([(sock_diag.INET_DIAG_BC_S_COND, 1, 2,
+                                            ("::", 0, -1))])
 
     # IPv4/v6 filters must never match IPv6/IPv4 sockets...
-    v4socks = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, bytecode4,
-                                                  states=states)
+    v4socks = self.sock_diag.DumpAllInetSockets(
+        IPPROTO_TCP, bytecode4, states=states)
     self.assertTrue(v4socks)
     self.assertTrue(all(d.family == AF_INET for d, _ in v4socks))
 
-    v6socks = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, bytecode6,
-                                                  states=states)
+    v6socks = self.sock_diag.DumpAllInetSockets(
+        IPPROTO_TCP, bytecode6, states=states)
     self.assertTrue(v6socks)
     self.assertTrue(all(d.family == AF_INET6 for d, _ in v6socks))
 
     # Except for mapped addresses, which match both IPv4 and IPv6.
-    pair5 = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM,
-                                      "::ffff:127.0.0.1")
+    pair5 = net_test.CreateSocketPair(AF_INET6, SOCK_STREAM, "::ffff:127.0.0.1")
     diag_msgs = [self.sock_diag.FindSockDiagFromFd(s) for s in pair5]
-    v4socks = [d for d, _ in self.sock_diag.DumpAllInetSockets(IPPROTO_TCP,
-                                                               bytecode4,
-                                                               states=states)]
-    v6socks = [d for d, _ in self.sock_diag.DumpAllInetSockets(IPPROTO_TCP,
-                                                               bytecode6,
-                                                               states=states)]
+    v4socks = [
+        d
+        for d, _ in self.sock_diag.DumpAllInetSockets(
+            IPPROTO_TCP, bytecode4, states=states)
+    ]
+    v6socks = [
+        d
+        for d, _ in self.sock_diag.DumpAllInetSockets(
+            IPPROTO_TCP, bytecode6, states=states)
+    ]
     self.assertTrue(all(d in v4socks for d in diag_msgs))
     self.assertTrue(all(d in v6socks for d in diag_msgs))
 
@@ -288,13 +287,12 @@ class SockDiagTest(SockDiagBaseTest):
         5e1f542 inet_diag: validate port comparison byte code to prevent unsafe reads
     """
     bytecode = sock_diag.InetDiagBcOp((sock_diag.INET_DIAG_BC_D_GE, 4, 8))
-    self.assertEquals("???",
-                      self.sock_diag.DecodeBytecode(bytecode))
-    self.assertRaisesErrno(
-        EINVAL,
-        self.sock_diag.DumpAllInetSockets, IPPROTO_TCP, bytecode.Pack())
+    self.assertEquals("???", self.sock_diag.DecodeBytecode(bytecode))
+    self.assertRaisesErrno(EINVAL, self.sock_diag.DumpAllInetSockets,
+                           IPPROTO_TCP, bytecode.Pack())
 
   def testNonSockDiagCommand(self):
+
     def DiagDump(code):
       sock_id = self.sock_diag._EmptyInetDiagSockId()
       req = sock_diag.InetDiagReqV2((AF_INET6, IPPROTO_TCP, 0, 0xffffffff,
@@ -434,10 +432,9 @@ class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     self.assertTrue(children)
     for child, unused_args in children:
       self.assertEqual(tcp_test.TCP_SYN_RECV, child.state)
-      self.assertEqual(self.sock_diag.PaddedAddress(self.remoteaddr),
-                       child.id.dst)
-      self.assertEqual(self.sock_diag.PaddedAddress(self.myaddr),
-                       child.id.src)
+      self.assertEqual(
+          self.sock_diag.PaddedAddress(self.remoteaddr), child.id.dst)
+      self.assertEqual(self.sock_diag.PaddedAddress(self.myaddr), child.id.src)
 
 
 class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
@@ -518,9 +515,10 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       if net_test.LINUX_VERSION >= (3, 18):
         diag_req.states = 1 << tcp_test.TCP_FIN_WAIT2
         infos = self.sock_diag.Dump(diag_req, "")
-        self.assertTrue(any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
-                            for diag_msg, attrs in infos),
-                        "Expected to find FIN_WAIT2 socket in %s" % infos)
+        self.assertTrue(
+            any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
+                for diag_msg, attrs in infos),
+            "Expected to find FIN_WAIT2 socket in %s" % infos)
 
   def FindChildSockets(self, s):
     """Finds the SYN_RECV child sockets of a given listening socket."""
@@ -529,15 +527,16 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     req.states = 1 << tcp_test.TCP_SYN_RECV | 1 << tcp_test.TCP_ESTABLISHED
     req.id.cookie = "\x00" * 8
 
-    bad_bytecode = self.PackAndCheckBytecode(
-        [(sock_diag.INET_DIAG_BC_MARK_COND, 1, 2, (0xffff, 0xffff))])
+    bad_bytecode = self.PackAndCheckBytecode([(sock_diag.INET_DIAG_BC_MARK_COND,
+                                               1, 2, (0xffff, 0xffff))])
     self.assertEqual([], self.sock_diag.Dump(req, bad_bytecode))
 
-    bytecode = self.PackAndCheckBytecode(
-        [(sock_diag.INET_DIAG_BC_MARK_COND, 1, 2, (self.netid, 0xffff))])
+    bytecode = self.PackAndCheckBytecode([(sock_diag.INET_DIAG_BC_MARK_COND, 1,
+                                           2, (self.netid, 0xffff))])
     children = self.sock_diag.Dump(req, bytecode)
-    return [self.sock_diag.DiagReqFromDiagMsg(d, IPPROTO_TCP)
-            for d, _ in children]
+    return [
+        self.sock_diag.DiagReqFromDiagMsg(d, IPPROTO_TCP) for d, _ in children
+    ]
 
   def CheckChildSocket(self, version, statename, parent_first):
     state = getattr(tcp_test, statename)
@@ -639,15 +638,19 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       _, sport = s.getsockname()[:2]
       self.CloseDuringBlockingCall(
           s, lambda sock: sock.connect((remoteaddr, 53)), ECONNABORTED)
-      desc, syn = packets.SYN(53, version, self.MyAddress(version, self.netid),
-                              remoteaddr, sport=sport, seq=None)
+      desc, syn = packets.SYN(
+          53,
+          version,
+          self.MyAddress(version, self.netid),
+          remoteaddr,
+          sport=sport,
+          seq=None)
       self.ExpectPacketOn(self.netid, desc, syn)
       msg = "SOCK_DESTROY of socket in connect, expected no RST"
       self.ExpectNoPacketsOn(self.netid, msg)
 
 
 class SockDestroyUdpTest(SockDiagBaseTest):
-
   """Tests SOCK_DESTROY on UDP sockets.
 
     Relevant kernel commits:
@@ -742,6 +745,7 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       self.CloseDuringBlockingCall(s, lambda sock: sock.recv(4096),
                                    ECONNABORTED)
 
+
 class SockDestroyPermissionTest(SockDiagBaseTest):
 
   def CheckPermissions(self, socktype):
@@ -755,12 +759,10 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
       expectedstate = tcp_test.TCP_ESTABLISHED
 
     with net_test.RunAsUid(12345):
-      self.assertRaisesErrno(
-          EPERM, self.sock_diag.CloseSocketFromFd, s)
+      self.assertRaisesErrno(EPERM, self.sock_diag.CloseSocketFromFd, s)
 
     self.sock_diag.CloseSocketFromFd(s)
     self.assertRaises(ValueError, self.sock_diag.CloseSocketFromFd, s)
-
 
   def testUdp(self):
     self.CheckPermissions(SOCK_DGRAM)
@@ -770,7 +772,6 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
 
 
 class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
-
   """Tests SOCK_DIAG bytecode filters that use marks.
 
     Relevant kernel commits:
@@ -814,18 +815,17 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
             self.fail("Socket %s matched both %s and %s" %
                       (self.SocketDescription(s), match, info))
           matches[s] = info
-      self.assertTrue(s in matches, "Did not find socket %s in dump" %
-                      self.SocketDescription(s))
+      self.assertTrue(
+          s in matches,
+          "Did not find socket %s in dump" % self.SocketDescription(s))
 
     for i in infos:
-       if i not in matches.values():
-         self.fail("Too many sockets in dump, first unexpected: %s" % str(i))
+      if i not in matches.values():
+        self.fail("Too many sockets in dump, first unexpected: %s" % str(i))
 
   def testMarkBytecode(self):
-    family, addr = random.choice([
-        (AF_INET, "127.0.0.1"),
-        (AF_INET6, "::1"),
-        (AF_INET6, "::ffff:127.0.0.1")])
+    family, addr = random.choice([(AF_INET, "127.0.0.1"), (AF_INET6, "::1"),
+                                  (AF_INET6, "::ffff:127.0.0.1")])
     s1, s2 = net_test.CreateSocketPair(family, SOCK_STREAM, addr)
     s1.setsockopt(SOL_SOCKET, net_test.SO_MARK, 0xfff1234)
     s2.setsockopt(SOL_SOCKET, net_test.SO_MARK, 0xf0f1235)
@@ -846,8 +846,8 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     self.assertEquals(0, len(infos))
 
     with net_test.RunAsUid(12345):
-        self.assertRaisesErrno(EPERM, self.FilterEstablishedSockets,
-                               0xfff0000, 0xf0fed00)
+      self.assertRaisesErrno(EPERM, self.FilterEstablishedSockets, 0xfff0000,
+                             0xf0fed00)
 
   @staticmethod
   def SetRandomMark(s):
@@ -864,8 +864,7 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertMarkIs(None, attrs)
 
   def testMarkInAttributes(self):
-    testcases = [(AF_INET, "127.0.0.1"),
-                 (AF_INET6, "::1"),
+    testcases = [(AF_INET, "127.0.0.1"), (AF_INET6, "::1"),
                  (AF_INET6, "::ffff:127.0.0.1")]
     for family, addr in testcases:
       # TCP listen sockets.

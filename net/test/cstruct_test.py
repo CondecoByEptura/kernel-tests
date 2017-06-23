@@ -18,7 +18,6 @@ import unittest
 
 import cstruct
 
-
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
 TestStructA = cstruct.Struct("TestStructA", "=BI", "byte1 int2")
 TestStructB = cstruct.Struct("TestStructB", "=BI", "byte1 int2")
@@ -56,19 +55,15 @@ class CstructTest(unittest.TestCase):
     self.CheckEquals(a1, a3)
 
   def testNestedStructs(self):
-    Nested = cstruct.Struct("Nested", "!HSSi",
-                            "word1 nest2 nest3 int4",
+    Nested = cstruct.Struct("Nested", "!HSSi", "word1 nest2 nest3 int4",
                             [TestStructA, TestStructB])
-    DoubleNested = cstruct.Struct("DoubleNested", "SSB",
-                                  "nest1 nest2 byte3",
+    DoubleNested = cstruct.Struct("DoubleNested", "SSB", "nest1 nest2 byte3",
                                   [TestStructA, Nested])
-    d = DoubleNested((TestStructA((1, 2)),
-                      Nested((5, TestStructA((3, 4)), TestStructB((7, 8)), 9)),
-                      6))
+    d = DoubleNested((TestStructA((1, 2)), Nested((5, TestStructA((3, 4)),
+                                                   TestStructB((7, 8)), 9)), 6))
 
-    expectedlen = (len(TestStructA) +
-                   2 + len(TestStructA) + len(TestStructB) + 4 +
-                   1)
+    expectedlen = (
+        len(TestStructA) + 2 + len(TestStructA) + len(TestStructB) + 4 + 1)
     self.assertEquals(expectedlen, len(DoubleNested))
 
     self.assertEquals(7, d.nest2.nest3.byte1)
@@ -87,9 +82,15 @@ class CstructTest(unittest.TestCase):
         " nest2=Nested(word1=33214, nest2=TestStructA(byte1=3, int2=4),"
         " nest3=TestStructB(byte1=7, int2=33627591), int4=-55), byte3=252)")
     self.assertEquals(expected, str(d))
-    expected = ("01" "02000000"
-                "81be" "03" "04000000"
-                "07" "c71d0102" "ffffffc9" "fc").decode("hex")
+    expected = ("01"
+                "02000000"
+                "81be"
+                "03"
+                "04000000"
+                "07"
+                "c71d0102"
+                "ffffffc9"
+                "fc").decode("hex")
     self.assertEquals(expected, d.Pack())
     unpacked = DoubleNested(expected)
     self.CheckEquals(unpacked, d)
@@ -144,7 +145,7 @@ class CstructTest(unittest.TestCase):
     t = TestStruct((2, nullstr, 12345, nullstr, 33210))
     self.assertEquals(0, t.offset("byte1"))
     self.assertEquals(1, t.offset("string2"))  # sizeof(byte)
-    self.assertEquals(17, t.offset("int3"))    # sizeof(byte) + 16*sizeof(char)
+    self.assertEquals(17, t.offset("int3"))  # sizeof(byte) + 16*sizeof(char)
     # The integer is automatically padded by the struct module
     # to match native alignment.
     # offset = sizeof(byte) + 16*sizeof(char) + padding + sizeof(int)
@@ -163,6 +164,7 @@ class CstructTest(unittest.TestCase):
     self.assertEqual(len(TestStructA), d.offset("nest2"))
     self.assertEqual(len(TestStructA) + len(Nested), d.offset("byte3"))
     self.assertRaises(KeyError, t.offset, "word1")
+
 
 if __name__ == "__main__":
   unittest.main()
