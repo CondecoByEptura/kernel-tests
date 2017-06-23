@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cf5af58_e42ad02b",
+        "filename": "tools/yapf_checker.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T02:33:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd113a50_78c08075",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "ac15f45b1a64b8609a5b8c93c0fc283fd9766807",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ae6cab1_bfa204e1",
         "filename": "tools/yapf_checker.py",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e70d7335_0bcf6d83",
+        "filename": "tools/yapf_checker.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T02:33:26Z",
+      "side": 1,
+      "message": "As discussed, using map() and filter() didn\u0027t improve readability a whole lot.",
+      "parentUuid": "3ae6cab1_bfa204e1",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 70
+      },
+      "revId": "ac15f45b1a64b8609a5b8c93c0fc283fd9766807",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96bfff75_ce4a9a9b",
         "filename": "tools/yapf_checker.py",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-23T00:25:30Z",
       "side": 1,
       "message": "4 log lines here seems like a lot, especially since they aren\u0027t formatted consistently. Also, nit: s/run/running/",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 59
+      },
+      "revId": "ac15f45b1a64b8609a5b8c93c0fc283fd9766807",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9b99ee3_5fdb363d",
+        "filename": "tools/yapf_checker.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T02:33:26Z",
+      "side": 1,
+      "message": "squashed it to 2 log lines, 1 with diff output and one with suggested command (on its own line for convenient copy pasta.",
+      "parentUuid": "96bfff75_ce4a9a9b",
       "range": {
         "startLine": 62,
         "startChar": 0,
