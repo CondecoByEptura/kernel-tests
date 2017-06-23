@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "96935047_02090c00",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T21:11:35Z",
+      "side": 1,
+      "message": "Peeking at some of the other CLs, I don\u0027t think there are any callers that omit the template. We may as well remove the \u003dNone and put it back if a bunch of call sites demand it.",
+      "parentUuid": "a37443d6_ef1d3cf3",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 19
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab6c88ef_82a39046",
         "filename": "net/test/xfrm.py",
         "patchSetId": 7
@@ -128,6 +152,30 @@
       "writtenOn": "2017-06-22T04:16:27Z",
       "side": 1,
       "message": "Change this to [] and get rid of the \"if not nlattrs\" if statement below.",
+      "range": {
+        "startLine": 268,
+        "startChar": 32,
+        "endLine": 268,
+        "endChar": 36
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6737fed1_b95e8796",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T21:11:35Z",
+      "side": 1,
+      "message": "In Python, setting the default value for an arg to [] creates a global list object whose mutations carry over between calls to the method. The current code doesn\u0027t run afoul of this, but using None prevents such bugs from creeping in.\n\nhttps://google.github.io/styleguide/pyguide.html?showone\u003dDefault_Argument_Values#Default_Argument_Values",
+      "parentUuid": "5b81db4d_62943d14",
       "range": {
         "startLine": 268,
         "startChar": 32,
