@@ -69,6 +69,54 @@
       "revId": "a7d1e5bb1dc6fd9eae0bc1efe8aa354af0c535c7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc790aea_2e024352",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T19:11:20Z",
+      "side": 1,
+      "message": "OK - let\u0027s take it under consideration to do a comment fix-up in the future.",
+      "parentUuid": "0c32566c_0493c24d",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 56
+      },
+      "revId": "a7d1e5bb1dc6fd9eae0bc1efe8aa354af0c535c7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81beac32_c8ecb82e",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-23T19:11:20Z",
+      "side": 1,
+      "message": "Not fixing in this CL since we\u0027re just moving code around.",
+      "parentUuid": "09578ad0_bb65637c",
+      "range": {
+        "startLine": 79,
+        "startChar": 39,
+        "endLine": 79,
+        "endChar": 45
+      },
+      "revId": "a7d1e5bb1dc6fd9eae0bc1efe8aa354af0c535c7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
