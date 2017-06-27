@@ -20,11 +20,14 @@ import errno
 from socket import *  # pylint: disable=wildcard-import
 import unittest
 import os
+
 import net_test
+import packets
+import tcp_test
 
 CTRL_PROCPATH = "/proc/net/xt_qtaguid/ctrl"
 
-class QtaguidTest(net_test.NetworkTest):
+class QtaguidTest(tcp_test.TcpBaseTest):
 
   def RunIptablesCommand(self, args):
     self.assertFalse(net_test.RunIptablesCommand(4, args))
@@ -113,6 +116,49 @@ class QtaguidTest(net_test.NetworkTest):
     self.assertEqual("foo", data)
     self.assertEqual(sockaddr, addr1)
 
+  def SendRSTOnClosedSocket(self, version, netid, expect_rst):
+    self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
+    self.accepted.setsockopt(net_test.SOL_TCP, net_test.TCP_LINGER2, -1)
+    net_test.EnableFinWait(self.accepted)
+    self.accepted.shutdown(SHUT_WR)
+    desc, fin = self.FinPacket()
+    self.ExpectPacketOn(netid, "Closing FIN_WAIT1 socket", fin)
+    finversion = 4 if version == 5 else version
+    desc, finack = packets.ACK(finversion, self.remoteaddr, self.myaddr, fin)
+    self.ReceivePacketOn(netid, finack)
+    self.accepted.close()
+    desc, rst = packets.RST(version, self.myaddr, self.remoteaddr, self.last_packet)
+    if expect_rst:
+      msg = "closing socket with linger2, expecting %s: " % desc
+      self.ExpectPacketOn(netid, msg, rst)
+    else:
+      msg = "closing socket with linger2, expecting no packets"
+      self.ExpectNoPacketsOn(netid, msg)
+
+
+
+  def CheckUidGidCombination(self, version, invert_gid, invert_uid):
+    myUid = os.getuid()
+    myGid = os.getgid()
+    if invert_gid:
+      self.AddIptablesInvertedRule(version, True, myGid)
+    else:
+      self.AddIptablesRule(version, True, 12345)
+    if invert_uid:
+      self.AddIptablesInvertedRule(version, False, myUid)
+    else:
+      self.AddIptablesRule(version, False, 12345)
+    for netid in self.NETIDS:
+      self.SendRSTOnClosedSocket(version, netid, not invert_gid)
+    if invert_gid:
+      self.DelIptablesInvertedRule(version, True, myGid)
+    else:
+      self.DelIptablesRule(version, True, 12345)
+    if invert_uid:
+      self.AddIptablesInvertedRule(version, False, myUid)
+    else:
+      self.DelIptablesRule(version, False, 12345)
+
   def testCloseWithoutUntag(self):
     self.dev_file = open("/dev/xt_qtaguid", "r");
     sk = socket(AF_INET, SOCK_DGRAM, 0)
@@ -147,9 +193,29 @@ class QtaguidTest(net_test.NetworkTest):
     self.CheckSocketOutputInverted(4, False)
     self.CheckSocketOutputInverted(6, False)
 
-  @unittest.skip("does not pass on current kernels")
   def testCheckNotMatchGid(self):
     self.assertIn("match_no_sk_gid", open(CTRL_PROCPATH, 'r').read())
+
+  def testDropRstPacket(self):
+    myId = os.getuid()
+    self.AddIptablesInvertedRule(4, False, myId)
+    for netid in self.NETIDS:
+      self.SendRSTOnClosedSocket(4, netid, True)
+    self.DelIptablesInvertedRule(4, False, myId)
+    self.AddIptablesInvertedRule(6, False, myId)
+    for netid in self.NETIDS:
+      self.SendRSTOnClosedSocket(6, netid, True)
+    self.DelIptablesInvertedRule(6, False, myId)
+
+  def testUidGidCombineMatch(self):
+    self.CheckUidGidCombination(4, invert_gid=True, invert_uid=True)
+    self.CheckUidGidCombination(4, invert_gid=True, invert_uid=False)
+    self.CheckUidGidCombination(4, invert_gid=False, invert_uid=True)
+    self.CheckUidGidCombination(4, invert_gid=False, invert_uid=False)
+    self.CheckUidGidCombination(6, invert_gid=True, invert_uid=True)
+    self.CheckUidGidCombination(6, invert_gid=True, invert_uid=False)
+    self.CheckUidGidCombination(6, invert_gid=False, invert_uid=True)
+    self.CheckUidGidCombination(6, invert_gid=False, invert_uid=False)
 
 
 if __name__ == "__main__":
