@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "b504075a_40afd300",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T08:03:47Z",
+      "side": 1,
+      "message": "I\u0027m hoping to change this as part of the cleanup work nharold is doing. I\u0027m not sure these are sensitive to ordering, but I don\u0027t find these lines to be particularly readable.\n\nThe intention is to update xfrm.py to take a handful of populated cstructs and write helper methods to populate those cstructs.",
+      "parentUuid": "a78daf4d_4f653da3",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e27e80_e13b49fa",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -142,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "284f1bd9_b18fe151",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T08:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e27e80_e13b49fa",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3381152e_3210c134",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -153,6 +189,24 @@
       "writtenOn": "2017-06-27T05:29:48Z",
       "side": 1,
       "message": "EMAGICCONSTANT, same below for 200,300,400",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a885bb96_d619b503",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T08:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3381152e_3210c134",
       "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -212,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "5097d5ee_38480696",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T08:03:47Z",
+      "side": 1,
+      "message": "Figured out the correct place to set the sockopt. (\u0026set it on both sockets)",
+      "parentUuid": "97ad351f_d7e50945",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "650326d8_faeb9e27",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -223,6 +295,24 @@
       "writtenOn": "2017-06-27T05:29:48Z",
       "side": 1,
       "message": "should this comment start with TODO:?",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61af1abc_86056ac0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T08:03:47Z",
+      "side": 1,
+      "message": "removed, yay!",
+      "parentUuid": "650326d8_faeb9e27",
       "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
