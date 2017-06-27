@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5e7d7a19_d06332aa",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T06:17:19Z",
+      "side": 1,
+      "message": "_Flush() exists because multiple packets can be in the tap\u0027s buffer at exit, but _RunLoop reads one packet per loop.\n\nLeaving packets in the queue is fine from UML\u0027s perspective, but it should cause your test to fail. The user should not expect packets to be twisted after the context manager exits. My assumption is that any packets which had been written by this point will be available for read within the POLL_FAST_TIMEOUT.",
+      "parentUuid": "2a84ddfe_33154f6c",
+      "revId": "7c98435c43ab76d6c11f3667c7883338218a663d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bd7420a_9d1d6c3e",
         "filename": "net/test/tun_twister.py",
         "patchSetId": 6
