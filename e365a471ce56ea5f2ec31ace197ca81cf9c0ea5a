@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "41825533_e2c91902",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T06:56:57Z",
+      "side": 1,
+      "message": "Ack! sorry for the ancient development environment.",
+      "parentUuid": "b862dbf6_c4babf0a",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad38ec67_32f93f7d",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "This is the weirdness imposed by TunTwister. Both ends of the socket perceive the same local and remote address. Or, to be more specific, each socket binds to a local address and attempts to reach any non-local address. Packets destined for the non-local address hit the tap interface where they are twisted and returned.\n\nI\u0027m open to any convention which makes this easier to follow, e.g. declaring variables \"right_local\" \"right_remote\" \"left_local\" and \"left_remote\".",
       "parentUuid": "ad38ec67_32f93f7d",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b908493_2e4e465b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T06:56:57Z",
+      "side": 1,
+      "message": "As discussed offline, I hadn\u0027t realized that the \"remote\" is the same for both left and right.\n\nA combination of comments here and in TunTwister would perhaps save future readers some pain.",
+      "parentUuid": "80d9d16d_b7507687",
       "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -152,6 +188,24 @@
       "side": 1,
       "message": "Collision causes the test to fail, and this does happen with nontrivial probability in the UML sandbox. I want to figure out SO_REUSEADDR before merging.",
       "parentUuid": "ec8ed18a_feeea80f",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97ad351f_d7e50945",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T06:56:57Z",
+      "side": 1,
+      "message": "+1 for SO_REUSEADDR in this change.",
+      "parentUuid": "a245db67_864a1671",
       "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
