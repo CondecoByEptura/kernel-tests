@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7659e1d3_b1b6e5ea",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "If I understand correctly VTI packets have an ESP header at layer 4. Why not check for an ESP header instead of the lack of UDP/TCP? If the goal is to allow IPv6 RAs to pass I would prefer an explicit whitelist",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad38ec67_32f93f7d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "why local/remote_addr but left/right for everything else?\n\nthis leads to slightly awkward code like:\n\"sock_left.connect((remote_addr, right_port))\"\nwhen you probably would prefer:\n\"sock_left.connect((right_addr, right_port))\"",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a78daf4d_4f653da3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "consider changing AddMinimalSaInfo() to take a dictionary as an parameter. There are a lot of these to get in the right order. Additionally there\u0027s enough repetition that a local_sa_info and remote_sa_info object could help remove duplication.",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e27e80_e13b49fa",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "EMAGICCONSTANT, same below for 200,300,400",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3381152e_3210c134",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "EMAGICCONSTANT, same below for 200,300,400",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec8ed18a_feeea80f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "if you rely on random ports, how will you react to a collision? Is a collision possible within the UML sandbox when starting the test externally?",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "650326d8_faeb9e27",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T05:29:48Z",
+      "side": 1,
+      "message": "should this comment start with TODO:?",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
