@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b862dbf6_c4babf0a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T06:17:29Z",
+      "side": 1,
+      "message": "The current version of scapy supports ESP as a layer type, allowing for things like \"packet.getlayer(scapy.ESP)\" and \"esp_layer.spi\". It is even possible to write something like \"inbound_sa.decrypt(packet)\".\n\nThe current version of scapy is not available in the net_test filesystem. I wrote this check to avoid implementing the missing features myself.",
+      "parentUuid": "7659e1d3_b1b6e5ea",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad38ec67_32f93f7d",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-27T05:29:48Z",
       "side": 1,
       "message": "why local/remote_addr but left/right for everything else?\n\nthis leads to slightly awkward code like:\n\"sock_left.connect((remote_addr, right_port))\"\nwhen you probably would prefer:\n\"sock_left.connect((right_addr, right_port))\"",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80d9d16d_b7507687",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T06:17:29Z",
+      "side": 1,
+      "message": "This is the weirdness imposed by TunTwister. Both ends of the socket perceive the same local and remote address. Or, to be more specific, each socket binds to a local address and attempts to reach any non-local address. Packets destined for the non-local address hit the tap interface where they are twisted and returned.\n\nI\u0027m open to any convention which makes this easier to follow, e.g. declaring variables \"right_local\" \"right_remote\" \"left_local\" and \"left_remote\".",
+      "parentUuid": "ad38ec67_32f93f7d",
       "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -98,6 +134,24 @@
       "writtenOn": "2017-06-27T05:29:48Z",
       "side": 1,
       "message": "if you rely on random ports, how will you react to a collision? Is a collision possible within the UML sandbox when starting the test externally?",
+      "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a245db67_864a1671",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-27T06:17:29Z",
+      "side": 1,
+      "message": "Collision causes the test to fail, and this does happen with nontrivial probability in the UML sandbox. I want to figure out SO_REUSEADDR before merging.",
+      "parentUuid": "ec8ed18a_feeea80f",
       "revId": "e365a471ce56ea5f2ec31ace197ca81cf9c0ea5a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
