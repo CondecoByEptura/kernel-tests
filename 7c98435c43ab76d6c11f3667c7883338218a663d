@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "09cebe8b_5cd20e6d",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T06:59:09Z",
+      "side": 1,
+      "message": "When I was writing tests in this framework I had some trouble draining packets reliably. The good news is that poll will yield the CPU which should then be used to move any remaining packets with high probability.\n\nAs long as your test doesn\u0027t flake I\u0027m ok with this approach.",
+      "parentUuid": "5e7d7a19_d06332aa",
+      "revId": "7c98435c43ab76d6c11f3667c7883338218a663d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bd7420a_9d1d6c3e",
         "filename": "net/test/tun_twister.py",
         "patchSetId": 6
