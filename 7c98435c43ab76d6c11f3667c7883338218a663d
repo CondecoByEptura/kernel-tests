@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b627e42_2a7ae49a",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T04:56:16Z",
+      "side": 1,
+      "message": "the names _pipe_r/_pipe_w describe the type of object but not the purpose. Consider a name like _wakeup_r/_wakeup_w or perhaps _signal_*",
+      "revId": "7c98435c43ab76d6c11f3667c7883338218a663d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a84ddfe_33154f6c",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T04:56:16Z",
+      "side": 1,
+      "message": "UML doesn\u0027t do concurrency very well. Is this drain subject to races? If there is a race and packets remain are there any negative effects?",
+      "revId": "7c98435c43ab76d6c11f3667c7883338218a663d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bd7420a_9d1d6c3e",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T04:56:16Z",
+      "side": 1,
+      "message": "Consider adding a comment along the lines of:\n\"\"\"decode byte array into scapy packet\n\nOtherwise there is not a strong indication of what types this method produces/consumes",
+      "revId": "7c98435c43ab76d6c11f3667c7883338218a663d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

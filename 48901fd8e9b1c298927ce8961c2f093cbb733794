@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1298643_38e13472",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1121773
+      },
+      "writtenOn": "2017-06-27T04:56:16Z",
+      "side": 0,
+      "message": "you may want to check with Lorenzo on these lines. I know he has some of the base classes setup to do stuff with hex-formatted packets and strace output.",
+      "revId": "48901fd8e9b1c298927ce8961c2f093cbb733794",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
