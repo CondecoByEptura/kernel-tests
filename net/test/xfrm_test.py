@@ -584,6 +584,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     left_port = 5555
     right_port = 6666
 
+    server_ready = threading.Event()
     server_error = None  # Save exceptions thrown by the server.
 
     def TcpServer(sock, server_port, client_port):
@@ -591,6 +592,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         family = AF_INET6 if ":" in sock.getsockname()[0] else AF_INET
         sock.bind((ADDR_ANY[family], server_port))
         sock.listen(1)
+        server_ready.set()
         conn, remote = sock.accept()
         self.assertEquals(remote_addr, remote[0])
         self.assertEquals(client_port, remote[1])
@@ -607,6 +609,7 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
       try:
         family = AF_INET6 if ":" in sock.getsockname()[0] else AF_INET
         sock.bind((ADDR_ANY[family], server_port))
+        server_ready.set()
         data, remote = sock.recvfrom(2048)
         self.assertEquals(remote_addr, remote[0])
         self.assertEquals(client_port, remote[1])
@@ -624,6 +627,10 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         args=(sock_right, right_port, left_port),
         name="SocketServer")
     server.start()
+    # Wait for server to be ready before attempting to connect. TCP retries
+    # hide this problem, but UDP will fail outright if the server socket has
+    # not bound when we send.
+    server_ready.wait(2.0)
 
     with TapTwister(fd=self.tuns[netid].fileno(), validator=AssertEncrypted):
       sock_left.bind((ADDR_ANY[params["family"]], left_port))
