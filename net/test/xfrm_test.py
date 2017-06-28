@@ -270,9 +270,10 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     # subprocess.call("ip xfrm state".split())
 
     # Now send a packet.
-    s.sendto("foo", (remoteaddr, 53))
+    #s.sendto("foo", (remoteaddr, 53))
+    s.connect((remoteaddr, 53))
+    s.send("foo")  # TODO: WHY DOES THIS NOT WORK?
     srcport = s.getsockname()[1]
-    # s.send("foo")  # TODO: WHY DOES THIS NOT WORK?
 
     # Expect to see an UDP encapsulated packet.
     packets = self.ReadAllPacketsOn(netid)
