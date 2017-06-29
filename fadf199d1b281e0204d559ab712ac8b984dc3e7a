@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a52192c_43d7f7d2",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-29T01:43:40Z",
+      "side": 1,
+      "message": "I suggest adding a comment saying that this is only needed because our scapy version is not current.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "fadf199d1b281e0204d559ab712ac8b984dc3e7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
