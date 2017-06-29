@@ -22,6 +22,29 @@
       "revId": "fadf199d1b281e0204d559ab712ac8b984dc3e7a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e98a284_e5619b37",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T15:52:23Z",
+      "side": 1,
+      "message": "Please don\u0027t put this here at the top. Would suggest putting it around line 168 or line 187.\n\nAlso, consider not putting it in a commit just by itself - it\u0027s much easier to review if it\u0027s added in the same commit as the code that uses it.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 54
+      },
+      "revId": "fadf199d1b281e0204d559ab712ac8b984dc3e7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
