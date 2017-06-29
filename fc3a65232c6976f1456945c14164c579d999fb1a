@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96df4637_e1b847c3",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "I\u0027d rather not make too many changes to multinetwork_base until we have a good model of what a multi-link network is going to look like in netd.\n\nLet\u0027s have a chat to see if we can find a way to test VTI interfaces without making too many changes here.",
+      "range": {
+        "startLine": 252,
+        "startChar": 36,
+        "endLine": 252,
+        "endChar": 51
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e3adf15_1114c0c6",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to separate the setup and teardown code like this. Having the two operations be performed by the same code makes it easier to ensure that the setup and teardown code are well matched and perform all the same operations.",
+      "range": {
+        "startLine": 296,
+        "startChar": 6,
+        "endLine": 296,
+        "endChar": 26
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c0602ee_ab4d21f7",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "This all looks familiar. Is it duplicating code that already exists in xfrm.py? If so, then can you just keep the code in that file and refer to it from this one?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03381205_1b2368e5",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Given that most of this is zeros, consider using keyword initialization.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "565fc160_ad0b73bd",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "EspHdr(spi, seq).Pack()",
+      "range": {
+        "startLine": 135,
+        "startChar": 14,
+        "endLine": 135,
+        "endChar": 42
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a0101d0_e9a00c50",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Remove before submit.",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 10
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31cce0ae_c3ccd3c6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Avoid string literals as they are error-prone.\n\nIt\u0027s probably best to just parameterize this SA based on IP version and use GetRemoteAddr() to get the remote address.",
+      "range": {
+        "startLine": 152,
+        "startChar": 20,
+        "endLine": 152,
+        "endChar": 29
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cacca646_ecac2c21",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Please test IPv6 as well.",
+      "range": {
+        "startLine": 166,
+        "startChar": 17,
+        "endLine": 166,
+        "endChar": 24
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e3ea29c_442c506a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Once GetIfIndex is converted to throw on failure, you can use assertRaisesErrno here.",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 38
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8abebfe7_1eeb2837",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Convention is that expected values go first, actual values go second. The error messages will be more useful that way.",
+      "range": {
+        "startLine": 199,
+        "startChar": 22,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4385a19_d1a373b0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Please test IPv6 as well.",
+      "range": {
+        "startLine": 203,
+        "startChar": 26,
+        "endLine": 203,
+        "endChar": 35
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5522cd9c_dbe93c94",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:58:16Z",
+      "side": 1,
+      "message": "Instead of doing this here, suggest doing it just before sending the packet. Then you can clear the default network, try sending again, and verify that nothing is sent.",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 33
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
