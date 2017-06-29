@@ -188,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "a6a6895e_e8cb8482",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-06-29T16:02:05Z",
+      "side": 1,
+      "message": "Good point. None is better than [].",
+      "parentUuid": "6737fed1_b95e8796",
+      "range": {
+        "startLine": 268,
+        "startChar": 32,
+        "endLine": 268,
+        "endChar": 36
+      },
+      "revId": "43d7caf4acca5494f11d7bf8f1907fc55f627bb2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d0860f8_6131d3c4",
         "filename": "net/test/xfrm.py",
         "patchSetId": 7
