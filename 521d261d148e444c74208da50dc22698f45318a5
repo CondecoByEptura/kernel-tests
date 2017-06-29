@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e680db7a_a1e0ffb0",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-06-29T05:09:26Z",
+      "side": 1,
+      "message": "If you are worried about callers passing bad values, I suggest making this check separately and raising ValueError.",
+      "range": {
+        "startLine": 314,
+        "startChar": 50,
+        "endLine": 314,
+        "endChar": 70
+      },
+      "revId": "521d261d148e444c74208da50dc22698f45318a5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
