@@ -93,6 +93,30 @@
       "revId": "b15cde67fdf11048778566c10f851601c0e4e546",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1118ac79_205a3267",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T01:12:40Z",
+      "side": 1,
+      "message": "Further note, misterikkit\u0027s KWARGs version of the constructor will eliminate the need for these inline comments. Going forward, I want to use the KWARGs as much as possible precisely because this kind of thing is pretty difficult to read. I also see magic numbers here that didn\u0027t ever get a definition (require).",
+      "parentUuid": "a8cf41b4_498a3188",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 45
+      },
+      "revId": "b15cde67fdf11048778566c10f851601c0e4e546",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
