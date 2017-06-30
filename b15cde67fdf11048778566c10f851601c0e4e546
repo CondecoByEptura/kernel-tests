@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e63d4086_849028db",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T01:11:09Z",
+      "side": 1,
+      "message": "Sadly, Yapf doesn\u0027t support this... perhaps using in-line comments in a language where whitespace is used for scoping is. This is close to EHOLDINGITWRONG.",
+      "parentUuid": "50c1f4a3_cf9f3e24",
+      "range": {
+        "startLine": 150,
+        "startChar": 25,
+        "endLine": 150,
+        "endChar": 26
+      },
+      "revId": "b15cde67fdf11048778566c10f851601c0e4e546",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a809fb81_93677956",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-29T15:58:49Z",
       "side": 1,
       "message": "Do we know why yapf decided to change info on line 135-141 from \"one element per line\" to \"as many elements as will fit in the column limit\", but decided to change tmpl on line 145-150 in the opposite way from \"multiple elements per line\" to \"one element per line\"?\n\nIf yapf\u0027s behaviour is inconsistent and hard to predict, then it could get frustrating to use.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 45
+      },
+      "revId": "b15cde67fdf11048778566c10f851601c0e4e546",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8cf41b4_498a3188",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T01:11:09Z",
+      "side": 1,
+      "message": "It had no choice here... there are comments in-line with the parameters. To be consistent within the tuple it had to put them each on one line. What was there was inconsistent even within the tuple. Normally I think it only goes for the paramter-per-line for function signatures.",
+      "parentUuid": "a809fb81_93677956",
       "range": {
         "startLine": 141,
         "startChar": 0,
