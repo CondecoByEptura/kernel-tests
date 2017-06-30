@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "10a454de_3f3f0bbb",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T01:16:12Z",
+      "side": 1,
+      "message": "Ah! I forgot about this. Done.",
+      "parentUuid": "d8d92b2f_27977111",
+      "range": {
+        "startLine": 252,
+        "startChar": 38,
+        "endLine": 252,
+        "endChar": 43
+      },
+      "revId": "a18fb8f7d0c7baa4a568ef84751194a9b32f61e7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10e6808b_cf8a542b",
         "filename": "net/test/xfrm.py",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-29T01:34:43Z",
       "side": 1,
       "message": "This could be replaced with,\n\"\"\"Sends a netlink request to flush all policy from the SPD.\"\"\"\n\n(one-line docstrings are permitted by most style guides)",
+      "range": {
+        "startLine": 354,
+        "startChar": 4,
+        "endLine": 358,
+        "endChar": 7
+      },
+      "revId": "a18fb8f7d0c7baa4a568ef84751194a9b32f61e7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b52bc5e_a02c2685",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T01:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e6808b_cf8a542b",
       "range": {
         "startLine": 354,
         "startChar": 4,
