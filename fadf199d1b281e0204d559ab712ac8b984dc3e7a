@@ -45,6 +45,30 @@
       "revId": "fadf199d1b281e0204d559ab712ac8b984dc3e7a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b847cfd_7fb57d86",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T01:38:56Z",
+      "side": 1,
+      "message": "Lorenzo, I don\u0027t want this in this file at all. It doesn\u0027t belong, and if it has to be here... it should be painfully obvious that it\u0027s a wart that absolutely doesn\u0027t belong. In fact, there should be a giant comment (AI for me) that\u0027s about 3 lines long that makes sure nobody is going to miss it when looking for it. Burying it in the middle of the file so that not only is it in the wrong place (you don\u0027t want it where it should be), but so that nobody is going to find it unless they already know it\u0027s there... is yet another step in the absolute wrong direction. ESP has nothing whatsoever to do with XFRM. The only thing I\u0027m willing to do is to re-define it locally in the test files that use it. That way, at least it won\u0027t be in almost the most surprising place possible even if it\u0027s not in a place that makes it portable.",
+      "parentUuid": "8e98a284_e5619b37",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 54
+      },
+      "revId": "fadf199d1b281e0204d559ab712ac8b984dc3e7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
