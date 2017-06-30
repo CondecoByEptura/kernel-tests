@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12e7288a_be71855b",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "-__-",
+      "parentUuid": "96df4637_e1b847c3",
+      "range": {
+        "startLine": 252,
+        "startChar": 36,
+        "endLine": 252,
+        "endChar": 51
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e3adf15_1114c0c6",
         "filename": "net/test/multinetwork_base.py",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-29T16:58:16Z",
       "side": 1,
       "message": "I\u0027d prefer not to separate the setup and teardown code like this. Having the two operations be performed by the same code makes it easier to ensure that the setup and teardown code are well matched and perform all the same operations.",
+      "range": {
+        "startLine": 296,
+        "startChar": 6,
+        "endLine": 296,
+        "endChar": 26
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acdf181_37a307e2",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "Unfortunately, this is the cleanest way to start the process of refactoring this code so that it\u0027s somewhat re-usable outside of this context. Where this is going longer-term is that we actually have some modularity to the functions that create and destroy \"networks\", and a lot of this nastiness can go away, but a 3-deep conditional is just not going to happen. Any linter worth its salt is going to go insane about such horrors.\n\nFurthmore, all of the actual business logic of your code is already binary in that it all exists in an \"if add else remove\" block, which is the top level of the logical splits. By moving it into different functions, we have to replicate the parameter side-loading. That code needs to go away because they should generally be function parameters; however, I am not interested in fixing this entire thing in a single CL. That\u0027s not my purpose here.",
+      "parentUuid": "9e3adf15_1114c0c6",
       "range": {
         "startLine": 296,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "768a2547_c2cc59d7",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "These are just statics used in the test. They belong in the test file even though they are redundant. They have no business in a common file unless we start inheriting our tests from each other. The Tunnel and VTI tests don\u0027t belong in the transport mode tests, so this is the least-bad option.\n\nBut, I\u0027m not using many of them, so unused-\u003edeleted.",
+      "parentUuid": "4c0602ee_ab4d21f7",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 59
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03381205_1b2368e5",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-29T16:58:16Z",
       "side": 1,
       "message": "Given that most of this is zeros, consider using keyword initialization.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fcdb6cd_2b4f17da",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03381205_1b2368e5",
       "range": {
         "startLine": 102,
         "startChar": 8,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "34d104ac_692d19fc",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "565fc160_ad0b73bd",
+      "range": {
+        "startLine": 135,
+        "startChar": 14,
+        "endLine": 135,
+        "endChar": 42
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a0101d0_e9a00c50",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -128,6 +248,30 @@
       "writtenOn": "2017-06-29T16:58:16Z",
       "side": 1,
       "message": "Remove before submit.",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 10
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0823eec_8ed71590",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a0101d0_e9a00c50",
       "range": {
         "startLine": 141,
         "startChar": 4,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "9541825c_c8d263ca",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "String literals removed.",
+      "parentUuid": "31cce0ae_c3ccd3c6",
+      "range": {
+        "startLine": 152,
+        "startChar": 20,
+        "endLine": 152,
+        "endChar": 29
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cacca646_ecac2c21",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -174,6 +342,30 @@
       "writtenOn": "2017-06-29T16:58:16Z",
       "side": 1,
       "message": "Please test IPv6 as well.",
+      "range": {
+        "startLine": 166,
+        "startChar": 17,
+        "endLine": 166,
+        "endChar": 24
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6126f90a_c086654f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "As previously discussed, not working yet.",
+      "parentUuid": "cacca646_ecac2c21",
       "range": {
         "startLine": 166,
         "startChar": 17,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "38c85317_f3fb741c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "You\u0027re correct.",
+      "parentUuid": "8e3ea29c_442c506a",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 38
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8abebfe7_1eeb2837",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -220,6 +436,30 @@
       "writtenOn": "2017-06-29T16:58:16Z",
       "side": 1,
       "message": "Convention is that expected values go first, actual values go second. The error messages will be more useful that way.",
+      "range": {
+        "startLine": 199,
+        "startChar": 22,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9811924_654f4d33",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8abebfe7_1eeb2837",
       "range": {
         "startLine": 199,
         "startChar": 22,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "71286951_d101597f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "As already discussed, doesn\u0027t work yet.",
+      "parentUuid": "f4385a19_d1a373b0",
+      "range": {
+        "startLine": 203,
+        "startChar": 26,
+        "endLine": 203,
+        "endChar": 35
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5522cd9c_dbe93c94",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -266,6 +530,30 @@
       "writtenOn": "2017-06-29T16:58:16Z",
       "side": 1,
       "message": "Instead of doing this here, suggest doing it just before sending the packet. Then you can clear the default network, try sending again, and verify that nothing is sent.",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 33
+      },
+      "revId": "fc3a65232c6976f1456945c14164c579d999fb1a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14fcea3c_bdfef53f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-06-30T03:34:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5522cd9c_dbe93c94",
       "range": {
         "startLine": 218,
         "startChar": 4,
