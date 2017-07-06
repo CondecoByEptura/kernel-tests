@@ -515,6 +515,36 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
                         LookupMap(self.map_fd, map_key).value)
     DeleteMap(self.map_fd, map_key)
 
+  def TcpTimeWaitCheck(self, version, netid, map_key, test_type):
+    # Set up a established connection total packet send out is 1. Packet
+    # received is 2.
+    self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
+    ingress_count = 2
+    egress_count = 1
+    self.accepted.setsockopt(net_test.SOL_TCP, net_test.TCP_LINGER2, -1)
+    net_test.EnableFinWait(self.accepted)
+    self.accepted.shutdown(socket.SHUT_WR)
+    desc, fin = self.FinPacket()
+    self.ExpectPacketOn(netid, "Closing FIN_WAIT1 socket", fin)
+    egress_count += 1
+    finversion = 4 if version == 5 else version
+    desc, finack = packets.ACK(finversion, self.remoteaddr, self.myaddr, fin)
+    self.ReceivePacketOn(netid, finack)
+    ingress_count += 1
+    self.accepted.close()
+    desc, rst = packets.RST(version, self.myaddr, self.remoteaddr, self.last_packet)
+    msg = "expecting %s: " % desc
+    self.ExpectPacketOn(netid, msg, rst)
+    egress_count += 1
+    if test_type in (TYPE_IFACE_INGRESS, TYPE_PROTOCOL_INGRESS):
+      self.assertEquals(ingress_count, LookupMap(self.map_fd, map_key).value)
+    elif test_type in (TYPE_IFACE_EGRESS, TYPE_PROTOCOL_EGRESS):
+      # TODO: The synack packet xmit from ipv6 stack cannot be filtered yet,
+      # Need to correct this test count after come up with a solution for that
+      # and cherry-pick back to 4.9 kernel
+      self.assertEquals(egress_count if version == 4 else egress_count -1,
+                        LookupMap(self.map_fd, map_key).value)
+
   def ReceiveUDPPacketOn(self, version, netid, packet_count, map_key):
     srcaddr = {4: self.IPV4_ADDR, 6: self.IPV6_ADDR}[version]
     dstaddr = self.MyAddress(version, netid)
@@ -715,6 +745,39 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
     self.IngressCgroupCount(6, packet_count, instructions, TYPE_PROTOCOL_INGRESS)
     self.EgressCgroupCount(6, packet_count, instructions, v6addr, TYPE_PROTOCOL_EGRESS)
 
+  def TimeWaitCgroupCount(self, version, packet_count, prog):
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, prog)
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    for netid in self.NETIDS:
+      tcp_key = socket.IPPROTO_TCP
+      CleanMapEntry(self.map_fd, tcp_key)
+      self.TcpTimeWaitCheck(version, netid, tcp_key, TYPE_PROTOCOL_INGRESS)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    for netid in self.NETIDS:
+      tcp_key = socket.IPPROTO_TCP
+      CleanMapEntry(self.map_fd, tcp_key)
+      self.TcpTimeWaitCheck(version, netid, tcp_key, TYPE_PROTOCOL_EGRESS)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+
+  def testCheckTimeWaitV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    instructions = (BpfFuncGetSkbProtocol(IPV4_PROTOCOL_OFFSET)
+                     + BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                     + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v4addr = self.IPV4_ADDR
+    packet_count = 1
+    self.TimeWaitCgroupCount(4, packet_count, instructions)
+
+  def testCheckTimeWaitV6(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    instructions = (BpfFuncGetSkbProtocol(IPV6_PROTOCOL_OFFSET)
+                    + BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                    + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v6addr = self.GetRemoteAddress(6)
+    packet_count = 1
+    self.TimeWaitCgroupCount(6, packet_count, instructions)
 
 if __name__ == "__main__":
   unittest.main()
