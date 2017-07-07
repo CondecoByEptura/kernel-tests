@@ -23,7 +23,7 @@ from socket import *
 import multinetwork_base
 import net_test
 import packets
-
+import time
 
 class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
   """Checks that IPv6 forwarding doesn't crash the system.
@@ -43,6 +43,7 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
 
   def ForwardBetweenInterfaces(self, enabled, iface1, iface2):
     for iif, oif in itertools.permutations([iface1, iface2]):
+      #print("iif: %s, oif: %s\n", self.GetInterfaceName(iif), self.GetInterfaceName(oif))
       self.iproute.IifRule(6, enabled, self.GetInterfaceName(iif),
                            self._TableForNetid(oif), self.PRIORITY_IIF)
 
@@ -51,6 +52,35 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
 
   def tearDown(self):
     self.SetSysctl("/proc/sys/net/ipv6/conf/all/forwarding", 0)
+
+  def CheckForwardingCrashUdp(self, netid, iface1, iface2):
+    version = 6
+    # Create a UDP socket and bind to it
+    s = net_test.UDPSocket(AF_INET6)
+    self.SetSocketMark(s, netid)
+    addr = {4: "0.0.0.0", 5: "::", 6: "::"}[version]
+    s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    s.bind((addr, 53))
+
+    remoteaddr = self.GetRemoteAddress(version)
+    myaddr = self.MyAddress(version, netid)
+
+    try:
+      print "Deleting the address ", myaddr, " from netid: ", netid
+      self.iproute.DelAddress(myaddr, 64, self.ifindices[netid])
+      print "Sending packet over iface: ", self.GetInterfaceName(netid)
+      desc, udp_pkt = packets.UDPWithOptions(version, myaddr, remoteaddr, 53)
+      desc_fwded, udp_fwd = packets.UDPWithOptions2(version, myaddr, remoteaddr, 53)
+      msg = "Sent %s, expected %s" % (desc, desc_fwded)
+      #self._ReceiveAndExpectResponse(iface1, udp_pkt, udp_fwd, msg)
+      self.ReceivePacketOn(iface1, udp_pkt)
+      self.ExpectPacketOn(iface2, msg, udp_fwd)
+      #s.sendto(net_test.UDP_PAYLOAD, (remoteaddr, 53))
+    finally:
+      self.SendRA(netid)
+      s.close()
+
+    print "\n\n"
 
   def CheckForwardingCrash(self, netid, iface1, iface2):
     version = 6
@@ -88,7 +118,9 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
     self.assertEquals("%02X" % self.TCP_TIME_WAIT, sockets[0][2])
 
     # Remove our IP address.
+    print "myaddr: ", myaddr
     try:
+      print "Deleting the address ", myaddr, " from netid: ", netid
       self.iproute.DelAddress(myaddr, 64, self.ifindices[netid])
 
       self.ReceivePacketOn(iface1, finack)
@@ -101,16 +133,26 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
       self.SendRA(netid)
       listensocket.close()
 
+    print "\n\n"
+
   def testCrash(self):
+    #iif = 250
+    #oif = 100
+
     # Run the test a few times as it doesn't crash/hang the first time.
     for netids in itertools.permutations(self.tuns):
       # Pick an interface to send traffic on and two to forward traffic between.
-      netid, iface1, iface2 = random.sample(netids, 3)
-      self.ForwardBetweenInterfaces(True, iface1, iface2)
+      #netid, iface1, iface2 = random.sample(netids, 3)
+      netid, iif, oif = random.sample(netids, 3)
+      print "netid: ", netid
+      print("iif: %s, oif: %s\n", self.GetInterfaceName(iif), self.GetInterfaceName(oif))
+      #print "netid: ", netid, "iface1: ", iface1, "iface2: ", iface2
+      self.ForwardBetweenInterfaces(True, iif, oif)
       try:
-        self.CheckForwardingCrash(netid, iface1, iface2)
+        #time.sleep(15)
+        self.CheckForwardingCrashUdp(netid, iif, oif)
       finally:
-        self.ForwardBetweenInterfaces(False, iface1, iface2)
+        self.ForwardBetweenInterfaces(False, iif, oif)
 
 
 if __name__ == "__main__":

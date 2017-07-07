@@ -73,6 +73,18 @@ def UDPWithOptions(version, srcaddr, dstaddr, sport=0):
               UDP_PAYLOAD)
   return ("UDPv%d packet with options" % version, packet)
 
+def UDPWithOptions2(version, srcaddr, dstaddr, sport=0):
+  if version == 4:
+    packet = (scapy.IP(src=srcaddr, dst=dstaddr, ttl=38, tos=0x83) /
+              scapy.UDP(sport=sport, dport=53) /
+              UDP_PAYLOAD)
+  else:
+    packet = (scapy.IPv6(src=srcaddr, dst=dstaddr,
+                         fl=0xbeef, hlim=38, tc=0x83) /
+              scapy.UDP(sport=sport, dport=53) /
+              UDP_PAYLOAD)
+  return ("UDPv%d packet with options" % version, packet)
+
 def SYN(dport, version, srcaddr, dstaddr, sport=0, seq=-1):
   ip = _GetIpLayer(version)
   if sport == 0:
