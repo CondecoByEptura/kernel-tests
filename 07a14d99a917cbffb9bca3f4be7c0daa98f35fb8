@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29ff288d_9ed6aa6f",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-07T23:56:11Z",
+      "side": 1,
+      "message": "rename",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
