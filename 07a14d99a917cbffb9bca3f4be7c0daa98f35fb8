@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f92134c5_a2abde96",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-12T06:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12058a69_56d40895",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29ff288d_9ed6aa6f",
         "filename": "net/test/forwarding_test.py",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "3396dbb6_e53f7eb6",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-12T06:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d10901ea_87dd141f",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edbc6323_ac6cf43c",
         "filename": "net/test/forwarding_test.py",
         "patchSetId": 1
@@ -83,6 +131,30 @@
       "writtenOn": "2017-07-08T06:31:16Z",
       "side": 1,
       "message": "Suggest adding a DecrementTTL function instead. It would look something like:\n\n  # Decrements the TTL of a packet to simulate forwarding.\n  def DecrementTTL(self, pkt):\n    ether \u003d scapy.Ether(pkt)\n\n    if ether.type \u003d\u003d 0x0800:\n      version \u003d 4\n    elif ether.type \u003d\u003d 0x86dd:\n      version \u003d 6\n    else:\n      raise NotImplementedError(\"Unknown ethertype %x\" % ether.type)\n\n    ip \u003d ether.payload\n    if version \u003d\u003d 4:\n      ip.ttl \u003d ip.ttl - 1\n    else:\n      ip.hlim \u003d ip.hlim -1\n\n    decremented \u003d scapy.Ether(\n        src\u003dself.MyMacAddress(netid), dst\u003dself.RouterMacAddres(netid)) / ip\n\n    return str(decremented)",
+      "range": {
+        "startLine": 73,
+        "startChar": 36,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46955be4_22717c6b",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-12T06:22:29Z",
+      "side": 1,
+      "message": "We dont have the ethernet packet here (only IP part here).\nThe ethernet part is stripped in ReceivePacketOn.\n\nWe could potentially look at the first byte by converting packet to string and checking for IP version. For now, i have passed hlim as an argument to the UDPWithOptions.",
+      "parentUuid": "edbc6323_ac6cf43c",
       "range": {
         "startLine": 73,
         "startChar": 36,
@@ -112,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "f5337307_1a2083ec",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-12T06:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "052aeb9e_b075c4bf",
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5714a30_b343d227",
         "filename": "net/test/forwarding_test.py",
         "patchSetId": 1
@@ -135,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "06562f67_fd161d75",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-12T06:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5714a30_b343d227",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99aade7a_9cf1b509",
         "filename": "net/test/forwarding_test.py",
         "patchSetId": 1
@@ -146,6 +260,30 @@
       "writtenOn": "2017-07-08T06:31:16Z",
       "side": 1,
       "message": "Suggest renaming this and tweaking it so it can run both tests.\n\n  def CheckCrash(self, protocol):\n    ...\n    ...\n    self.ForwardBetweenInterfaces(True, iif, oif)\n    try:\n      if protocol \u003d\u003d IPPROTO_UDP:\n        self.CheckForwardingUdp(netid, iif, oif)\n      elif protocol \u003d\u003d IPPROTO_TCP:\n        self.CheckForwardingCrashTcp(netid, iif, oif):\n      else raise NotImplementedError\n    ...",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 15
+      },
+      "revId": "07a14d99a917cbffb9bca3f4be7c0daa98f35fb8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "267c7a06_357c1588",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1053408
+      },
+      "writtenOn": "2017-07-12T06:22:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99aade7a_9cf1b509",
       "range": {
         "startLine": 138,
         "startChar": 6,
