@@ -26,6 +26,7 @@ import time
 import unittest
 
 import multinetwork_base
+import netlink
 import net_test
 import packets
 import sock_diag
@@ -35,6 +36,11 @@ import tcp_test
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
 HAVE_SO_COOKIE_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
+SKNLGRP_INET_TCP_DESTROY = 1
+SKNLGRP_INET_UDP_DESTROY = 2
+SKNLGRP_INET6_TCP_DESTROY = 3
+SKNLGRP_INET6_UDP_DESTROY = 4
+NETLINK_SOCK_DIAG = 4
 
 IPPROTO_SCTP = 132
 
@@ -365,6 +371,20 @@ class SockDiagTest(SockDiagBaseTest):
     self.CheckSocketCookie(AF_INET, "127.0.0.1")
     self.CheckSocketCookie(AF_INET6, "::1")
 
+  def testListenSkDestroy(self):
+    listen_sock = socket(AF_NETLINK, SOCK_RAW, NETLINK_SOCK_DIAG)
+    listen_sock.bind((0, 0xf))
+    net_test.SetNonBlocking(listen_sock)
+    cookies = []
+    for version in [AF_INET, AF_INET6]:
+      for sock_type in [SOCK_DGRAM, SOCK_STREAM]:
+        sock = socket(version, sock_type, 0)
+        cookies.append(sock.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8))
+        sock.close()
+    for cookie in cookies:
+      msg = listen_sock.recv(4096)
+      message, attrs = self.sock_diag._ParseNLMsg(msg, sock_diag.InetDiagMsg)[0]
+      self.assertEqual(message.id.cookie, cookie)
 
 class SockDestroyTest(SockDiagBaseTest):
   """Tests that SOCK_DESTROY works correctly.
