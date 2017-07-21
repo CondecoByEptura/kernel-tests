@@ -18,6 +18,7 @@ import ctypes
 import errno
 import os
 import random
+from scapy import all as scapy
 import socket
 import struct
 import time
@@ -30,6 +31,8 @@ import net_test
 import packets
 import sock_diag
 import tcp_test
+import xfrm
+import xfrm_test
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
@@ -48,6 +51,24 @@ TYPE_IFACE_INGRESS = 3
 TYPE_IFACE_EGRESS = 4
 TYPE_PROTOCOL_INGRESS = 5
 TYPE_PROTOCOL_EGRESS = 6
+
+XFRM_ADDR_ANY = 16 * "\x00"
+LOOPBACK = 15 * "\x00" + "\x01"
+ENCRYPTED_PAYLOAD = ("b1c74998efd6326faebe2061f00f2c750e90e76001664a80c287b150"
+                     "59e74bf949769cc6af71e51b539e7de3a2a14cb05a231b969e035174"
+                     "d98c5aa0cef1937db98889ec0d08fa408fecf616")
+ENCRYPTION_KEY = ("308146eb3bd84b044573d60f5a5fd159"
+                  "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
+AUTH_TRUNC_KEY = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
+
+TEST_ADDR1 = "2001:4860:4860::8888"
+TEST_ADDR2 = "2001:4860:4860::8844"
+
+TEST_SPI = 0x1234
+
+ALL_ALGORITHMS = 0xffffffff
+ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
+ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
 # Debug usage only.
 def PrintMapInfo(map_fd):
@@ -778,6 +799,278 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
     v6addr = self.GetRemoteAddress(6)
     packet_count = 1
     self.TimeWaitCgroupCount(6, packet_count, instructions)
+
+class XfrmBpfTest(xfrm_test.XfrmTest):
+
+  @classmethod
+  def setUpClass(cls):
+    if not os.path.isdir("/tmp"):
+      os.mkdir('/tmp')
+    os.system('mount -t cgroup2 cg_bpf /tmp')
+    cls._cg_fd = os.open('/tmp', os.O_DIRECTORY | os.O_RDONLY)
+    super(XfrmBpfTest, cls).setUpClass()
+
+  @classmethod
+  def tearDownClass(cls):
+    os.close(cls._cg_fd)
+    os.system('umount cg_bpf')
+    super(XfrmBpfTest, cls).tearDownClass()
+
+  def setUp(self):
+    super(XfrmBpfTest, self).setUp()
+    self.prog_fd = -1
+    self.map_fd = -1
+
+  def tearDown(self):
+    super(XfrmBpfTest, self).tearDown()
+    if self.prog_fd >= 0:
+      os.close(self.prog_fd)
+    if self.map_fd >= 0:
+      os.close(self.map_fd)
+    try:
+      BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    except socket.error:
+      pass
+    try:
+      BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    except socket.error:
+      pass
+
+  def XfrmUdpTrafficCheck(self, ingress_instructions, egress_instructions, map_key, prog_type):
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, egress_instructions)
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    # TODO: test IPv6 instead of IPv4.
+    netid = random.choice(self.NETIDS)
+    myaddr = self.MyAddress(4, netid)
+    remoteaddr = self.GetRemoteAddress(4)
+
+    # Reserve a port on which to receive UDP encapsulated packets. Sending
+    # packets works without this (and potentially can send packets with a source
+    # port belonging to another application), but receiving requires the port to
+    # be bound and the encapsulation socket option enabled.
+    encap_socket = net_test.Socket(net_test.AF_INET, net_test.SOCK_DGRAM, 0)
+    encap_socket.bind((myaddr, 0))
+    encap_port = encap_socket.getsockname()[1]
+    encap_socket.setsockopt(socket.IPPROTO_UDP, xfrm.UDP_ENCAP,
+                               xfrm.UDP_ENCAP_ESPINUDP)
+
+    # Open a socket to send traffic.
+    s = socket.socket(net_test.AF_INET, net_test.SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+    s.connect((remoteaddr, 53))
+
+    # Create a UDP encap policy and template inbound and outbound and apply
+    # them to s.
+    sel = xfrm.XfrmSelector((XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0,
+                             net_test.AF_INET, 0, 0, socket.IPPROTO_UDP, 0, 0))
+
+    # Use the same SPI both inbound and outbound because this lets us receive
+    # encrypted packets by simply replaying the packets the kernel sends.
+    in_reqid = 123
+    in_spi = socket.htonl(TEST_SPI)
+    out_reqid = 456
+    out_spi = socket.htonl(TEST_SPI)
+
+    # Start with the outbound policy.
+    # TODO: what happens without XFRM_SHARE_UNIQUE?
+    info = xfrm.XfrmUserpolicyInfo((sel,
+                                    xfrm.NO_LIFETIME_CFG, xfrm.NO_LIFETIME_CUR,
+                                    100, 0,
+                                    xfrm.XFRM_POLICY_OUT,
+                                    xfrm.XFRM_POLICY_ALLOW,
+                                    xfrm.XFRM_POLICY_LOCALOK,
+                                    xfrm.XFRM_SHARE_UNIQUE))
+    xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, out_spi, socket.IPPROTO_ESP))
+    usertmpl = xfrm.XfrmUserTmpl((xfrmid, net_test.AF_INET, XFRM_ADDR_ANY, out_reqid,
+                              xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
+                              0,                # require
+                              ALL_ALGORITHMS,   # auth algos
+                              ALL_ALGORITHMS,   # encryption algos
+                              ALL_ALGORITHMS))  # compression algos
+
+    data = info.Pack() + usertmpl.Pack()
+    s.setsockopt(socket.IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
+
+    # Uncomment for debugging.
+    # subprocess.call("ip xfrm policy".split())
+
+    # Create inbound and outbound SAs that specify UDP encapsulation.
+    encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, socket.htons(encap_port),
+                                    socket.htons(4500), 16 * "\x00"))
+    self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, socket.IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, out_reqid,
+                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
+                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, encaptmpl)
+
+    # Add an encap template that's the mirror of the outbound one.
+    encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
+    self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, socket.IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, in_reqid,
+                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
+                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, encaptmpl)
+
+    # Uncomment for debugging.
+    # subprocess.call("ip xfrm state".split())
+
+    # Now send a packet.
+    s.sendto("foo", (remoteaddr, 53))
+    srcport = s.getsockname()[1]
+    # s.send("foo")  # TODO: WHY DOES THIS NOT WORK?
+
+    # Expect to see an UDP encapsulated packet.
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    self.assertIsUdpEncapEsp(packet, out_spi, 1, 52)
+    if prog_type is TYPE_COOKIE_EGRESS:
+      map_key = sock_diag.SockDiag.GetSocketCookie(s)
+    elif prog_type is TYPE_IFACE_EGRESS:
+      map_key = self.ifindices[netid]
+    PrintMapInfo(self.map_fd)
+    print "key: %d" % map_key
+    self.assertEquals(1, LookupMap(self.map_fd, map_key).value)
+    DeleteMap(self.map_fd, map_key)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    os.close(self.prog_fd)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, ingress_instructions)
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    # Now test the receive path. Because we don't know how to decrypt packets,
+    # we just play back the encrypted packet that kernel sent earlier. We swap
+    # the addresses in the IP header to make the packet look like it's bound for
+    # us, but we can't do that for the port numbers because the UDP header is
+    # part of the integrity protected payload, which we can only replay as is.
+    # So the source and destination ports are swapped and the packet appears to
+    # be sent from srcport to port 53. Open another socket on that port, and
+    # apply the inbound policy to it.
+    twisted_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+    net_test.SetSocketTimeout(twisted_socket, 100)
+    twisted_socket.bind(("0.0.0.0", 53))
+
+    # TODO: why does this work even without the per-socket policy applied? The
+    # received packet obviously matches an SA, but don't inbound packets need to
+    # match a policy as well?
+    info.dir = xfrm.XFRM_POLICY_IN
+    xfrmid.spi = in_spi
+    usertmpl.reqid = in_reqid
+    data = info.Pack() + usertmpl.Pack()
+    twisted_socket.setsockopt(socket.IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
+
+    # Save the payload of the packet so we can replay it back to ourselves.
+    payload = str(packet.payload)[8:]
+    spi_seq = struct.pack("!II", socket.ntohl(in_spi), 1)
+    payload = spi_seq + payload[len(spi_seq):]
+
+    # Tamper with the packet and check that it's dropped and counted as invalid.
+    sainfo = self.xfrm.FindSaInfo(in_spi)
+    self.assertEquals(0, sainfo.stats.integrity_failed)
+    broken = payload[:25] + chr((ord(payload[25]) + 1) % 256) + payload[26:]
+    incoming = (scapy.IP(src=remoteaddr, dst=myaddr) /
+                scapy.UDP(sport=4500, dport=encap_port) / broken)
+    self.ReceivePacketOn(netid, incoming)
+    sainfo = self.xfrm.FindSaInfo(in_spi)
+    self.assertEquals(1, sainfo.stats.integrity_failed)
+
+    # Now play back the valid packet and check that we receive it.
+    incoming = (scapy.IP(src=remoteaddr, dst=myaddr) /
+                scapy.UDP(sport=4500, dport=encap_port) / payload)
+    self.ReceivePacketOn(netid, incoming)
+    data, src = twisted_socket.recvfrom(4096)
+    self.assertEquals("foo", data)
+    self.assertEquals((remoteaddr, srcport), src)
+
+    # Check that unencrypted packets are not received.
+    unencrypted = (scapy.IP(src=remoteaddr, dst=myaddr) /
+                   scapy.UDP(sport=srcport, dport=53) / "foo")
+    self.assertRaisesErrno(errno.EAGAIN, twisted_socket.recv, 4096)
+    if prog_type is TYPE_COOKIE_EGRESS:
+      map_key = sock_diag.SockDiag.GetSocketCookie(twisted_socket)
+    elif prog_type is TYPE_IFACE_EGRESS:
+      map_key = self.ifindices[netid]
+    PrintMapInfo(self.map_fd)
+    print "key: %d" % map_key
+    self.assertEquals(1, LookupMap(self.map_fd, map_key).value)
+    DeleteMap(self.map_fd, map_key)
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+
+  def testUDPXfrmCookie(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    # The same eBPF program used in socket cookie test.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfFuncCall(BPF_FUNC_get_socket_cookie)
+    ]
+    instructions += (INS_BPF_PARAM_STORE + BpfFuncCountPacketInit(self.map_fd)
+                     + INS_CGROUP_ACCEPT + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    map_key = 0
+    self.XfrmUdpTrafficCheck(instructions, instructions, map_key, TYPE_COOKIE_EGRESS)
+
+  def testUDPXfrmProtocolV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    instructions = (BpfFuncGetSkbProtocol(IPV4_PROTOCOL_OFFSET)
+                     + BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                     + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    map_key = socket.IPPROTO_UDP
+    self.XfrmUdpTrafficCheck(instructions, instructions, map_key, TYPE_PROTOCOL_EGRESS)
+
+  def testUDPXfrmifaceV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    sk_buff = BpfSkBuff((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    # Code block filter out wrong type of packet by protocol.
+    bpf_insn1 = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, sk_buff.offset("protocol")),
+        BpfJumpImm(BPF_JEQ, BPF_REG_0, 8, 2),
+    ]
+    # Code block get the iface index as map_key
+    bpf_insn2 = [
+        BpfMov64Reg(BPF_REG_1, BPF_REG_6),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, sk_buff.offset("ifindex")),
+    ]
+
+    # Egress program counting ingress packet by iface
+    instruction_egress = (bpf_insn1 + INS_CGROUP_ACCEPT + bpf_insn2 + INS_BPF_PARAM_STORE +
+                    BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                    + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+
+    instruction_ingress = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, sk_buff.offset("ifindex"))
+    ]
+    # Ingress program counting ingress packet by iface
+    instruction_ingress += (INS_BPF_PARAM_STORE + BpfFuncCountPacketInit(self.map_fd)
+                     + INS_CGROUP_ACCEPT + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    self.XfrmUdpTrafficCheck(instruction_ingress, instruction_egress,
+                               0, TYPE_IFACE_EGRESS)
+
+  def testUDPXfrmUidV4(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, TOTAL_ENTRIES)
+    sk_buff = BpfSkBuff((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    # Code block filter out wrong type of packet by protocol.
+    bpf_insn1 = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, sk_buff.offset("protocol")),
+        BpfJumpImm(BPF_JEQ, BPF_REG_0, 8, 2),
+    ]
+    # Code block get the iface index as map_key
+    bpf_insn2 = [
+        BpfMov64Reg(BPF_REG_1, BPF_REG_6),
+        BpfFuncCall(BPF_FUNC_get_socket_uid),
+    ]
+
+    # Egress program counting ingress packet by iface
+    instruction_egress = (bpf_insn1 + INS_CGROUP_ACCEPT + bpf_insn2 + INS_BPF_PARAM_STORE +
+                    BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                    + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+
+    instruction_ingress = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfFuncCall(BPF_FUNC_get_socket_uid),
+    ]
+    # Ingress program counting ingress packet by iface
+    instruction_ingress += (INS_BPF_PARAM_STORE + BpfFuncCountPacketInit(self.map_fd)
+                     + INS_CGROUP_ACCEPT + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    self.XfrmUdpTrafficCheck(instruction_ingress, instruction_egress,
+                             os.getuid(), TYPE_UID_EGRESS)
 
 if __name__ == "__main__":
   unittest.main()
