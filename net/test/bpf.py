@@ -160,6 +160,7 @@ BpfAttrProgLoad = cstruct.Struct(
     " license log_level log_size log_buf kern_version")
 BpfAttrProgAttach = cstruct.Struct("bpf_attr_prog_attach", "=III",
                                    "target_fd attach_bpf_fd attach_type")
+BpfAttrObjOps = cstruct.Struct("bpf_attr_obj_ops", "=QI", "pathname bpf_fd")
 BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 BpfSkBuff = cstruct.Struct("bpf_sk_buff", "=IIIIIIIIIIIIIIIII",
                            "len pkt_type mark queue_mapping protocol vlan_present"
@@ -227,6 +228,16 @@ def BpfProgLoad(prog_type, instructions):
                           ctypes.addressof(gpl_license), LOG_LEVEL,
                           LOG_SIZE, ctypes.addressof(log_buf), 0))
   return BpfSyscall(BPF_PROG_LOAD, attr)
+
+def BpfObjPin(obj_fd, file_path):
+  path_string = ctypes.create_string_buffer(file_path, len(file_path))
+  attr = BpfAttrObjOps((ctypes.addressof(path_string), obj_fd))
+  return BpfSyscall(BPF_OBJ_PIN, attr)
+
+def BpfObjGet(file_path):
+  path_string = ctypes.create_string_buffer(file_path, len(file_path))
+  attr = BpfAttrObjOps((ctypes.addressof(path_string), 0))
+  return BpfSyscall(BPF_OBJ_GET, attr)
 
 # Attach a socket eBPF filter to a target socket
 def BpfProgAttachSocket(sock_fd, prog_fd):
