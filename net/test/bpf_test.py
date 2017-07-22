@@ -424,6 +424,10 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
     os.close(cls._cg_fd)
     os.system('umount cg_bpf')
     super(BpfCgroupMultinetworkTest, cls).tearDownClass()
+    try:
+      os.system('rm bpf/bpf_map')
+    except socket.error:
+      pass
 
   def setUp(self):
     self.prog_fd = -1
@@ -800,6 +804,23 @@ class BpfCgroupMultinetworkTest(tcp_test.TcpBaseTest):
     packet_count = 1
     self.TimeWaitCgroupCount(6, packet_count, instructions)
 
+  def testbpfObjectPin(self):
+    obj_path = "bpf/bpf_map"
+    os.system('mount -t bpf bpf_obj bpf')
+    self.tmp_fd = CreateMap(BPF_MAP_TYPE_HASH, 1, VALUE_SIZE, TOTAL_ENTRIES)
+    ret = BpfObjPin(self.tmp_fd, obj_path)
+    csocket.MaybeRaiseSocketError(ret)
+    self.map_fd = BpfObjGet(obj_path)
+    self.assertGreater(self.map_fd, 0)
+    instructions = (BpfFuncGetSkbProtocol(IPV6_PROTOCOL_OFFSET)
+                    + BpfFuncCountPacketInit(self.map_fd) + INS_CGROUP_ACCEPT
+                    + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+    v4addr = self.IPV4_ADDR
+    packet_count = 1
+    self.TimeWaitCgroupCount(6, packet_count, instructions)
+
+@unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
+                     "Cgroup BPF is not fully supported")
 class XfrmBpfTest(xfrm_test.XfrmTest):
 
   @classmethod
