@@ -20,19 +20,22 @@ import os
 import socket
 import struct
 import subprocess
+import time
 import tempfile
 import unittest
 
 from bpf import *  # pylint: disable=wildcard-import
 import csocket
 import net_test
+import packets
 import sock_diag
+import tcp_test
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_ACCOUNTING = net_test.LINUX_VERSION >= (4, 9, 0)
 KEY_SIZE = 8
 VALUE_SIZE = 4
-TOTAL_ENTRIES = 20
+TOTAL_ENTRIES = 10
 TEST_UID = 54321
 # Offset to store the map key in stack register REG10
 key_offset = -8
@@ -118,6 +121,7 @@ INS_BPF_EXIT_BLOCK = [
 ]
 
 # Bpf instruction for cgroup bpf filter to accept a packet and exit.
+# Or for xt_bpf program to match a xt_bpf rule
 INS_CGROUP_ACCEPT = [
     # Set return value to 1 and exit.
     BpfMov64Imm(BPF_REG_0, 1),
@@ -396,6 +400,205 @@ class BpfCgroupTest(net_test.NetworkTest):
       SocketUDPLoopBack(packet_count, 6, None)
       self.assertEquals(packet_count, LookupMap(self.map_fd, uid).value)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+
+
+
+class XtBpfTest(tcp_test.TcpBaseTest):
+
+  def RunIptablesCommand(self, args):
+    self.assertFalse(net_test.RunIptablesCommand(4, args))
+    self.assertFalse(net_test.RunIptablesCommand(6, args))
+
+  def setUp(self):
+    self.prog_fd = -1
+    self.map_fd = -1
+    self.RunIptablesCommand("-t mangle -N xtbpf_test_POSTROUTING")
+    self.RunIptablesCommand("-t mangle -A POSTROUTING -j xtbpf_test_POSTROUTING")
+
+  def tearDown(self):
+    if self.prog_fd >= 0:
+      os.close(self.prog_fd)
+    if self.map_fd >= 0:
+      os.close(self.map_fd)
+    self.RunIptablesCommand("-t mangle -F xtbpf_test_POSTROUTING")
+    self.RunIptablesCommand("-t mangle -D POSTROUTING -j xtbpf_test_POSTROUTING")
+    self.RunIptablesCommand("-t mangle -X xtbpf_test_POSTROUTING")
+    try:
+      os.system('rm bpf/bpf_prog')
+    except socket.error:
+      pass
+    try:
+      os.system('rm bpf/bpf_map')
+    except socket.error:
+      pass
+
+  def testbpfObjectPin(self):
+    obj_path = "bpf/bpf_map"
+    os.system('mount -t bpf bpf_obj bpf')
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            5)
+    # Set up the instruction with uid at BPF_REG_0.
+    instructions = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfFuncCall(BPF_FUNC_get_socket_uid)
+    ]
+    # Concatenate the generic packet count bpf program to it.
+    instructions += (INS_BPF_PARAM_STORE + BpfFuncCountPacketInit(self.map_fd)
+                     + INS_SK_FILTER_ACCEPT + INS_PACK_COUNT_UPDATE
+                     + INS_SK_FILTER_ACCEPT)
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER, instructions)
+    ret = BpfObjPin(self.map_fd, obj_path)
+    csocket.MaybeRaiseSocketError(ret)
+    os.path.isfile(obj_path)
+    self.map_fd  = BpfObjGet(obj_path)
+    self.assertGreater(self.map_fd, 0)
+    packet_count = 10
+    uid = TEST_UID
+    with net_test.RunAsUid(uid):
+      self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, uid)
+      SocketUDPLoopBack(packet_count, 4, self.prog_fd)
+      self.assertEquals(packet_count, LookupMap(self.map_fd, uid).value)
+      DeleteMap(self.map_fd, uid);
+      SocketUDPLoopBack(packet_count, 6, self.prog_fd)
+      self.assertEquals(packet_count, LookupMap(self.map_fd, uid).value)
+    os.system('rm bpf/bpf_map')
+
+  def TcpFullStateCheck(self, version, netid, packet_count, map_key):
+    self.sock = self.OpenListenSocket(version, netid)
+    remoteaddr = self.remoteaddr = self.GetRemoteAddress(version)
+    myaddr = self.myaddr = self.MyAddress(version, netid)
+    is_cookie = map_key is None
+    ingress_count = 0
+    egress_count = 0
+    for i in xrange (0, packet_count):
+      desc, syn = packets.SYN(self.port, version, remoteaddr, myaddr)
+      synack_desc, synack = packets.SYNACK(version, myaddr, remoteaddr, syn)
+      msg = "Received %s, expected to see reply %s" % (desc, synack_desc)
+      reply = self._ReceiveAndExpectResponse(netid, syn, synack, msg)
+      egress_count += 1
+      ingress_count += 1
+      establishing_ack = packets.ACK(version, remoteaddr, myaddr, reply)[1]
+      self.ReceivePacketOn(netid, establishing_ack)
+      # establishing_ack packet does not pass the tcp_filter
+      ingress_count += 1
+      self.accepted, _ = self.sock.accept()
+      net_test.DisableFinWait(self.accepted)
+      desc, data = packets.ACK(version, myaddr, remoteaddr, establishing_ack,
+                               payload=net_test.UDP_PAYLOAD)
+      self.accepted.send(net_test.UDP_PAYLOAD)
+      self.ExpectPacketOn(netid, msg + ": expecting %s" % desc, data)
+      egress_count += 1
+      desc, fin = packets.FIN(version, remoteaddr, myaddr, data)
+      ack_desc, ack = packets.ACK(version, myaddr, remoteaddr, fin)
+      msg = "Received %s, expected to see reply %s" % (desc, ack_desc)
+      self.ReceivePacketOn(netid, fin)
+      ingress_count += 1
+      time.sleep(0.1)
+      self.ExpectPacketOn(netid, msg + ": expecting %s" % ack_desc, ack)
+      egress_count += 1
+      # check the packet counting on accepted socket if the key is socket cookie.
+      self.accepted.close()
+    # Check the total packet recorded after a iterations.
+    self.sock.close()
+    desc, rst = packets.RST(version, myaddr, remoteaddr, self.last_packet)
+    msg = "%s: expecting %s: " % (msg, desc)
+    self.ExpectPacketOn(netid, msg, rst)
+    egress_count += 1
+    self.assertEquals(egress_count, LookupMap(self.map_fd, map_key).value)
+    DeleteMap(self.map_fd, map_key)
+
+  def CheckUDPPacket(self, version, netid, packet_count, map_key):
+    s = self.BuildSocket(version, net_test.UDPSocket, netid, "ucast_oif")
+    myaddr = self.MyAddress(version, netid)
+    dstaddr = self.GetRemoteAddress(version)
+    dstsockaddr = self.GetRemoteSocketAddress(version)
+    desc, expected = packets.UDP(version, myaddr, dstaddr, sport=None)
+    msg = "IPv%s UDP %%s: expected %s on %s" % (
+        version, desc, self.GetInterfaceName(netid))
+    self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, map_key)
+    for _ in xrange(packet_count):
+      s.sendto(net_test.UDP_PAYLOAD, (dstsockaddr, 53))
+      self.ExpectPacketOn(netid, msg % "sendto", expected)
+    self.assertEquals(packet_count, LookupMap(self.map_fd, map_key).value)
+    DeleteMap(self.map_fd, map_key)
+
+  def SetIptablesRule(self, version, is_add, path, jump):
+    add_del = "-A" if is_add else "-D"
+    args = "-t mangle %s xtbpf_test_POSTROUTING -m bpf --object-pinned %s -j %s" % (add_del, path,
+                                                                                    jump)
+    self.assertFalse(net_test.RunIptablesCommand(version, args))
+
+  def AddIptablesRule(self, version, path, jump):
+    self.SetIptablesRule(version, True, path, jump)
+
+  def DelIptablesRule(self, version, path, jump):
+    self.SetIptablesRule(version, False, path, jump)
+
+  def CheckSocketOutput(self, version, netid, path):
+    self.AddIptablesRule(version, os.path.abspath(path), "DROP");
+    family = {4: net_test.AF_INET, 6: net_test.AF_INET6}[version]
+    s = socket.socket(family, socket.SOCK_DGRAM, 0)
+    addr = {4: "127.0.0.1", 6: "::1"}[version]
+    s.bind((addr, 0))
+    addr = s.getsockname()
+    self.assertRaisesErrno(errno.EPERM, s.sendto, "foo", addr)
+    self.DelIptablesRule(version, os.path.abspath(path), "DROP")
+    s.sendto("foo", addr)
+    data, sockaddr = s.recvfrom(4096)
+    self.assertEqual("foo", data)
+    self.assertEqual(sockaddr, addr)
+
+  def testXtbpfProgHook(self):
+    obj_path = "bpf/bpf_prog"
+    os.system('mount -t bpf bpf_obj bpf')
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, 5)
+    sk_buff = BpfSkBuff((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    # The BPF program get skb portocol and iface index of each packet.
+    instruction_ingress = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, sk_buff.offset("ifindex"))
+    ]
+    instruction_ingress += (INS_BPF_PARAM_STORE + BpfFuncCountPacketInit(self.map_fd)
+                     + INS_CGROUP_ACCEPT + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+
+    v6addr = self.IPV6_ADDR
+    packet_count = 1
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER, instruction_ingress)
+    ret = BpfObjPin(self.prog_fd, obj_path)
+    csocket.MaybeRaiseSocketError(ret)
+    os.path.isfile(obj_path)
+    self.AddIptablesRule(6, os.path.abspath(obj_path), "RETURN");
+    for netid in self.NETIDS:
+      udp_key = self.ifindices[netid]
+      tcp_key = self.ifindices[netid]
+      self.TcpFullStateCheck(6, netid, packet_count, tcp_key)
+      self.CheckUDPPacket(6, netid, packet_count, udp_key)
+    self.DelIptablesRule(6, os.path.abspath(obj_path), "RETURN");
+    os.system('rm bpf/bpf_prog')
+
+  def testXtbpfProgBlockPacket(self):
+    obj_path = "bpf/bpf_prog"
+    os.system('mount -t bpf bpf_obj bpf')
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE, 5)
+    sk_buff = BpfSkBuff((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+    # The BPF program get skb portocol and iface index of each packet.
+    instruction_ingress = [
+        BpfMov64Reg(BPF_REG_6, BPF_REG_1),
+        BpfLdxMem(BPF_W, BPF_REG_0, BPF_REG_6, sk_buff.offset("ifindex"))
+    ]
+    instruction_ingress += (INS_BPF_PARAM_STORE + BpfFuncCountPacketInit(self.map_fd)
+                     + INS_CGROUP_ACCEPT + INS_PACK_COUNT_UPDATE + INS_CGROUP_ACCEPT)
+
+    v6addr = self.IPV6_ADDR
+    packet_count = 1
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER, instruction_ingress)
+    ret = BpfObjPin(self.prog_fd, obj_path)
+    csocket.MaybeRaiseSocketError(ret)
+    os.path.isfile(obj_path)
+    for netid in self.NETIDS:
+      self.CheckSocketOutput(4, netid, obj_path)
+      self.CheckSocketOutput(6, netid, obj_path)
+    os.system('rm bpf/bpf_prog')
 
 if __name__ == "__main__":
   unittest.main()
