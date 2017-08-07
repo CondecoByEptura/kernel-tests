@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import socket
+from socket import *  # pylint: disable=wildcard-import
 
 import cstruct
 import multinetwork_base
@@ -34,7 +34,7 @@ ALL_ALGORITHMS = 0xffffffff
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
 
-def ApplySocketPolicy(sock, family, direction, spi, reqid):
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
   """Create and apply socket policy objects.
 
   AH is not supported. This is ESP only.
@@ -45,8 +45,23 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid):
     direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
     spi: 32-bit SPI in network byte order
     reqid: 32-bit ID matched against SAs
+    tun_addrs: A tuple of two strings or None, the tunnel addresses.
+      If None, requests a transport mode SA.
+      If a tuple, specifies the local/remote endpoints of a tunnel mode SA.
+
   Return: a tuple of XfrmUserpolicyInfo, XfrmUserTmpl
   """
+  # For transport mode, set template source and destination are empty.
+  # For tunnel mode, explicitly specify source and destination addresses.
+  if tun_addrs is None:
+    mode = xfrm.XFRM_MODE_TRANSPORT
+    saddr = XFRM_ADDR_ANY
+    daddr = XFRM_ADDR_ANY
+  else:
+    mode = xfrm.XFRM_MODE_TUNNEL
+    saddr = xfrm.PaddedAddress(tun_addrs[0])
+    daddr = xfrm.PaddedAddress(tun_addrs[1])
+
   # Create a selector that matches all packets of the specified address family.
   # It's not actually used to select traffic, that will be done by the socket
   # policy, which selects the SA entry (i.e., xfrm state) via the SPI and reqid.
@@ -65,13 +80,13 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid):
       share=xfrm.XFRM_SHARE_UNIQUE)
 
   # Create a template that specifies the SPI and the protocol.
-  xfrmid = xfrm.XfrmId(daddr=XFRM_ADDR_ANY, spi=spi, proto=socket.IPPROTO_ESP)
+  xfrmid = xfrm.XfrmId(daddr=daddr, spi=spi, proto=IPPROTO_ESP)
   template = xfrm.XfrmUserTmpl(
       id=xfrmid,
       family=family,
-      saddr=XFRM_ADDR_ANY,
+      saddr=saddr,
       reqid=reqid,
-      mode=xfrm.XFRM_MODE_TRANSPORT,
+      mode=mode,
       share=xfrm.XFRM_SHARE_UNIQUE,
       optional=0,  #require
       aalgos=ALL_ALGORITHMS,
@@ -80,10 +95,51 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid):
 
   # Set the policy and template on our socket.
   opt_data = policy.Pack() + template.Pack()
-  if family == socket.AF_INET:
-    sock.setsockopt(socket.IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
+  if family == AF_INET:
+    sock.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
   else:
-    sock.setsockopt(socket.IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+    sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+
+
+def GetEspPacketLength(version, mode, outer):
+  """Calculates encrypted length of a UDP packet with payload UDP_PAYLOAD.
+
+  Currently assumes ALGO_CBC_AES_256 and ALGO_HMAC_SHA1.
+
+  Args:
+    version: 4 or 6, the version of the inner packet.
+    mode: XFRM_MODE_TRANSPORT or XFRM_MODE_TUNNEL.
+    outer: IPPROTO_IP, IPPROTO_IPV6, or UDP_ENCAP_ESPINUDP. The outer header.
+
+  Return: the packet length.
+
+  Raises:
+    NotImplementedError: unsupported combination.
+  """
+  # TODO: make this non-trivial, either using a more general matrix, or by
+  # calculating sizes dynamically based on algorithm block sizes and padding.
+  LENGTHS = {
+      4: {
+          xfrm.XFRM_MODE_TUNNEL: {
+              IPPROTO_IP: 100,
+          },
+      },
+      6: {
+          xfrm.XFRM_MODE_TRANSPORT: {
+              IPPROTO_IPV6: 84,
+          },
+          xfrm.XFRM_MODE_TUNNEL: {
+              IPPROTO_IP: 132,
+          },
+      },
+  }
+
+  try:
+    return LENGTHS[version][mode][outer]
+  except KeyError:
+    raise NotImplementedError(
+      "Unsupported combination version=%d mode=%d outer=%d" %
+      (version, mode, outer))
 
 
 class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
