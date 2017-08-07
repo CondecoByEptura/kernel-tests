@@ -82,6 +82,8 @@ XFRMA_SA_EXTRA_FLAGS = 24
 XFRMA_PROTO = 25
 XFRMA_ADDRESS_FILTER = 26
 XFRMA_PAD = 27
+XFRMA_OFFLOAD_DEV = 28
+XFRMA_OUTPUT_MARK = 29
 
 # Other netlink constants. See include/uapi/linux/xfrm.h.
 
@@ -262,7 +264,7 @@ class Xfrm(netlink.NetlinkSocket):
 
   def AddMinimalSaInfo(self, src, dst, spi, proto, mode, reqid,
                        encryption, encryption_key,
-                       auth_trunc, auth_trunc_key, encap):
+                       auth_trunc, auth_trunc_key, encap, output_mark=None):
     selector = XfrmSelector("\x00" * len(XfrmSelector))
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
     family = AF_INET6 if ":" in dst else AF_INET
@@ -272,6 +274,8 @@ class Xfrm(netlink.NetlinkSocket):
                             auth_trunc.Pack() + auth_trunc_key)
     if encap is not None:
       nlattrs += self._NlAttr(XFRMA_ENCAP, encap.Pack())
+    if output_mark is not None:
+      nlattrs += self._NlAttrU32(XFRMA_OUTPUT_MARK, output_mark)
     self.AddSaInfo(selector, xfrm_id, PaddedAddress(src), NO_LIFETIME_CFG,
                    reqid, family, mode, 4, 0, nlattrs)
 
