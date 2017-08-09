@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47465053_88cc9586",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "*sigh*, I\u0027ve had this line sitting in one of my CLs for 6 weeks. :-/",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 57
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0484adfa_bac53b4a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "Could you add pydocs here as well? Looks like you\u0027ve already done so on the other method. Should the method name start with lowercase?",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 374,
+        "endChar": 65
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4643844c_d41f996c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "Today the selector doesn\u0027t do a protocol match (in XfrmController). Why not use AF_UNSPEC? If someone manages to send TCP on a UDP socket... should we EAGAIN them? My thought especially on per-socket policy is that since there can only be one policy we could never send UDP traffic one way and TCP elsewhere... so this should probably just take anything it gets.",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 61
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcc802a8_5282d94b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "Given that it will require slightly more code, can the tunnel config be explicit? This is not very self-documenting.",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 37
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e5a751_c1b5591b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "generally I think these should be snake-cased, ex: xfrm_id",
+      "range": {
+        "startLine": 407,
+        "startChar": 4,
+        "endLine": 407,
+        "endChar": 10
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07cf2e20_91bb9026",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "Is this an internal helper intended only for use with some specific tests? If so, could you prefix with \"_\"; also, should this start with a lowercase?",
+      "range": {
+        "startLine": 422,
+        "startChar": 6,
+        "endLine": 422,
+        "endChar": 31
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f5ad4e_aa4b023e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "()",
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ef3dc2f_0d0b6dd7",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "Is there a constant that we can use for this?",
+      "range": {
+        "startLine": 440,
+        "startChar": 57,
+        "endLine": 440,
+        "endChar": 61
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b36d2643_47183c5b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "these feel like parameters to the test case that can be factored out. Would it be nicer to put these in the \"tests\" and then not have to do the v6 vs v4 stuff in the helper? Seems especially compelling for hard-coded IP addresses.",
+      "range": {
+        "startLine": 445,
+        "startChar": 3,
+        "endLine": 445,
+        "endChar": 63
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f33cf50_7c3a6e2f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "EMAGICNUMBER(S). Suggest constants with comments deriving the values?",
+      "range": {
+        "startLine": 463,
+        "startChar": 28,
+        "endLine": 463,
+        "endChar": 31
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7f47bab_130f004d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T18:01:48Z",
+      "side": 1,
+      "message": "is there a particular reason for using the DNS port? I suppose we are using the DNS addresses... is there any chance that using 53 causes dns-specific side-effects?",
+      "range": {
+        "startLine": 466,
+        "startChar": 50,
+        "endLine": 466,
+        "endChar": 52
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
