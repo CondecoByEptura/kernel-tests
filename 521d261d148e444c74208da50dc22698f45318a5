@@ -46,6 +46,30 @@
       "revId": "521d261d148e444c74208da50dc22698f45318a5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f835fd4_2025700d",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:46:55Z",
+      "side": 1,
+      "message": "I\u0027m going to remove the safety check and let come what may.",
+      "parentUuid": "b55cfde8_bbbee52b",
+      "range": {
+        "startLine": 314,
+        "startChar": 50,
+        "endLine": 314,
+        "endChar": 70
+      },
+      "revId": "521d261d148e444c74208da50dc22698f45318a5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
