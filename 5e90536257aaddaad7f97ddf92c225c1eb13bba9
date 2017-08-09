@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6f0fc363_6bf577f7",
+        "filename": "net/test/sock_diag.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "I\u0027m trying to reduce the element of surprise to someone using this code. I was surprised by the way this was written, and I can\u0027t imagine this does anything except straightforwardly help readability. This value is currently:\n1) only defined in child classes\n2) only used in base class constructors\n\nThat really feels like an obvious \"it should be in the child class constructor\" given where it\u0027s used.",
+      "parentUuid": "328dee1d_cf1842a5",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 61
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49ac6efa_c6d896fb",
         "filename": "net/test/tunnel.py",
         "patchSetId": 7
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "00e9b604_ec5aa861",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "From looking at the existing code, it seems that the convention is to import all of these when we need one or two of them. They have been added in iproute for the sole purpose of debug printing, but they are otherwise never used in the codebase there. Since it seems right to split out tunnel stuff from IProute, if they exist anywhere, I suggest they live here... but I don\u0027t want to go delete from where they exist since that delivers no tangible benefit here. It seems weird to import them from iproute for the reasons stated.",
+      "parentUuid": "d2760a8c_45029acc",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca9b1ea0_32a562d6",
         "filename": "net/test/tunnel.py",
         "patchSetId": 7
@@ -82,6 +130,30 @@
       "writtenOn": "2017-06-29T16:22:31Z",
       "side": 1,
       "message": "Don\u0027t define this, it changes between kernel versions.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 25
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "940d8872_528ec966",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca9b1ea0_32a562d6",
       "range": {
         "startLine": 64,
         "startChar": 0,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "1689991b_8b097a32",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c442784_a79fd970",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 15
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aae877d9_7e4c9699",
         "filename": "net/test/tunnel.py",
         "patchSetId": 7
@@ -128,6 +224,30 @@
       "writtenOn": "2017-06-29T16:22:31Z",
       "side": 1,
       "message": "This is already defined in iproute.py, can you use that instead?",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 9
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ec8aec8_2cbef62a",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "I\u0027ve defined it differently here; this matches the kernel struct. Like the other tunnel stuff in iproute... it\u0027s only added for debug printing and really doesn\u0027t belong there; but... I don\u0027t want to move it for reasons of minimizing change nor import because it because it didn\u0027t really belong in the location from which the import would happen.",
+      "parentUuid": "aae877d9_7e4c9699",
       "range": {
         "startLine": 74,
         "startChar": 0,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "65ee2de8_620b2400",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "Do you consider that more readable?",
+      "parentUuid": "ba9d599d_a22f27ee",
+      "range": {
+        "startLine": 76,
+        "startChar": 16,
+        "endLine": 76,
+        "endChar": 25
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31271015_95ed3ad5",
         "filename": "net/test/tunnel.py",
         "patchSetId": 7
@@ -174,6 +318,30 @@
       "writtenOn": "2017-06-29T02:09:26Z",
       "side": 1,
       "message": "may be worth adding a sentence to clarify this. I think it would be enough to say something like, \"Provides a subset of rtnetlink functionality used to manage VTI.\"",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 27
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11f04ce5_97a54f7e",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31271015_95ed3ad5",
       "range": {
         "startLine": 80,
         "startChar": 16,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "f0a07c7b_2ad4823c",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "TODO added.",
+      "parentUuid": "24c4c208_82f20155",
+      "range": {
+        "startLine": 120,
+        "startChar": 51,
+        "endLine": 120,
+        "endChar": 65
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34f248bf_64f9aeea",
         "filename": "net/test/tunnel.py",
         "patchSetId": 7
@@ -232,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "97543064_49c9d22e",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "I was aware of that, but this is nice and explicit for the reader at approximately no additional cost.",
+      "parentUuid": "34f248bf_64f9aeea",
+      "range": {
+        "startLine": 135,
+        "startChar": 23,
+        "endLine": 135,
+        "endChar": 50
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592e50b2_7998dcde",
         "filename": "net/test/tunnel.py",
         "patchSetId": 7
@@ -243,6 +459,30 @@
       "writtenOn": "2017-06-29T16:22:31Z",
       "side": 1,
       "message": "Ditto",
+      "range": {
+        "startLine": 141,
+        "startChar": 23,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14a44cf2_4ebee89f",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "Same comment... I feel that this is more readable since it doesn\u0027t rely on the reader remembering that AF_UNSPEC\u003d0, which is the only field that the underlying code path cares about.",
+      "parentUuid": "592e50b2_7998dcde",
       "range": {
         "startLine": 141,
         "startChar": 23,
@@ -284,6 +524,24 @@
       "side": 1,
       "message": "Suggest being be consistent with other parts of the code and just doing something like:\n\n  self._SendNlRequest(...)\n  return self._GetMsg(IfInfoMsg).ifindex\n\nRationale: there\u0027s little point in checking for an error here. The check will never do anything unless there\u0027s a pretty blatant kernel bug, and since this code is only used in tests, such a blatant bug will likely just cause the test to fail.",
       "parentUuid": "158e044c_4c4b9dd7",
+      "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6273893_376da593",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-08-09T20:51:46Z",
+      "side": 1,
+      "message": "Raising IOError",
+      "parentUuid": "be7b6dbf_c0e99535",
       "revId": "5e90536257aaddaad7f97ddf92c225c1eb13bba9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
