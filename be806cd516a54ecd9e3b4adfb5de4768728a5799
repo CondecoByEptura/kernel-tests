@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe4d1863_75d43a09",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-08-15T15:32:45Z",
+      "side": 1,
+      "message": "Since you do \"version \u003d 6\" above, this test is IPv6-specific and you can just do:\n\n  s.bind((\"::\", 53))\n\nAlso, maybe add a comment explaining what needs to be done to make this test work for IPv4? The basic test should be fine, and I can think of two things that would need to change:\n\n 1. The prefix length of the address is hardcoded to /64.\n 2. We recreate the address with SendRA, which obviously only\n    works for IPv6.\n\nNo need to actually change these in this commit, adding a TODO explaining what needs to be done will be enough.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 22
+      },
+      "revId": "be806cd516a54ecd9e3b4adfb5de4768728a5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c630953_5f6d6e1a",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-08-15T15:32:45Z",
+      "side": 1,
+      "message": "Suggest calling this \"ttl\" or \"hoplimit\" as it will be easier to understand.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "be806cd516a54ecd9e3b4adfb5de4768728a5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fb08e6a_e5a983ca",
+        "filename": "net/test/forwarding_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-08-15T15:32:45Z",
+      "side": 1,
+      "message": "Please limit lines to 80 characters in this file.",
+      "range": {
+        "startLine": 68,
+        "startChar": 80,
+        "endLine": 68,
+        "endChar": 97
+      },
+      "revId": "be806cd516a54ecd9e3b4adfb5de4768728a5799",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
