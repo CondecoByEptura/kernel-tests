@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b749584_f8b7b83e",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-08-15T18:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "163800b0_afa3224c",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "81a7d711db609d799dc6b24a908124875487aaf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89fb7e6e_28bdd166",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-15T14:15:26Z",
       "side": 1,
       "message": "I find this name hard to understand. SendRSTOnClosedSocket?\n SendRstWithLinger2?",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 120,
+        "endChar": 23
+      },
+      "revId": "81a7d711db609d799dc6b24a908124875487aaf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "deb592c2_ca2a2d2c",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-08-15T18:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89fb7e6e_28bdd166",
       "range": {
         "startLine": 120,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0a4a00cf_fb463ee4",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-08-15T18:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81b08664_ef9b09de",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 14
+      },
+      "revId": "81a7d711db609d799dc6b24a908124875487aaf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0354639b_2ef67048",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "94d04a8a_c7036568",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-08-15T18:24:42Z",
+      "side": 1,
+      "message": "since we need to test different combination in one test, the tearDown function won\u0027t help in this situation I guess.",
+      "parentUuid": "0354639b_2ef67048",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 49
+      },
+      "revId": "81a7d711db609d799dc6b24a908124875487aaf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "139e1838_98341359",
         "filename": "net/test/qtaguid_test.py",
         "patchSetId": 5
@@ -105,6 +201,30 @@
       "writtenOn": "2017-08-15T14:15:26Z",
       "side": 1,
       "message": "For clarity, consider listing what these are. For example:\n\n  self.CheckUidGidCombination(4, invert_uid\u003dTrue, invert_gid\u003dTrue)",
+      "range": {
+        "startLine": 212,
+        "startChar": 35,
+        "endLine": 212,
+        "endChar": 45
+      },
+      "revId": "81a7d711db609d799dc6b24a908124875487aaf5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea8faa18_ab5b1eff",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-08-15T18:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "139e1838_98341359",
       "range": {
         "startLine": 212,
         "startChar": 35,
