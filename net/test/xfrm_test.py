@@ -685,12 +685,12 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     """Test connect();send() on a UDP socket with an XFRM socket policy."""
     # TODO: This test has too much code in common with the other one.
     netid = random.choice(self.NETIDS)
-    sock = socket(AF_INET, SOCK_DGRAM, 0)  # TODO: IPv6
+    sock = socket(AF_INET6, SOCK_DGRAM, 0)  # TODO: IPv6
     sock.settimeout(2.0)
     self.SelectInterface(sock, netid, "mark")
 
-    local_addr = self.MyAddress(4, netid)
-    remote_addr = self.GetRemoteAddress(4)
+    local_addr = self.MyAddress(6, netid)
+    remote_addr = self.GetRemoteAddress(6)
     # Only need one outbound SA.
     crypt = CRYPT_ALGOS[0]
     ekey = os.urandom(crypt.key_len / 8)
@@ -708,9 +708,10 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         auth_trunc=auth,
         auth_trunc_key=akey,
         encap=None)
-    ApplySocketPolicy(sock, AF_INET, xfrm.XFRM_POLICY_OUT,
-                      htonl(0xf00dface), 100)
+    # Connect, apply, send. That is the broken pattern.
     sock.connect((remote_addr, 8080))
+    ApplySocketPolicy(sock, AF_INET6, xfrm.XFRM_POLICY_OUT,
+                      htonl(0xf00dface), 100)
     sock.send("hello")
     # assert
     packets = self.ReadAllPacketsOn(netid)
@@ -722,8 +723,189 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     hdr = EspHdr(packet.payload.build())
     self.assertEqual(0xf00dface, hdr.spi)
 
+  def testTcpConnectSend(self):
+    params = {
+        "crypt": CRYPT_ALGOS[0],
+        "auth": AUTH_ALGOS[0],
+        "family": AF_INET,
+        "proto": SOCK_STREAM,
+    }
+    def JustDebug(packet):
+      print
+      print repr(packet.payload.payload)
+    def AssertEncrypted(packet):
+      # This gives a free pass to IPv6 RA packets.
+      self.assertEquals(None,
+                        packet.getlayer(scapy.UDP),
+                        "UDP packet sent in the clear")
+      self.assertEquals(None,
+                        packet.getlayer(scapy.TCP),
+                        "TCP packet sent in the clear")
 
-XfrmTest.InjectTests()
+    netid = random.choice(self.NETIDS)
+    if params["family"] == AF_INET:
+      # TODO: utils should use AF_INET & AF_INET6 constants.
+      local_addr = self.MyAddress(4, netid)
+      remote_addr = self.GetRemoteAddress(4)
+    else:
+      local_addr = self.MyAddress(6, netid)
+      remote_addr = self.GetRemoteAddress(6)
+    ekey_left = os.urandom(params["crypt"].key_len / 8)
+    akey_left = os.urandom(params["auth"].key_len / 8)
+    ekey_right = os.urandom(params["crypt"].key_len / 8)
+    akey_right = os.urandom(params["auth"].key_len / 8)
+    spi_left = htonl(0xbeefface)
+    spi_right = htonl(0xcafed00d)
+
+    """
+    # Left outbound SA
+    self.xfrm.AddMinimalSaInfo(
+        src=local_addr,
+        dst=remote_addr,
+        spi=spi_right,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=100,
+        encryption=params["crypt"],
+        encryption_key=ekey_right,
+        auth_trunc=params["auth"],
+        auth_trunc_key=akey_right,
+        encap=None)
+    # Right inbound SA
+    self.xfrm.AddMinimalSaInfo(
+        src=remote_addr,
+        dst=local_addr,
+        spi=spi_right,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=200,
+        encryption=params["crypt"],
+        encryption_key=ekey_right,
+        auth_trunc=params["auth"],
+        auth_trunc_key=akey_right,
+        encap=None)
+    # Right outbound SA
+    self.xfrm.AddMinimalSaInfo(
+        src=local_addr,
+        dst=remote_addr,
+        spi=spi_left,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=300,
+        encryption=params["crypt"],
+        encryption_key=ekey_left,
+        auth_trunc=params["auth"],
+        auth_trunc_key=akey_left,
+        encap=None)
+    # Left inbound SA
+    self.xfrm.AddMinimalSaInfo(
+        src=remote_addr,
+        dst=local_addr,
+        spi=spi_left,
+        proto=IPPROTO_ESP,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=400,
+        encryption=params["crypt"],
+        encryption_key=ekey_left,
+        auth_trunc=params["auth"],
+        auth_trunc_key=akey_left,
+        encap=None)
+    """
+
+    # Make two sockets.
+    sock_left = socket(params["family"], params["proto"], 0)
+    sock_left.settimeout(2.0)
+    self.SelectInterface(sock_left, netid, "mark")
+    sock_right = socket(params["family"], params["proto"], 0)
+    sock_right.settimeout(2.0)
+    self.SelectInterface(sock_right, netid, "mark")
+
+    # Apply the left outbound socket policy.
+    #ApplySocketPolicy(sock_left, params["family"], xfrm.XFRM_POLICY_OUT, spi_right, 100)
+    # Apply right inbound socket policy.
+    #ApplySocketPolicy(sock_right, params["family"], xfrm.XFRM_POLICY_IN, spi_right, 200)
+    # Apply right outbound socket policy.
+    #ApplySocketPolicy(sock_right, params["family"], xfrm.XFRM_POLICY_OUT, spi_left, 300)
+    # Apply left inbound socket policy.
+    #ApplySocketPolicy(sock_left, params["family"], xfrm.XFRM_POLICY_IN, spi_left, 400)
+
+    # SO_REUSEADDR not working so pick random ports.
+    # These won't collide most of the time.
+    # TODO: Get SO_REUSEADDR working so we don't rely on random ports.
+    left_port = random.randrange(1000, 60000)
+    right_port = random.randrange(1000, 60000)
+
+    server_error = None  # Save exceptions thrown by the server.
+
+    def TcpServer(sock, server_port, client_port):
+      try:
+        family = AF_INET6 if ":" in sock.getsockname()[0] else AF_INET
+        # Set SO_REUSEADDR so that other tests can listen on the same port.
+        sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+        linger = struct.pack("!II", 0, 0)  # Am I doing it right?
+        sock.setsockopt(SOL_SOCKET, SO_LINGER, linger)
+        sock.bind((ADDR_ANY[family], server_port))
+        sock.listen(1)
+        conn, remote = sock.accept()
+        self.assertEquals(remote_addr, remote[0])
+        self.assertEquals(client_port, remote[1])
+        data = conn.recv(2048)
+        self.assertEquals("hello request", data)
+        conn.send("hello response")
+      except Exception as server_error:
+        pass
+      finally:
+        sock.shutdown(SHUT_RD)
+        sock.close()
+
+    def UdpServer(sock, server_port, client_port):
+      try:
+        family = AF_INET6 if ":" in sock.getsockname()[0] else AF_INET
+        sock.bind((ADDR_ANY[family], server_port))
+        data, remote = sock.recvfrom(2048)
+        self.assertEquals(remote_addr, remote[0])
+        self.assertEquals(client_port, remote[1])
+        self.assertEquals("hello request", data)
+        sock.sendto("hello response", remote)
+      except Exception as server_error:
+        pass
+      finally:
+        sock.close()
+
+    # Start the appropriate server type on sock_right.
+    # TODO: server is flaky with recvfrom/connect timeout. fix it.
+    target = TcpServer if params["proto"] == SOCK_STREAM else UdpServer
+    server = threading.Thread(
+        target=target,
+        args=(sock_right, right_port, left_port),
+        name="SocketServer")
+    server.start()
+
+    with TapTwister(fd=self.tuns[netid].fileno(), validator=JustDebug):
+      sock_left.bind((ADDR_ANY[params["family"]], left_port))
+      sock_left.connect((remote_addr, right_port))
+      print "sock_left is connected"
+      # Apply the left outbound socket policy.
+      ApplySocketPolicy(sock_left, params["family"], xfrm.XFRM_POLICY_OUT, spi_right, 100)
+      # Apply right inbound socket policy.
+      #ApplySocketPolicy(sock_right, params["family"], xfrm.XFRM_POLICY_IN, spi_right, 200)
+      # Apply right outbound socket policy.
+      #ApplySocketPolicy(sock_right, params["family"], xfrm.XFRM_POLICY_OUT, spi_left, 300)
+      # Apply left inbound socket policy.
+      #ApplySocketPolicy(sock_left, params["family"], xfrm.XFRM_POLICY_IN, spi_left, 400)
+      with self.assertRaisesErrno(ETIMEDOUT):  # should be EAGAIN
+        sock_left.send("hello request")
+        data = sock_left.recv(2048)
+        self.assertEquals("hello response", data)
+      if params["proto"] == SOCK_STREAM:
+        sock_left.shutdown(SHUT_RD)
+      sock_left.close()
+      server.join()
+    if server_error:
+      raise server_error
+
+
+#XfrmTest.InjectTests()
 
 if __name__ == "__main__":
   unittest.main()
