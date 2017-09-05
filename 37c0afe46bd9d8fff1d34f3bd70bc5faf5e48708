@@ -455,6 +455,29 @@
       "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3be81d5f_ad9cc1f8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T23:38:58Z",
+      "side": 1,
+      "message": "This line throws KeyError when I run this test. EHOLDINGITWRONG?",
+      "range": {
+        "startLine": 497,
+        "startChar": 30,
+        "endLine": 497,
+        "endChar": 61
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
