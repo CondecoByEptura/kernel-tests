@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "97e585bd_42912109",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "Should we move this to xfrm.py?",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 65
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4643844c_d41f996c",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -71,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "1285ce95_9660d1cf",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "Does calling getpeername mean that we have to connect() any socket before using this helper?",
+      "range": {
+        "startLine": 403,
+        "startChar": 50,
+        "endLine": 403,
+        "endChar": 0
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcc802a8_5282d94b",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -82,6 +128,30 @@
       "writtenOn": "2017-08-09T18:01:48Z",
       "side": 1,
       "message": "Given that it will require slightly more code, can the tunnel config be explicit? This is not very self-documenting.",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 37
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39f359b6_feb61228",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "OK so if I understand, the transport mode unit tests want tun_addrs\u003dNone. I suppose my socket policies that used ANY in the dst were too broad.",
+      "parentUuid": "bcc802a8_5282d94b",
       "range": {
         "startLine": 397,
         "startChar": 0,
@@ -180,6 +250,29 @@
     },
     {
       "key": {
+        "uuid": "f65b6861_bd184a5d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "I interpreted the comments above to mean that the netid param would be used here. Is it supposed to be random?",
+      "range": {
+        "startLine": 440,
+        "startChar": 28,
+        "endLine": 440,
+        "endChar": 54
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b36d2643_47183c5b",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -200,6 +293,53 @@
       "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea50bac_b6609113",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "I think the original intent behind methods like MyAddress and GetRemoteAddress is to have a test that is agnostic of IPPROTO. Put another way, we would like to write one test that can test either IPv6 or IPv4, then run that test twice.\n\nIdeally this would be accomplished by adding this python package to the net_test framework: https://github.com/wolever/parameterized",
+      "parentUuid": "b36d2643_47183c5b",
+      "range": {
+        "startLine": 445,
+        "startChar": 3,
+        "endLine": 445,
+        "endChar": 63
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd77a0c6_d162a040",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "is self.GetRemoteAddress appropriate here?",
+      "range": {
+        "startLine": 445,
+        "startChar": 13,
+        "endLine": 445,
+        "endChar": 63
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     },
     {
       "key": {
@@ -226,6 +366,29 @@
     },
     {
       "key": {
+        "uuid": "823d2c16_70287b45",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "What do we gain by asserting the ESP packet length? We confirmed once that a packet was correctly encrypted and now length is an easy proxy to catch if a different packet is generated?",
+      "range": {
+        "startLine": 463,
+        "startChar": 4,
+        "endLine": 463,
+        "endChar": 13
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7f47bab_130f004d",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -246,6 +409,52 @@
       "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "507acf25_92be75c5",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "If this test finds a bug, will the test output indicate which address family the test failed on? This would be a great place to use @parameterized, but that module is not installed in the rootfs.\n\nOne possible alternative would be to catch anything thrown by CheckTunnelModeOutputMark(), modify the exception text, and re-raise.",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 473,
+        "endChar": 26
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c066462_eb80e137",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-05T22:03:24Z",
+      "side": 1,
+      "message": "What does testing each netid cover that testing one netid doesn\u0027t?",
+      "range": {
+        "startLine": 474,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 31
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
