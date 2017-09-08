@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae2c51b0_8cb927f7",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-09-08T09:31:14Z",
+      "side": 1,
+      "message": "You can probably also do:\n\n    for rtm_action in [RTM_NEWROUTE, RTM_DELROUTE]:\n        self.iproute._Route(do, the, needful, rtm_action)",
+      "range": {
+        "startLine": 532,
+        "startChar": 39,
+        "endLine": 532,
+        "endChar": 40
+      },
+      "revId": "01042e052916ff9c8ba109ba5aadd1e32a7910e3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
