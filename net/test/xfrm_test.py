@@ -25,6 +25,7 @@ import unittest
 
 import multinetwork_base
 import net_test
+import os
 import xfrm
 
 XFRM_ADDR_ANY = 16 * "\x00"
@@ -365,6 +366,80 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+  def SetIptablesAcceptRule(self, version, is_add, is_gid, my_id, inverted):
+    add_del = "-A" if is_add else "-D"
+    uid_gid = "--gid-owner" if is_gid else "--uid-owner"
+    if inverted:
+      args = "%s qtaguid_test_OUTPUT -m owner ! %s %d -j ACCEPT" % (add_del, uid_gid, my_id)
+    else:
+      args = "%s qtaguid_test_OUTPUT -m owner %s %d -j ACCEPT" % (add_del, uid_gid, my_id)
+    self.assertFalse(net_test.RunIptablesCommand(version, args))
+    if inverted:
+      args = "%s qtaguid_test_INPUT -m owner ! %s %d -j DROP" % (add_del, uid_gid, my_id)
+    else:
+      args = "%s qtaguid_test_INPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
+    self.assertFalse(net_test.RunIptablesCommand(version, args))
+
+
+  def SetIptablesDropRule(self, version, is_add, is_gid, my_id, inverted):
+    add_del = "-A" if is_add else "-D"
+    uid_gid = "--gid-owner" if is_gid else "--uid-owner"
+    if inverted:
+      args = "%s qtaguid_test_OUTPUT -m owner ! %s %d -j DROP" % (add_del, uid_gid, my_id)
+    else:
+      args = "%s qtaguid_test_OUTPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
+    self.assertFalse(net_test.RunIptablesCommand(version, args))
+    if inverted:
+      args = "%s qtaguid_test_INPUT -m owner ! %s %d -j DROP" % (add_del, uid_gid, my_id)
+    else:
+      args = "%s qtaguid_test_INPUT -m owner %s %d -j DROP" % (add_del, uid_gid, my_id)
+    self.assertFalse(net_test.RunIptablesCommand(version, args))
+
+  def SetUpIptablesAllowPerUidRule(self, is_gid, my_id):
+    net_test.RunIptablesCommand(4, "-N qtaguid_test_INPUT")
+    #net_test.RunIptablesCommand(4, "-A INPUT -j qtaguid_test_INPUT")
+    net_test.RunIptablesCommand(4, "-N qtaguid_test_OUTPUT")
+    net_test.RunIptablesCommand(4, "-A OUTPUT -j qtaguid_test_OUTPUT")
+    #self.SetIptablesAcceptRule(4, True, is_gid, os.getgid() if is_gid else os.getuid(), False)
+
+    sid = 0
+    if my_id > 0:
+      sid = my_id
+    else:
+      sid = os.getgid() if is_gid else os.getuid()
+    self.SetIptablesAcceptRule(4, True, is_gid, sid, False)
+    net_test.RunIptablesCommand(4, "-A qtaguid_test_INPUT -j DROP")
+    net_test.RunIptablesCommand(4, "-A qtaguid_test_OUTPUT -j DROP")
+
+  def TearDownIptablesAllowPerUidRule(self, is_gid, my_id):
+    sid = 0
+    if my_id > 0:
+      sid = my_id
+    else:
+      sid = os.getgid() if is_gid else os.getuid()
+    #self.SetIptablesAcceptRule(4, False, is_gid, os.getgid() if is_gid else os.getuid(), False)
+    self.SetIptablesAcceptRule(4, False, is_gid, sid, False)
+    net_test.RunIptablesCommand(4, "-D qtaguid_test_INPUT -j DROP")
+    net_test.RunIptablesCommand(4, "-D qtaguid_test_OUTPUT -j DROP");
+    net_test.RunIptablesCommand(4, "-D INPUT -j qtaguid_test_INPUT")
+    net_test.RunIptablesCommand(4, "-D OUTPUT -j qtaguid_test_OUTPUT")
+    net_test.RunIptablesCommand(4, "-F qtaguid_test_INPUT")
+    net_test.RunIptablesCommand(4, "-X qtaguid_test_INPUT")
+    net_test.RunIptablesCommand(4, "-F qtaguid_test_OUTPUT")
+    net_test.RunIptablesCommand(4, "-X qtaguid_test_OUTPUT")
+
+  def testAbc(self):
+    is_gid = True
+    my_id = 12345
+
+    if my_id == 0:
+      my_id = os.getgid() if is_gid else os.getuid()
+    print "Running testAbc............................................"
+    self.SetUpIptablesAllowPerUidRule(is_gid, my_id)
+    with net_test.RunAsUidGid(0 if is_gid else my_id, my_id if is_gid else 0):
+      self.testUdpEncapWithSocketPolicy()
+    #self.testSocketPolicy()
+    self.TearDownIptablesAllowPerUidRule(is_gid, my_id)
 
 if __name__ == "__main__":
   unittest.main()
