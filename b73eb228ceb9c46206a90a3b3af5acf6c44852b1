@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9a4387c_d620f6c9",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-13T07:02:38Z",
+      "side": 1,
+      "message": "Style guide says only one blank line between methods.",
+      "revId": "b73eb228ceb9c46206a90a3b3af5acf6c44852b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebcb038a_d038949f",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-13T07:02:38Z",
+      "side": 1,
+      "message": "Per style guide, and for consistency with the rest of the project, these should be my_uid and my_gid.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 23
+      },
+      "revId": "b73eb228ceb9c46206a90a3b3af5acf6c44852b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1569ab2b_926f40a3",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-13T07:02:38Z",
+      "side": 1,
+      "message": "Nit: consider giving this a name and declaring it at the top of the function. Something like:\n\n  OTHER_UID \u003d 12345",
+      "range": {
+        "startLine": 146,
+        "startChar": 42,
+        "endLine": 146,
+        "endChar": 47
+      },
+      "revId": "b73eb228ceb9c46206a90a3b3af5acf6c44852b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0421f25b_59fb6064",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-13T07:02:38Z",
+      "side": 1,
+      "message": "Technically you\u0027re testing the the RST packet is *not* dropped, right? If so, rename to testRstPacketNotDropped?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 23
+      },
+      "revId": "b73eb228ceb9c46206a90a3b3af5acf6c44852b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad1cf0fa_10c00836",
+        "filename": "net/test/qtaguid_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-13T07:02:38Z",
+      "side": 1,
+      "message": "my_uid",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 8
+      },
+      "revId": "b73eb228ceb9c46206a90a3b3af5acf6c44852b1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
