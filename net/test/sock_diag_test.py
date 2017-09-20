@@ -18,6 +18,7 @@
 from errno import *  # pylint: disable=wildcard-import
 import os
 import random
+import select
 from socket import *  # pylint: disable=wildcard-import
 import struct
 import threading
@@ -115,10 +116,11 @@ class SockDiagBaseTest(multinetwork_base.MultiNetworkBaseTest):
     self.sock_diag.CloseSocketFromFd(sock)
     thread.join(1)
     self.assertFalse(thread.is_alive())
-    self.assertIsNotNone(thread.exception)
-    self.assertTrue(isinstance(thread.exception, IOError),
-                    "Expected IOError, got %s" % thread.exception)
-    self.assertEqual(expected_errno, thread.exception.errno)
+    if expected_errno is not None:
+      self.assertIsNotNone(thread.exception)
+      self.assertTrue(isinstance(thread.exception, IOError),
+                      "Expected IOError, got %s" % thread.exception)
+      self.assertEqual(expected_errno, thread.exception.errno)
     self.assertSocketClosed(sock)
 
   def setUp(self):
@@ -629,6 +631,42 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertRaisesErrno(EPIPE, self.accepted.send, "foo")
       self.assertEquals("", self.accepted.recv(4096))
       self.assertEquals("", self.accepted.recv(4096))
+
+  def CheckPollInterrupted(self, mask, expected_event):
+
+    def BlockingPoll(sock, mask, expected_event):
+      p = select.poll()
+      p.register(sock, mask)
+      expected_fds = [(sock.fileno(), expected_event)]
+      actual_fds = p.poll(-1)
+      self.assertEqual(expected_fds, actual_fds)
+
+    for version in [4, 5, 6]:
+      self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, self.netid)
+      self.CloseDuringBlockingCall(
+          self.accepted,
+          lambda sock: BlockingPoll(sock, mask, expected_event),
+          None)
+
+      # The first operation returns ECONNABORTED.
+      self.assertRaisesErrno(ECONNABORTED, self.accepted.recv, 4096)
+
+      # Subsequent operations behave as normal.
+      self.assertRaisesErrno(EPIPE, self.accepted.send, "foo")
+      self.assertEquals("", self.accepted.recv(4096))
+      self.assertEquals("", self.accepted.recv(4096))
+
+  def testReadPollInterrupted(self):
+    self.CheckPollInterrupted(select.POLLIN,
+                              select.POLLIN | select.POLLERR | select.POLLHUP)
+
+  # TODO: this doesn't really make sense. We should fix it.
+  def testWritePollInterrupted(self):
+    self.CheckPollInterrupted(select.POLLOUT, select.POLLOUT)
+
+  # TODO: this makes even less sense.
+  def testReadWritePollInterrupted(self):
+    self.CheckPollInterrupted(select.POLLIN | select.POLLOUT, select.POLLOUT)
 
   def testConnectInterrupted(self):
     """Tests that connect() is interrupted by SOCK_DESTROY."""
