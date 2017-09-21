@@ -62,6 +62,31 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     super(XfrmTest, self).tearDown()
     self.xfrm.FlushSaInfo()
 
+  def GetAddressFamily(self, version):
+    return {4: AF_INET,
+            6: AF_INET6}[version]
+
+  def GetIpProtoByVersion(self, version):
+    return {4: IPPROTO_IP,
+            6: IPPROTO_IPV6}[version]
+
+  def GetXfrmPolicyByVersion(self, version):
+    return {4: xfrm.IP_XFRM_POLICY,
+            6: xfrm.IPV6_XFRM_POLICY}[version]
+
+  def BuildEspPacket(self, version, srcaddr, dstaddr, payload):
+    if version == 4:
+      return (scapy.IP(src=srcaddr, dst=dstaddr, proto=IPPROTO_ESP) / payload)
+    return (scapy.IPv6(src=srcaddr, dst=dstaddr, nh=IPPROTO_ESP) / payload)
+
+  def BuildUdpPacket(self, version, srcaddr, dstaddr, sport, dport, payload):
+    if version == 4:
+      return (scapy.IP(src=srcaddr, dst=dstaddr) / scapy.UDP(
+          sport=sport, dport=dport) / payload)
+    return (scapy.IPv6(src=srcaddr, dst=dstaddr) / scapy.UDP(
+        sport=sport, dport=dport) / payload)
+
+
   def expectIPv6EspPacketOn(self, netid, spi, seq, length):
     packets = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(packets))
@@ -79,6 +104,18 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     self.assertEquals(length, len(payload))
     spi_seq = struct.pack("!II", ntohl(spi), seq)
     self.assertEquals(spi_seq, str(payload)[:len(spi_seq)])
+
+  def assertInterfaceEquals(self, version, addr, port, target):
+    if version == 4:
+      self.assertEquals((addr, port), target)
+    else:
+      self.assertEquals((addr, port, 0, 0), target)
+
+  def assertProtoEquals(self, version, target, packet):
+    if version == 4:
+      self.assertEquals(target, packet.proto)
+    else:
+      self.assertEquals(target, packet.nh)
 
   def testAddSa(self):
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
@@ -365,6 +402,145 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+  # This function remove the XFRM policy with:
+  # 1) set the out direction spi to 0,
+  # 2) set the address family,
+  # 3) set the this policy to optional. Then, we
+  # send a packet to see if the captured packet is in clear text.
+  def removeTransportModeXfrmPolicy(self, sock):
+    bind_addr = sock.getsockname()[0]
+
+    sel = xfrm.XfrmSelector((XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0,
+                             AF_INET6 if ":" in bind_addr else AF_INET,
+                             0, 0, IPPROTO_UDP, 0, 0))
+    xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, 0, 0))
+    usertmpl = xfrm.XfrmUserTmpl((xfrmid, 0, XFRM_ADDR_ANY, 0, 0, 0,
+                                 1, # optional bit
+                                 0, 0, 0))
+
+    for dir in [xfrm.XFRM_POLICY_IN, xfrm.XFRM_POLICY_OUT]:
+      info = xfrm.XfrmUserpolicyInfo((sel,
+                                      xfrm.NO_LIFETIME_CFG, xfrm.NO_LIFETIME_CUR,
+                                      0, 0, dir, 0, 0, 0))
+
+      data = info.Pack() + usertmpl.Pack()
+      sock.setsockopt(IPPROTO_IPV6 if ":" in bind_addr else IPPROTO_IP,
+                   xfrm.IPV6_XFRM_POLICY if ":" in bind_addr
+                                         else xfrm.IP_XFRM_POLICY,
+                   data)
+
+  def testRemoveSoecktPolicies(self):
+    netid = random.choice(self.NETIDS)
+
+    for version in [4, 6]:
+      ipproto = self.GetIpProtoByVersion(version)
+      xfrmpolicy = self.GetXfrmPolicyByVersion(version)
+      addrfamily = self.GetAddressFamily(version)
+
+      # Open a socket to send traffic.
+      s = socket(addrfamily, SOCK_DGRAM, 0)
+      self.SelectInterface(s, netid, "mark")
+
+      myaddr = self.MyAddress(version, netid)
+      remoteaddr = self.GetRemoteAddress(version)
+      s.connect((remoteaddr, 5353))
+
+      # Create an Xfrm policy and template inbound and outbound and apply
+      # them to s and recvsock respectively.
+      sel = xfrm.XfrmSelector((XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0,
+                               addrfamily, 0, 0, IPPROTO_UDP, 0, 0))
+
+      # Use the same SPI both inbound and outbound because this lets us receive
+      # encrypted packets by simply replaying the packets the kernel sends.
+      in_reqid = 123
+      in_spi = htonl(TEST_SPI)
+      out_reqid = 456
+      out_spi = htonl(TEST_SPI)
+
+      # Start with the outbound policy.
+      info = xfrm.XfrmUserpolicyInfo((sel,
+                                      xfrm.NO_LIFETIME_CFG,
+                                      xfrm.NO_LIFETIME_CUR,
+                                      100, 0,
+                                      xfrm.XFRM_POLICY_OUT,
+                                      xfrm.XFRM_POLICY_ALLOW,
+                                      xfrm.XFRM_POLICY_LOCALOK,
+                                      xfrm.XFRM_SHARE_UNIQUE))
+      xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, out_spi, IPPROTO_ESP))
+      usertmpl = xfrm.XfrmUserTmpl((xfrmid, addrfamily,
+                                XFRM_ADDR_ANY, out_reqid,
+                                xfrm.XFRM_MODE_TRANSPORT,
+                                xfrm.XFRM_SHARE_UNIQUE,
+                                0,                # require
+                                ALL_ALGORITHMS,   # auth algos
+                                ALL_ALGORITHMS,   # encryption algos
+                                ALL_ALGORITHMS))  # compression algos
+
+      data = info.Pack() + usertmpl.Pack()
+      s.setsockopt(ipproto, xfrmpolicy, data)
+
+      # Create inbound and outbound SAs with the policy and no encap tmpl.
+      self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
+                                 xfrm.XFRM_MODE_TRANSPORT, out_reqid,
+                                 ALGO_CBC_AES_256, ENCRYPTION_KEY,
+                                 ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
+      self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
+                                 xfrm.XFRM_MODE_TRANSPORT, in_reqid,
+                                 ALGO_CBC_AES_256, ENCRYPTION_KEY,
+                                 ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None)
+
+      # Now send a packet, and expect to see an ESP packet.
+      s.sendto("foo", (remoteaddr, 5353))
+      sdpackets = self.ReadAllPacketsOn(netid)
+      self.assertEquals(1, len(sdpackets))
+      sdpacket = sdpackets[0]
+      self.assertProtoEquals(version, IPPROTO_ESP, sdpacket)
+
+      # Now test the receive path.
+      recvsock = socket(addrfamily, SOCK_DGRAM, 0)
+      net_test.SetSocketTimeout(recvsock, 100)
+      recvsock.bind(({4: "0.0.0.0", 6: "::"}[version], 5353))
+
+      # Set inbound policy
+      info.dir = xfrm.XFRM_POLICY_IN
+      xfrmid.spi = in_spi
+      usertmpl.reqid = in_reqid
+      data = info.Pack() + usertmpl.Pack()
+      recvsock.setsockopt(ipproto, xfrmpolicy, data)
+
+      # Save the payload of the packet so we can replay it back to ourselves.
+      payload = str(sdpacket.payload)
+      spi_seq = struct.pack("!II", ntohl(in_spi), 1)
+      payload = spi_seq + payload[len(spi_seq):]
+
+      srcport = s.getsockname()[1]
+      # Now play back the valid packet and check that we receive it.
+      incoming = self.BuildEspPacket(version, remoteaddr, myaddr, payload)
+      self.ReceivePacketOn(netid, incoming)
+      data, src = recvsock.recvfrom(4096)
+      self.assertEquals("foo", data)
+      self.assertInterfaceEquals(version, remoteaddr, srcport, src)
+
+      # Now test removing the xfrm policy.
+      # First remove outbound policy
+      self.removeTransportModeXfrmPolicy(s)
+      s.sendto("foo", (remoteaddr, 5353))
+
+      packets = self.ReadAllPacketsOn(netid)
+      self.assertEquals(1, len(packets))
+      packet = packets[0]
+      self.assertProtoEquals(version, IPPROTO_UDP, packet)
+      self.assertEquals("foo", packet.payload.payload.build())
+
+      # Now remove inbound policy
+      self.removeTransportModeXfrmPolicy(recvsock)
+
+      incoming = self.BuildUdpPacket(version, remoteaddr, myaddr, 5353,
+                                     5353, "foo")
+      self.ReceivePacketOn(netid, incoming)
+      data, src = recvsock.recvfrom(4096)
+      self.assertEquals("foo", data)
+      self.assertInterfaceEquals(version, remoteaddr, 5353, src)
 
 if __name__ == "__main__":
   unittest.main()
