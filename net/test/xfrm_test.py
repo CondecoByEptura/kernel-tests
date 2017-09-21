@@ -365,6 +365,102 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+  def testRemoveXfrmPolicy(self):
+    # TODO: test IPv6 instead of IPv4.
+    netid = random.choice(self.NETIDS)
+    myaddr = self.MyAddress(4, netid)
+    remoteaddr = self.GetRemoteAddress(4)
+
+    # Reserve a port on which to receive UDP encapsulated packets. Sending
+    # packets works without this (and potentially can send packets with a source
+    # port belonging to another application), but receiving requires the port to
+    # be bound and the encapsulation socket option enabled.
+    encap_socket = net_test.Socket(AF_INET, SOCK_DGRAM, 0)
+    encap_socket.bind((myaddr, 0))
+    encap_port = encap_socket.getsockname()[1]
+    encap_socket.setsockopt(IPPROTO_UDP, xfrm.UDP_ENCAP,
+                               xfrm.UDP_ENCAP_ESPINUDP)
+
+    # Open a socket to send traffic.
+    s = socket(AF_INET, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+    s.connect((remoteaddr, 53))
+
+    # Create a UDP encap policy and template inbound and outbound and apply
+    # them to s.
+    sel = xfrm.XfrmSelector((XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0,
+                             AF_INET, 0, 0, IPPROTO_UDP, 0, 0))
+
+    # Use the same SPI both inbound and outbound because this lets us receive
+    # encrypted packets by simply replaying the packets the kernel sends.
+    in_reqid = 123
+    in_spi = htonl(TEST_SPI)
+    out_reqid = 456
+    out_spi = htonl(TEST_SPI)
+
+    # Start with the outbound policy.
+    info = xfrm.XfrmUserpolicyInfo((sel,
+                                    xfrm.NO_LIFETIME_CFG, xfrm.NO_LIFETIME_CUR,
+                                    100, 0,
+                                    xfrm.XFRM_POLICY_OUT,
+                                    xfrm.XFRM_POLICY_ALLOW,
+                                    xfrm.XFRM_POLICY_LOCALOK,
+                                    xfrm.XFRM_SHARE_UNIQUE))
+    xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, out_spi, IPPROTO_ESP))
+    usertmpl = xfrm.XfrmUserTmpl((xfrmid, AF_INET, XFRM_ADDR_ANY, out_reqid,
+                              xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
+                              0,                # require
+                              ALL_ALGORITHMS,   # auth algos
+                              ALL_ALGORITHMS,   # encryption algos
+                              ALL_ALGORITHMS))  # compression algos
+
+    data = info.Pack() + usertmpl.Pack()
+    s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
+
+    # Create inbound and outbound SAs that specify UDP encapsulation.
+    encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
+                                    htons(4500), 16 * "\x00"))
+    self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, out_reqid,
+                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
+                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, encaptmpl)
+
+    # Add an encap template that's the mirror of the outbound one.
+    encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
+    self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, in_reqid,
+                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
+                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, encaptmpl)
+
+    # Now send a packet.
+    s.sendto("foo", (remoteaddr, 53))
+    srcport = s.getsockname()[1]
+
+    # Expect to see an UDP encapsulated packet.
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    self.assertIsUdpEncapEsp(packet, out_spi, 1, 52)
+
+    # Now test removing the xfrm policy. We 1) set the out direction spi to 0
+    # 2) set the this policy to optional. Then, we
+    # send a packet to see if the captured packet is in clear text.
+    info.dir = xfrm.XFRM_POLICY_OUT
+    xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, 0, 0))
+    usertmpl = xfrm.XfrmUserTmpl((xfrmid, 0, XFRM_ADDR_ANY, 0, 0, 0,
+                                 1, # optional bit
+                                 0, 0, 0))
+
+    data = info.Pack() + usertmpl.Pack()
+    s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
+
+    s.sendto("foo", (remoteaddr, 5353))
+
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    self.assertEquals(IPPROTO_UDP, packet.proto)
+    self.assertEquals("foo", packet.payload.payload.build())
 
 if __name__ == "__main__":
   unittest.main()
