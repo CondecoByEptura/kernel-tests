@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5524f705_357343a9",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-25T15:38:36Z",
+      "side": 1,
+      "message": "Nit: these aren\u0027t protocols, they\u0027re types.",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 10
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6efbdbd_0330ab41",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-25T15:38:36Z",
+      "side": 1,
+      "message": "Can you add an example test name to this comment?",
+      "range": {
+        "startLine": 182,
+        "startChar": 57,
+        "endLine": 182,
+        "endChar": 58
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "243eb9be_9278ae6f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-25T15:38:36Z",
+      "side": 1,
+      "message": "Is all this initialization code run on each combination of auth/crypt/family/...? If so, that could get pretty slow... is there a way to speed things up a bit by doing most of the work in setUpClass() instead of the individual test methods?",
+      "range": {
+        "startLine": 509,
+        "startChar": 4,
+        "endLine": 509,
+        "endChar": 31
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f74c1fa1_273f199a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-25T15:38:36Z",
+      "side": 1,
+      "message": "What if these ports are already in use? It seems safer to bind to (ADDR_ANY[family], 0) and then use sock.getsockname()[1] to get the port the socket is bound to.",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 21
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "507edcc7_1115aa99",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-09-25T15:38:36Z",
+      "side": 1,
+      "message": "Nit: other code in this project uses the variable name \"accepted\" for this purpose.",
+      "range": {
+        "startLine": 594,
+        "startChar": 8,
+        "endLine": 594,
+        "endChar": 12
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
