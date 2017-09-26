@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a07ff741_34ec551c",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-26T20:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46cee0e4_44a4cdd6",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "25180d9aa47ba386b691b735e87c71dc6bb18ff1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26b19f63_905603d1",
         "filename": "net/test/tun_twister.py",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-25T15:25:33Z",
       "side": 1,
       "message": "Explain whether these are seconds or milliseconds. I think select.poll() takes ms, but select.epoll() takes s, etc.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "25180d9aa47ba386b691b735e87c71dc6bb18ff1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fae14c31_2828fab3",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-26T20:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26b19f63_905603d1",
       "range": {
         "startLine": 68,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c21b7c28_adc2882e",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-26T20:45:17Z",
+      "side": 1,
+      "message": "Updated comments to clarify.",
+      "parentUuid": "a7aa9e8d_0da224a9",
+      "range": {
+        "startLine": 79,
+        "startChar": 58,
+        "endLine": 79,
+        "endChar": 59
+      },
+      "revId": "25180d9aa47ba386b691b735e87c71dc6bb18ff1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6c4933b_f10447d9",
         "filename": "net/test/tun_twister.py",
         "patchSetId": 14
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8544eecf_59f5e83b",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-26T20:45:17Z",
+      "side": 1,
+      "message": "Thread.join with a timeout can return before the thread has exited. If thread is still alive by this point, thread is hung or too slow.",
+      "parentUuid": "c6c4933b_f10447d9",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 58
+      },
+      "revId": "25180d9aa47ba386b691b735e87c71dc6bb18ff1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bebfe95a_adc2c545",
         "filename": "net/test/tun_twister.py",
         "patchSetId": 14
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-25T15:25:33Z",
       "side": 1,
       "message": "Any reason why we can\u0027t just require self._fd to be non-blocking? When using select and poll it\u0027s typically more reliable to make everything non-blocking, because in many cases it can happen that even though select() or poll() say that you can read or write, the kernel actually ends up returning EAGAIN.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 27
+      },
+      "revId": "25180d9aa47ba386b691b735e87c71dc6bb18ff1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "137ae414_4cd4db6f",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-26T20:45:17Z",
+      "side": 1,
+      "message": "It seems like we should handle EAGAIN regardless of blocking vs non-blocking. Other than that, I don\u0027t see how requiring one or the other changes this implementation.\n\nThis loop exists because the test code is executing in another thread, and it could send packets that race with __exit__() in this class.\n\nI\u0027m adding a TODO for now because I can\u0027t compile kernels to test my changes.",
+      "parentUuid": "bebfe95a_adc2c545",
       "range": {
         "startLine": 121,
         "startChar": 0,
