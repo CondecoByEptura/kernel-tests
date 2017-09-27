@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09fdf487_b3e35acf",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "Do both please, in this CL:\nfor version in [4,6]:",
+      "range": {
+        "startLine": 369,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 38
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5164c60c_12411429",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "There should be no interaction with this and encap, so we don\u0027t need to test it with encap.",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 55
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39b75ad1_f3a466e0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "This looks like a lot of copy+paste: can we efficiently re-use code from some other place? I was not serious yesterday when I suggested copy+paste.",
+      "range": {
+        "startLine": 384,
+        "startChar": 4,
+        "endLine": 433,
+        "endChar": 73
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a63e2b54_51f9199e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "Don\u0027t bother with encap plz.",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 52
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19834814_39c7112c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "We need to test the receive path as well.",
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe039368_77c836e6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "The code to \"remove\" a policy should be in its own function. It doesn\u0027t matter what the existing policy is/was, so it\u0027s totally re-usable.",
+      "range": {
+        "startLine": 445,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 55
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58f0b3d0_723872ba",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-09-27T18:36:50Z",
+      "side": 1,
+      "message": "Why did the port number change?",
+      "range": {
+        "startLine": 457,
+        "startChar": 33,
+        "endLine": 457,
+        "endChar": 37
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
