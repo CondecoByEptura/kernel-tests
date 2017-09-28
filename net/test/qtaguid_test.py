@@ -24,6 +24,7 @@ import os
 import net_test
 import packets
 import tcp_test
+import time
 
 CTRL_PROCPATH = "/proc/net/xt_qtaguid/ctrl"
 OTHER_UID_GID = 12345
@@ -118,6 +119,7 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     self.assertEqual(sockaddr, addr1)
 
   def SendRSTOnClosedSocket(self, version, netid, expect_rst):
+    print "test start with version:%d, netid: %d, expect_rst: %d" % (version, netid, expect_rst)
     self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
     self.accepted.setsockopt(net_test.SOL_TCP, net_test.TCP_LINGER2, -1)
     net_test.EnableFinWait(self.accepted)
@@ -127,6 +129,11 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     finversion = 4 if version == 5 else version
     desc, finack = packets.ACK(finversion, self.remoteaddr, self.myaddr, fin)
     self.ReceivePacketOn(netid, finack)
+    # Close the socket too fast will cause the kernel to send the fin again.
+    try:
+      self.ExpectPacketOn(netid, "Closing FIN_WAIT1 socket", fin)
+    except AssertionError:
+      pass
     self.accepted.close()
     desc, rst = packets.RST(version, self.myaddr, self.remoteaddr, self.last_packet)
     if expect_rst:
@@ -134,6 +141,7 @@ class QtaguidTest(tcp_test.TcpBaseTest):
       self.ExpectPacketOn(netid, msg, rst)
     else:
       msg = "closing socket with linger2, expecting no packets"
+      print "no packet expected here\n"
       self.ExpectNoPacketsOn(netid, msg)
 
   def CheckUidGidCombination(self, version, invert_gid, invert_uid):
