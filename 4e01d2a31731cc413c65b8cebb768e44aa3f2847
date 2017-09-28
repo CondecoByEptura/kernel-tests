@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "acb5993f_51094b92",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-09-28T00:20:44Z",
+      "side": 1,
+      "message": "This is specifically testing removing socket policies. Could you update the test name?",
+      "range": {
+        "startLine": 368,
+        "startChar": 6,
+        "endLine": 368,
+        "endChar": 26
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09fdf487_b3e35acf",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
