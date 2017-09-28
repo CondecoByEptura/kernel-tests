@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6398648_82ca3936",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acb5993f_51094b92",
+      "range": {
+        "startLine": 368,
+        "startChar": 6,
+        "endLine": 368,
+        "endChar": 26
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09fdf487_b3e35acf",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5deeb742_64718e2c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09fdf487_b3e35acf",
+      "range": {
+        "startLine": 369,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 38
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5164c60c_12411429",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-09-27T18:36:50Z",
       "side": 1,
       "message": "There should be no interaction with this and encap, so we don\u0027t need to test it with encap.",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 382,
+        "endChar": 55
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95911af0_29a1e38e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5164c60c_12411429",
       "range": {
         "startLine": 374,
         "startChar": 0,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "be484460_fd95119a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a63e2b54_51f9199e",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 52
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19834814_39c7112c",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -128,6 +224,24 @@
       "writtenOn": "2017-09-27T18:36:50Z",
       "side": 1,
       "message": "We need to test the receive path as well.",
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b0f4cec_30e03abd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19834814_39c7112c",
       "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -157,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "5627c162_8bf47dab",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe039368_77c836e6",
+      "range": {
+        "startLine": 445,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 55
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58f0b3d0_723872ba",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -168,6 +306,30 @@
       "writtenOn": "2017-09-27T18:36:50Z",
       "side": 1,
       "message": "Why did the port number change?",
+      "range": {
+        "startLine": 457,
+        "startChar": 33,
+        "endLine": 457,
+        "endChar": 37
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51e4bde1_f5b057b3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-09-28T23:32:24Z",
+      "side": 1,
+      "message": "I just wanted to make the comparison simpler, didn\u0027t notice it may avoid the udp encap port.",
+      "parentUuid": "58f0b3d0_723872ba",
       "range": {
         "startLine": 457,
         "startChar": 33,
