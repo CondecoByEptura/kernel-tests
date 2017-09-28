@@ -24,6 +24,7 @@ import os
 import net_test
 import packets
 import tcp_test
+import time
 
 CTRL_PROCPATH = "/proc/net/xt_qtaguid/ctrl"
 OTHER_UID_GID = 12345
@@ -127,6 +128,10 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     finversion = 4 if version == 5 else version
     desc, finack = packets.ACK(finversion, self.remoteaddr, self.myaddr, fin)
     self.ReceivePacketOn(netid, finack)
+    try:
+      self.ExpectPacketOn(netid, "Closing FIN_WAIT1 socket", fin)
+    except AssertionError:
+      pass
     self.accepted.close()
     desc, rst = packets.RST(version, self.myaddr, self.remoteaddr, self.last_packet)
     if expect_rst:
