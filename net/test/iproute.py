@@ -364,11 +364,20 @@ class IPRoute(netlink.NetlinkSocket):
     nlattr = self._NlAttrInterfaceName(FRA_OIFNAME, oif)
     return self._Rule(version, is_add, RTN_UNICAST, table, nlattr, priority)
 
-  def UidRangeRule(self, version, is_add, start, end, table, priority):
-    nlattr = self._NlAttrInterfaceName(FRA_IIFNAME, "lo")
-    nlattr += self._NlAttr(FRA_UID_RANGE,
-                           FibRuleUidRange((start, end)).Pack())
+  def UidRangeOifRule(self, version, is_add, start, end, ifname, table, priority):
+    nlattr = self._NlAttr(FRA_UID_RANGE, FibRuleUidRange((start, end)).Pack())
+    if ifname:
+      nlattr += self._NlAttrInterfaceName(FRA_OIFNAME, ifname)
     return self._Rule(version, is_add, RTN_UNICAST, table, nlattr, priority)
+
+  def UidRangeIifRule(self, version, is_add, start, end, ifname, table, priority):
+    nlattr = self._NlAttr(FRA_UID_RANGE, FibRuleUidRange((start, end)).Pack())
+    if ifname:
+      nlattr += self._NlAttrInterfaceName(FRA_IIFNAME, ifname)
+    return self._Rule(version, is_add, RTN_UNICAST, table, nlattr, priority)
+
+  def UidRangeRule(self, version, is_add, start, end, table, priority):
+    return self.UidRangeIifRule(version, is_add, start, end, "lo", table, priority)
 
   def UnreachableRule(self, version, is_add, priority):
     return self._Rule(version, is_add, RTN_UNREACHABLE, None, None, priority)
