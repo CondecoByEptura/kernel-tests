@@ -62,6 +62,97 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     super(XfrmTest, self).tearDown()
     self.xfrm.FlushSaInfo()
 
+  def GetAddressFamily(self, version):
+    return {4: AF_INET,
+            6: AF_INET6}[version]
+
+  def GetIpProtoByVersion(self, version):
+    return {4: IPPROTO_IP,
+            6: IPPROTO_IPV6}[version]
+
+  def GetXfrmPolicyByVersion(self, version):
+    return {4: xfrm.IP_XFRM_POLICY,
+            6: xfrm.IPV6_XFRM_POLICY}[version]
+
+  def BuildEspPacket(self, version, srcaddr, dstaddr, payload):
+    if version == 4:
+      return (scapy.IP(src=srcaddr, dst=dstaddr, proto=IPPROTO_ESP) / payload)
+    return (scapy.IPv6(src=srcaddr, dst=dstaddr, nh=IPPROTO_ESP) / payload)
+
+  def BuildUdpPacket(self, version, srcaddr, dstaddr, sport, dport, payload):
+    if version == 4:
+      return (scapy.IP(src=srcaddr, dst=dstaddr) / scapy.UDP(
+          sport=sport, dport=dport) / payload)
+    return (scapy.IPv6(src=srcaddr, dst=dstaddr) / scapy.UDP(
+        sport=sport, dport=dport) / payload)
+
+  def ApplySocketPolicy(self, sock, family, direction, spi, reqid):
+    """Create and apply socket policy objects.
+
+    Args:
+      sock: The socket that needs a policy
+      family: AF_INET or AF_INET6
+      direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+      spi: 32-bit SPI in network byte order
+      reqid: 32-bit ID matched against SAs
+    Return: a tuple of XfrmUserpolicyInfo, XfrmUserTmpl
+    """
+    selector = xfrm.XfrmSelector(
+        daddr=XFRM_ADDR_ANY, saddr=XFRM_ADDR_ANY, family=family)
+    policy = xfrm.XfrmUserpolicyInfo(
+        sel=selector,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        dir=direction,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_UNIQUE)
+    xfrmid = xfrm.XfrmId(daddr=XFRM_ADDR_ANY, spi=spi, proto=IPPROTO_ESP)
+    template = xfrm.XfrmUserTmpl(
+        id=xfrmid,
+        family=family,
+        saddr=XFRM_ADDR_ANY,
+        reqid=reqid,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        share=xfrm.XFRM_SHARE_UNIQUE,
+        optional=0,  #require
+        aalgos=ALL_ALGORITHMS,
+        ealgos=ALL_ALGORITHMS,
+        calgos=ALL_ALGORITHMS)
+    opt_data = policy.Pack() + template.Pack()
+    if family == AF_INET:
+      sock.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
+    else:
+      sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+
+  # This function remove the XFRM policy with:
+  # 1) set the out direction spi to 0,
+  # 2) set the address family,
+  # 3) set the this policy to optional. Then, we
+  # send a packet to see if the captured packet is in clear text.
+  def removeSocketPolicy(self, sock, direction):
+    bind_addr = sock.getsockname()[0]
+
+    sel = xfrm.XfrmSelector((XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0,
+                             AF_INET6 if ":" in bind_addr else AF_INET,
+                             0, 0, IPPROTO_UDP, 0, 0))
+    xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, 0, 0))
+    usertmpl = xfrm.XfrmUserTmpl((xfrmid, 0, XFRM_ADDR_ANY, 0, 0, 0,
+                                 1, # optional bit
+                                 0, 0, 0))
+    info = xfrm.XfrmUserpolicyInfo((sel,
+                                    xfrm.NO_LIFETIME_CFG, xfrm.NO_LIFETIME_CUR,
+                                    0, 0, direction, 0, 0, 0))
+    data = info.Pack() + usertmpl.Pack()
+    sock.setsockopt(IPPROTO_IPV6 if ":" in bind_addr else IPPROTO_IP,
+                    xfrm.IPV6_XFRM_POLICY if ":" in bind_addr
+                                          else xfrm.IP_XFRM_POLICY,
+                    data)
+
+  def removeSocketPolicyBothDir(self, sock):
+    for direction in [xfrm.XFRM_POLICY_IN, xfrm.XFRM_POLICY_OUT]:
+      self.removeSocketPolicy(sock, direction)
+
   def expectIPv6EspPacketOn(self, netid, spi, seq, length):
     packets = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(packets))
