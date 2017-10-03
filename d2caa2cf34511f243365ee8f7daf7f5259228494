@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e19bd31_10cb7f5b",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:33:28Z",
+      "side": 0,
+      "message": "This should probably stay here? The other ones can move to netlink.py.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "d2caa2cf34511f243365ee8f7daf7f5259228494",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
