@@ -1,0 +1,579 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b178237e_bc516b34",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Oops :-)",
+      "range": {
+        "startLine": 30,
+        "startChar": 44,
+        "endLine": 30,
+        "endChar": 52
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5192f2f_0b46777a",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "For consistency with the rest of the code, suggest using \"family\" for this.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 12
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e7fd5c0_04a1b0c6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Use the example range (2001:db8:...) instead of Sprint\u0027s address space. There\u0027s plenty of room in that /32.\n\nAlso please write IPv6 addresses per RFC 5952. You didn\u0027t write the IPv4 address as 10.016.005.15, did you? :-)",
+      "range": {
+        "startLine": 37,
+        "startChar": 43,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "602b7697_ea9fe6b8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Use GetRemoteAddress, for consistency with the rest of the tests.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21ec86d8_c600155e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "IADDR_ANY is IPv4-specific.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6466ba50_11ea9438",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "This exists already. Can you extract common code into a new XfrmBaseTest in xfrm_base.py and inherit from that there and here?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 60
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bc8505_3abfd9e1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "In order to avoid human errors, consider making these related but not identical, e.g.:\n\n    _DEFAULT_OKEY_1 \u003d _DEFAULT_OUT_SPI + 0x10000000\n\nAlso, why do these all end in _1? There are no _2s that I can see.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 14
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0795499_c16af61e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "This is not needed as the superclass version is called by default if there\u0027s no method. Remove?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 43
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52a0671d_0684a976",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Function-level comments should use docstrings instead of comments.",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d69cef_2c7a9df0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Can you clarify these to inner_version and outer_version?",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 13
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b19ebfb6_0212d8d0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Suggest not always using 100. Either try all the netids, or more simply just do:\n\n    netid \u003d random.choice(self.NETIDS)",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 30
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "185903b3_0c4fd72a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Add a TODO to delete this. Once the mark code is in we must ensure that routing works properly regardless of any other networking going on.",
+      "range": {
+        "startLine": 134,
+        "startChar": 13,
+        "endLine": 134,
+        "endChar": 30
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "361e2a2a_564c1ff0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Factor this out to a function since you call it all over the place?\n\nSuggest:\n\n  def AddressFamily(version):\n    return {4: AF_INET, 6: AF_INET6}[version]\n\nwhich also has the benefit of raising an error if someone passes in an invalid family.",
+      "range": {
+        "startLine": 138,
+        "startChar": 24,
+        "endLine": 138,
+        "endChar": 59
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e9d914a_4d32bf38",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Consider making PaddedAddress() return XFRM_ADDR_ANY if called with None, and just passing None here.",
+      "range": {
+        "startLine": 139,
+        "startChar": 23,
+        "endLine": 139,
+        "endChar": 42
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e249a4a2_72c9b17c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Use self.ExpectPacketOn and Packets.UDP.\n\nBetter yet, move expectIPv6EspPacketOn into XfrmBaseTest, rename it to expectEspPacketOn (since it currently has nothing to do with IPv6) and call it here.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 51
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b615e3c8_9ddd0345",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "In general, suggest adding a human-readable assertion message to all asserts as far as possible. The people debugging these tests when you\u0027re moved on to another project will thank you :-)",
+      "range": {
+        "startLine": 164,
+        "startChar": 15,
+        "endLine": 164,
+        "endChar": 27
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d6fa262_4656b836",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "random.choice(...)",
+      "range": {
+        "startLine": 175,
+        "startChar": 14,
+        "endLine": 175,
+        "endChar": 28
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8295b0ba_f610581a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "For more detailed testing, consider something like:\n\n    expected \u003d \"...\"\n    self.assertEquals(\n        expected,\n        subprocess.call((\"ip tunnel show %s\" % VTI_IFNAME).split())",
+      "range": {
+        "startLine": 185,
+        "startChar": 22,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bcf771_de2020ca",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "To reduce code duplication, move this code out from MultinetworkBaseTest._RunSetupCommands to a new method (MultinetworkBaseTest.ModifyInterfaceOnNetwork?) and call it there and here.",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d61a4aa_a7882c6c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to do this. The VTI doesn\u0027t need any IP addresses assigned to it, right? You don\u0027t have any for IPv6.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 80
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b45a4cec_2c0873af",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Remove this too.",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 80
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8589de0f_803b60c0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "inner_version. Also elsewhere.\n\nAdditionally: instead of looping like this over what are actually different test cases, can you factor this out into:\n\n  def CheckVtiOutput(self, inner_version, outer_version):\n    ...\n\n  def testIpv4VtiOutput(self):\n    self.CheckVtiOutput(self, 4, 4)\n    self.CheckVtiOutput(self, 4, 6)\n\n  def testIpv6VtiOutput(self):\n    self.CheckVtiOutput(self, 6, 4)\n    # TODO...\n    self.CheckVtiOutput(self, 6, 6)",
+      "range": {
+        "startLine": 218,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 13
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1112c762_be3a1ac1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 223,
+        "startChar": 16,
+        "endLine": 223,
+        "endChar": 30
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a243e1b4_5e6eb84e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "EEXIST. At worst, just do:\n\n\n  for direction in [xfrm.XFRM_POLICY_OUT, xfrm.XFRM_POLICY_IN]:\n    # Do the needful.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 36
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29077525_871f6e82",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:14:19Z",
+      "side": 1,
+      "message": "Add a TODO to delete these.",
+      "range": {
+        "startLine": 264,
+        "startChar": 10,
+        "endLine": 264,
+        "endChar": 39
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
