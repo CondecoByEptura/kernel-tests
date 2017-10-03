@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29c3927_565eb753",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:22:46Z",
+      "side": 1,
+      "message": "Please be consistent with the surrounding code and put these all on one or two lines.",
+      "range": {
+        "startLine": 265,
+        "startChar": 24,
+        "endLine": 269,
+        "endChar": 49
+      },
+      "revId": "d78a5b18c47d1f780a0e18c612130a69bd04d02c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9c16614_dc20b9f3",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-03T08:22:46Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother providing a default value for flags. Either force it to be NLM_F_REQUEST | NLM_F_ACK, or let the callers pass in whatever they want.",
+      "range": {
+        "startLine": 269,
+        "startChar": 30,
+        "endLine": 269,
+        "endChar": 48
+      },
+      "revId": "d78a5b18c47d1f780a0e18c612130a69bd04d02c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
