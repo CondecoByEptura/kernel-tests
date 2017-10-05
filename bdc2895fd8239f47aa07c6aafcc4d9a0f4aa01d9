@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d023598f_d022e452",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-05T22:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5524f705_357343a9",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 10
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6efbdbd_0330ab41",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-25T15:38:36Z",
       "side": 1,
       "message": "Can you add an example test name to this comment?",
+      "range": {
+        "startLine": 182,
+        "startChar": 57,
+        "endLine": 182,
+        "endChar": 58
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37e715d_d623a0f5",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-05T22:41:25Z",
+      "side": 1,
+      "message": "Done. Also removed spaces and parens from the generated name.",
+      "parentUuid": "f6efbdbd_0330ab41",
       "range": {
         "startLine": 182,
         "startChar": 57,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da232afc_843b0361",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-05T22:41:25Z",
+      "side": 1,
+      "message": "It typically takes less than 30 seconds to run all xfrm_test.py on my workstation. (128 tests total)\n\nI don\u0027t think that\u0027s long enough to be worried about runtimes, and I would be more worried about state leaking between tests.",
+      "parentUuid": "243eb9be_9278ae6f",
+      "range": {
+        "startLine": 509,
+        "startChar": 4,
+        "endLine": 509,
+        "endChar": 31
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f74c1fa1_273f199a",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 14
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9afc75b5_5ce0c3a3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-05T22:41:25Z",
+      "side": 1,
+      "message": "If these ports are in use, then another instance of this test has failed to clean up correctly, and I am OK with getting an error in that scenario.",
+      "parentUuid": "f74c1fa1_273f199a",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 21
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "507edcc7_1115aa99",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 14
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-25T15:38:36Z",
       "side": 1,
       "message": "Nit: other code in this project uses the variable name \"accepted\" for this purpose.",
+      "range": {
+        "startLine": 594,
+        "startChar": 8,
+        "endLine": 594,
+        "endChar": 12
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5825afd3_4dacfb5e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-05T22:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "507edcc7_1115aa99",
       "range": {
         "startLine": 594,
         "startChar": 8,
