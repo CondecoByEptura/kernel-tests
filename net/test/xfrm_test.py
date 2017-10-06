@@ -26,36 +26,27 @@ import unittest
 import multinetwork_base
 import net_test
 import xfrm
+import xfrm_base
 
 XFRM_ADDR_ANY = 16 * "\x00"
 LOOPBACK = 15 * "\x00" + "\x01"
 ENCRYPTED_PAYLOAD = ("b1c74998efd6326faebe2061f00f2c750e90e76001664a80c287b150"
                      "59e74bf949769cc6af71e51b539e7de3a2a14cb05a231b969e035174"
                      "d98c5aa0cef1937db98889ec0d08fa408fecf616")
-ENCRYPTION_KEY = ("308146eb3bd84b044573d60f5a5fd159"
-                  "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
-AUTH_TRUNC_KEY = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
 
 TEST_ADDR1 = "2001:4860:4860::8888"
 TEST_ADDR2 = "2001:4860:4860::8844"
 
 TEST_SPI = 0x1234
 
-ALL_ALGORITHMS = 0xffffffff
-ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
-ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
+# XfrmTest._ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
-
-class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
-
-  @classmethod
-  def setUpClass(cls):
-    super(XfrmTest, cls).setUpClass()
-    cls.xfrm = xfrm.Xfrm()
+class XfrmTest(xfrm_base.XfrmBaseTest):
 
   def setUp(self):
     # TODO: delete this when we're more diligent about deleting our SAs.
     super(XfrmTest, self).setUp()
+    self.xfrm = xfrm.Xfrm()
     self.xfrm.FlushSaInfo()
 
   def tearDown(self):
@@ -83,8 +74,10 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
   def testAddSa(self):
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, 3320,
-                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
-                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None, None, None)
+                               XfrmTest._ALGO_CBC_AES_256,
+                               XfrmTest._ENCRYPTION_KEY_256,
+                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               None, None, None)
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
         "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
@@ -92,7 +85,8 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         "\tauth-trunc hmac(sha1) 0x%s 96\n"
         "\tenc cbc(aes) 0x%s\n"
         "\tsel src ::/0 dst ::/0 \n" % (
-            AUTH_TRUNC_KEY.encode("hex"), ENCRYPTION_KEY.encode("hex")))
+            XfrmTest._AUTH_KEY_128.encode("hex"),
+            XfrmTest._ENCRYPTION_KEY_256.encode("hex")))
 
     actual = subprocess.check_output("ip xfrm state".split())
     try:
@@ -104,12 +98,16 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
     self.xfrm.AddMinimalSaInfo("::", "2000::", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 1234,
-                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
-                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None, None, None)
+                               XfrmTest._ALGO_CBC_AES_256,
+                               XfrmTest._ENCRYPTION_KEY_256,
+                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               None, None, None)
     self.xfrm.AddMinimalSaInfo("0.0.0.0", "192.0.2.1", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 4321,
-                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
-                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None, None, None)
+                               XfrmTest._ALGO_CBC_AES_256,
+                               XfrmTest._ENCRYPTION_KEY_256,
+                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               None, None, None)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
@@ -145,9 +143,9 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     tmpl = xfrm.XfrmUserTmpl((xfrmid, AF_INET6, XFRM_ADDR_ANY, 0,
                               xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
                               0,                # require
-                              ALL_ALGORITHMS,   # auth algos
-                              ALL_ALGORITHMS,   # encryption algos
-                              ALL_ALGORITHMS))  # compression algos
+                              XfrmTest._ALL_ALGORITHMS,   # auth algos
+                              XfrmTest._ALL_ALGORITHMS,   # encryption algos
+                              XfrmTest._ALL_ALGORITHMS))  # compression algos
 
     # Set the policy and template on our socket.
     data = info.Pack() + tmpl.Pack()
@@ -167,8 +165,10 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     reqid = 0
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, reqid,
-                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
-                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, None, None, None)
+                               XfrmTest._ALGO_CBC_AES_256,
+                               XfrmTest._ENCRYPTION_KEY_256,
+                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               None, None, None)
     s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
     self.expectIPv6EspPacketOn(netid, TEST_SPI, 1, 84)
 
@@ -240,9 +240,9 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     usertmpl = xfrm.XfrmUserTmpl((xfrmid, AF_INET, XFRM_ADDR_ANY, out_reqid,
                               xfrm.XFRM_MODE_TRANSPORT, xfrm.XFRM_SHARE_UNIQUE,
                               0,                # require
-                              ALL_ALGORITHMS,   # auth algos
-                              ALL_ALGORITHMS,   # encryption algos
-                              ALL_ALGORITHMS))  # compression algos
+                              XfrmTest._ALL_ALGORITHMS,   # auth algos
+                              XfrmTest._ALL_ALGORITHMS,   # encryption algos
+                              XfrmTest._ALL_ALGORITHMS))  # compression algos
 
     data = info.Pack() + usertmpl.Pack()
     s.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, data)
@@ -255,17 +255,19 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
                                     htons(4500), 16 * "\x00"))
     self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, out_reqid,
-                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
-                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, encaptmpl,
-                               None, None)
+                               XfrmTest._ALGO_CBC_AES_256,
+                               XfrmTest._ENCRYPTION_KEY_256,
+                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               encaptmpl, None, None)
 
     # Add an encap template that's the mirror of the outbound one.
     encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
     self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, in_reqid,
-                               ALGO_CBC_AES_256, ENCRYPTION_KEY,
-                               ALGO_HMAC_SHA1, AUTH_TRUNC_KEY, encaptmpl,
-                               None, None)
+                               XfrmTest._ALGO_CBC_AES_256,
+                               XfrmTest._ENCRYPTION_KEY_256,
+                               XfrmTest._ALGO_HMAC_SHA1, XfrmTest._AUTH_KEY_128,
+                               encaptmpl, None, None)
 
     # Uncomment for debugging.
     # subprocess.call("ip xfrm state".split())
