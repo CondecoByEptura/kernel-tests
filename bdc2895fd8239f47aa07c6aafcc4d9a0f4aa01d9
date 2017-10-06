@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "979287dc_247b63b3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T03:27:36Z",
+      "side": 1,
+      "message": "That\u0027s a 30% increase in runtime of all_tests.sh. If there are opportunities to make this faster, we should take them. Can you take some time to quickly profile the tests and see if there is any low-hanging fruit?",
+      "parentUuid": "da232afc_843b0361",
+      "range": {
+        "startLine": 509,
+        "startChar": 4,
+        "endLine": 509,
+        "endChar": 31
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f74c1fa1_273f199a",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 14
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "If these ports are in use, then another instance of this test has failed to clean up correctly, and I am OK with getting an error in that scenario.",
       "parentUuid": "f74c1fa1_273f199a",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 21
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52782bd4_b16be66e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T03:27:36Z",
+      "side": 1,
+      "message": "Or something else is running. Or another instance of any test might have correctly bound to this port without SO_REUSEPORT, and it might be in TIME_WAIT. That\u0027s a recipe for making these tests flaky and we should not do it.",
+      "parentUuid": "9afc75b5_5ce0c3a3",
       "range": {
         "startLine": 584,
         "startChar": 0,
