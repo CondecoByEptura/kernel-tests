@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f08929f_6abd3e7f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "\"target\" is a confusing name for the value we are checking.",
+      "range": {
+        "startLine": 174,
+        "startChar": 55,
+        "endLine": 174,
+        "endChar": 61
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "274e0637_676adf0e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "These are not \"interfaces\" that are being compared. They look like the return value from getsockname. Choose a name that reflects what is being compared.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 63
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74ba72af_3a86178e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "Why are we using both connect() and sendto()?",
+      "range": {
+        "startLine": 512,
+        "startChar": 0,
+        "endLine": 512,
+        "endChar": 41
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f92ea81_3a15fa8c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "What are \"sd\" packets?",
+      "range": {
+        "startLine": 513,
+        "startChar": 6,
+        "endLine": 513,
+        "endChar": 15
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "573801e9_f1ae1247",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "According to Lorenzo, binding to a static port number is flaky because you never know if the environment will have that port available.",
+      "range": {
+        "startLine": 521,
+        "startChar": 55,
+        "endLine": 521,
+        "endChar": 59
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4656b46_02390934",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "With scapy, I think calling build() is better than calling str() as an api for converting back into byte string.",
+      "range": {
+        "startLine": 524,
+        "startChar": 16,
+        "endLine": 524,
+        "endChar": 37
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25d0c7b6_2bd6fa01",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "This could be rewritten as,\n\n    self.assertEquals((remoteaddr, srcport), src[:2])",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 534,
+        "endChar": 67
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0023d628_61fbbc2c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T17:39:42Z",
+      "side": 1,
+      "message": "Are you removing the outbound policy, or both policies?",
+      "range": {
+        "startLine": 537,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 39
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
