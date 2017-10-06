@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b289e20c_521e36ef",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Sugget you merge it then :-P",
+      "parentUuid": "47465053_88cc9586",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 57
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0484adfa_bac53b4a",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "bf90cd03_6d893f3e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Maybe. I think you have your own version of this method though, right?",
+      "parentUuid": "97e585bd_42912109",
+      "range": {
+        "startLine": 374,
+        "startChar": 0,
+        "endLine": 374,
+        "endChar": 65
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c9591ae_6e67116b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0484adfa_bac53b4a",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 374,
+        "endChar": 65
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4643844c_d41f996c",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "36ad2476_5d78b116",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "You\u0027re talking about protocol, right? AF_UNSPEC is not a protocol so it\u0027s not appopriate to use there. Left empty instead. That results in a protocol of 0, which according to /etc/protocols is \"pseudo protocol number\".\n\nThere is no useful named constant I can use here. The only IPPROTO_xxx constant with a value of zero is IPPROTO_IP, but that would be rather confusing, just as it would be confusing (but would work) to say socket(AF_INET6, SOCK_STREAM, IPPROTO_IP).",
+      "parentUuid": "4643844c_d41f996c",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 61
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1285ce95_9660d1cf",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2017-09-05T22:03:24Z",
       "side": 1,
       "message": "Does calling getpeername mean that we have to connect() any socket before using this helper?",
+      "range": {
+        "startLine": 403,
+        "startChar": 50,
+        "endLine": 403,
+        "endChar": 0
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4713f1f0_e979e2d6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Yes, this helper does not work on non-connected sockets.",
+      "parentUuid": "1285ce95_9660d1cf",
       "range": {
         "startLine": 403,
         "startChar": 50,
@@ -164,6 +284,54 @@
     },
     {
       "key": {
+        "uuid": "8f456bc4_57104a67",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Well, it\u0027s now documented, at least :-)",
+      "parentUuid": "bcc802a8_5282d94b",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 37
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5711326_6d02151f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "If they want to call this method, yes.",
+      "parentUuid": "39f359b6_feb61228",
+      "range": {
+        "startLine": 397,
+        "startChar": 0,
+        "endLine": 404,
+        "endChar": 37
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56e5a751_c1b5591b",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -175,6 +343,30 @@
       "writtenOn": "2017-08-09T18:01:48Z",
       "side": 1,
       "message": "generally I think these should be snake-cased, ex: xfrm_id",
+      "range": {
+        "startLine": 407,
+        "startChar": 4,
+        "endLine": 407,
+        "endChar": 10
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dac6df0_71690d58",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "I claim consistency with existing code :-)",
+      "parentUuid": "56e5a751_c1b5591b",
       "range": {
         "startLine": 407,
         "startChar": 4,
@@ -210,6 +402,30 @@
     },
     {
       "key": {
+        "uuid": "beb01b85_202e9c0f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Underscored. No, per style guide all methods start with capital letters. Except not test methods - those have to start with \"test\" because otherwise the test framework won\u0027t find them.",
+      "parentUuid": "07cf2e20_91bb9026",
+      "range": {
+        "startLine": 422,
+        "startChar": 6,
+        "endLine": 422,
+        "endChar": 31
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8f5ad4e_aa4b023e",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -221,6 +437,24 @@
       "writtenOn": "2017-08-09T18:01:48Z",
       "side": 1,
       "message": "()",
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01e11f91_818ef140",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "?",
+      "parentUuid": "a8f5ad4e_aa4b023e",
       "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -261,6 +495,30 @@
       "writtenOn": "2017-09-05T22:03:24Z",
       "side": 1,
       "message": "I interpreted the comments above to mean that the netid param would be used here. Is it supposed to be random?",
+      "range": {
+        "startLine": 440,
+        "startChar": 28,
+        "endLine": 440,
+        "endChar": 54
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed94cba1_40d7a754",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "As per the comment just above, this is supposed to be a random netid. The netid parameter to the function is used only to determine the source address of the tunnel. Clarified method docstring accordingly.\n\nSince it\u0027s random it can\u0027t be a constant. I could certainly add a new RandomNetid method for this to multinetwork_base if you want. Perhaps that\u0027s best done in a separate CL because we do it fairly often.",
+      "parentUuid": "f65b6861_bd184a5d",
       "range": {
         "startLine": 440,
         "startChar": 28,
@@ -343,6 +601,78 @@
     },
     {
       "key": {
+        "uuid": "15eb95c4_d38178c9",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Changed to constants.",
+      "parentUuid": "b36d2643_47183c5b",
+      "range": {
+        "startLine": 445,
+        "startChar": 3,
+        "endLine": 445,
+        "endChar": 63
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c5a3852_c2201155",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Additionally, MyAddress needs to know what addresses are used on a given netId.\n\nSimple test parameterization is part of it, but not the whole story. For example, we sometimes want to do things such as \"set up an IPv6 socket and check that an IPv4 packet doesn\u0027t work on it\".",
+      "parentUuid": "7ea50bac_b6609113",
+      "range": {
+        "startLine": 445,
+        "startChar": 3,
+        "endLine": 445,
+        "endChar": 63
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "936d9ea9_df33768c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "As the comment says, we want to pick an address that is not the one returned by GetRemoteAddress.",
+      "parentUuid": "bd77a0c6_d162a040",
+      "range": {
+        "startLine": 445,
+        "startChar": 13,
+        "endLine": 445,
+        "endChar": 63
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1f33cf50_7c3a6e2f",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -389,6 +719,54 @@
     },
     {
       "key": {
+        "uuid": "04b28402_a4a2ca6e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "The length is required by expectEspPacketOn, but more to the point: if we can\u0027t test the exact packet, at least we can test its lengh.",
+      "parentUuid": "823d2c16_70287b45",
+      "range": {
+        "startLine": 463,
+        "startChar": 4,
+        "endLine": 463,
+        "endChar": 13
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45fb8b97_77dad85d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Made into constants for now, and added a TODO to improve things further.",
+      "parentUuid": "1f33cf50_7c3a6e2f",
+      "range": {
+        "startLine": 463,
+        "startChar": 28,
+        "endLine": 463,
+        "endChar": 31
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7f47bab_130f004d",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -400,6 +778,30 @@
       "writtenOn": "2017-08-09T18:01:48Z",
       "side": 1,
       "message": "is there a particular reason for using the DNS port? I suppose we are using the DNS addresses... is there any chance that using 53 causes dns-specific side-effects?",
+      "range": {
+        "startLine": 466,
+        "startChar": 50,
+        "endLine": 466,
+        "endChar": 52
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ecfcfba_02e98b58",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "The port doesn\u0027t matter here. I think I picked 53 because everything else does, and the reason everything else does is that Packets.UDP does.\n\nGiven that everything else already uses 53, I don\u0027t think using 53 here as well will cause any ill effects.",
+      "parentUuid": "d7f47bab_130f004d",
       "range": {
         "startLine": 466,
         "startChar": 50,
@@ -435,6 +837,30 @@
     },
     {
       "key": {
+        "uuid": "59e368e1_84f4819d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Split up into separate tests.",
+      "parentUuid": "507acf25_92be75c5",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 473,
+        "endChar": 26
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c066462_eb80e137",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -458,6 +884,30 @@
     },
     {
       "key": {
+        "uuid": "8644834d_b8bcdea5",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Bugs such as \"the kernel only picks the first netid because it ignores the netid and matches the first rule that it finds, and we didn\u0027t notice that because we only tested the first netid\". Or \"the code only works if the inner and outer netIds match\". Or \"the code only works if the inner and outer netIds don\u0027t match\".",
+      "parentUuid": "5c066462_eb80e137",
+      "range": {
+        "startLine": 474,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 31
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3be81d5f_ad9cc1f8",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 2
@@ -469,6 +919,30 @@
       "writtenOn": "2017-09-05T23:38:58Z",
       "side": 1,
       "message": "This line throws KeyError when I run this test. EHOLDINGITWRONG?",
+      "range": {
+        "startLine": 497,
+        "startChar": 30,
+        "endLine": 497,
+        "endChar": 61
+      },
+      "revId": "37c0afe46bd9d8fff1d34f3bd70bc5faf5e48708",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9f3108c_da46280c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T07:51:46Z",
+      "side": 1,
+      "message": "Yes, you need a kernel that supports XFRMA_OUTPUT_MARK or the tests won\u0027t pass.",
+      "parentUuid": "3be81d5f_ad9cc1f8",
       "range": {
         "startLine": 497,
         "startChar": 30,
