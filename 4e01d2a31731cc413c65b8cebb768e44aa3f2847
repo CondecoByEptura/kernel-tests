@@ -339,6 +339,30 @@
       "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57688601_168b37b8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T18:00:21Z",
+      "side": 1,
+      "message": "scapy was interpreting UDP payloads as DNS queries even though they were \"foo\". The test should work just the same if we go back to port 53.",
+      "parentUuid": "51e4bde1_f5b057b3",
+      "range": {
+        "startLine": 457,
+        "startChar": 33,
+        "endLine": 457,
+        "endChar": 37
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
