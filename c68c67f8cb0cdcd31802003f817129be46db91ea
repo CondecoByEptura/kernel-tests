@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47d984c1_340c6309",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T02:04:55Z",
+      "side": 1,
+      "message": "You aren\u0027t violating any of these lint rules, and the g-* lint rules don\u0027t apply to open source. Please remove.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 62
+      },
+      "revId": "c68c67f8cb0cdcd31802003f817129be46db91ea",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a61a3b99_7047e14a",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T02:04:55Z",
+      "side": 1,
+      "message": "Adding another class to the hierarchy of classes in this project is the wrong way to solve this problem.\n\nMove common constants into a separate module: yes\nPut common constants in a class that does nothing but hold constants: no",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 59
+      },
+      "revId": "c68c67f8cb0cdcd31802003f817129be46db91ea",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "196601a7_2f8b93e8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-06T02:04:55Z",
+      "side": 1,
+      "message": "If these constants are part of the \"API\" of XfrmTest then they should not have underscore prefixes.",
+      "range": {
+        "startLine": 88,
+        "startChar": 21,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "c68c67f8cb0cdcd31802003f817129be46db91ea",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
