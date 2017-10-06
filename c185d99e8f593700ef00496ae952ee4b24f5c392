@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e3b7561_c6dd13d2",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-06T03:16:48Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 23,
+        "startChar": 7,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "c185d99e8f593700ef00496ae952ee4b24f5c392",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
