@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "2f288be6_33f7e221",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-07T01:43:39Z",
+      "side": 1,
+      "message": "Profiling suggests that scapy\u0027s marshalling and unmarshalling of packets is relatively expensive.\n\nLow hanging fruit:\nThe TunTwister validator function currently takes a byte string as the packet to validate, but if we pass in a scapy object, some scapy build/parse operations can be avoided, taking us from 30s to 22s.\n\n\nWe probably could go further by twisting packets without the use of scapy...",
+      "parentUuid": "979287dc_247b63b3",
+      "range": {
+        "startLine": 509,
+        "startChar": 4,
+        "endLine": 509,
+        "endChar": 31
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f74c1fa1_273f199a",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 14
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "Or something else is running. Or another instance of any test might have correctly bound to this port without SO_REUSEPORT, and it might be in TIME_WAIT. That\u0027s a recipe for making these tests flaky and we should not do it.",
       "parentUuid": "9afc75b5_5ce0c3a3",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 585,
+        "endChar": 21
+      },
+      "revId": "bdc2895fd8239f47aa07c6aafcc4d9a0f4aa01d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffe5c436_b1b1de88",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-07T01:43:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52782bd4_b16be66e",
       "range": {
         "startLine": 584,
         "startChar": 0,
