@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76b5b4b_2c30d101",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-07T02:51:22Z",
+      "side": 1,
+      "message": "If these constants are meant to be accessed from other modules, don\u0027t have an underscore prefix.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7078d59d_88149d8b",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-07T02:51:22Z",
+      "side": 1,
+      "message": "this clearly belongs in multinetwork_base, but whatever.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
