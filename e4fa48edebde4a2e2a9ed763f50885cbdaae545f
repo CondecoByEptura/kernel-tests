@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "90a359f7_5a632352",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "these are the names used in both the kernel and in the iproute2 CLI and documentation, so they are fairly canonical.",
+      "parentUuid": "ace1327c_738fcab6",
+      "range": {
+        "startLine": 548,
+        "startChar": 57,
+        "endLine": 548,
+        "endChar": 67
+      },
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2244829b_491df811",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "I initially was going to just say \"done\", but then I started squinting at it and am thinking that CreateVirtualTunnelInterfaceTunnel seems redundant. Also quick note... this doesn\u0027t create the underlying tunnel (as in, it\u0027s a non-functional) since this is only adding the interface, not actually setting up the ipsec or any of that bit. Should I expand it to CreateVirtualTunnelInterface? or just \"CreateVirtualTunnel\"?\n\nMeanwhile, I will add more to the docstring to explain *what* this does in addition to *how* it works.",
+      "parentUuid": "f041b6f6_1074efbb",
+      "range": {
+        "startLine": 548,
+        "startChar": 6,
+        "endLine": 548,
+        "endChar": 15
+      },
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4108498b_e5f2c3c9",
         "filename": "net/test/iproute.py",
         "patchSetId": 13
@@ -59,6 +107,30 @@
       "writtenOn": "2017-10-06T06:05:09Z",
       "side": 1,
       "message": "Nit: you can delete this if you want.",
+      "range": {
+        "startLine": 572,
+        "startChar": 23,
+        "endLine": 572,
+        "endChar": 46
+      },
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba72541_912ca71e",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4108498b_e5f2c3c9",
       "range": {
         "startLine": 572,
         "startChar": 23,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "cd50de78_9fcba4fd",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c0c436c_9507f620",
+      "range": {
+        "startLine": 589,
+        "startChar": 6,
+        "endLine": 589,
+        "endChar": 18
+      },
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60a48274_bb972e2c",
         "filename": "net/test/iproute.py",
         "patchSetId": 13
@@ -105,6 +201,30 @@
       "writtenOn": "2017-10-06T06:05:09Z",
       "side": 1,
       "message": "Suggest deleting this.",
+      "range": {
+        "startLine": 596,
+        "startChar": 23,
+        "endLine": 596,
+        "endChar": 46
+      },
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "510eee43_fbaa3a22",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60a48274_bb972e2c",
       "range": {
         "startLine": 596,
         "startChar": 23,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ff3236fa_0e6a073d",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "930f16d5_cf5fa0d4",
+      "range": {
+        "startLine": 602,
+        "startChar": 4,
+        "endLine": 602,
+        "endChar": 8
+      },
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c48e80e_5ff10b13",
         "filename": "net/test/iproute.py",
         "patchSetId": 13
@@ -151,6 +295,24 @@
       "writtenOn": "2017-10-06T06:05:09Z",
       "side": 1,
       "message": "Nit: add extra blank line here.",
+      "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4df19ee3_dc5d4983",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c48e80e_5ff10b13",
       "revId": "e4fa48edebde4a2e2a9ed763f50885cbdaae545f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false

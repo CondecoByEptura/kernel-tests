@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "cf97e586_8124fdd6",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a9aede2_5232807a",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 56
+      },
+      "revId": "66f9a5969f40b4a98afa9310be87d898d17f2cad",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba7ba0fa_223213f7",
         "filename": "net/test/tunnel.py",
         "patchSetId": 11
@@ -59,6 +83,30 @@
       "writtenOn": "2017-10-03T08:33:28Z",
       "side": 1,
       "message": "Can we move all this code to iproute.py? There\u0027s a fair bit of duplicated definitions here.",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 15
+      },
+      "revId": "66f9a5969f40b4a98afa9310be87d898d17f2cad",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239389c9_8dcd3a30",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Sure. It\u0027s a mistake, which the iproute2 maintainers realized when they decided to organize things in a more sane way based on function rather than the protocl, but your codebase \u003d your rules.",
+      "parentUuid": "ba7ba0fa_223213f7",
       "range": {
         "startLine": 84,
         "startChar": 6,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "2e76226b_d8b08fed",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "09d05afd_81c33464",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "66f9a5969f40b4a98afa9310be87d898d17f2cad",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9d479a5_aa3d163c",
         "filename": "net/test/tunnel.py",
         "patchSetId": 11
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "3c387fb1_2f1f02b5",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "Just because it defaults to zero doesn\u0027t mean we shouldn\u0027t set it to a constant that happens to be zero. I will make this code less self documenting as per your request. Done.",
+      "parentUuid": "d9d479a5_aa3d163c",
+      "range": {
+        "startLine": 114,
+        "startChar": 23,
+        "endLine": 114,
+        "endChar": 50
+      },
+      "revId": "66f9a5969f40b4a98afa9310be87d898d17f2cad",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68e6205f_ecbcf067",
         "filename": "net/test/tunnel.py",
         "patchSetId": 11
@@ -128,6 +224,30 @@
       "writtenOn": "2017-10-03T08:33:28Z",
       "side": 1,
       "message": "Any reason to keep this code instead of using the code already in net_test.py? (Or replacing that code with this code)",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 47
+      },
+      "revId": "66f9a5969f40b4a98afa9310be87d898d17f2cad",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b4d7b23_12819713",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 1,
+      "message": "1) the net_test code uses ioctl which we really should move away from it.\n2) I will move this in to IProute with everything else that uses RTNETLINK protocol. It would be philosophically inconsistent to replace the version in net_test given that we are moving all functions that use RTNETLINK in to iproute.py, and it would be unwise of me to delete or change anything that\u0027s already working and that doesn\u0027t absolutely need to be changed or deleted.",
+      "parentUuid": "68e6205f_ecbcf067",
       "range": {
         "startLine": 139,
         "startChar": 0,

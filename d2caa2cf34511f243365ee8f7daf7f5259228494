@@ -22,6 +22,30 @@
       "revId": "d2caa2cf34511f243365ee8f7daf7f5259228494",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e694327_9e55c835",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-07T00:01:34Z",
+      "side": 0,
+      "message": "This constant is at the netlink protocol level rather than the route level. We have a file that defines and manages the netlink protocol, which is netlink.h. This file concerns itself with the route protocol. Since the route protocol also has a number of independent sub-protocols (links, addresses, routes, neighbors, and rules), I\u0027m of the opinion those should also be split up, but for the NETLINK_\u003cproto\u003e constants, it\u0027s cut-and-dried. You may always invoke the \"my codebase my rules\", but there are not two logically support-able positions here. Linux headers agree:\nhttp://elixir.free-electrons.com/linux/v4.6/source/include/uapi/linux/netlink.h\n\nhttp://elixir.free-electrons.com/linux/v4.6/source/include/uapi/linux/rtnetlink.h",
+      "parentUuid": "9e19bd31_10cb7f5b",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "d2caa2cf34511f243365ee8f7daf7f5259228494",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
