@@ -45,6 +45,92 @@
       "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d23766af_bb6cfadc",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-09T18:46:46Z",
+      "side": 1,
+      "message": "why isn\u0027t this remote_inner?",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 62
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c8bec6_e157f932",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-09T18:46:46Z",
+      "side": 1,
+      "message": "Why does this have its own version loop? It is called only from contexts that have a current version they could pass in.",
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53db45af_1425f5b0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-09T18:46:46Z",
+      "side": 1,
+      "message": "Should there be a bug to track this?",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 52
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4247116a_ef1874a0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-09T18:46:46Z",
+      "side": 1,
+      "message": "continue\n\nif this was not 4 tests in 1 test, I would say to use unittest.skip.",
+      "range": {
+        "startLine": 220,
+        "startChar": 10,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
