@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "68ef6400_28b21aa7",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "They aren\u0027t... But I moved them out of the class.",
+      "parentUuid": "e76b5b4b_2c30d101",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7078d59d_88149d8b",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-07T02:51:22Z",
       "side": 1,
       "message": "this clearly belongs in multinetwork_base, but whatever.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fa42a93_af1cdae3",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Given the questionable requirement to use a random net_id, this should have been a function in all the files that do so, from day 1. But... I\u0027m not going to touch those files. This will only be used for Xfrm. If Lorenzo wants to move this and update his tests, he\u0027s free to do so.",
+      "parentUuid": "7078d59d_88149d8b",
       "range": {
         "startLine": 38,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7dc8cf2e_c18ed114",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Oversight when I added those variables. Done.",
+      "parentUuid": "d23766af_bb6cfadc",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 62
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06c8bec6_e157f932",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 16
@@ -82,6 +154,24 @@
       "writtenOn": "2017-10-09T18:46:46Z",
       "side": 1,
       "message": "Why does this have its own version loop? It is called only from contexts that have a current version they could pass in.",
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "870ed9f6_a001d79a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "This is the \"network setup\" portion of the code and mirrors the setup code in multinetwork base. The version here is somewhat independent of the versions that will actually work. There\u0027s more ratholing taht needs to happen to decide the right thing to do, but just passing the version from the VTI is not it.",
+      "parentUuid": "06c8bec6_e157f932",
       "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "00ae9a45_82c6bf7d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Not until this is checked in.",
+      "parentUuid": "53db45af_1425f5b0",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 52
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4247116a_ef1874a0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 16
@@ -122,6 +236,30 @@
       "writtenOn": "2017-10-09T18:46:46Z",
       "side": 1,
       "message": "continue\n\nif this was not 4 tests in 1 test, I would say to use unittest.skip.",
+      "range": {
+        "startLine": 220,
+        "startChar": 10,
+        "endLine": 220,
+        "endChar": 16
+      },
+      "revId": "1df7ba02e9d89b6ae75e26187448d10ae3d75653",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5ce0318_6bb2da2d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "And yet, here we are.",
+      "parentUuid": "4247116a_ef1874a0",
       "range": {
         "startLine": 220,
         "startChar": 10,

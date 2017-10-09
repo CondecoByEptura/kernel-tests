@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "55aaf9b2_add8a4b2",
+        "filename": "net/test/tunnel.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done (squashed on to the earlier patch set).",
+      "parentUuid": "d5192f2f_0b46777a",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 12
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e7fd5c0_04a1b0c6",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -59,6 +83,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "Use the example range (2001:db8:...) instead of Sprint\u0027s address space. There\u0027s plenty of room in that /32.\n\nAlso please write IPv6 addresses per RFC 5952. You didn\u0027t write the IPv4 address as 10.016.005.15, did you? :-)",
+      "range": {
+        "startLine": 37,
+        "startChar": 43,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de78136c_52bc31f9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e7fd5c0_04a1b0c6",
       "range": {
         "startLine": 37,
         "startChar": 43,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "196957c9_714b1927",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "I made an explicit choice not to do that because using it will create confusion and ambiguity in this test. Is it the RemoteAddress of the tunnel? of the socket? The entire getRemoteAddress concept was not considerate of this use case, so using GetRemoteAddress (which I consciously chose not to use, for this reason), would make the code more confusing and less stylistically consistent. As an alternative, would you like me to write utility functions that separately provide:\n1) a local inner address\n2) a remote inner address\n3) a remote outer address\n\nOne of those functions can call GetRemoteAddress() as an implementation detail without making the code awkward or confusing. I\u0027m happy to do it.",
+      "parentUuid": "602b7697_ea9fe6b8",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21ec86d8_c600155e",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "37878ac1_5dc65d2a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21ec86d8_c600155e",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6466ba50_11ea9438",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -128,6 +224,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "This exists already. Can you extract common code into a new XfrmBaseTest in xfrm_base.py and inherit from that there and here?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 60
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8f18a15_b19d5779",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6466ba50_11ea9438",
       "range": {
         "startLine": 44,
         "startChar": 0,
@@ -186,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "16e4e0b6_d67048e8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0795499_c16af61e",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 43
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52a0671d_0684a976",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -232,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "d0d0a1dd_27a1768a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done, but with the objection that I think these heavily-used variables now have silly long names that reduce the overall readability of the file because of the 80 character line limit. I originally used longer names and shortened them intentionally because they were tedious to type, and they made the formatting look mangled by adding a bunch of line breaks. The code is now worse.",
+      "parentUuid": "43d69cef_2c7a9df0",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 13
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b19ebfb6_0212d8d0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -243,6 +411,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "Suggest not always using 100. Either try all the netids, or more simply just do:\n\n    netid \u003d random.choice(self.NETIDS)",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 30
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149148e0_227d6ee5",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Sure? I still haven\u0027t seen a single test where picking a random netid adds any value to the test. At best it does nothing, and at worst it makes debugging harder. Is there a technical reason that a random netid makes sense or it is simply convention that has some minor drawback in a number of cases?\n\nI really think this needs to be reconsidered as a universal pattern for all net tests. Also... isn\u0027t the random.choice(self.NETIDS) inconsistent with the pattern of one-liner utility functions for every little thing such as getting a value from a table?",
+      "parentUuid": "b19ebfb6_0212d8d0",
       "range": {
         "startLine": 132,
         "startChar": 16,
@@ -278,6 +470,30 @@
     },
     {
       "key": {
+        "uuid": "8b1ffd12_d23df47a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "185903b3_0c4fd72a",
+      "range": {
+        "startLine": 134,
+        "startChar": 13,
+        "endLine": 134,
+        "endChar": 30
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "361e2a2a_564c1ff0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -289,6 +505,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "Factor this out to a function since you call it all over the place?\n\nSuggest:\n\n  def AddressFamily(version):\n    return {4: AF_INET, 6: AF_INET6}[version]\n\nwhich also has the benefit of raising an error if someone passes in an invalid family.",
+      "range": {
+        "startLine": 138,
+        "startChar": 24,
+        "endLine": 138,
+        "endChar": 59
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039d0cd8_3c7e6e74",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "361e2a2a_564c1ff0",
       "range": {
         "startLine": 138,
         "startChar": 24,
@@ -324,6 +564,30 @@
     },
     {
       "key": {
+        "uuid": "2ca359f0_eee0e67a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "It doesn\u0027t end up working nicely because inside this calls AddMinimalSa() that wants string addresses. By converting to some one-liner methods hopefully this raises fewer eyebrows.",
+      "parentUuid": "8e9d914a_4d32bf38",
+      "range": {
+        "startLine": 139,
+        "startChar": 23,
+        "endLine": 139,
+        "endChar": 42
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e249a4a2_72c9b17c",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -347,6 +611,30 @@
     },
     {
       "key": {
+        "uuid": "c43769ae_368c7d4c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "This is doing something quite different:\n1) It doesn\u0027t check length of the inner packet, which I\u0027d have to calculate and which is technically brittle.\n2) It checks the remote address which is important (since tunnel), but this isn\u0027t part of the other function.",
+      "parentUuid": "e249a4a2_72c9b17c",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 51
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b615e3c8_9ddd0345",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -358,6 +646,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "In general, suggest adding a human-readable assertion message to all asserts as far as possible. The people debugging these tests when you\u0027re moved on to another project will thank you :-)",
+      "range": {
+        "startLine": 164,
+        "startChar": 15,
+        "endLine": 164,
+        "endChar": 27
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d11c512_304795e2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "I followed your example from xfrm_test which doesn\u0027t do this. \"Do as I say...?\"",
+      "parentUuid": "b615e3c8_9ddd0345",
       "range": {
         "startLine": 164,
         "startChar": 15,
@@ -542,6 +854,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "EEXIST. At worst, just do:\n\n\n  for direction in [xfrm.XFRM_POLICY_OUT, xfrm.XFRM_POLICY_IN]:\n    # Do the needful.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 36
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e11d1b8_03e4ab16",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-09T21:36:52Z",
+      "side": 1,
+      "message": "These actually do a switcharoo on some of the parameters. I\u0027d need to add ternaries (switched on direction) for source and dest if I put them in a loop, so it seemed cleaner to unroll them.",
+      "parentUuid": "a243e1b4_5e6eb84e",
       "range": {
         "startLine": 239,
         "startChar": 0,
