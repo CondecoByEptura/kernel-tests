@@ -116,20 +116,20 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid):
     sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
 
 
-class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
+class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
 
   @classmethod
   def setUpClass(cls):
-    super(XfrmTest, cls).setUpClass()
+    super(XfrmBaseTest, cls).setUpClass()
     cls.xfrm = xfrm.Xfrm()
 
   def setUp(self):
     # TODO: delete this when we're more diligent about deleting our SAs.
-    super(XfrmTest, self).setUp()
+    super(XfrmBaseTest, self).setUp()
     self.xfrm.FlushSaInfo()
 
   def tearDown(self):
-    super(XfrmTest, self).tearDown()
+    super(XfrmBaseTest, self).tearDown()
     self.xfrm.FlushSaInfo()
 
   def expectIPv6EspPacketOn(self, netid, spi, seq, length):
@@ -150,45 +150,8 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
     spi_seq = struct.pack("!II", ntohl(spi), seq)
     self.assertEquals(spi_seq, str(payload)[:len(spi_seq)])
 
-  @classmethod
-  def InjectTests(cls):
-    """Inject parameterized test cases into this class.
 
-    Because a library for parameterized testing is not availble in
-    net_test.rootfs.20150203, this does a minimal parameterization.
-
-    This finds methods named like "ParamTestFoo" and replaces them with several
-    "testFoo(*)" methods taking different parameter dicts. A set of test
-    parameters is generated from every combination of encryption,
-    authentication, IP version, and TCP/UDP.
-
-    The benefit of this approach is that an individually failing tests have a
-    clearly separated stack trace, and one failed test doesn't prevent the rest
-    from running.
-    """
-    param_test_names = [
-        name for name in dir(cls) if name.startswith("ParamTest")
-    ]
-    FAMILIES = (AF_INET, AF_INET6)
-    TYPES = (SOCK_DGRAM, SOCK_STREAM)
-    for crypt, auth, family, proto, name in itertools.product(
-        CRYPT_ALGOS, AUTH_ALGOS, FAMILIES, TYPES, param_test_names):
-      func = getattr(cls, name)
-      params = {"crypt": crypt, "auth": auth, "family": family, "proto": proto}
-
-      def TestClosure(self, params=params):
-        func(self, params)
-
-      # Produce a unique and readable name for each test. e.g.
-      #     testSocketPolicySimple_cbc-aes_256_hmac-sha512_512_256_IPv6_UDP
-      param_string = "%s_%d_%s_%d_%d_%s_%s" % (
-          crypt.name, crypt.key_len, auth.name, auth.key_len, auth.trunc_len,
-          "IPv4" if family == AF_INET else "IPv6",
-          "UDP" if proto == SOCK_DGRAM else "TCP")
-      new_name = "%s_%s" % (func.__name__.replace("ParamTest", "test"),
-                            param_string)
-      new_name = new_name.replace("(", "-").replace(")", "")  # remove parens
-      setattr(cls, new_name, TestClosure)
+class XfrmSimpleTest(XfrmBaseTest):
 
   def testAddSa(self):
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
@@ -483,6 +446,50 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+
+class XfrmAlgorithmsTest(XfrmBaseTest):
+
+  @classmethod
+  def InjectTests(cls):
+    """Inject parameterized test cases into this class.
+
+    Because a library for parameterized testing is not availble in
+    net_test.rootfs.20150203, this does a minimal parameterization.
+
+    This finds methods named like "ParamTestFoo" and replaces them with several
+    "testFoo(*)" methods taking different parameter dicts. A set of test
+    parameters is generated from every combination of encryption,
+    authentication, IP version, and TCP/UDP.
+
+    The benefit of this approach is that an individually failing tests have a
+    clearly separated stack trace, and one failed test doesn't prevent the rest
+    from running.
+    """
+    param_test_names = [
+        name for name in dir(cls) if name.startswith("ParamTest")
+    ]
+    FAMILIES = (AF_INET, AF_INET6)
+    TYPES = (SOCK_DGRAM, SOCK_STREAM)
+    for crypt, auth, family, proto, name in itertools.product(
+        CRYPT_ALGOS, AUTH_ALGOS, FAMILIES, TYPES, param_test_names):
+      func = getattr(cls, name)
+      params = {"crypt": crypt, "auth": auth, "family": family, "proto": proto}
+
+      def TestClosure(self, params=params):
+        func(self, params)
+
+      # Produce a unique and readable name for each test. e.g.
+      #     testSocketPolicySimple_cbc-aes_256_hmac-sha512_512_256_IPv6_UDP
+      param_string = "%s_%d_%s_%d_%d_%s_%s" % (
+          crypt.name, crypt.key_len, auth.name, auth.key_len, auth.trunc_len,
+          "IPv4" if family == AF_INET else "IPv6",
+          "UDP" if proto == SOCK_DGRAM else "TCP")
+      new_name = "%s_%s" % (func.__name__.replace("ParamTest", "test"),
+                            param_string)
+      new_name = new_name.replace("(", "-").replace(")", "")  # remove parens
+      setattr(cls, new_name, TestClosure)
+
+
   @unittest.skipIf(net_test.LINUX_VERSION[:2] == (3, 18), "b/63589559")
   def ParamTestSocketPolicySimple(self, params):
     """Test two-way traffic using transport mode and socket policies."""
@@ -663,7 +670,6 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
       raise server_error
 
 
-XfrmTest.InjectTests()
-
 if __name__ == "__main__":
+  XfrmAlgorithmsTest.InjectTests()
   unittest.main()
