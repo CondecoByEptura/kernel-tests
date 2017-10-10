@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb48077c_d337c64f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "Say that this is ESP only?",
+      "range": {
+        "startLine": 80,
+        "startChar": 43,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cff0f146_e6760808",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "Nit: you don\u0027t need this as it\u0027s all zeros.",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d631892a_462c999b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "This is also unnecessary, though you might want to keep it for clarity.",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49163063_d9f56406",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "Unnecessary. Remove?",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ab9ef9c_500ba261",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "ICMP and ICMPv6 packets.",
+      "range": {
+        "startLine": 485,
+        "startChar": 34,
+        "endLine": 485,
+        "endChar": 50
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9365da0_8dbc3a63",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "Why is this necessary, since the next thing you do is call close?",
+      "range": {
+        "startLine": 612,
+        "startChar": 8,
+        "endLine": 612,
+        "endChar": 30
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6aed383_e2c4b40b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-10T06:28:15Z",
+      "side": 1,
+      "message": "Is there a way to throw if this wait times out? It shouldn\u0027t, but if it ever does, a clear error message will be easier to diagnose than a test failure.",
+      "range": {
+        "startLine": 644,
+        "startChar": 25,
+        "endLine": 644,
+        "endChar": 26
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
