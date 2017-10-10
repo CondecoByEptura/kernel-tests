@@ -22,6 +22,29 @@
       "revId": "120fc3766357060f932769b5e74bc9d522c58f41",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87188177_3def9631",
+        "filename": "net/test/parallel_tests.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-10T22:12:59Z",
+      "side": 1,
+      "message": "if compile fails, will this go ahead and run with whatever UML binary happens to be in the out folder?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "120fc3766357060f932769b5e74bc9d522c58f41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
