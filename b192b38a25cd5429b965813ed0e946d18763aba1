@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "52360da0_fc055453",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-10T21:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb48077c_d337c64f",
+      "range": {
+        "startLine": 80,
+        "startChar": 43,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cff0f146_e6760808",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 21
@@ -59,6 +83,30 @@
       "writtenOn": "2017-10-10T06:28:15Z",
       "side": 1,
       "message": "This is also unnecessary, though you might want to keep it for clarity.",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea0fae2_2b873c21",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-10T21:42:00Z",
+      "side": 1,
+      "message": "I think you are right that clarity is more important here. Readers of the code might not remember that (1) there is an action field on this struct (2) its omission means it gets zeroed out (3) all zeroes means \"XFRM_POLICY_ALLOW\".\n\nThe same applies to NO_LIFETIME_CUR and XFRM_ADDR_ANY.",
+      "parentUuid": "d631892a_462c999b",
       "range": {
         "startLine": 97,
         "startChar": 6,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "d97d08a3_21827b50",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-10T21:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ab9ef9c_500ba261",
+      "range": {
+        "startLine": 485,
+        "startChar": 34,
+        "endLine": 485,
+        "endChar": 50
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9365da0_8dbc3a63",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 21
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "e43333ed_c090bd9d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-10T21:42:00Z",
+      "side": 1,
+      "message": "I wanted the test to end with a FIN FINACK ACK sequence. Through experimentation, this seemed like the correct way to cause that. When the tests were using the same port numbers every time, properly closing TCP sockets allowed the ports to be reused 120 times in rapid succession.",
+      "parentUuid": "a9365da0_8dbc3a63",
+      "range": {
+        "startLine": 612,
+        "startChar": 8,
+        "endLine": 612,
+        "endChar": 30
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6aed383_e2c4b40b",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 21
@@ -151,6 +247,30 @@
       "writtenOn": "2017-10-10T06:28:15Z",
       "side": 1,
       "message": "Is there a way to throw if this wait times out? It shouldn\u0027t, but if it ever does, a clear error message will be easier to diagnose than a test failure.",
+      "range": {
+        "startLine": 644,
+        "startChar": 25,
+        "endLine": 644,
+        "endChar": 26
+      },
+      "revId": "b192b38a25cd5429b965813ed0e946d18763aba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f015cc_59d70865",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-10T21:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6aed383_e2c4b40b",
       "range": {
         "startLine": 644,
         "startChar": 25,
