@@ -353,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "03c0cc55_fea7780a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52a0671d_0684a976",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d69cef_2c7a9df0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -705,6 +729,30 @@
     },
     {
       "key": {
+        "uuid": "3cfd84aa_c1586d5f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d6fa262_4656b836",
+      "range": {
+        "startLine": 175,
+        "startChar": 14,
+        "endLine": 175,
+        "endChar": 28
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8295b0ba_f610581a",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -751,6 +799,30 @@
     },
     {
       "key": {
+        "uuid": "7e543819_e15e11c7",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "Given that this was the major sticking point that caused you to fundamentally reject my last patch set, I don\u0027t want anything to do with multinetwork_base. This is working and I\u0027m not at all interested in going down that rathole. It buys me nothing but higher overhead to make changes.",
+      "parentUuid": "70bcf771_de2020ca",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d61a4aa_a7882c6c",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -762,6 +834,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "I don\u0027t think we need to do this. The VTI doesn\u0027t need any IP addresses assigned to it, right? You don\u0027t have any for IPv6.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 80
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c28bd68b_2ec15628",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "I believe it does, and in fact I am doing so in my test. Still not clear on v6 for this. But yes... the inner IP address needs to be assigned by something. So some piece of this is needed.",
+      "parentUuid": "2d61a4aa_a7882c6c",
       "range": {
         "startLine": 206,
         "startChar": 0,
@@ -797,6 +893,30 @@
     },
     {
       "key": {
+        "uuid": "a6dac393_24b32d46",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "As per above comment, no?",
+      "parentUuid": "b45a4cec_2c0873af",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 80
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8589de0f_803b60c0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -820,6 +940,30 @@
     },
     {
       "key": {
+        "uuid": "6a188023_8df858d9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "Somehow missed this comment. Done.",
+      "parentUuid": "8589de0f_803b60c0",
+      "range": {
+        "startLine": 218,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 13
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1112c762_be3a1ac1",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 11
@@ -831,6 +975,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "Ditto",
+      "range": {
+        "startLine": 223,
+        "startChar": 16,
+        "endLine": 223,
+        "endChar": 30
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "242f64f6_ed58418d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1112c762_be3a1ac1",
       "range": {
         "startLine": 223,
         "startChar": 16,
@@ -901,6 +1069,30 @@
       "writtenOn": "2017-10-03T08:14:19Z",
       "side": 1,
       "message": "Add a TODO to delete these.",
+      "range": {
+        "startLine": 264,
+        "startChar": 10,
+        "endLine": 264,
+        "endChar": 39
+      },
+      "revId": "9c087ad7438824e59d30782a67187bbb6e44abd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6561f156_88bd9234",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-10T01:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29077525_871f6e82",
       "range": {
         "startLine": 264,
         "startChar": 10,
