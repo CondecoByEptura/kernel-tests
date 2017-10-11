@@ -24,6 +24,11 @@ from socket import *  # pylint: disable=wildcard-import
 import cstruct
 import netlink
 
+# ESP header, not technically XFRM but we need a place for a protocol
+# header and this is the only one we have.
+# TODO: move this somewhere more appropriate when possible
+EspHdr = cstruct.Struct("EspHdr", "!II", "spi seqnum")
+
 # Base netlink constants. See include/uapi/linux/netlink.h.
 NETLINK_XFRM = 6
 
