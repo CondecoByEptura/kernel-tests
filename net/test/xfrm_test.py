@@ -689,7 +689,6 @@ class XfrmTest(multinetwork_base.MultiNetworkBaseTest):
       raise server_error
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
 class XfrmOutputMarkTest(multinetwork_base.MultiNetworkBaseTest):
 
   # TODO: delete this when we can inherit from a base class.
