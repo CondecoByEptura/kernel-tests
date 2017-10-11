@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "643cdf4a_a0629639",
+        "filename": "net/test/parallel_tests.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-11T04:57:53Z",
+      "side": 1,
+      "message": "Change to -x because it needs to be executable as well (net_test.sh executes it).",
+      "parentUuid": "86a33351_2dc58bb8",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "120fc3766357060f932769b5e74bc9d522c58f41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87188177_3def9631",
         "filename": "net/test/parallel_tests.sh",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-10T22:12:59Z",
       "side": 1,
       "message": "if compile fails, will this go ahead and run with whatever UML binary happens to be in the out folder?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "120fc3766357060f932769b5e74bc9d522c58f41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5bbd1d_3ecfca48",
+        "filename": "net/test/parallel_tests.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-11T04:57:53Z",
+      "side": 1,
+      "message": "Good catch. Fixed.",
+      "parentUuid": "87188177_3def9631",
       "range": {
         "startLine": 39,
         "startChar": 0,
