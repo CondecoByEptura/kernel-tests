@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f74c3de3_fc66094d",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Can you put this close to the other data structures below?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 54
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a8a84c8_acf93d69",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Put standard library imports first, then a blank line, then project imports (multinetwork_base and xfrm).",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e016f3e_89bf2842",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Suggest xfrm.PaddedAddress(\"::\").",
+      "range": {
+        "startLine": 34,
+        "startChar": 16,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96079c5f_7a9dc3f5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Move these to net_test.py, which has related functionality.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 57
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cd7b22c_ce7870ed",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Looks like when you moved this file you lost the comments here. For example, this one was:\n\n  # Create a selector that matches all packets of the specified address family.\n  # It\u0027s not actually used to select traffic, that will be done by the socket\n  # policy, which selects the SA entry (i.e., xfrm state) via the SPI and reqid.\n\nCan you put the comments and vertical whitespace back?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 62
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de888256_042a930d",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Move this to multinetwork_base so other tests can use it.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 37
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85a88350_3213eee6",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "s/zero/None/",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 76
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4241f193_9a33ddaf",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Suggest merging this with the esp_hdr line below using:\n\n   esp_hdr, payload \u003d cstruct.Read(packet.payload, xfrm.EspHdr)",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 37
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e0b8c1d_fb986560",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Does the resulting assertion error also tell you what the expected and actual lengths are? If it just prints \"Incorrect packet length\" with no further details, then remove this extra string and just leave the default assert message.\n\nAlso for the two below.",
+      "range": {
+        "startLine": 124,
+        "startChar": 51,
+        "endLine": 124,
+        "endChar": 79
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57fbdc92_53005c5d",
+        "filename": "net/test/xfrm_functional_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "I\u0027d prefer for this to be called xfrm_test.py. But up to you.",
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaef51cb_ba229273",
+        "filename": "net/test/xfrm_functional_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Is this unused? If not replace with:\n\nxfrm.PaddedAddress(\"::1)",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be20397e_532a30f5",
+        "filename": "net/test/xfrm_functional_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Delete this? It looks unused.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 47
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a03171_3035c9bb",
+        "filename": "net/test/xfrm_functional_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Style guide says blank line before here.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2183960_c8731a86",
+        "filename": "net/test/xfrm_functional_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-12T09:17:07Z",
+      "side": 1,
+      "message": "Suggest applying the same comments made to expectEspPacketOn to this code as well.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "62d3f12d6358870920867103e89ca7c6864c3415",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
