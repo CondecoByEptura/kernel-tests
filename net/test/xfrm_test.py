@@ -27,6 +27,7 @@ import csocket
 import cstruct
 import multinetwork_base
 import net_test
+import tun_twister
 import xfrm
 import xfrm_base
 
@@ -320,6 +321,103 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
+  def OpenDatagramSocket(self, version):
+    """This function opens a socket for sending/receiving packets.
+
+    The open socket will bind to a wildcard address and port.
+
+    Args:
+      version: 4 for IPv4, 6 for IPv6.
+
+    Return: The socket object and the port number
+    """
+    sock = socket(net_test.GetAddressFamily(version), SOCK_DGRAM, 0)
+    csocket.SetSocketTimeout(sock, 100)
+    sock.bind((net_test.GetWildcardAddress(version), 0))
+    return sock, sock.getsockname()[1]
+
+  def CheckTraffic(self, sock, netid, version, validator):
+      remoteaddr = self.GetRemoteAddress(version)
+      port = sock.getsockname()[1]
+      with tun_twister.TapTwister(fd=self.tuns[netid].fileno(),
+                                  validator=validator):
+        sock.sendto(net_test.UDP_PAYLOAD, (remoteaddr, port))
+        data, _ = sock.recvfrom(2048)
+        self.assertEquals(net_test.UDP_PAYLOAD, data)
+
+  def testRemoveSocketPolicyIpv4(self):
+    self._TestRemoveSocketPolicy(4)
+
+  def testRemoveSocketPolicyIpv6(self):
+    self._TestRemoveSocketPolicy(6)
+
+  def _TestRemoveSocketPolicy(self, version):
+    def AssertEspPacket(packet):
+      if version == 4:
+        self.assertTrue(packet.haslayer(scapy.IP))
+        self.assertEquals(IPPROTO_ESP, packet.proto)
+      elif version == 6:
+        self.assertTrue(packet.haslayer(scapy.IPv6))
+        self.assertEquals(IPPROTO_ESP, packet.nh)
+      else:
+        self.fail("Holding it wrong %d" % (version))
+
+    def AssertUdpPacket(packet):
+      self.assertTrue(packet.haslayer(scapy.UDP),
+                      "UDP packet not sent in the clear")
+
+    netid = self.RandomNetid()
+
+    addr_family = net_test.GetAddressFamily(version)
+
+    # Open a socket to send/receive packets
+    sock, port = self.OpenDatagramSocket(version)
+    self.SelectInterface(sock, netid, "mark")
+
+    myaddr = self.MyAddress(version, netid)
+    remoteaddr = self.GetRemoteAddress(version)
+
+    # Use the same SPI both inbound and outbound because this lets us receive
+    # encrypted packets by simply replaying the packets the kernel sends.
+    in_reqid = 0 #123
+    in_spi = htonl(TEST_SPI)
+    out_reqid = 0 #456
+    out_spi = htonl(TEST_SPI)
+
+    # Set outbound policy
+    #xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_OUT,
+    #                            out_spi, out_reqid, None)
+    # Set inbound policy
+    #xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_IN, in_spi,
+    #                            in_reqid, None)
+
+    # Create inbound and outbound SAs with the policy and no encap tmpl.
+    self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, out_reqid,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
+                               None, None, None, None)
+    self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, in_reqid,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
+                               None, None, None, None)
+
+    # Now send a packet, and expect to see an ESP packet.
+    #self.CheckTraffic(sock, netid, version, AssertEspPacket)
+
+    # Now test removing the xfrm policy.
+    # First remove outbound policy
+    xfrm_base.RemoveSocketPolicy(sock)
+
+    # Now send a packet, and expect to see a UDP packet.
+    self.CheckTraffic(sock, netid, version, AssertEspPacket)
+
+    sock.close()
 
 class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
 
