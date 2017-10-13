@@ -26,6 +26,7 @@ import unittest
 import cstruct
 import multinetwork_base
 import net_test
+import tun_twister
 import xfrm
 import xfrm_base
 
@@ -108,7 +109,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     reqid = 0
 
     xfrm_base.ApplySocketPolicy(s, AF_INET6, xfrm.XFRM_POLICY_OUT,
-                                htonl(TEST_SPI), reqid)
+                                htonl(TEST_SPI), reqid, True)
 
     # Invalidate destination cache entries, so that future sends on the socket
     # use the socket policy we've just applied instead of being sent in the
@@ -191,7 +192,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
     # Apply an outbound socket policy to s.
     xfrm_base.ApplySocketPolicy(s, AF_INET, xfrm.XFRM_POLICY_OUT,
-                                out_spi, out_reqid)
+                                out_spi, out_reqid, True)
 
     # Create inbound and outbound SAs that specify UDP encapsulation.
     encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
@@ -308,6 +309,90 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
         spi = ntohl(new_sa.id.spi)
         self.assertNotIn(spi, spis)
         spis.add(spi)
+
+  def OpenSocket(self, version):
+    """This function opens a socket for sending/receiving packets."""
+    sock = socket({4: AF_INET, 6: AF_INET6}[version], SOCK_DGRAM, 0)
+    net_test.SetSocketTimeout(sock, 100)
+    sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    sock.bind(({4: "0.0.0.0", 6: "::"}[version], 0))
+    return sock, sock.getsockname()[1]
+
+  def CheckTraffic(self, sock, netid, version, validator):
+      remoteaddr = self.GetRemoteAddress(version)
+      port = sock.getsockname()[1]
+      with tun_twister.TapTwister(fd=self.tuns[netid].fileno(),
+                                  validator=validator):
+        sock.sendto("foo", (remoteaddr, port))
+        data, _ = sock.recvfrom(2048)
+        self.assertEquals("foo", data)
+
+  def testRemoveSocketPolicies(self):
+
+    def AssertEspPacket(packet):
+      ip_ver = (ord(packet.payload.build()[0]) & 0xF0) >> 4
+      if ip_ver == 4:
+        self.assertEquals(IPPROTO_ESP, packet.proto)
+      else:
+        self.assertEquals(IPPROTO_ESP, packet.nh)
+
+    def AssertUdpPacket(packet):
+      self.assertTrue(packet.haslayer(scapy.UDP),
+                      "UDP packet not sent in the clear")
+
+    netid = self.RandomNetid()
+
+    for version in [4, 6]:
+      addr_family = net_test.GetAddressFamily(version)
+
+      # Open a socket to send/receive packets
+      sock, port = self.OpenSocket(version)
+      self.SelectInterface(sock, netid, "mark")
+
+      myaddr = self.MyAddress(version, netid)
+      remoteaddr = self.GetRemoteAddress(version)
+
+      # Use the same SPI both inbound and outbound because this lets us receive
+      # encrypted packets by simply replaying the packets the kernel sends.
+      in_reqid = 123
+      in_spi = htonl(TEST_SPI)
+      out_reqid = 456
+      out_spi = htonl(TEST_SPI)
+
+      # Set outbound policy
+      xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_OUT,
+                                  out_spi, out_reqid, True)
+      # Set inbound policy
+      xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_IN, in_spi,
+                                  in_reqid, True)
+
+      # Create inbound and outbound SAs with the policy and no encap tmpl.
+      self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
+                                 xfrm.XFRM_MODE_TRANSPORT, out_reqid,
+                                 xfrm_base._ALGO_CBC_AES_256,
+                                 xfrm_base._ENCRYPTION_KEY_256,
+                                 xfrm_base._ALGO_HMAC_SHA1,
+                                 xfrm_base._AUTHENTICATION_KEY_128,
+                                 None, None, None)
+      self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
+                                 xfrm.XFRM_MODE_TRANSPORT, in_reqid,
+                                 xfrm_base._ALGO_CBC_AES_256,
+                                 xfrm_base._ENCRYPTION_KEY_256,
+                                 xfrm_base._ALGO_HMAC_SHA1,
+                                 xfrm_base._AUTHENTICATION_KEY_128,
+                                 None, None, None)
+
+      # Now send a packet, and expect to see an ESP packet.
+      self.CheckTraffic(sock, netid, version, AssertEspPacket)
+
+      # Now test removing the xfrm policy.
+      # First remove outbound policy
+      xfrm_base.RemoveSocketPolicy(sock)
+
+      # Now send a packet, and expect to see a UDP packet.
+      self.CheckTraffic(sock, netid, version, AssertUdpPacket)
+
+      sock.close()
 
 if __name__ == "__main__":
   unittest.main()
