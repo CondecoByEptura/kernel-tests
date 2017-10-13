@@ -85,6 +85,42 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid):
   else:
     sock.setsockopt(socket.IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
 
+def RemoveSocketPolicy(sock, direction):
+  """Remove socket policy objects.
+
+  Args:
+    sock: The socket that needs to remove policy from
+    direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+  """
+  bind_addr = sock.getsockname()[0]
+
+  # Create a selector that matches all packets of the specified address family.
+  sel = xfrm.XfrmSelector(
+      (XFRM_ADDR_ANY, XFRM_ADDR_ANY, 0, 0, 0, 0, socket.AF_INET6
+       if ":" in bind_addr else socket.AF_INET, 0, 0, socket.IPPROTO_UDP, 0, 0))
+
+  # Create a template that matches no SA and is optional.
+  xfrmid = xfrm.XfrmId((XFRM_ADDR_ANY, 0, 0))
+  usertmpl = xfrm.XfrmUserTmpl((xfrmid, 0, XFRM_ADDR_ANY, 0, 0, 0,
+                               1, # optional bit
+                               0, 0, 0))
+  info = xfrm.XfrmUserpolicyInfo((sel,
+                                  xfrm.NO_LIFETIME_CFG, xfrm.NO_LIFETIME_CUR,
+                                  0, 0, direction, 0, 0, 0))
+  # Set the policy and template on our socket.
+  data = info.Pack() + usertmpl.Pack()
+  sock.setsockopt(socket.IPPROTO_IPV6 if ":" in bind_addr else
+                  socket.IPPROTO_IP, xfrm.IPV6_XFRM_POLICY
+                  if ":" in bind_addr else xfrm.IP_XFRM_POLICY, data)
+
+def RemoveSocketPolicyBothDir(sock):
+  """Remove policy objects on both directions for this socket.
+
+  Args:
+    sock: The socket that needs to remove policy from
+  """
+  for direction in [xfrm.XFRM_POLICY_IN, xfrm.XFRM_POLICY_OUT]:
+    RemoveSocketPolicy(sock, direction)
 
 class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
   """Base test class for Xfrm tests
