@@ -35,7 +35,7 @@ ALL_ALGORITHMS = 0xffffffff
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
 
-def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs, required):
   """Create and apply socket policy objects.
 
   AH is not supported. This is ESP only.
@@ -88,7 +88,7 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
       reqid=reqid,
       mode=mode,
       share=xfrm.XFRM_SHARE_UNIQUE,
-      optional=0,  #require
+      optional=0 if required else 1,  #require
       aalgos=ALL_ALGORITHMS,
       ealgos=ALL_ALGORITHMS,
       calgos=ALL_ALGORITHMS)
@@ -144,6 +144,18 @@ def GetEspPacketLength(mode, version, encap, payload):
       "Unsupported combination mode=%s encap=%s version=%s" %
       (mode, encap, version))
 
+def RemoveSocketPolicy(sock):
+  """Remove socket policy objects.
+
+  Args:
+    sock: The socket that needs to remove policy from
+    direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+  """
+  bind_addr = sock.getsockname()[0]
+  addrfamily = socket.AF_INET6 if ":" in bind_addr else socket.AF_INET
+
+  ApplySocketPolicy(sock, addrfamily, xfrm.XFRM_POLICY_IN, 0, 0, False)
+  ApplySocketPolicy(sock, addrfamily, xfrm.XFRM_POLICY_OUT, 0, 0, False)
 
 class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
   """Base test class for Xfrm tests
