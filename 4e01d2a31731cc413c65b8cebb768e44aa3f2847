@@ -363,6 +363,30 @@
       "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfc1bd2b_213b8c34",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Looks like it\u0027s not truncated. The comparison only works for packet.payload.payload.build()[:3] if we use port 53.",
+      "parentUuid": "57688601_168b37b8",
+      "range": {
+        "startLine": 457,
+        "startChar": 33,
+        "endLine": 457,
+        "endChar": 37
+      },
+      "revId": "4e01d2a31731cc413c65b8cebb768e44aa3f2847",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }

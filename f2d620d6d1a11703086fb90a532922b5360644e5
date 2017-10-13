@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "80c512a9_0017c4f7",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Done. Removed this function since it\u0027s not necessary.",
+      "parentUuid": "2f08929f_6abd3e7f",
+      "range": {
+        "startLine": 174,
+        "startChar": 55,
+        "endLine": 174,
+        "endChar": 61
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "642c4479_c0c27e82",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Done. Removed this function since it\u0027s not necessary.",
+      "parentUuid": "274e0637_676adf0e",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 63
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74ba72af_3a86178e",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53f97b7e_b4ef2342",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Done. Removed connect().",
+      "parentUuid": "74ba72af_3a86178e",
+      "range": {
+        "startLine": 512,
+        "startChar": 0,
+        "endLine": 512,
+        "endChar": 41
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "bf9d060b_4ea7acb9",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "I wanted to say sent packet, changed it to sent_packets.",
+      "parentUuid": "7f92ea81_3a15fa8c",
+      "range": {
+        "startLine": 513,
+        "startChar": 6,
+        "endLine": 513,
+        "endChar": 15
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "573801e9_f1ae1247",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "311d0436_1c0ed212",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Done. Changing it to bind port 0.",
+      "parentUuid": "573801e9_f1ae1247",
+      "range": {
+        "startLine": 521,
+        "startChar": 55,
+        "endLine": 521,
+        "endChar": 59
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "c5545738_86050fda",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4656b46_02390934",
+      "range": {
+        "startLine": 524,
+        "startChar": 16,
+        "endLine": 524,
+        "endChar": 37
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25d0c7b6_2bd6fa01",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "8efca915_4a500d3b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d0c7b6_2bd6fa01",
+      "range": {
+        "startLine": 534,
+        "startChar": 0,
+        "endLine": 534,
+        "endChar": 67
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0023d628_61fbbc2c",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -183,6 +351,30 @@
       "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1622be49_cc3a4184",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-13T17:35:30Z",
+      "side": 1,
+      "message": "It actually removes both directions on this socket, but we only use this socket for outbound direction.",
+      "parentUuid": "0023d628_61fbbc2c",
+      "range": {
+        "startLine": 537,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 39
+      },
+      "revId": "f2d620d6d1a11703086fb90a532922b5360644e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
