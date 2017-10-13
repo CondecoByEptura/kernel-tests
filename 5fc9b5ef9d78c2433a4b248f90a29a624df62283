@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33d71b79_a0f0c5d4",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Can you call this CreateVtiTunnel instead, for clarity?",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 15
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a982b55_181e67d9",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Is there a need for this diagram? I can see how it would have been useful during development, but now that we know what the attributes are the code should be clear enough to understand how things work, and the tests should ensure it stays correct.",
+      "range": {
+        "startLine": 559,
+        "startChar": 60,
+        "endLine": 577,
+        "endChar": 40
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cac66726_73ebb357",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "I assume you want NLM_F_EXCL here as well? That\u0027s what other code in this file does.",
+      "range": {
+        "startLine": 598,
+        "startChar": 44,
+        "endLine": 598,
+        "endChar": 56
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "631ac2b4_264b035b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Replaying the comment from the other file: In order to avoid human errors, consider making these related but not identical, e.g.:\n\n  _TEST_OKEY \u003d _TEST_OUT_SPI + 0x10000000",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7706f37_1276cce4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Not for this CL, but we need to test more than one VTI at a time and ensure that things work as expected.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec684950_943c564a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc86c8d7_8e3403b8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "A more realistic setup would have a /32 prefix length for the local address.",
+      "range": {
+        "startLine": 216,
+        "startChar": 52,
+        "endLine": 216,
+        "endChar": 70
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

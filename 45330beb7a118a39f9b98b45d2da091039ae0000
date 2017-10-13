@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b23092f9_1af1953a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "45330beb7a118a39f9b98b45d2da091039ae0000",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "619949af_5a6bffe3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-13T01:38:22Z",
+      "side": 1,
+      "message": "Now that XFRM_OUTPUT_MARK can be used on all 4.9 kernels, let\u0027s use that.",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 273,
+        "endChar": 35
+      },
+      "revId": "45330beb7a118a39f9b98b45d2da091039ae0000",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
