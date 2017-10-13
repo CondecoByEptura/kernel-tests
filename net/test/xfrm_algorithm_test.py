@@ -205,16 +205,16 @@ class XfrmAlgorithmTest(xfrm_base.XfrmBaseTest):
 
     # Apply the left outbound socket policy.
     xfrm_base.ApplySocketPolicy(sock_left, family, xfrm.XFRM_POLICY_OUT,
-                                spi_right, req_ids[0], None)
+                                spi_right, req_ids[0], None, True)
     # Apply right inbound socket policy.
     xfrm_base.ApplySocketPolicy(sock_right, family, xfrm.XFRM_POLICY_IN,
-                                spi_right, req_ids[1], None)
+                                spi_right, req_ids[1], None, True)
     # Apply right outbound socket policy.
     xfrm_base.ApplySocketPolicy(sock_right, family, xfrm.XFRM_POLICY_OUT,
-                                spi_left, req_ids[2], None)
+                                spi_left, req_ids[2], None, True)
     # Apply left inbound socket policy.
     xfrm_base.ApplySocketPolicy(sock_left, family, xfrm.XFRM_POLICY_IN,
-                                spi_left, req_ids[3], None)
+                                spi_left, req_ids[3], None, True)
 
     server_ready = threading.Event()
     server_error = None  # Save exceptions thrown by the server.
