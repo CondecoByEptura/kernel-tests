@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d971ac51_ef91e305",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "This still skeeves me out since it\u0027s not a pattern we have anywhere else. It makes the function signature cleaner at the cost of user bewilderment. The only saving grace is the documentation.",
+      "range": {
+        "startLine": 37,
+        "startChar": 59,
+        "endLine": 37,
+        "endChar": 68
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "367c6e1b_31d64dc5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "Assuming I can\u0027t change your mind and coax 2 parameters out of this, can the documentation be explicit that it\u0027s a tuple of (local, remote)?",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 75
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb20f763_5356e15f",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "The number of assumptions this makes causes it to be a rather brittle function. Should we standardize the socket-sending functions to also use UDP_PAYLOAD so that there\u0027s a consistent suite? Otherwise, this feels like it belongs immediately adjacent to the tests that it works with. TBPH I\u0027m not sure why we are using a UDP_PAYLOAD from net_test.",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 22
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "056183e8_8a145ac7",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "net_test.UDP_PAYLOAD.",
+      "range": {
+        "startLine": 105,
+        "startChar": 62,
+        "endLine": 105,
+        "endChar": 73
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d3101cd_219cf976",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "version_inner and version_outer?\n\nIt\u0027s odd that for one parameter we\u0027d take \"version\" and for the other we\u0027d take \"family\".\n\nAlso, for consistency if it\u0027s going to be family (I prefer another \"version\"), can it be outer_family?",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 11
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfa039fe_a286f28f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "should this be a dictionary\u0027d thing?, maybe with a little getter?\n\nTUNNEL_ENDPOINT { 4: ... 6: ... }",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cbab893_689e628a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "Can you inherit from the base class now?",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 347,
+        "endChar": 50
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdcf7eb2_98d636d3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "net_test.GetAddressFamily() for your convenience.",
+      "range": {
+        "startLine": 365,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 47
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e0b2734_cee1b207",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-16T20:37:14Z",
+      "side": 1,
+      "message": "switch to kwargs? (or not, but consistency...)",
+      "range": {
+        "startLine": 431,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 68
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
