@@ -125,31 +125,9 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         mark,
         output_mark)
 
-    policy = xfrm.XfrmUserpolicyInfo(
-        sel=selector,
-        lft=xfrm.NO_LIFETIME_CFG,
-        curlft=xfrm.NO_LIFETIME_CUR,
-        priority=100,
-        index=0,
-        dir=direction,
-        action=xfrm.XFRM_POLICY_ALLOW,
-        flags=xfrm.XFRM_POLICY_LOCALOK,
-        share=xfrm.XFRM_SHARE_ANY)
-
-    # Create a template that specifies the SPI and the protocol.
-    xfrmid = xfrm.XfrmId(
-        daddr=xfrm.PaddedAddress(tdst_addr), spi=htonl(spi), proto=IPPROTO_ESP)
-    tmpl = xfrm.XfrmUserTmpl(
-        id=xfrmid,
-        family=outer_family,
-        saddr=xfrm.PaddedAddress(tsrc_addr),
-        reqid=0,
-        mode=xfrm.XFRM_MODE_TUNNEL,
-        share=xfrm.XFRM_SHARE_ANY,
-        optional=0,  # require
-        aalgos=xfrm_base.ALL_ALGORITHMS,  # auth algos
-        ealgos=xfrm_base.ALL_ALGORITHMS,  # encryption algos
-        calgos=xfrm_base.ALL_ALGORITHMS)  # compression algos
+    policy, tmpl = xfrm_base.CreateEspPolicyAndTemplate(
+        outer_family, direction, htonl(spi), 0, selector,
+        (tsrc_addr, tdst_addr))
 
     self.xfrm.AddPolicyInfo(policy, tmpl, mark)
 
