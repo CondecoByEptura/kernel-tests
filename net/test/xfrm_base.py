@@ -35,13 +35,10 @@ ALL_ALGORITHMS = 0xffffffff
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
 
-def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
-  """Create and apply socket policy objects.
-
-  AH is not supported. This is ESP only.
+def CreateEspPolicyAndTemplate(family, direction, spi, reqid, tun_addrs):
+  """Create an ESP policy and template.
 
   Args:
-    sock: The socket that needs a policy
     family: AF_INET or AF_INET6
     direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
     spi: 32-bit SPI in network byte order
@@ -92,6 +89,27 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
       aalgos=ALL_ALGORITHMS,
       ealgos=ALL_ALGORITHMS,
       calgos=ALL_ALGORITHMS)
+
+  return policy, template
+
+
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+  """Create and apply socket policy objects.
+
+  AH is not supported. This is ESP only.
+
+  Args:
+    sock: The socket that needs a policy
+    family: AF_INET or AF_INET6
+    direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+    spi: 32-bit SPI in network byte order
+    reqid: 32-bit ID matched against SAs
+    tun_addrs: A tuple of (local, remote) addresses for tunnel mode, or None
+      to request a transport mode SA.
+  """
+  # Create an XFRM policy and template.
+  policy, template = CreateEspPolicyAndTemplate(family, direction, spi, reqid,
+                                                tun_addrs)
 
   # Set the policy and template on our socket.
   opt_data = policy.Pack() + template.Pack()
