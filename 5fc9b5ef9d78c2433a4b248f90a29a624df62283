@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "51a1d2d2_5f9a0c2a",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "CreateVirtualTunnelInterface SGTM.",
+      "parentUuid": "10d4e4b4_37eaa09e",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 15
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a982b55_181e67d9",
         "filename": "net/test/iproute.py",
         "patchSetId": 24

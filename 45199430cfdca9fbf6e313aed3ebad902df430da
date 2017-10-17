@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7916120f_45d9be60",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Suggest putting these before CreateVirtualTunnelInterface since they are more general.",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 617,
+        "endChar": 68
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a23e5e18_290ee135",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Please add a TODO to support more than one such network, we must ensure that we can support more than one such tunnel network at the same time.\n\nThe immediately-preceding comment suggests that we might want to use something \u003e 256 instead of 50.\n\nWhen you do this, also define named constants that subclasses can use to pick an appropriate netid without having to know about the numbers themselves.",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 68
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a92f5ae_345134a4",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Rename to AddressBits or similar to clarify that this is in bits and not bytes.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 14
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c93cba4d_48e3a3a2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Why do you need this here, given that you already do it in tearDown? Can this be deleted?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 12
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7724302f_243cc3ea",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "This is fine but you don\u0027t need to do this. Consider also:\n\n  except IOError:\n    pass\n\nor:\n\n  except IOError:\n    # Interface didn\u0027t exist.\n    pass",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0f7e032_5f55017b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Blank line before here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 8
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd26babc_807eac10",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Of the",
+      "range": {
+        "startLine": 79,
+        "startChar": 61,
+        "endLine": 79,
+        "endChar": 64
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eccf5d3f_47a030e8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Suggest using a tuple for these two to limit the number of arguments, making invocations more readable.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 75
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "777010b8_41ad8c6e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Suggest using a tuple for these two as well.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 64
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c72467a7_240d35ed",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Do you need to specify saddr and daddr here? XfrmOutputMarkTest does not do this and it passes.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 28
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dd9b8e7_5d4863a4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "This code is pretty much identical to code inside ApplySocketPolicy. Can you refactor to use that instead?\n\nI\u0027ve uploaded http://go/oag/513235 which can you can use as a starting point. It assumes that the selector is always empty, but I think that will work here, and if it doesn\u0027t, then it\u0027s trivial to have CreateEspPolicyAndTemplate take the selector as an argument as well.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 61
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4bcc636_43a8b278",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Suggest just passing netid as the output mark to AddMinimalSaInfo instead. The tests will pass on all 4.9 kernels and on all common kernels, so you can use skipUnless to restrict to 4.9 on the builder and test locally with any common kernel.",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 37
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad1580f0_10e8d974",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Is there a need to flush here? Consider using DeleteSaInfo and adding a TODO to add a DeletePolicyInfo method.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 37
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3b5ef8_105c4ead",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Delete",
+      "range": {
+        "startLine": 241,
+        "startChar": 10,
+        "endLine": 241,
+        "endChar": 13
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "865c3324_3838bb7b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Ditto on passing the output mark.",
+      "range": {
+        "startLine": 292,
+        "startChar": 6,
+        "endLine": 292,
+        "endChar": 35
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52389b38_9e8a7e51",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "ExpectNoPacketsOn does this for you.",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 72
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40935c76_045f5bac",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:08:43Z",
+      "side": 1,
+      "message": "Say what happens when you try this. Is it unencrypted packets? No packets? ENETUNREACH? ...?",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 9
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
