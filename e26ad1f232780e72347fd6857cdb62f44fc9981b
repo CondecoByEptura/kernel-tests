@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0fe95e5_1f99b79c",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "What would you prefer instead? Separate source and destination parameters, and a check to ensure that they are both None or non-None?",
+      "parentUuid": "d971ac51_ef91e305",
+      "range": {
+        "startLine": 37,
+        "startChar": 59,
+        "endLine": 37,
+        "endChar": 68
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "367c6e1b_31d64dc5",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-16T20:37:14Z",
       "side": 1,
       "message": "Assuming I can\u0027t change your mind and coax 2 parameters out of this, can the documentation be explicit that it\u0027s a tuple of (local, remote)?",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 75
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "beeed190_0ee59acc",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "367c6e1b_31d64dc5",
       "range": {
         "startLine": 50,
         "startChar": 18,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3ffe83f4_3d9a2309",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "It\u0027s the only payload we have. Made this function take the payload as input and throw if it\u0027s not the length it likes.",
+      "parentUuid": "eb20f763_5356e15f",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 22
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "056183e8_8a145ac7",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 13
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-16T20:37:14Z",
       "side": 1,
       "message": "net_test.UDP_PAYLOAD.",
+      "range": {
+        "startLine": 105,
+        "startChar": 62,
+        "endLine": 105,
+        "endChar": 73
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b268f368_f935d691",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "Gone.",
+      "parentUuid": "056183e8_8a145ac7",
       "range": {
         "startLine": 105,
         "startChar": 62,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5edb3241_74f705c2",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "We can\u0027t just use the version for everything because we eventually need to support UDP in IPv4 as outer header. Reworked to use None for transport mode. Better?",
+      "parentUuid": "4d3101cd_219cf976",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 11
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfa039fe_a286f28f",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 13
@@ -128,6 +248,30 @@
       "writtenOn": "2017-10-16T20:37:14Z",
       "side": 1,
       "message": "should this be a dictionary\u0027d thing?, maybe with a little getter?\n\nTUNNEL_ENDPOINT { 4: ... 6: ... }",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d49574b4_a1b9a8f3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfa039fe_a286f28f",
       "range": {
         "startLine": 41,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "9ec51b33_ac077ec8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "We can now, yes. Removed.",
+      "parentUuid": "7cbab893_689e628a",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 347,
+        "endChar": 50
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdcf7eb2_98d636d3",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 13
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "fbceeea7_60c12952",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "Thank you. Done.",
+      "parentUuid": "bdcf7eb2_98d636d3",
+      "range": {
+        "startLine": 365,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 47
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e0b2734_cee1b207",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 13
@@ -197,6 +389,30 @@
       "writtenOn": "2017-10-16T20:37:14Z",
       "side": 1,
       "message": "switch to kwargs? (or not, but consistency...)",
+      "range": {
+        "startLine": 431,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 68
+      },
+      "revId": "e26ad1f232780e72347fd6857cdb62f44fc9981b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dacc246_9ea8d99f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T01:15:24Z",
+      "side": 1,
+      "message": "Make this argument non-optional for consistency.\n\nIn general I think this method takes too many arguments and it would be a good idea to reduce the number (for example, by passing in tuples or cstructs for algorithms/keys, marks etc.) but I think that\u0027s best done in a separate refectoring CL.",
+      "parentUuid": "2e0b2734_cee1b207",
       "range": {
         "startLine": 431,
         "startChar": 6,
