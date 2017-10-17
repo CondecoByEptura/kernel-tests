@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "14286d64_28525311",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "This is unchanged in any recent patch set. Whatever. Done.",
+      "parentUuid": "7916120f_45d9be60",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 617,
+        "endChar": 68
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a23e5e18_290ee135",
         "filename": "net/test/multinetwork_base.py",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Please add a TODO to support more than one such network, we must ensure that we can support more than one such tunnel network at the same time.\n\nThe immediately-preceding comment suggests that we might want to use something \u003e 256 instead of 50.\n\nWhen you do this, also define named constants that subclasses can use to pick an appropriate netid without having to know about the numbers themselves.",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 68
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65351be8_7e9a401f",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "I\u0027ll just remove the line. This is the kind of thing that makes me feel like trying to put helpful comments in causes me to be punished.",
+      "parentUuid": "a23e5e18_290ee135",
       "range": {
         "startLine": 90,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9b76c13c_3070a602",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a92f5ae_345134a4",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 14
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c93cba4d_48e3a3a2",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Why do you need this here, given that you already do it in tearDown? Can this be deleted?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 12
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1273902d_efadc84d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "It needs to be done in setup, because when something crashes teardown doesn\u0027t run. I hit this while debugging.\n\nFWIW this follows the pattern of the base test, which was copied from the other tests... it\u0027s not unique.",
+      "parentUuid": "c93cba4d_48e3a3a2",
       "range": {
         "startLine": 47,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "4d6c4c44_b50ac98e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "It should be done in teardown so that the test cleans up after itself.\n\nFWIW this follows the pattern of the base test, which was copied from the other tests... it\u0027s not unique.",
+      "parentUuid": "7724302f_243cc3ea",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0f7e032_5f55017b",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -128,6 +248,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Blank line before here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 8
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7b59f76_e190fb23",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0f7e032_5f55017b",
       "range": {
         "startLine": 77,
         "startChar": 4,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "1157ee32_26bc485b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd26babc_807eac10",
+      "range": {
+        "startLine": 79,
+        "startChar": 61,
+        "endLine": 79,
+        "endChar": 64
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eccf5d3f_47a030e8",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -174,6 +342,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Suggest using a tuple for these two to limit the number of arguments, making invocations more readable.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 75
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e174586_2617c6a2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "This has been unchanged for months. I feel like you wrote your a new function with a different style, argued me down so that you could use a tuple in it despite my pointing out that it was inconsistent with any code we had, and now want to retroactively apply your new standard with which I vehemently disagreed. Do you understand why I find that extremely upsetting?",
+      "parentUuid": "eccf5d3f_47a030e8",
       "range": {
         "startLine": 81,
         "startChar": 0,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "6f00c748_bd158d67",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "Absolutely not. It makes the code less readable, and I was very clear on that. You used it in your own code over my objection. I\u0027m not interested in letting that slippery-slope contagion spread.",
+      "parentUuid": "777010b8_41ad8c6e",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 64
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c72467a7_240d35ed",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -220,6 +436,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Do you need to specify saddr and daddr here? XfrmOutputMarkTest does not do this and it passes.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 28
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0dad83_81fdf538",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "In the test no. In the system, yes: otherwise this selector would match every packet. As per your continued reminder, we want the tests to behave like the system. It would be bizarre to not do that here. Also, this design hasn\u0027t changed in months... only the names of the variables.",
+      "parentUuid": "c72467a7_240d35ed",
       "range": {
         "startLine": 97,
         "startChar": 0,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "8070ea84_20e46f82",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "You want me to refactor my CL, in this change, to use the thing that was checked in underneath me while you were nitpicking this? No.",
+      "parentUuid": "7dd9b8e7_5d4863a4",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 61
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4bcc636_43a8b278",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -266,6 +530,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Suggest just passing netid as the output mark to AddMinimalSaInfo instead. The tests will pass on all 4.9 kernels and on all common kernels, so you can use skipUnless to restrict to 4.9 on the builder and test locally with any common kernel.",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 37
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb8c6460_00b5b3e1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "Said it before, please stop moving the goalposts. The goal of this  CL has never been to exhibit a production-ready implementation. When I started it 4 months ago, it was to get some basic VTI code in the platform so that we could start validating it on our various kernels. You are working against that goal by repeatedly asking me about this, and you just checked in that code last night. This feels like a game that I really don\u0027t want to play.",
+      "parentUuid": "a4bcc636_43a8b278",
       "range": {
         "startLine": 137,
         "startChar": 8,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "30ca0ebb_53e1048a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "This code has also been here for a number of recently reviewed patch sets. Suddenly important?\n\nHow about I just remove the cleanup from here so it\u0027s a non-issue? Done.",
+      "parentUuid": "ad1580f0_10e8d974",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 37
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce3b5ef8_105c4ead",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -312,6 +624,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Delete",
+      "range": {
+        "startLine": 241,
+        "startChar": 10,
+        "endLine": 241,
+        "endChar": 13
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1ac3553_6249b96d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce3b5ef8_105c4ead",
       "range": {
         "startLine": 241,
         "startChar": 10,
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "6a20e2ee_1c38d20b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "*sigh*",
+      "parentUuid": "865c3324_3838bb7b",
+      "range": {
+        "startLine": 292,
+        "startChar": 6,
+        "endLine": 292,
+        "endChar": 35
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52389b38_9e8a7e51",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -370,6 +730,30 @@
     },
     {
       "key": {
+        "uuid": "c85cfab4_a366e1a8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "This hasn\u0027t changed in a number of patchsets, but whatever. Done.",
+      "parentUuid": "52389b38_9e8a7e51",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 72
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40935c76_045f5bac",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -381,6 +765,30 @@
       "writtenOn": "2017-10-17T12:08:43Z",
       "side": 1,
       "message": "Say what happens when you try this. Is it unencrypted packets? No packets? ENETUNREACH? ...?",
+      "range": {
+        "startLine": 322,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 9
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee9bc803_62a65c96",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T19:57:33Z",
+      "side": 1,
+      "message": "unencrypted packets. Comment added.",
+      "parentUuid": "40935c76_045f5bac",
       "range": {
         "startLine": 322,
         "startChar": 4,
