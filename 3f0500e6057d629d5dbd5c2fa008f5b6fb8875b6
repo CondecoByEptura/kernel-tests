@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f406a6d_08b04c03",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T04:46:58Z",
+      "side": 1,
+      "message": "Pre-existing, but I think you can also do this by setting the checksum to None.",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 60
+      },
+      "revId": "3f0500e6057d629d5dbd5c2fa008f5b6fb8875b6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
