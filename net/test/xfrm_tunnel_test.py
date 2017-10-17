@@ -105,8 +105,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
     Args:
       direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
-      selector: A selector as returned by EmptySelector or SrcDstSelector.
-        Decides which packets will be transformed. If None, matches all packets.
+      selector: An XfrmSelector structure, the selector to specify in the
+        policy. The selector in the SA is always left empty.
       outer_family: The address family (AF_INET or AF_INET6) the tunnel
       tsrc_addr: The source address of the tunneled packets
       tdst_addr: The destination address of the tunneled packets
@@ -116,41 +116,19 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm.
     """
+    unspec_selector = xfrm.EmptySelector(AF_UNSPEC)
     self.xfrm.AddSaInfo(
         tsrc_addr, tdst_addr,
-        htonl(spi), xfrm.XFRM_MODE_TUNNEL, 0, selector,
+        htonl(spi), xfrm.XFRM_MODE_TUNNEL, 0, unspec_selector,
         xfrm_base._ALGO_CBC_AES_256,
         xfrm_base._ALGO_HMAC_SHA1,
         None,
         mark,
         output_mark)
 
-    policy = xfrm.XfrmUserpolicyInfo(
-        sel=selector,
-        lft=xfrm.NO_LIFETIME_CFG,
-        curlft=xfrm.NO_LIFETIME_CUR,
-        priority=100,
-        index=0,
-        dir=direction,
-        action=xfrm.XFRM_POLICY_ALLOW,
-        flags=xfrm.XFRM_POLICY_LOCALOK,
-        share=xfrm.XFRM_SHARE_ANY)
-
-    # Create a template that specifies the SPI and the protocol.
-    xfrmid = xfrm.XfrmId(
-        daddr=xfrm.PaddedAddress(tdst_addr), spi=htonl(spi), proto=IPPROTO_ESP)
-    tmpl = xfrm.XfrmUserTmpl(
-        id=xfrmid,
-        family=outer_family,
-        saddr=xfrm.PaddedAddress(tsrc_addr),
-        reqid=0,
-        mode=xfrm.XFRM_MODE_TUNNEL,
-        share=xfrm.XFRM_SHARE_ANY,
-        optional=0,  # require
-        aalgos=xfrm_base.ALL_ALGORITHMS,  # auth algos
-        ealgos=xfrm_base.ALL_ALGORITHMS,  # encryption algos
-        calgos=xfrm_base.ALL_ALGORITHMS)  # compression algos
-
+    policy = xfrm_base.CreatePolicy(direction, selector)
+    tmpl = xfrm_base.CreateTemplate(outer_family, htonl(spi), 0,
+                                    (tsrc_addr, tdst_addr))
     self.xfrm.AddPolicyInfo(policy, tmpl, mark)
 
   def _CheckTunnelOutput(self, inner_version, outer_version):

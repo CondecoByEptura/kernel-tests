@@ -37,15 +37,30 @@ ALL_ALGORITHMS = 0xffffffff
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
 
-def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
-  """Create and apply socket policy objects.
-
-  AH is not supported. This is ESP only.
+def CreatePolicy(direction, selector):
+  """Create an IPsec policy.
 
   Args:
-    sock: The socket that needs a policy
-    family: AF_INET or AF_INET6
     direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+    selector: An XfrmSelector, the packets to transform.
+
+  Return: a XfrmUserpolicyInfo cstruct.
+  """
+  # Create a user policy that specifies that all packets in the specified
+  # direction matching the selector should be encrypted.
+  return xfrm.XfrmUserpolicyInfo(
+      sel=selector,
+      lft=xfrm.NO_LIFETIME_CFG,
+      curlft=xfrm.NO_LIFETIME_CUR,
+      dir=direction,
+      action=xfrm.XFRM_POLICY_ALLOW,
+      flags=xfrm.XFRM_POLICY_LOCALOK,
+      share=xfrm.XFRM_SHARE_UNIQUE)
+
+def CreateTemplate(family, spi, reqid, tun_addrs):
+  """Create an ESP policy and template.
+
+  Args:
     spi: 32-bit SPI in network byte order
     reqid: 32-bit ID matched against SAs
     tun_addrs: A tuple of (local, remote) addresses for tunnel mode, or None
@@ -64,22 +79,6 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
     saddr = xfrm.PaddedAddress(tun_addrs[0])
     daddr = xfrm.PaddedAddress(tun_addrs[1])
 
-  # Create a selector that matches all packets of the specified address family.
-  # It's not actually used to select traffic, that will be done by the socket
-  # policy, which selects the SA entry (i.e., xfrm state) via the SPI and reqid.
-  selector = xfrm.EmptySelector(family=family)
-
-  # Create a user policy that specifies that all outbound packets matching the
-  # (essentially no-op) selector should be encrypted.
-  policy = xfrm.XfrmUserpolicyInfo(
-      sel=selector,
-      lft=xfrm.NO_LIFETIME_CFG,
-      curlft=xfrm.NO_LIFETIME_CUR,
-      dir=direction,
-      action=xfrm.XFRM_POLICY_ALLOW,
-      flags=xfrm.XFRM_POLICY_LOCALOK,
-      share=xfrm.XFRM_SHARE_UNIQUE)
-
   # Create a template that specifies the SPI and the protocol.
   xfrmid = xfrm.XfrmId(daddr=daddr, spi=spi, proto=IPPROTO_ESP)
   template = xfrm.XfrmUserTmpl(
@@ -93,6 +92,32 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
       aalgos=ALL_ALGORITHMS,
       ealgos=ALL_ALGORITHMS,
       calgos=ALL_ALGORITHMS)
+
+  return template
+
+
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+  """Create and apply socket policy objects.
+
+  AH is not supported. This is ESP only.
+
+  Args:
+    sock: The socket that needs a policy
+    family: AF_INET or AF_INET6
+    direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+    spi: 32-bit SPI in network byte order
+    reqid: 32-bit ID matched against SAs
+    tun_addrs: A tuple of (local, remote) addresses for tunnel mode, or None
+      to request a transport mode SA.
+  """
+  # Create a selector that matches all packets of the specified address family.
+  # It's not actually used to select traffic, that will be done by the socket
+  # policy, which selects the SA entry (i.e., xfrm state) via the SPI and reqid.
+  selector = xfrm.EmptySelector(family)
+
+  # Create an XFRM policy and template.
+  policy = CreatePolicy(direction, selector)
+  template = CreateTemplate(family, spi, reqid, tun_addrs)
 
   # Set the policy and template on our socket.
   opt_data = policy.Pack() + template.Pack()

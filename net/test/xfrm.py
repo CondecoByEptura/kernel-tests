@@ -112,9 +112,12 @@ XFRM_MODE_MAX = 5
 XFRM_POLICY_ALLOW = 0
 XFRM_POLICY_BLOCK = 1
 
-# Flags.
+# Policy flags.
 XFRM_POLICY_LOCALOK = 1
 XFRM_POLICY_ICMP = 2
+
+# State flags.
+XFRM_STATE_AF_UNSPEC = 32
 
 # XFRM algorithm names, as defined in net/xfrm/xfrm_algo.c.
 XFRM_EALG_CBC_AES = "cbc(aes)"
@@ -394,7 +397,15 @@ class Xfrm(netlink.NetlinkSocket):
     stats = XfrmStats()
     seq = 0
     replay = 4
-    flags = 0
+
+    # The XFRM_STATE_AF_UNSPEC flag determines how AF_UNSPEC selectors behave.
+    # - If the flag is not set, an AF_UNSPEC selector has its family changed to
+    #   the SA family, which in our case is the address family of dst.
+    # - If the flag is set, an AF_UNSPEC selector is left as is. In transport
+    #   mode this fails with EPROTONOSUPPORT, but in tunnel mode, it results in
+    #   a dual-stack SA that can tunnel both IPv4 and IPv6 packets.
+    flags = XFRM_STATE_AF_UNSPEC if mode == XFRM_MODE_TUNNEL else 0
+
     sa = XfrmUsersaInfo((selector, xfrm_id, PaddedAddress(src), NO_LIFETIME_CFG,
                          cur, stats, seq, reqid, family, mode, replay, flags))
     msg = sa.Pack() + nlattrs
