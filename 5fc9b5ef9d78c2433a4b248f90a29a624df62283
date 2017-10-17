@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "10d4e4b4_37eaa09e",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "From a previous comment...\nI\u0027m willing to expand the name if you want the function to be CreateVirtualTunnelInterface. I don\u0027t think it makes sense to call it Create(VirtualTunnelInterface)Tunnel.",
+      "parentUuid": "33d71b79_a0f0c5d4",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 15
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a982b55_181e67d9",
         "filename": "net/test/iproute.py",
         "patchSetId": 24
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-13T01:38:22Z",
       "side": 1,
       "message": "Is there a need for this diagram? I can see how it would have been useful during development, but now that we know what the attributes are the code should be clear enough to understand how things work, and the tests should ensure it stays correct.",
+      "range": {
+        "startLine": 559,
+        "startChar": 60,
+        "endLine": 577,
+        "endChar": 40
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69244999_965532a7",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "Yes, I want this diagram here for future reference. It has bailed me out a couple times even recently, and I can\u0027t wouldn\u0027t wish upon anybody to have to debug this code without a reference (which will also help if we add support for other tunnel types in the future).",
+      "parentUuid": "7a982b55_181e67d9",
       "range": {
         "startLine": 559,
         "startChar": 60,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d9d8dee8_80a016b2",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "The correct flags are being or\u0027d in auto-magically in _SendNlRequest(). While that\u0027s pretty scary to me, now that this is in IPRoute I can remove the flags altogether. (Done).",
+      "parentUuid": "cac66726_73ebb357",
+      "range": {
+        "startLine": 598,
+        "startChar": 44,
+        "endLine": 598,
+        "endChar": 56
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "631ac2b4_264b035b",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 24
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-13T01:38:22Z",
       "side": 1,
       "message": "Replaying the comment from the other file: In order to avoid human errors, consider making these related but not identical, e.g.:\n\n  _TEST_OKEY \u003d _TEST_OUT_SPI + 0x10000000",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47199312_61de6d96",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "631ac2b4_264b035b",
       "range": {
         "startLine": 34,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c994864a_9d5bcf0c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "Yeah, we\u0027ll have to slap a number onto the name or something.",
+      "parentUuid": "a7706f37_1276cce4",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec684950_943c564a",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 24
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "1101ba7c_27efcada",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec684950_943c564a",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc86c8d7_8e3403b8",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 24
@@ -151,6 +295,30 @@
       "writtenOn": "2017-10-13T01:38:22Z",
       "side": 1,
       "message": "A more realistic setup would have a /32 prefix length for the local address.",
+      "range": {
+        "startLine": 216,
+        "startChar": 52,
+        "endLine": 216,
+        "endChar": 70
+      },
+      "revId": "5fc9b5ef9d78c2433a4b248f90a29a624df62283",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48b8f3c_d8c98d5e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:49:32Z",
+      "side": 1,
+      "message": "Indeed... Done.",
+      "parentUuid": "cc86c8d7_8e3403b8",
       "range": {
         "startLine": 216,
         "startChar": 52,
