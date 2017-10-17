@@ -93,6 +93,30 @@
       "revId": "45330beb7a118a39f9b98b45d2da091039ae0000",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2801a445_5f5834b8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-17T12:09:33Z",
+      "side": 1,
+      "message": "See other comment. For local testing, any common tree (even 3.10) will work.",
+      "parentUuid": "7f384ae4_eede733a",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 273,
+        "endChar": 35
+      },
+      "revId": "45330beb7a118a39f9b98b45d2da091039ae0000",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
