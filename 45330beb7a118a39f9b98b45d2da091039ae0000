@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "862a5e7d_4dc2ad0a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:52:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b23092f9_1af1953a",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "45330beb7a118a39f9b98b45d2da091039ae0000",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "619949af_5a6bffe3",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 28
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-13T01:38:22Z",
       "side": 1,
       "message": "Now that XFRM_OUTPUT_MARK can be used on all 4.9 kernels, let\u0027s use that.",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 273,
+        "endChar": 35
+      },
+      "revId": "45330beb7a118a39f9b98b45d2da091039ae0000",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f384ae4_eede733a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-17T00:52:52Z",
+      "side": 1,
+      "message": "Can we do this in a separate patch set? Surely those CLs will go in soon, but this works well enough, and it also works on all the legacy kernels. I haven\u0027t even got a 4.9 tree yet.",
+      "parentUuid": "619949af_5a6bffe3",
       "range": {
         "startLine": 273,
         "startChar": 6,
