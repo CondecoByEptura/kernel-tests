@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "53398dcc_66b35ee0",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-18T21:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c8897a6_6e7f0501",
+      "revId": "0297bab1cc92d9de599e1fe2898310412a554243",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c2e9a49_12fc3ae6",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-17T01:30:26Z",
       "side": 1,
       "message": "I believe that you can use ApplySocketPolicy() and add a new parameter \"required\" to set it to \"optional\".\n\ndef RemoveSocketPolicy(sock, family, direction, spi, reqid):\n    ApplySocketPolicy(sock, family, direction, spi, reqid, required\u003dFalse)\n\nor something like that.",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 22
+      },
+      "revId": "0297bab1cc92d9de599e1fe2898310412a554243",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1153ce9f_45345492",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-18T21:47:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3c2e9a49_12fc3ae6",
       "range": {
         "startLine": 88,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "cb15ff28_0193a145",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-18T21:47:37Z",
+      "side": 1,
+      "message": "Done. Removed it.",
+      "parentUuid": "1705e690_482feab4",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "0297bab1cc92d9de599e1fe2898310412a554243",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e38ffb_46c49830",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9c30ee5d_44308100",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-18T21:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e38ffb_46c49830",
+      "range": {
+        "startLine": 340,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 44
+      },
+      "revId": "0297bab1cc92d9de599e1fe2898310412a554243",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42f6e702_e0355c87",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 6
@@ -99,6 +189,30 @@
       "writtenOn": "2017-10-17T01:30:26Z",
       "side": 1,
       "message": "I believe this can be significantly simplified by using TunTwister:\nhttps://cs.corp.google.com/android/kernel/tests/net/test/tun_twister.py?q\u003dTunTwister.\u0026sq\u003dpackage:android\u0026l\u003d16",
+      "range": {
+        "startLine": 385,
+        "startChar": 6,
+        "endLine": 397,
+        "endChar": 55
+      },
+      "revId": "0297bab1cc92d9de599e1fe2898310412a554243",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8253a24_8867a869",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-18T21:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42f6e702_e0355c87",
       "range": {
         "startLine": 385,
         "startChar": 6,
