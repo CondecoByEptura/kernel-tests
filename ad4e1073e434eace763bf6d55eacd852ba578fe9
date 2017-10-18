@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "339dd7f9_56068a5e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-18T04:00:41Z",
+      "side": 1,
+      "message": "Thanks for adding this.",
+      "range": {
+        "startLine": 282,
+        "startChar": 6,
+        "endLine": 282,
+        "endChar": 22
+      },
+      "revId": "ad4e1073e434eace763bf6d55eacd852ba578fe9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

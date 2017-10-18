@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ae85d4d0_7bc08c32",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-18T04:00:41Z",
+      "side": 1,
+      "message": "Isn\u0027t it useful to keep track in the code of the fact that we know we need to support more than one of these?",
+      "parentUuid": "65351be8_7e9a401f",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 68
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a92f5ae_345134a4",
         "filename": "net/test/net_test.py",
         "patchSetId": 31
@@ -378,6 +402,30 @@
     },
     {
       "key": {
+        "uuid": "d5a77272_001c552e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-18T04:00:41Z",
+      "side": 1,
+      "message": "It\u0027s just a suggestion. You\u0027re free to disagree with it and ignore it.",
+      "parentUuid": "1e174586_2617c6a2",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 75
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "777010b8_41ad8c6e",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 31
@@ -460,6 +508,30 @@
       "side": 1,
       "message": "In the test no. In the system, yes: otherwise this selector would match every packet. As per your continued reminder, we want the tests to behave like the system. It would be bizarre to not do that here. Also, this design hasn\u0027t changed in months... only the names of the variables.",
       "parentUuid": "c72467a7_240d35ed",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 28
+      },
+      "revId": "45199430cfdca9fbf6e313aed3ebad902df430da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "434de0f7_042a8fdc",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-18T04:00:41Z",
+      "side": 1,
+      "message": "Hmm. But don\u0027t we want this selector to match every packet? (Or rather, every packet that matches the mark and mask.) I thought that the system was going to behave as follows:\n\n 1. Packet is routed to VTI via routing rules.\n 2. VTI does xfrm lookup using its okey as the mark.\n 3. The lookup matches the src+dst and mark+mask in the SA.\n\nIIRC we said that the okeys needed to occupy their own mark space that was distinct from any mark that was used for a netId, and that means that this selector can be empty.\n\nOr am I missing something here? If so, is there a bug in XfrmOutputMarkTest?",
+      "parentUuid": "4d0dad83_81fdf538",
       "range": {
         "startLine": 97,
         "startChar": 0,
