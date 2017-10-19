@@ -70,7 +70,11 @@ class TunTwister(object):
   _POLL_TIMEOUT_SEC = 2.0
   _POLL_FAST_TIMEOUT_MS = 100
 
-  def __init__(self, fd=None, validator=None):
+  @staticmethod
+  def _IsMulticastPacket(pkt):
+    return int(pkt.dst.split(":")[0], 16) & 0x1
+
+  def __init__(self, fd=None, validator=None, ignore_multicast=True):
     """Construct a TunTwister.
 
     The TunTwister will listen on the given TUN fd.
@@ -88,6 +92,7 @@ class TunTwister(object):
     self._thread = threading.Thread(target=self._RunLoop, name="TunTwister")
     self._validator = validator
     self._error = None
+    self._ignore_multicast = ignore_multicast
 
   def __enter__(self):
     self._thread.start()
@@ -130,6 +135,8 @@ class TunTwister(object):
     # TODO: Handle EAGAIN "errors".
     bytes_in = os.read(self._fd, TunTwister._READ_BUF_SIZE)
     packet = self._DecodePacket(bytes_in)
+    if self._ignore_multicast and self._IsMulticastPacket(packet):
+      return
     if self._validator:
       self._validator(packet)
     packet = self._TwistPacket(packet)
