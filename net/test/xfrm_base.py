@@ -35,7 +35,7 @@ ALL_ALGORITHMS = 0xffffffff
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
 
-def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs, required):
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs, required=True):
   """Create and apply socket policy objects.
 
   AH is not supported. This is ESP only.

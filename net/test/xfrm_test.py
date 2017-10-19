@@ -340,13 +340,22 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
         data, _ = sock.recvfrom(2048)
         self.assertEquals(net_test.UDP_PAYLOAD, data)
 
-  def testRemoveSocketPolicies(self):
+  def testRemoveSocketPolicyIpv4(self):
+    self._TestRemoveSocketPolicy(4)
 
-    def AssertEspPacket(packet):
-      if packet.haslayer(scapy.IP):
+  def testRemoveSocketPolicyIpv6(self):
+    self._TestRemoveSocketPolicy(6)
+
+  def _TestRemoveSocketPolicy(self, version):
+    def AssertEspPacket(version, packet):
+      if version == 4:
+        self.assertTrue(packet.haslayer(scapy.IP))
         self.assertEquals(IPPROTO_ESP, packet.proto)
-      else:
+      elif version == 6:
+        self.assertTrue(packet.haslayer(scapy.IPv6))
         self.assertEquals(IPPROTO_ESP, packet.nh)
+      else:
+        self.fail("Holding it wrong %d" % (version))
 
     def AssertUdpPacket(packet):
       self.assertTrue(packet.haslayer(scapy.UDP),
@@ -354,57 +363,57 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
     netid = self.RandomNetid()
 
-    for version in [4, 6]:
-      addr_family = net_test.GetAddressFamily(version)
+    addr_family = net_test.GetAddressFamily(version)
 
-      # Open a socket to send/receive packets
-      sock, port = self.OpenDatagramSocket(version)
-      self.SelectInterface(sock, netid, "mark")
+    # Open a socket to send/receive packets
+    sock, port = self.OpenDatagramSocket(version)
+    self.SelectInterface(sock, netid, "mark")
 
-      myaddr = self.MyAddress(version, netid)
-      remoteaddr = self.GetRemoteAddress(version)
+    myaddr = self.MyAddress(version, netid)
+    remoteaddr = self.GetRemoteAddress(version)
 
-      # Use the same SPI both inbound and outbound because this lets us receive
-      # encrypted packets by simply replaying the packets the kernel sends.
-      in_reqid = 123
-      in_spi = htonl(TEST_SPI)
-      out_reqid = 456
-      out_spi = htonl(TEST_SPI)
+    # Use the same SPI both inbound and outbound because this lets us receive
+    # encrypted packets by simply replaying the packets the kernel sends.
+    in_reqid = 123
+    in_spi = htonl(TEST_SPI)
+    out_reqid = 456
+    out_spi = htonl(TEST_SPI)
 
-      # Set outbound policy
-      xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_OUT,
-                                  out_spi, out_reqid, None, True)
-      # Set inbound policy
-      xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_IN, in_spi,
-                                  in_reqid, None, True)
+    # Set outbound policy
+    xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_OUT,
+                                out_spi, out_reqid, None, True)
+    # Set inbound policy
+    xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_IN, in_spi,
+                                in_reqid, None, True)
 
-      # Create inbound and outbound SAs with the policy and no encap tmpl.
-      self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
-                                 xfrm.XFRM_MODE_TRANSPORT, out_reqid,
-                                 xfrm_base._ALGO_CBC_AES_256,
-                                 xfrm_base._ENCRYPTION_KEY_256,
-                                 xfrm_base._ALGO_HMAC_SHA1,
-                                 xfrm_base._AUTHENTICATION_KEY_128,
-                                 None, None, None, None)
-      self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
-                                 xfrm.XFRM_MODE_TRANSPORT, in_reqid,
-                                 xfrm_base._ALGO_CBC_AES_256,
-                                 xfrm_base._ENCRYPTION_KEY_256,
-                                 xfrm_base._ALGO_HMAC_SHA1,
-                                 xfrm_base._AUTHENTICATION_KEY_128,
-                                 None, None, None, None)
+    # Create inbound and outbound SAs with the policy and no encap tmpl.
+    self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, out_reqid,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
+                               None, None, None, None)
+    self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, in_reqid,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
+                               None, None, None, None)
 
-      # Now send a packet, and expect to see an ESP packet.
-      self.CheckTraffic(sock, netid, version, AssertEspPacket)
+    # Now send a packet, and expect to see an ESP packet.
+    self.CheckTraffic(sock, netid, version,
+                      lambda pkt: AssertEspPacket(version, pkt))
 
-      # Now test removing the xfrm policy.
-      # First remove outbound policy
-      xfrm_base.RemoveSocketPolicy(sock)
+    # Now test removing the xfrm policy.
+    # First remove outbound policy
+    xfrm_base.RemoveSocketPolicy(sock)
 
-      # Now send a packet, and expect to see a UDP packet.
-      self.CheckTraffic(sock, netid, version, AssertUdpPacket)
+    # Now send a packet, and expect to see a UDP packet.
+    self.CheckTraffic(sock, netid, version, AssertUdpPacket)
 
-      sock.close()
+    sock.close()
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
 class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
