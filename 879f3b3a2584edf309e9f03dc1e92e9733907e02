@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93bf0e40_4ccac079",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-19T05:50:17Z",
+      "side": 1,
+      "message": "exclude\u003dnetid",
+      "range": {
+        "startLine": 178,
+        "startChar": 45,
+        "endLine": 178,
+        "endChar": 50
+      },
+      "revId": "879f3b3a2584edf309e9f03dc1e92e9733907e02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
