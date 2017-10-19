@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1c118b3_698ccbe7",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "this is not in the args list",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 48
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d30f83_3149d339",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "OpenDatagramSocket",
+      "range": {
+        "startLine": 313,
+        "startChar": 6,
+        "endLine": 313,
+        "endChar": 16
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0512828_ea16e7e0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "Since this function returns something (non trivial), please add the return info to the docstring. (tuple of sock and port)",
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd82478f_9f315bbf",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "You can use net_test.GetAddressFamily(version)",
+      "range": {
+        "startLine": 315,
+        "startChar": 19,
+        "endLine": 315,
+        "endChar": 42
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad6358a2_ddd6d751",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "Why SO_REUSEADDR?",
+      "range": {
+        "startLine": 317,
+        "startChar": 32,
+        "endLine": 317,
+        "endChar": 44
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60f03a1f_008be52e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "net_test.GetWildcardAddress(version)",
+      "range": {
+        "startLine": 318,
+        "startChar": 14,
+        "endLine": 318,
+        "endChar": 38
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6275a1c_a5cd6754",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "All of our tests are using net_test.UDP_PAYLOAD as the send/receive packet... Mr. Colitti is even adding some tighter checks that are only possible when we have a fixed payload.",
+      "range": {
+        "startLine": 326,
+        "startChar": 20,
+        "endLine": 326,
+        "endChar": 25
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2c61e4_6b62f20c",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-19T17:57:21Z",
+      "side": 1,
+      "message": "I think you want to do this with a closure/lambda that\u0027s created in the test.",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 333,
+        "endChar": 59
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
