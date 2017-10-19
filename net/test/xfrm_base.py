@@ -174,9 +174,9 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
       src_addr: source address of the packet or None to skip this check
       dst_addr: destination address of the packet or None to skip this check
     """
-    packets = self.ReadAllPacketsOn(netid)
-    self.assertEquals(1, len(packets))
-    packet = packets[0]
+    eth_packets = self.ReadAllPacketsOn(netid, trim_eth_hdr=False)
+    self.assertEquals(1, len(eth_packets))
+    packet = eth_packets[0].payload
     if length is not None:
       self.assertEquals(length, len(packet.payload), "Incorrect packet length.")
     if dst_addr is not None:
@@ -186,3 +186,4 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     # extract the ESP header
     esp_hdr, _ = cstruct.Read(str(packet.payload), xfrm.EspHdr)
     self.assertEquals(xfrm.EspHdr((spi, seq)), esp_hdr)
+    return eth_packets[0]
