@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce601a1d_7b4408a9",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1c118b3_698ccbe7",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 48
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31d30f83_3149d339",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-19T17:57:21Z",
       "side": 1,
       "message": "OpenDatagramSocket",
+      "range": {
+        "startLine": 313,
+        "startChar": 6,
+        "endLine": 313,
+        "endChar": 16
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22a9dd7d_6f31aef5",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d30f83_3149d339",
       "range": {
         "startLine": 313,
         "startChar": 6,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "42528658_aa5561b8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0512828_ea16e7e0",
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd82478f_9f315bbf",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 7
@@ -76,6 +142,30 @@
       "writtenOn": "2017-10-19T17:57:21Z",
       "side": 1,
       "message": "You can use net_test.GetAddressFamily(version)",
+      "range": {
+        "startLine": 315,
+        "startChar": 19,
+        "endLine": 315,
+        "endChar": 42
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2da51eee_f3b15ba8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd82478f_9f315bbf",
       "range": {
         "startLine": 315,
         "startChar": 19,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "c42d1e8a_bb13c976",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad6358a2_ddd6d751",
+      "range": {
+        "startLine": 317,
+        "startChar": 32,
+        "endLine": 317,
+        "endChar": 44
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60f03a1f_008be52e",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 7
@@ -122,6 +236,30 @@
       "writtenOn": "2017-10-19T17:57:21Z",
       "side": 1,
       "message": "net_test.GetWildcardAddress(version)",
+      "range": {
+        "startLine": 318,
+        "startChar": 14,
+        "endLine": 318,
+        "endChar": 38
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3cd8f21_aec4b111",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60f03a1f_008be52e",
       "range": {
         "startLine": 318,
         "startChar": 14,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "0110c4e5_73607d4b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6275a1c_a5cd6754",
+      "range": {
+        "startLine": 326,
+        "startChar": 20,
+        "endLine": 326,
+        "endChar": 25
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2c61e4_6b62f20c",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 7
@@ -168,6 +330,30 @@
       "writtenOn": "2017-10-19T17:57:21Z",
       "side": 1,
       "message": "I think you want to do this with a closure/lambda that\u0027s created in the test.",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 333,
+        "endChar": 59
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bad5bb1_6037e03d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1166304
+      },
+      "writtenOn": "2017-10-19T21:12:51Z",
+      "side": 1,
+      "message": "Not very sure about the idea. I just found that I only need to check if there is an IP layer or an IPv6 layer to get the version.",
+      "parentUuid": "5c2c61e4_6b62f20c",
       "range": {
         "startLine": 333,
         "startChar": 6,
