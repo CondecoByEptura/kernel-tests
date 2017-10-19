@@ -130,10 +130,19 @@ class TunTwister(object):
     # TODO: Handle EAGAIN "errors".
     bytes_in = os.read(self._fd, TunTwister._READ_BUF_SIZE)
     packet = self.DecodePacket(bytes_in)
+    # the user may wish to filter certain packets, such as
+    # ethernet multicast packets
+    if self._FilterPacket(packet):
+      return
+
     if self._validator:
       self._validator(packet)
     packet = self.TwistPacket(packet)
     os.write(self._fd, packet.build())
+
+  def _FilterPacket(self, packet):
+    """Determine whether to drop the provided packet by inspection"""
+    return False
 
   @classmethod
   def DecodePacket(cls, bytes_in):
@@ -170,7 +179,11 @@ class TapTwister(TunTwister):
   swapped in addition to IP headers.
   """
 
-  def __init__(self, fd=None, validator=None):
+  @staticmethod
+  def _IsMulticastPacket(eth_pkt):
+    return int(eth_pkt.dst.split(":")[0], 16) & 0x1
+
+  def __init__(self, fd=None, validator=None, ignore_multicast=True):
     """Construct a TapTwister.
 
     TapTwister works just like TunTwister, but handles both ethernet and IP
@@ -181,6 +194,10 @@ class TapTwister(TunTwister):
       validator: Function taking one scapy packet object argument.
     """
     super(TapTwister, self).__init__(fd=fd, validator=validator)
+    self._ignore_multicast = ignore_multicast
+
+  def _FilterPacket(self, packet):
+    return self._ignore_multicast and self._IsMulticastPacket(packet)
 
   @classmethod
   def DecodePacket(cls, bytes_in):
