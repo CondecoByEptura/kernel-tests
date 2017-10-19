@@ -21,6 +21,8 @@ import multinetwork_base
 import net_test
 import xfrm
 
+from scapy import all as scapy
+
 _ENCRYPTION_KEY_256 = ("308146eb3bd84b044573d60f5a5fd159"
                        "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
 _AUTHENTICATION_KEY_128 = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
@@ -174,9 +176,12 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
       src_addr: source address of the packet or None to skip this check
       dst_addr: destination address of the packet or None to skip this check
     """
-    packets = self.ReadAllPacketsOn(netid)
-    self.assertEquals(1, len(packets))
-    packet = packets[0]
+    eth_packets = self.ReadAllPacketsOn(netid, trim_eth_hdr=False)
+    if len(eth_packets) > 1:
+      for packet in eth_packets:
+        scapy.ls(packet)
+    self.assertEquals(1, len(eth_packets))
+    packet = eth_packets[0].payload
     if length is not None:
       self.assertEquals(length, len(packet.payload), "Incorrect packet length.")
     if dst_addr is not None:
@@ -186,3 +191,4 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     # extract the ESP header
     esp_hdr, _ = cstruct.Read(str(packet.payload), xfrm.EspHdr)
     self.assertEquals(xfrm.EspHdr((spi, seq)), esp_hdr)
+    return eth_packets[0]
