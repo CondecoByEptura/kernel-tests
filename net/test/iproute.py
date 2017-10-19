@@ -442,10 +442,10 @@ class IPRoute(netlink.NetlinkSocket):
       ifaddrmsg += self._NlAttrIPAddress(IFA_LOCAL, family, addr)
     self._SendNlRequest(command, ifaddrmsg)
 
-  def AddAddress(self, address, prefixlen, ifindex):
+  def AddAddress(self, address, prefixlen, ifindex, flags=0):
     self._Address(6 if ":" in address else 4,
                   RTM_NEWADDR, address, prefixlen,
-                  IFA_F_PERMANENT, RT_SCOPE_UNIVERSE, ifindex)
+                  IFA_F_PERMANENT | flags, RT_SCOPE_UNIVERSE, ifindex)
 
   def DelAddress(self, address, prefixlen, ifindex):
     self._Address(6 if ":" in address else 4,
