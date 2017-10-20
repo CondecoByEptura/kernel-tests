@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "2fe8a753_9e5c32b4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-20T03:11:26Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded a patch to do this. It\u0027s best done on top of the \"add the mark\" patch:\nhttps://android-review.googlesource.com/#/c/kernel/tests/+/516319/",
+      "parentUuid": "fdda4572_21f7b256",
+      "range": {
+        "startLine": 155,
+        "startChar": 22,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "546c307fe4eed0518e745707fe32e22aa5d43b68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d387c606_36a26c27",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 36
@@ -143,6 +167,30 @@
       "side": 1,
       "message": "Same comment, but opposite direction. The selector is only using the remote address.",
       "parentUuid": "d387c606_36a26c27",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 23
+      },
+      "revId": "546c307fe4eed0518e745707fe32e22aa5d43b68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c4991d7_16fbeab6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-20T03:11:26Z",
+      "side": 1,
+      "message": "https://android-review.googlesource.com/#/c/kernel/tests/+/516319/",
+      "parentUuid": "4609db89_cb6abf2d",
       "range": {
         "startLine": 170,
         "startChar": 22,
