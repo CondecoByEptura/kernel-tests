@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6f2c9661_7c9c6338",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-20T02:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bfd54a4_40e75aea",
+      "revId": "546c307fe4eed0518e745707fe32e22aa5d43b68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5913bc65_7200db6c",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 36
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "fdda4572_21f7b256",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-20T02:20:07Z",
+      "side": 1,
+      "message": "In this instance, local_inner \u003d the wildcard address, and we don\u0027t match on the source. We are only matching on the destination address of the inner packet.\n\nIt would admittedly make the test stronger if we selected a network for the socket, got \"the\" Inet address of that network, and then put that in the selector.",
+      "parentUuid": "5913bc65_7200db6c",
+      "range": {
+        "startLine": 155,
+        "startChar": 22,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "546c307fe4eed0518e745707fe32e22aa5d43b68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d387c606_36a26c27",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 36
@@ -53,6 +95,30 @@
       "writtenOn": "2017-10-20T01:34:18Z",
       "side": 1,
       "message": "Ditto.",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 23
+      },
+      "revId": "546c307fe4eed0518e745707fe32e22aa5d43b68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4609db89_cb6abf2d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-20T02:20:07Z",
+      "side": 1,
+      "message": "Same comment, but opposite direction. The selector is only using the remote address.",
+      "parentUuid": "d387c606_36a26c27",
       "range": {
         "startLine": 170,
         "startChar": 22,
