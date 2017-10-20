@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "50a113b0_871a8f64",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-20T02:58:13Z",
+      "side": 1,
+      "message": "I think that at this point the code here is beyond my understanding. Let\u0027s get it checked in and look at rationalizing it in a future commit.",
+      "parentUuid": "fdda4572_21f7b256",
+      "range": {
+        "startLine": 155,
+        "startChar": 22,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "546c307fe4eed0518e745707fe32e22aa5d43b68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d387c606_36a26c27",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 36
