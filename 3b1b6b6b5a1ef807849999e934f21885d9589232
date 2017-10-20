@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60b3f9f1_9962779b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-20T04:06:14Z",
+      "side": 1,
+      "message": "Nit: If what we\u0027re testing here is the basic wi-fi calling case, then I think that actually relies on the default network being set. Doesn\u0027t really matter for this test though.",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 42
+      },
+      "revId": "3b1b6b6b5a1ef807849999e934f21885d9589232",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
