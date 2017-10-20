@@ -363,6 +363,30 @@
       "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92a4d228_02746d2e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-20T00:08:55Z",
+      "side": 1,
+      "message": "I have uploaded a patch that fixes some runtime errors and demonstrates how we can make this a stronger assertion by passing in a lambda that captures the version:\nhttps://android-review.googlesource.com/#/c/kernel/tests/+/516406/\n\nFeel free to squash it in and use it.",
+      "parentUuid": "8bad5bb1_6037e03d",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 333,
+        "endChar": 59
+      },
+      "revId": "2d0370b202e8847039a0ce06c9c922bb052fb5f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
