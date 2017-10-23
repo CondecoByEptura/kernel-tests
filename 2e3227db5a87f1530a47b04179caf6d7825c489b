@@ -22,6 +22,53 @@
       "revId": "2e3227db5a87f1530a47b04179caf6d7825c489b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2284cf1_7f57b13c",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-23T17:14:16Z",
+      "side": 1,
+      "message": "Maybe \"drop\" since it\u0027s also unambiguous and more closely describes the action being taken.",
+      "parentUuid": "aa1224d6_6bccc743",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "2e3227db5a87f1530a47b04179caf6d7825c489b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40477866_adcb9371",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-10-23T17:14:16Z",
+      "side": 1,
+      "message": "please add to docstring",
+      "range": {
+        "startLine": 186,
+        "startChar": 46,
+        "endLine": 186,
+        "endChar": 62
+      },
+      "revId": "2e3227db5a87f1530a47b04179caf6d7825c489b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
