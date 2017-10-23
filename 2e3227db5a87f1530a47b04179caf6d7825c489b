@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa1224d6_6bccc743",
+        "filename": "net/test/tun_twister.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-10-23T11:53:08Z",
+      "side": 1,
+      "message": "Suggest \"Ignore\" instead of \"filter\" because the word filter is ambiguous: it\u0027s not clear if the filter selects packets or rejects packets.",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "2e3227db5a87f1530a47b04179caf6d7825c489b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
