@@ -192,6 +192,22 @@ class BpfTest(net_test.NetworkTest):
         self.assertEquals(value, LookupMap(self.map_fd, key).value)
         count += 1
 
+  def testRdOnlyMap(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            TOTAL_ENTRIES, BPF_F_RDONLY)
+    value = 1024
+    key = 1
+    self.assertRaisesErrno(errno.EPERM, UpdateMap, self.map_fd, key, value)
+    self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, key)
+
+  def testWrOnlyMap(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            TOTAL_ENTRIES, BPF_F_WRONLY)
+    value = 1024
+    key = 1
+    UpdateMap(self.map_fd, key, value)
+    self.assertRaisesErrno(errno.EPERM, LookupMap, self.map_fd, key)
+
   def testProgLoad(self):
     # Move skb to BPF_REG_6 for further usage
     instructions = [
