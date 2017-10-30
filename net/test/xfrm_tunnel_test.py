@@ -136,6 +136,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         xfrm_base._ALGO_HMAC_SHA1,
         xfrm_base._AUTHENTICATION_KEY_128,
         None,
+        None,
+        None,
         mark,
         xfrm_base.MARK_MASK_ALL if mark is not None else None,
         output_mark,
