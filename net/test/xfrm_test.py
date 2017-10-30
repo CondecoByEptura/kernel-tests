@@ -65,7 +65,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+                               None, None, None, None, None, None)
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
         "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
@@ -90,14 +90,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+                               None, None, None, None, None, None)
     self.xfrm.AddMinimalSaInfo("0.0.0.0", "192.0.2.1", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 4321,
                                xfrm_base._ALGO_CBC_AES_256,
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+                               None, None, None, None, None, None)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
@@ -140,7 +140,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+                               None, None, None, None, None, None)
     s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
     expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, 6,
                                                    None, net_test.UDP_PAYLOAD)
@@ -213,7 +213,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               encaptmpl, None, None, None)
+                               None, None, encaptmpl, None, None, None)
 
     # Add an encap template that's the mirror of the outbound one.
     encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
@@ -223,7 +223,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               encaptmpl, None, None, None)
+                               None, None, encaptmpl, None, None, None)
 
     # Uncomment for debugging.
     # subprocess.call("ip xfrm state".split())
@@ -357,7 +357,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
                                xfrm_base._ENCRYPTION_KEY_256,
                                xfrm_base._ALGO_HMAC_SHA1,
                                xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, mark)
+                               None, None, None, None, None, mark)
 
 
     # Set a socket policy to use it.
@@ -412,7 +412,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
                                  xfrm_base._ENCRYPTION_KEY_256,
                                  xfrm_base._ALGO_HMAC_SHA1,
                                  xfrm_base._AUTHENTICATION_KEY_128,
-                                 None, None, None, mark)
+                                 None, None, None, None, None, mark)
       dump = self.xfrm.DumpSaInfo()
       self.assertEquals(1, len(dump))
       sainfo, attributes = dump[0]
