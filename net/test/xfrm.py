@@ -121,6 +121,7 @@ XFRM_AALG_HMAC_SHA1 = "hmac(sha1)"
 XFRM_AALG_HMAC_SHA256 = "hmac(sha256)"
 XFRM_AALG_HMAC_SHA384 = "hmac(sha384)"
 XFRM_AALG_HMAC_SHA512 = "hmac(sha512)"
+XFRM_AEAD_GCM_AES = "rfc4106(gcm(aes))"
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
@@ -332,15 +333,23 @@ class Xfrm(netlink.NetlinkSocket):
 
   def AddMinimalSaInfo(self, src, dst, spi, proto, mode, reqid,
                        encryption, encryption_key,
-                       auth_trunc, auth_trunc_key, encap,
+                       auth_trunc, auth_trunc_key,
+                       aead, aead_key, encap,
                        mark, mark_mask, output_mark):
     selector = XfrmSelector("\x00" * len(XfrmSelector))
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
     family = AF_INET6 if ":" in dst else AF_INET
-    nlattrs = self._NlAttr(XFRMA_ALG_CRYPT,
+    nlattrs = ""
+    if encryption is not None:
+      nlattrs += self._NlAttr(XFRMA_ALG_CRYPT,
                            encryption.Pack() + encryption_key)
-    nlattrs += self._NlAttr(XFRMA_ALG_AUTH_TRUNC,
+    if auth_trunc is not None:
+      nlattrs += self._NlAttr(XFRMA_ALG_AUTH_TRUNC,
                             auth_trunc.Pack() + auth_trunc_key)
+    if aead is not None:
+      nlattrs += self._NlAttr(XFRMA_ALG_AEAD,
+                            aead.Pack() + aead_key)
+
     # if a user provides either mark or mask, then we send the mark attribute
     if mark or mark_mask:
       nlattrs += self._NlAttr(XFRMA_MARK, XfrmMark((mark, mark_mask)).Pack())
