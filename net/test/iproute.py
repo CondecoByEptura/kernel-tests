@@ -21,6 +21,7 @@
 from socket import AF_INET
 from socket import AF_INET6
 
+import csocket
 import errno
 import os
 import socket
@@ -513,7 +514,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DumpRoutes(self, version, ifindex):
     rtmsg = RTMsg(family=self._AddressFamily(version))
-    return [(m, r) for (m, r) in self._Dump(RTM_GETROUTE, rtmsg, RtMsg, "")
+    return [(m, r) for (m, r) in self._Dump(RTM_GETROUTE, rtmsg, RTMsg, "")
             if r['RTA_TABLE'] == ifindex]
 
   def _Neighbour(self, version, is_add, addr, lladdr, dev, state, flags=0):
