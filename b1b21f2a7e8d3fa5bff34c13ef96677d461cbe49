@@ -46,6 +46,29 @@
       "revId": "b1b21f2a7e8d3fa5bff34c13ef96677d461cbe49",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c46c74c2_f32a8d83",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-31T23:58:19Z",
+      "side": 1,
+      "message": "It makes no functional difference since _WaitForAddress is purely internal, but moving this in to _WaitForAddress would make the failsafe condition for the infinite loop much more obvious.",
+      "range": {
+        "startLine": 473,
+        "startChar": 6,
+        "endLine": 473,
+        "endChar": 41
+      },
+      "revId": "b1b21f2a7e8d3fa5bff34c13ef96677d461cbe49",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
