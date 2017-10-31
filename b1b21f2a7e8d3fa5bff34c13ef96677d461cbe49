@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef8817f6_24bf8f32",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-31T11:51:10Z",
+      "side": 1,
+      "message": "I have never seen this style before, but I think the correct thing is to use \"as\"",
+      "range": {
+        "startLine": 460,
+        "startChar": 29,
+        "endLine": 460,
+        "endChar": 30
+      },
+      "revId": "b1b21f2a7e8d3fa5bff34c13ef96677d461cbe49",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
