@@ -17,10 +17,16 @@
 # pylint: disable=g-bad-todo,g-bad-file-header,wildcard-import
 from errno import *  # pylint: disable=wildcard-import
 from socket import *  # pylint: disable=wildcard-import
+from scapy import all as scapy
 
+import os
 import struct
+import subprocess
 import unittest
+import time
 
+from tun_twister import TapTwister
+import csocket
 import iproute
 import multinetwork_base
 import net_test
@@ -32,7 +38,7 @@ _VTI_NETID = 50
 _VTI_IFNAME = "test_vti"
 
 _TEST_OUT_SPI = 0x1234
-_TEST_IN_SPI = 0x5678
+_TEST_IN_SPI = _TEST_OUT_SPI
 
 _TEST_OKEY = _TEST_OUT_SPI + _VTI_NETID
 _TEST_IKEY = _TEST_IN_SPI + _VTI_NETID
@@ -71,9 +77,19 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
       pass
 
   # TODO: take encryption and auth parameters
-  def _CreateXfrmTunnel(self, direction, inner_family, src_addr, src_prefixlen,
-                        dst_addr, dst_prefixlen, outer_family, tsrc_addr,
-                        tdst_addr, spi, mark=None, output_mark=None):
+  def _CreateXfrmTunnel(self,
+                        direction,
+                        inner_family,
+                        src_addr,
+                        src_prefixlen,
+                        dst_addr,
+                        dst_prefixlen,
+                        outer_family,
+                        tsrc_addr,
+                        tdst_addr,
+                        spi,
+                        mark=None,
+                        output_mark=None):
     """Create an XFRM Tunnel Consisting of a Policy and an SA
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -95,12 +111,21 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         matching the security policy and security association.
     """
     self.xfrm.AddMinimalSaInfo(
-        tsrc_addr, tdst_addr,
-        htonl(spi), IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, 0,
-        xfrm_base._ALGO_CBC_AES_256, xfrm_base._ENCRYPTION_KEY_256,
-        xfrm_base._ALGO_HMAC_SHA1, xfrm_base._AUTHENTICATION_KEY_128, None,
-        mark, xfrm_base.MARK_MASK_ALL if mark is not None else None,
-        output_mark)
+        tsrc_addr,
+        tdst_addr,
+        htonl(spi),
+        IPPROTO_ESP,
+        xfrm.XFRM_MODE_TUNNEL,
+        0,
+        xfrm_base._ALGO_CBC_AES_256,
+        xfrm_base._ENCRYPTION_KEY_256,
+        xfrm_base._ALGO_HMAC_SHA1,
+        xfrm_base._AUTHENTICATION_KEY_128,
+        None,
+        mark,
+        xfrm_base.MARK_MASK_ALL if mark is not None else None,
+        output_mark,
+        sel_family=inner_family)
 
     sel = xfrm.XfrmSelector(
         daddr=xfrm.PaddedAddress(dst_addr),
@@ -177,28 +202,37 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         spi=_TEST_IN_SPI)
 
     s.sendto(net_test.UDP_PAYLOAD, (remote_inner, 53))
-    self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1,
-                            None, local_outer, remote_outer)
+    self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
+                            local_outer, remote_outer)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv4InIpv4TunnelOutput(self):
+    return
     self._CheckTunnelOutput(4, 4)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv4InIpv6TunnelOutput(self):
+    return
     self._CheckTunnelOutput(4, 6)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv6InIpv4TunnelOutput(self):
+    return
     self._CheckTunnelOutput(6, 4)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv6InIpv6TunnelOutput(self):
+    return
     self._CheckTunnelOutput(6, 6)
 
   @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "vti unsupported")
   def testAddVti(self):
     """Test the creation of a Virtual Tunnel Interface"""
+    return
     for version in [4, 6]:
       netid = self.RandomNetid()
       local_addr = self.MyAddress(version, netid)
@@ -216,6 +250,29 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
       with self.assertRaises(IOError):
         self.iproute.GetIfIndex(_VTI_IFNAME)
 
+  def InvalidateVtiDstCache(self, version):
+    """Invalidates destination cache entries of sockets on the vti table.
+    Args:
+      version: The IP version, 4 or 6.
+    """
+    iface = _VTI_IFNAME
+    ifindex = net_test.GetInterfaceIndex(iface)
+    table = _VTI_NETID
+    for action in [iproute.RTM_NEWROUTE, iproute.RTM_DELROUTE]:
+      self.iproute._Route(
+          version,
+          iproute.RTPROT_STATIC,
+          action,
+          table,
+          "default",
+          0,
+          nexthop=None,
+          dev=None,
+          mark=None,
+          uid=None,
+          route_type=iproute.RTN_THROW,
+          priority=100000)
+
   def _SetupVtiNetwork(self, ifname, is_add):
     """Setup rules and routes for a VTI Network
 
@@ -231,6 +288,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
     """
     if is_add:
       net_test.SetInterfaceUp(_VTI_IFNAME)
+      self.SetSysctl(
+          ("/proc/sys/net/ipv6/conf/%s/router_solicitations" % _VTI_IFNAME), 0)
     for version in [4, 6]:
       # Find out how to configure things.
       ifindex = net_test.GetInterfaceIndex(ifname)
@@ -247,7 +306,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         # Add the actual inner address of the tunnel to the VTI Interface
         self.iproute.AddAddress(
             self._GetLocalInnerAddress(version),
-            net_test.AddressLengthBits(version), ifindex)
+            net_test.AddressLengthBits(version), ifindex, iproute.IFA_F_NODAD
+            if version is 6 else 0)
         self.iproute.AddRoute(version, table, "default", 0, None, ifindex)
       else:
         self.iproute.DelRoute(version, table, "default", 0, None, ifindex)
@@ -298,33 +358,79 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
           tsrc_addr=remote_outer,
           tdst_addr=local_outer,
           mark=_TEST_IKEY,
-          spi=_TEST_IN_SPI,
-          output_mark=netid)
+          spi=_TEST_IN_SPI)
 
+      # create a socket to receive packets
+      s_in = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+      s_in.bind((net_test.GetWildcardAddress(inner_version), 0))
+      if inner_version is 4:
+        _, port = s_in.getsockname()
+      else:
+        _, port, _, _ = s_in.getsockname()
+      # guard against the eventuality of the receive failing
+      csocket.SetSocketTimeout(s_in, 100)
+
+      # send a packet out via the vti-backed network
       s = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
       self.SelectInterface(s, _VTI_NETID, "mark")
-
       s.sendto(net_test.UDP_PAYLOAD,
-               (self._GetRemoteInnerAddress(inner_version), 53))
-      self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, 1, None, local_outer,
-                              remote_outer)
+               (self._GetRemoteInnerAddress(inner_version), port))
+
+      # read a tunneled packet on the underlying (outbound) network
+      pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, 1, None, local_outer,
+                                    remote_outer)
+
+      # scapy.ls(pkt)
+      # swap the packet's MAC and IP headers and write it back to the
+      # underlying network
+      pkt = TapTwister.TwistPacket(pkt)
+
+      # Graft the address of the remote on to the local interface so that the
+      # twisted inner packet finds a destination
+      # TODO: context manager for the address graft?
+      ifindex = net_test.GetInterfaceIndex(_VTI_IFNAME)
+      remote = self._GetRemoteInnerAddress(inner_version)
+      local = self._GetLocalInnerAddress(inner_version)
+      self.iproute.AddAddress(
+          remote,
+          net_test.AddressLengthBits(inner_version), ifindex,
+          iproute.IFA_F_NODAD if inner_version is 6 else 0)
+      self.iproute.DelAddress(
+          local,
+          net_test.AddressLengthBits(inner_version), ifindex)
+      try:
+        self.ReceiveEtherPacketOn(netid, pkt)
+        in_pkt = s_in.recv(4096)
+        self.assertEquals(in_pkt, net_test.UDP_PAYLOAD)
+      finally:
+        # remove the grafted address
+        self.iproute.AddAddress(
+            self._GetLocalInnerAddress(inner_version),
+            net_test.AddressLengthBits(inner_version), ifindex)
+        self.iproute.DelAddress(
+            self._GetRemoteInnerAddress(inner_version),
+            net_test.AddressLengthBits(inner_version), ifindex)
 
     finally:
       self._SetupVtiNetwork(_VTI_IFNAME, False)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv4InIpv4VtiOutput(self):
     self._CheckVtiOutput(4, 4)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv4InIpv6VtiOutput(self):
     self._CheckVtiOutput(4, 6)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv6InIpv4VtiOutput(self):
     self._CheckVtiOutput(6, 4)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0),
+                       "not yet backported")
   def testIpv6InIpv6VtiOutput(self):
     self._CheckVtiOutput(6, 6)
 

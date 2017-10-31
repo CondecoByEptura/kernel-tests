@@ -474,7 +474,7 @@ class IPRoute(netlink.NetlinkSocket):
 
     self._Address(version,
                   RTM_NEWADDR, address, prefixlen,
-                  IFA_F_PERMANENT, RT_SCOPE_UNIVERSE, ifindex)
+                  IFA_F_PERMANENT | flags, RT_SCOPE_UNIVERSE, ifindex)
 
     if version == 6:
       self._WaitForAddress(sock, address, ifindex)
