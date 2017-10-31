@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f4b061f_5e9321fc",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-31T11:46:42Z",
+      "side": 1,
+      "message": "remove? it\u0027s not being used in this patch... perhaps a rebase snafu?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "fd3dc241010410447996d3c12ce7d4224a837e46",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f56b36b_d25c0b54",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-10-31T11:46:42Z",
+      "side": 1,
+      "message": "And here\u0027s the fix... but it\u0027s in the next patch set.",
+      "range": {
+        "startLine": 517,
+        "startChar": 66,
+        "endLine": 517,
+        "endChar": 67
+      },
+      "revId": "fd3dc241010410447996d3c12ce7d4224a837e46",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
