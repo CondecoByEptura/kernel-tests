@@ -82,6 +82,9 @@ RTA_MARK = 16
 RTA_PREF = 20
 RTA_UID = 25
 
+# Netlink groups.
+RTMGRP_IPV6_IFADDR = 0x100
+
 # Route metric attributes.
 RTAX_MTU = 2
 RTAX_HOPLIMIT = 10
@@ -444,10 +447,37 @@ class IPRoute(netlink.NetlinkSocket):
       ifaddrmsg += self._NlAttrIPAddress(IFA_LOCAL, family, addr)
     self._SendNlRequest(command, ifaddrmsg)
 
-  def AddAddress(self, address, prefixlen, ifindex):
-    self._Address(6 if ":" in address else 4,
+  def _WaitForAddress(self, sock, address, ifindex):
+    # IPv6 addresses aren't immediately usable when the netlink ACK comes back.
+    # Even if DAD is disabled via IFA_F_NODAD or on the interface, when the ACK
+    # arrives the input route has not yet been added to the local table. The
+    # route is added in addrconf_dad_begin with a delayed timer of 0, but if
+    # the system is under load, we could win the race against that timer and
+    # cause the tests to be flaky. So, wait for RTM_NEWADDR to arrive
+    while True:
+      try:
+        data = sock.recv(4096)
+      except EnvironmentError, e:
+        raise IOError("Address %s did not appear on ifindex %s: %s" %
+                      (address, ifindex, e))
+      msg, attrs = self._ParseNLMsg(data, IfAddrMsg)[0]
+      if msg.index == ifindex and attrs["IFA_ADDRESS"] == address:
+        sock.close()
+        return
+
+  def AddAddress(self, address, prefixlen, ifindex, flags=0):
+    version = 6 if ":" in address else 4
+    if version == 6:
+      sock = self._OpenNetlinkSocket(netlink.NETLINK_ROUTE,
+                                     groups=RTMGRP_IPV6_IFADDR)
+      csocket.SetSocketTimeout(sock, 100)
+
+    self._Address(version,
                   RTM_NEWADDR, address, prefixlen,
                   IFA_F_PERMANENT, RT_SCOPE_UNIVERSE, ifindex)
+
+    if version == 6:
+      self._WaitForAddress(sock, address, ifindex)
 
   def DelAddress(self, address, prefixlen, ifindex):
     self._Address(6 if ":" in address else 4,
