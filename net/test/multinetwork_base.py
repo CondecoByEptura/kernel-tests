@@ -487,7 +487,15 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     packet = scapy.Ether(src=routermac, dst=mymac) / ip_packet
     self.ReceiveEtherPacketOn(netid, packet)
 
-  def ReadAllPacketsOn(self, netid, include_multicast=False):
+  def ReadAllPacketsOn(self, netid, include_multicast=False, trim_eth_hdr=True):
+    """Return all queued packets on a netid as a list
+
+    Args:
+      netid: the netid from which to read packets
+      include_multicast: boolean to remove multicast packets (default=False)
+      trim_eth_hdr: determine whether to remove the ethernet header from the
+        packets that are returned (default=True)
+    """
     packets = []
     retries = 0
     max_retries = 1
@@ -500,7 +508,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
         # Multicast frames are frames where the first byte of the destination
         # MAC address has 1 in the least-significant bit.
         if include_multicast or not int(ether.dst.split(":")[0], 16) & 0x1:
-          packets.append(ether.payload)
+          packets.append(ether.payload if trim_eth_hdr else ether)
       except OSError, e:
         # EAGAIN means there are no more packets waiting.
         if re.match(e.message, os.strerror(errno.EAGAIN)):
