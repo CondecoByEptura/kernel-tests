@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42cc9f5c_9adcbb14",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-01T01:57:16Z",
+      "side": 1,
+      "message": "nit: .",
+      "revId": "b516a3ba8f2d15f0afb951165359a87a1b48812b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
