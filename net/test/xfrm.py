@@ -237,6 +237,10 @@ def SrcDstSelector(src, dst):
       prefixlen_s=prefixlen, prefixlen_d=prefixlen, family=family)
 
 
+def ExactMarkMatch(mark):
+  return XfrmMark((mark, 0xffffffff))
+
+
 class Xfrm(netlink.NetlinkSocket):
   """Netlink interface to xfrm."""
 
@@ -293,6 +297,15 @@ class Xfrm(netlink.NetlinkSocket):
 
     return name, data
 
+  def Algo(self, name, key_len, key):
+    return self._NlAttr(XFRMA_ALG_CRYPT,
+                        XfrmAlgo((name, key_len)).Pack() + key)
+
+  def AlgoAuth(self, name, key_len, trunc_len, key):
+    return self._NlAttr(XFRMA_ALG_AUTH_TRUNC,
+                        XfrmAlgoAuth((name, key_len, trunc_len)).Pack() + key)
+
+
   def AddPolicyInfo(self, policy, tmpl, mark):
     """Add a new policy to the Security Policy Database
 
@@ -340,7 +353,7 @@ class Xfrm(netlink.NetlinkSocket):
       msg += self._NlAttr(attr_type, attr_msg.Pack())
     return self._SendNlRequest(msg_type, msg, flags)
 
-  def AddSaInfo(self, selector, xfrm_id, saddr, lifetimes, reqid, family, mode,
+  def _AddSaInfo(self, selector, xfrm_id, saddr, lifetimes, reqid, family, mode,
                 replay_window, flags, nlattrs):
     # The kernel ignores these on input.
     cur = "\x00" * len(XfrmLifetimeCur)
@@ -352,27 +365,48 @@ class Xfrm(netlink.NetlinkSocket):
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
     self._SendNlRequest(XFRM_MSG_NEWSA, msg, flags)
 
-  def AddMinimalSaInfo(self, src, dst, spi, proto, mode, reqid,
-                       encryption, encryption_key,
-                       auth_trunc, auth_trunc_key, encap,
-                       mark, mark_mask, output_mark, selector=None):
-    if selector is None:
-      selector = EmptySelector(AF_UNSPEC)
+  def AddSaInfo(self, src, dst, spi, proto, mode, reqid, selector, encryption,
+                auth_trunc, encap, mark, output_mark):
+    """Adds an IPsec security association.
+
+    Args:
+      src: A string, the source IP address. May be a wildcard.
+      dst: A string, the destination IP address. Forms part of the XFRM ID, and
+        must match the destination address of the packets sent by this SA.
+      spi: An integer, the SPI.
+      proto: An IPsec protocol such as IPPROTO_ESP.
+      mode: An IPsec mode such as XFRM_MODE_TRANSPORT.
+      reqid: A request ID. Can be used in policies to match the SA.
+      selector: A selector as returned by EmptySelector or SrcDstSelector.
+        Decides which packets will be transformed. If None, matches all packets.
+      encryption: Encryption parameters as returned by Algo(), or None.
+      auth_trunc: Authentication parameters as returned by AlgoAuth(), or None.
+      encap: An XfrmEncapTmpl structure, or None.
+      mark: A mark match specifier, such as returned by ExactMarkMatch(), or
+        None for an SA that matches all possible marks.
+      output_mark: An integer, the output mark. 0 means unset.
+    """
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
     family = AF_INET6 if ":" in dst else AF_INET
-    nlattrs = self._NlAttr(XFRMA_ALG_CRYPT,
-                           encryption.Pack() + encryption_key)
-    nlattrs += self._NlAttr(XFRMA_ALG_AUTH_TRUNC,
-                            auth_trunc.Pack() + auth_trunc_key)
+
+    if selector is None:
+      selector = EmptySelector(AF_UNSPEC)
+
+    nlattrs = ""
+    if encryption is not None:
+      nlattrs += encryption
+    if auth_trunc is not None:
+      nlattrs += auth_trunc
+
     # if a user provides either mark or mask, then we send the mark attribute
-    if mark or mark_mask:
-      nlattrs += self._NlAttr(XFRMA_MARK, XfrmMark((mark, mark_mask)).Pack())
+    if mark:
+      nlattrs += self._NlAttr(XFRMA_MARK, mark.Pack())
     if encap is not None:
       nlattrs += self._NlAttr(XFRMA_ENCAP, encap.Pack())
     if output_mark is not None:
       nlattrs += self._NlAttrU32(XFRMA_OUTPUT_MARK, output_mark)
-    self.AddSaInfo(selector, xfrm_id, PaddedAddress(src), NO_LIFETIME_CFG,
-                   reqid, family, mode, 4, 0, nlattrs)
+    self._AddSaInfo(selector, xfrm_id, PaddedAddress(src), NO_LIFETIME_CFG,
+                    reqid, family, mode, 4, 0, nlattrs)
 
   def DeleteSaInfo(self, daddr, spi, proto):
     # TODO: deletes take a mark as well.

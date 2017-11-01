@@ -157,6 +157,12 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     self.xfrm.FlushSaInfo()
     self.xfrm.FlushPolicyInfo()
 
+    # For convenience, initialize a few algorithms used by lots of tests.
+    self.ALGO_CBC_AES_256 = self.xfrm.Algo("cbc(aes)", 256,
+                                           _ENCRYPTION_KEY_256)
+    self.ALGO_HMAC_SHA1 = self.xfrm.AlgoAuth("hmac(sha1)", 128, 96,
+                                             _AUTHENTICATION_KEY_128)
+
   def tearDown(self):
     super(XfrmBaseTest, self).tearDown()
     self.xfrm.FlushSaInfo()
