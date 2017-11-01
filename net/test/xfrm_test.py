@@ -43,8 +43,6 @@ TUNNEL_ENDPOINTS = {4: "8.8.4.4", 6: TEST_ADDR2}
 
 TEST_SPI = 0x1234
 
-ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
-ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
 class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
@@ -59,13 +57,11 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(xfrm.EspHdr((ntohl(spi), seq)), esp_hdr)
 
   def testAddSa(self):
-    self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
-                               xfrm.XFRM_MODE_TRANSPORT, 3320,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+    self.xfrm.AddSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, 3320, None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               None, None, None)
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
         "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
@@ -84,20 +80,18 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
   def testFlush(self):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
-    self.xfrm.AddMinimalSaInfo("::", "2000::", htonl(TEST_SPI),
+    self.xfrm.AddSaInfo("::", "2000::", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 1234,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
-    self.xfrm.AddMinimalSaInfo("0.0.0.0", "192.0.2.1", htonl(TEST_SPI),
+                               None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               None, None, None)
+    self.xfrm.AddSaInfo("0.0.0.0", "192.0.2.1", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 4321,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+                               None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               None, None, None)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
@@ -134,13 +128,11 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     # SPI must match the one in our template, and the destination address must
     # match the packet's destination address (in tunnel mode, it has to match
     # the tunnel destination).
-    self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
-                               xfrm.XFRM_MODE_TRANSPORT, reqid,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, None)
+    self.xfrm.AddSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, reqid, None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               None, None, None)
     s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
     expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, 6,
                                                    None, net_test.UDP_PAYLOAD)
@@ -207,23 +199,19 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     # Create inbound and outbound SAs that specify UDP encapsulation.
     encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
                                     htons(4500), 16 * "\x00"))
-    self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
-                               xfrm.XFRM_MODE_TRANSPORT, out_reqid,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               encaptmpl, None, None, None)
+    self.xfrm.AddSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, out_reqid, None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               encaptmpl, None, None)
 
     # Add an encap template that's the mirror of the outbound one.
     encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
-    self.xfrm.AddMinimalSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
-                               xfrm.XFRM_MODE_TRANSPORT, in_reqid,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               encaptmpl, None, None, None)
+    self.xfrm.AddSaInfo(remoteaddr, myaddr, in_spi, IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, in_reqid, None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               encaptmpl, None, None)
 
     # Uncomment for debugging.
     # subprocess.call("ip xfrm state".split())
@@ -351,13 +339,11 @@ class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
     # Create a tunnel mode SA and use XFRM_OUTPUT_MARK to bind it to netid.
     spi = htonl(TEST_SPI * mark)
     reqid = 100 + spi
-    self.xfrm.AddMinimalSaInfo(tunsrc, tundst, spi,
-                               IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, reqid,
-                               xfrm_base._ALGO_CBC_AES_256,
-                               xfrm_base._ENCRYPTION_KEY_256,
-                               xfrm_base._ALGO_HMAC_SHA1,
-                               xfrm_base._AUTHENTICATION_KEY_128,
-                               None, None, None, mark)
+    self.xfrm.AddSaInfo(tunsrc, tundst, spi,
+                               IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, reqid, None,
+                               self.ALGO_CBC_AES_256,
+                               self.ALGO_HMAC_SHA1,
+                               None, None, mark)
 
 
     # Set a socket policy to use it.
@@ -406,13 +392,11 @@ class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
 
   def testTunnelModeOutputMarkAttributes(self):
       mark = 1234567
-      self.xfrm.AddMinimalSaInfo(TEST_ADDR1, TUNNEL_ENDPOINTS[6], 0x1234,
-                                 IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, 100,
-                                 xfrm_base._ALGO_CBC_AES_256,
-                                 xfrm_base._ENCRYPTION_KEY_256,
-                                 xfrm_base._ALGO_HMAC_SHA1,
-                                 xfrm_base._AUTHENTICATION_KEY_128,
-                                 None, None, None, mark)
+      self.xfrm.AddSaInfo(TEST_ADDR1, TUNNEL_ENDPOINTS[6], 0x1234,
+                                 IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, 100, None,
+                                 self.ALGO_CBC_AES_256,
+                                 self.ALGO_HMAC_SHA1,
+                                 None, None, mark)
       dump = self.xfrm.DumpSaInfo()
       self.assertEquals(1, len(dump))
       sainfo, attributes = dump[0]
