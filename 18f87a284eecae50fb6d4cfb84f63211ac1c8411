@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19d4f45a_69f65164",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-01T06:01:37Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
