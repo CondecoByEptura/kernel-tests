@@ -22,6 +22,8 @@ import os
 from socket import *  # pylint: disable=wildcard-import
 import struct
 
+import net_test
+import csocket
 import cstruct
 import netlink
 
@@ -219,6 +221,22 @@ def PaddedAddress(addr):
   return padded
 
 
+def EmptySelector(family):
+  return XfrmSelector(family=family)
+
+
+def SrcDstSelector(src, dst):
+  srcver = csocket.AddressVersion(src)
+  dstver = csocket.AddressVersion(dst)
+  if srcver != dstver:
+    raise ValueError("Cross-address family selector specified: %s -> %s" %
+                     (src, dst))
+  prefixlen = net_test.AddressLengthBits(srcver)
+  family = net_test.GetAddressFamily(srcver)
+  return XfrmSelector(saddr=PaddedAddress(src), daddr=PaddedAddress(dst),
+      prefixlen_s=prefixlen, prefixlen_d=prefixlen, family=family)
+
+
 class Xfrm(netlink.NetlinkSocket):
   """Netlink interface to xfrm."""
 
@@ -272,6 +290,15 @@ class Xfrm(netlink.NetlinkSocket):
       data = nla_data
 
     return name, data
+
+  def NlAttrAlgo(self, name, key_len, key):
+    return self._NlAttr(XFRMA_ALG_CRYPT,
+                        XfrmAlgo((name, key_len)).Pack() + key)
+
+  def NlAttrAlgoAuth(self, name, key_len, trunc_len, key):
+    return self._NlAttr(XFRMA_ALG_AUTH_TRUNC,
+                        XfrmAlgoAuth((name, key_len, trunc_len)).Pack() + key)
+
 
   def AddPolicyInfo(self, policy, tmpl, mark):
     """Add a new policy to the Security Policy Database
@@ -336,7 +363,7 @@ class Xfrm(netlink.NetlinkSocket):
                        encryption, encryption_key,
                        auth_trunc, auth_trunc_key, encap,
                        mark, mark_mask, output_mark):
-    selector = XfrmSelector("\x00" * len(XfrmSelector))
+    selector = EmptySelector(family=AF_UNSPEC)
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
     family = AF_INET6 if ":" in dst else AF_INET
     nlattrs = self._NlAttr(XFRMA_ALG_CRYPT,

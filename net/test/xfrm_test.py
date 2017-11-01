@@ -43,8 +43,6 @@ TUNNEL_ENDPOINTS = {4: "8.8.4.4", 6: TEST_ADDR2}
 
 TEST_SPI = 0x1234
 
-ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
-ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
 class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
