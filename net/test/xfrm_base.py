@@ -163,6 +163,18 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     self.xfrm.FlushSaInfo()
     self.xfrm.FlushPolicyInfo()
 
+  def _ExpectUdpPacketOn(self, netid, src_addr, dst_addr, payload):
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    if length is not None:
+      self.assertEquals(length, len(packet.payload), "Incorrect packet length.")
+    if dst_addr is not None:
+      self.assertEquals(dst_addr, packet.dst, "Mismatched destination address.")
+    if src_addr is not None:
+      self.assertEquals(src_addr, packet.src, "Mismatched source address.")
+    self.assertEquals(packet.payload, payload)
+
   def _ExpectEspPacketOn(self, netid, spi, seq, length, src_addr, dst_addr):
     """Read a packet from a netid and verify its properties.
 
@@ -173,6 +185,9 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
       length: length of the packet's payload or None to skip this check
       src_addr: source address of the packet or None to skip this check
       dst_addr: destination address of the packet or None to skip this check
+
+    Returns:
+      scapy.IP/IPv6: the read packet
     """
     packets = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(packets))
@@ -186,3 +201,4 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     # extract the ESP header
     esp_hdr, _ = cstruct.Read(str(packet.payload), xfrm.EspHdr)
     self.assertEquals(xfrm.EspHdr((spi, seq)), esp_hdr)
+    return packet
