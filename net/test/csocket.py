@@ -93,6 +93,10 @@ def SetSocketTimeout(sock, ms):
                   struct.pack("LL", s, us))
 
 
+def AddressVersion(addr):
+  return 6 if ":" in addr else 4
+
+
 def VoidPointer(s):
   return ctypes.cast(s.CPointer(), ctypes.c_void_p)
 
