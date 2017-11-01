@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "3748abd2_33fc234c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-01T08:53:12Z",
+      "side": 1,
+      "message": "interface.",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 50
+      },
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "769ed303_264f4be3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-01T08:53:12Z",
+      "side": 1,
+      "message": "e.g.,",
+      "range": {
+        "startLine": 184,
+        "startChar": 48,
+        "endLine": 184,
+        "endChar": 51
+      },
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edfb2c4c_611259e8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-01T08:53:12Z",
+      "side": 1,
+      "message": "Start comments with capital letters and end with periods.",
+      "range": {
+        "startLine": 358,
+        "startChar": 8,
+        "endLine": 358,
+        "endChar": 9
+      },
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1711db0b_f1051e29",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-01T08:53:12Z",
+      "side": 1,
+      "message": "Would prefer a more expressive name such as readsock or recvsock (the other being writesock or sendsock).",
+      "range": {
+        "startLine": 359,
+        "startChar": 6,
+        "endLine": 359,
+        "endChar": 10
+      },
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19d4f45a_69f65164",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 14
@@ -13,6 +105,52 @@
       "writtenOn": "2017-11-01T06:01:37Z",
       "side": 1,
       "message": "nit: remove blank line",
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9df0e1a_170a2c1d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-01T08:53:12Z",
+      "side": 1,
+      "message": "Apparently, typo: switcheroo.",
+      "range": {
+        "startLine": 379,
+        "startChar": 27,
+        "endLine": 379,
+        "endChar": 37
+      },
+      "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f0442d6_dd0beea3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-01T08:53:12Z",
+      "side": 1,
+      "message": "Also TODO: consider using null encryption instead so we don\u0027t need to twist packets but can instead just generate them ourselves.",
+      "range": {
+        "startLine": 383,
+        "startChar": 51,
+        "endLine": 383,
+        "endChar": 52
+      },
       "revId": "18f87a284eecae50fb6d4cfb84f63211ac1c8411",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
