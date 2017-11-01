@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "55cbf71a_751b958b",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-01T00:02:28Z",
+      "side": 1,
+      "message": "suggest a docstring that mentions this function is doing work which is assumetrical between v4 and v6, and thus may block for timeout ms for IPv6.\n\nqq: if we actually use DAD, will this fail at some low % based on the dad timeout? should socktimeout be greater than dad timeout?",
+      "range": {
+        "startLine": 468,
+        "startChar": 6,
+        "endLine": 468,
+        "endChar": 16
+      },
+      "revId": "b1b21f2a7e8d3fa5bff34c13ef96677d461cbe49",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c46c74c2_f32a8d83",
         "filename": "net/test/iproute.py",
         "patchSetId": 2
