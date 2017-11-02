@@ -45,6 +45,75 @@ TEST_SPI = 0x1234
 ALGO_CBC_AES_256 = xfrm.XfrmAlgo(("cbc(aes)", 256))
 ALGO_HMAC_SHA1 = xfrm.XfrmAlgoAuth(("hmac(sha1)", 128, 96))
 
+XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
+ALL_ALGORITHMS = 0xffffffff
+
+def MyApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+  """Create and apply socket policy objects.
+
+  AH is not supported. This is ESP only.
+
+  Args:
+    sock: The socket that needs a policy
+    family: AF_INET or AF_INET6
+    direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+    spi: 32-bit SPI in network byte order
+    reqid: 32-bit ID matched against SAs
+    tun_addrs: A tuple of (local, remote) addresses for tunnel mode, or None
+      to request a transport mode SA.
+
+  Return: a tuple of XfrmUserpolicyInfo, XfrmUserTmpl
+  """
+  # For transport mode, set template source and destination are empty.
+  # For tunnel mode, explicitly specify source and destination addresses.
+  if tun_addrs is None:
+    mode = xfrm.XFRM_MODE_TRANSPORT
+    saddr = XFRM_ADDR_ANY
+    daddr = XFRM_ADDR_ANY
+  else:
+    mode = xfrm.XFRM_MODE_TUNNEL
+    saddr = xfrm.PaddedAddress(tun_addrs[0])
+    daddr = xfrm.PaddedAddress(tun_addrs[1])
+
+  # Create a selector that matches all packets of the specified address family.
+  # It's not actually used to select traffic, that will be done by the socket
+  # policy, which selects the SA entry (i.e., xfrm state) via the SPI and reqid.
+  selector = xfrm.XfrmSelector(
+      daddr=XFRM_ADDR_ANY, saddr=XFRM_ADDR_ANY, family=family)
+
+  # Create a user policy that specifies that all outbound packets matching the
+  # (essentially no-op) selector should be encrypted.
+  policy = xfrm.XfrmUserpolicyInfo(
+      sel=selector,
+      lft=xfrm.NO_LIFETIME_CFG,
+      curlft=xfrm.NO_LIFETIME_CUR,
+      dir=direction,
+      action=xfrm.XFRM_POLICY_ALLOW,
+      flags=xfrm.XFRM_POLICY_LOCALOK,
+      share=xfrm.XFRM_SHARE_UNIQUE)
+
+  # Create a template that specifies the SPI and the protocol.
+  xfrmid = xfrm.XfrmId(daddr=daddr, spi=spi, proto=IPPROTO_ESP)
+  template = xfrm.XfrmUserTmpl(
+      id=xfrmid,
+      family=family,
+      saddr=saddr,
+      reqid=reqid,
+      mode=mode,
+      share=xfrm.XFRM_SHARE_UNIQUE,
+      optional=0,  #require
+      aalgos=ALL_ALGORITHMS,
+      ealgos=ALL_ALGORITHMS,
+      calgos=ALL_ALGORITHMS)
+
+  # Set the policy and template on our socket.
+  opt_data = policy.Pack() + template.Pack()
+  if family == AF_INET:
+    i = sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+    print "sock.setsockopt " , i
+  else:
+    sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+
 class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
   def assertIsUdpEncapEsp(self, packet, spi, seq, length):
@@ -100,6 +169,74 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
+
+
+  def testDualStackSocketPolicy(self):
+    TEST_ADDR_V4 = self.GetRemoteAddress(4)
+
+    # Open an IPv6 UDP socket and connect it.
+    s = socket(AF_INET6, SOCK_DGRAM, 0)
+    netid = self.RandomNetid()
+    self.SelectInterface(s, netid, "mark")
+    s.connect((TEST_ADDR_V4, 53))
+    saddr, sport = s.getsockname()[:2]
+    daddr, dport = s.getpeername()[:2]
+    reqid = 0
+
+    MyApplySocketPolicy(s, AF_INET, xfrm.XFRM_POLICY_OUT,
+                                htonl(TEST_SPI), reqid, None)
+
+    # Invalidate destination cache entries, so that future sends on the socket
+    # use the socket policy we've just applied instead of being sent in the
+    # clear due to the previously-cached dst cache entry.
+    #
+    # TODO: fix this problem in the kernel, as this workaround cannot be used in
+    # on-device code.
+    self.InvalidateDstCache(6, netid)
+
+    # Because the policy has level set to "require" (the default), attempting
+    # to send a packet results in an error, because there is no SA that
+    # matches the socket policy we set.
+    self.assertRaisesErrno(
+        EAGAIN,
+        s.sendto, net_test.UDP_PAYLOAD, (TEST_ADDR_V4, 53))
+
+    # Adding a matching SA causes the packet to go out encrypted. The SA's
+    # SPI must match the one in our template, and the destination address must
+    # match the packet's destination address (in tunnel mode, it has to match
+    # the tunnel destination).
+    self.xfrm.AddMinimalSaInfo("::", TEST_ADDR_V4, htonl(TEST_SPI), IPPROTO_ESP,
+                               xfrm.XFRM_MODE_TRANSPORT, reqid,
+                               xfrm_base._ALGO_CBC_AES_256,
+                               xfrm_base._ENCRYPTION_KEY_256,
+                               xfrm_base._ALGO_HMAC_SHA1,
+                               xfrm_base._AUTHENTICATION_KEY_128,
+                               None, None, None, None)
+    s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR_V4, 53))
+    expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, 6,
+                                                   None, net_test.UDP_PAYLOAD)
+    self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_length, None, None)
+
+    # Sending to another destination doesn't work: again, no matching SA.
+    self.assertRaisesErrno(
+        EAGAIN,
+        s.sendto, net_test.UDP_PAYLOAD, ("8.8.4.4", 53))
+
+    # Sending on another socket without the policy applied results in an
+    # unencrypted packet going out.
+    s2 = socket(AF_INET6, SOCK_DGRAM, 0)
+    self.SelectInterface(s2, netid, "mark")
+    s2.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR_V4, 53))
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    self.assertEquals(IPPROTO_UDP, packet.nh)
+
+    # Deleting the SA causes the first socket to return errors again.
+    self.xfrm.DeleteSaInfo(TEST_ADDR_V4, htonl(TEST_SPI), IPPROTO_ESP)
+    self.assertRaisesErrno(
+        EAGAIN,
+        s.sendto, net_test.UDP_PAYLOAD, (TEST_ADDR_V4, 53))
 
   def testSocketPolicy(self):
     # Open an IPv6 UDP socket and connect it.

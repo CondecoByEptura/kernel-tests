@@ -177,6 +177,7 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     packets = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(packets))
     packet = packets[0]
+    packet.show()
     if length is not None:
       self.assertEquals(length, len(packet.payload), "Incorrect packet length.")
     if dst_addr is not None:
