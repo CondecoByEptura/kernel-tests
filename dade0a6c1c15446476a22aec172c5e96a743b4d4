@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48c2d159_c0ab6c95",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "If you are updating every call site to provide this argument, then should we just remove the default value from the function definition?\n\nAdding a default value arg to the end of an arg list is usually with the purpose that existing call sites don\u0027t need to be updated.",
+      "range": {
+        "startLine": 206,
+        "startChar": 61,
+        "endLine": 206,
+        "endChar": 65
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "242697eb_4d644e78",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "nit: please remove this trailing comment. it seems redundant now.",
+      "range": {
+        "startLine": 93,
+        "startChar": 38,
+        "endLine": 93,
+        "endChar": 46
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5854aea4_823e590b",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "nit: grammar. Suggest something like, \"The socket that needs its policy removed\".",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 53
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b9b5578_d90cc995",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "nit: You can make these shorter by not mentioning \"this function\" i.e. replace \"This function opens\" with \"Open\". (that also make it consistent with the way other helper method docstrings are worded.",
+      "range": {
+        "startLine": 321,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 66
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da457dd2_7f701770",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "nit: opened",
+      "range": {
+        "startLine": 323,
+        "startChar": 8,
+        "endLine": 323,
+        "endChar": 12
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aea2ae86_fd33a7cd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "Could you add a short docstring to this explaining what it does?",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 58
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e96a0a9_afb0c1b2",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "this variable seems to be unused, and you fetch the port again later inside CheckTraffic. Does OpenDatagramSocket need to return a port? Do we even need that helper?",
+      "range": {
+        "startLine": 370,
+        "startChar": 10,
+        "endLine": 370,
+        "endChar": 14
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "425272fc_1c1bdf38",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "Because AssertEspPacket is defined in this scope, and \u0027version\u0027 is passed in to this scope, the validator function does not need to take version as a parameter. It can take it from the surrounding scope instead. Then you could pass AssertEspPacket here instead of a lambda.",
+      "range": {
+        "startLine": 408,
+        "startChar": 0,
+        "endLine": 408,
+        "endChar": 64
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19227f1a_ab8176af",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 1,
+      "message": "This works without removing the inbound policy?",
+      "range": {
+        "startLine": 415,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 60
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d4c0100_f73060d7",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-02T20:55:37Z",
+      "side": 0,
+      "message": "did the auto-formatter remove this line?",
+      "revId": "a2a8099d1ed06918c68036247c3b5f35f69e9ebb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
