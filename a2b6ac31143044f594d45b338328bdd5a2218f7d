@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34920f53_6ad8f106",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-02T23:59:39Z",
+      "side": 1,
+      "message": "looks like this got broken in the rebase.",
+      "range": {
+        "startLine": 341,
+        "startChar": 28,
+        "endLine": 341,
+        "endChar": 54
+      },
+      "revId": "a2b6ac31143044f594d45b338328bdd5a2218f7d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
