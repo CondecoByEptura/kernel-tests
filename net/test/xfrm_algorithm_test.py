@@ -101,15 +101,15 @@ class XfrmAlgorithmTest(xfrm_base.XfrmBaseTest):
   def ParamTestSocketPolicySimple(self, params):
     """Test two-way traffic using transport mode and socket policies."""
 
-    def AssertEncrypted(packet):
-      # This gives a free pass to ICMP and ICMPv6 packets, which show up
-      # nondeterministically in tests.
-      self.assertEquals(None,
-                        packet.getlayer(scapy.UDP),
-                        "UDP packet sent in the clear")
-      self.assertEquals(None,
-                        packet.getlayer(scapy.TCP),
-                        "TCP packet sent in the clear")
+    def AssertEspPacket(packet):
+      if params["version"] == 4:
+        self.assertTrue(packet.haslayer(scapy.IP), "Packet is not IPv4")
+        self.assertEquals(IPPROTO_ESP, packet.proto, "Packet is not ESP")
+      elif params["version"] == 6:
+        self.assertTrue(packet.haslayer(scapy.IPv6), "Packet is not IPv6")
+        self.assertEquals(IPPROTO_ESP, packet.nh, "Packet is not ESP")
+      else:
+        self.fail("Holding it wrong %d" % params["version"])
 
     # We create a pair of sockets, "left" and "right", that will talk to each
     # other using transport mode ESP. Because of TapTwister, both sockets
@@ -264,7 +264,7 @@ class XfrmAlgorithmTest(xfrm_base.XfrmBaseTest):
     # not bound when we send.
     self.assertTrue(server_ready.wait(2.0), "Timed out waiting for server thread")
 
-    with TapTwister(fd=self.tuns[netid].fileno(), validator=AssertEncrypted):
+    with TapTwister(fd=self.tuns[netid].fileno(), validator=AssertEspPacket):
       sock_left.connect((remote_addr, right_port))
       sock_left.send("hello request")
       data = sock_left.recv(2048)
