@@ -71,6 +71,52 @@
     },
     {
       "key": {
+        "uuid": "b367a404_449aac42",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "nit: for consistency, just use \"family\".",
+      "range": {
+        "startLine": 156,
+        "startChar": 2,
+        "endLine": 156,
+        "endChar": 12
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95df8adc_8487caf8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "Suggest to move this to xfrm_base.py",
+      "range": {
+        "startLine": 320,
+        "startChar": 6,
+        "endLine": 320,
+        "endChar": 24
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b9b5578_d90cc995",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 13
@@ -117,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "ead63f1d_0dfc26d2",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "A tuple of (socket, port number)",
+      "range": {
+        "startLine": 328,
+        "startChar": 12,
+        "endLine": 328,
+        "endChar": 49
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aea2ae86_fd33a7cd",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 13
@@ -137,6 +206,69 @@
       "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f63ad53_e7894ff6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "the name CheckTraffic is not sufficiently descriptive... it\u0027s possible that this is not the right abstraction.\n\nIf this is a specific and internal-only function, please prefix with an \"_\"",
+      "range": {
+        "startLine": 335,
+        "startChar": 6,
+        "endLine": 335,
+        "endChar": 18
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8b2f837_ba97be80",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "nit: remove blank line",
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2259dd5_f16c07d0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "nit: family",
+      "range": {
+        "startLine": 367,
+        "startChar": 4,
+        "endLine": 367,
+        "endChar": 15
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +295,29 @@
     },
     {
       "key": {
+        "uuid": "2f5730c2_305c1d0d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "We don\u0027t actually need to use the request IDs, so feel free to just set them to 0.",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 378,
+        "endChar": 12
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "425272fc_1c1bdf38",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 13
@@ -174,6 +329,30 @@
       "writtenOn": "2017-11-02T20:55:37Z",
       "side": 1,
       "message": "Because AssertEspPacket is defined in this scope, and \u0027version\u0027 is passed in to this scope, the validator function does not need to take version as a parameter. It can take it from the surrounding scope instead. Then you could pass AssertEspPacket here instead of a lambda.",
+      "range": {
+        "startLine": 408,
+        "startChar": 0,
+        "endLine": 408,
+        "endChar": 64
+      },
+      "revId": "dade0a6c1c15446476a22aec172c5e96a743b4d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb6f1e35_53b37e2a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T00:59:51Z",
+      "side": 1,
+      "message": "+1 that\u0027s better.",
+      "parentUuid": "425272fc_1c1bdf38",
       "range": {
         "startLine": 408,
         "startChar": 0,
