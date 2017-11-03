@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "133a4326_ee64add2",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-03T23:09:11Z",
+      "side": 1,
+      "message": "I think you need to update call sites in xfrm_test.py and xfrm_tunnel_test.py.",
+      "range": {
+        "startLine": 339,
+        "startChar": 22,
+        "endLine": 339,
+        "endChar": 38
+      },
+      "revId": "4e3f93b5ebfeb34c22c39886c70593b4e32731e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3a5c1fc_07f2d788",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-03T23:09:11Z",
+      "side": 1,
+      "message": "I think it would be fine to use the shorter form, e.g.\n\n    if params[\"crypt\"] else None",
+      "range": {
+        "startLine": 157,
+        "startChar": 59,
+        "endLine": 157,
+        "endChar": 86
+      },
+      "revId": "4e3f93b5ebfeb34c22c39886c70593b4e32731e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
