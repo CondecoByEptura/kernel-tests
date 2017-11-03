@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c1d5e98_c45a0b14",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-03T02:49:57Z",
+      "side": 1,
+      "message": "You\u0027ve already called \"connect\" so you might want to try \"send\" and see if it somehow has more luck?",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 54
+      },
+      "revId": "f247494eb7762d139b7f987b14e28c34986f408f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
