@@ -24,6 +24,7 @@ import os
 import select
 import threading
 from scapy import all as scapy
+import socket
 
 
 class TunTwister(object):
@@ -70,7 +71,7 @@ class TunTwister(object):
   _POLL_TIMEOUT_SEC = 2.0
   _POLL_FAST_TIMEOUT_MS = 100
 
-  def __init__(self, fd=None, validator=None):
+  def __init__(self, fd=None, validator=None, drop_icmp=True):
     """Construct a TunTwister.
 
     The TunTwister will listen on the given TUN fd.
@@ -81,6 +82,7 @@ class TunTwister(object):
     Args:
       fd: File descriptor of a TUN interface.
       validator: Function taking one scapy packet object argument.
+      drop_icmp: Drop ICMP and ICMPv6 packets.
     """
     self._fd = fd
     # Use a pipe to signal the thread to exit.
@@ -88,6 +90,7 @@ class TunTwister(object):
     self._thread = threading.Thread(target=self._RunLoop, name="TunTwister")
     self._validator = validator
     self._error = None
+    self._drop_icmp = drop_icmp
 
   def __enter__(self):
     self._thread.start()
@@ -142,7 +145,7 @@ class TunTwister(object):
 
   def _DropPacket(self, packet):
     """Determine whether to drop the provided packet by inspection"""
-    return False
+    return self._drop_icmp and self._IsIcmpPacket(packet)
 
   @classmethod
   def DecodePacket(cls, bytes_in):
@@ -158,6 +161,14 @@ class TunTwister(object):
     packet.src, packet.dst = packet.dst, packet.src
     packet = ip_type(packet.build())  # Fix the IP checksum.
     return packet
+
+  @staticmethod
+  def _IsIcmpPacket(packet):
+    if packet.haslayer(scapy.IPv6):
+      return packet[scapy.IPv6].nh == socket.IPPROTO_ICMPV6
+    if packet.haslayer(scapy.IP):
+      return packet[scapy.IP].proto == socket.IPPROTO_ICMP
+    return False
 
   @staticmethod
   def _DecodeIpPacket(packet_bytes):
@@ -183,7 +194,7 @@ class TapTwister(TunTwister):
   def _IsMulticastPacket(eth_pkt):
     return int(eth_pkt.dst.split(":")[0], 16) & 0x1
 
-  def __init__(self, fd=None, validator=None, drop_multicast=True):
+  def __init__(self, fd=None, validator=None, drop_multicast=True, drop_icmp=True):
     """Construct a TapTwister.
 
     TapTwister works just like TunTwister, but handles both ethernet and IP
@@ -193,11 +204,15 @@ class TapTwister(TunTwister):
       fd: File descriptor of a TAP interface.
       validator: Function taking one scapy packet object argument.
       drop_multicast: Drop Ethernet multicast packets
+      drop_icmp: Drop ICMP and ICMPv6 packets.
     """
-    super(TapTwister, self).__init__(fd=fd, validator=validator)
+    super(TapTwister, self).__init__(fd=fd, validator=validator, drop_icmp=drop_icmp)
     self._drop_multicast = drop_multicast
 
   def _DropPacket(self, packet):
+    # Allow parent class to drop packet also.
+    if super(TapTwister, self)._DropPacket(packet.payload):
+      return True
     return self._drop_multicast and self._IsMulticastPacket(packet)
 
   @classmethod
