@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab923fa8_557fdf1c",
+        "filename": "net/test/csocket.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-06T19:00:32Z",
+      "side": 1,
+      "message": "This seems like it belongs with the functions like GetAddressFamily in net_test.py.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 18
+      },
+      "revId": "4a26e843fe09c9a4cbf0e678f822014b7c7204c3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769a2e96_c26d5ec1",
+        "filename": "net/test/csocket.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-06T19:00:32Z",
+      "side": 1,
+      "message": "This replaces a lot of lines in tests, but doesn\u0027t address several instances such as,\n\n    family \u003d AF_INET6 if \":\" in remote_addr else AF_INET\n\nShould we have a util for that too?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 32
+      },
+      "revId": "4a26e843fe09c9a4cbf0e678f822014b7c7204c3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
