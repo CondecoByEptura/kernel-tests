@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "145ce749_a4b9a91b",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "I don\u0027t feel like this function\u0027s function is obvious just from its name or even its body. (Partly because \"_NlAttr\" is also a non-obvious name.)\n\n\"Algo\" as a concept appears all over IPsec, but this is specifically building a packed netlink attribute for a netlink request.\n\nAdding a docstring is probably enough, but I wouldn\u0027t mind seeing a more descriptive name like PackNetlinkAlgo or something.",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 10
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef01fa0_06666591",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "can we infer this from the key param?",
+      "range": {
+        "startLine": 298,
+        "startChar": 23,
+        "endLine": 298,
+        "endChar": 30
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fd806d5_63b391cb",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "From my perspective, AddMinimalSaInfo was created as a more useful test util and completely replaced AddSaInfo. It seems like there are no direct calls to _AddSaInfo, so do we gain any benefit by keeping these two separate methods?",
+      "range": {
+        "startLine": 366,
+        "startChar": 6,
+        "endLine": 366,
+        "endChar": 15
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40ab0d3_0cc04b93",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "Are we testing AH anywhere? Can this param be removed and ESP hard-coded?",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 51
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b10d9e91_6d8323a7",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "My nit here is that the docstring would be clearer if it said what sorts of objects are expected, rather than the methods we expect callers to get them from. Sort of the converse of http://go/totw/138 , we shouldn\u0027t be expected to cover every possible use case in the docstring, or update it any time there are new builder functions.\n\nThe flip side of the coin is that users reading this docstring then might not know about those other helpers. Adding a usage example to the docstring is one way to hint to users how we expect them to call this.",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 79
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2743a94a_c37df7b8",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "to match the rest of this function, add \"is not None\"",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 12
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09ebc4f6_12babfc7",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-07T18:45:40Z",
+      "side": 1,
+      "message": "For another way to handle this pattern, see https://abseil.io/tips/122",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 73
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
