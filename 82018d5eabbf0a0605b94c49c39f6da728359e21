@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7123d10a_af0902bc",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-11-08T19:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d004aae4_fb11709a",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 68
+      },
+      "revId": "82018d5eabbf0a0605b94c49c39f6da728359e21",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35ed0613_5b868dec",
         "filename": "net/test/bpf_test.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-08T01:49:13Z",
       "side": 1,
       "message": "This should be map_flags\u003dBPF_F_RDONLY (per style guide, optional arguments should always be named).",
+      "range": {
+        "startLine": 199,
+        "startChar": 43,
+        "endLine": 199,
+        "endChar": 55
+      },
+      "revId": "82018d5eabbf0a0605b94c49c39f6da728359e21",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a704b60_256248e0",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2017-11-08T19:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35ed0613_5b868dec",
       "range": {
         "startLine": 199,
         "startChar": 43,
