@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ad769ce_65b1c144",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-08T02:31:27Z",
+      "side": 1,
+      "message": "It\u0027s hard to see because the changes are spread across different patches, but this introduces the concept of passing around unpacked cstruct objects where beforehand we had exclusively passed individual parameters or packed structs. Since passing packed structs works nicely for templates, marks, and encryption keys. and having 1:1 correspondence between builder functions and kernel structs reduces cognitive load on someone trying to understand the purpose of these methods, that seems like the right approach.\n\nPassing unpacked structures here in the same method where we are later going to pass packed structs seems pretty janky. I continue to be skeptical that this is the right fix. you saved zero parameters in AddMinimalSaInfo. I recognize the small code-size savings in the Policy creation methods, but it doesn\u0027t seem worth the cost to me.",
+      "range": {
+        "startLine": 356,
+        "startChar": 53,
+        "endLine": 356,
+        "endChar": 61
+      },
+      "revId": "6c8f88bd5b3335f976583f957d54b16c6d41cfda",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
