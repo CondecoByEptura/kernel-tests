@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e5ab0f3_e058fee6",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-08T02:46:37Z",
+      "side": 1,
+      "message": "I think this is an ExactMatchMark, following the pattern of factory functions with \"noun\" names.",
+      "range": {
+        "startLine": 240,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 18
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "145ce749_a4b9a91b",
         "filename": "net/test/xfrm.py",
         "patchSetId": 1
@@ -48,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "a302b0f4_e2ed13de",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-08T02:46:37Z",
+      "side": 1,
+      "message": "Adding the nlattr header here makes this level of abstraction leak netlink. We don\u0027t actually use Algorithms outside of the Netlink functions, but the symmetry of having the NL stuff all in one final builder function seems like a better one.",
+      "range": {
+        "startLine": 303,
+        "startChar": 12,
+        "endLine": 304,
+        "endChar": 78
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fd806d5_63b391cb",
         "filename": "net/test/xfrm.py",
         "patchSetId": 1
@@ -68,6 +114,29 @@
       "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a5910d1_9c482b7c",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-08T02:46:37Z",
+      "side": 1,
+      "message": "In this case, we\u0027re prepending the NLATTR header to the thing that we pass in, but for other things that are passed in to the SA, we don\u0027t prepend the NLATTR header. Could we not pass in the NLATTR header? Not packing + passing the header was necessary for the policy functions, and any sort of consistency in the pattern is a much bigger savings in needless brain power than reducing LOC.",
+      "range": {
+        "startLine": 366,
+        "startChar": 67,
+        "endLine": 367,
+        "endChar": 26
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
