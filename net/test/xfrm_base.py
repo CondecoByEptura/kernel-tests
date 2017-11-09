@@ -15,6 +15,7 @@
 # limitations under the License.
 
 from socket import *  # pylint: disable=wildcard-import
+import time
 
 import cstruct
 import multinetwork_base
@@ -74,8 +75,8 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs, required=T
   # (essentially no-op) selector should be encrypted.
   policy = xfrm.XfrmUserpolicyInfo(
       sel=selector,
-      lft=xfrm.NO_LIFETIME_CFG,
-      curlft=xfrm.NO_LIFETIME_CUR,
+      lft=xfrm.ZERO_LIFETIME_CFG if required else xfrm.EXPIRE_LIFETIME_CUR,
+      curlft=xfrm.NO_LIFETIME_CUR if required else xfrm.EXPIRE_LIFETIME_CUR,
       dir=direction,
       action=xfrm.XFRM_POLICY_ALLOW,
       flags=xfrm.XFRM_POLICY_LOCALOK,
@@ -154,9 +155,10 @@ def RemoveSocketPolicy(sock):
   """
   bind_addr = sock.getsockname()[0]
   family = AF_INET6 if ":" in bind_addr else AF_INET
-
-  ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_IN, 0, 0, None, False)
-  ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_OUT, 0, 0, None, False)
+  if family == AF_INET:
+    sock.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, "")
+  else:
+    sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, "")
 
 class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
   """Base test class for Xfrm tests

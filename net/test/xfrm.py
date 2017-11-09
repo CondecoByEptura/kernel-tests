@@ -195,6 +195,9 @@ UDP_ENCAP_ESPINUDP = 2
 _INF = 2 ** 64 -1
 NO_LIFETIME_CFG = XfrmLifetimeCfg((_INF, _INF, _INF, _INF, 0, 0, 0, 0))
 NO_LIFETIME_CUR = "\x00" * len(XfrmLifetimeCur)
+ZERO_LIFETIME_CFG = XfrmLifetimeCfg((0, 0, 0, 0, 0, 0, 0, 0))
+EXPIRE_LIFETIME_CFG = XfrmLifetimeCfg((1, 1, 1, 1, 0, 0, 0, 0))
+EXPIRE_LIFETIME_CUR = XfrmLifetimeCur((1, 1, 0, 0))
 
 # IPsec constants.
 IPSEC_PROTO_ANY	= 255

@@ -385,11 +385,11 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     out_spi = htonl(TEST_SPI)
 
     # Set outbound policy
-    #xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_OUT,
-    #                            out_spi, out_reqid, None)
+    xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_OUT,
+                                out_spi, out_reqid, None)
     # Set inbound policy
-    #xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_IN, in_spi,
-    #                            in_reqid, None)
+    xfrm_base.ApplySocketPolicy(sock, addr_family, xfrm.XFRM_POLICY_IN, in_spi,
+                                in_reqid, None)
 
     # Create inbound and outbound SAs with the policy and no encap tmpl.
     self.xfrm.AddMinimalSaInfo(myaddr, remoteaddr, out_spi, IPPROTO_ESP,
@@ -408,14 +408,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                None, None, None, None)
 
     # Now send a packet, and expect to see an ESP packet.
-    #self.CheckTraffic(sock, netid, version, AssertEspPacket)
+    self.CheckTraffic(sock, netid, version, AssertEspPacket)
 
     # Now test removing the xfrm policy.
     # First remove outbound policy
     xfrm_base.RemoveSocketPolicy(sock)
-
+    self.InvalidateDstCache(version, netid)
     # Now send a packet, and expect to see a UDP packet.
-    self.CheckTraffic(sock, netid, version, AssertEspPacket)
+    self.CheckTraffic(sock, netid, version, AssertUdpPacket)
 
     sock.close()
 
