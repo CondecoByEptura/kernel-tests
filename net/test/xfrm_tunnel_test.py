@@ -116,9 +116,10 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm.
     """
+    unspec_selector = xfrm.EmptySelector(AF_UNSPEC)
     self.xfrm.AddSaInfo(
         tsrc_addr, tdst_addr,
-        htonl(spi), IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, 0, selector,
+        htonl(spi), IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, 0, unspec_selector,
         self.ALGO_CBC_AES_256,
         self.ALGO_HMAC_SHA1,
         None,

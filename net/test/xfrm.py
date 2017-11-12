@@ -116,6 +116,9 @@ XFRM_POLICY_BLOCK = 1
 XFRM_POLICY_LOCALOK = 1
 XFRM_POLICY_ICMP = 2
 
+
+XFRM_STATE_AF_UNSPEC = 32
+
 # XFRM algorithm names, as defined in net/xfrm/xfrm_algo.c.
 XFRM_EALG_CBC_AES = "cbc(aes)"
 XFRM_AALG_HMAC_MD5 = "hmac(md5)"
@@ -406,7 +409,7 @@ class Xfrm(netlink.NetlinkSocket):
     if output_mark is not None:
       nlattrs += self._NlAttrU32(XFRMA_OUTPUT_MARK, output_mark)
     self._AddSaInfo(selector, xfrm_id, PaddedAddress(src), NO_LIFETIME_CFG,
-                    reqid, family, mode, 4, 0, nlattrs)
+                    reqid, family, mode, 4, XFRM_STATE_AF_UNSPEC, nlattrs)
 
   def DeleteSaInfo(self, daddr, spi, proto):
     # TODO: deletes take a mark as well.
