@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07ad419f_0ecb9303",
+        "filename": "net/test/tcp_fastopen_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-11-13T03:46:06Z",
+      "side": 1,
+      "message": "does \"_\" work for these discarded objects?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 8
+      },
+      "revId": "63fa54e25b2320f1793beb0474a18c2336253d35",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
