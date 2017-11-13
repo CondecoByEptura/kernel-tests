@@ -22,6 +22,30 @@
       "revId": "ef1fc3427546721596d07256aa5eb0f9eeedaf5b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "668bc79e_f139a54f",
+        "filename": "net/test/genetlink.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-13T05:46:33Z",
+      "side": 1,
+      "message": "As noted, they\u0027re being cached in the subclasses.",
+      "parentUuid": "25786998_2a9a914a",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 15
+      },
+      "revId": "ef1fc3427546721596d07256aa5eb0f9eeedaf5b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
