@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76121ee4_cafdf24e",
+        "filename": "net/test/tcp_metrics.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-11-13T08:24:04Z",
+      "side": 1,
+      "message": "This was a bit surprising, but I suppose absent building up an attr_type_map it\u0027s what there is.  Given the key clearly begins with TCP_METRICS_ATTR_, it seems fine to me.",
+      "range": {
+        "startLine": 107,
+        "startChar": 15,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "aa9a2e22ccc8e6d549cdab96886e308611d60543",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
