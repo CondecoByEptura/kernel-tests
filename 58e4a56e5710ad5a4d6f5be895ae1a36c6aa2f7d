@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a5feed1_e50d483e",
+        "filename": "net/test/tcp_metrics.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-11-13T03:33:50Z",
+      "side": 1,
+      "message": "stray trailing whitespace",
+      "range": {
+        "startLine": 40,
+        "startChar": 24,
+        "endLine": 40,
+        "endChar": 25
+      },
+      "revId": "58e4a56e5710ad5a4d6f5be895ae1a36c6aa2f7d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40453e16_900a2116",
+        "filename": "net/test/tcp_metrics.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-11-13T03:33:50Z",
+      "side": 1,
+      "message": "Ah, I see you\u0027re caching it here.  That makes sense.",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 15
+      },
+      "revId": "58e4a56e5710ad5a4d6f5be895ae1a36c6aa2f7d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca12f5f0_a79b50b6",
+        "filename": "net/test/tcp_metrics.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-11-13T03:33:50Z",
+      "side": 1,
+      "message": "What about v5 addresses, is that a thing we need to account for?",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 10
+      },
+      "revId": "58e4a56e5710ad5a4d6f5be895ae1a36c6aa2f7d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
