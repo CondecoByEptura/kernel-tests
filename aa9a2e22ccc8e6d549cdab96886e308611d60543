@@ -22,6 +22,30 @@
       "revId": "aa9a2e22ccc8e6d549cdab96886e308611d60543",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "964100e7_761c7ee3",
+        "filename": "net/test/tcp_metrics.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-15T07:30:00Z",
+      "side": 1,
+      "message": "\"globals()\" returns the dictionary of the current module, which is sort of what this is. I can also do getattr(sys.modules[__name__], nla_name) if you prefer.",
+      "parentUuid": "76121ee4_cafdf24e",
+      "range": {
+        "startLine": 107,
+        "startChar": 15,
+        "endLine": 107,
+        "endChar": 23
+      },
+      "revId": "aa9a2e22ccc8e6d549cdab96886e308611d60543",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
