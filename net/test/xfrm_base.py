@@ -18,6 +18,7 @@ from socket import *  # pylint: disable=wildcard-import
 from scapy import all as scapy
 import struct
 
+import csocket
 import cstruct
 import multinetwork_base
 import net_test
@@ -40,9 +41,18 @@ ALL_ALGORITHMS = 0xffffffff
 
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
+def SetSocketPolicyOption(sock, family, opt_data):
+  optlen = len(opt_data) if opt_data is not None else 0
+  if family == AF_INET:
+    csocket.Setsockopt(sock, IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data, optlen)
+  else:
+    csocket.Setsockopt(sock, IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data,
+                       optlen)
 
-def UserPolicy(direction, selector):
-  """Create an IPsec policy.
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+  """Create and apply socket policy objects.
+
+  AH is not supported. This is ESP only.
 
   Args:
     direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
@@ -124,10 +134,7 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
 
   # Set the policy and template on our socket.
   opt_data = policy.Pack() + template.Pack()
-  if family == AF_INET:
-    sock.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
-  else:
-    sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+  SetSocketPolicyOption(sock, family, opt_data)
 
 
 def GetEspPacketLength(mode, version, encap, payload):

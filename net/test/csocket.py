@@ -348,3 +348,10 @@ def Recvfrom(s, size, flags=0):
   addr = _ToSocketAddress(addr.raw, alen)
 
   return data, addr
+
+
+def Setsockopt(s, level, optname, optval, optlen):
+  # This function exists because we need to support NULL option values, which
+  # the built-in python setsockopt does not allow.
+  ret = libc.setsockopt(s.fileno(), level, optname, optval, optlen)
+  MaybeRaiseSocketError(ret)
