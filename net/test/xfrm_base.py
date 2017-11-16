@@ -35,6 +35,13 @@ ALL_ALGORITHMS = 0xffffffff
 XFRM_ADDR_ANY = xfrm.PaddedAddress("::")
 
 
+def SetSocketPolicyOption(sock, family, opt_data):
+  if family == AF_INET:
+    sock.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
+  else:
+    sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+
+
 def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
   """Create and apply socket policy objects.
 
@@ -95,10 +102,7 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
 
   # Set the policy and template on our socket.
   opt_data = policy.Pack() + template.Pack()
-  if family == AF_INET:
-    sock.setsockopt(IPPROTO_IP, xfrm.IP_XFRM_POLICY, opt_data)
-  else:
-    sock.setsockopt(IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data)
+  SetSocketPolicyOption(sock, family, opt_data)
 
 
 def GetEspPacketLength(mode, version, encap, payload):
