@@ -1,0 +1,10 @@
+python_test {
+    name: "kernel_net_tests",
+    main: "all_tests.py",
+    srcs: [
+        "*.py",
+    ],
+    defaults: [
+        "kernel_tests_defaults"
+    ],
+}
