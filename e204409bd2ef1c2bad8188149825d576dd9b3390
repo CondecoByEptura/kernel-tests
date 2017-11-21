@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd2a97d7_543f4ba7",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6c9549_8811a1d5",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dab62a4e_fec333cc",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-21T14:39:35Z",
       "side": 1,
       "message": "Nit: I think other parts of this code use str(pkt) for this. Any thoughts on whether to use one or the other? If they\u0027re roughly equivalent, I\u0027d use str() for consistency.",
+      "range": {
+        "startLine": 158,
+        "startChar": 30,
+        "endLine": 158,
+        "endChar": 48
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3540f7b6_fcb21e8b",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Looking at the current uses of build() it looks like that\u0027s just me doing it. I\u0027ll switch to str.",
+      "parentUuid": "dab62a4e_fec333cc",
       "range": {
         "startLine": 158,
         "startChar": 30,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2f157413_28e56744",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Thanks, I did skim through this section yesterday, but it didn\u0027t sink in. Update as per your suggestion.",
+      "parentUuid": "f1c001bc_8863236a",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 73
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d82c9d02_ee9ba8de",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "0e04eed7_ffdbe764",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d82c9d02_ee9ba8de",
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4273925_169be176",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -99,6 +189,30 @@
       "writtenOn": "2017-11-21T14:39:35Z",
       "side": 1,
       "message": "Blank line before here.\n\nOther code in the area uses two lines for this, like so:\n\n Returns:\n   ...",
+      "range": {
+        "startLine": 206,
+        "startChar": 2,
+        "endLine": 206,
+        "endChar": 9
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdf33121_5712ccfb",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4273925_169be176",
       "range": {
         "startLine": 206,
         "startChar": 2,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "b7a5df0b_dffc031d",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "I think in an earlier revision I was recomputing fields with \"pkt \u003d IPv6(str(pkt))\" which inherently created a copy. We should have the methods match behavior, if convenient.",
+      "parentUuid": "5cb29da7_2a943f28",
+      "range": {
+        "startLine": 208,
+        "startChar": 25,
+        "endLine": 208,
+        "endChar": 42
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6a263a4_f4215f09",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "3c85f8fc_9f163343",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "The reason I reverse bytes in these two methods is that the same thing seems to happen with AddMinimalSa and ApplySocketPolicy. Specifically, I don\u0027t think it makes sense for a test to pass 0x1234 to some methods and htonl(0x1234) to other methods. Without this, the test would look like,\n\nAddMinimalSa(... 0x1234 ...)\nApplySocketPolicy(... 0x1234 ...)\nEncryptPacketWithNull(packet, htonl(0x1234), 1)",
+      "parentUuid": "c6a263a4_f4215f09",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 34
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f731b82_b36caf0f",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -168,6 +330,30 @@
       "writtenOn": "2017-11-21T14:39:35Z",
       "side": 1,
       "message": "Add:\n\n  else:\n    raise ValueError(\"Unknown IP version: %s\" % packet)",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 2
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71137f9a_27583122",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f731b82_b36caf0f",
       "range": {
         "startLine": 226,
         "startChar": 0,
@@ -226,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "a174597f_60f320c6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Reading net_test.py, it doesn\u0027t look like UDPSocket calls SetNonBlocking. \n\nWith UDPSocket, a recv timeout raises Errno 11 exception (temporarily unavailable).\nWith socket.settimeout, the exception raised is \"timeout: timed out\".\n\nI found the latter to be a more useful error message, but I\u0027ll defer to you for the final call.",
+      "parentUuid": "cbb39565_27be5bc8",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3089ec_f1cc7ddd",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -249,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "6200d70b_aa213ffd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3089ec_f1cc7ddd",
+      "range": {
+        "startLine": 388,
+        "startChar": 13,
+        "endLine": 388,
+        "endChar": 53
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c14d1dd4_2254f166",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 1
@@ -260,6 +494,30 @@
       "writtenOn": "2017-11-21T14:39:35Z",
       "side": 1,
       "message": "Do you need this build?",
+      "range": {
+        "startLine": 408,
+        "startChar": 67,
+        "endLine": 408,
+        "endChar": 75
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f87b3425_17a9154a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-21T19:58:56Z",
+      "side": 1,
+      "message": "The UDP payload object is scapy.Raw(\"output hello\") and \"building\" the layer is the quickest way to get the raw payload as a string.",
+      "parentUuid": "c14d1dd4_2254f166",
       "range": {
         "startLine": 408,
         "startChar": 67,
