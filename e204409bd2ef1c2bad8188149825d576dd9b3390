@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de6c9549_8811a1d5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Suggest maintaining these in alphabetical order.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab62a4e_fec333cc",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Nit: I think other parts of this code use str(pkt) for this. Any thoughts on whether to use one or the other? If they\u0027re roughly equivalent, I\u0027d use str() for consistency.",
+      "range": {
+        "startLine": 158,
+        "startChar": 30,
+        "endLine": 158,
+        "endChar": 48
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1c001bc_8863236a",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Looks like RFC 4303 section 2.4. Suggest:\n\n  # ESP padding per RFC 4303 section 2.4.\n  # For a null cipher with a block size of 1, padding is only necessary to\n  # ensure that the 1-byte Pad Length and Next Header fields are right aligned \n  # on a 4-byte boundary.\n  esplen \u003d (len(udp_layer) + 2)  # UDP length plus Pad Length and Next Header.\n  padlen \u003d (4 - esplen) % 4\n\n  # The pad bytes are consecutive integers starting from 0x01.\n  padding \u003d \"\".join((chr(i) for i in xrange(1, padlen + 1)))\n\n  trailer \u003d padding + struct.pack(\"BB\", padlen, IPPROTO_UDP)\n\n  packet.add_payload(trailer)",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 73
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d82c9d02_ee9ba8de",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Add:\n\n  else:\n    raise ValueError(\"Unknown IP version: %s\" % packet)",
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4273925_169be176",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Blank line before here.\n\nOther code in the area uses two lines for this, like so:\n\n Returns:\n   ...",
+      "range": {
+        "startLine": 206,
+        "startChar": 2,
+        "endLine": 206,
+        "endChar": 9
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cb29da7_2a943f28",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Any reason you can\u0027t modify the packet in place like the encryption function?",
+      "range": {
+        "startLine": 208,
+        "startChar": 25,
+        "endLine": 208,
+        "endChar": 42
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6a263a4_f4215f09",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "This looks strange here. Suggest removing this code and changing the assertions in the caller. In this case, in the caller you\u0027d just have:\n\n    self.assertEquals(0xABCD, ntohl(esp_hdr.spi))\n\nwhich I think is easier to understand. SPIs are written in network byte order in packet headers, so if we program an SA with an SPI of 0xABCD, it\u0027s natural to expect that 0xABCD will appear in the packet in network byte order.",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 34
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f731b82_b36caf0f",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Add:\n\n  else:\n    raise ValueError(\"Unknown IP version: %s\" % packet)",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 2
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3999ee2_91356e89",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "We should test IPv4 as well.\n\nThe code already appears to be dual-stack, so the simplest way would be to rename this method to CheckNullEncryption or the like and make it take an IP version, then just do:\n\n  testNullEncryptionIPv4(self):\n    self.CheckNullEncryption(4)\n\n  testNullEncryptionIPv6(self):\n    self.CheckNullEncryption(6)\n\nsetUp and tearDown will take care of flushing the SAs for you.",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 15
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb39565_27be5bc8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Suggest using net_test.UDPSocket(family), which will also set the socket non-blocking.",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3089ec_f1cc7ddd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Alternatively:\n\n  {4: scapy.IP, 6: scapy.IPv6}[version]\n\nwhich will also helpfully throw if the version is incorrect.",
+      "range": {
+        "startLine": 388,
+        "startChar": 13,
+        "endLine": 388,
+        "endChar": 53
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c14d1dd4_2254f166",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-21T14:39:35Z",
+      "side": 1,
+      "message": "Do you need this build?",
+      "range": {
+        "startLine": 408,
+        "startChar": 67,
+        "endLine": 408,
+        "endChar": 75
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
