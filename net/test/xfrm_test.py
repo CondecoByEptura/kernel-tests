@@ -355,6 +355,59 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
       s.send(net_test.UDP_PAYLOAD)
     self.ExpectNoPacketsOn(netid, "Packet not blocked by policy")
 
+  def testNullEncryption(self):
+    """This test is an example of how to set up null crypto."""
+    version = 6
+    family = net_test.GetAddressFamily(version)
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(version, netid)
+    remote_addr = self.GetRemoteAddress(version)
+
+    # Output
+    self.xfrm.AddMinimalSaInfo(
+        local_addr, remote_addr, 0xABCD, IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT,
+        123, xfrm_base._ALGO_CRYPT_NULL, "", xfrm_base._ALGO_AUTH_NULL, "",
+        None, None, None, None)
+    # Input
+    self.xfrm.AddMinimalSaInfo(
+        remote_addr, local_addr, 0x9876, IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT,
+        456, xfrm_base._ALGO_CRYPT_NULL, "", xfrm_base._ALGO_AUTH_NULL, "",
+        None, None, None, None)
+
+    sock = socket(family, SOCK_DGRAM, 0)
+    sock.settimeout(1.0)
+    self.SelectInterface(sock, netid, "mark")
+    sock.bind((local_addr, 0))
+    local_port = sock.getsockname()[1]
+    remote_port = 5555
+
+    xfrm_base.ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_OUT, 0xABCD, 123, None)
+    xfrm_base.ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_IN, 0x9876, 456, None)
+
+    # Create and receive an ESP packet.
+    IpType = scapy.IPv6 if version == 6 else scapy.IP
+    input_pkt = (IpType(src=remote_addr, dst=local_addr) /
+                 scapy.UDP(sport=remote_port, dport=local_port) /
+                 "input hello")
+    input_pkt = IpType(input_pkt.build()) # Compute length, checksum.
+    xfrm_base.EncryptPacketWithNull(input_pkt, 0x9876, 1)
+
+    self.ReceivePacketOn(netid, input_pkt)
+    msg, addr = sock.recvfrom(1024)
+    self.assertEquals("input hello", msg)
+    self.assertEquals((remote_addr, remote_port), addr[:2])
+
+    # Send and capture a packet.
+    sock.sendto("output hello", (remote_addr, remote_port))
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    output_pkt = packets[0]
+    output_pkt, esp_hdr = xfrm_base.DecryptPacketWithNull(output_pkt)
+    self.assertEquals(remote_addr, output_pkt.dst)
+    self.assertEquals(remote_port, output_pkt[scapy.UDP].dport)
+    self.assertEquals("output hello", output_pkt[scapy.UDP].payload.build())
+    self.assertEquals(0xABCD, esp_hdr.spi)
+
 
 class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
 
