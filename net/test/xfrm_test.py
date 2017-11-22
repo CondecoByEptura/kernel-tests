@@ -388,7 +388,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                  scapy.UDP(sport=remote_port, dport=local_port) /
                  "input hello")
     input_pkt = IpType(str(input_pkt)) # Compute length, checksum.
-    xfrm_base.EncryptPacketWithNull(input_pkt, htonl(0x9876), 1)
+    input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, htonl(0x9876), 1)
 
     self.ReceivePacketOn(netid, input_pkt)
     msg, addr = sock.recvfrom(1024)
@@ -400,7 +400,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     packets = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(packets))
     output_pkt = packets[0]
-    esp_hdr = xfrm_base.DecryptPacketWithNull(output_pkt)
+    output_pkt, esp_hdr = xfrm_base.DecryptPacketWithNull(output_pkt)
     self.assertEquals(remote_addr, output_pkt.dst)
     self.assertEquals(remote_port, output_pkt[scapy.UDP].dport)
     self.assertEquals("output hello", str(output_pkt[scapy.UDP].payload))
