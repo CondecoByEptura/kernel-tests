@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "186dbdc5_72468e1a",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-22T18:48:36Z",
+      "side": 1,
+      "message": "I don\u0027t think so. scapy.IP(str(packet)) is the part that recomputes fields AFAICT. This does get simpler in the follow up CL that I uploaded.",
+      "parentUuid": "db18778b_de7d0ce1",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 34
+      },
+      "revId": "6887710d55d0c2670e11fb04931ef5f632f99354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46929f36_da596b18",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-22T02:07:35Z",
       "side": 1,
       "message": "If this is commented out, remove it?",
+      "range": {
+        "startLine": 223,
+        "startChar": 2,
+        "endLine": 223,
+        "endChar": 43
+      },
+      "revId": "6887710d55d0c2670e11fb04931ef5f632f99354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec7feb53_c3a7fb37",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-22T18:48:36Z",
+      "side": 1,
+      "message": "Done, but it returns in the follow up CL (:",
+      "parentUuid": "46929f36_da596b18",
       "range": {
         "startLine": 223,
         "startChar": 2,

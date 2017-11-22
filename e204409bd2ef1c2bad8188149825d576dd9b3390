@@ -343,6 +343,30 @@
     },
     {
       "key": {
+        "uuid": "0844bbc8_80b6cb80",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-22T18:48:36Z",
+      "side": 1,
+      "message": "I have removed these from the helpers and added calls to htonl and ntohl in the test that uses them.",
+      "parentUuid": "96959afb_03d8000d",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 34
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f731b82_b36caf0f",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -472,6 +496,30 @@
       "side": 1,
       "message": "I think I\u0027d prefer this to be nonblocking for consistency, but this is fine too. However, if you do this, please ensure you document whether the timeout is 1.0 seconds or 1.0 milliseconds.",
       "parentUuid": "a174597f_60f320c6",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49494baa_e7468746",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1070023
+      },
+      "writtenOn": "2017-11-22T18:48:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3639795f_26404180",
       "range": {
         "startLine": 377,
         "startChar": 0,
