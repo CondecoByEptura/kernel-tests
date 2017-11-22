@@ -273,20 +273,43 @@ class Xfrm(netlink.NetlinkSocket):
 
     return name, data
 
-  def AddPolicyInfo(self, policy, tmpl, mark):
+  def _MergeTemplates(self, tmpls):
+    n = len(tmpls)
+    fmt = "=" + ("S" * n)
+    fields = " ".join("tmpl%d" % i for i in xrange(n))
+    cls = cstruct.Struct("XfrmUserTmplArray%d" % n,
+                         fmt, fields, [XfrmUserTmpl] * n)
+    return cls(tmpls)
+
+  def AddPolicyInfo(self, policy, tmpls, mark):
     """Add a new policy to the Security Policy Database
 
     Args:
       policy: an unpacked XfrmUserpolicyInfo cstruct
-      tmpl: an unpacked XfrmUserTmpl cstruct
+      tmpls: a list of unpacked XfrmUserTmpl cstructs
       mark: an unpacked XfrmMark cstruct
     """
     nlattrs = []
-    if tmpl:
-      nlattrs.append((XFRMA_TMPL, tmpl))
+    if tmpls:
+      nlattrs.append((XFRMA_TMPL, self._MergeTemplates(tmpls)))
     if mark:
       nlattrs.append((XFRMA_MARK, mark))
     self.SendXfrmNlRequest(XFRM_MSG_NEWPOLICY, policy, nlattrs)
+
+  def UpdatePolicyInfo(self, policy, tmpls, mark):
+    """Update an existing policy in the Security Policy Database
+
+    Args:
+      policy: an unpacked XfrmUserpolicyInfo cstruct
+      tmpls: a list of unpacked XfrmUserTmpl cstructs
+      mark: an unpacked XfrmMark cstruct
+    """
+    nlattrs = []
+    if tmpls:
+      nlattrs.append((XFRMA_TMPL, self._MergeTemplates(tmpls)))
+    if mark:
+      nlattrs.append((XFRMA_MARK, mark))
+    self.SendXfrmNlRequest(XFRM_MSG_UPDPOLICY, policy, nlattrs)
 
   def DeletePolicyInfo(self, selector, direction):
     """Delete a policy from the Security Policy Database
