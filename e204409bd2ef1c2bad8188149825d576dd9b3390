@@ -319,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "96959afb_03d8000d",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-22T02:07:35Z",
+      "side": 1,
+      "message": "Presumably that could be fixed by removing the ntohl inside EncryptPacketWithNull though, i.e., by changing:\n\n  esp_hdr \u003d scapy.Raw(xfrm.EspHdr((htonl(spi), seq)).Pack())\n\nto:\n\n  esp_hdr \u003d scapy.Raw(xfrm.EspHdr((spi, seq)).Pack())\n\n? ISTM that the htonl in that line is incorrect, because EspHdr already specifies that the spi is in network byte order (by virtue of the \"!\" ordering specifier in the EspHdr cstruct definition).",
+      "parentUuid": "3c85f8fc_9f163343",
+      "range": {
+        "startLine": 211,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 34
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f731b82_b36caf0f",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -424,6 +448,30 @@
       "side": 1,
       "message": "Reading net_test.py, it doesn\u0027t look like UDPSocket calls SetNonBlocking. \n\nWith UDPSocket, a recv timeout raises Errno 11 exception (temporarily unavailable).\nWith socket.settimeout, the exception raised is \"timeout: timed out\".\n\nI found the latter to be a more useful error message, but I\u0027ll defer to you for the final call.",
       "parentUuid": "cbb39565_27be5bc8",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 24
+      },
+      "revId": "e204409bd2ef1c2bad8188149825d576dd9b3390",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3639795f_26404180",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-11-22T02:07:35Z",
+      "side": 1,
+      "message": "I think I\u0027d prefer this to be nonblocking for consistency, but this is fine too. However, if you do this, please ensure you document whether the timeout is 1.0 seconds or 1.0 milliseconds.",
+      "parentUuid": "a174597f_60f320c6",
       "range": {
         "startLine": 377,
         "startChar": 0,
