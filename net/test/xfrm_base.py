@@ -259,10 +259,10 @@ def DecryptPacketWithNull(packet):
   packet.payload = next_layer
   # Fix the IPv4/IPv6 headers.
   if type(packet) is scapy.IPv6:
-    packet.nh = IPPROTO_UDP
+    packet.nh = esp_nexthdr
     packet.plen -= (trailer_len + len(xfrm.EspHdr))
   elif type(packet) is scapy.IP:
-    packet.proto = IPPROTO_UDP
+    packet.proto = esp_nexthdr
     packet.len -= (trailer_len + len(xfrm.EspHdr))
     # Recompute IPv4 checksum.
     packet.chksum = None
