@@ -30,6 +30,8 @@ import net_test
 import xfrm
 import xfrm_base
 
+import os
+
 ENCRYPTED_PAYLOAD = ("b1c74998efd6326faebe2061f00f2c750e90e76001664a80c287b150"
                      "59e74bf949769cc6af71e51b539e7de3a2a14cb05a231b969e035174"
                      "d98c5aa0cef1937db98889ec0d08fa408fecf616")
@@ -355,6 +357,145 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
       s.send(net_test.UDP_PAYLOAD)
     self.ExpectNoPacketsOn(netid, "Packet not blocked by policy")
 
+  def testAddRemoveTunnelModeTransformWithoutMark(self):
+    src_addr = "127.0.0.1"
+    dst_addr = "0.0.0.0"
+    #in_mark = 0x01010101
+    #out_mark = 0x01010102
+    in_mark = out_mark = 0
+
+    out_sel = xfrm.XfrmSelector(family=AF_INET)
+
+    out_policy = xfrm.XfrmUserpolicyInfo(
+        sel=out_sel,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        priority=100,
+        index=0,
+        dir=1,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_ANY)
+
+    # Create a template that specifies the SPI and the protocol.
+    xfrmid = xfrm.XfrmId(
+        daddr=xfrm.PaddedAddress(dst_addr),
+        spi=0,
+        proto=IPPROTO_ESP)
+    tmpl = xfrm.XfrmUserTmpl(
+        id=xfrmid,
+        family=AF_INET,
+        saddr=xfrm.PaddedAddress(src_addr),
+        reqid=0,
+        mode=xfrm.XFRM_MODE_TUNNEL,
+        share=xfrm.XFRM_SHARE_ANY,
+        optional=0,  # require
+        aalgos=xfrm_base.ALL_ALGORITHMS,  # auth algos
+        ealgos=xfrm_base.ALL_ALGORITHMS,  # encryption algos
+        calgos=xfrm_base.ALL_ALGORITHMS)  # compression algos
+
+    self.xfrm.AddPolicyInfo(out_policy, tmpl, None)
+
+    in_sel = xfrm.XfrmSelector(family=AF_INET)
+
+    in_policy = xfrm.XfrmUserpolicyInfo(
+        sel=in_sel,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        priority=100,
+        index=0,
+        dir=0,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_ANY)
+
+    self.xfrm.AddPolicyInfo(in_policy, tmpl, None)
+
+    os.system("ip xfrm policy")
+
+    self.xfrm.DeletePolicyInfo(out_sel, 0, 1, None)
+
+    self.xfrm.DeletePolicyInfo(in_sel, 0, 0, None)
+    os.system("ip xfrm policy")
+
+  def testAddRemoveTunnelModeTransform(self):
+    src_addr = "127.0.0.1"
+    dst_addr = "0.0.0.0"
+    #in_mark = 0x01010101
+    #out_mark = 0x01010102
+    in_mark = out_mark = 0
+
+    out_sel = xfrm.XfrmSelector(
+        daddr=xfrm.PaddedAddress(dst_addr),
+        saddr=xfrm.PaddedAddress(src_addr),
+        prefixlen_d=32,
+        prefixlen_s=32,
+        family=AF_INET)
+
+    out_policy = xfrm.XfrmUserpolicyInfo(
+        sel=out_sel,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        priority=100,
+        index=0,
+        dir=1,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_ANY)
+
+    # Create a template that specifies the SPI and the protocol.
+    xfrmid = xfrm.XfrmId(
+        daddr=xfrm.PaddedAddress(dst_addr),
+        spi=0,
+        proto=IPPROTO_ESP)
+    tmpl = xfrm.XfrmUserTmpl(
+        id=xfrmid,
+        family=AF_INET,
+        saddr=xfrm.PaddedAddress(src_addr),
+        reqid=0,
+        mode=xfrm.XFRM_MODE_TUNNEL,
+        share=xfrm.XFRM_SHARE_ANY,
+        optional=0,  # require
+        aalgos=xfrm_base.ALL_ALGORITHMS,  # auth algos
+        ealgos=xfrm_base.ALL_ALGORITHMS,  # encryption algos
+        calgos=xfrm_base.ALL_ALGORITHMS)  # compression algos
+
+    self.xfrm.AddPolicyInfo(out_policy, tmpl,
+                            xfrm.XfrmMark((out_mark, xfrm_base.MARK_MASK_ALL))
+                            if out_mark else None)
+
+    in_sel = xfrm.XfrmSelector(
+        daddr=xfrm.PaddedAddress(src_addr),
+        saddr=xfrm.PaddedAddress(dst_addr),
+        prefixlen_d=32,
+        prefixlen_s=32,
+        family=AF_INET)
+
+    in_policy = xfrm.XfrmUserpolicyInfo(
+        sel=in_sel,
+        lft=xfrm.NO_LIFETIME_CFG,
+        curlft=xfrm.NO_LIFETIME_CUR,
+        priority=100,
+        index=0,
+        dir=0,
+        action=xfrm.XFRM_POLICY_ALLOW,
+        flags=xfrm.XFRM_POLICY_LOCALOK,
+        share=xfrm.XFRM_SHARE_ANY)
+
+    self.xfrm.AddPolicyInfo(in_policy, tmpl,
+                            xfrm.XfrmMark((in_mark, xfrm_base.MARK_MASK_ALL))
+                            if out_mark else None)
+
+    os.system("ip xfrm policy")
+
+    self.xfrm.DeletePolicyInfo(out_sel, 0, 1,
+                               xfrm.XfrmMark((out_mark, xfrm_base.MARK_MASK_ALL))
+                               if out_mark else None)
+
+    self.xfrm.DeletePolicyInfo(in_sel, 0, 0,
+                               xfrm.XfrmMark((in_mark, xfrm_base.MARK_MASK_ALL))
+                               if in_mark else None)
+    os.system("ip xfrm policy")
 
 class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
 

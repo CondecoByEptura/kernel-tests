@@ -174,8 +174,8 @@ XfrmUserpolicyInfo = cstruct.Struct(
     "sel lft curlft priority index dir action flags share",
     [XfrmSelector, XfrmLifetimeCfg, XfrmLifetimeCur])
 
-XfrmUserpolicyId = cstruct.Struct(
-        "XfrmUserpolicyId", "=SIB", "sel index dir", [XfrmSelector])
+XfrmUserpolicyId = cstruct.Struct("XfrmUserpolicyId", "=SIBxxx",
+                                  "sel index dir", [XfrmSelector])
 
 XfrmUsersaFlush = cstruct.Struct("XfrmUsersaFlush", "=B", "proto")
 
@@ -288,7 +288,7 @@ class Xfrm(netlink.NetlinkSocket):
       nlattrs.append((XFRMA_MARK, mark))
     self.SendXfrmNlRequest(XFRM_MSG_NEWPOLICY, policy, nlattrs)
 
-  def DeletePolicyInfo(self, selector, direction):
+  def DeletePolicyInfo(self, selector, index, direction, mark):
     """Delete a policy from the Security Policy Database
 
     Args:
@@ -297,8 +297,13 @@ class Xfrm(netlink.NetlinkSocket):
       family: the address family of the selector
       direction: policy direction
     """
+    nlattrs = []
+    if mark:
+      nlattrs.append((XFRMA_MARK, mark))
     self.SendXfrmNlRequest(XFRM_MSG_DELPOLICY,
-                           XfrmUserpolicyId(sel=selector, dir=direction))
+                           XfrmUserpolicyId(
+                               sel=selector, index=index, dir=direction),
+                           nlattrs)
 
   # TODO: this function really needs to be in netlink.py
   def SendXfrmNlRequest(self, msg_type, req, nlattrs=None,
