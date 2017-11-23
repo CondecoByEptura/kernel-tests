@@ -46,6 +46,11 @@ _TEST_OKEY = 2000000100
 _TEST_IKEY = 2000000200
 
 
+IFLA_XFRM_UNSPEC = 0
+IFLA_XFRM_LINK = 1
+IFLA_XFRM_IF_ID = 2
+
+
 def _GetLocalInnerAddress(version):
   return {4: "10.16.5.15", 6: "2001:db8:1::1"}[version]
 
@@ -190,6 +195,84 @@ class VtiInterface(object):
                            self.in_spi, self.ikey)
 
 
+class XfrmInterface(object):
+
+  def __init__(self, iface, netid, underlying_netid, ifindex, local, remote):
+    self.iface = iface
+    self.netid = netid
+    self.underlying_netid = underlying_netid
+    self.ifindex = ifindex
+    self.local, self.remote = local, remote
+    self.rx = self.tx = 0
+    self.xfrm_if_id = netid
+    self.out_spi = self.in_spi = random.randint(0, 0x7fffffff)
+    self.xfrm_if_id = self.netid
+
+    self.iproute = iproute.IPRoute()
+    self.xfrm = xfrm.Xfrm()
+
+    self.SetupInterface()
+    self.SetupXfrm()
+    self.addrs = {}
+
+  def Teardown(self):
+    self.TeardownXfrm()
+    self.TeardownInterface()
+
+  def SetupInterface(self):
+    """Create an XFRM interface."""
+    ifdata = self.iproute._NlAttrU32(IFLA_XFRM_LINK, self.ifindex)
+    ifdata += self.iproute._NlAttrU32(IFLA_XFRM_IF_ID, self.netid)
+
+    linkinfo = self.iproute._NlAttrStr(iproute.IFLA_INFO_KIND, "xfrm")
+    linkinfo += self.iproute._NlAttr(iproute.IFLA_INFO_DATA, ifdata)
+
+    msg = iproute.IfinfoMsg().Pack()
+    msg += self.iproute._NlAttrStr(iproute.IFLA_IFNAME, self.iface)
+    msg += self.iproute._NlAttr(iproute.IFLA_LINKINFO, linkinfo)
+
+    return self.iproute._SendNlRequest(iproute.RTM_NEWLINK, msg)
+
+  def TeardownInterface(self):
+    self.iproute.DeleteLink(self.iface)
+
+  def SetupXfrm(self):
+    self.xfrm.AddSaInfo(self.local, self.remote, self.out_spi,
+                        xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CBC_AES_256,
+                        xfrm_base._ALGO_HMAC_SHA1, None, None, None,
+                        self.underlying_netid, xfrm_if_id=self.xfrm_if_id)
+    self.xfrm.AddSaInfo(self.remote, self.local, self.in_spi,
+                        xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CBC_AES_256,
+                        xfrm_base._ALGO_HMAC_SHA1, None, None, None,
+                        None, xfrm_if_id=self.xfrm_if_id)
+
+    xfrm_if_id = struct.pack("=I", self.xfrm_if_id)
+    outer_family = AF_INET6 if ":" in self.remote else AF_INET
+    for family in [AF_INET, AF_INET6]:
+      selector = xfrm.EmptySelector(family)
+
+      policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, selector)
+      tmpl = xfrm.UserTemplate(outer_family, self.out_spi, 0,
+                               (self.local, self.remote))
+      self.xfrm.AddPolicyInfo(policy, tmpl, None, xfrm_if_id=xfrm_if_id)
+
+      policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_IN, selector)
+      tmpl = xfrm.UserTemplate(outer_family, self.in_spi, 0,
+                               (self.remote, self.local))
+      self.xfrm.AddPolicyInfo(policy, tmpl, None, xfrm_if_id=xfrm_if_id)
+
+
+  def TeardownXfrm(self):
+    self.xfrm.DeleteSaInfo(self.local, self.in_spi, xfrm.IPPROTO_ESP, None)
+    self.xfrm.DeleteSaInfo(self.remote, self.in_spi, xfrm.IPPROTO_ESP, None)
+
+    xfrm_if_id = struct.pack("=I", self.xfrm_if_id)
+    for family in [AF_INET, AF_INET6]:
+      for direction in [xfrm.XFRM_POLICY_IN, xfrm.XFRM_POLICY_OUT]:
+        selector = xfrm.EmptySelector(family)
+        self.xfrm.DeletePolicyInfo(selector, direction, None, xfrm_if_id)
+
+
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
 class XfrmVtiTest(xfrm_base.XfrmBaseTest):
 
@@ -211,7 +294,9 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
           remote = net_test.IPV4_ADDR2 if (i % 2) else net_test.IPV4_ADDR
         else:
           remote = net_test.IPV6_ADDR2 if (i % 2) else net_test.IPV6_ADDR
-        vti = VtiInterface(iface, netid, underlying_netid, local, remote)
+        ifindex = cls.ifindices[underlying_netid]
+        vti = XfrmInterface(iface, netid, underlying_netid, ifindex, local,
+                            remote)
         cls._SetInboundMarking(netid, iface, True)
         cls._SetupVtiNetwork(vti, True)
         cls.vtis[netid] = vti

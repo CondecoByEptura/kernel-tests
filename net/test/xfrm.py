@@ -85,6 +85,8 @@ XFRMA_ADDRESS_FILTER = 26
 XFRMA_PAD = 27
 XFRMA_OFFLOAD_DEV = 28
 XFRMA_OUTPUT_MARK = 29
+XFRMA_INPUT_MARK = 30
+XFRMA_IF_ID = 31
 
 # Other netlink constants. See include/uapi/linux/xfrm.h.
 
@@ -369,21 +371,25 @@ class Xfrm(netlink.NetlinkSocket):
       data = struct.unpack("=I", nla_data)[0]
     elif name == "XFRMA_TMPL":
       data = cstruct.Read(nla_data, XfrmUserTmpl)[0]
+    elif name == "XFRMA_IF_ID":
+      data = struct.unpack("=I", nla_data)[0]
     else:
       data = nla_data
 
     return name, data
 
-  def _UpdatePolicyInfo(self, msg, policy, tmpl, mark):
+  def _UpdatePolicyInfo(self, msg, policy, tmpl, mark, xfrm_if_id):
     """Send a policy to the Security Policy Database"""
     nlattrs = []
     if tmpl is not None:
       nlattrs.append((XFRMA_TMPL, tmpl))
     if mark is not None:
       nlattrs.append((XFRMA_MARK, mark))
+    if xfrm_if_id is not None:
+      nlattrs.append((XFRMA_IF_ID, xfrm_if_id))
     self.SendXfrmNlRequest(msg, policy, nlattrs)
 
-  def AddPolicyInfo(self, policy, tmpl, mark):
+  def AddPolicyInfo(self, policy, tmpl, mark, xfrm_if_id=None):
     """Add a new policy to the Security Policy Database
 
     If the policy exists, then return an error (EEXIST).
@@ -392,10 +398,11 @@ class Xfrm(netlink.NetlinkSocket):
       policy: an unpacked XfrmUserpolicyInfo
       tmpl: an unpacked XfrmUserTmpl
       mark: an unpacked XfrmMark
+      xfrm_if_id: the XFRM interface ID as a byte string, or None
     """
-    self._UpdatePolicyInfo(XFRM_MSG_NEWPOLICY, policy, tmpl, mark)
+    self._UpdatePolicyInfo(XFRM_MSG_NEWPOLICY, policy, tmpl, mark, xfrm_if_id)
 
-  def UpdatePolicyInfo(self, policy, tmpl, mark):
+  def UpdatePolicyInfo(self, policy, tmpl, mark, xfrm_if_id):
     """Update an existing policy in the Security Policy Database
 
     If the policy does not exist, then create it; otherwise, update the
@@ -405,10 +412,11 @@ class Xfrm(netlink.NetlinkSocket):
       policy: an unpacked XfrmUserpolicyInfo
       tmpl: an unpacked XfrmUserTmpl to update
       mark: an unpacked XfrmMark to match the existing policy or None
+      xfrm_if_id: an XFRM interface ID or None
     """
-    self._UpdatePolicyInfo(XFRM_MSG_UPDPOLICY, policy, tmpl, mark)
+    self._UpdatePolicyInfo(XFRM_MSG_UPDPOLICY, policy, tmpl, mark, xfrm_if_id)
 
-  def DeletePolicyInfo(self, selector, direction, mark):
+  def DeletePolicyInfo(self, selector, direction, mark, xfrm_if_id=None):
     """Delete a policy from the Security Policy Database
 
     Args:
@@ -419,6 +427,8 @@ class Xfrm(netlink.NetlinkSocket):
     nlattrs = []
     if mark is not None:
       nlattrs.append((XFRMA_MARK, mark))
+    if xfrm_if_id is not None:
+      nlattrs.append((XFRMA_IF_ID, xfrm_if_id))
     self.SendXfrmNlRequest(XFRM_MSG_DELPOLICY,
                            XfrmUserpolicyId(sel=selector, dir=direction),
                            nlattrs)
@@ -440,11 +450,13 @@ class Xfrm(netlink.NetlinkSocket):
     if nlattrs is None:
       nlattrs = []
     for attr_type, attr_msg in nlattrs:
-      msg += self._NlAttr(attr_type, attr_msg.Pack())
+      if attr_type not in [XFRMA_IF_ID]:
+        attr_msg = attr_msg.Pack()
+      msg += self._NlAttr(attr_type, attr_msg)
     return self._SendNlRequest(msg_type, msg, flags)
 
   def AddSaInfo(self, src, dst, spi, mode, reqid, encryption, auth_trunc, aead,
-                encap, mark, output_mark, is_update=False):
+                encap, mark, output_mark, is_update=False, xfrm_if_id=None):
     """Adds an IPsec security association.
 
     Args:
@@ -463,6 +475,7 @@ class Xfrm(netlink.NetlinkSocket):
       output_mark: An integer, the output mark. 0 means unset.
       is_update: If true, update an existing SA otherwise create a new SA. For
         compatibility reasons, this value defaults to False.
+      xfrm_if_id: The XFRM interface ID, or None.
     """
     proto = IPPROTO_ESP
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
@@ -488,6 +501,8 @@ class Xfrm(netlink.NetlinkSocket):
       nlattrs += self._NlAttr(XFRMA_ENCAP, encap.Pack())
     if output_mark is not None:
       nlattrs += self._NlAttrU32(XFRMA_OUTPUT_MARK, output_mark)
+    if xfrm_if_id is not None:
+      nlattrs += self._NlAttrU32(XFRMA_IF_ID, xfrm_if_id)
 
     # The kernel ignores these on input, so make them empty.
     cur = XfrmLifetimeCur()
