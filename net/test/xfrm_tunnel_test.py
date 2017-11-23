@@ -31,6 +31,28 @@ import packets
 import xfrm
 import xfrm_base
 
+_LOOPBACK_IFINDEX = 1
+_TEST_XFRM_IFNAME = "ipsec42"
+_TEST_XFRM_IF_ID = 42
+
+# Does the kernel support xfrmi interfaces?
+def HaveXfrmInterfaces():
+  try:
+    i = iproute.IPRoute()
+    i.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
+                          _LOOPBACK_IFINDEX)
+    i.DeleteLink(_TEST_XFRM_IFNAME)
+    try:
+      i.GetIfIndex(_TEST_XFRM_IFNAME)
+      assert "Interface should not exist!!1"
+    except IOError:
+      pass
+    return True
+  except IOError:
+    return False
+
+HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
+
 # Parameters to Set up VTI as a special network
 _BASE_VTI_NETID = {4: 40, 6: 60}
 _BASE_VTI_OKEY = 2000000100
@@ -79,7 +101,7 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
                            local_outer, remote_outer, _TEST_OUT_SPI,
                            xfrm_base._ALGO_CBC_AES_256,
                            xfrm_base._ALGO_HMAC_SHA1,
-                           None, underlying_netid)
+                           None, underlying_netid, None)
 
     write_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
     # Select an interface, which provides the source address of the inner
@@ -166,7 +188,7 @@ class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
 
 class VtiInterface(object):
 
-  def __init__(self, iface, netid, underlying_netid, local, remote):
+  def __init__(self, iface, netid, underlying_netid, _, local, remote):
     self.iface = iface
     self.netid = netid
     self.underlying_netid = underlying_netid
@@ -188,7 +210,7 @@ class VtiInterface(object):
     self.TeardownInterface()
 
   def SetupInterface(self):
-    self.iproute.CreateVirtualTunnelInterface(
+    return self.iproute.CreateVirtualTunnelInterface(
         self.iface, self.local, self.remote, self.ikey, self.okey)
 
   def TeardownInterface(self):
@@ -202,22 +224,88 @@ class VtiInterface(object):
                            self.out_spi, xfrm_base._ALGO_CBC_AES_256,
                            xfrm_base._ALGO_HMAC_SHA1,
                            xfrm.ExactMatchMark(self.okey),
-                           self.underlying_netid)
+                           self.underlying_netid, None)
 
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
                            self.in_spi, xfrm_base._ALGO_CBC_AES_256,
                            xfrm_base._ALGO_HMAC_SHA1,
-                           xfrm.ExactMatchMark(self.ikey), None)
+                           xfrm.ExactMatchMark(self.ikey), None, None)
 
   def TeardownXfrm(self):
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
-                           self.out_spi, self.okey)
+                           self.out_spi, self.okey, None)
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
-                           self.in_spi, self.ikey)
+                           self.in_spi, self.ikey, None)
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
-class XfrmVtiTest(xfrm_base.XfrmBaseTest):
+@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
+class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
+  """Test the creation of an XFRM Interface."""
+
+  def testAddXfrmInterface(self):
+    self.iproute.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
+                                     _LOOPBACK_IFINDEX)
+    if_index = self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
+    net_test.SetInterfaceUp(_TEST_XFRM_IFNAME)
+
+    # Validate that the netlink interface matches the ioctl interface.
+    self.assertEquals(net_test.GetInterfaceIndex(_TEST_XFRM_IFNAME), if_index)
+    self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
+    with self.assertRaises(IOError):
+      self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
+
+
+class XfrmInterface(object):
+
+  def __init__(self, iface, netid, underlying_netid, ifindex, local, remote):
+    self.iface = iface
+    self.netid = netid
+    self.underlying_netid = underlying_netid
+    self.ifindex = ifindex
+    self.local, self.remote = local, remote
+    self.rx = self.tx = 0
+    self.xfrm_if_id = netid
+    self.out_spi = self.in_spi = random.randint(0, 0x7fffffff)
+    self.xfrm_if_id = self.netid
+
+    self.iproute = iproute.IPRoute()
+    self.xfrm = xfrm.Xfrm()
+
+    self.SetupInterface()
+    self.SetupXfrm()
+    self.addrs = {}
+
+  def Teardown(self):
+    self.TeardownXfrm()
+    self.TeardownInterface()
+
+  def SetupInterface(self):
+    """Create an XFRM interface."""
+    return self.iproute.CreateXfrmInterface(self.iface, self.netid, self.ifindex)
+
+  def TeardownInterface(self):
+    self.iproute.DeleteLink(self.iface)
+
+  def SetupXfrm(self):
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
+                           self.out_spi, xfrm_base._ALGO_CBC_AES_256,
+                           xfrm_base._ALGO_HMAC_SHA1, None,
+                           self.underlying_netid, self.xfrm_if_id)
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
+                           self.in_spi, xfrm_base._ALGO_CBC_AES_256,
+                           xfrm_base._ALGO_HMAC_SHA1,
+                           None, None, self.xfrm_if_id)
+
+
+  def TeardownXfrm(self):
+    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
+                           self.out_spi, None, self.xfrm_if_id)
+    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
+                           self.in_spi, None, self.xfrm_if_id)
+
+
+
+class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
 
   @classmethod
   def setUpClass(cls):
@@ -237,7 +325,11 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
           remote = net_test.IPV4_ADDR2 if (i % 2) else net_test.IPV4_ADDR
         else:
           remote = net_test.IPV6_ADDR2 if (i % 2) else net_test.IPV6_ADDR
-        vti = VtiInterface(iface, netid, underlying_netid, local, remote)
+        ifindex = cls.ifindices[underlying_netid]
+
+        vti = cls.INTERFACE_CLASS(iface, netid, underlying_netid, ifindex,
+                                  local, remote)
+
         cls._SetInboundMarking(netid, iface, True)
         cls._SetupVtiNetwork(vti, True)
         cls.vtis[netid] = vti
@@ -412,12 +504,30 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     # Clear PMTU information so that future tests don't have to worry about it.
     self.InvalidateDstCache(version, vti.underlying_netid)
 
-  def testVtiInputOutput(self):
+  def CheckVtiInputOutput(self):
     """Test packet input and output over a Virtual Tunnel Interface."""
     for i in xrange(3 * len(self.vtis.values())):
       vti = random.choice(self.vtis.values())
       self._CheckVtiInputOutput(vti, 4)
       self._CheckVtiInputOutput(vti, 6)
+
+
+@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
+class XfrmVtiTest(XfrmTunnelBase):
+
+   INTERFACE_CLASS = VtiInterface
+
+   def testVtiInputOutput(self):
+     self.CheckVtiInputOutput()
+
+
+@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
+class XfrmInterfaceTest(XfrmTunnelBase):
+
+   INTERFACE_CLASS = XfrmInterface
+
+   def testVtiInputOutput(self):
+     self.CheckVtiInputOutput()
 
 
 if __name__ == "__main__":
