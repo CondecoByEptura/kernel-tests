@@ -1,0 +1,7 @@
+python_test {
+    name: "random_test",
+    srcs: [
+        "random_test.py",
+    ],
+    defaults: ["kernel_tests_defaults"],
+}

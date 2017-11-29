@@ -1,0 +1,7 @@
+python_test {
+    name: "power_test",
+    srcs: [
+        "power_test.py",
+    ],
+    defaults: ["kernel_tests_defaults"],
+}
