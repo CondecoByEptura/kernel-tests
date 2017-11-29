@@ -1,0 +1,15 @@
+python_library {
+    name: "kernel_tests_utils",
+    pkg_path: "kernel/tests/utils",
+    srcs: [
+        "*.py",
+    ],
+    version: {
+        py2: {
+            enabled: true,
+        },
+        py3: {
+            enabled: false,
+        },
+    },
+}
