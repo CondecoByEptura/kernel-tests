@@ -59,7 +59,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     # be double-swapped here.
     self.assertEquals(xfrm.EspHdr((ntohl(spi), seq)), esp_hdr)
 
-  def testAddSa(self):
+  def __testAddSa(self):
     self.xfrm.AddMinimalSaInfo("::", TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP,
                                xfrm.XFRM_MODE_TRANSPORT, 3320,
                                xfrm_base._ALGO_CBC_AES_256,
@@ -83,7 +83,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     finally:
       self.xfrm.DeleteSaInfo(TEST_ADDR1, htonl(TEST_SPI), IPPROTO_ESP)
 
-  def testFlush(self):
+  def __testFlush(self):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
     self.xfrm.AddMinimalSaInfo("::", "2000::", htonl(TEST_SPI),
                                IPPROTO_ESP, xfrm.XFRM_MODE_TRANSPORT, 1234,
@@ -103,7 +103,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
 
-  def testSocketPolicy(self):
+  def __testSocketPolicy(self):
     # Open an IPv6 UDP socket and connect it.
     s = socket(AF_INET6, SOCK_DGRAM, 0)
     netid = self.RandomNetid()
@@ -173,7 +173,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
   # direction individually. This approach would improve debuggability, avoid the
   # complexity of the twister, and allow the test to more-closely validate
   # deployable configurations.
-  def testUdpEncapWithSocketPolicy(self):
+  def __testUdpEncapWithSocketPolicy(self):
     # TODO: test IPv6 instead of IPv4.
     netid = self.RandomNetid()
     myaddr = self.MyAddress(4, netid)
@@ -285,12 +285,12 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                    scapy.UDP(sport=srcport, dport=53) / "foo")
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
 
-  def testAllocSpecificSpi(self):
+  def __testAllocSpecificSpi(self):
     spi = 0xABCD
     new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
     self.assertEquals(spi, ntohl(new_sa.id.spi))
 
-  def testAllocSpecificSpiUnavailable(self):
+  def __testAllocSpecificSpiUnavailable(self):
     """Attempt to allocate the same SPI twice."""
     spi = 0xABCD
     new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
@@ -298,14 +298,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     with self.assertRaisesErrno(ENOENT):
       new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
 
-  def testAllocRangeSpi(self):
+  def __testAllocRangeSpi(self):
     start, end = 0xABCD0, 0xABCDF
     new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, start, end)
     spi = ntohl(new_sa.id.spi)
     self.assertGreaterEqual(spi, start)
     self.assertLessEqual(spi, end)
 
-  def testAllocRangeSpiUnavailable(self):
+  def __testAllocRangeSpiUnavailable(self):
     """Attempt to allocate N+1 SPIs from a range of size N."""
     start, end = 0xABCD0, 0xABCDF
     range_size = end - start + 1
@@ -321,10 +321,10 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
         self.assertNotIn(spi, spis)
         spis.add(spi)
 
-  def testSocketPolicyDstCacheV6(self):
+  def __testSocketPolicyDstCacheV6(self):
     self._TestSocketPolicyDstCache(6)
 
-  def testSocketPolicyDstCacheV4(self):
+  def __testSocketPolicyDstCacheV4(self):
     self._TestSocketPolicyDstCache(4)
 
   def _TestSocketPolicyDstCache(self, version):
@@ -354,6 +354,36 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     with self.assertRaisesErrno(EAGAIN):
       s.send(net_test.UDP_PAYLOAD)
     self.ExpectNoPacketsOn(netid, "Packet not blocked by policy")
+
+  def testAddGlobalPolicies(self):
+    sel = xfrm.XfrmSelector(family=AF_INET)
+
+    for direction in [xfrm.XFRM_POLICY_OUT, xfrm.XFRM_POLICY_IN]:
+      policy = xfrm.XfrmUserpolicyInfo(
+          sel=sel,
+          lft=xfrm.NO_LIFETIME_CFG,
+          curlft=xfrm.NO_LIFETIME_CUR,
+          priority=100,
+          index=0,
+          dir=direction,
+          action=xfrm.XFRM_POLICY_ALLOW,
+          flags=xfrm.XFRM_POLICY_LOCALOK,
+          share=xfrm.XFRM_SHARE_ANY)
+
+      # Create a template that specifies the SPI and the protocol.
+      xfrmid = xfrm.XfrmId(proto=IPPROTO_ESP)
+      tmpl = xfrm.XfrmUserTmpl(
+          id=xfrmid,
+          family=AF_INET,
+          reqid=0,
+          mode=xfrm.XFRM_MODE_TUNNEL,
+          share=xfrm.XFRM_SHARE_ANY,
+          optional=0,  # require
+          aalgos=xfrm_base.ALL_ALGORITHMS,  # auth algos
+          ealgos=xfrm_base.ALL_ALGORITHMS,  # encryption algos
+          calgos=xfrm_base.ALL_ALGORITHMS)  # compression algos
+
+      self.xfrm.AddPolicyInfo(policy, tmpl, None)
 
 
 class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
@@ -413,33 +443,33 @@ class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
       with self.assertRaisesErrno(ENETUNREACH):
         s.sendto(net_test.UDP_PAYLOAD, (remoteaddr, 53))
 
-  def testTunnelModeOutputMarkIPv4(self):
+  def __testTunnelModeOutputMarkIPv4(self):
     for netid in self.NETIDS:
       tunsrc = self.MyAddress(4, netid)
       self._CheckTunnelModeOutputMark(4, tunsrc, netid, netid)
 
-  def testTunnelModeOutputMarkIPv6(self):
+  def __testTunnelModeOutputMarkIPv6(self):
     for netid in self.NETIDS:
       tunsrc = self.MyAddress(6, netid)
       self._CheckTunnelModeOutputMark(6, tunsrc, netid, netid)
 
-  def testTunnelModeOutputNoMarkIPv4(self):
+  def __testTunnelModeOutputNoMarkIPv4(self):
     tunsrc = self.MyAddress(4, self.RandomNetid())
     self._CheckTunnelModeOutputMark(4, tunsrc, 0, None)
 
-  def testTunnelModeOutputNoMarkIPv6(self):
+  def __testTunnelModeOutputNoMarkIPv6(self):
     tunsrc = self.MyAddress(6, self.RandomNetid())
     self._CheckTunnelModeOutputMark(6, tunsrc, 0, None)
 
-  def testTunnelModeOutputInvalidMarkIPv4(self):
+  def __testTunnelModeOutputInvalidMarkIPv4(self):
     tunsrc = self.MyAddress(4, self.RandomNetid())
     self._CheckTunnelModeOutputMark(4, tunsrc, 9999, None)
 
-  def testTunnelModeOutputInvalidMarkIPv6(self):
+  def __testTunnelModeOutputInvalidMarkIPv6(self):
     tunsrc = self.MyAddress(6, self.RandomNetid())
     self._CheckTunnelModeOutputMark(6, tunsrc, 9999, None)
 
-  def testTunnelModeOutputMarkAttributes(self):
+  def __testTunnelModeOutputMarkAttributes(self):
       mark = 1234567
       self.xfrm.AddMinimalSaInfo(TEST_ADDR1, TUNNEL_ENDPOINTS[6], 0x1234,
                                  IPPROTO_ESP, xfrm.XFRM_MODE_TUNNEL, 100,
