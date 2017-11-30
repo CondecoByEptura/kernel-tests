@@ -22,6 +22,29 @@
       "revId": "24902ba32fd23322fb3981e8fa41f6060fdbd14c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877ef24f_e767fa06",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2017-11-30T05:40:41Z",
+      "side": 1,
+      "message": "One option might be a separate DUP_ATTRS_OK variable up top.",
+      "range": {
+        "startLine": 145,
+        "startChar": 63,
+        "endLine": 145,
+        "endChar": 65
+      },
+      "revId": "24902ba32fd23322fb3981e8fa41f6060fdbd14c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
