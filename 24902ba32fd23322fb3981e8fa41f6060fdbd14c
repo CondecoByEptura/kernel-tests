@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba0ff68_2259c6b3",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-30T00:26:44Z",
+      "side": 1,
+      "message": "nit, it looks like this is only used in boolean context. An integer is more flexible, but it\u0027s more readable to call (..., nested\u003dtrue) than call with (..., nested+1)",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "24902ba32fd23322fb3981e8fa41f6060fdbd14c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
