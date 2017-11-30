@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62ee759b_00f3a18f",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-30T00:44:55Z",
+      "side": 1,
+      "message": "suggest that these return packed selectors and that for structures where we create helper methods like this, we represent them as byte arrays in their containing structures.",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 18
+      },
+      "revId": "9cab2e4b984d9980579a97540b7ca203688eaa9e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
