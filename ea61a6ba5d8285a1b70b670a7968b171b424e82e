@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b83b82c_9b01ec9c",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-30T00:54:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure why creating the policy and creating the template are forcibly linked. How much code are we saving by creating a false 1:1 equivalence?\n\nDo we have any other functions that conveniently return a tuple of 2 structs just because the parameters to build them overlap?\n\nAs per suggestions elsewhere, I suggest that we move to returning packed structs rather than unpacked structs. I think it\u0027s the only-and-only common denominator.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "ea61a6ba5d8285a1b70b670a7968b171b424e82e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
