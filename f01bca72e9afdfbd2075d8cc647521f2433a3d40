@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08a82d0d_f88f69b9",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-11-30T00:43:25Z",
+      "side": 1,
+      "message": "suggest that as a consistent paradigm we return packed structs (byte arrays) and don\u0027t return NlAttrs... since those can be created in the method that composes the final outbound message (consistent with other NlAttrs like mark).",
+      "range": {
+        "startLine": 305,
+        "startChar": 11,
+        "endLine": 306,
+        "endChar": 78
+      },
+      "revId": "f01bca72e9afdfbd2075d8cc647521f2433a3d40",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
