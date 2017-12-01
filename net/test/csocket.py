@@ -352,7 +352,7 @@ def Recvfrom(s, size, flags=0):
 
 def Setsockopt(s, level, optname, optval, optlen):
   """Python wrapper for setsockopt.
-  
+
   Mostly identical to the built-in setsockopt, but allows passing in arbitrary
   binary blobs, including NULL options, which the built-in python setsockopt does
   not allow.
