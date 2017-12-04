@@ -298,6 +298,17 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
                                  cls.OnlinkPrefixLen(4), ifindex)
 
   @classmethod
+  def _SetInboundMarking(cls, netid, iface, is_add):
+    for version in [4, 6]:
+      # Run iptables to set up incoming packet marking.
+      add_del = "-A" if is_add else "-D"
+      iptables = {4: "iptables", 6: "ip6tables"}[version]
+      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (
+          add_del, iface, netid)
+      if net_test.RunIptablesCommand(version, args):
+        raise ConfigurationError("Setup command failed: %s" % args)
+
+  @classmethod
   def SetDefaultNetwork(cls, netid):
     table = cls._TableForNetid(netid) if netid else None
     for version in [4, 6]:
@@ -697,3 +708,29 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     else:
       self.ExpectNoPacketsOn(netid, msg)
       return None
+
+
+class InboundMarkingTest(MultiNetworkBaseTest):
+  """Class that automatically sets up inbound marking."""
+
+  @classmethod
+  def setUpClass(cls):
+    super(InboundMarkingTest, cls).setUpClass()
+    for netid in cls.tuns:
+      cls._SetInboundMarking(netid, self.GetInterfaceName(netid), True)
+
+  @classmethod
+  def tearDownClass(cls):
+    for netid in cls.tuns:
+      cls._SetInboundMarking(netid, self.GetInterfaceName(netid), False)
+    super(InboundMarkingTest, cls).tearDownClass()
+
+  @classmethod
+  def SetMarkReflectSysctls(cls, value):
+    cls.SetSysctl(IPV4_MARK_REFLECT_SYSCTL, value)
+    try:
+      cls.SetSysctl(IPV6_MARK_REFLECT_SYSCTL, value)
+    except IOError:
+      # This does not exist if we use the version of the patch that uses a
+      # common sysctl for IPv4 and IPv6.
+      pass

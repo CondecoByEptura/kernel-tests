@@ -48,43 +48,6 @@ class ConfigurationError(AssertionError):
   pass
 
 
-class InboundMarkingTest(multinetwork_base.MultiNetworkBaseTest):
-
-  @classmethod
-  def _SetInboundMarking(cls, netid, is_add):
-    for version in [4, 6]:
-      # Run iptables to set up incoming packet marking.
-      iface = cls.GetInterfaceName(netid)
-      add_del = "-A" if is_add else "-D"
-      iptables = {4: "iptables", 6: "ip6tables"}[version]
-      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (
-          add_del, iface, netid)
-      if net_test.RunIptablesCommand(version, args):
-        raise ConfigurationError("Setup command failed: %s" % args)
-
-  @classmethod
-  def setUpClass(cls):
-    super(InboundMarkingTest, cls).setUpClass()
-    for netid in cls.tuns:
-      cls._SetInboundMarking(netid, True)
-
-  @classmethod
-  def tearDownClass(cls):
-    for netid in cls.tuns:
-      cls._SetInboundMarking(netid, False)
-    super(InboundMarkingTest, cls).tearDownClass()
-
-  @classmethod
-  def SetMarkReflectSysctls(cls, value):
-    cls.SetSysctl(IPV4_MARK_REFLECT_SYSCTL, value)
-    try:
-      cls.SetSysctl(IPV6_MARK_REFLECT_SYSCTL, value)
-    except IOError:
-      # This does not exist if we use the version of the patch that uses a
-      # common sysctl for IPv4 and IPv6.
-      pass
-
-
 class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
 
   # How many times to run outgoing packet tests.
@@ -364,7 +327,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     self.CheckPktinfoRouting(6)
 
 
-class MarkTest(InboundMarkingTest):
+class MarkTest(multinetwork_base.InboundMarkingTest):
 
   def CheckReflection(self, version, gen_packet, gen_reply):
     """Checks that replies go out on the same interface as the original.
@@ -426,7 +389,7 @@ class MarkTest(InboundMarkingTest):
     self.CheckReflection(6, self.SYNToClosedPort, packets.RST)
 
 
-class TCPAcceptTest(InboundMarkingTest):
+class TCPAcceptTest(multinetwork_base.InboundMarkingTest):
 
   MODE_BINDTODEVICE = "SO_BINDTODEVICE"
   MODE_INCOMING_MARK = "incoming mark"
@@ -882,7 +845,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     self.assertLess(num_routes, GetNumRoutes())
 
 
-class PMTUTest(InboundMarkingTest):
+class PMTUTest(multinetwork_base.InboundMarkingTest):
 
   PAYLOAD_SIZE = 1400
   dstaddrs = set()
