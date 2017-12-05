@@ -1,0 +1,15 @@
+python_library {
+    name: "cki_test_utils",
+    pkg_path: "cki/utils",
+    srcs: [
+        "*.py",
+    ],
+    version: {
+        py2: {
+            enabled: true,
+        },
+        py3: {
+            enabled: false,
+        },
+    },
+}
