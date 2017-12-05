@@ -1,0 +1,19 @@
+python_test {
+    name: "cki_tests",
+    main: "all_tests.py",
+    srcs: [
+        "**/*.py",
+    ],
+    libs: [
+        "cki_test_utils",
+    ],
+    version: {
+        py2: {
+            embedded_launcher: true,
+            enabled: true,
+        },
+        py3: {
+            enabled: false,
+        },
+    },
+}
