@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea3d7e2_df31fa1a",
+        "filename": "cki/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1124693
+      },
+      "writtenOn": "2017-12-05T22:40:34Z",
+      "side": 1,
+      "message": "I only need __init__.py files to run the test from source against host kernel as a sanity check, so I don\u0027t mind removing these.",
+      "revId": "6c90afaf966f8d3bb16e4b7eacf387e2ea80dc8d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
