@@ -39,6 +39,30 @@
       "revId": "6c90afaf966f8d3bb16e4b7eacf387e2ea80dc8d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97f0104f_25189b09",
+        "filename": "cki/procfs/random_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1124693
+      },
+      "writtenOn": "2017-12-06T00:54:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86aa3e18_2ec26b60",
+      "range": {
+        "startLine": 35,
+        "startChar": 33,
+        "endLine": 35,
+        "endChar": 41
+      },
+      "revId": "6c90afaf966f8d3bb16e4b7eacf387e2ea80dc8d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
