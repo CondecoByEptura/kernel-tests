@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a06f9ca4_c8c7bf08",
+        "filename": "cki/procfs/random_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1125653
+      },
+      "writtenOn": "2017-12-06T20:49:30Z",
+      "side": 1,
+      "message": "doesn\u0027t this also \"pass\" a lot of different formats that the current kernel file does not provide?  Shouldn\u0027t you be trying to validate that is exactly the correct format?\n\nAs an example \"12345678123456781234567812345678\" would also succeed here, which would not be in the \"documented\" format for this file, yet the test would pass.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 22
+      },
+      "revId": "75098e9930287f7e8db4e4641ac04e968b84b6b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96962ed6_5a1c8ac4",
         "filename": "cki/procfs/random_test.py",
         "patchSetId": 3
