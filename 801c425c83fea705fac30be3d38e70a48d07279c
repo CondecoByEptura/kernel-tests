@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59fa3b8a_51650857",
+        "filename": "cki/sysfs/power_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1125653
+      },
+      "writtenOn": "2017-12-06T20:56:48Z",
+      "side": 1,
+      "message": "\"for some kernel\" :)",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "801c425c83fea705fac30be3d38e70a48d07279c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d54c4d_e2300303",
+        "filename": "cki/sysfs/power_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1125653
+      },
+      "writtenOn": "2017-12-06T20:56:48Z",
+      "side": 1,
+      "message": "Why is this all of the allowed states?  What happens if a new one is created by a vendor?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "801c425c83fea705fac30be3d38e70a48d07279c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95b7571_4ea227f7",
+        "filename": "cki/sysfs/power_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1125653
+      },
+      "writtenOn": "2017-12-06T20:56:48Z",
+      "side": 1,
+      "message": "Why is this?  Is that an Android requirement somewhere?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 68
+      },
+      "revId": "801c425c83fea705fac30be3d38e70a48d07279c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04e7edb1_1d160df3",
+        "filename": "cki/sysfs/power_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1125653
+      },
+      "writtenOn": "2017-12-06T20:56:48Z",
+      "side": 1,
+      "message": "what prevents this from being a wakelock in the system already?",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 13
+      },
+      "revId": "801c425c83fea705fac30be3d38e70a48d07279c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
