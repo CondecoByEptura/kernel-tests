@@ -19,6 +19,7 @@ import unittest
 
 test_modules = [
     'procfs.random_test',
+    'sysfs.power_test',
 ]
 
 if __name__ == '__main__':
