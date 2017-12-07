@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebb96dc4_2051ade1",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "Same comment about the naming style of these struct-instantiator helper methods.",
+      "range": {
+        "startLine": 240,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 18
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c58553a_830a5404",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "oneline docstring request here.",
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6577e03a_aa770305",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "How do we justify that this particular (src, dst) isn\u0027t a tuple? I\u0027m not saying it should be... but I want to know so that we can be consistent in the future.",
+      "range": {
+        "startLine": 347,
+        "startChar": 22,
+        "endLine": 347,
+        "endChar": 30
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5440cb03_64c0d5ae",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "In tunnel mode that will cause anguish.",
+      "range": {
+        "startLine": 352,
+        "startChar": 44,
+        "endLine": 352,
+        "endChar": 62
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb28b30d_3d175554",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "Oh 4, the most venerable of numbers.",
+      "range": {
+        "startLine": 396,
+        "startChar": 13,
+        "endLine": 396,
+        "endChar": 14
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85e8a063_2b34b333",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "kwargs would make this much more readable IMO. It\u0027s huge.",
+      "range": {
+        "startLine": 398,
+        "startChar": 24,
+        "endLine": 399,
+        "endChar": 77
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f0b0857_b2859038",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:03:14Z",
+      "side": 1,
+      "message": "Or, really, any selector... The helper methods haven\u0027t excluded other means of creating an XfrmSelector.\n\nI believe you further updated this comment in a later CL.",
+      "range": {
+        "startLine": 108,
+        "startChar": 16,
+        "endLine": 108,
+        "endChar": 74
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
