@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ab805f14_737a8dff",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:23:28Z",
+      "side": 1,
+      "message": "OTOH in the future we might find cases where the integer could be useful, and the boolean is only marginally more readable IMO. Left as is.",
+      "parentUuid": "2ba0ff68_2259c6b3",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "24902ba32fd23322fb3981e8fa41f6060fdbd14c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "877ef24f_e767fa06",
         "filename": "net/test/netlink.py",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "24902ba32fd23322fb3981e8fa41f6060fdbd14c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75acd034_113ab6e3",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "877ef24f_e767fa06",
+      "range": {
+        "startLine": 145,
+        "startChar": 63,
+        "endLine": 145,
+        "endChar": 65
+      },
+      "revId": "24902ba32fd23322fb3981e8fa41f6060fdbd14c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
