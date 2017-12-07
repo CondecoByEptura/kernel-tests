@@ -22,6 +22,30 @@
       "revId": "6c8f88bd5b3335f976583f957d54b16c6d41cfda",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb1249b1_a1beabe1",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:07:10Z",
+      "side": 1,
+      "message": "Per in-person discussion, moved to cstructs or (cstruct, blob) tuples.",
+      "parentUuid": "6ad769ce_65b1c144",
+      "range": {
+        "startLine": 356,
+        "startChar": 53,
+        "endLine": 356,
+        "endChar": 61
+      },
+      "revId": "6c8f88bd5b3335f976583f957d54b16c6d41cfda",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }

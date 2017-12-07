@@ -22,6 +22,30 @@
       "revId": "9cab2e4b984d9980579a97540b7ca203688eaa9e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edc1ecef_3501777e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:07:10Z",
+      "side": 1,
+      "message": "IIRC we ended up agreeing on using a cstruct object where we pass in a kernel struct, and a tuple where we pass in a kernel plus a blob. If so, then this should be fine.",
+      "parentUuid": "62ee759b_00f3a18f",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 18
+      },
+      "revId": "9cab2e4b984d9980579a97540b7ca203688eaa9e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
