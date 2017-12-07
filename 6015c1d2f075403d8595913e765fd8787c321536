@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a40d4a6b_405962e3",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T19:59:04Z",
+      "side": 1,
+      "message": "The naming of the builder functions isn\u0027t consistent; e.g. this is CreatePolicy() which returns an XfrmUserpolicyInfo, but the functions to get a selector are EmptySelector()... would the fix be to call those CreateEmptySelector() and CreateSrcDstSelector()? or this would become UserpolicyInfo()?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "903daf77_8a89e7e5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T19:59:04Z",
+      "side": 1,
+      "message": "More important than the lack of support for AH, this will overwrite any existing policy: there may be only one policy per socket per direction.",
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3976ac7_504761c9",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T19:59:04Z",
+      "side": 1,
+      "message": "It seems unfair to make the user continue to worry about this. Can we switch to using host order in all our functions?",
+      "range": {
+        "startLine": 108,
+        "startChar": 9,
+        "endLine": 108,
+        "endChar": 41
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cd24884_08cc884b",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T19:59:04Z",
+      "side": 1,
+      "message": "This comment is rather confusing. What I think you\u0027re saying is that in this case the selector isn\u0027t used for traffic selection and all packets on the socket are selected. I don\u0027t know why the SA comes in to the picture here at all.",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 80
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
