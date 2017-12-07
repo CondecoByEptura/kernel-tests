@@ -22,6 +22,30 @@
       "revId": "ae96c389d5fc3294ef496997d80db79f8172b924",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f350fd1_797110e4",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:12:50Z",
+      "side": 1,
+      "message": "I don\u0027t think it matters much. version is typically more useful when there are packets to be generated, family when the primary operations are on sockets.\n\nPassing in the version would require changing ApplySocketPolicy and all its callsites to passing in a version instead of a family. Not sure it\u0027s worth it, particularly not in this change.",
+      "parentUuid": "9de333d8_e9741c0c",
+      "range": {
+        "startLine": 39,
+        "startChar": 32,
+        "endLine": 39,
+        "endChar": 38
+      },
+      "revId": "ae96c389d5fc3294ef496997d80db79f8172b924",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
