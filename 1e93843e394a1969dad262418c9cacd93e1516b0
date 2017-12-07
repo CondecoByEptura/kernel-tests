@@ -88,6 +88,29 @@
     },
     {
       "key": {
+        "uuid": "679a0ab3_a5128b6e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:14:25Z",
+      "side": 1,
+      "message": "Do we still have a need for this? I think we\u0027ve once again arrived at a place where this will always be AF_UNSPEC. If we don\u0027t need it, then I suggest we remove it and not think about the SA selector anymore. If we do need it, then in keeping with the other functions... let\u0027s make it explicit rather than optional.",
+      "range": {
+        "startLine": 358,
+        "startChar": 5,
+        "endLine": 360,
+        "endChar": 28
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb28b30d_3d175554",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
