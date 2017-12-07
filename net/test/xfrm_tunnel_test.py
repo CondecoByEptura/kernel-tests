@@ -43,6 +43,16 @@ _TEST_IKEY = _TEST_IN_SPI + _VTI_NETID
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
 class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
+  @classmethod
+  def setUpClass(cls):
+    xfrm_base.XfrmBaseTest.setUpClass()
+    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, True)
+
+  @classmethod
+  def tearDownClass(cls):
+    xfrm_base.XfrmBaseTest.tearDownClass()
+    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, False)
+
   def setUp(self):
     super(XfrmTunnelTest, self).setUp()
     # If the hard-coded netids are redefined this will catch the error.
@@ -97,7 +107,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
                         tdst_addr,
                         spi,
                         mark=None,
-                        output_mark=None):
+                        output_mark=None,
+                        input_mark=None):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -116,6 +127,7 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         matching the security policy and security association.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm.
+      input_mark: The mark set by this SA when transforming packet inbound.
     """
     self.xfrm.AddSaInfo(
         tsrc_addr, tdst_addr,
@@ -124,11 +136,15 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         xfrm_base._ALGO_HMAC_SHA1,
         None,
         mark,
-        output_mark)
+        output_mark,
+        input_mark=input_mark)
 
     policy = xfrm_base.CreatePolicy(direction, selector)
     tmpl = xfrm_base.CreateTemplate(outer_family, spi, 0,
                                     (tsrc_addr, tdst_addr))
+
+    if direction == xfrm.XFRM_POLICY_IN:
+      mark = xfrm.ExactMatchMark(input_mark)
     self.xfrm.AddPolicyInfo(policy, tmpl, mark)
 
   def _CheckTunnelOutput(self, inner_version, outer_version):
@@ -283,9 +299,11 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
           outer_family=net_test.GetAddressFamily(outer_version),
           tsrc_addr=remote_outer,
           tdst_addr=local_outer,
-          mark=xfrm.ExactMatchMark(_TEST_IKEY),
           spi=_TEST_IN_SPI,
-          output_mark=netid)
+          output_mark=netid,
+          input_mark=_TEST_IKEY)
+#          mark=xfrm.ExactMarkMatch(_TEST_IKEY),  # XXX REMOVE
+#          output_mark=netid)
 
       # Create a socket to receive packets.
       read_sock = socket(
@@ -349,6 +367,30 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
   def testIpv6InIpv6VtiOutput(self):
     self._CheckVtiOutput(6, 6)
+
+  def testMultiVti(self):
+    version = 4  # XXX FIXME
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(version, netid)
+    vti0 = _VTI_IFNAME + "0"
+    vti1 = _VTI_IFNAME + "1"
+    try:
+      self.iproute.CreateVirtualTunnelInterface(
+          dev_name=vti0,
+          local_addr=local_addr,
+          remote_addr=self._GetRemoteOuterAddress(version),
+          o_key=_TEST_OKEY,
+          i_key=_TEST_IKEY)
+      self.iproute.CreateVirtualTunnelInterface(
+          dev_name=_VTI_IFNAME + "1",
+          local_addr=local_addr,
+          remote_addr=self._GetRemoteOuterAddress(version),
+          o_key=_TEST_OKEY,
+          i_key=_TEST_IKEY + 1)
+      # No exceptions? Good.
+    finally:
+      self.iproute.DeleteLink(vti0)
+      self.iproute.DeleteLink(vti1)
 
 
 if __name__ == "__main__":

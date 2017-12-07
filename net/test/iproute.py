@@ -217,7 +217,10 @@ IFLA_VTI_IKEY = 2
 IFLA_VTI_OKEY = 3
 IFLA_VTI_LOCAL = 4
 IFLA_VTI_REMOTE = 5
+IFLA_VTI_FWMARK = 6
+IFLA_VTI_IFLAGS = 7
 
+VTI_MULTI = 2
 
 def CommandVerb(command):
   return ["NEW", "DEL", "GET", "SET"][command % 4]
@@ -717,6 +720,7 @@ class IPRoute(netlink.NetlinkSocket):
       ifdata += self._NlAttrU32(IFLA_VTI_IKEY, socket.htonl(i_key))
     if o_key is not None:
       ifdata += self._NlAttrU32(IFLA_VTI_OKEY, socket.htonl(o_key))
+      ifdata += self._NlAttrU32(IFLA_VTI_IFLAGS, VTI_MULTI)
     linkinfo += self._NlAttr(IFLA_INFO_DATA, ifdata)
 
     ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
