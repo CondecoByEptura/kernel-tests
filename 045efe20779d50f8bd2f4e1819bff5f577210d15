@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1f3b37e_3fd01643",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:10:45Z",
+      "side": 1,
+      "message": "CreateEmptySelector?",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 17
+      },
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71e183c_e3c2ecf6",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:10:45Z",
+      "side": 1,
+      "message": "oneline docstring request here.",
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6690feb_e26cf335",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:10:45Z",
+      "side": 1,
+      "message": "oneline docstring request here.",
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "019729e6_59c8858d",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:10:45Z",
+      "side": 1,
+      "message": "I think you\u0027d ask me to remove this if it\u0027s no longer needed. So, would you be willing to remove this?",
+      "range": {
+        "startLine": 358,
+        "startChar": 53,
+        "endLine": 358,
+        "endChar": 66
+      },
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e4ab828_7648d62e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:10:45Z",
+      "side": 1,
+      "message": "I think the selector comments elsewhere provide more insight.",
+      "range": {
+        "startLine": 108,
+        "startChar": 16,
+        "endLine": 108,
+        "endChar": 36
+      },
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
