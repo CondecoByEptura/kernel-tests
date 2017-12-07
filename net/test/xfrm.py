@@ -85,6 +85,7 @@ XFRMA_ADDRESS_FILTER = 26
 XFRMA_PAD = 27
 XFRMA_OFFLOAD_DEV = 28
 XFRMA_OUTPUT_MARK = 29
+XFRMA_INPUT_MARK = 30
 
 # Other netlink constants. See include/uapi/linux/xfrm.h.
 
@@ -348,7 +349,7 @@ class Xfrm(netlink.NetlinkSocket):
     return self._SendNlRequest(msg_type, msg, flags)
 
   def AddSaInfo(self, src, dst, spi, mode, reqid, selector, encryption,
-                auth_trunc, encap, mark, output_mark):
+                auth_trunc, encap, mark, output_mark, input_mark=None):
     """Adds an IPsec security association.
 
     Args:
@@ -391,6 +392,8 @@ class Xfrm(netlink.NetlinkSocket):
       nlattrs += self._NlAttr(XFRMA_ENCAP, encap.Pack())
     if output_mark is not None:
       nlattrs += self._NlAttrU32(XFRMA_OUTPUT_MARK, output_mark)
+    if input_mark is not None:
+      nlattrs += self._NlAttrU32(XFRMA_INPUT_MARK, input_mark)
 
     # The kernel ignores these on input, so make them empty.
     cur = XfrmLifetimeCur()
