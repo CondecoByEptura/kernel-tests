@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ad86c71_8db24c4e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e5ab0f3_e058fee6",
+      "range": {
+        "startLine": 240,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 18
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "145ce749_a4b9a91b",
         "filename": "net/test/xfrm.py",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ee2fed71_fce9d35e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "This code is now gone.",
+      "parentUuid": "3ef01fa0_06666591",
+      "range": {
+        "startLine": 298,
+        "startChar": 23,
+        "endLine": 298,
+        "endChar": 30
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a302b0f4_e2ed13de",
         "filename": "net/test/xfrm.py",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2017-11-08T02:46:37Z",
       "side": 1,
       "message": "Adding the nlattr header here makes this level of abstraction leak netlink. We don\u0027t actually use Algorithms outside of the Netlink functions, but the symmetry of having the NL stuff all in one final builder function seems like a better one.",
+      "range": {
+        "startLine": 303,
+        "startChar": 12,
+        "endLine": 304,
+        "endChar": 78
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a31701d_7fbd62be",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Changed to a tuple instead.",
+      "parentUuid": "a302b0f4_e2ed13de",
       "range": {
         "startLine": 303,
         "startChar": 12,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "9834a860_81028bce",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd806d5_63b391cb",
+      "range": {
+        "startLine": 366,
+        "startChar": 6,
+        "endLine": 366,
+        "endChar": 15
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a5910d1_9c482b7c",
         "filename": "net/test/xfrm.py",
         "patchSetId": 1
@@ -128,6 +224,30 @@
       "writtenOn": "2017-11-08T02:46:37Z",
       "side": 1,
       "message": "In this case, we\u0027re prepending the NLATTR header to the thing that we pass in, but for other things that are passed in to the SA, we don\u0027t prepend the NLATTR header. Could we not pass in the NLATTR header? Not packing + passing the header was necessary for the policy functions, and any sort of consistency in the pattern is a much bigger savings in needless brain power than reducing LOC.",
+      "range": {
+        "startLine": 366,
+        "startChar": 67,
+        "endLine": 367,
+        "endChar": 26
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfe328cd_d85a35d5",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Changed to a tuple as agreed.",
+      "parentUuid": "3a5910d1_9c482b7c",
       "range": {
         "startLine": 366,
         "startChar": 67,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "4e9eb879_bcd26d9f",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "f40ab0d3_0cc04b93",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 51
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b10d9e91_6d8323a7",
         "filename": "net/test/xfrm.py",
         "patchSetId": 1
@@ -174,6 +318,30 @@
       "writtenOn": "2017-11-07T18:45:40Z",
       "side": 1,
       "message": "My nit here is that the docstring would be clearer if it said what sorts of objects are expected, rather than the methods we expect callers to get them from. Sort of the converse of http://go/totw/138 , we shouldn\u0027t be expected to cover every possible use case in the docstring, or update it any time there are new builder functions.\n\nThe flip side of the coin is that users reading this docstring then might not know about those other helpers. Adding a usage example to the docstring is one way to hint to users how we expect them to call this.",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 79
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a56b3d65_b1bd0932",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b10d9e91_6d8323a7",
       "range": {
         "startLine": 378,
         "startChar": 0,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "0a10b8bc_cfc0f16a",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2743a94a_c37df7b8",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 12
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09ebc4f6_12babfc7",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -220,6 +412,30 @@
       "writtenOn": "2017-11-07T18:45:40Z",
       "side": 1,
       "message": "For another way to handle this pattern, see https://abseil.io/tips/122",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 73
+      },
+      "revId": "c0fba371b9eb08aef081bd4a0ffe7d4a39af6ccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "430f04e6_183c4888",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:11Z",
+      "side": 1,
+      "message": "Made a constant instead.",
+      "parentUuid": "09ebc4f6_12babfc7",
       "range": {
         "startLine": 160,
         "startChar": 0,
