@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e1fa398e_3f264243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:08:10Z",
+      "side": 1,
+      "message": "Comment about what the CL actually does?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a40d4a6b_405962e3",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 5
@@ -81,6 +104,29 @@
         "startChar": 2,
         "endLine": 115,
         "endChar": 80
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8af9d79_eb24636f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-07T20:08:10Z",
+      "side": 1,
+      "message": "In regards to a non-parameter?",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 60
       },
       "revId": "6015c1d2f075403d8595913e765fd8787c321536",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
