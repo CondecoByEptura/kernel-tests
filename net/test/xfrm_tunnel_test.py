@@ -19,6 +19,7 @@ from errno import *  # pylint: disable=wildcard-import
 from socket import *  # pylint: disable=wildcard-import
 
 import struct
+import subprocess
 import unittest
 
 from tun_twister import TunTwister
@@ -26,6 +27,7 @@ import csocket
 import iproute
 import multinetwork_base
 import net_test
+import packets
 import xfrm
 import xfrm_base
 
@@ -38,6 +40,8 @@ _VTI_NETID = 50
 _VTI_IFNAME = "test_vti"
 
 _TEST_OUT_SPI = 0x1234
+# For VTI, this must be the same because we twist the packet, and the twisted
+# packet has the output SPI.
 _TEST_IN_SPI = _TEST_OUT_SPI
 
 _TEST_OKEY = _TEST_OUT_SPI + _VTI_NETID
@@ -50,6 +54,9 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
   @classmethod
   def setUpClass(cls):
     xfrm_base.XfrmBaseTest.setUpClass()
+    # The VTI input path, as currently proposed, relies on setting the input
+    # mark on the skb just after it's transformed by the VTI. If we did not
+    # later on rewrite the mark, this would cause the policy to 
     cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, True)
 
   @classmethod
@@ -312,8 +319,6 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
           spi=_TEST_IN_SPI,
           output_mark=netid,
           input_mark=_TEST_IKEY)
-#          mark=xfrm.ExactMarkMatch(_TEST_IKEY),  # XXX REMOVE
-#          output_mark=netid)
 
       # Create a socket to receive packets.
       read_sock = socket(
@@ -362,6 +367,33 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
       finally:
         # Unwind the switcheroo
         self._SwapInterfaceAddress(_VTI_IFNAME, new_addr=local, old_addr=remote)
+
+      self.dstaddrs = set()
+      # Now attempt to provoke an ICMP error.
+      # TODO: deduplicate with multinetwork_test.py.
+      version = outer_version
+      dst_prefix, intermediate = {
+          4: ("172.19.", "172.16.9.12"),
+          6: ("2001:db8::", "2001:db8::1")
+      }[version]
+
+      # Run this test often enough (e.g., in presubmits), and eventually
+      # we'll be unlucky enough to pick the same address twice, in which
+      # case the test will fail because the kernel will already have seen
+      # the lower MTU. Don't do this.
+      dstaddr = self.GetRandomDestination(dst_prefix)
+      while dstaddr in self.dstaddrs:
+        dstaddr = self.GetRandomDestination(dst_prefix)
+      self.dstaddrs.add(dstaddr)
+      if version == 4:
+        write_sock.sendto(net_test.UDP_PAYLOAD,
+                          (self._GetRemoteInnerAddress(inner_version), port))
+        pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, 2, None,
+                                      local_outer, remote_outer)
+        myaddr = self.MyAddress(version, netid)
+        _, toobig = packets.ICMPPacketTooBig(version, intermediate, myaddr, pkt)
+        self.ReceivePacketOn(netid, toobig)
+
 
     finally:
       self._SetupVtiNetwork(_VTI_IFNAME, False)
