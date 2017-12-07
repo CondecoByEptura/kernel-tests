@@ -22,6 +22,30 @@
       "revId": "ea61a6ba5d8285a1b70b670a7968b171b424e82e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51ad41ef_739c9de2",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:00Z",
+      "side": 1,
+      "message": "The policy and template are pretty tightly coupled: they\u0027re configured in the same operation, so you could argue that the template(s) are really part of the policy (the part that specifies which SA to match).\n\nAs for tuples, I\u0027ve split this into CreatePolicy and CreateTemplate. Better?",
+      "parentUuid": "5b83b82c_9b01ec9c",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "ea61a6ba5d8285a1b70b670a7968b171b424e82e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }

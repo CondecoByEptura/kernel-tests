@@ -22,6 +22,30 @@
       "revId": "d0d9ce19c6f627efcb02d9da54fe7a999c6b33b8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "925157f5_4de4db7f",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-07T17:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6e618bd_00b8eeee",
+      "range": {
+        "startLine": 45,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "d0d9ce19c6f627efcb02d9da54fe7a999c6b33b8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
