@@ -639,18 +639,42 @@ class IPRoute(netlink.NetlinkSocket):
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
     return self._SendNlRequest(RTM_DELLINK, ifinfo, flags)
 
-  def GetIfIndex(self, dev_name):
+  def GetIfinfo(self, dev_name):
+    """Fetches information about the specified interface.
+
+    Args:
+      dev_name: A string, the name of the interface.
+
+    Returns:
+      A tuple containing an IfinfoMsg struct and raw, undecoded attributes.
+    """
     ifinfo = IfinfoMsg().Pack()
     ifinfo += self._NlAttrStr(IFLA_IFNAME, dev_name)
     self._SendNlRequest(RTM_GETLINK, ifinfo, netlink.NLM_F_REQUEST)
-    hdr, data = cstruct.Read(self._Recv(), netlink.NLMsgHdr)
+    data = self._Recv()
+    hdr, data = cstruct.Read(data, netlink.NLMsgHdr)
     if hdr.type == RTM_NEWLINK:
-      return IfinfoMsg(data).index
+      return cstruct.Read(data, IfinfoMsg)
     elif hdr.type == netlink.NLMSG_ERROR:
       error = netlink.NLMsgErr(data).error
       raise IOError(error, os.strerror(-error))
     else:
       raise ValueError("Unknown Netlink Message Type %d" % hdr.type)
+
+  def GetIfIndex(self, dev_name):
+    """Returns the interface index for the specified interface."""
+    ifinfo, attrs = self.GetIfinfo(dev_name)
+    return ifinfo.index
+
+  def GetIfaceStats(self, dev_name):
+    """Returns an RtnlLinkStats64 stats object for the specified interface."""
+    _, attrs = self.GetIfinfo(dev_name)
+    attrs = self._ParseAttributes(RTM_NEWLINK, IfinfoMsg, attrs)
+    return attrs["IFLA_STATS64"]
+
+  def GetRxTxPackets(self, dev_name):
+    stats = self.GetIfaceStats(dev_name)
+    return stats.rx_packets, stats.tx_packets
 
   def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
                                    i_key=None, o_key=None):
