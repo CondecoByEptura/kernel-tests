@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c9b162c_9d5faebe",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "Ack. As discussed, I think this style is more readable.",
+      "parentUuid": "ebb96dc4_2051ade1",
+      "range": {
+        "startLine": 240,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 18
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c58553a_830a5404",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "2dd609d1_258f0957",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c58553a_830a5404",
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6577e03a_aa770305",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2017-12-07T20:03:14Z",
       "side": 1,
       "message": "How do we justify that this particular (src, dst) isn\u0027t a tuple? I\u0027m not saying it should be... but I want to know so that we can be consistent in the future.",
+      "range": {
+        "startLine": 347,
+        "startChar": 22,
+        "endLine": 347,
+        "endChar": 30
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47630331_349a0b57",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "As discussed, the tuple makes sense in tunnel mode because in addition to all the possible combinations of src+dst, it gives an easy-to-check-for value of None, which indicates \"not in tunnel mode\". I don\u0027t think that\u0027s useful here because dst must always be non-null.",
+      "parentUuid": "6577e03a_aa770305",
       "range": {
         "startLine": 347,
         "startChar": 22,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "4e5948e0_ddd684fc",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5440cb03_64c0d5ae",
+      "range": {
+        "startLine": 352,
+        "startChar": 44,
+        "endLine": 352,
+        "endChar": 62
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "679a0ab3_a5128b6e",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -99,6 +189,30 @@
       "writtenOn": "2017-12-07T20:14:25Z",
       "side": 1,
       "message": "Do we still have a need for this? I think we\u0027ve once again arrived at a place where this will always be AF_UNSPEC. If we don\u0027t need it, then I suggest we remove it and not think about the SA selector anymore. If we do need it, then in keeping with the other functions... let\u0027s make it explicit rather than optional.",
+      "range": {
+        "startLine": 358,
+        "startChar": 5,
+        "endLine": 360,
+        "endChar": 28
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e812e5dd_f60bd5f2",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "As discussed, done in a future CL.",
+      "parentUuid": "679a0ab3_a5128b6e",
       "range": {
         "startLine": 358,
         "startChar": 5,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "e6fcb100_d0a47226",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb28b30d_3d175554",
+      "range": {
+        "startLine": 396,
+        "startChar": 13,
+        "endLine": 396,
+        "endChar": 14
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85e8a063_2b34b333",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "4392075e_1f1d127c",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "With kwargs it would get even larger though. I find that using kwargs makes sense either when there are lots of unused parameters, or when it\u0027s not immediately obvious what the role of each parameter is. Here the roles of each parameter is pretty obvious from its name.\n\nSo if we changed to kwargs we wouldn\u0027t be doing much more than going from:\n\n    XfrmUserSaInfo((foo, bar, baz, ...\n\nto:\n\n    XfrmUserSaInfo((foo\u003dfoo, bar\u003dbar, baz\u003dbaz, ...\n\nwhich doesn\u0027t seem like an increase in readability to me.",
+      "parentUuid": "85e8a063_2b34b333",
+      "range": {
+        "startLine": 398,
+        "startChar": 24,
+        "endLine": 399,
+        "endChar": 77
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f0b0857_b2859038",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 3
@@ -168,6 +330,30 @@
       "writtenOn": "2017-12-07T20:03:14Z",
       "side": 1,
       "message": "Or, really, any selector... The helper methods haven\u0027t excluded other means of creating an XfrmSelector.\n\nI believe you further updated this comment in a later CL.",
+      "range": {
+        "startLine": 108,
+        "startChar": 16,
+        "endLine": 108,
+        "endChar": 74
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a25e2613_5dcd4daf",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f0b0857_b2859038",
       "range": {
         "startLine": 108,
         "startChar": 16,
