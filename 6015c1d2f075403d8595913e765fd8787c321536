@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8b4f9d58_e5a18c45",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:34:52Z",
+      "side": 1,
+      "message": "ping this comment.",
+      "parentUuid": "a40d4a6b_405962e3",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "903daf77_8a89e7e5",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 5
@@ -83,6 +107,24 @@
       "writtenOn": "2017-12-07T19:59:04Z",
       "side": 1,
       "message": "More important than the lack of support for AH, this will overwrite any existing policy: there may be only one policy per socket per direction.",
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ed76c93_609e55a6",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:34:52Z",
+      "side": 1,
+      "message": "ping this comment.",
+      "parentUuid": "903daf77_8a89e7e5",
       "revId": "6015c1d2f075403d8595913e765fd8787c321536",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -112,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "561baa66_9fede6a1",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:34:52Z",
+      "side": 1,
+      "message": "I think there\u0027s a later cl for this?",
+      "parentUuid": "e3976ac7_504761c9",
+      "range": {
+        "startLine": 108,
+        "startChar": 9,
+        "endLine": 108,
+        "endChar": 41
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cd24884_08cc884b",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 5
@@ -123,6 +189,30 @@
       "writtenOn": "2017-12-07T19:59:04Z",
       "side": 1,
       "message": "This comment is rather confusing. What I think you\u0027re saying is that in this case the selector isn\u0027t used for traffic selection and all packets on the socket are selected. I don\u0027t know why the SA comes in to the picture here at all.",
+      "range": {
+        "startLine": 114,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 80
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d44dfe9_7358733c",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:34:52Z",
+      "side": 1,
+      "message": "ping this comment.",
+      "parentUuid": "9cd24884_08cc884b",
       "range": {
         "startLine": 114,
         "startChar": 2,
@@ -170,6 +260,30 @@
       "side": 1,
       "message": "I\u0027m not sure what you mean by this comment.",
       "parentUuid": "c8af9d79_eb24636f",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cd9994f_fc4cead0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:34:52Z",
+      "side": 1,
+      "message": "This docstring talks about the SA selector which isn\u0027t used here. My suggestion is that talking about the SA selector just adds confusion; my sincere hope is that we can stop thinking about it so as to avoid the need to disambiguate all discussions regarding the selector: it\u0027s always the policy selector. Let\u0027s see if that assumption holds.",
+      "parentUuid": "2b6aaba9_ea02c380",
       "range": {
         "startLine": 109,
         "startChar": 16,
