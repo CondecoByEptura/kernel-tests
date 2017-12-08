@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73858c6d_ac465919",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:18:00Z",
+      "side": 1,
+      "message": "Oops. Done.",
+      "parentUuid": "8f4105a3_4cdb00e5",
+      "range": {
+        "startLine": 123,
+        "startChar": 58,
+        "endLine": 123,
+        "endChar": 59
+      },
+      "revId": "106537b3c45db0cd848268a031de6dcd09430b16",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40b60af4_a3d8ee93",
         "filename": "net/test/iproute.py",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "looks like event \u003d xdp + 1",
       "parentUuid": "40b60af4_a3d8ee93",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 15
+      },
+      "revId": "106537b3c45db0cd848268a031de6dcd09430b16",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49671904_50ff77aa",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:18:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4785d49e_6e2bf6eb",
       "range": {
         "startLine": 205,
         "startChar": 0,
