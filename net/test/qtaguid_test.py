@@ -25,9 +25,12 @@ import net_test
 import packets
 import tcp_test
 
+HAVE_QTAGUID_SUPPORT = net_test.LINUX_VERSION < (4, 9, 0)
 CTRL_PROCPATH = "/proc/net/xt_qtaguid/ctrl"
 OTHER_UID_GID = 12345
 
+@unittest.skipUnless(HAVE_QTAGUID_SUPPORT,
+                     "xt_qtaguid module not supported")
 class QtaguidTest(tcp_test.TcpBaseTest):
 
   def RunIptablesCommand(self, args):
