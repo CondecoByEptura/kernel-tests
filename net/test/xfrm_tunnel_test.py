@@ -106,6 +106,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
     Args:
       direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
       selector: An XfrmSelector that specifies the packets to be transformed.
+        This is only applied to the policy. The selector in the SA is always
+        empty.
       outer_family: The address family (AF_INET or AF_INET6) the tunnel
       tsrc_addr: The source address of the tunneled packets
       tdst_addr: The destination address of the tunneled packets
@@ -117,7 +119,7 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
     """
     self.xfrm.AddSaInfo(
         tsrc_addr, tdst_addr,
-        htonl(spi), xfrm.XFRM_MODE_TUNNEL, 0, selector,
+        htonl(spi), xfrm.XFRM_MODE_TUNNEL, 0,
         xfrm_base._ALGO_CBC_AES_256,
         xfrm_base._ALGO_HMAC_SHA1,
         None,
