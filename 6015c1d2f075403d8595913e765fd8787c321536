@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e8c2d7c_71720786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:52Z",
+      "side": 1,
+      "message": "\"Remove code duplication\" *is* what the CL does. :-)\n\nTried to clarify. Better?",
+      "parentUuid": "e1fa398e_3f264243",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a40d4a6b_405962e3",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 5
@@ -122,6 +146,30 @@
       "writtenOn": "2017-12-07T20:08:10Z",
       "side": 1,
       "message": "In regards to a non-parameter?",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "6015c1d2f075403d8595913e765fd8787c321536",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b6aaba9_ea02c380",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:24:52Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by this comment.",
+      "parentUuid": "c8af9d79_eb24636f",
       "range": {
         "startLine": 109,
         "startChar": 16,
