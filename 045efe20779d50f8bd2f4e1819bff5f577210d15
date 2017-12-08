@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "42a238a1_1b0dcd89",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:23:20Z",
+      "side": 1,
+      "message": "I find it more readable as is. It\u0027s not really creating much of anything really - it\u0027s basically just returning a constant value.",
+      "parentUuid": "d1f3b37e_3fd01643",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 17
+      },
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b71e183c_e3c2ecf6",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7c242106_87a64e65",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:23:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b71e183c_e3c2ecf6",
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6690feb_e26cf335",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -53,6 +95,24 @@
       "writtenOn": "2017-12-07T20:10:45Z",
       "side": 1,
       "message": "oneline docstring request here.",
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ccb2f90_1be39b59",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:23:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6690feb_e26cf335",
       "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "623a7a23_8d2cfae0",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:23:20Z",
+      "side": 1,
+      "message": "It can\u0027t be removed in this change because it breaks the cross-family VTI tests. It\u0027s removed in a future change.",
+      "parentUuid": "019729e6_59c8858d",
+      "range": {
+        "startLine": 358,
+        "startChar": 53,
+        "endLine": 358,
+        "endChar": 66
+      },
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e4ab828_7648d62e",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 3
@@ -93,6 +177,30 @@
       "writtenOn": "2017-12-07T20:10:45Z",
       "side": 1,
       "message": "I think the selector comments elsewhere provide more insight.",
+      "range": {
+        "startLine": 108,
+        "startChar": 16,
+        "endLine": 108,
+        "endChar": 36
+      },
+      "revId": "045efe20779d50f8bd2f4e1819bff5f577210d15",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a14e108_d90a0dc7",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-08T10:23:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e4ab828_7648d62e",
       "range": {
         "startLine": 108,
         "startChar": 16,
