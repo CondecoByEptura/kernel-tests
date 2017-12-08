@@ -68,6 +68,29 @@
       "revId": "571f4b06d3901111dd36ff9086448f7269a7d9ea",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b0f43b_b6254abb",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T04:12:32Z",
+      "side": 1,
+      "message": "Is \"mapped\" the right word? If so, we should be consistent and I need to update comments on other CLs.",
+      "range": {
+        "startLine": 202,
+        "startChar": 22,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "571f4b06d3901111dd36ff9086448f7269a7d9ea",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
