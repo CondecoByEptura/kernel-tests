@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cee0355_f7102360",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:47:11Z",
+      "side": 1,
+      "message": "nit: . or ;",
+      "range": {
+        "startLine": 108,
+        "startChar": 42,
+        "endLine": 108,
+        "endChar": 43
+      },
+      "revId": "952d19dcdd26f3eb8a35cf397805bb8fe210fe6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f45f885d_4972a9de",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:47:11Z",
+      "side": 1,
+      "message": "this looks like it *might* just fit on the previous line.",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "952d19dcdd26f3eb8a35cf397805bb8fe210fe6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
