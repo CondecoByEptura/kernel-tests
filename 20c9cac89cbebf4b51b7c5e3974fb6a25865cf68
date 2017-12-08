@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fc01236_7dca6620",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:42:34Z",
+      "side": 1,
+      "message": "It looks like this was rebased midstream?",
+      "range": {
+        "startLine": 153,
+        "startChar": 5,
+        "endLine": 164,
+        "endChar": 19
+      },
+      "revId": "20c9cac89cbebf4b51b7c5e3974fb6a25865cf68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}

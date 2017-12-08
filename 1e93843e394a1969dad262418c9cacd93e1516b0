@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f850d024_a5b02c76",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:42:34Z",
+      "side": 1,
+      "message": "I disagree, but it\u0027s your code base. Not the most important problem we have.",
+      "parentUuid": "0c9b162c_9d5faebe",
+      "range": {
+        "startLine": 240,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 18
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c58553a_830a5404",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "As discussed, the tuple makes sense in tunnel mode because in addition to all the possible combinations of src+dst, it gives an easy-to-check-for value of None, which indicates \"not in tunnel mode\". I don\u0027t think that\u0027s useful here because dst must always be non-null.",
       "parentUuid": "6577e03a_aa770305",
+      "range": {
+        "startLine": 347,
+        "startChar": 22,
+        "endLine": 347,
+        "endChar": 30
+      },
+      "revId": "1e93843e394a1969dad262418c9cacd93e1516b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41f025d5_11c07325",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-08T21:42:34Z",
+      "side": 1,
+      "message": "Agree. Thanks.",
+      "parentUuid": "47630331_349a0b57",
       "range": {
         "startLine": 347,
         "startChar": 22,
