@@ -22,6 +22,30 @@
       "revId": "20c9cac89cbebf4b51b7c5e3974fb6a25865cf68",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f60029b8_9b622962",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-09T04:52:13Z",
+      "side": 1,
+      "message": "IIRC this code was merged while this patch series was being developed, and is not being touched by this patch series. The TODO still needs to be addressed.",
+      "parentUuid": "2fc01236_7dca6620",
+      "range": {
+        "startLine": 153,
+        "startChar": 5,
+        "endLine": 164,
+        "endChar": 19
+      },
+      "revId": "20c9cac89cbebf4b51b7c5e3974fb6a25865cf68",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
