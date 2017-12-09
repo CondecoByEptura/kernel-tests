@@ -1,0 +1,9 @@
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Verified+1: Lorenzo Colitti <lorenzo@google.com>
+Code-Review+2: Lorenzo Colitti <lorenzo@google.com>
+Autosubmit+1: Lorenzo Colitti <lorenzo@google.com>
+Submitted-by: Treehugger Robot <treehugger-gerrit@google.com>
+Submitted-at: Sat, 09 Dec 2017 09:59:28 +0000
+Reviewed-on: https://android-review.googlesource.com/562251
+Project: kernel/tests
+Branch: refs/heads/master
