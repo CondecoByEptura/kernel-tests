@@ -87,6 +87,9 @@ class NetlinkSocket(object):
     value = value + "\x00"
     return self._NlAttr(nla_type, value.encode("UTF-8"))
 
+  def _NlAttrBe16(self, nla_type, value):
+    return self._NlAttr(nla_type, struct.pack("=H", value))
+
   def _NlAttrU32(self, nla_type, value):
     return self._NlAttr(nla_type, struct.pack("=I", value))
 

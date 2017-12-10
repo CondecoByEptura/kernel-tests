@@ -19,6 +19,7 @@ from errno import *  # pylint: disable=wildcard-import
 from socket import *  # pylint: disable=wildcard-import
 
 import struct
+import subprocess
 import unittest
 
 from tun_twister import TunTwister
@@ -26,14 +27,21 @@ import csocket
 import iproute
 import multinetwork_base
 import net_test
+import packets
 import xfrm
 import xfrm_base
+
+
+# Experimental keyed VTI flag.
+VTI_MULTI = 2
 
 # Parameters to Set up VTI as a special network
 _VTI_NETID = 50
 _VTI_IFNAME = "test_vti"
 
 _TEST_OUT_SPI = 0x1234
+# For VTI, this must be the same because we twist the packet, and the twisted
+# packet has the output SPI.
 _TEST_IN_SPI = _TEST_OUT_SPI
 
 _TEST_OKEY = _TEST_OUT_SPI + _VTI_NETID
@@ -43,6 +51,21 @@ _TEST_IKEY = _TEST_IN_SPI + _VTI_NETID
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
 class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
+  @classmethod
+  def setUpClass(cls):
+    xfrm_base.XfrmBaseTest.setUpClass()
+    cls.SetInboundMarks(True)
+    # The VTI input path, as currently proposed, relies on setting the input
+    # mark on the skb just after it's transformed by the VTI. If we did not
+    # later on rewrite the mark, this would cause the policy to 
+    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, True)
+    cls.SetMarkReflectSysctls(1)
+
+  @classmethod
+  def tearDownClass(cls):
+    cls.SetInboundMarks(False)
+    xfrm_base.XfrmBaseTest.tearDownClass()
+
   def setUp(self):
     super(XfrmTunnelTest, self).setUp()
     # If the hard-coded netids are redefined this will catch the error.
@@ -50,6 +73,7 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
                      "VTI netid %d already in use" % _VTI_NETID)
     self.iproute = iproute.IPRoute()
     self._QuietDeleteLink(_VTI_IFNAME)
+    #subprocess.call("/sbin/iptables -t mangle -vnL INPUT".split())
 
   def tearDown(self):
     super(XfrmTunnelTest, self).tearDown()
@@ -96,7 +120,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
                         tdst_addr,
                         spi,
                         mark=None,
-                        output_mark=None):
+                        output_mark=None,
+                        input_mark=None):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -115,6 +140,7 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         matching the security policy and security association.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm.
+      input_mark: The mark set by this SA when transforming packet inbound.
     """
     outer_family = net_test.GetAddressFamily(
         net_test.GetAddressVersion(tdst_addr))
@@ -126,7 +152,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         xfrm_base._ALGO_HMAC_SHA1,
         None,
         mark,
-        output_mark)
+        output_mark,
+        input_mark=input_mark)
 
     if selector is None:
       selectors = [xfrm.EmptySelector(AF_INET), xfrm.EmptySelector(AF_INET6)]
@@ -137,6 +164,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
       policy = xfrm_base.UserPolicy(direction, selector)
       tmpl = xfrm_base.UserTemplate(outer_family, spi, 0,
                                     (tsrc_addr, tdst_addr))
+      if direction == xfrm.XFRM_POLICY_IN:
+        mark = xfrm.ExactMatchMark(input_mark)
       self.xfrm.AddPolicyInfo(policy, tmpl, mark)
 
   def _CheckTunnelOutput(self, inner_version, outer_version):
@@ -193,7 +222,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
           local_addr=local_addr,
           remote_addr=self._GetRemoteOuterAddress(version),
           o_key=_TEST_OKEY,
-          i_key=_TEST_IKEY)
+          i_key=_TEST_IKEY,
+          i_flags=VTI_MULTI)
       if_index = self.iproute.GetIfIndex(_VTI_IFNAME)
 
       # Validate that the netlink interface matches the ioctl interface.
@@ -267,7 +297,8 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         local_addr=local_outer,
         remote_addr=remote_outer,
         i_key=_TEST_IKEY,
-        o_key=_TEST_OKEY)
+        o_key=_TEST_OKEY,
+        i_flags=VTI_MULTI)
     self._SetupVtiNetwork(_VTI_IFNAME, True)
 
     try:
@@ -288,9 +319,9 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
           selector=None,
           tsrc_addr=remote_outer,
           tdst_addr=local_outer,
-          mark=xfrm.ExactMatchMark(_TEST_IKEY),
           spi=_TEST_IN_SPI,
-          output_mark=netid)
+          output_mark=netid,
+          input_mark=_TEST_IKEY)
 
       # Create a socket to receive packets.
       read_sock = socket(
@@ -340,6 +371,43 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
         # Unwind the switcheroo
         self._SwapInterfaceAddress(_VTI_IFNAME, new_addr=local, old_addr=remote)
 
+      self.dstaddrs = set()
+      # Now attempt to provoke an ICMP error.
+      # TODO: deduplicate with multinetwork_test.py.
+      version = outer_version
+      dst_prefix, intermediate = {
+          4: ("172.19.", "172.16.9.12"),
+          6: ("2001:db8::", "2001:db8::1")
+      }[version]
+
+      # Run this test often enough (e.g., in presubmits), and eventually
+      # we'll be unlucky enough to pick the same address twice, in which
+      # case the test will fail because the kernel will already have seen
+      # the lower MTU. Don't do this.
+      dstaddr = self.GetRandomDestination(dst_prefix)
+      while dstaddr in self.dstaddrs:
+        dstaddr = self.GetRandomDestination(dst_prefix)
+      self.dstaddrs.add(dstaddr)
+      if version == 4:
+        write_sock.sendto(net_test.UDP_PAYLOAD,
+                          (self._GetRemoteInnerAddress(inner_version), port))
+        pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, 2, None,
+                                      local_outer, remote_outer)
+        myaddr = self.MyAddress(version, netid)
+        _, toobig = packets.ICMPPacketTooBig(version, intermediate, myaddr, pkt)
+        self.ReceivePacketOn(netid, toobig)
+
+        # Also check the MTU reported by ip route get, this time using the oif.
+        routes = self.iproute.GetRoutes(remote_outer, 0, netid, None)
+        self.assertTrue(routes)
+        route = routes[0]
+        rtmsg, attributes = route
+        self.assertEquals(iproute.RTN_UNICAST, rtmsg.type)
+        metrics = attributes["RTA_METRICS"]
+        self.assertEquals(metrics["RTAX_MTU"], 1280)
+        self.InvalidateDstCache(version, netid)
+
+
     finally:
       self._SetupVtiNetwork(_VTI_IFNAME, False)
 
@@ -354,6 +422,51 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
   def testIpv6InIpv6VtiOutput(self):
     self._CheckVtiOutput(6, 6)
+
+  def CheckMultiVti(self, version):
+    def CreateVti(dev_name, i_key, i_flags):
+      self.iproute.CreateVirtualTunnelInterface(
+          dev_name=dev_name,
+          local_addr=self.MyAddress(version, netid),
+          remote_addr=self._GetRemoteOuterAddress(version),
+          o_key=_TEST_OKEY,
+          i_key=i_key,
+          i_flags=i_flags)
+
+    netid = self.RandomNetid()
+    vti0 = _VTI_IFNAME + "0"
+    vti1 = _VTI_IFNAME + "1"
+
+    try:
+      CreateVti(vti0, _TEST_IKEY, VTI_MULTI)
+      CreateVti(vti1, _TEST_IKEY + 1, VTI_MULTI)
+      # No exceptions? Good.
+
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY, VTI_MULTI)
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY + 2, VTI_MULTI)
+
+    finally:
+      self.iproute.DeleteLink(vti0)
+      self.iproute.DeleteLink(vti1)
+
+    try:
+      CreateVti(vti0, _TEST_IKEY, 0)
+
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY, 0)
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY + 1, 0)
+    finally:
+      self.iproute.DeleteLink(vti0)
+
+
+  def testMultiVtiIPv4(self):
+    self.CheckMultiVti(4)
+
+  def testMultiVtiIPv6(self):
+    self.CheckMultiVti(6)
 
 
 if __name__ == "__main__":
