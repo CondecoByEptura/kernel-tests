@@ -26,14 +26,21 @@ import csocket
 import iproute
 import multinetwork_base
 import net_test
+import packets
 import xfrm
 import xfrm_base
+
+
+# Experimental keyed VTI flag.
+VTI_KEYED = 2
 
 # Parameters to Set up VTI as a special network
 _VTI_NETID = 50
 _VTI_IFNAME = "test_vti"
 
 _TEST_OUT_SPI = 0x1234
+# The inbound and outbound SPIs must be the same, because we rely on TapTwister
+# to do the encryption for us, and the twisted packets all have the same SPI.
 _TEST_IN_SPI = _TEST_OUT_SPI
 
 _TEST_OKEY = _TEST_OUT_SPI + _VTI_NETID
@@ -42,6 +49,22 @@ _TEST_IKEY = _TEST_IN_SPI + _VTI_NETID
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
 class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
+
+  @classmethod
+  def setUpClass(cls):
+    xfrm_base.XfrmBaseTest.setUpClass()
+    # VTI interfaces use marks extensively, so configure realistic packet
+    # marking rules to make the test representative.
+    cls.SetInboundMarks(True)
+    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, True)
+    cls.SetMarkReflectSysctls(1)
+
+  @classmethod
+  def tearDownClass(cls):
+    # The sysctls are restored by MultinetworkBaseTest.tearDownClass.
+    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, False)
+    cls.SetInboundMarks(False)
+    xfrm_base.XfrmBaseTest.tearDownClass()
 
   def setUp(self):
     super(XfrmTunnelTest, self).setUp()
@@ -183,24 +206,62 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
   def testIpv6InIpv6TunnelOutput(self):
     self._CheckTunnelOutput(6, 6)
 
-  def testAddVti(self):
-    """Test the creation of a Virtual Tunnel Interface."""
-    for version in [4, 6]:
-      netid = self.RandomNetid()
-      local_addr = self.MyAddress(version, netid)
+  def _TestAddVti(self, version):
+
+    def CreateVti(dev_name, i_key, i_flags):
       self.iproute.CreateVirtualTunnelInterface(
-          dev_name=_VTI_IFNAME,
-          local_addr=local_addr,
+          dev_name=dev_name,
+          local_addr=self.MyAddress(version, self.RandomNetid()),
           remote_addr=self._GetRemoteOuterAddress(version),
           o_key=_TEST_OKEY,
-          i_key=_TEST_IKEY)
-      if_index = self.iproute.GetIfIndex(_VTI_IFNAME)
+          i_key=i_key,
+          i_flags=i_flags)
 
       # Validate that the netlink interface matches the ioctl interface.
-      self.assertEquals(net_test.GetInterfaceIndex(_VTI_IFNAME), if_index)
-      self.iproute.DeleteLink(_VTI_IFNAME)
-      with self.assertRaises(IOError):
-        self.iproute.GetIfIndex(_VTI_IFNAME)
+      if_index = self.iproute.GetIfIndex(dev_name)
+      self.assertEquals(net_test.GetInterfaceIndex(dev_name), if_index)
+
+    vti0 = _VTI_IFNAME + "0"
+    vti1 = _VTI_IFNAME + "1"
+
+    # With VTI_KEYED, two VTIs can be created on the same src+dst pair, as long
+    # as they have different names.
+    try:
+      CreateVti(vti0, _TEST_IKEY, VTI_KEYED)
+      CreateVti(vti1, _TEST_IKEY + 1, VTI_KEYED)
+      # No exceptions? Good.
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY, VTI_KEYED)
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY + 2, VTI_KEYED)
+    finally:
+      self.iproute.DeleteLink(vti0)
+      self.iproute.DeleteLink(vti1)
+
+    for vti in [vti0, vti1]:
+      with self.assertRaisesErrno(ENODEV):
+        self.iproute.GetIfIndex(vti)
+
+    # Creating another VTI with the same name results in EEXIST even if the ikey
+    # is different.
+    try:
+      CreateVti(vti0, _TEST_IKEY, 0)
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY, 0)
+      with self.assertRaisesErrno(EEXIST):
+        CreateVti(vti0, _TEST_IKEY + 1, 0)
+    finally:
+      self.iproute.DeleteLink(vti0)
+
+    with self.assertRaisesErrno(ENODEV):
+      self.iproute.GetIfIndex(vti0)
+
+
+  def testAddVtiIPv4(self):
+    self._TestAddVti(4)
+
+  def testAddVtiIPv6(self):
+    self._TestAddVti(6)
 
   def _SetupVtiNetwork(self, ifname, is_add):
     """Setup rules and routes for a VTI Network.
@@ -257,17 +318,19 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
   # direction individually. This approach would improve debuggability, avoid the
   # complexity of the twister, and allow the test to more-closely validate
   # deployable configurations.
-  def _CheckVtiOutput(self, inner_version, outer_version):
+  def _TestVti(self, outer_version, is_multi):
     """Test packet input and output over a Virtual Tunnel Interface."""
     netid = self.RandomNetid()
     local_outer = self.MyAddress(outer_version, netid)
     remote_outer = self._GetRemoteOuterAddress(outer_version)
+    i_flags = VTI_KEYED if is_multi else 0
     self.iproute.CreateVirtualTunnelInterface(
         dev_name=_VTI_IFNAME,
         local_addr=local_outer,
         remote_addr=remote_outer,
         i_key=_TEST_IKEY,
-        o_key=_TEST_OKEY)
+        o_key=_TEST_OKEY,
+        i_flags=i_flags)
     self._SetupVtiNetwork(_VTI_IFNAME, True)
 
     try:
@@ -288,72 +351,106 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
           selector=None,
           tsrc_addr=remote_outer,
           tdst_addr=local_outer,
-          mark=xfrm.ExactMatchMark(_TEST_IKEY),
           spi=_TEST_IN_SPI,
+          mark=xfrm.ExactMatchMark(_TEST_IKEY),
           output_mark=netid)
 
-      # Create a socket to receive packets.
-      read_sock = socket(
-          net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
-      read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
-      # The second parameter of the tuple is the port number regardless of AF.
-      port = read_sock.getsockname()[1]
-      # Guard against the eventuality of the receive failing.
-      csocket.SetSocketTimeout(read_sock, 100)
-
-      # Start counting packets.
-      rx, tx = self.iproute.GetRxTxPackets(_VTI_IFNAME)
-
-      # Send a packet out via the vti-backed network, bound for the port number
-      # of the input socket.
-      write_sock = socket(
-          net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
-      self.SelectInterface(write_sock, _VTI_NETID, "mark")
-      write_sock.sendto(net_test.UDP_PAYLOAD,
-                        (self._GetRemoteInnerAddress(inner_version), port))
-
-      # Read a tunneled IP packet on the underlying (outbound) network
-      # verifying that it is an ESP packet.
-      pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, 1, None, local_outer,
-                                    remote_outer)
-
-      self.assertEquals((rx, tx + 1), self.iproute.GetRxTxPackets(_VTI_IFNAME))
-
-      # Perform an address switcheroo so that the inner address of the remote
-      # end of the tunnel is now the address on the local VTI interface; this
-      # way, the twisted inner packet finds a destination via the VTI once
-      # decrypted.
-      remote = self._GetRemoteInnerAddress(inner_version)
-      local = self._GetLocalInnerAddress(inner_version)
-      self._SwapInterfaceAddress(_VTI_IFNAME, new_addr=remote, old_addr=local)
-      try:
-        # Swap the packet's IP headers and write it back to the
-        # underlying network.
-        pkt = TunTwister.TwistPacket(pkt)
-        self.ReceivePacketOn(netid, pkt)
-        # Receive the decrypted packet on the dest port number.
-        read_packet = read_sock.recv(4096)
-        self.assertEquals(read_packet, net_test.UDP_PAYLOAD)
-        self.assertEquals((rx + 1, tx + 1),
-                          self.iproute.GetRxTxPackets(_VTI_IFNAME))
-      finally:
-        # Unwind the switcheroo
-        self._SwapInterfaceAddress(_VTI_IFNAME, new_addr=local, old_addr=remote)
+      rx, tx = self._CheckVtiInputOutput(netid, outer_version, 4, 0, 0)
+      self._CheckVtiInputOutput(netid, outer_version, 4, rx, tx)
 
     finally:
       self._SetupVtiNetwork(_VTI_IFNAME, False)
 
-  def testIpv4InIpv4VtiOutput(self):
-    self._CheckVtiOutput(4, 4)
+  def _CheckVtiInputOutput(self, netid, outer_version, inner_version, rx, tx):
+    local_outer = self.MyAddress(outer_version, netid)
+    remote_outer = self._GetRemoteOuterAddress(outer_version)
 
-  def testIpv4InIpv6VtiOutput(self):
-    self._CheckVtiOutput(4, 6)
+    # Create a socket to receive packets.
+    read_sock = socket(
+        net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
+    # The second parameter of the tuple is the port number regardless of AF.
+    port = read_sock.getsockname()[1]
+    # Guard against the eventuality of the receive failing.
+    csocket.SetSocketTimeout(read_sock, 100)
 
-  def testIpv6InIpv4VtiOutput(self):
-    self._CheckVtiOutput(6, 4)
+    # Send a packet out via the vti-backed network, bound for the port number
+    # of the input socket.
+    write_sock = socket(
+        net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+    self.SelectInterface(write_sock, _VTI_NETID, "mark")
+    write_sock.sendto(net_test.UDP_PAYLOAD,
+                      (self._GetRemoteInnerAddress(inner_version), port))
 
-  def testIpv6InIpv6VtiOutput(self):
-    self._CheckVtiOutput(6, 6)
+    # Read a tunneled IP packet on the underlying (outbound) network
+    # verifying that it is an ESP packet.
+    pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, tx + 1, None,
+                                  local_outer, remote_outer)
+
+    self.assertEquals((rx, tx + 1), self.iproute.GetRxTxPackets(_VTI_IFNAME))
+
+    # Perform an address switcheroo so that the inner address of the remote
+    # end of the tunnel is now the address on the local VTI interface; this
+    # way, the twisted inner packet finds a destination via the VTI once
+    # decrypted.
+    remote = self._GetRemoteInnerAddress(inner_version)
+    local = self._GetLocalInnerAddress(inner_version)
+    self._SwapInterfaceAddress(_VTI_IFNAME, new_addr=remote, old_addr=local)
+    try:
+      # Swap the packet's IP headers and write it back to the
+      # underlying network.
+      pkt = TunTwister.TwistPacket(pkt)
+      self.ReceivePacketOn(netid, pkt)
+      # Receive the decrypted packet on the dest port number.
+      read_packet = read_sock.recv(4096)
+      self.assertEquals(read_packet, net_test.UDP_PAYLOAD)
+      self.assertEquals((rx + 1, tx + 1),
+                        self.iproute.GetRxTxPackets(_VTI_IFNAME))
+    finally:
+      # Unwind the switcheroo
+      self._SwapInterfaceAddress(_VTI_IFNAME, new_addr=local, old_addr=remote)
+
+    # Now attempt to provoke an ICMP error.
+    # TODO: deduplicate with multinetwork_test.py.
+    version = outer_version
+    dst_prefix, intermediate = {
+        4: ("172.19.", "172.16.9.12"),
+        6: ("2001:db8::", "2001:db8::1")
+    }[version]
+
+    write_sock.sendto(net_test.UDP_PAYLOAD,
+                      (self._GetRemoteInnerAddress(inner_version), port))
+    pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, tx + 2, None,
+                                  local_outer, remote_outer)
+    myaddr = self.MyAddress(version, netid)
+    _, toobig = packets.ICMPPacketTooBig(version, intermediate, myaddr, pkt)
+    self.ReceivePacketOn(netid, toobig)
+
+    # Check that the packet too big reduced the MTU.
+    routes = self.iproute.GetRoutes(remote_outer, 0, netid, None)
+    self.assertEquals(1, len(routes))
+    rtmsg, attributes = routes[0]
+    self.assertEquals(iproute.RTN_UNICAST, rtmsg.type)
+    self.assertEquals(1280, attributes["RTA_METRICS"]["RTAX_MTU"])
+
+    # Clear PMTU information so that future tests don't have to worry about it.
+    self.InvalidateDstCache(version, netid)
+
+    self.assertEquals((rx + 1, tx + 2),
+                      self.iproute.GetRxTxPackets(_VTI_IFNAME))
+    return rx + 1, tx + 2
+
+  def testIpv4Vti(self):
+    self._TestVti(4, False)
+
+  def testIpv4MultiVti(self):
+    self._TestVti(4, True)
+
+  def testIpv6Vti(self):
+    self._TestVti(6, False)
+
+  def testIpv6MultiVti(self):
+    self._TestVti(6, True)
 
 
 if __name__ == "__main__":
