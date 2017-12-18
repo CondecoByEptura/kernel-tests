@@ -30,28 +30,33 @@ import packets
 import xfrm
 import xfrm_base
 
+# Experimental keyed VTI flag.
+VTI_KEYED = 1
+
 # Parameters to Set up VTI as a special network
 _VTI_NETID = 50
 _VTI_IFNAME = "test_vti"
+_VTI0 = _VTI_IFNAME + "0"
+_VTI1 = _VTI_IFNAME + "1"
 
 _TEST_OUT_SPI = 0x1234
+# The inbound and outbound SPIs must be the same, because we rely on TapTwister
+# to do the encryption for us, and the twisted packets all have the same SPI.
 _TEST_IN_SPI = _TEST_OUT_SPI
 
-_TEST_OKEY = _TEST_OUT_SPI + _VTI_NETID
+# The ikeys and okeys can be different.
+_TEST_OKEY = _TEST_OUT_SPI + _VTI_NETID + 3333
 _TEST_IKEY = _TEST_IN_SPI + _VTI_NETID
 
 
 def _GetLocalInnerAddress(version):
   return {4: "10.16.5.15", 6: "2001:db8:1::1"}[version]
 
-
 def _GetRemoteInnerAddress(version):
   return {4: "10.16.5.20", 6: "2001:db8:2::1"}[version]
 
-
 def _GetRemoteOuterAddress(version):
   return {4: net_test.IPV4_ADDR, 6: net_test.IPV6_ADDR}[version]
-
 
 
 class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
@@ -96,6 +101,90 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
   def testIpv6InIpv6TunnelOutput(self):
     self._CheckTunnelOutput(6, 6)
+
+
+@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
+class XfrmAddDeleteVtiTest(multinetwork_base.MultiNetworkBaseTest):
+
+  def tearDown(self):
+    super(XfrmAddDeleteVtiTest, self).tearDown()
+    try:
+      self.iproute.DeleteLink(_VTI0)
+    except IOError:
+      pass
+
+    try:
+      self.iproute.DeleteLink(_VTI1)
+    except IOError:
+      pass
+
+  def _TestAddVti(self, version):
+
+    netid = self.RandomNetid()
+
+    def CreateVti(dev_name, i_key, i_flags):
+      self.iproute.CreateVirtualTunnelInterface(
+          dev_name=dev_name,
+          local_addr=self.MyAddress(version, netid),
+          remote_addr=_GetRemoteOuterAddress(version),
+          o_key=_TEST_OKEY,
+          i_key=i_key,
+          i_flags=i_flags)
+
+      # Validate that the netlink interface matches the ioctl interface.
+      if_index = self.iproute.GetIfIndex(dev_name)
+      self.assertEquals(net_test.GetInterfaceIndex(dev_name), if_index)
+
+    def DeleteVti(dev_name):
+      self.iproute.DeleteLink(dev_name)
+      with self.assertRaisesErrno(ENODEV):
+        self.iproute.GetIfIndex(dev_name)
+
+    # With VTI_KEYED, two VTIs can be created on the same src+dst pair, as long
+    # as they have different names and ikeys.
+    CreateVti(_VTI0, _TEST_IKEY, VTI_KEYED)
+    CreateVti(_VTI1, _TEST_IKEY + 1, VTI_KEYED)
+    # No exceptions? Good.
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI0, _TEST_IKEY, VTI_KEYED)
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI0, _TEST_IKEY + 2, VTI_KEYED)
+    DeleteVti(_VTI0)
+    DeleteVti(_VTI1)
+
+    # Creating two keyed VTIs with the same ikey is an error.
+    CreateVti(_VTI0, _TEST_IKEY, VTI_KEYED)
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI1, _TEST_IKEY, VTI_KEYED)
+    CreateVti(_VTI1, _TEST_IKEY + 1, VTI_KEYED)
+    DeleteVti(_VTI0)
+    DeleteVti(_VTI1)
+
+    # Creating another VTI with the same name results in EEXIST even if the
+    # ikey is different.
+    CreateVti(_VTI0, _TEST_IKEY, 0)
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI0, _TEST_IKEY, 0)
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI0, _TEST_IKEY + 1, 0)
+    DeleteVti(_VTI0)
+
+    # Keyed and non-keyed VTIs cannot coexist on the same IP address pair.
+    CreateVti(_VTI0, _TEST_IKEY, 0)
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI1, _TEST_IKEY + 12, VTI_KEYED)
+    DeleteVti(_VTI0)
+
+    CreateVti(_VTI0, _TEST_IKEY, VTI_KEYED)
+    with self.assertRaisesErrno(EEXIST):
+      CreateVti(_VTI1, _TEST_IKEY + 44, 0)
+    DeleteVti(_VTI0)
+
+  def testAddVtiIPv4(self):
+    self._TestAddVti(4)
+
+  def testAddVtiIPv6(self):
+    self._TestAddVti(6)
 
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
@@ -150,25 +239,6 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
                             net_test.AddressLengthBits(version), ifindex)
     self.iproute.DelAddress(old_addr,
                             net_test.AddressLengthBits(version), ifindex)
-
-  def testAddVti(self):
-    """Test the creation of a Virtual Tunnel Interface."""
-    for version in [4, 6]:
-      netid = self.RandomNetid()
-      local_addr = self.MyAddress(version, netid)
-      self.iproute.CreateVirtualTunnelInterface(
-          dev_name=_VTI_IFNAME,
-          local_addr=local_addr,
-          remote_addr=_GetRemoteOuterAddress(version),
-          o_key=_TEST_OKEY,
-          i_key=_TEST_IKEY)
-      if_index = self.iproute.GetIfIndex(_VTI_IFNAME)
-
-      # Validate that the netlink interface matches the ioctl interface.
-      self.assertEquals(net_test.GetInterfaceIndex(_VTI_IFNAME), if_index)
-      self.iproute.DeleteLink(_VTI_IFNAME)
-      with self.assertRaises(IOError):
-        self.iproute.GetIfIndex(_VTI_IFNAME)
 
   def _SetupVtiNetwork(self, netid, ifname, is_add):
     """Setup rules and routes for a VTI Network.
@@ -225,15 +295,17 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
   # direction individually. This approach would improve debuggability, avoid the
   # complexity of the twister, and allow the test to more-closely validate
   # deployable configurations.
-  def _CreateVti(self, netid, vti_netid, ifname, outer_version):
+  def _CreateVti(self, netid, vti_netid, ifname, outer_version, is_multi):
     local_outer = self.MyAddress(outer_version, netid)
     remote_outer = _GetRemoteOuterAddress(outer_version)
+    i_flags = VTI_KEYED if is_multi else 0
     self.iproute.CreateVirtualTunnelInterface(
         dev_name=ifname,
         local_addr=local_outer,
         remote_addr=remote_outer,
         i_key=_TEST_IKEY,
-        o_key=_TEST_OKEY)
+        o_key=_TEST_OKEY,
+        i_flags=i_flags)
 
     self._SetupVtiNetwork(vti_netid, ifname, True)
 
@@ -324,11 +396,11 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
                       self.iproute.GetRxTxPackets(iface))
     return rx + 1, tx + 2
 
-  def _TestVti(self, outer_version):
+  def _TestVti(self, outer_version, is_multi):
     """Test packet input and output over a Virtual Tunnel Interface."""
     netid = self.RandomNetid()
 
-    self._CreateVti(netid, _VTI_NETID, _VTI_IFNAME, outer_version)
+    self._CreateVti(netid, _VTI_NETID, _VTI_IFNAME, outer_version, is_multi)
 
     try:
       rx, tx = self._CheckVtiInputOutput(netid, _VTI_NETID, _VTI_IFNAME,
@@ -339,10 +411,16 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
       self._SetupVtiNetwork(_VTI_NETID, _VTI_IFNAME, False)
 
   def testIpv4Vti(self):
-    self._TestVti(4)
+    self._TestVti(4, False)
+
+  def testIpv4MultiVti(self):
+    self._TestVti(4, True)
 
   def testIpv6Vti(self):
-    self._TestVti(6)
+    self._TestVti(6, False)
+
+  def testIpv6MultiVti(self):
+    self._TestVti(6, True)
 
 
 if __name__ == "__main__":

@@ -221,6 +221,8 @@ IFLA_VTI_IKEY = 2
 IFLA_VTI_OKEY = 3
 IFLA_VTI_LOCAL = 4
 IFLA_VTI_REMOTE = 5
+IFLA_VTI_FWMARK = 6
+IFLA_VTI_IFLAGS = 7
 
 
 def CommandVerb(command):
@@ -679,7 +681,7 @@ class IPRoute(netlink.NetlinkSocket):
     return stats.rx_packets, stats.tx_packets
 
   def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
-                                   i_key=None, o_key=None):
+                                   i_key=None, o_key=None, i_flags=None):
     """
     Create a Virtual Tunnel Interface that provides a proxy interface
     for IPsec tunnels.
@@ -720,6 +722,8 @@ class IPRoute(netlink.NetlinkSocket):
       ifdata += self._NlAttrU32(IFLA_VTI_IKEY, socket.htonl(i_key))
     if o_key is not None:
       ifdata += self._NlAttrU32(IFLA_VTI_OKEY, socket.htonl(o_key))
+    if i_flags is not None:
+      ifdata += self._NlAttrU16(IFLA_VTI_IFLAGS, i_flags)
     linkinfo += self._NlAttr(IFLA_INFO_DATA, ifdata)
 
     ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
