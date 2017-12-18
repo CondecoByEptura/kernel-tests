@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e6f344a_2e0499ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1124693
+      },
+      "writtenOn": "2017-12-18T18:55:44Z",
+      "side": 1,
+      "message": "good point",
+      "parentUuid": "c4baffae_4171b240",
+      "revId": "5423a82b0e2276f1ba3620d4f9b49db4dab54cab",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e817a1e_f2b3bd65",
         "filename": "devicetree/early_mount/Android.bp",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-12-18T18:13:05Z",
       "side": 1,
       "message": "just curious, why disabled here",
+      "revId": "5423a82b0e2276f1ba3620d4f9b49db4dab54cab",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a87f68c_76b8dbfc",
+        "filename": "devicetree/early_mount/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1124693
+      },
+      "writtenOn": "2017-12-18T18:55:44Z",
+      "side": 1,
+      "message": "target-side python 3 is not supported yet.",
+      "parentUuid": "4e817a1e_f2b3bd65",
       "revId": "5423a82b0e2276f1ba3620d4f9b49db4dab54cab",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
