@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c922975_051d6bbe",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-19T23:31:08Z",
+      "side": 1,
+      "message": "nit: punctuation.",
+      "range": {
+        "startLine": 474,
+        "startChar": 54,
+        "endLine": 474,
+        "endChar": 60
+      },
+      "revId": "463c757e6c7051489f6799d13c7af7f2643ea8de",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
