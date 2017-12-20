@@ -43,6 +43,7 @@ TEST_ADDR2 = "2001:4860:4860::8844"
 TUNNEL_ENDPOINTS = {4: "8.8.4.4", 6: TEST_ADDR2}
 
 TEST_SPI = 0x1234
+TEST_SPI2 = 0x1235
 
 
 
@@ -52,16 +53,22 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(IPPROTO_UDP, packet.proto)
     udp_hdr = packet[scapy.UDP]
     self.assertEquals(4500, udp_hdr.dport)
-    self.assertEquals(length, len(udp_hdr.load))
+    self.assertEquals(length, len(udp_hdr))
     esp_hdr, _ = cstruct.Read(str(udp_hdr.load), xfrm.EspHdr)
     # FIXME: this file currently swaps SPI byte order manually, so SPI needs to
     # be double-swapped here.
     self.assertEquals(xfrm.EspHdr((spi, seq)), esp_hdr)
 
+  def CreateNewSa(self, localAddr, remoteAddr, spi, reqId, encapTmpl,
+                  nullAuth=False):
+    self.xfrm.AddSaInfo(localAddr, remoteAddr, spi, xfrm.XFRM_MODE_TRANSPORT,
+                    reqId, xfrm_base._ALGO_CBC_AES_256,
+                    (xfrm_base._ALGO_AUTH_NULL if nullAuth
+                        else xfrm_base._ALGO_HMAC_SHA1),
+                    None, encapTmpl, None, None)
+
   def testAddSa(self):
-    self.xfrm.AddSaInfo("::", TEST_ADDR1, TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
-                        3320, xfrm_base._ALGO_CBC_AES_256,
-                        xfrm_base._ALGO_HMAC_SHA1, None, None, None, None)
+    self.CreateNewSa("::", TEST_ADDR1, TEST_SPI, 3320, None)
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
         "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
@@ -80,13 +87,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
 
   def testFlush(self):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
-    self.xfrm.AddSaInfo("::", "2000::", TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
-                        1234, xfrm_base._ALGO_CBC_AES_256,
-                        xfrm_base._ALGO_HMAC_SHA1, None, None, None, None)
-    self.xfrm.AddSaInfo("0.0.0.0", "192.0.2.1", TEST_SPI,
-                        xfrm.XFRM_MODE_TRANSPORT, 4321,
-                        xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
-                        None, None, None, None)
+    self.CreateNewSa("::", "2000::", TEST_SPI, 1234, None)
+    self.CreateNewSa("0.0.0.0", "192.0.2.1", TEST_SPI, 4321, None)
     self.assertEquals(2, len(self.xfrm.DumpSaInfo()))
     self.xfrm.FlushSaInfo()
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
@@ -126,6 +128,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     # SPI must match the one in our template, and the destination address must
     # match the packet's destination address (in tunnel mode, it has to match
     # the tunnel destination).
+<<<<<<< HEAD
     self.xfrm.AddSaInfo(net_test.GetWildcardAddress(xfrm_version),
                         self.GetRemoteAddress(xfrm_version),
                         TEST_SPI, xfrm.XFRM_MODE_TRANSPORT, reqid,
@@ -136,6 +139,15 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                                 version, False,
                                                 net_test.UDP_PAYLOAD)
     self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_length, None, None)
+=======
+    self.CreateNewSa(net_test.GetWildcardAddress(xfrm_version),
+                     self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid,
+                     None)
+    s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
+    expected_len = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, 6,
+                                                False, net_test.UDP_PAYLOAD)
+    self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_len, None, None)
+>>>>>>> 212da5a... Add tests for transport mode re-key procedure
 
     # Sending to another destination doesn't work: again, no matching SA.
     remoteaddr2 = self.GetOtherRemoteAddress(version)
@@ -185,13 +197,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
   def testSocketPolicyMapped(self):
     self._TestSocketPolicy(5)
 
-  # TODO: Should we completely re-write this using null encryption and null
-  # authentication? We could then assemble and disassemble packets for each
-  # direction individually. This approach would improve debuggability, avoid the
-  # complexity of the twister, and allow the test to more-closely validate
-  # deployable configurations.
-  def testUdpEncapWithSocketPolicy(self):
-    # TODO: test IPv6 instead of IPv4.
+  # Sets up sockets and marks to correct netid
+  def _SetupUdpEncapSockets(self):
     netid = self.RandomNetid()
     myaddr = self.MyAddress(4, netid)
     remoteaddr = self.GetRemoteAddress(4)
@@ -200,10 +207,10 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     # packets works without this (and potentially can send packets with a source
     # port belonging to another application), but receiving requires the port to
     # be bound and the encapsulation socket option enabled.
-    encap_socket = net_test.Socket(AF_INET, SOCK_DGRAM, 0)
-    encap_socket.bind((myaddr, 0))
-    encap_port = encap_socket.getsockname()[1]
-    encap_socket.setsockopt(IPPROTO_UDP, xfrm.UDP_ENCAP,
+    encap_sock = net_test.Socket(AF_INET, SOCK_DGRAM, 0)
+    encap_sock.bind((myaddr, 0))
+    encap_port = encap_sock.getsockname()[1]
+    encap_sock.setsockopt(IPPROTO_UDP, xfrm.UDP_ENCAP,
                             xfrm.UDP_ENCAP_ESPINUDP)
 
     # Open a socket to send traffic.
@@ -211,44 +218,66 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     self.SelectInterface(s, netid, "mark")
     s.connect((remoteaddr, 53))
 
-    # Use the same SPI both inbound and outbound because this lets us receive
-    # encrypted packets by simply replaying the packets the kernel sends.
-    in_reqid = 123
-    in_spi = TEST_SPI
-    out_reqid = 456
-    out_spi = TEST_SPI
+    return netid, myaddr, remoteaddr, encap_sock, encap_port, s
 
-    # Apply an outbound socket policy to s.
-    xfrm_base.ApplySocketPolicy(s, AF_INET, xfrm.XFRM_POLICY_OUT,
-                                out_spi, out_reqid, None)
+  # Sets up SAs and applies socket policy to given socket
+  def _SetupUdpEncapSaPair(self, myaddr, remoteaddr, in_spi, out_spi,
+                           encap_port, s, use_null_auth):
+    in_reqid = 123
+    out_reqid = 456
 
     # Create inbound and outbound SAs that specify UDP encapsulation.
     encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
                                     htons(4500), 16 * "\x00"))
-    self.xfrm.AddSaInfo(myaddr, remoteaddr, out_spi,
-                        xfrm.XFRM_MODE_TRANSPORT, out_reqid,
-                        xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
-                        None, encaptmpl, None, None)
+    self.CreateNewSa(myaddr, remoteaddr, out_spi, out_reqid, encaptmpl,
+                     use_null_auth)
 
     # Add an encap template that's the mirror of the outbound one.
     encaptmpl.sport, encaptmpl.dport = encaptmpl.dport, encaptmpl.sport
-    self.xfrm.AddSaInfo(remoteaddr, myaddr, in_spi, xfrm.XFRM_MODE_TRANSPORT,
-                        in_reqid, xfrm_base._ALGO_CBC_AES_256,
-                        xfrm_base._ALGO_HMAC_SHA1, None, encaptmpl, None, None)
+    self.CreateNewSa(remoteaddr, myaddr, in_spi, in_reqid, encaptmpl,
+                     use_null_auth)
+
+    # Apply socket policies to s.
+    xfrm_base.ApplySocketPolicy(s, AF_INET, xfrm.XFRM_POLICY_OUT, out_spi,
+                                out_reqid, None)
+
+
+    # TODO: why does this work without a per-socket policy applied?
+    # The received  packet obviously matches an SA, but don't inbound packets
+    # need to match a policy as well? (b/71541609)
+    xfrm_base.ApplySocketPolicy(s, AF_INET, xfrm.XFRM_POLICY_IN, in_spi,
+                                in_reqid, None)
 
     # Uncomment for debugging.
     # subprocess.call("ip xfrm state".split())
 
+  # Check that packets can be sent and received.
+  def _VerifyUdpEncapSocket(self, netid, remoteaddr, myaddr, encap_port, sock,
+                           in_spi, out_spi, nullAuth=False, seq_num=1):
     # Now send a packet.
-    s.sendto("foo", (remoteaddr, 53))
-    srcport = s.getsockname()[1]
-    # s.send("foo")  # TODO: WHY DOES THIS NOT WORK?
+    sock.sendto(net_test.UDP_PAYLOAD, (remoteaddr, 53))
+    srcport = sock.getsockname()[1]
 
     # Expect to see an UDP encapsulated packet.
+<<<<<<< HEAD
     pkts = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(pkts))
     packet = pkts[0]
     self.assertIsUdpEncapEsp(packet, out_spi, 1, 52)
+=======
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+
+    trunc_len = (xfrm_base._AUTH_NULL_TRUNC_LEN if nullAuth
+                    else xfrm_base._AUTH_SHA1_TRUNC_LEN)
+    expected_len = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, 4,
+                                                True, net_test.UDP_PAYLOAD,
+                                                xfrm_base._CRYPT_CBC_BLK_SIZE,
+                                                xfrm_base._CRYPT_CBC_BLK_SIZE,
+                                                trunc_len)
+    self.assertIsUdpEncapEsp(packet, out_spi, seq_num, expected_len)
+>>>>>>> 212da5a... Add tests for transport mode re-key procedure
 
     # Now test the receive path. Because we don't know how to decrypt packets,
     # we just play back the encrypted packet that kernel sent earlier. We swap
@@ -262,38 +291,107 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     csocket.SetSocketTimeout(twisted_socket, 100)
     twisted_socket.bind(("0.0.0.0", 53))
 
-    # TODO: why does this work without a per-socket policy applied?
-    # The received  packet obviously matches an SA, but don't inbound packets
-    # need to match a policy as well?
-
     # Save the payload of the packet so we can replay it back to ourselves, and
     # replace the SPI with our inbound SPI.
     payload = str(packet.payload)[8:]
-    spi_seq = xfrm.EspHdr((in_spi, 1)).Pack()
+    spi_seq = xfrm.EspHdr((in_spi, seq_num)).Pack()
     payload = spi_seq + payload[len(spi_seq):]
 
-    # Tamper with the packet and check that it's dropped and counted as invalid.
     sainfo = self.xfrm.FindSaInfo(in_spi)
-    self.assertEquals(0, sainfo.stats.integrity_failed)
-    broken = payload[:25] + chr((ord(payload[25]) + 1) % 256) + payload[26:]
-    incoming = (scapy.IP(src=remoteaddr, dst=myaddr) /
-                scapy.UDP(sport=4500, dport=encap_port) / broken)
-    self.ReceivePacketOn(netid, incoming)
-    sainfo = self.xfrm.FindSaInfo(in_spi)
-    self.assertEquals(1, sainfo.stats.integrity_failed)
+    start_integrity_failures = sainfo.stats.integrity_failed
 
     # Now play back the valid packet and check that we receive it.
     incoming = (scapy.IP(src=remoteaddr, dst=myaddr) /
                 scapy.UDP(sport=4500, dport=encap_port) / payload)
+    incoming = scapy.IP(str(incoming))
     self.ReceivePacketOn(netid, incoming)
-    data, src = twisted_socket.recvfrom(4096)
-    self.assertEquals("foo", data)
-    self.assertEquals((remoteaddr, srcport), src)
+
+    sainfo = self.xfrm.FindSaInfo(in_spi)
+
+    # TODO: break this out into a separate test
+    # If our SPIs are different, and we aren't using null authentication,
+    # we expect the packet to be dropped.
+    if not nullAuth and in_spi != out_spi:
+      self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
+      self.assertEquals(start_integrity_failures + 1,
+                        sainfo.stats.integrity_failed)
+    else:
+      data, src = twisted_socket.recvfrom(4096)
+      self.assertEquals(net_test.UDP_PAYLOAD, data)
+      self.assertEquals((remoteaddr, srcport), src)
+      self.assertEquals(start_integrity_failures,
+                        sainfo.stats.integrity_failed)
 
     # Check that unencrypted packets on twisted_socket are not received.
     unencrypted = (scapy.IP(src=remoteaddr, dst=myaddr) /
-                   scapy.UDP(sport=srcport, dport=53) / "foo")
+                   scapy.UDP(sport=srcport, dport=53) / net_test.UDP_PAYLOAD)
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
+
+  def _RunSocketPolicyTest(self, in_spi, out_spi, use_null_auth):
+    netid, myaddr, remoteaddr, encap_sock, encap_port, s = \
+        self._SetupUdpEncapSockets()
+
+    self._SetupUdpEncapSaPair(myaddr, remoteaddr, in_spi, out_spi, encap_port,
+                              s, use_null_auth)
+
+    # Check that UDP encap sockets work with socket policy and given SAs
+    self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
+                              in_spi, out_spi, use_null_auth)
+
+  # TODO: Add tests for ESP (non-encap) sockets.
+  def testUdpEncapSameSpisNullAuth(self):
+    self._RunSocketPolicyTest(TEST_SPI, TEST_SPI, True)
+
+  def testUdpEncapSameSpis(self):
+    self._RunSocketPolicyTest(TEST_SPI, TEST_SPI, False)
+
+  def testUdpEncapDifferentSpisNullAuth(self):
+    self._RunSocketPolicyTest(TEST_SPI, TEST_SPI2, True)
+
+  def testUdpEncapDifferentSpis(self):
+    self._RunSocketPolicyTest(TEST_SPI, TEST_SPI2, False)
+
+  def testUdpEncapRekey(self):
+    # Select the two SPIs that will be used
+    start_spi = TEST_SPI
+    rekey_spi = TEST_SPI2
+
+    # Setup sockets
+    netid, myaddr, remoteaddr, encap_sock, encap_port, s = \
+        self._SetupUdpEncapSockets()
+
+    # The SAs must use null authentication, since we change SPIs on the fly
+    # Without null authentication, this would result in an ESP authentication
+    # error since the SPI is part of the authenticated section. The packet
+    # would then be dropped
+    self._SetupUdpEncapSaPair(myaddr, remoteaddr, start_spi, start_spi,
+                              encap_port, s, True)
+
+    # Check that UDP encap sockets work with socket policy and given SAs
+    self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
+                              start_spi,start_spi, True)
+
+    # Rekey this socket using the make-before-break paradigm. First we create
+    # new SAs, update the per-socket policies, and only then remove the old SAs
+    #
+    # This allows us to switch to the new SA without breaking the outbound path.
+    self._SetupUdpEncapSaPair(myaddr, remoteaddr, rekey_spi, rekey_spi,
+                              encap_port, s, True)
+
+    # Check that UDP encap socket works with updated socket policy, sending
+    # using new SA, but receiving on both old and new SAs
+    self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
+                              rekey_spi, rekey_spi, True)
+    self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
+                              start_spi, rekey_spi, True, 2)
+
+    # Delete old SAs
+    self.xfrm.DeleteSaInfo(remoteaddr, start_spi, IPPROTO_ESP)
+    self.xfrm.DeleteSaInfo(myaddr, start_spi, IPPROTO_ESP)
+
+    # Check that UDP encap socket works with updated socket policy and new SAs
+    self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
+                              rekey_spi, rekey_spi, True, 3)
 
   def testAllocSpecificSpi(self):
     spi = 0xABCD
@@ -460,10 +558,17 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     local_port = sock.getsockname()[1]
     remote_port = 5555
 
+<<<<<<< HEAD
     xfrm_base.ApplySocketPolicy(
         sock, family, xfrm.XFRM_POLICY_OUT, 0xABCD, 123, None)
     xfrm_base.ApplySocketPolicy(
         sock, family, xfrm.XFRM_POLICY_IN, 0x9876, 456, None)
+=======
+    xfrm_base.ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_OUT, 0xABCD,
+                                123, None)
+    xfrm_base.ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_IN, 0x9876,
+                                456, None)
+>>>>>>> 212da5a... Add tests for transport mode re-key procedure
 
     # Create and receive an ESP packet.
     IpType = {4: scapy.IP, 6: scapy.IPv6}[version]
