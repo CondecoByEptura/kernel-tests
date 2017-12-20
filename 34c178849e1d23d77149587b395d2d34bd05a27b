@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f480306c_c070b84a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Socket policy in tunnel mode is not something we plan on using, is it? Instead of doing this, can/should we focus on the VTI use case? We already have passing tests that exercise the VTI code (both in and out), and being able to avoid the twister for those tests will be a substantial improvement in functionality.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 32
+      },
+      "revId": "34c178849e1d23d77149587b395d2d34bd05a27b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}

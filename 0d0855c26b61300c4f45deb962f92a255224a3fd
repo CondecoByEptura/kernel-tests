@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c23199f_a7deb364",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Update docstring to match parameter names.",
+      "range": {
+        "startLine": 181,
+        "startChar": 20,
+        "endLine": 181,
+        "endChar": 56
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdee2468_a4d624ce",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "I think the style guide says to use snake_case for this since it\u0027s a local variable. We do that in most places with the exception of the cstruct class names. I\u0027d prefer snake_case here but don\u0027t feel too strongly about it.",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 10
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e596328_235d58f0",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Might be good to fail if the packet is not a supported type (e.g., if it\u0027s ethernet)? You could do that here like this:\n\n    esp_nexthdr \u003d {scapy.IP: IPPROTO_IPIP, scapy.IPv6: IPPROTO_IPV6}[type(packet)]\n\nor just by doing:\n\n  else:\n    raise ValueError(\"Unsupported packet type %s\" % type(packet))\n\nor something.\n\nOr will any such packet fail the check below?",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 32
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18446c25_93808f05",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Is there something we can do about this, like doing \"packet.payload \u003d str(esp_hdr) + trailer\"?",
+      "range": {
+        "startLine": 240,
+        "startChar": 30,
+        "endLine": 240,
+        "endChar": 50
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a82991d5_2a06ee02",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Instead of doing this accounting, we should consider regenerating the packet from scratch. That would also let us avoid the copy() above. Not necessarily in this CL, unless you find a way to do it quickly and cleanly.",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 34
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71dfd715_db64c7ea",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "ESP",
+      "range": {
+        "startLine": 262,
+        "startChar": 16,
+        "endLine": 262,
+        "endChar": 19
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a9b9d6_50a0adb1",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Remove.",
+      "range": {
+        "startLine": 274,
+        "startChar": 2,
+        "endLine": 274,
+        "endChar": 43
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b9a17c_84139e0f",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Suggest just using packet.payload here and removing the esp_layer variable entirely. One less thing to think about.",
+      "range": {
+        "startLine": 276,
+        "startChar": 39,
+        "endLine": 276,
+        "endChar": 48
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dfd77c5_fa1c1334",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "How about something like:\n\n    trailer \u003d esp_data[-4:]\n    nexthdr, trailer_len \u003d cstruct.unpack(\"BB\", trailer)",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 37
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a3eb656_75fed137",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "IPPROTO_IP",
+      "range": {
+        "startLine": 280,
+        "startChar": 15,
+        "endLine": 280,
+        "endChar": 16
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc6ff6e5_4d617cbc",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "IPPROTO_UDP",
+      "range": {
+        "startLine": 280,
+        "startChar": 44,
+        "endLine": 280,
+        "endChar": 46
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d3c3c33_5ddda6c9",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "IPPROTO_IPV6",
+      "range": {
+        "startLine": 280,
+        "startChar": 28,
+        "endLine": 280,
+        "endChar": 30
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c2a68d6_aeb55b7d",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "[IPPROTO_IPIP, IPPROTO_IPV6]",
+      "range": {
+        "startLine": 282,
+        "startChar": 20,
+        "endLine": 282,
+        "endChar": 27
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "932a34e6_39ab4a51",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Haven\u0027t we already subtracted trailer_len from the length? We created the packet above with:\n\n    next_layer \u003d LayerType(esp_data[:-trailer_len])",
+      "range": {
+        "startLine": 291,
+        "startChar": 19,
+        "endLine": 291,
+        "endChar": 31
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b90b1d2e_df79e854",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:44:27Z",
+      "side": 1,
+      "message": "Can we avoid some of these recalculations by setting the lengths and protocols to None and have scapy calculate them for us?",
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
