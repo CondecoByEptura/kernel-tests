@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30365848_9eae5997",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T05:12:04Z",
+      "side": 1,
+      "message": "Can you clarify, either here or in comments. whether the policy will be created if it does not exist and/or whether it will be updated if it does exist?",
+      "range": {
+        "startLine": 313,
+        "startChar": 7,
+        "endLine": 313,
+        "endChar": 11
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d37f3a2b_1be6f783",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T05:12:04Z",
+      "side": 1,
+      "message": "In general it\u0027s better to use explicit \"if tmpl is not None:\" because \"if tmpl\" will return false for an empty string, an empty list, an int with a value of 0, etc.\n\nIt probably doesn\u0027t matter here because an empty string is not a valid template, but there are probably other attributes for which an empty string *is* a valid value (example: an integer attribute for which 0 is a meaningful value), and if we\u0027re consistent about \"is not None\", then we won\u0027t have problems with those in the future.\n\nSame for the mark.",
+      "range": {
+        "startLine": 315,
+        "startChar": 4,
+        "endLine": 315,
+        "endChar": 12
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77d5bce6_e2c31201",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T05:12:04Z",
+      "side": 1,
+      "message": "cstruct",
+      "range": {
+        "startLine": 337,
+        "startChar": 32,
+        "endLine": 337,
+        "endChar": 33
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef7f076b_1f18a719",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T05:12:04Z",
+      "side": 1,
+      "message": "Might be worth testing if it\u0027s possible to have the same policy with the same mark, but in two different directions.",
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c252dcfc_9e763b1e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T05:12:04Z",
+      "side": 1,
+      "message": "Suggest adding a clarifying comment explaining these differ only by SPI.",
+      "range": {
+        "startLine": 477,
+        "startChar": 43,
+        "endLine": 477,
+        "endChar": 49
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02e4847_6d396227",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T05:12:04Z",
+      "side": 1,
+      "message": "Suggest doing this twice, once after the AddPolicyInfo and once here. Factor out into a nested function?\n\n    def CheckPolicyTemplate()\n      dump \u003d self.xfrm.DumpPolicyInfo()\n      self.assertEquals(1, len(dump))\n      _, attributes \u003d dump[0]\n      self.assertEquals(attributes[\u0027XFRMA_TMPL\u0027], tmpl2)\n\n  self.xfrm.AddPolicyInfo(policy, tmpl1, mark)\n  CheckPolicyTemplate()\n  self.xfrm.UpdatePolicyInfo(policy, tmpl2, mark)\n  CheckPolicyTemplate()",
+      "range": {
+        "startLine": 485,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 54
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
