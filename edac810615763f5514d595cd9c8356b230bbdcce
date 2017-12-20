@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9bf9c8a2_2e0e89e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:46:10Z",
+      "side": 1,
+      "message": "Suggest documenting on which kernel(s) you tested.",
+      "revId": "edac810615763f5514d595cd9c8356b230bbdcce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4afb06a_77a36422",
         "filename": "net/test/netlink.py",
         "patchSetId": 1
