@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "641c0ac2_e46ea1b3",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-20T04:57:34Z",
+      "side": 0,
+      "message": "Urg. Thank you for fixing this.",
+      "range": {
+        "startLine": 1142,
+        "startChar": 25,
+        "endLine": 1142,
+        "endChar": 48
+      },
+      "revId": "a8df3f523d37861ac0a3272a156f6bdcd627c1da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
