@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec5c20ff_b78cf6fe",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c23199f_a7deb364",
+      "range": {
+        "startLine": 181,
+        "startChar": 20,
+        "endLine": 181,
+        "endChar": 56
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdee2468_a4d624ce",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-20T04:44:27Z",
       "side": 1,
       "message": "I think the style guide says to use snake_case for this since it\u0027s a local variable. We do that in most places with the exception of the cstruct class names. I\u0027d prefer snake_case here but don\u0027t feel too strongly about it.",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 10
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57647243_a98f99cd",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdee2468_a4d624ce",
       "range": {
         "startLine": 210,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bd5aa0c4_88a4460b",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e596328_235d58f0",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 32
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18446c25_93808f05",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2017-12-20T04:44:27Z",
       "side": 1,
       "message": "Is there something we can do about this, like doing \"packet.payload \u003d str(esp_hdr) + trailer\"?",
+      "range": {
+        "startLine": 240,
+        "startChar": 30,
+        "endLine": 240,
+        "endChar": 50
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4147569_4848d839",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "logic simplified",
+      "parentUuid": "18446c25_93808f05",
       "range": {
         "startLine": 240,
         "startChar": 30,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "63eb7515_7da43e73",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Tweaks/fixes aside, this is mostly misterikkit code in the encode/decode. Fortunately, I have a working test for tunnel mode that we can use if we want to keep hacking away at it...",
+      "parentUuid": "a82991d5_2a06ee02",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 34
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71dfd715_db64c7ea",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -128,6 +248,30 @@
       "writtenOn": "2017-12-20T04:44:27Z",
       "side": 1,
       "message": "ESP",
+      "range": {
+        "startLine": 262,
+        "startChar": 16,
+        "endLine": 262,
+        "endChar": 19
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd0cb0ce_318867f8",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71dfd715_db64c7ea",
       "range": {
         "startLine": 262,
         "startChar": 16,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "fd1a8a87_99ba12e4",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97a9b9d6_50a0adb1",
+      "range": {
+        "startLine": 274,
+        "startChar": 2,
+        "endLine": 274,
+        "endChar": 43
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4b9a17c_84139e0f",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "37cdcd81_0099fa54",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4b9a17c_84139e0f",
+      "range": {
+        "startLine": 276,
+        "startChar": 39,
+        "endLine": 276,
+        "endChar": 48
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9dfd77c5_fa1c1334",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -197,6 +389,30 @@
       "writtenOn": "2017-12-20T04:44:27Z",
       "side": 1,
       "message": "How about something like:\n\n    trailer \u003d esp_data[-4:]\n    nexthdr, trailer_len \u003d cstruct.unpack(\"BB\", trailer)",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 37
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe2647d_917625a9",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "The \"trailer\" is not the pad length, which is what we get here... we still have to increment the value by 2, so this doesn\u0027t end up making the code clearer or shorter. I did a thing... maybe better?",
+      "parentUuid": "9dfd77c5_fa1c1334",
       "range": {
         "startLine": 278,
         "startChar": 0,
@@ -278,6 +494,78 @@
     },
     {
       "key": {
+        "uuid": "bc9f69de_369a8464",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a3eb656_75fed137",
+      "range": {
+        "startLine": 280,
+        "startChar": 15,
+        "endLine": 280,
+        "endChar": 16
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3090238e_4a95fcd0",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc6ff6e5_4d617cbc",
+      "range": {
+        "startLine": 280,
+        "startChar": 44,
+        "endLine": 280,
+        "endChar": 46
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3618266b_761ccd61",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d3c3c33_5ddda6c9",
+      "range": {
+        "startLine": 280,
+        "startChar": 28,
+        "endLine": 280,
+        "endChar": 30
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c2a68d6_aeb55b7d",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -289,6 +577,30 @@
       "writtenOn": "2017-12-20T04:44:27Z",
       "side": 1,
       "message": "[IPPROTO_IPIP, IPPROTO_IPV6]",
+      "range": {
+        "startLine": 282,
+        "startChar": 20,
+        "endLine": 282,
+        "endChar": 27
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "681c2add_c8a0a6f9",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c2a68d6_aeb55b7d",
       "range": {
         "startLine": 282,
         "startChar": 20,
@@ -324,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "bea353f7_dbc4c9d5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "Fixed and test assertion added.",
+      "parentUuid": "932a34e6_39ab4a51",
+      "range": {
+        "startLine": 291,
+        "startChar": 19,
+        "endLine": 291,
+        "endChar": 31
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b90b1d2e_df79e854",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -335,6 +671,24 @@
       "writtenOn": "2017-12-20T04:44:27Z",
       "side": 1,
       "message": "Can we avoid some of these recalculations by setting the lengths and protocols to None and have scapy calculate them for us?",
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "613def1f_28307ef2",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "I tried it and the answer is... apparently not. I set just len to None, and it puked. I set both len and proto to None and it puked. Meh.",
+      "parentUuid": "b90b1d2e_df79e854",
       "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true

@@ -22,6 +22,30 @@
       "revId": "34c178849e1d23d77149587b395d2d34bd05a27b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765d1d7a_547b0cb7",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-20T22:41:38Z",
+      "side": 1,
+      "message": "The real purpose of this CL was to get null tunnel encryption working, which is a slightly different task and a precondition to getting it working with the VTI. I\u0027d rather merge this and then work on VTI, knowing that tunnel mode packet building actually works.\n\nFurther edit... now that I\u0027ve been making changes to that code, I\u0027m really glad I had this test working. Otherwise I would have been screwed. Now I actually *do* want to keep it, just so that I know I\u0027m not breaking the encryption/decryption code along the way.",
+      "parentUuid": "f480306c_c070b84a",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 32
+      },
+      "revId": "34c178849e1d23d77149587b395d2d34bd05a27b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
