@@ -39,6 +39,24 @@
       "revId": "3aa34ccb156fc99b19dbcbf9e39f03a40e730ce1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf7f97b6_40db6841",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-21T18:24:32Z",
+      "side": 1,
+      "message": "My assertion is that the deletes ensure that there are 2 adds (indeed, delete does not silently fail, though there should be a test for that).\n\nAdding an already-matching policy is explicitly tested in the UpdatePolicy test below though, so that case is covered. It also happens to cover that we can \"add\" using \"update\" but we check the EEXIST on line 429 just as you suggest.",
+      "parentUuid": "d9ccf2c8_e776f0f6",
+      "revId": "3aa34ccb156fc99b19dbcbf9e39f03a40e730ce1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }

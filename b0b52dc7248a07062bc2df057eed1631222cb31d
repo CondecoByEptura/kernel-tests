@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "a3ff959b_3bc4ca11",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-21T18:24:32Z",
+      "side": 1,
+      "message": "Laziness? Inattention? Both certainly fueled by a propensity for copy+paste. But given a conscious thought I stand by my assertion that we shouldn\u0027t need it. And yes, consistency is important, so this is worth fixing. It\u0027s comment-only, so I\u0027ll accept your offer to do it in a new CL.",
+      "parentUuid": "3b07be87_966fd8d7",
+      "range": {
+        "startLine": 337,
+        "startChar": 32,
+        "endLine": 337,
+        "endChar": 33
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef7f076b_1f18a719",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 3
@@ -260,6 +284,30 @@
       "writtenOn": "2017-12-20T05:12:04Z",
       "side": 1,
       "message": "Suggest doing this twice, once after the AddPolicyInfo and once here. Factor out into a nested function?\n\n    def CheckPolicyTemplate()\n      dump \u003d self.xfrm.DumpPolicyInfo()\n      self.assertEquals(1, len(dump))\n      _, attributes \u003d dump[0]\n      self.assertEquals(attributes[\u0027XFRMA_TMPL\u0027], tmpl2)\n\n  self.xfrm.AddPolicyInfo(policy, tmpl1, mark)\n  CheckPolicyTemplate()\n  self.xfrm.UpdatePolicyInfo(policy, tmpl2, mark)\n  CheckPolicyTemplate()",
+      "range": {
+        "startLine": 485,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 54
+      },
+      "revId": "b0b52dc7248a07062bc2df057eed1631222cb31d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de26bb34_23880ed8",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-21T18:24:32Z",
+      "side": 1,
+      "message": "Done (already). Looks like I forgot to mark this one.",
+      "parentUuid": "e02e4847_6d396227",
       "range": {
         "startLine": 485,
         "startChar": 0,
