@@ -440,6 +440,17 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
   def testUpdatePolicyV6(self):
     self._CheckUpdatePolicy(6)
 
+  def checkPolicyDifferByDirection(self):
+    """Tests that policies can differ only by direction."""
+    family = net_test.GetAddressFamily(version)
+    tmpl = xfrm_base.UserTemplate(family, 0xdead, 0, None)
+    sel = xfrm.EmptySelector(family)
+    mark = xfrm.XfrmMark(mark=0xf00, mask=xfrm_base.MARK_MASK_ALL)
+    policy = xfrm_base.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
+    self.xfrm.AddPolicyInfo(policy, tmpl, mark)
+    policy = xfrm_base.UserPolicy(xfrm.XFRM_POLICY_IN, sel)
+    self.xfrm.AddPolicyInfo(policy, tmpl, mark)
+
 class XfrmOutputMarkTest(xfrm_base.XfrmBaseTest):
 
   def _CheckTunnelModeOutputMark(self, version, tunsrc, mark, expected_netid):
