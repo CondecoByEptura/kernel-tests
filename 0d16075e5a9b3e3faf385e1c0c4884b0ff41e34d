@@ -16,6 +16,24 @@
       "revId": "0d16075e5a9b3e3faf385e1c0c4884b0ff41e34d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc17147f_091e25ee",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2017-12-21T18:06:44Z",
+      "side": 1,
+      "message": "Same as comment on last CL... we test that in the \"Update\" test, so I don\u0027t think we need it here... but there is a fatal flaw in this CL.",
+      "parentUuid": "07ab6c4c_ad973c3e",
+      "revId": "0d16075e5a9b3e3faf385e1c0c4884b0ff41e34d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
