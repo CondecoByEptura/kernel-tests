@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0b4fafb_c52ef260",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-21T08:40:34Z",
+      "side": 1,
+      "message": "Nit: space after this \u003d.",
+      "range": {
+        "startLine": 389,
+        "startChar": 11,
+        "endLine": 389,
+        "endChar": 12
+      },
+      "revId": "3aa34ccb156fc99b19dbcbf9e39f03a40e730ce1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ccf2c8_e776f0f6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-21T08:40:34Z",
+      "side": 1,
+      "message": "Nit: I think this should also verify that if we add the template with mark1 twice we get EEXIST. \n\nOtherwise, the fact that the two adds succeeded doesn\u0027t by itself prove that the two adds result in two different policies. In theory, the kernel could be updating the same policy under the hood.\n\nIt\u0027s true that if this happened, one of the two deletes would likely throw and cause the test to fail. Also, we probably test elsewhere. But it would be nice to have those extra two lines in this test as well.",
+      "revId": "3aa34ccb156fc99b19dbcbf9e39f03a40e730ce1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
