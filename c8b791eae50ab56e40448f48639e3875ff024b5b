@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8fc12968_7aec2c91",
+        "filename": "net/test/csocket.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a133c5f_a3725f79",
+      "range": {
+        "startLine": 354,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 50
+      },
+      "revId": "c8b791eae50ab56e40448f48639e3875ff024b5b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21c2df72_1842872d",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-08T03:56:54Z",
       "side": 1,
       "message": "Suggest - SetPolicySockOpt or SetsockoptPolicy (rationale to keep the words sockopt together).\n\nA short docstring would be nice.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 25
+      },
+      "revId": "c8b791eae50ab56e40448f48639e3875ff024b5b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36a9923f_e1db9602",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21c2df72_1842872d",
       "range": {
         "startLine": 39,
         "startChar": 4,
