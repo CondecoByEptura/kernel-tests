@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdf24fbf_1c3eb252",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:25:22Z",
+      "side": 1,
+      "message": "Is this only necessary in transport mode? Only in tunnel mode? Both? If not both, then we can put it in one of the clauses of the \"if tun_addrs\" statement below.",
+      "range": {
+        "startLine": 200,
+        "startChar": 2,
+        "endLine": 200,
+        "endChar": 24
+      },
+      "revId": "4cca7e823f79d12adeb69ad58d63d05b757c7014",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e0ba02_93f6f13d",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:25:22Z",
+      "side": 1,
+      "message": "Nit: I think you could do something like:\n\n   esp_nexthdr \u003d {scapy.IPv6: layer3.nh,\n                  scapy.IP: layer3.protocol}[type(packet)]",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 29
+      },
+      "revId": "4cca7e823f79d12adeb69ad58d63d05b757c7014",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b110c2fb_5d6df0b6",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:25:22Z",
+      "side": 1,
+      "message": "Can you explain how it\u0027s wrong, and why? The next person to read or touch this code might have a good idea on how to fix it.",
+      "range": {
+        "startLine": 234,
+        "startChar": 42,
+        "endLine": 234,
+        "endChar": 62
+      },
+      "revId": "4cca7e823f79d12adeb69ad58d63d05b757c7014",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}

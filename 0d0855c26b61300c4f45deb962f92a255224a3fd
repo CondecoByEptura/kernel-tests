@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "79a945af_145d1ef6",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:25:22Z",
+      "side": 1,
+      "message": "Fair enough. Can you add a TODO to figure out how to simplify this?",
+      "parentUuid": "63eb7515_7da43e73",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 34
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71dfd715_db64c7ea",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -413,6 +437,30 @@
       "side": 1,
       "message": "The \"trailer\" is not the pad length, which is what we get here... we still have to increment the value by 2, so this doesn\u0027t end up making the code clearer or shorter. I did a thing... maybe better?",
       "parentUuid": "9dfd77c5_fa1c1334",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 37
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca04e6b_f4802e58",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:25:22Z",
+      "side": 1,
+      "message": "Yes. Thanks for adding the comment, it helps understand the code.",
+      "parentUuid": "afe2647d_917625a9",
       "range": {
         "startLine": 278,
         "startChar": 0,
@@ -689,6 +737,24 @@
       "side": 1,
       "message": "I tried it and the answer is... apparently not. I set just len to None, and it puked. I set both len and proto to None and it puked. Meh.",
       "parentUuid": "b90b1d2e_df79e854",
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edd99e0f_ccd7f6c1",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2017-12-22T08:25:22Z",
+      "side": 1,
+      "message": "Are you sure? That\u0027s surprising, since above we do:\n\n    packet.nh \u003d IPPROTO_ESP\n    # Recompute plen.\n    packet.plen \u003d None\n    packet \u003d scapy.IPv6(str(packet))\n\nbut if it doesn\u0027t work, this if fine.",
+      "parentUuid": "613def1f_28307ef2",
       "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
