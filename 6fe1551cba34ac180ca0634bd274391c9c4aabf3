@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8302886c_070c6e80",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-04T04:32:46Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s a good idea to require the callers to know about block lengths here - it\u0027s not something they\u0027re likely to know (and in fact, in this CL no caller knows them). Instead of having the parameters be block lengths, can we have the callers pass the algorithms themselves (let\u0027s say one for each of crypt, auth and AEAD)? Those should have enough information to calculate all these values, right?",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 58
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35549edc_707ed2b7",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-04T04:32:46Z",
+      "side": 1,
+      "message": "len(xfrm.EspHdr)",
+      "range": {
+        "startLine": 164,
+        "startChar": 16,
+        "endLine": 164,
+        "endChar": 40
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd23df2_c85f6171",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-04T04:32:46Z",
+      "side": 1,
+      "message": "Suggest mentioning that this is one byte pad length and one byte next header.",
+      "range": {
+        "startLine": 171,
+        "startChar": 19,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd8d4e17_2bec1301",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-04T04:32:46Z",
+      "side": 1,
+      "message": "It looks like we do something similar when calculating esplen in EncryptPacketWithNull below. We also do something like this in netlink.PaddedLength. Is enough commonality between the callers that we can factor this out to a simple method with a descriptive name, and have that method be in net_test.py for all to use?",
+      "range": {
+        "startLine": 175,
+        "startChar": 17,
+        "endLine": 175,
+        "endChar": 83
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
