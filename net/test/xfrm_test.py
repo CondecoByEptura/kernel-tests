@@ -128,26 +128,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     # SPI must match the one in our template, and the destination address must
     # match the packet's destination address (in tunnel mode, it has to match
     # the tunnel destination).
-<<<<<<< HEAD
-    self.xfrm.AddSaInfo(net_test.GetWildcardAddress(xfrm_version),
-                        self.GetRemoteAddress(xfrm_version),
-                        TEST_SPI, xfrm.XFRM_MODE_TRANSPORT, reqid,
-                        xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
-                        None, None, None, None)
+    self.CreateNewSa(net_test.GetWildcardAddress(xfrm_version),
+                     self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid,
+                     None)
     s.sendto(net_test.UDP_PAYLOAD, (remoteaddr, 53))
     expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT,
                                                 version, False,
                                                 net_test.UDP_PAYLOAD)
     self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_length, None, None)
-=======
-    self.CreateNewSa(net_test.GetWildcardAddress(xfrm_version),
-                     self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid,
-                     None)
-    s.sendto(net_test.UDP_PAYLOAD, (TEST_ADDR1, 53))
-    expected_len = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, 6,
-                                                False, net_test.UDP_PAYLOAD)
-    self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_len, None, None)
->>>>>>> 212da5a... Add tests for transport mode re-key procedure
 
     # Sending to another destination doesn't work: again, no matching SA.
     remoteaddr2 = self.GetOtherRemoteAddress(version)
@@ -259,15 +247,9 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     srcport = sock.getsockname()[1]
 
     # Expect to see an UDP encapsulated packet.
-<<<<<<< HEAD
     pkts = self.ReadAllPacketsOn(netid)
     self.assertEquals(1, len(pkts))
     packet = pkts[0]
-    self.assertIsUdpEncapEsp(packet, out_spi, 1, 52)
-=======
-    packets = self.ReadAllPacketsOn(netid)
-    self.assertEquals(1, len(packets))
-    packet = packets[0]
 
     trunc_len = (xfrm_base._AUTH_NULL_TRUNC_LEN if nullAuth
                     else xfrm_base._AUTH_SHA1_TRUNC_LEN)
@@ -277,7 +259,6 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                                 xfrm_base._CRYPT_CBC_BLK_SIZE,
                                                 trunc_len)
     self.assertIsUdpEncapEsp(packet, out_spi, seq_num, expected_len)
->>>>>>> 212da5a... Add tests for transport mode re-key procedure
 
     # Now test the receive path. Because we don't know how to decrypt packets,
     # we just play back the encrypted packet that kernel sent earlier. We swap
@@ -558,17 +539,10 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     local_port = sock.getsockname()[1]
     remote_port = 5555
 
-<<<<<<< HEAD
     xfrm_base.ApplySocketPolicy(
         sock, family, xfrm.XFRM_POLICY_OUT, 0xABCD, 123, None)
     xfrm_base.ApplySocketPolicy(
         sock, family, xfrm.XFRM_POLICY_IN, 0x9876, 456, None)
-=======
-    xfrm_base.ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_OUT, 0xABCD,
-                                123, None)
-    xfrm_base.ApplySocketPolicy(sock, family, xfrm.XFRM_POLICY_IN, 0x9876,
-                                456, None)
->>>>>>> 212da5a... Add tests for transport mode re-key procedure
 
     # Create and receive an ESP packet.
     IpType = {4: scapy.IP, 6: scapy.IPv6}[version]
