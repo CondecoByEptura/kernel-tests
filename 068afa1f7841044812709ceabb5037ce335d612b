@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef76add2_7fb67992",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-04T03:40:26Z",
+      "side": 1,
+      "message": "Nit: space before here.",
+      "range": {
+        "startLine": 443,
+        "startChar": 41,
+        "endLine": 443,
+        "endChar": 48
+      },
+      "revId": "068afa1f7841044812709ceabb5037ce335d612b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
