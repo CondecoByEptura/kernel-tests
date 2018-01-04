@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bfb344ad_1695fae1",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-04T21:47:49Z",
+      "side": 0,
+      "message": "Done; it\u0027s also been tracked in a bug here, thus the removal of the comment.: b/71541609",
+      "parentUuid": "ab91997a_f339ec8c",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 37
+      },
+      "revId": "5f41c85f400983aaa0cf804e65ea1bd7a2bb2669",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5f0a702_46992236",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "5f41c85f400983aaa0cf804e65ea1bd7a2bb2669",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43981ec8_91aec271",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-04T21:47:49Z",
+      "side": 0,
+      "message": "I\u0027ve added a section that does essentially this (in a patch set that I didn\u0027t realize I hadn\u0027t uploaded). Since the SPIs are part of the authenticated section, we get this check mostly for free (just need to do the integrity_failed check)",
+      "parentUuid": "c5f0a702_46992236",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 55
+      },
+      "revId": "5f41c85f400983aaa0cf804e65ea1bd7a2bb2669",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
