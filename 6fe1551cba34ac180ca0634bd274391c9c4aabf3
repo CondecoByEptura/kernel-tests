@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1fe0c7c0_c165e4d6",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-04T22:16:53Z",
+      "side": 1,
+      "message": "Unfortunately the algorithms themselves don\u0027t have block sizes or lengths (for CBC, they\u0027re defined in RFC 3602, and are never passed down); the only one I would be able to extract here is the truncation length, but that would mean having the crypt arguments as size constants, while the authentication argument would be an algorithm.",
+      "parentUuid": "8302886c_070c6e80",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 58
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35549edc_707ed2b7",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26cfb40a_56dd7cfc",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-04T22:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35549edc_707ed2b7",
+      "range": {
+        "startLine": 164,
+        "startChar": 16,
+        "endLine": 164,
+        "endChar": 40
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "27b5f1d1_d6c9d56c",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-04T22:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd23df2_c85f6171",
+      "range": {
+        "startLine": 171,
+        "startChar": 19,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd8d4e17_2bec1301",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecfa18b3_14fe61e5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-04T22:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd8d4e17_2bec1301",
+      "range": {
+        "startLine": 175,
+        "startChar": 17,
+        "endLine": 175,
+        "endChar": 83
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
