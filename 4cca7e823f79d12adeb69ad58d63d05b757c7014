@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6c511fd2_38862200",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-04T18:57:46Z",
+      "side": 1,
+      "message": "From a few comments I can tell you really don\u0027t like this copy, but it\u0027s not clear to me why this of all things bugs you since we\u0027re dealing in individual packets using python, and using scapy: performance here is a non-issue. In such a case, I think favoring simplicity is useful because otherwise we have different behaviors around mutating input parameters. Because we now return packet, it\u0027s reasonable that the initial packet is unmolested even though we could avoid a copy by allowing it to be mutated ONLY in transport mode. I\u0027ll add a comment to that effect.",
+      "parentUuid": "bdf24fbf_1c3eb252",
+      "range": {
+        "startLine": 200,
+        "startChar": 2,
+        "endLine": 200,
+        "endChar": 24
+      },
+      "revId": "4cca7e823f79d12adeb69ad58d63d05b757c7014",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6e0ba02_93f6f13d",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 13
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "786a2c03_24a33923",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-04T18:57:46Z",
+      "side": 1,
+      "message": "From lines 201 and 202, it must be UDP, so the clarity here is nice IMO.",
+      "parentUuid": "e6e0ba02_93f6f13d",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 218,
+        "endChar": 29
+      },
+      "revId": "4cca7e823f79d12adeb69ad58d63d05b757c7014",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b110c2fb_5d6df0b6",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 13
@@ -59,6 +107,30 @@
       "writtenOn": "2017-12-22T08:25:22Z",
       "side": 1,
       "message": "Can you explain how it\u0027s wrong, and why? The next person to read or touch this code might have a good idea on how to fix it.",
+      "range": {
+        "startLine": 234,
+        "startChar": 42,
+        "endLine": 234,
+        "endChar": 62
+      },
+      "revId": "4cca7e823f79d12adeb69ad58d63d05b757c7014",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f4d4e9_8577e771",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-04T18:57:46Z",
+      "side": 1,
+      "message": "This is a misterikkit comment. I\u0027m not really sure why he put it here since length is recomputed below (as per my expectation). Comment removed.",
+      "parentUuid": "b110c2fb_5d6df0b6",
       "range": {
         "startLine": 234,
         "startChar": 42,

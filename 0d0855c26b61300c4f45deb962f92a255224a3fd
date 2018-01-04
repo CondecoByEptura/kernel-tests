@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "e75087a5_437ec1b3",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-04T18:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a945af_145d1ef6",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 34
+      },
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71dfd715_db64c7ea",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 8
@@ -755,6 +779,24 @@
       "side": 1,
       "message": "Are you sure? That\u0027s surprising, since above we do:\n\n    packet.nh \u003d IPPROTO_ESP\n    # Recompute plen.\n    packet.plen \u003d None\n    packet \u003d scapy.IPv6(str(packet))\n\nbut if it doesn\u0027t work, this if fine.",
       "parentUuid": "613def1f_28307ef2",
+      "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e856a5d_7f36e472",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-04T18:57:46Z",
+      "side": 1,
+      "message": "EHOLDINGITWRONG I set it to 0 and it failed. None works just fine. Done.",
+      "parentUuid": "edd99e0f_ccd7f6c1",
       "revId": "0d0855c26b61300c4f45deb962f92a255224a3fd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
