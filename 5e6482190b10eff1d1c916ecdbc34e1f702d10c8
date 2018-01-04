@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2921b98_c208728a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-04T09:18:24Z",
+      "side": 1,
+      "message": "Not for this CL, but if this is not necessary, we should remove it. Things should work without it, and if they don\u0027t, then that would probably indicate a bug that we need to fix.",
+      "range": {
+        "startLine": 352,
+        "startChar": 4,
+        "endLine": 352,
+        "endChar": 30
+      },
+      "revId": "5e6482190b10eff1d1c916ecdbc34e1f702d10c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
