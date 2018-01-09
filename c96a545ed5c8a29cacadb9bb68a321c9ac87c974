@@ -1,0 +1,10 @@
+Verified+1: Dmitry Shmidt <dimitrysh@google.com>
+Code-Review+1: Chenbo Feng <fengc@google.com>
+Code-Review+2: Lorenzo Colitti <lorenzo@google.com>
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Autosubmit+1: Dmitry Shmidt <dimitrysh@google.com>
+Submitted-by: Treehugger Robot <treehugger-gerrit@google.com>
+Submitted-at: Tue, 09 Jan 2018 23:51:35 +0000
+Reviewed-on: https://android-review.googlesource.com/584817
+Project: kernel/tests
+Branch: refs/heads/master
