@@ -22,6 +22,30 @@
       "revId": "7dac05c5f3b125c0389863d173f0d874298dfa35",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea5d6473_1ad22ad4",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000414
+      },
+      "writtenOn": "2018-01-09T01:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "739d3cae_96288838",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 85
+      },
+      "revId": "7dac05c5f3b125c0389863d173f0d874298dfa35",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
