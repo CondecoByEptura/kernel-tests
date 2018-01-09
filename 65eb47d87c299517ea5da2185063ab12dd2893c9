@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7181fe4f_7ba3989b",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-09T13:50:21Z",
+      "side": 1,
+      "message": "Attempted. If you want to suggest alternative text, the reference documentation of these sysctls is at https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt .",
+      "parentUuid": "de7b854a_3e1e0f04",
+      "revId": "65eb47d87c299517ea5da2185063ab12dd2893c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c7e9c0a_3dd6320a",
         "filename": "net/test/multinetwork_base.py",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2018-01-09T02:28:54Z",
       "side": 1,
       "message": "Is the referenced patch still present on \"current\" gen kernels?",
+      "range": {
+        "startLine": 309,
+        "startChar": 4,
+        "endLine": 312,
+        "endChar": 10
+      },
+      "revId": "65eb47d87c299517ea5da2185063ab12dd2893c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2212aef_57d502d3",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-09T13:50:21Z",
+      "side": 1,
+      "message": "No, I don\u0027t think we ever shipped it on any device (if we did, it would have been hammerhead-era). CTS checks that both exist. Removed.",
+      "parentUuid": "7c7e9c0a_3dd6320a",
       "range": {
         "startLine": 309,
         "startChar": 4,
