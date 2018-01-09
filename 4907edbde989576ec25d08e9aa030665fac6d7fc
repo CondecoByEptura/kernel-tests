@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a8bad15_85f60cf3",
+        "filename": "net/test/csocket.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e658109_ca59d8fc",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 87
+      },
+      "revId": "4907edbde989576ec25d08e9aa030665fac6d7fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15322854_7eccc359",
         "filename": "net/test/net_test.py",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7ef99447_debacb19",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:13:16Z",
+      "side": 1,
+      "message": "Apologies; was under the mistaken expression that dual stack would use it.",
+      "parentUuid": "15322854_7eccc359",
+      "range": {
+        "startLine": 100,
+        "startChar": 17,
+        "endLine": 100,
+        "endChar": 22
+      },
+      "revId": "4907edbde989576ec25d08e9aa030665fac6d7fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd01216_d98a96f7",
         "filename": "net/test/util.py",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "4907edbde989576ec25d08e9aa030665fac6d7fc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d31479_5813f4d9",
+        "filename": "net/test/util.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd01216_d98a96f7",
+      "range": {
+        "startLine": 1,
+        "startChar": 15,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "4907edbde989576ec25d08e9aa030665fac6d7fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
