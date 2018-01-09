@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2420e499_dc1e7499",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-09T02:42:16Z",
+      "side": 1,
+      "message": "This kind of thing doesn\u0027t feel generic enough for me to want it in xfrm_base.",
+      "range": {
+        "startLine": 389,
+        "startChar": 8,
+        "endLine": 389,
+        "endChar": 25
+      },
+      "revId": "ae7e82d62461a9289d953ff178d7b8c72e86c00a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b9590b6_0a3fb707",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-09T02:42:16Z",
+      "side": 1,
+      "message": "We disagree, but I want you to note down that you\u0027re going out of your way to ensure people have to have a second screen open to figure out what some of these parameters are (nullifying one of the few positive readability aspects of python). I also don\u0027t think that we should do this in a code-move CL; I imagine that once again, we disagree.",
+      "range": {
+        "startLine": 228,
+        "startChar": 24,
+        "endLine": 229,
+        "endChar": 78
+      },
+      "revId": "ae7e82d62461a9289d953ff178d7b8c72e86c00a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
