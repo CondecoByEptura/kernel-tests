@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de7b854a_3e1e0f04",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-09T02:28:54Z",
+      "side": 1,
+      "message": "It would be nice if these had a quick explanation of what they are doing.",
+      "revId": "65eb47d87c299517ea5da2185063ab12dd2893c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c7e9c0a_3dd6320a",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-09T02:28:54Z",
+      "side": 1,
+      "message": "Is the referenced patch still present on \"current\" gen kernels?",
+      "range": {
+        "startLine": 309,
+        "startChar": 4,
+        "endLine": 312,
+        "endChar": 10
+      },
+      "revId": "65eb47d87c299517ea5da2185063ab12dd2893c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
