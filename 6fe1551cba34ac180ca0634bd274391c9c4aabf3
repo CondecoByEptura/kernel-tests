@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "eb351c47_d6f7c925",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-09T14:41:22Z",
+      "side": 1,
+      "message": "What I meant was - we don\u0027t ever pass block sizes to the kernel, right? We pass it algorithm names and key sizes, and possibly truncation lengths. From those, the kernel is able to determine the block size. Any reason we can\u0027t do the same here?\n\nThe constants we use in this file to describe algorithm parameters (e.g., _ALGO_AUTH_NULL, _ALGO_HMAC_SHA1, _ALGO_CRYPT_NULL, and _ALGO_CBC_AES_256) should all contain enough information to calculate the block sizes. So all we\u0027d need is a method that takes one of those tuples and returns a block size.",
+      "parentUuid": "1fe0c7c0_c165e4d6",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 58
+      },
+      "revId": "6fe1551cba34ac180ca0634bd274391c9c4aabf3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35549edc_707ed2b7",
         "filename": "net/test/xfrm_base.py",
         "patchSetId": 1
