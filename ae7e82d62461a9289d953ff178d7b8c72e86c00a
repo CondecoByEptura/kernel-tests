@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ede48ae_9fcb1d22",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-09T13:50:31Z",
+      "side": 1,
+      "message": "Agreed. Made it a parameter instead.",
+      "parentUuid": "2420e499_dc1e7499",
+      "range": {
+        "startLine": 389,
+        "startChar": 8,
+        "endLine": 389,
+        "endChar": 25
+      },
+      "revId": "ae7e82d62461a9289d953ff178d7b8c72e86c00a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b9590b6_0a3fb707",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-09T02:42:16Z",
       "side": 1,
       "message": "We disagree, but I want you to note down that you\u0027re going out of your way to ensure people have to have a second screen open to figure out what some of these parameters are (nullifying one of the few positive readability aspects of python). I also don\u0027t think that we should do this in a code-move CL; I imagine that once again, we disagree.",
+      "range": {
+        "startLine": 228,
+        "startChar": 24,
+        "endLine": 229,
+        "endChar": 78
+      },
+      "revId": "ae7e82d62461a9289d953ff178d7b8c72e86c00a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d696d7a_9929aa7e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-09T13:50:31Z",
+      "side": 1,
+      "message": "Actually I just think it\u0027s a tradeoff between vertical space and horizontal space. One parameter per line is very hard to read in small windows because it takes up a disproportionate amount of vertical space. Even maximised on a 30\" monitor, gerrit only displays about 96 lines. CreateTunnel takes 10 parameters; take two of them like we have here and add some review comments and that\u0027s half your screen occupied by what is in effect one logical operation (creating a bidirectional tunnel). Worse if you don\u0027t maximise browser windows.\n\nOTOH, the 80-character line limit makes it advantageous to do side-by-side editing. On the same 30\" monitor you can display at least 4 files side-by-side.\n\nIt boils down to personal preference. Let\u0027s not argue about that?",
+      "parentUuid": "8b9590b6_0a3fb707",
       "range": {
         "startLine": 228,
         "startChar": 24,
