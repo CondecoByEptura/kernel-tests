@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0f67512_b9f3f9fd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-09T15:06:52Z",
+      "side": 0,
+      "message": "I think it would be nice to keep this comment, either in its current form or as a TODO: if/when we move to null encryption everywhere, or gain the ability to do proper ESP, then we\u0027ll know that we can fix this code.",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 73
+      },
+      "revId": "7d1b48fdc34c8bcf49b505d7b63faf1159f7f3e7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
