@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc9c23a4_372df6ce",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4284677_668dbb49",
+      "range": {
+        "startLine": 63,
+        "startChar": 18,
+        "endLine": 63,
+        "endChar": 26
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4247b0e2_0fb2efa0",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 9
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "24469449_078d60b2",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4247b0e2_0fb2efa0",
+      "range": {
+        "startLine": 66,
+        "startChar": 20,
+        "endLine": 67,
+        "endChar": 55
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf8d6b61_4a8fe864",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 9
@@ -59,6 +107,30 @@
       "writtenOn": "2018-01-09T15:06:52Z",
       "side": 1,
       "message": "Given this method is all about encapsulation, consider further shortening these variables to from \"encap_sock\" and \"encap_port\" to \"sock\" and port\".",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 14
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aff3dc8d_162973d9",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "With there being a \"s\" which represents the inner socket, I\u0027d prefer to keep this as encap_sock to differentiate the two. That said, I don\u0027t have a strong position if you would like me to change this.",
+      "parentUuid": "bf8d6b61_4a8fe864",
       "range": {
         "startLine": 198,
         "startChar": 4,
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "8d0eb5a7_8a94cbd3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e037e134_4e6a8aab",
+      "range": {
+        "startLine": 244,
+        "startChar": 44,
+        "endLine": 244,
+        "endChar": 69
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b198657_0a4b31f6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99f268e0_b7daf6be",
+      "range": {
+        "startLine": 244,
+        "startChar": 44,
+        "endLine": 244,
+        "endChar": 52
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d01e18f5_c22e2b15",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 9
@@ -137,6 +257,30 @@
       "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85704ce0_ef24e07a",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d01e18f5_c22e2b15",
+      "range": {
+        "startLine": 255,
+        "startChar": 17,
+        "endLine": 255,
+        "endChar": 20
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "11d568c8_065d4dd0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Yep, it\u0027s just the different in SPIs; since the SPI is part of the authenticated portion of the packet, the integrity/authenticity check fails. The SA exists/can be found because we change the SPI from out_spi to in_spi, and in_spi had an SA created earlier",
+      "parentUuid": "4ad3a563_fa4f5e85",
+      "range": {
+        "startLine": 297,
+        "startChar": 24,
+        "endLine": 297,
+        "endChar": 52
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fc4de03_e5c42a24",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 9
@@ -183,6 +351,30 @@
       "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88aac6bb_b4b0db4f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fc4de03_e5c42a24",
+      "range": {
+        "startLine": 311,
+        "startChar": 6,
+        "endLine": 311,
+        "endChar": 26
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "a8dc260e_07e095d5",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa11e8fd_4ec07ff1",
+      "range": {
+        "startLine": 353,
+        "startChar": 39,
+        "endLine": 353,
+        "endChar": 40
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3735e383_b82ee74d",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 9
@@ -229,6 +445,30 @@
       "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a047fe9e_c4568bf3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3735e383_b82ee74d",
+      "range": {
+        "startLine": 365,
+        "startChar": 30,
+        "endLine": 365,
+        "endChar": 39
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "76e9f43a_02edb4cd",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4f4299_37756a28",
+      "range": {
+        "startLine": 367,
+        "startChar": 30,
+        "endLine": 367,
+        "endChar": 39
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eec06a09_62b44689",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 9
@@ -275,6 +539,30 @@
       "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bcb91f1_629784cb",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-09T19:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eec06a09_62b44689",
+      "range": {
+        "startLine": 375,
+        "startChar": 30,
+        "endLine": 375,
+        "endChar": 39
+      },
+      "revId": "f523e98c126ff81496b1f8ea00eb395f7d282201",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
