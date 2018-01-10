@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36c63d9e_413bdc47",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T06:53:56Z",
+      "side": 1,
+      "message": "mustHaveArgument?\ncheckArgOrExit?\nensureArgument?",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "14434e2e7f0a820b6ad3483e1b5e79f2c67d8470",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "196dc187_6246f960",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T06:53:56Z",
+      "side": 1,
+      "message": "Nit: usageAndExit?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "14434e2e7f0a820b6ad3483e1b5e79f2c67d8470",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9974cd6d_0a421c01",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T06:53:56Z",
+      "side": 1,
+      "message": "These should go to stderr, right? Also consider a here document instead of multiple echos.",
+      "revId": "14434e2e7f0a820b6ad3483e1b5e79f2c67d8470",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cae67c2_c421ff89",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T06:53:56Z",
+      "side": 1,
+      "message": "Nit: I think I\u0027d find this easier to read as something like:\n\n  while [ -n \"$1\" ]; do",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 23
+      },
+      "revId": "14434e2e7f0a820b6ad3483e1b5e79f2c67d8470",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc9859d_4c0bc393",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T06:53:56Z",
+      "side": 1,
+      "message": "Do you need to clear test_prefix before doing this, or is it guaranteed to be empty at this point? IOW, if you do:\n\nexport test_prefix\u003dFOO\n./all_tests.sh\n\ndoes FOO have any effect?",
+      "range": {
+        "startLine": 86,
+        "startChar": 38,
+        "endLine": 86,
+        "endChar": 49
+      },
+      "revId": "14434e2e7f0a820b6ad3483e1b5e79f2c67d8470",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
