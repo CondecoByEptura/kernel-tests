@@ -329,5 +329,5 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
 
 
 if __name__ == "__main__":
-  XfrmAlgorithmTest.InjectTests()
+  InjectTests()
   unittest.main()
