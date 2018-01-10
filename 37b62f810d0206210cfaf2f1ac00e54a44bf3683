@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f23dad_0ea52e8f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T02:06:27Z",
+      "side": 1,
+      "message": "and integrity_failures to be increased, since the SPI is part of the integrity-protected portion of the packet.",
+      "range": {
+        "startLine": 292,
+        "startChar": 40,
+        "endLine": 292,
+        "endChar": 41
+      },
+      "revId": "37b62f810d0206210cfaf2f1ac00e54a44bf3683",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
