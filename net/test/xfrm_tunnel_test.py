@@ -19,9 +19,11 @@ from errno import *  # pylint: disable=wildcard-import
 from socket import *  # pylint: disable=wildcard-import
 
 import random
+import itertools
 import struct
 import unittest
 
+from scapy import all as scapy
 from tun_twister import TunTwister
 import csocket
 import iproute
@@ -54,21 +56,48 @@ def _GetRemoteOuterAddress(version):
   return {4: net_test.IPV4_ADDR, 6: net_test.IPV6_ADDR}[version]
 
 
+
+def InjectParameterizedTests(cls):
+  """Inject parameterized test cases into this class.
+
+  Because a library for parameterized testing is not available in
+  net_test.rootfs.20150203, this does a minimal parameterization.
+
+  This finds methods named like "ParamTestFoo" and replaces them with several
+  "testFoo(*)" methods taking different parameter dicts. A set of test
+  parameters is generated from every combination of inner and outer address
+  families.
+
+  The benefit of this approach is that an individually failing tests have a
+  clearly separated stack trace, and one failed test doesn't prevent the rest
+  from running.
+  """
+  param_test_names = [name for name in dir(cls) if name.startswith("ParamTest")]
+  VERSIONS = (4, 6)
+
+  # Tests all combinations of auth & crypt. Mutually exclusive with aead.
+  for name, inner_version, outer_version in itertools.product(
+      param_test_names, VERSIONS, VERSIONS):
+    InjectSingleTest(cls, name, inner_version, outer_version)
+
+
+def InjectSingleTest(cls, name, inner_version, outer_version):
+  func = getattr(cls, name)
+
+  def TestClosure(self):
+    func(self, inner_version, outer_version)
+
+  param_string = "IPv%d_in_IPv%d" % (inner_version, outer_version)
+  new_name = "%s_%s" % (func.__name__.replace("ParamTest", "test"),
+                        param_string)
+  setattr(cls, new_name, TestClosure)
+
+
 class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
 
-  def _CheckTunnelOutput(self, inner_version, outer_version):
-    """Test a bi-directional XFRM Tunnel with explicit selectors"""
-    # Select the underlying netid, which represents the external
-    # interface from/to which to route ESP packets.
-    underlying_netid = self.RandomNetid()
-    # Select a random netid that will originate traffic locally and
-    # which represents the logical tunnel network.
-    netid = self.RandomNetid(exclude=underlying_netid)
-
-    local_inner = self.MyAddress(inner_version, netid)
-    remote_inner = _GetRemoteInnerAddress(inner_version)
-    local_outer = self.MyAddress(outer_version, underlying_netid)
-    remote_outer = _GetRemoteOuterAddress(outer_version)
+  def _CheckTunnelOutput(self, inner_version, outer_version, underlying_netid,
+                         netid, local_inner, remote_inner, local_outer,
+                         remote_outer):
 
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT,
                            xfrm.SrcDstSelector(local_inner, remote_inner),
@@ -85,19 +114,62 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
     self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
                             local_outer, remote_outer)
 
-  # TODO: Add support for the input path.
+  def _CheckTunnelInput(self, inner_version, outer_version, underlying_netid,
+                        netid, local_inner, remote_inner, local_outer,
+                        remote_outer):
 
-  def testIpv4InIpv4TunnelOutput(self):
-    self._CheckTunnelOutput(4, 4)
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN,
+                           xfrm.SrcDstSelector(remote_inner, local_inner),
+                           remote_outer, local_outer, _TEST_IN_SPI,
+                           xfrm_base._ALGO_CRYPT_NULL,
+                           xfrm_base._ALGO_AUTH_NULL, None, None)
 
-  def testIpv4InIpv6TunnelOutput(self):
-    self._CheckTunnelOutput(4, 6)
+    # Create a socket to receive packets.
+    read_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
+    # The second parameter of the tuple is the port number regardless of AF.
+    local_port = read_sock.getsockname()[1]
+    # Guard against the eventuality of the receive failing.
+    net_test.SetNonBlocking(read_sock.fileno())
 
-  def testIpv6InIpv4TunnelOutput(self):
-    self._CheckTunnelOutput(6, 4)
+    # Build and receive an ESP packet destined for the inner socket
+    IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
+    input_pkt = (
+        IpType(src=remote_inner, dst=local_inner) / scapy.UDP(
+            sport=4500, dport=local_port) / net_test.UDP_PAYLOAD)
+    input_pkt = IpType(str(input_pkt))  # Compute length, checksum.
+    input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, _TEST_IN_SPI, 1,
+                                                (remote_outer, local_outer))
+    self.ReceivePacketOn(underlying_netid, input_pkt)
 
-  def testIpv6InIpv6TunnelOutput(self):
-    self._CheckTunnelOutput(6, 6)
+    # Verify that the packet data and src are correct
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals(remote_inner, src[0])
+    self.assertEquals(4500, src[1])
+
+  def _TestTunnel(self, inner_version, outer_version, func):
+    """Test a unidirectional XFRM Tunnel with explicit selectors"""
+    # Select the underlying netid, which represents the external
+    # interface from/to which to route ESP packets.
+    u_netid = self.RandomNetid()
+    # Select a random netid that will originate traffic locally and
+    # which represents the logical tunnel network.
+    netid = self.RandomNetid(exclude=u_netid)
+
+    local_inner = self.MyAddress(inner_version, netid)
+    remote_inner = _GetRemoteInnerAddress(inner_version)
+    local_outer = self.MyAddress(outer_version, u_netid)
+    remote_outer = _GetRemoteOuterAddress(outer_version)
+
+    func(inner_version, outer_version, u_netid, netid, local_inner,
+         remote_inner, local_outer, remote_outer)
+
+  def ParamTestTunnelInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput)
+
+  def ParamTestTunnelOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput)
 
 
 class VtiInterface(object):
@@ -300,7 +372,7 @@ class XfrmVtiTest(xfrm_base.XfrmLazyTest):
     # The second parameter of the tuple is the port number regardless of AF.
     port = read_sock.getsockname()[1]
     # Guard against the eventuality of the receive failing.
-    csocket.SetSocketTimeout(read_sock, 100)
+    net_test.SetNonBlocking(read_sock.fileno())
 
     # Send a packet out via the vti-backed network, bound for the port number
     # of the input socket.
@@ -383,4 +455,5 @@ class XfrmVtiTest(xfrm_base.XfrmLazyTest):
 
 
 if __name__ == "__main__":
+  InjectParameterizedTests(XfrmTunnelTest)
   unittest.main()
