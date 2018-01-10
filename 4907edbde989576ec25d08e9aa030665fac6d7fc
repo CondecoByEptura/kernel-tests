@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0030dd02_ec7e6ae1",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T01:58:01Z",
+      "side": 1,
+      "message": "Actually, this was fine either way.",
+      "parentUuid": "7ef99447_debacb19",
+      "range": {
+        "startLine": 100,
+        "startChar": 17,
+        "endLine": 100,
+        "endChar": 22
+      },
+      "revId": "4907edbde989576ec25d08e9aa030665fac6d7fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd01216_d98a96f7",
         "filename": "net/test/util.py",
         "patchSetId": 3
