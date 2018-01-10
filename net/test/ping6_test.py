@@ -44,6 +44,8 @@ IPV6_MIN_MTU = 1280
 ICMPV6_HEADER_LEN = 8
 ICMPV6_PKT_TOOBIG = 2
 
+# Icmpv6 rxmem is smaller with 4.14
+HAVE_SMALLER_RXMEM = net_test.LINUX_VERSION >= (4, 14, 0)
 
 class PingReplyThread(threading.Thread):
 
@@ -784,8 +786,11 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     self.CheckSockStatFile("icmp6", self.lladdr, 0xd00d, "ff02::1", 0xdead, 1)
     s.send(net_test.IPV6_PING)
     s.recvfrom(32768, MSG_PEEK)  # Wait until the receive thread replies.
+    rxmemval = 0x300
+    if HAVE_SMALLER_RXMEM:
+      rxmemval = 0x2C0
     self.CheckSockStatFile("icmp6", self.lladdr, 0xd00d, "ff02::1", 0xdead, 1,
-                           txmem=0, rxmem=0x300)
+                           txmem=0, rxmem=rxmemval)
     self.assertValidPingResponse(s, net_test.IPV6_PING)
     self.CheckSockStatFile("icmp6", self.lladdr, 0xd00d, "ff02::1", 0xdead, 1,
                            txmem=0, rxmem=0)
