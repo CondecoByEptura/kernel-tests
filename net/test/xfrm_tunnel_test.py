@@ -21,6 +21,7 @@ from socket import *  # pylint: disable=wildcard-import
 import struct
 import unittest
 
+from scapy import all as scapy
 from tun_twister import TunTwister
 import csocket
 import iproute
@@ -56,7 +57,7 @@ def _GetRemoteOuterAddress(version):
 class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
   def _CheckTunnelOutput(self, inner_version, outer_version):
-    """Test a bi-directional XFRM Tunnel with explicit selectors"""
+    """Test a unidirectional XFRM Tunnel with explicit selectors"""
     # Select the underlying netid, which represents the external
     # interface from/to which to route ESP packets.
     underlying_netid = self.RandomNetid()
@@ -83,8 +84,6 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
     self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
                             local_outer, remote_outer)
 
-  # TODO: Add support for the input path.
-
   def testIpv4InIpv4TunnelOutput(self):
     self._CheckTunnelOutput(4, 4)
 
@@ -96,6 +95,62 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
 
   def testIpv6InIpv6TunnelOutput(self):
     self._CheckTunnelOutput(6, 6)
+
+  def _CheckTunnelInput(self, inner_version, outer_version):
+    """Test a unidirectional XFRM Tunnel with explicit selectors"""
+    # Select the underlying netid, which represents the external
+    # interface from/to which to route ESP packets.
+    underlying_netid = self.RandomNetid()
+    # Select a random netid that will originate traffic locally and
+    # which represents the logical tunnel network.
+    netid = self.RandomNetid(exclude=underlying_netid)
+
+    local_inner = self.MyAddress(inner_version, netid)
+    remote_inner = _GetRemoteInnerAddress(inner_version)
+    local_outer = self.MyAddress(outer_version, underlying_netid)
+    remote_outer = _GetRemoteOuterAddress(outer_version)
+
+    self.CreateTunnel(xfrm.XFRM_POLICY_IN,
+                      xfrm.SrcDstSelector(remote_inner, local_inner),
+                      remote_outer, local_outer, _TEST_IN_SPI,
+                      xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL,
+                      None, None)
+
+    # Create a socket to receive packets.
+    read_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
+    # The second parameter of the tuple is the port number regardless of AF.
+    local_port = read_sock.getsockname()[1]
+    # Guard against the eventuality of the receive failing.
+    net_test.SetNonBlocking(read_sock.fileno())
+
+    # Build and receive an ESP packet destined for the inner socket
+    IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
+    input_pkt = (IpType(src=remote_inner, dst=local_inner) /
+                 scapy.UDP(sport=4500, dport=local_port) /
+                 net_test.UDP_PAYLOAD)
+    input_pkt = IpType(str(input_pkt)) # Compute length, checksum.
+    input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, _TEST_IN_SPI,
+                                                1, (remote_outer, local_outer))
+    self.ReceivePacketOn(underlying_netid, input_pkt)
+
+    # Verify that the packet data and src are correct
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals(remote_inner, src[0])
+    self.assertEquals(4500, src[1])
+
+  def testIpv4InIpv4TunnelInput(self):
+    self._CheckTunnelInput(4, 4)
+
+  def testIpv4InIpv6TunnelInput(self):
+    self._CheckTunnelInput(4, 6)
+
+  def testIpv6InIpv4TunnelInput(self):
+    self._CheckTunnelInput(6, 4)
+
+  def testIpv6InIpv6TunnelInput(self):
+    self._CheckTunnelInput(6, 6)
 
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
@@ -246,7 +301,7 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     # The second parameter of the tuple is the port number regardless of AF.
     port = read_sock.getsockname()[1]
     # Guard against the eventuality of the receive failing.
-    csocket.SetSocketTimeout(read_sock, 100)
+    net_test.SetNonBlocking(read_sock.fileno())
 
     # Send a packet out via the vti-backed network, bound for the port number
     # of the input socket.
