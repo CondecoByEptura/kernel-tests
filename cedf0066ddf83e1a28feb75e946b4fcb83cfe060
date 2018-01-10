@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d909e31_c1c7cd44",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-10T15:23:22Z",
+      "side": 1,
+      "message": "If we do this we might end up having another similar problem in a future version. Think you could fix CheckSockStatFile instead? Instead of doing the assertListEqual for all the elements you could do something like:\n\n    actual \u003d self.ReadProcNetSocket(name)[-1]\n\n    # Check all the parameters except rxmem and txmem.\n    expected[3] \u003d actual[3]\n    self.assertListEqual(expected, actual)\n\n    # Check that rxmem and txmem don\u0027t differ too much from each other.\n    actual_txmem, actual_rxmem \u003d expected[3].split(\":\")\n    self.assertAlmostEqual(txmem, int(actual_txmem, 16), delta\u003dtxmem / 4)\n    self.assertAlmostEqual(rxmem, int(actual_rxmem, 16), delta\u003drxmem / 4)",
+      "range": {
+        "startLine": 789,
+        "startChar": 0,
+        "endLine": 791,
+        "endChar": 22
+      },
+      "revId": "cedf0066ddf83e1a28feb75e946b4fcb83cfe060",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
