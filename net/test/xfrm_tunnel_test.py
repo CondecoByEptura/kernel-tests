@@ -47,6 +47,8 @@ _TEST_IN_SPI = _TEST_OUT_SPI
 _TEST_OKEY = 2000000100
 _TEST_IKEY = 2000000200
 
+_TEST_REMOTE_PORT = 4500
+
 
 def _GetLocalInnerAddress(version):
   return {4: "10.16.5.15", 6: "2001:db8:1::1"}[version]
@@ -59,6 +61,44 @@ def _GetRemoteInnerAddress(version):
 def _GetRemoteOuterAddress(version):
   return {4: net_test.IPV4_ADDR, 6: net_test.IPV6_ADDR}[version]
 
+def _GetNullAuthCryptTunnelModePkt(inner_version, src_inner, src_outer,
+                                   src_port, dst_inner, dst_outer,
+                                   dst_port, spi, seq_num, ip_hdr_options={}):
+  ip_hdr_options.update({'src': src_inner, 'dst': dst_inner})
+
+  # Build and receive an ESP packet destined for the inner socket
+  IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
+  input_pkt = (
+      IpType(**ip_hdr_options) / scapy.UDP(sport=src_port, dport=dst_port) /
+      net_test.UDP_PAYLOAD)
+  input_pkt = IpType(str(input_pkt))  # Compute length, checksum.
+  input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, spi, seq_num,
+                                              (src_outer, dst_outer))
+
+  return input_pkt
+
+
+def _CreateReceiveSock(version, port=0):
+  # Create a socket to receive packets.
+  read_sock = socket(net_test.GetAddressFamily(version), SOCK_DGRAM, 0)
+  read_sock.bind((net_test.GetWildcardAddress(version), port))
+  # The second parameter of the tuple is the port number regardless of AF.
+  local_port = read_sock.getsockname()[1]
+  # Guard against the eventuality of the receive failing.
+  net_test.SetNonBlocking(read_sock.fileno())
+
+  return read_sock, local_port
+
+
+def _SendPacket(testInstance, netid, version, remote, remote_port):
+  # Send a packet out via the vti-backed network, bound for the port number
+  # of the input socket.
+  write_sock = socket(net_test.GetAddressFamily(version), SOCK_DGRAM, 0)
+  testInstance.SelectInterface(write_sock, netid, "mark")
+  write_sock.sendto(net_test.UDP_PAYLOAD, (remote, remote_port))
+  local_port = write_sock.getsockname()[1]
+
+  return local_port
 
 
 def InjectParameterizedTests(cls):
@@ -110,11 +150,7 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
                            xfrm_base._ALGO_HMAC_SHA1,
                            None, underlying_netid)
 
-    write_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
-    # Select an interface, which provides the source address of the inner
-    # packet.
-    self.SelectInterface(write_sock, netid, "mark")
-    write_sock.sendto(net_test.UDP_PAYLOAD, (remote_inner, 53))
+    _SendPacket(self, netid, inner_version, remote_inner, 53)
     self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
                             local_outer, remote_outer)
 
@@ -129,28 +165,19 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
                            xfrm_base._ALGO_AUTH_NULL, None, None)
 
     # Create a socket to receive packets.
-    read_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
-    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
-    # The second parameter of the tuple is the port number regardless of AF.
-    local_port = read_sock.getsockname()[1]
-    # Guard against the eventuality of the receive failing.
-    net_test.SetNonBlocking(read_sock.fileno())
+    read_sock, local_port = _CreateReceiveSock(inner_version)
 
     # Build and receive an ESP packet destined for the inner socket
-    IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
-    input_pkt = (
-        IpType(src=remote_inner, dst=local_inner) / scapy.UDP(
-            sport=4500, dport=local_port) / net_test.UDP_PAYLOAD)
-    input_pkt = IpType(str(input_pkt))  # Compute length, checksum.
-    input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, _TEST_IN_SPI, 1,
-                                                (remote_outer, local_outer))
+    input_pkt = _GetNullAuthCryptTunnelModePkt(
+        inner_version, remote_inner, remote_outer, _TEST_REMOTE_PORT,
+        local_inner, local_outer, local_port, _TEST_IN_SPI, 1)
     self.ReceivePacketOn(underlying_netid, input_pkt)
 
     # Verify that the packet data and src are correct
     data, src = read_sock.recvfrom(4096)
     self.assertEquals(net_test.UDP_PAYLOAD, data)
     self.assertEquals(remote_inner, src[0])
-    self.assertEquals(4500, src[1])
+    self.assertEquals(_TEST_REMOTE_PORT, src[1])
 
   def _TestTunnel(self, inner_version, outer_version, func):
     """Test a unidirectional XFRM Tunnel with explicit selectors"""
@@ -212,11 +239,12 @@ class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
 
 class VtiInterface(object):
 
-  def __init__(self, iface, netid, underlying_netid, local, remote):
+  def __init__(self, iface, netid, underlying_netid, local, remote, version):
     self.iface = iface
     self.netid = netid
     self.underlying_netid = underlying_netid
     self.local, self.remote = local, remote
+    self.version = version
     self.rx = self.tx = 0
     self.ikey = _TEST_IKEY + netid
     self.okey = _TEST_OKEY + netid
@@ -226,7 +254,8 @@ class VtiInterface(object):
     self.xfrm = xfrm.Xfrm()
 
     self.SetupInterface()
-    self.SetupXfrm()
+    # Default to use crypt; tests that want to use null_crypt should re-setup
+    self.SetupXfrm(False)
     self.addrs = {}
 
   def Teardown(self):
@@ -240,19 +269,24 @@ class VtiInterface(object):
   def TeardownInterface(self):
     self.iproute.DeleteLink(self.iface)
 
-  def SetupXfrm(self):
+  def SetupXfrm(self, use_null_crypt):
+    # Select algorithms:
+    (auth_algo, crypt_algo) = ((xfrm_base._ALGO_AUTH_NULL,
+                                xfrm_base._ALGO_CRYPT_NULL)
+                               if use_null_crypt else
+                               (xfrm_base._ALGO_HMAC_SHA1,
+                                xfrm_base._ALGO_CBC_AES_256))
+
     # For the VTI, the selectors are wildcard since packets will only
     # be selected if they have the appropriate mark, hence the inner
     # addresses are wildcard.
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
-                           self.out_spi, xfrm_base._ALGO_CBC_AES_256,
-                           xfrm_base._ALGO_HMAC_SHA1,
+                           self.out_spi, crypt_algo, auth_algo,
                            xfrm.ExactMatchMark(self.okey),
                            self.underlying_netid)
 
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
-                           self.in_spi, xfrm_base._ALGO_CBC_AES_256,
-                           xfrm_base._ALGO_HMAC_SHA1,
+                           self.in_spi, crypt_algo, auth_algo,
                            xfrm.ExactMatchMark(self.ikey), None)
 
   def TeardownXfrm(self):
@@ -274,33 +308,48 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     cls.SetMarkReflectSysctls(1)
 
     cls.vtis = {}
+    cls.vti6s = {}
     for i, underlying_netid in enumerate(cls.tuns):
       for version in 4, 6:
         netid = _BASE_VTI_NETID[version] + i
         iface = "ipsec%s" % netid
         local = cls.MyAddress(version, underlying_netid)
         if version == 4:
-          remote = net_test.IPV4_ADDR2 if (i % 2) else net_test.IPV4_ADDR
+          remote, null_crypt_remote = \
+              (net_test.IPV4_ADDR, net_test.IPV4_ADDR2) if (i % 2) else \
+              (net_test.IPV4_ADDR2, net_test.IPV4_ADDR)
         else:
-          remote = net_test.IPV6_ADDR2 if (i % 2) else net_test.IPV6_ADDR
-        vti = VtiInterface(iface, netid, underlying_netid, local, remote)
+          remote, null_crypt_remote = \
+              (net_test.IPV6_ADDR, net_test.IPV6_ADDR2) if (i % 2) else \
+              (net_test.IPV6_ADDR2, net_test.IPV6_ADDR)
+        vti = VtiInterface(iface, netid, underlying_netid, local, remote,
+                            version)
         cls._SetInboundMarking(netid, iface, True)
         cls._SetupVtiNetwork(vti, True)
-        cls.vtis[netid] = vti
+
+        if version == 4:
+          cls.vtis[netid] = vti
+        else:
+          cls.vti6s[netid] = vti
 
   @classmethod
   def tearDownClass(cls):
     # The sysctls are restored by MultinetworkBaseTest.tearDownClass.
     cls.SetInboundMarks(False)
-    for vti in cls.vtis.values():
+    for vti in cls.vtis.values() + cls.vti6s.values():
       cls._SetInboundMarking(vti.netid, vti.iface, False)
       cls._SetupVtiNetwork(vti, False)
       vti.Teardown()
     xfrm_base.XfrmBaseTest.tearDownClass()
 
+  def randomVtiIntf(self, outer_version):
+    version_dict = XfrmVtiTest.vtis if outer_version == 4 else XfrmVtiTest.vti6s
+    return random.choice(version_dict.values())
+
   def setUp(self):
     multinetwork_base.MultiNetworkBaseTest.setUp(self)
     self.iproute = iproute.IPRoute()
+    self.xfrm = xfrm.Xfrm()
 
   def tearDown(self):
     multinetwork_base.MultiNetworkBaseTest.tearDown(self)
@@ -379,73 +428,118 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     vti.tx += 1
     self.assertEquals((vti.rx, vti.tx), self.iproute.GetRxTxPackets(vti.iface))
 
-  # TODO: Should we completely re-write this using null encryption and null
-  # authentication? We could then assemble and disassemble packets for each
-  # direction individually. This approach would improve debuggability, avoid the
-  # complexity of the twister, and allow the test to more-closely validate
-  # deployable configurations.
-  def _CheckVtiInputOutput(self, vti, inner_version):
-    local_outer = vti.local
-    remote_outer = vti.remote
+  def _CheckVtiInput(self, vti, inner_version, local_inner, remote_inner,
+                     seq_num):
+    read_sock, local_port = _CreateReceiveSock(inner_version)
 
-    # Create a socket to receive packets.
-    read_sock = socket(
-        net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
-    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
-    # The second parameter of the tuple is the port number regardless of AF.
-    port = read_sock.getsockname()[1]
-    # Guard against the eventuality of the receive failing.
-    net_test.SetNonBlocking(read_sock.fileno())
+    input_pkt = _GetNullAuthCryptTunnelModePkt(
+        inner_version, remote_inner, vti.remote, _TEST_REMOTE_PORT, local_inner,
+        vti.local, local_port, vti.in_spi, seq_num)
+    self.ReceivePacketOn(vti.underlying_netid, input_pkt)
 
-    # Send a packet out via the vti-backed network, bound for the port number
-    # of the input socket.
-    write_sock = socket(
-        net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
-    self.SelectInterface(write_sock, vti.netid, "mark")
-    write_sock.sendto(net_test.UDP_PAYLOAD,
-                      (_GetRemoteInnerAddress(inner_version), port))
+    # Verify that the packet data and src are correct
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals(remote_inner, src[0])
+    self.assertEquals(_TEST_REMOTE_PORT, src[1])
+
+    self.assertReceivedPacket(vti)
+    return seq_num + 1
+
+  def _CheckVtiOutput(self, vti, inner_version, local_inner, remote_inner,
+                      seq_num):
+    local_port = _SendPacket(self, vti.netid, inner_version, remote_inner,
+                             _TEST_REMOTE_PORT)
 
     # Read a tunneled IP packet on the underlying (outbound) network
     # verifying that it is an ESP packet.
+    pkt = self._ExpectEspPacketOn(vti.underlying_netid, vti.out_spi, seq_num,
+                                  None, vti.local, vti.remote)
+
+    if inner_version == 4:
+      ip_hdr_options = {
+        'id': scapy.IP(pkt.load[8:]).id,
+        'flags': scapy.IP(pkt.load[8:]).flags
+      }
+    else:
+      ip_hdr_options = {'fl': scapy.IPv6(pkt.load[8:]).fl}
+
+    expected = _GetNullAuthCryptTunnelModePkt(
+        inner_version, local_inner, vti.local, local_port, remote_inner,
+        vti.remote, _TEST_REMOTE_PORT, vti.out_spi, seq_num, ip_hdr_options)
+
+    # Check outer header manually (Avoids having to overwrite outer header's
+    # id, flags or flow label)
+    self.assertEquals(expected.src, pkt.src)
+    self.assertEquals(expected.dst, pkt.dst)
+    self.assertEquals(len(expected), len(pkt))
+
+    # Check everything else
+    self.assertEquals(str(expected.load), str(pkt.load))
+
     self.assertSentPacket(vti)
-    pkt = self._ExpectEspPacketOn(vti.underlying_netid, vti.out_spi, vti.tx, None,
-                                  local_outer, remote_outer)
+    return seq_num + 1
 
-    # Perform an address switcheroo so that the inner address of the remote
-    # end of the tunnel is now the address on the local VTI interface; this
-    # way, the twisted inner packet finds a destination via the VTI once
-    # decrypted.
-    remote = _GetRemoteInnerAddress(inner_version)
-    local = vti.addrs[inner_version]
-    self._SwapInterfaceAddress(vti.iface, new_addr=remote, old_addr=local)
+  def _CheckVtiEncryption(self, vti, inner_version, local_inner, remote_inner,
+                          seq_num):
+    src_port = _SendPacket(self, vti.netid, inner_version, remote_inner,
+                           _TEST_REMOTE_PORT)
+
+    # Make sure it appeared on the underlying interface
+    pkt = self._ExpectEspPacketOn(vti.underlying_netid, vti.out_spi, seq_num,
+                                  None, vti.local, vti.remote)
+
+    # Check that packet is not sent in plaintext
+    self.assertTrue(str(net_test.UDP_PAYLOAD) not in str(pkt))
+
+    # Check that the interface statistics recorded the outbound packet
+    self.assertSentPacket(vti)
+
     try:
-      # Swap the packet's IP headers and write it back to the
-      # underlying network.
-      pkt = TunTwister.TwistPacket(pkt)
-      self.ReceivePacketOn(vti.underlying_netid, pkt)
-      self.assertReceivedPacket(vti)
-      # Receive the decrypted packet on the dest port number.
-      read_packet = read_sock.recv(4096)
-      self.assertEquals(read_packet, net_test.UDP_PAYLOAD)
-    finally:
-      # Unwind the switcheroo
-      self._SwapInterfaceAddress(vti.iface, new_addr=local, old_addr=remote)
+      # Swap the interface addresses to pretend we are the remote
+      # remote = _GetRemoteInnerAddress(inner_version)
+      # local = vti.addrs[inner_version]
+      self._SwapInterfaceAddress(
+          vti.iface, new_addr=remote_inner, old_addr=local_inner)
 
+      # Swap the packet's IP headers and write it back to the underlying
+      # network.
+      pkt = TunTwister.TwistPacket(pkt)
+      read_sock, local_port = _CreateReceiveSock(inner_version,
+                                                 _TEST_REMOTE_PORT)
+      self.ReceivePacketOn(vti.underlying_netid, pkt)
+
+      # Verify that the packet data and src are correct
+      data, src = read_sock.recvfrom(4096)
+      self.assertEquals(net_test.UDP_PAYLOAD, data)
+      self.assertEquals(local_inner, src[0])
+      self.assertEquals(src_port, src[1])
+
+      # Check that the interface statistics recorded the inbound packet
+      self.assertReceivedPacket(vti)
+      return seq_num + 1
+    finally:
+      # Swap the interface addresses to pretend we are the remote
+      self._SwapInterfaceAddress(
+          vti.iface, new_addr=local_inner, old_addr=remote_inner)
+
+  def _CheckVtiIcmp(self, vti, inner_version, local_inner, remote_inner,
+                    seq_num):
     # Now attempt to provoke an ICMP error.
     # TODO: deduplicate with multinetwork_test.py.
-    version = net_test.GetAddressVersion(vti.remote)
     dst_prefix, intermediate = {
         4: ("172.19.", "172.16.9.12"),
         6: ("2001:db8::", "2001:db8::1")
-    }[version]
+    }[vti.version]
 
-    write_sock.sendto(net_test.UDP_PAYLOAD,
-                      (_GetRemoteInnerAddress(inner_version), port))
+    local_port = _SendPacket(self, vti.netid, inner_version, remote_inner,
+                             _TEST_REMOTE_PORT)
     self.assertSentPacket(vti)
-    pkt = self._ExpectEspPacketOn(vti.underlying_netid, vti.out_spi, vti.tx, None,
-                                  local_outer, remote_outer)
-    myaddr = self.MyAddress(version, vti.underlying_netid)
-    _, toobig = packets.ICMPPacketTooBig(version, intermediate, myaddr, pkt)
+    pkt = self._ExpectEspPacketOn(vti.underlying_netid, vti.out_spi, seq_num,
+                                  None, vti.local, vti.remote)
+
+    myaddr = self.MyAddress(vti.version, vti.underlying_netid)
+    _, toobig = packets.ICMPPacketTooBig(vti.version, intermediate, myaddr, pkt)
     self.ReceivePacketOn(vti.underlying_netid, toobig)
 
     # Check that the packet too big reduced the MTU.
@@ -456,16 +550,48 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(packets.PTB_MTU, attributes["RTA_METRICS"]["RTAX_MTU"])
 
     # Clear PMTU information so that future tests don't have to worry about it.
-    self.InvalidateDstCache(version, vti.underlying_netid)
+    self.InvalidateDstCache(vti.version, vti.underlying_netid)
 
-  def testVtiInputOutput(self):
+    return seq_num + 1
+
+  def _TestVti(self, inner_version, outer_version, func,
+               use_null_crypt):
     """Test packet input and output over a Virtual Tunnel Interface."""
-    for i in xrange(3 * len(self.vtis.values())):
-      vti = random.choice(self.vtis.values())
-      self._CheckVtiInputOutput(vti, 4)
-      self._CheckVtiInputOutput(vti, 6)
+    vti = self.randomVtiIntf(outer_version)
+
+    try:
+      vti.TeardownXfrm()
+      vti.SetupXfrm(use_null_crypt)
+
+      local_inner = vti.addrs[inner_version]
+      remote_inner = _GetRemoteInnerAddress(inner_version)
+
+      next_seq_num = func(vti, inner_version, local_inner, remote_inner, 1)
+      next_seq_num = func(vti, inner_version, local_inner, remote_inner,
+                          next_seq_num)
+    finally:
+      if use_null_crypt:
+        vti.TeardownXfrm()
+        vti.SetupXfrm(False)
+
+  def ParamTestVtiInput(self, inner_version, outer_version):
+    self._TestVti(inner_version, outer_version,
+                  self._CheckVtiInput, True)
+
+  def ParamTestVtiOutput(self, inner_version, outer_version):
+    self._TestVti(inner_version, outer_version,
+                  self._CheckVtiOutput, True)
+
+  def ParamTestVtiInOutEncrypted(self, inner_version, outer_version):
+    self._TestVti(inner_version, outer_version,
+                  self._CheckVtiEncryption, False)
+
+  def ParamTestVtiIcmp(self, inner_version, outer_version):
+    self._TestVti(inner_version, outer_version,
+                  self._CheckVtiIcmp, False)
 
 
 if __name__ == "__main__":
   InjectParameterizedTests(XfrmTunnelTest)
+  InjectParameterizedTests(XfrmVtiTest)
   unittest.main()
