@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6a0ef46_c4e4bdb8",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-11T12:13:37Z",
+      "side": 1,
+      "message": "This could also just be:\n\n  test_prefix\u003d",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "bce0b40ad6adc4c31b59790c9586c2f3c4c613cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "867bd44e_1a33ee64",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-11T12:13:37Z",
+      "side": 1,
+      "message": "\" \u003e\u00262",
+      "range": {
+        "startLine": 23,
+        "startChar": 40,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "bce0b40ad6adc4c31b59790c9586c2f3c4c613cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fae7f80d_c8024ef4",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-11T12:13:37Z",
+      "side": 1,
+      "message": "Any reason not to use EOF as the delimiter? I think that\u0027s the one most often used.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "bce0b40ad6adc4c31b59790c9586c2f3c4c613cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "449e709a_0d3e07d1",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-11T12:13:37Z",
+      "side": 1,
+      "message": "What was wrong with the one-line approach you had before?",
+      "revId": "bce0b40ad6adc4c31b59790c9586c2f3c4c613cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
