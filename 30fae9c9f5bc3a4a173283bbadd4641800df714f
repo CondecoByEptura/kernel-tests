@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8254200_2c9f3808",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-11T12:39:48Z",
+      "side": 1,
+      "message": "Just use:\n\n    net_test.SetNonBlocking(read_sock.fileno)",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 44
+      },
+      "revId": "30fae9c9f5bc3a4a173283bbadd4641800df714f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
