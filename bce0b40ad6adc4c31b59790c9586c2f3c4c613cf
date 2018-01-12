@@ -175,6 +175,24 @@
       "revId": "bce0b40ad6adc4c31b59790c9586c2f3c4c613cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01d33fb5_9a356327",
+        "filename": "net/test/all_tests.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-12T13:41:43Z",
+      "side": 1,
+      "message": "Hmm. But on the other hand, if we pass --prefix xfrm or --prefix cstruct, it will run xfrm.py and cstruct.py as well, so we need to ensure that if they are executable they always exit successfully. I guess this is fine for now.",
+      "parentUuid": "4b965192_c09b5aa6",
+      "revId": "bce0b40ad6adc4c31b59790c9586c2f3c4c613cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
