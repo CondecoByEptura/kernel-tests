@@ -376,7 +376,7 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     return packet
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark):
+                   auth_trunc, mark, output_mark, tmpl_spi=None):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -398,6 +398,8 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
         unspecified.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm. None means unspecified.
+      tmpl_spi: The SPI for the IPsec SA that should be on the policy's
+        template. If None, will use SPI provided for creation of the SA.
     """
     outer_family = net_test.GetAddressFamily(net_test.GetAddressVersion(dst))
 
@@ -416,7 +418,9 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     else:
       selectors = [selector]
 
+    if tmpl_spi is None:
+      tmpl_spi = spi
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
       self.xfrm.AddPolicyInfo(policy, tmpl, mark)
