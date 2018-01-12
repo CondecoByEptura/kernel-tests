@@ -571,7 +571,7 @@ class Xfrm(netlink.NetlinkSocket):
     self._SendNlRequest(XFRM_MSG_FLUSHSA, usersa_flush.Pack(), flags)
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark):
+                   auth_trunc, mark, output_mark, tmpl_spi):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -593,6 +593,8 @@ class Xfrm(netlink.NetlinkSocket):
         unspecified.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm. None means unspecified.
+      tmpl_spi: The SPI that should be used for the UserTemplate. Value of 0
+        will allow any SPI with the right mark to be used.
     """
     outer_family = net_test.GetAddressFamily(net_test.GetAddressVersion(dst))
 
@@ -606,7 +608,7 @@ class Xfrm(netlink.NetlinkSocket):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
       self.AddPolicyInfo(policy, tmpl, mark)
 
 
