@@ -376,7 +376,7 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     return packet
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark):
+                   auth_trunc, mark, output_mark, permissive=False):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -418,5 +418,5 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, 0 if permissive else spi, 0, (src, dst))
       self.xfrm.AddPolicyInfo(policy, tmpl, mark)

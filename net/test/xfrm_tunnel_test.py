@@ -96,13 +96,13 @@ def _SendPacket(testInstance, netid, version, remote, remote_port):
 def InjectParameterizedTests(cls):
   """Inject parameterized test cases into this class.
 
-  Because a library for parameterized testing is not availble in
+  Because a library for parameterized testing is not available in
   net_test.rootfs.20150203, this does a minimal parameterization.
 
   This finds methods named like "ParamTestFoo" and replaces them with several
   "testFoo(*)" methods taking different parameter dicts. A set of test
   parameters is generated from every combination of inner and outer address
-  families
+  families.
 
   The benefit of this approach is that an individually failing tests have a
   clearly separated stack trace, and one failed test doesn't prevent the rest
@@ -300,7 +300,8 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     if not is_add:
       net_test.SetInterfaceDown(ifname)
 
-  def _CreateVti(self, netid, vti_netid, ifname, outer_version, use_null_crypt):
+  def _CreateVti(self, netid, vti_netid, ifname, outer_version, use_null_crypt,
+                 inbound_permissive=False):
     local_outer = self.MyAddress(outer_version, netid)
     remote_outer = _GetRemoteOuterAddress(outer_version)
     self.iproute.CreateVirtualTunnelInterface(
@@ -327,37 +328,42 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
 
     self.CreateTunnel(xfrm.XFRM_POLICY_IN, None, remote_outer, local_outer,
                       _TEST_IN_SPI, crypt_algo, auth_algo,
-                      xfrm.ExactMatchMark(_TEST_IKEY), None)
+                      xfrm.ExactMatchMark(_TEST_IKEY), None, inbound_permissive)
 
   def _CheckVtiInput(self, netid, vti_netid, iface, inner_version,
                      outer_version, local_inner, remote_inner, local_outer,
-                     remote_outer, rx, tx, seq_num):
+                     remote_outer, rx, tx, spi, seq_num, expect_fail=False):
     read_sock, local_port = _CreateReceiveSock(inner_version)
 
     input_pkt = _GetNullAuthCryptTunnelModePkt(
         inner_version, remote_inner, remote_outer, 4500, local_inner,
-        local_outer, local_port, _TEST_IN_SPI, seq_num)
+        local_outer, local_port, spi, seq_num)
     self.ReceivePacketOn(netid, input_pkt)
 
     # Verify that the packet data and src are correct
-    data, src = read_sock.recvfrom(4096)
-    self.assertEquals(net_test.UDP_PAYLOAD, data)
-    self.assertEquals(remote_inner, src[0])
-    self.assertEquals(4500, src[1])
+    if expect_fail:
+      self.assertRaisesErrno(EAGAIN, read_sock.recv, 4096)
+    else:
+      data, src = read_sock.recvfrom(4096)
+      self.assertEquals(net_test.UDP_PAYLOAD, data)
+      self.assertEquals(remote_inner, src[0])
+      self.assertEquals(4500, src[1])
 
-    rx += 1  # Expect one extra packet
-    self.assertEquals((rx, tx), self.iproute.GetRxTxPackets(iface))
-    return rx, tx, seq_num + 1
+      rx += 1  # Expect one extra packet
+      self.assertEquals((rx, tx), self.iproute.GetRxTxPackets(iface))
+      seq_num += 1
+
+    return rx, tx, seq_num
 
   def _CheckVtiOutput(self, netid, vti_netid, iface, inner_version,
                       outer_version, local_inner, remote_inner, local_outer,
-                      remote_outer, rx, tx, seq_num):
+                      remote_outer, rx, tx, spi, seq_num, expect_fail=False):
     local_port = _SendPacket(self, vti_netid, inner_version, remote_inner, 4500)
 
     # Read a tunneled IP packet on the underlying (outbound) network
     # verifying that it is an ESP packet.
-    pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, seq_num, None,
-                                  local_outer, remote_outer)
+    pkt = self._ExpectEspPacketOn(netid, spi, seq_num, None, local_outer,
+                                  remote_outer)
 
     if inner_version == 4:
       ip_hdr_options = {
@@ -369,7 +375,7 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
 
     expected = _GetNullAuthCryptTunnelModePkt(
         inner_version, local_inner, local_outer, local_port, remote_inner,
-        remote_outer, 4500, _TEST_OUT_SPI, seq_num, ip_hdr_options)
+        remote_outer, 4500, spi, seq_num, ip_hdr_options)
 
     # Check outer header manually (Avoids having to overwrite outer header's
     # id, flags or flow label)
@@ -386,12 +392,12 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
 
   def _CheckVtiEncryption(self, netid, vti_netid, iface, inner_version,
                           outer_version, local_inner, remote_inner, local_outer,
-                          remote_outer, tx, rx, seq_num):
+                          remote_outer, tx, rx, spi, seq_num):
     src_port = _SendPacket(self, vti_netid, inner_version, remote_inner, 4500)
 
     # Make sure it appeared on the underlying interface
-    pkt = self._ExpectEspPacketOn(netid, _TEST_OUT_SPI, seq_num, None,
-                                  local_outer, remote_outer)
+    pkt = self._ExpectEspPacketOn(netid, spi, seq_num, None, local_outer,
+                                  remote_outer)
 
     # Check that packet is not sent in plaintext
     self.assertTrue(str(net_test.UDP_PAYLOAD) not in str(pkt))
@@ -426,8 +432,8 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
       self._SwapInterfaceAddress(
           iface, new_addr=local_inner, old_addr=remote_inner)
 
-  def _TestVti(self, vti_netid, vti_ifname, inner_version, outer_version, func,
-               use_null_crypt):
+  def _TestVti(self, vti_netid, vti_ifname, inner_version, outer_version, spi,
+               func, use_null_crypt):
     """Test packet input and output over a Virtual Tunnel Interface."""
     netid = self.RandomNetid()
 
@@ -441,25 +447,134 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
                       use_null_crypt)
       rx, tx, next_seq_num = func(netid, vti_netid, vti_ifname, inner_version,
                                 outer_version, local_inner, remote_inner,
-                                local_outer, remote_outer, 0, 0, 1)
+                                local_outer, remote_outer, 0, 0, spi, 1)
       rx, tx, next_seq_num = func(netid, vti_netid, vti_ifname, inner_version,
                                 outer_version, local_inner, remote_inner,
-                                  local_outer, remote_outer, rx, tx,
+                                  local_outer, remote_outer, rx, tx, spi,
                                   next_seq_num)
     finally:
       self._SetupVtiNetwork(vti_netid, vti_ifname, False)
 
   def ParamTestVtiInput(self, inner_version, outer_version):
     self._TestVti(_VTI_NETID, _VTI_IFNAME, inner_version, outer_version,
-                  self._CheckVtiInput, True)
+                  _TEST_IN_SPI, self._CheckVtiInput, True)
 
   def ParamTestVtiOutput(self, inner_version, outer_version):
     self._TestVti(_VTI_NETID, _VTI_IFNAME, inner_version, outer_version,
-                  self._CheckVtiOutput, True)
+                  _TEST_OUT_SPI, self._CheckVtiOutput, True)
 
   def ParamTestVtiInOutEncrypted(self, inner_version, outer_version):
     self._TestVti(_VTI_NETID, _VTI_IFNAME, inner_version, outer_version,
-                  self._CheckVtiEncryption, False)
+                  _TEST_OUT_SPI, self._CheckVtiEncryption, False)
+
+  def _CheckVtiRekey(self, netid, vti_netid, iface, inner_version,
+                          outer_version, local_inner, remote_inner, local_outer,
+                          remote_outer, tx, rx, seq_num):
+    seq_num_in, seq_num_out = 1, 1
+
+    # Check to make sure that both directions work before rekey
+    tx, rx, seq_num_in = self._CheckVtiInput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, _TEST_IN_SPI,
+        seq_num_in)
+    tx, rx, seq_num_out = self._CheckVtiOutput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, _TEST_OUT_SPI,
+        seq_num_out)
+
+    #
+    # Rekey
+    #
+    new_seq_num_in, new_seq_num_out = 1, 1
+    outer_family = AF_INET if outer_version == 4 else AF_INET6
+
+    # Create new SA
+    # Distinguish the new SAs with new SPIs.
+    new_out_spi = _TEST_OUT_SPI + 0x8888
+    new_in_spi = _TEST_IN_SPI + 0x8888
+
+    self.xfrm.AddSaInfo(
+        local_outer, remote_outer,
+        new_out_spi, xfrm.XFRM_MODE_TUNNEL, 0,
+        xfrm_base._ALGO_CRYPT_NULL,
+        xfrm_base._ALGO_AUTH_NULL,
+        None,
+        None,
+        xfrm.ExactMatchMark(_TEST_OKEY),
+        netid)
+
+    self.xfrm.AddSaInfo(
+        remote_outer, local_outer,
+        new_in_spi, xfrm.XFRM_MODE_TUNNEL, 0,
+        xfrm_base._ALGO_CRYPT_NULL,
+        xfrm_base._ALGO_AUTH_NULL,
+        None,
+        None,
+        xfrm.ExactMatchMark(_TEST_IKEY),
+        None)
+
+    # Create new policies for IPv4 and IPv6.
+    for sel in [xfrm.EmptySelector(AF_INET), xfrm.EmptySelector(AF_INET6)]:
+      # Add SPI-specific output policy to enforce using new outbound SPI
+      policy = xfrm_base.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
+      tmpl = xfrm_base.UserTemplate(outer_family, new_out_spi, 0,
+                                    (local_outer, remote_outer))
+      self.xfrm.UpdatePolicyInfo(policy, tmpl, xfrm.ExactMatchMark(_TEST_OKEY))
+
+    # Expect that the old SPI still works for inbound packets
+    tx, rx, seq_num_in = self._CheckVtiInput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, _TEST_IN_SPI,
+        seq_num_in)
+
+    # Test both paths with new SPIs, expect outbound to use new SPI
+    tx, rx, new_seq_num_in = self._CheckVtiInput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, new_in_spi,
+        new_seq_num_in)
+    tx, rx, new_seq_num_out = self._CheckVtiOutput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, new_out_spi,
+        new_seq_num_out)
+
+    # Delete old SPIs
+    self.xfrm.DeleteSaInfo(local_outer, _TEST_IN_SPI, IPPROTO_ESP,
+                           xfrm.ExactMatchMark(_TEST_IKEY))
+    self.xfrm.DeleteSaInfo(remote_outer, _TEST_OUT_SPI, IPPROTO_ESP,
+                           xfrm.ExactMatchMark(_TEST_OKEY))
+
+    # Test both paths with new SPIs; should still work
+    tx, rx, new_seq_num_in = self._CheckVtiInput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, new_in_spi,
+        new_seq_num_in)
+    tx, rx, new_seq_num_out = self._CheckVtiOutput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, new_out_spi,
+        new_seq_num_out)
+
+    # Expect failure upon trying to receive a packet with the deleted SPI
+    tx, rx, seq_num_in = self._CheckVtiInput(
+        netid, vti_netid, iface, inner_version, outer_version, local_inner,
+        remote_inner, local_outer, remote_outer, tx, rx, _TEST_IN_SPI,
+        seq_num_in, True)
+
+  def ParamTestVtiRekey(self, inner_version, outer_version):
+    """Test Virtual Tunnel Interface rekey."""
+    netid = self.RandomNetid()
+
+    local_inner = _GetLocalInnerAddress(inner_version)
+    remote_inner = _GetRemoteInnerAddress(inner_version)
+    local_outer = self.MyAddress(outer_version, netid)
+    remote_outer = _GetRemoteOuterAddress(outer_version)
+
+    try:
+      self._CreateVti(netid, _VTI_NETID, _VTI_IFNAME, outer_version, True, True)
+      self._CheckVtiRekey(netid, _VTI_NETID, _VTI_IFNAME, inner_version,
+                          outer_version, local_inner, remote_inner, local_outer,
+                          remote_outer, 0, 0, 1)
+    finally:
+      self._SetupVtiNetwork(_VTI_NETID, _VTI_IFNAME, False)
 
 
 if __name__ == "__main__":
