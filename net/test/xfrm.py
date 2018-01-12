@@ -592,7 +592,7 @@ class Xfrm(netlink.NetlinkSocket):
     self._SendNlRequest(XFRM_MSG_FLUSHSA, usersa_flush.Pack(), flags)
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark):
+                   auth_trunc, mark, output_mark, permissive=False):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -614,6 +614,9 @@ class Xfrm(netlink.NetlinkSocket):
         unspecified.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm. None means unspecified.
+      permissive: If set to True, allows any SPI to be used as long as the right
+        mark is set. Permissive mode with no mark is expected to match all
+        packets.
     """
     outer_family = net_test.GetAddressFamily(net_test.GetAddressVersion(dst))
 
@@ -627,7 +630,8 @@ class Xfrm(netlink.NetlinkSocket):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, spi if not permissive else 0,
+                          0, (src, dst))
       self.AddPolicyInfo(policy, tmpl, mark)
 
   def DeleteTunnel(self, direction, selector, dst, spi, mark):
