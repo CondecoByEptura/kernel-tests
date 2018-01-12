@@ -418,5 +418,5 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, 0, 0, (src, dst))
       self.xfrm.AddPolicyInfo(policy, tmpl, mark)
