@@ -592,7 +592,7 @@ class Xfrm(netlink.NetlinkSocket):
     self._SendNlRequest(XFRM_MSG_FLUSHSA, usersa_flush.Pack(), flags)
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark):
+                   auth_trunc, mark, output_mark, match_method="all"):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -614,11 +614,25 @@ class Xfrm(netlink.NetlinkSocket):
         unspecified.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm. None means unspecified.
+      match_method: One of [mark | spi | all]. Defaults to "all". Setting this
+        determines how the SAs and policies are matched.
     """
     outer_family = net_test.GetAddressFamily(net_test.GetAddressVersion(dst))
 
+    if match_method == "mark":
+      sa_mark = mark
+      tmpl_spi = 0
+    elif match_method == "spi":
+      sa_mark = 0
+      tmpl_spi = spi
+    elif match_method == "all":
+      sa_mark = mark
+      tmpl_spi = spi
+    else:
+      raise ValueError("Unknown match_method supplied: %s" % match_method)
+
     self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, 0, encryption, auth_trunc,
-                   None, None, mark, output_mark)
+                   None, None, sa_mark, output_mark)
 
     if selector is None:
       selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
@@ -627,7 +641,7 @@ class Xfrm(netlink.NetlinkSocket):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
       self.AddPolicyInfo(policy, tmpl, mark)
 
   def DeleteTunnel(self, direction, selector, dst, spi, mark):
