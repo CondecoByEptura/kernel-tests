@@ -310,28 +310,39 @@ class Xfrm(netlink.NetlinkSocket):
 
     return name, data
 
-  def _UpdatePolicyInfo(self, msg, policy, tmpl, mark):
+  def _MergeTemplates(self, tmpls):
+    n = len(tmpls)
+    fmt = "=" + ("S" * n)
+    fields = " ".join("tmpl%d" % i for i in xrange(n))
+    cls = cstruct.Struct("XfrmUserTmplArray%d" % n,
+                         fmt, fields, [XfrmUserTmpl] * n)
+    return cls(tmpls)
+
+  def _UpdatePolicyInfo(self, msg, policy, tmpls, mark):
+    if not isinstance(tmpls, list):
+      tmpls = [tmpls]
+
     """Send a policy to the Security Policy Database"""
     nlattrs = []
-    if tmpl is not None:
-      nlattrs.append((XFRMA_TMPL, tmpl))
+    if tmpls is not None:
+      nlattrs.append((XFRMA_TMPL, self._MergeTemplates(tmpls)))
     if mark is not None:
       nlattrs.append((XFRMA_MARK, mark))
     self.SendXfrmNlRequest(msg, policy, nlattrs)
 
-  def AddPolicyInfo(self, policy, tmpl, mark):
+  def AddPolicyInfo(self, policy, tmpls, mark):
     """Add a new policy to the Security Policy Database
 
     If the policy exists, then return an error (EEXIST).
 
     Args:
       policy: an unpacked XfrmUserpolicyInfo
-      tmpl: an unpacked XfrmUserTmpl
+      tmpls: a single, or list of unpacked XfrmUserTmpl(s)
       mark: an unpacked XfrmMark
     """
-    self._UpdatePolicyInfo(XFRM_MSG_NEWPOLICY, policy, tmpl, mark)
+    self._UpdatePolicyInfo(XFRM_MSG_NEWPOLICY, policy, tmpls, mark)
 
-  def UpdatePolicyInfo(self, policy, tmpl, mark):
+  def UpdatePolicyInfo(self, policy, tmpls, mark):
     """Update an existing policy in the Security Policy Database
 
     If the policy does not exist, then create it; otherwise, update the
@@ -339,10 +350,10 @@ class Xfrm(netlink.NetlinkSocket):
 
     Args:
       policy: an unpacked XfrmUserpolicyInfo
-      tmpl: an unpacked XfrmUserTmpl to update
+      tmpls: a single, or list of unpacked XfrmUserTmpl(s) to update
       mark: an unpacked XfrmMark to match the existing policy or None
     """
-    self._UpdatePolicyInfo(XFRM_MSG_UPDPOLICY, policy, tmpl, mark)
+    self._UpdatePolicyInfo(XFRM_MSG_UPDPOLICY, policy, tmpls, mark)
 
   def DeletePolicyInfo(self, selector, direction, mark):
     """Delete a policy from the Security Policy Database
@@ -452,12 +463,16 @@ class Xfrm(netlink.NetlinkSocket):
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
     self._SendNlRequest(XFRM_MSG_NEWSA, msg, flags)
 
-  def DeleteSaInfo(self, daddr, spi, proto):
-    # TODO: deletes take a mark as well.
+  def DeleteSaInfo(self, daddr, spi, proto, mark=None):
     family = AF_INET6 if ":" in daddr else AF_INET
     usersa_id = XfrmUsersaId((PaddedAddress(daddr), spi, family, proto))
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
-    self._SendNlRequest(XFRM_MSG_DELSA, usersa_id.Pack(), flags)
+
+    nlattrs = []
+    if mark is not None:
+      nlattrs.append((XFRMA_MARK, mark))
+
+    self.SendXfrmNlRequest(XFRM_MSG_DELSA, usersa_id, nlattrs, flags)
 
   def AllocSpi(self, dst, proto, min_spi, max_spi):
     """Allocate (reserve) an SPI.
