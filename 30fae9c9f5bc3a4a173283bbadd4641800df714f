@@ -22,6 +22,30 @@
       "revId": "30fae9c9f5bc3a4a173283bbadd4641800df714f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd936d7_a5c64a64",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-12T00:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8254200_2c9f3808",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 44
+      },
+      "revId": "30fae9c9f5bc3a4a173283bbadd4641800df714f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
