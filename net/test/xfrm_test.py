@@ -83,7 +83,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     try:
       self.assertMultiLineEqual(expected, actual)
     finally:
-      self.xfrm.DeleteSaInfo(TEST_ADDR1, TEST_SPI, IPPROTO_ESP)
+      self.xfrm.DeleteSaInfo(TEST_ADDR1, TEST_SPI, None)
 
   def testFlush(self):
     self.assertEquals(0, len(self.xfrm.DumpSaInfo()))
@@ -158,8 +158,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(IPPROTO_UDP, protocol)
 
     # Deleting the SA causes the first socket to return errors again.
-    self.xfrm.DeleteSaInfo(self.GetRemoteAddress(xfrm_version), TEST_SPI,
-                           IPPROTO_ESP)
+    self.xfrm.DeleteSaInfo(self.GetRemoteAddress(xfrm_version), TEST_SPI, None)
     self.assertRaisesErrno(
         EAGAIN,
         s.sendto, net_test.UDP_PAYLOAD, (remoteaddr, 53))
@@ -370,8 +369,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
                                start_spi, rekey_spi, True, 2)
 
     # Delete old SAs
-    self.xfrm.DeleteSaInfo(remoteaddr, start_spi, IPPROTO_ESP)
-    self.xfrm.DeleteSaInfo(myaddr, start_spi, IPPROTO_ESP)
+    self.xfrm.DeleteSaInfo(remoteaddr, start_spi, None)
+    self.xfrm.DeleteSaInfo(myaddr, start_spi, None)
 
     # Check that UDP encap socket works with updated socket policy and new SAs
     self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
