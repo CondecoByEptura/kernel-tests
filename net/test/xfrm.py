@@ -516,12 +516,14 @@ class Xfrm(netlink.NetlinkSocket):
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
     self._SendNlRequest(XFRM_MSG_NEWSA, msg, flags)
 
-  def DeleteSaInfo(self, daddr, spi, proto):
-    # TODO: deletes take a mark as well.
+  def DeleteSaInfo(self, daddr, spi, mark):
     family = AF_INET6 if ":" in daddr else AF_INET
-    usersa_id = XfrmUsersaId((PaddedAddress(daddr), spi, family, proto))
+    usersa_id = XfrmUsersaId((PaddedAddress(daddr), spi, family, IPPROTO_ESP))
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
-    self._SendNlRequest(XFRM_MSG_DELSA, usersa_id.Pack(), flags)
+    nlattrs = ""
+    if mark is not None:
+      nlattrs += self._NlAttr(XFRMA_MARK, ExactMatchMark(mark).Pack())
+    self._SendNlRequest(XFRM_MSG_DELSA, usersa_id.Pack() + nlattrs, flags)
 
   def AllocSpi(self, dst, proto, min_spi, max_spi):
     """Allocate (reserve) an SPI.
