@@ -75,11 +75,12 @@ class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
     local_outer = self.MyAddress(outer_version, underlying_netid)
     remote_outer = _GetRemoteOuterAddress(outer_version)
 
-    self.CreateTunnel(xfrm.XFRM_POLICY_OUT,
-                      xfrm.SrcDstSelector(local_inner, remote_inner),
-                      local_outer, remote_outer, _TEST_OUT_SPI,
-                      xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
-                      None, underlying_netid)
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT,
+                           xfrm.SrcDstSelector(local_inner, remote_inner),
+                           local_outer, remote_outer, _TEST_OUT_SPI,
+                           xfrm_base._ALGO_CBC_AES_256,
+                           xfrm_base._ALGO_HMAC_SHA1,
+                           None, underlying_netid)
 
     write_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
     # Select an interface, which provides the source address of the inner
