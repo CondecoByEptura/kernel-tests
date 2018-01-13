@@ -18,7 +18,9 @@
 from errno import *  # pylint: disable=wildcard-import
 from socket import *  # pylint: disable=wildcard-import
 
+import random
 import struct
+import time
 import unittest
 
 from tun_twister import TunTwister
@@ -34,6 +36,10 @@ import xfrm_base
 VTI_KEYED = 1
 
 # Parameters to Set up VTI as a special network
+_BASE_VTI_NETID = {4: 40, 6: 60}
+_BASE_VTI_OKEY = 2000000100
+_BASE_VTI_IKEY = 2000000200
+
 _VTI_NETID = 50
 _VTI_IFNAME = "test_vti"
 _VTI0 = _VTI_IFNAME + "0"
@@ -210,6 +216,7 @@ class VtiInterface(object):
     self.addrs = {}
 
   def Teardown(self):
+    self.TeardownXfrm()
     self.TeardownInterface()
 
   def SetupInterface(self):
@@ -233,44 +240,53 @@ class VtiInterface(object):
                            xfrm_base._ALGO_HMAC_SHA1,
                            xfrm.ExactMatchMark(self.ikey), None)
 
+  def TeardownXfrm(self):
+    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
+                           self.out_spi, self.okey)
+    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
+                           self.in_spi, self.ikey)
+
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
-class XfrmVtiTest(xfrm_base.XfrmLazyTest):
+class XfrmVtiTest(xfrm_base.XfrmBaseTest):
 
   @classmethod
   def setUpClass(cls):
     xfrm_base.XfrmBaseTest.setUpClass()
-    # VTI interfaces use marks extensively, so configure realistic packet
-    # marking rules to make the test representative.
     cls.SetInboundMarks(True)
-    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, True)
     cls.SetMarkReflectSysctls(1)
+
+    cls.vtis = {}
+    for i, underlying_netid in enumerate(cls.tuns):
+      for version in 4, 6:
+        netid = _BASE_VTI_NETID[version] + i
+        iface = "ipsec%s" % netid
+        local = cls.MyAddress(version, underlying_netid)
+        if version == 4:
+          remote = net_test.IPV4_ADDR2 if (i % 2) else net_test.IPV4_ADDR
+        else:
+          remote = net_test.IPV6_ADDR2 if (i % 2) else net_test.IPV6_ADDR
+        vti = VtiInterface(iface, netid, underlying_netid, local, remote)
+        cls._SetInboundMarking(netid, iface, True)
+        cls._SetupVtiNetwork(vti, True)
+        cls.vtis[netid] = vti
 
   @classmethod
   def tearDownClass(cls):
     # The sysctls are restored by MultinetworkBaseTest.tearDownClass.
-    cls._SetInboundMarking(_VTI_NETID, _VTI_IFNAME, False)
     cls.SetInboundMarks(False)
+    for vti in cls.vtis.values():
+      cls._SetInboundMarking(vti.netid, vti.iface, False)
+      cls._SetupVtiNetwork(vti, False)
+      vti.Teardown()
     xfrm_base.XfrmBaseTest.tearDownClass()
 
   def setUp(self):
-    super(XfrmVtiTest, self).setUp()
-    # If the hard-coded netids are redefined this will catch the error.
-    self.assertNotIn(_VTI_NETID, self.NETIDS,
-                     "VTI netid %d already in use" % _VTI_NETID)
+    multinetwork_base.MultiNetworkBaseTest.setUp(self)
     self.iproute = iproute.IPRoute()
-    self._QuietDeleteLink(_VTI_IFNAME)
 
   def tearDown(self):
-    super(XfrmVtiTest, self).tearDown()
-    self._QuietDeleteLink(_VTI_IFNAME)
-
-  def _QuietDeleteLink(self, ifname):
-    try:
-      self.iproute.DeleteLink(ifname)
-    except IOError:
-      # The link was not present.
-      pass
+    multinetwork_base.MultiNetworkBaseTest.tearDown(self)
 
   def _SwapInterfaceAddress(self, ifname, old_addr, new_addr):
     """Exchange two addresses on a given interface.
@@ -287,7 +303,8 @@ class XfrmVtiTest(xfrm_base.XfrmLazyTest):
     self.iproute.DelAddress(old_addr,
                             net_test.AddressLengthBits(version), ifindex)
 
-  def _SetupVtiNetwork(self, vti, is_add):
+  @classmethod
+  def _SetupVtiNetwork(cls, vti, is_add):
     """Setup rules and routes for a VTI Network.
 
     Takes an interface and depending on the boolean
@@ -308,7 +325,7 @@ class XfrmVtiTest(xfrm_base.XfrmLazyTest):
       # is echoed back to the VTI, it causes the test to fail by not receiving
       # the UDP_PAYLOAD; or, two packets may arrive on the underlying
       # network which fails the assertion that only one ESP packet is received.
-      self.SetSysctl(
+      cls.SetSysctl(
           "/proc/sys/net/ipv6/conf/%s/router_solicitations" % vti.iface, 0)
       net_test.SetInterfaceUp(vti.iface)
 
@@ -317,26 +334,26 @@ class XfrmVtiTest(xfrm_base.XfrmLazyTest):
       table = vti.netid
 
       # Set up routing rules.
-      start, end = self.UidRangeForNetid(vti.netid)
-      self.iproute.UidRangeRule(version, is_add, start, end, table,
-                                self.PRIORITY_UID)
-      self.iproute.OifRule(version, is_add, vti.iface, table, self.PRIORITY_OIF)
-      self.iproute.FwmarkRule(version, is_add, vti.netid, table,
-                              self.PRIORITY_FWMARK)
+      start, end = cls.UidRangeForNetid(vti.netid)
+      cls.iproute.UidRangeRule(version, is_add, start, end, table,
+                                cls.PRIORITY_UID)
+      cls.iproute.OifRule(version, is_add, vti.iface, table, cls.PRIORITY_OIF)
+      cls.iproute.FwmarkRule(version, is_add, vti.netid, table,
+                              cls.PRIORITY_FWMARK)
 
       # Configure IP addresses.
       if version == 4:
-        addr = self._MyIPv4Address(vti.netid)
+        addr = cls._MyIPv4Address(vti.netid)
       else:
-        addr = self.OnlinkPrefix(6, vti.netid) + "1"
+        addr = cls.OnlinkPrefix(6, vti.netid) + "1"
       prefixlen = net_test.AddressLengthBits(version)
       vti.addrs[version] = addr
       if is_add:
-        self.iproute.AddAddress(addr, prefixlen, ifindex)
-        self.iproute.AddRoute(version, table, "default", 0, None, ifindex)
+        cls.iproute.AddAddress(addr, prefixlen, ifindex)
+        cls.iproute.AddRoute(version, table, "default", 0, None, ifindex)
       else:
-        self.iproute.DelRoute(version, table, "default", 0, None, ifindex)
-        self.iproute.DelAddress(addr, prefixlen, ifindex)
+        cls.iproute.DelRoute(version, table, "default", 0, None, ifindex)
+        cls.iproute.DelAddress(addr, prefixlen, ifindex)
 
   def assertReceivedPacket(self, vti):
     vti.rx += 1
@@ -427,17 +444,11 @@ class XfrmVtiTest(xfrm_base.XfrmLazyTest):
 
   def _TestVti(self, outer_version, is_multi):
     """Test packet input and output over a Virtual Tunnel Interface."""
-    netid = self.RandomNetid()
+    vti = random.choice(self.vtis.values())
+    version = net_test.GetAddressVersion(vti.remote)
+    self._CheckVtiInputOutput(vti, 4)
+    self._CheckVtiInputOutput(vti, 6)
 
-    self._CreateVti(netid, _VTI_NETID, _VTI_IFNAME, outer_version, is_multi)
-
-    try:
-      rx, tx = self._CheckVtiInputOutput(netid, _VTI_NETID, _VTI_IFNAME,
-                                         outer_version, 4, 0, 0)
-      self._CheckVtiInputOutput(netid, _VTI_NETID, _VTI_IFNAME, outer_version,
-                                4, rx, tx)
-    finally:
-      self._SetupVtiNetwork(_VTI_NETID, _VTI_IFNAME, False)
 
   def testIpv4Vti(self):
     self._TestVti(4, False)
