@@ -59,7 +59,7 @@ def _GetRemoteOuterAddress(version):
   return {4: net_test.IPV4_ADDR, 6: net_test.IPV6_ADDR}[version]
 
 
-class XfrmTunnelTest(xfrm_base.XfrmBaseTest):
+class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
 
   def _CheckTunnelOutput(self, inner_version, outer_version):
     """Test a bi-directional XFRM Tunnel with explicit selectors"""
@@ -235,7 +235,7 @@ class VtiInterface(object):
 
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
-class XfrmVtiTest(xfrm_base.XfrmBaseTest):
+class XfrmVtiTest(xfrm_base.XfrmLazyTest):
 
   @classmethod
   def setUpClass(cls):
