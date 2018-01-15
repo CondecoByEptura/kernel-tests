@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67662d91_04be7087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-15T22:21:45Z",
+      "side": 1,
+      "message": "Suggest an updated commit message:\n\n\nRefactor VTI tests to support null encryption\n\n-Split input and output into separate tests\n-Refactor to inject null encrypted packets while\n still allowing encrypted packets to be mirrored.\n-Add a check to ensure plaintext packets are no\n sent.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "722c3ee1cb0bf0b671054a56b10812c33a1e0c08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bab65ccc_f9dbfa48",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-15T22:21:45Z",
+      "side": 1,
+      "message": "nit: free functions get 2 spaces between them.",
+      "revId": "722c3ee1cb0bf0b671054a56b10812c33a1e0c08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8f143fe_df30e556",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-15T22:21:45Z",
+      "side": 1,
+      "message": "Input/Output or Send/Receive",
+      "range": {
+        "startLine": 331,
+        "startChar": 15,
+        "endLine": 331,
+        "endChar": 17
+      },
+      "revId": "722c3ee1cb0bf0b671054a56b10812c33a1e0c08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e7078f7_08c48f61",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-15T22:21:45Z",
+      "side": 1,
+      "message": "nit indentation",
+      "revId": "722c3ee1cb0bf0b671054a56b10812c33a1e0c08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac0ffa47_c40f1559",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-15T22:21:45Z",
+      "side": 1,
+      "message": "lorenzo is in the process of removing the hard-coded IFNAME and NETID here. I suggest moving these up to the top level and passing them to _TestVti as parameters.",
+      "range": {
+        "startLine": 438,
+        "startChar": 41,
+        "endLine": 438,
+        "endChar": 52
+      },
+      "revId": "722c3ee1cb0bf0b671054a56b10812c33a1e0c08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
