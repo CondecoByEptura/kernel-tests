@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d1a1c2e_7e68e859",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-15T07:21:17Z",
+      "side": 1,
+      "message": "Is there a reason to test input and output in separate tests? We could just put both in a single _CheckTunnelInputOutput method. The failure method will tell us whether input or output failed. That way we wouldn\u0027t need the _TestTunnel method at all.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
