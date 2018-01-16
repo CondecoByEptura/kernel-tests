@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2bec0781_ed75e3b2",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45079dd5_6a806378",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 21
+      },
+      "revId": "5c2929da7b846658c5f0b3acbb9ab948f7dd0510",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddbf4100_7b3e43e8",
         "filename": "net/test/xfrm.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-15T22:40:28Z",
       "side": 1,
       "message": "now that we coerce tmpls to [tmpls] will this never be \u0027None\u0027? I\u0027d expect it to be a list with [\u0027None\u0027].",
+      "range": {
+        "startLine": 326,
+        "startChar": 7,
+        "endLine": 326,
+        "endChar": 12
+      },
+      "revId": "5c2929da7b846658c5f0b3acbb9ab948f7dd0510",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aac7ab6_9271871c",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:58:54Z",
+      "side": 1,
+      "message": "Removed due to multi-template stuff",
+      "parentUuid": "ddbf4100_7b3e43e8",
       "range": {
         "startLine": 326,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b437517d_8b28c746",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e066954_00e25333",
+      "range": {
+        "startLine": 521,
+        "startChar": 0,
+        "endLine": 526,
+        "endChar": 79
+      },
+      "revId": "5c2929da7b846658c5f0b3acbb9ab948f7dd0510",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71583b8_603a7a22",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "db3e9f19_4a9832ff",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d71583b8_603a7a22",
+      "range": {
+        "startLine": 566,
+        "startChar": 0,
+        "endLine": 571,
+        "endChar": 79
+      },
+      "revId": "5c2929da7b846658c5f0b3acbb9ab948f7dd0510",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e17daa2_93cc91d0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2018-01-15T22:40:28Z",
       "side": 1,
       "message": "nah... there\u0027s no semantic in the API that will be able to tell how many concurrent SAs should be allowed, so all we can do is apply the new SA and ensure that whatever we do doesn\u0027t break the old SA for input.",
+      "range": {
+        "startLine": 572,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 13
+      },
+      "revId": "5c2929da7b846658c5f0b3acbb9ab948f7dd0510",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9c5113a_82c788e6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e17daa2_93cc91d0",
       "range": {
         "startLine": 572,
         "startChar": 0,
