@@ -410,6 +410,17 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     with self.assertRaisesErrno(ENOENT):
       new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, spi, spi)
 
+  def testAddSaMultipleAddresses(self):
+    """Attempt to allocate the same SPI twice."""
+    self.xfrm.AddSaInfo(
+        "::", TEST_ADDR1, 0xABCD, xfrm.XFRM_MODE_TRANSPORT, 123,
+        xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL,
+        None, None, None, None)
+    self.xfrm.AddSaInfo(
+        "::", TEST_ADDR2, 0xABCD, xfrm.XFRM_MODE_TRANSPORT, 123,
+        xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL,
+        None, None, None, None)
+
   def testAllocRangeSpi(self):
     start, end = 0xABCD0, 0xABCDF
     new_sa = self.xfrm.AllocSpi("::", IPPROTO_ESP, start, end)
