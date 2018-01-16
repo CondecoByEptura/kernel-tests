@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "562ca0ec_d9ce7ee2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:04:00Z",
+      "side": 1,
+      "message": "Hmm; It probably would be possible to factor this out. I had considered it, but the differences in the tests/parameters seemed a little more substantial than I wanted to tackle in this commit. I was planning to file a cleanup bug on myself for this, to be done after we can get the API nailed down/checked in.\n\nAlso, the amount of time that it took to get the below classes working with a non-class method to inject parameterized tests was non-negligible, and I felt that might not be worth the cost at the present time.",
+      "parentUuid": "dc4f656f_e757a290",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f255712_8d856f85",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a91fabef_f959facd",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f255712_8d856f85",
+      "range": {
+        "startLine": 61,
+        "startChar": 53,
+        "endLine": 61,
+        "endChar": 61
+      },
+      "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b351aa03_898903cb",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 7
@@ -59,6 +107,24 @@
       "writtenOn": "2018-01-15T23:02:37Z",
       "side": 1,
       "message": "nit \".\"",
+      "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04cfcda1_21872331",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b351aa03_898903cb",
       "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -135,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "6d084d56_370ef9f6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:04:00Z",
+      "side": 1,
+      "message": "This is an addition; it was not there in the previous file. The null-encryption parts of this CL are entirely new.",
+      "parentUuid": "3ed6a0d0_e996667a",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 65
+      },
+      "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e26d8c1_c9200b6a",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 7
@@ -146,6 +236,30 @@
       "writtenOn": "2018-01-15T23:02:37Z",
       "side": 1,
       "message": "same comment about formatting.",
+      "range": {
+        "startLine": 138,
+        "startChar": 48,
+        "endLine": 139,
+        "endChar": 76
+      },
+      "revId": "03beab5960511c4485bd7c9e0b3a4ac3e963f919",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8eced50_aa10bbc3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-16T19:04:00Z",
+      "side": 1,
+      "message": "This is an addition; it was not there in the previous file. The null-encryption parts of this CL are entirely new.",
+      "parentUuid": "4e26d8c1_c9200b6a",
       "range": {
         "startLine": 138,
         "startChar": 48,
