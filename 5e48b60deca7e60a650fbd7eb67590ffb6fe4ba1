@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d40860ea_7df9e257",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T04:05:34Z",
+      "side": 1,
+      "message": "I thought I had already done this... and yup, there\u0027s a kernel CL sitting in code review. That\u0027s ok, can you verify that you can still delete SPIs allocated with ALLOCSPI when you hard-code the protocol to IPPROTO_ESP? Also, PTAL at \n\nhttps://android-review.googlesource.com/#/c/kernel/tests/+/580250/\n\nAlso, pydocs please.",
+      "range": {
+        "startLine": 519,
+        "startChar": 37,
+        "endLine": 519,
+        "endChar": 41
+      },
+      "revId": "5e48b60deca7e60a650fbd7eb67590ffb6fe4ba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bfb60d2_d291d1af",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T04:05:34Z",
+      "side": 1,
+      "message": "Can you add a test to see if this will still delete an SA created with ALLOCSPI? I think there might be something special with PROTO in that case.",
+      "range": {
+        "startLine": 521,
+        "startChar": 65,
+        "endLine": 521,
+        "endChar": 76
+      },
+      "revId": "5e48b60deca7e60a650fbd7eb67590ffb6fe4ba1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
