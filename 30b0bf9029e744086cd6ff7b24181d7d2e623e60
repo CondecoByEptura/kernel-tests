@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1141405_f06fd589",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T21:54:28Z",
+      "side": 1,
+      "message": "suggest to just pass in the SPI.",
+      "range": {
+        "startLine": 379,
+        "startChar": 50,
+        "endLine": 379,
+        "endChar": 66
+      },
+      "revId": "30b0bf9029e744086cd6ff7b24181d7d2e623e60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1657db6a_8b363788",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T21:54:28Z",
+      "side": 1,
+      "message": "Docstring to explain what \"permissive\" is, or have someone pass in the SPI.\n\nIdeally we\u0027d have some sort of tunnel match parameter set, which would be some combo of Mark, SPI, source, dest, whatever... we could *even* have default behavior and then let someone pass in an XfrmUserTmpl?",
+      "revId": "30b0bf9029e744086cd6ff7b24181d7d2e623e60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9f99b74_cf7a4a57",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T21:54:28Z",
+      "side": 1,
+      "message": "I\u0027m not a big fan of this. Can you further unpack the tuple?",
+      "range": {
+        "startLine": 349,
+        "startChar": 38,
+        "endLine": 349,
+        "endChar": 44
+      },
+      "revId": "30b0bf9029e744086cd6ff7b24181d7d2e623e60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83036dc8_921cb7a2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T21:54:28Z",
+      "side": 1,
+      "message": "constant plz.",
+      "range": {
+        "startLine": 350,
+        "startChar": 24,
+        "endLine": 350,
+        "endChar": 28
+      },
+      "revId": "30b0bf9029e744086cd6ff7b24181d7d2e623e60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
