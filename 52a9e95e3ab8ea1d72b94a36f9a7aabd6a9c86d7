@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4f8a9dd_5540e1fe",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T03:53:41Z",
+      "side": 1,
+      "message": "Is this actually used in the MTU test? If so it\u0027s not clear to me how. Regardless, could it be mentioned in the commit message?",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 32
+      },
+      "revId": "52a9e95e3ab8ea1d72b94a36f9a7aabd6a9c86d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96c080f3_6369a94c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T03:53:41Z",
+      "side": 1,
+      "message": "I\u0027d like to start decoupling tests from each other. To wit, your new code is having to deal with the interface counters to test ICMP, which I\u0027d assert can be tested separately.\n\nTODO: break this test up in to smaller pieces.\n\nI think Ben\u0027s refactoring will make it more feasible.",
+      "revId": "52a9e95e3ab8ea1d72b94a36f9a7aabd6a9c86d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff5339b3_7184bf04",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-17T03:53:41Z",
+      "side": 1,
+      "message": "Can we use the len(toobig) here?",
+      "range": {
+        "startLine": 324,
+        "startChar": 22,
+        "endLine": 324,
+        "endChar": 26
+      },
+      "revId": "52a9e95e3ab8ea1d72b94a36f9a7aabd6a9c86d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
