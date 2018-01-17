@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b51f6aa_48c9cf10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-17T18:28:21Z",
+      "side": 1,
+      "message": "Do we have a bug to track these? Would these be lumped under the VTI ICMP input path?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 5
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b456591_53bd891b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-17T18:28:21Z",
+      "side": 1,
+      "message": "Is this set anywhere? Otherwise, if it\u0027s empty, i assume this for loop may never run?",
+      "range": {
+        "startLine": 204,
+        "startChar": 41,
+        "endLine": 204,
+        "endChar": 49
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
