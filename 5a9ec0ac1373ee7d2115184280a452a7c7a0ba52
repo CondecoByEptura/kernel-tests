@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "788b88e7_1dcd2e49",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-17T18:35:35Z",
+      "side": 1,
+      "message": "Nit: Update documentation?",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 44
+      },
+      "revId": "5a9ec0ac1373ee7d2115184280a452a7c7a0ba52",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
