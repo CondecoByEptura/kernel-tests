@@ -45,6 +45,53 @@
       "revId": "94235625737caf8e008d5278ac145f1828108278",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0f68d32_d0f03df8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-18T00:49:54Z",
+      "side": 1,
+      "message": "Found it.",
+      "parentUuid": "0b456591_53bd891b",
+      "range": {
+        "startLine": 204,
+        "startChar": 41,
+        "endLine": 204,
+        "endChar": 49
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677e77d5_22e83df1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-01-18T00:49:54Z",
+      "side": 1,
+      "message": "Taking a second look at this (while rebasing my changes), I am concerned that this might affect the isolation of each of the tests. If any test puts it in a bad state, other tests running afterwards will be affected. And since we select a random few, that would mean that it could end up being hard to debug",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
