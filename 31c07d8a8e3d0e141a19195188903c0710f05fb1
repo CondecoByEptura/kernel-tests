@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3178fda6_a10502e5",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-19T14:00:56Z",
+      "side": 1,
+      "message": "Nit: if you respin this, just use XfrmUserSpiInfo()",
+      "range": {
+        "startLine": 490,
+        "startChar": 26,
+        "endLine": 490,
+        "endChar": 55
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd497fd7_55a9e26a",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-19T14:00:56Z",
+      "side": 1,
+      "message": "How have we survived thus far without doing this? Do we not have any tests that try to allocate an SPI to a specified destination? Seems like we need more test coverage.",
+      "range": {
+        "startLine": 495,
+        "startChar": 4,
+        "endLine": 495,
+        "endChar": 57
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f075c2ae_de00e707",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-01-19T14:00:56Z",
+      "side": 1,
+      "message": "Hmm. After looking at the code I was reminded that ALLOCSPI has a limited lifetime (by default, 165 seconds). This is bad because the API docs for allocateSecurityParameterIndex say \"this SPI is guaranteed available until released by a call to {@link SecurityParameterIndex#close}\". So it\u0027s not OK to free it after 165s.\n\nGiven that a) we have explicit refcounting and resource tracking for SPIs, b) the destination address for SPIs is mandatory, it seems like we should not be using ALLOCSPI by itself, but always turning the allocated SPI into a valid SA. Or at least setting the timer to a much larger value.",
+      "range": {
+        "startLine": 767,
+        "startChar": 8,
+        "endLine": 767,
+        "endChar": 75
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
