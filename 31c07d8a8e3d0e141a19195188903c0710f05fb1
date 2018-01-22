@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "cd5e879d_0b555f94",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-22T18:28:18Z",
+      "side": 1,
+      "message": "Hence I started adding new tests.",
+      "parentUuid": "fd497fd7_55a9e26a",
+      "range": {
+        "startLine": 495,
+        "startChar": 4,
+        "endLine": 495,
+        "endChar": 57
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f075c2ae_de00e707",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -83,6 +107,54 @@
       "side": 1,
       "message": "(To be clear: I think we must resolve this one way or the other before API freeze/ship.)",
       "parentUuid": "f075c2ae_de00e707",
+      "range": {
+        "startLine": 767,
+        "startChar": 8,
+        "endLine": 767,
+        "endChar": 75
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df82ceaa_2af62b70",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-22T18:28:18Z",
+      "side": 1,
+      "message": "I think the plan of record is to update the timer to not expire for SPIs. The problem with creating \"real\" SAs is that once you do you can no longer update the algorithms, and that is something that upstream won\u0027t change becuase of very old backwards compatibility with the PF_KEYs. So infinite timer has been (and still is) our way forward.",
+      "parentUuid": "f075c2ae_de00e707",
+      "range": {
+        "startLine": 767,
+        "startChar": 8,
+        "endLine": 767,
+        "endChar": 75
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4ce8c37_b377e116",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-22T18:28:18Z",
+      "side": 1,
+      "message": "I think we are good on this. I *might* have a bug tracking the required change in procfs. If not, I\u0027ll go ahead and make sure one is open.",
+      "parentUuid": "9afe0237_fd34fe22",
       "range": {
         "startLine": 767,
         "startChar": 8,
