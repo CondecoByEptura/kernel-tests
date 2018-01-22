@@ -164,6 +164,30 @@
       "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87aad9f7_bc82666e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-01-22T18:36:04Z",
+      "side": 1,
+      "message": "I could swear we had a bug, but I couldn\u0027t find it. New bug filed.",
+      "parentUuid": "df82ceaa_2af62b70",
+      "range": {
+        "startLine": 767,
+        "startChar": 8,
+        "endLine": 767,
+        "endChar": 75
+      },
+      "revId": "31c07d8a8e3d0e141a19195188903c0710f05fb1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
