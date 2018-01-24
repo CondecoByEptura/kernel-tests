@@ -769,7 +769,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
             xfrm_base._ALGO_HMAC_SHA1, None, None, None, 0)
 
   def testUpdateSaAddMark(self):
-    """Test that when an SA has no mark, it can be updated to add a mark."""
+    """Test that an SPI can be updated to add a mark."""
     for version in [4, 6]:
       spi = 0xABCD
       # Test that an SA created with ALLOCSPI can be updated with the mark.
@@ -789,7 +789,81 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
       self.xfrm.DeleteSaInfo(net_test.GetWildcardAddress(version),
                              spi, IPPROTO_ESP, mark)
 
-      # TODO: we might also need to update the mark for a VALID SA.
+  def testUpdateActiveSaMarks(self):
+    """Test that when an SA has no mark, it can be updated to add a mark."""
+    for version in [4, 6]:
+      spi = 0xABCD
+      family = net_test.GetAddressFamily(version)
+      netid = self.RandomNetid()
+      # Populate the socket's destination cache.
+      remote = self.GetRemoteAddress(version)
+      local = self.MyAddress(version, netid)
+      s = socket(family, SOCK_DGRAM, 0)
+      self.SelectInterface(s, netid, "mark")
+      # Create a mark that we will apply to the policy and later the SA
+      mark = xfrm.ExactMatchMark(netid)
+
+      # Create a global policy that selects using the mark.
+      sel = xfrm.EmptySelector(family)
+      policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
+      tmpl = xfrm.UserTemplate(family, 0, 0, (local, remote))
+      self.xfrm.AddPolicyInfo(policy, tmpl, mark)
+
+      # should increment XfrmOutNoStates
+      s.sendto(net_test.UDP_PAYLOAD, (remote, 53))
+      # TODO: pull /proc/net/xfrm_stats and test that the stats incremented.
+
+      length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TUNNEL,
+                                            version, False,
+                                            net_test.UDP_PAYLOAD,
+                                            xfrm_base._ALGO_HMAC_SHA1,
+                                            xfrm_base._ALGO_CBC_AES_256)
+
+      # Add a default SA with no mark that routes to nowhere
+      self.xfrm.AddSaInfo(local,
+                          remote,
+                          spi, xfrm.XFRM_MODE_TUNNEL, 0,
+                          xfrm_base._ALGO_CBC_AES_256,
+                          xfrm_base._ALGO_HMAC_SHA1,
+                          None, None, None, 0, is_update=False)
+      self.assertRaisesErrno(
+          ENETUNREACH,
+          s.sendto, net_test.UDP_PAYLOAD, (remote, 53))
+
+      # Add a default SA with no mark that routes to netid
+      self.xfrm.AddSaInfo(local,
+                          remote,
+                          spi, xfrm.XFRM_MODE_TUNNEL, 0,
+                          xfrm_base._ALGO_CBC_AES_256,
+                          xfrm_base._ALGO_HMAC_SHA1,
+                          None, None, None, netid, is_update=True)
+
+      # Now the payload passes to the updated netid
+      s.sendto(net_test.UDP_PAYLOAD, (remote, 53))
+      self._ExpectEspPacketOn(netid, spi, 1, length, None, None)
+
+      # Get a new netid of the network we actually want
+      reroute_netid = self.RandomNetid(netid)
+      # Update the SA to add a mark and change the output mark
+      self.xfrm.AddSaInfo(local,
+                         remote,
+                         spi, xfrm.XFRM_MODE_TUNNEL, 0,
+                         xfrm_base._ALGO_CBC_AES_256,
+                         xfrm_base._ALGO_HMAC_SHA1,
+                         None, None, mark, reroute_netid, is_update=True)
+
+      self.xfrm.UpdatePolicyInfo(policy, tmpl, mark, None)
+      s.sendto(net_test.UDP_PAYLOAD, (remote, 53))
+      self._ExpectEspPacketOn(reroute_netid, spi, 2, length, None, None)
+
+      dump = self.xfrm.DumpSaInfo()
+
+      self.assertEquals(1, len(dump)) # check that update updated
+      sainfo, attributes = dump[0]
+      self.assertEquals(mark, attributes["XFRMA_MARK"])
+      self.assertEquals(reroute_netid, attributes["XFRMA_OUTPUT_MARK"])
+
+      self.xfrm.DeleteSaInfo(remote, spi, IPPROTO_ESP, mark)
 
 if __name__ == "__main__":
   unittest.main()
