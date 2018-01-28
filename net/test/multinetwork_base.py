@@ -175,6 +175,12 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   @classmethod
   def MyAddress(cls, version, netid):
     return {4: cls._MyIPv4Address(netid),
+            5: cls._MyIPv4Address(netid),
+            6: cls._MyIPv6Address(netid)}[version]
+
+  @classmethod
+  def MySocketAddress(cls, version, netid):
+    return {4: cls._MyIPv4Address(netid),
             5: "::ffff:" + cls._MyIPv4Address(netid),
             6: cls._MyIPv6Address(netid)}[version]
 
