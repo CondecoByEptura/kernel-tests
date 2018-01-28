@@ -110,6 +110,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmBaseTest):
     daddr, dport = s.getpeername()[:2]
     reqid = 0
 
+    saddr = saddr.replace("::ffff:", "")
+    daddr = daddr.replace("::ffff:", "")
     desc, pkt = packets.UDP(version, saddr, daddr, sport=sport)
     s.sendto(net_test.UDP_PAYLOAD, (remoteaddr, 53))
     self.ExpectPacketOn(netid, "Send after socket, expected %s" % desc, pkt)
