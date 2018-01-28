@@ -72,11 +72,12 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
   def CheckTCPSYNPacket(self, version, netid, routing_mode, dstaddr):
     s = self.BuildSocket(version, net_test.TCPSocket, netid, routing_mode)
 
-    if version == 6 and dstaddr.startswith("::ffff"):
-      version = 4
     myaddr = self.MyAddress(version, netid)
     desc, expected = packets.SYN(53, version, myaddr, dstaddr,
                                  sport=None, seq=None)
+
+    if version == 5:
+      dstaddr = "::ffff:" + dstaddr
 
     # Non-blocking TCP connects always return EINPROGRESS.
     self.assertRaisesErrno(errno.EINPROGRESS, s.connect, (dstaddr, 53))
@@ -88,12 +89,13 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
   def CheckUDPPacket(self, version, netid, routing_mode, dstaddr):
     s = self.BuildSocket(version, net_test.UDPSocket, netid, routing_mode)
 
-    if version == 6 and dstaddr.startswith("::ffff"):
-      version = 4
     myaddr = self.MyAddress(version, netid)
     desc, expected = packets.UDP(version, myaddr, dstaddr, sport=None)
     msg = "IPv%s UDP %%s: expected %s on %s" % (
         version, desc, self.GetInterfaceName(netid))
+
+    if version == 5:
+      dstaddr = "::ffff:" + dstaddr
 
     s.sendto(UDP_PAYLOAD, (dstaddr, 53))
     self.ExpectPacketOn(netid, msg % "sendto", expected)
@@ -127,7 +129,6 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
   def CheckOutgoingPackets(self, routing_mode):
     v4addr = self.IPV4_ADDR
     v6addr = self.IPV6_ADDR
-    v4mapped = "::ffff:" + v4addr
 
     for _ in xrange(self.ITERATIONS):
       for netid in self.tuns:
@@ -141,11 +142,11 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         if routing_mode != "ucast_oif":
           self.CheckTCPSYNPacket(4, netid, routing_mode, v4addr)
           self.CheckTCPSYNPacket(6, netid, routing_mode, v6addr)
-          self.CheckTCPSYNPacket(6, netid, routing_mode, v4mapped)
+          self.CheckTCPSYNPacket(5, netid, routing_mode, v4addr)
 
         self.CheckUDPPacket(4, netid, routing_mode, v4addr)
         self.CheckUDPPacket(6, netid, routing_mode, v6addr)
-        self.CheckUDPPacket(6, netid, routing_mode, v4mapped)
+        self.CheckUDPPacket(5, netid, routing_mode, v4addr)
 
         # Creating raw sockets on non-root UIDs requires properly setting
         # capabilities, which is hard to do from Python.
