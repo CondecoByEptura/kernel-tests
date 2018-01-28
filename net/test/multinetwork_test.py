@@ -293,13 +293,13 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
 
         if version == 6:
           # Create a flowlabel so we can use it.
-          net_test.SetFlowLabel(s, net_test.IPV6_ADDR, 0xbeef)
+          net_test.SetFlowLabel(s, net_test.IPV6_ADDR, 0x1234)
 
           # Specify some arbitrary options.
           cmsgs = [
               (net_test.SOL_IPV6, IPV6_HOPLIMIT, 39),
               (net_test.SOL_IPV6, IPV6_TCLASS, 0x83),
-              (net_test.SOL_IPV6, IPV6_FLOWINFO, int(htonl(0xbeef))),
+              (net_test.SOL_IPV6, IPV6_FLOWINFO, int(htonl(0x1234))),
           ]
         else:
           # Support for setting IPv4 TOS and TTL via cmsg only appeared in 3.13.

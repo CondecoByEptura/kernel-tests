@@ -153,7 +153,8 @@ def _MakeMsgControl(optlist):
     if isinstance(data, int):
       data = struct.pack("=I", data)
     elif not isinstance(data, str):
-      raise TypeError("unknown data type for opt %i: %s" % (i, type(data)))
+      raise TypeError("unknown data type for opt (%d, %d): %s" % (
+          msg_level, msg_type, type(data)))
 
     datalen = len(data)
     msg_len = len(CMsgHdr) + datalen
