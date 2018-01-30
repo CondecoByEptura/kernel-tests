@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "733d8fb0_ad38e794",
+        "filename": "net/test/packets.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1273909
+      },
+      "writtenOn": "2018-01-30T13:57:35Z",
+      "side": 1,
+      "message": "RFC 1191",
+      "range": {
+        "startLine": 160,
+        "startChar": 57,
+        "endLine": 160,
+        "endChar": 65
+      },
+      "revId": "ff96b2a891e28100b59775d65d7bec8258939f1f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
