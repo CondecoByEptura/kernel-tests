@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88251815_c05019a2",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1273909
+      },
+      "writtenOn": "2018-01-30T08:47:28Z",
+      "side": 1,
+      "message": "This may have to do with sign extension when longs are 32bit.\nLet\u0027s try casting the result of ntohl() to ctype.c_uint32.",
+      "range": {
+        "startLine": 296,
+        "startChar": 55,
+        "endLine": 296,
+        "endChar": 61
+      },
+      "revId": "5662bcab6a1c2e2d7df8cb2b829e88956415915d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
