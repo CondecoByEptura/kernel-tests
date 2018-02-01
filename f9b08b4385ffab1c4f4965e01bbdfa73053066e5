@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0948b327_8cebdc05",
+        "filename": "net/test/ping6_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1273909
+      },
+      "writtenOn": "2018-02-01T07:31:01Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be rxmem?",
+      "range": {
+        "startLine": 325,
+        "startChar": 58,
+        "endLine": 325,
+        "endChar": 63
+      },
+      "revId": "f9b08b4385ffab1c4f4965e01bbdfa73053066e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
