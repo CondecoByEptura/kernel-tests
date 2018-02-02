@@ -135,8 +135,17 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
     self.iproute.DelAddress(old_addr,
                             net_test.AddressLengthBits(version), ifindex)
 
+  def verifyVtiInfoData(self, vti_info_data, version, local_addr, remote_addr, ikey, okey):
+    self.assertEquals(vti_info_data["IFLA_VTI_IKEY"], ikey)
+    self.assertEquals(vti_info_data["IFLA_VTI_OKEY"], okey)
+
+    family = AF_INET if version == 4 else AF_INET6
+    self.assertEquals(inet_ntop(family, vti_info_data["IFLA_VTI_LOCAL"]), local_addr)
+    self.assertEquals(inet_ntop(family, vti_info_data["IFLA_VTI_REMOTE"]), remote_addr)
+
   def testAddVti(self):
-    """Test the creation of a Virtual Tunnel Interface."""
+    """Test the creation, updation, deletion of a Virtual Tunnel Interface."""
+    new_remote_addr = {4: net_test.IPV4_ADDR2, 6: net_test.IPV6_ADDR2}
     for version in [4, 6]:
       netid = self.RandomNetid()
       local_addr = self.MyAddress(version, netid)
@@ -145,7 +154,25 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
           local_addr=local_addr,
           remote_addr=_GetRemoteOuterAddress(version),
           o_key=_TEST_OKEY,
-          i_key=_TEST_IKEY)
+          i_key=_TEST_IKEY,
+          isupdate=False)
+
+      self.verifyVtiInfoData(self.iproute.GetVtiInfoData(_VTI_IFNAME),
+                             version, local_addr, _GetRemoteOuterAddress(version),
+                             _TEST_OKEY, _TEST_IKEY)
+
+      self.iproute.CreateVirtualTunnelInterface(
+          dev_name=_VTI_IFNAME,
+          local_addr=local_addr,
+          remote_addr=new_remote_addr[version],
+          o_key=_TEST_OKEY + _VTI_NETID,
+          i_key=_TEST_IKEY + _VTI_NETID,
+          isupdate=True)
+
+      self.verifyVtiInfoData(self.iproute.GetVtiInfoData(_VTI_IFNAME),
+                             version, local_addr, new_remote_addr[version],
+                             _TEST_OKEY + _VTI_NETID, _TEST_IKEY + _VTI_NETID)
+
       if_index = self.iproute.GetIfIndex(_VTI_IFNAME)
 
       # Validate that the netlink interface matches the ioctl interface.
