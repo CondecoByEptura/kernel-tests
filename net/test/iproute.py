@@ -343,7 +343,7 @@ class IPRoute(netlink.NetlinkSocket):
   def _AddressFamily(self, version):
     return {4: AF_INET, 6: AF_INET6}[version]
 
-  def _SendNlRequest(self, command, data, flags=0):
+  def _SendNlRequest(self, command, data, flags=0, isupdate=False):
     """Sends a netlink request and expects an ack."""
 
     flags |= netlink.NLM_F_REQUEST
@@ -351,7 +351,8 @@ class IPRoute(netlink.NetlinkSocket):
       flags |= netlink.NLM_F_ACK
     if CommandVerb(command) == "NEW":
       if not flags & netlink.NLM_F_REPLACE:
-        flags |= (netlink.NLM_F_EXCL | netlink.NLM_F_CREATE)
+        if not isupdate:
+          flags |= (netlink.NLM_F_EXCL | netlink.NLM_F_CREATE)
 
     super(IPRoute, self)._SendNlRequest(command, data, flags)
 
@@ -680,7 +681,7 @@ class IPRoute(netlink.NetlinkSocket):
     return stats.rx_packets, stats.tx_packets
 
   def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
-                                   i_key=None, o_key=None):
+                                   i_key=None, o_key=None, isupdate=False):
     """
     Create a Virtual Tunnel Interface that provides a proxy interface
     for IPsec tunnels.
@@ -725,7 +726,7 @@ class IPRoute(netlink.NetlinkSocket):
 
     ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
 
-    return self._SendNlRequest(RTM_NEWLINK, ifinfo)
+    return self._SendNlRequest(RTM_NEWLINK, ifinfo, 0, isupdate)
 
 
 if __name__ == "__main__":
