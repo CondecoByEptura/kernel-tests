@@ -282,6 +282,8 @@ class IPRoute(netlink.NetlinkSocket):
       name = self._GetConstantName(nla_type, "RTAX_")
     elif command == -IFLA_LINKINFO:
       name = self._GetConstantName(nla_type, "IFLA_INFO_")
+    elif command == -IFLA_INFO_DATA:
+      name = self._GetConstantName(nla_type, "IFLA_VTI_")
     elif CommandSubject(command) == "ADDR":
       name = self._GetConstantName(nla_type, "IFA_")
     elif CommandSubject(command) == "LINK":
@@ -304,6 +306,8 @@ class IPRoute(netlink.NetlinkSocket):
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
                 "IFLA_GSO_MAX_SIZE", "RTA_UID"]:
       data = struct.unpack("=I", nla_data)[0]
+    elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
+      data = socket.ntohl(struct.unpack("=I", nla_data)[0])
     elif name == "FRA_SUPPRESS_PREFIXLEN":
       data = struct.unpack("=i", nla_data)[0]
     elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER"]:
@@ -318,6 +322,8 @@ class IPRoute(netlink.NetlinkSocket):
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
     elif name == "IFLA_LINKINFO":
       data = self._ParseAttributes(-IFLA_LINKINFO, None, nla_data, nested + 1)
+    elif name == "IFLA_INFO_DATA":
+      data = self._ParseAttributes(-IFLA_INFO_DATA, None, nla_data)
     elif name == "RTA_CACHEINFO":
       data = RTACacheinfo(nla_data)
     elif name == "IFA_CACHEINFO":
@@ -343,7 +349,7 @@ class IPRoute(netlink.NetlinkSocket):
   def _AddressFamily(self, version):
     return {4: AF_INET, 6: AF_INET6}[version]
 
-  def _SendNlRequest(self, command, data, flags=0):
+  def _SendNlRequest(self, command, data, flags=0, isupdate=False):
     """Sends a netlink request and expects an ack."""
 
     flags |= netlink.NLM_F_REQUEST
@@ -351,7 +357,8 @@ class IPRoute(netlink.NetlinkSocket):
       flags |= netlink.NLM_F_ACK
     if CommandVerb(command) == "NEW":
       if not flags & netlink.NLM_F_REPLACE:
-        flags |= (netlink.NLM_F_EXCL | netlink.NLM_F_CREATE)
+        if not isupdate:
+          flags |= (netlink.NLM_F_EXCL | netlink.NLM_F_CREATE)
 
     super(IPRoute, self)._SendNlRequest(command, data, flags)
 
@@ -675,12 +682,18 @@ class IPRoute(netlink.NetlinkSocket):
     attrs = self._ParseAttributes(RTM_NEWLINK, IfinfoMsg, attrs)
     return attrs["IFLA_STATS64"]
 
+  def GetVtiInfoData(self, dev_name):
+    """Returns an IFLA_INFO_DATA  dictionary of object for the specified interface."""
+    _, attrs = self.GetIfinfo(dev_name)
+    attrs = self._ParseAttributes(RTM_NEWLINK, IfinfoMsg, attrs)
+    return attrs["IFLA_LINKINFO"]["IFLA_INFO_DATA"]
+
   def GetRxTxPackets(self, dev_name):
     stats = self.GetIfaceStats(dev_name)
     return stats.rx_packets, stats.tx_packets
 
   def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
-                                   i_key=None, o_key=None):
+                                   i_key=None, o_key=None, isupdate=False):
     """
     Create a Virtual Tunnel Interface that provides a proxy interface
     for IPsec tunnels.
@@ -725,7 +738,7 @@ class IPRoute(netlink.NetlinkSocket):
 
     ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
 
-    return self._SendNlRequest(RTM_NEWLINK, ifinfo)
+    return self._SendNlRequest(RTM_NEWLINK, ifinfo, 0, isupdate)
 
 
 if __name__ == "__main__":
