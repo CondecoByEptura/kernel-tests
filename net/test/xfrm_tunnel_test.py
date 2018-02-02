@@ -137,7 +137,7 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
 
   def testAddVti(self):
     """Test the creation of a Virtual Tunnel Interface."""
-    for version in [4, 6]:
+    for version in [6]:
       netid = self.RandomNetid()
       local_addr = self.MyAddress(version, netid)
       self.iproute.CreateVirtualTunnelInterface(
@@ -145,7 +145,16 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
           local_addr=local_addr,
           remote_addr=_GetRemoteOuterAddress(version),
           o_key=_TEST_OKEY,
-          i_key=_TEST_IKEY)
+          i_key=_TEST_IKEY,
+          isupdate=False)
+
+      self.iproute.CreateVirtualTunnelInterface(
+          dev_name=_VTI_IFNAME,
+          local_addr=local_addr,
+          remote_addr=_GetRemoteOuterAddress(version),
+          o_key=_TEST_OKEY,
+          i_key=_TEST_IKEY,
+          isupdate=True)
       if_index = self.iproute.GetIfIndex(_VTI_IFNAME)
 
       # Validate that the netlink interface matches the ioctl interface.
