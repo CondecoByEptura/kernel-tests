@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "d5c11047_12045126",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-07T19:58:47Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "b19002d2_acbaae4e",
+      "range": {
+        "startLine": 346,
+        "startChar": 51,
+        "endLine": 346,
+        "endChar": 65
+      },
+      "revId": "2c798189384eb81d0b28906403cd40373e2449e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e95811_531e4bea",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-07T19:58:47Z",
+      "side": 1,
+      "message": "You\u0027ll need to update the description to expand the scope of the test.",
+      "range": {
+        "startLine": 139,
+        "startChar": 3,
+        "endLine": 139,
+        "endChar": 58
+      },
+      "revId": "2c798189384eb81d0b28906403cd40373e2449e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03831376_e448a9ef",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 4
@@ -36,6 +83,30 @@
       "writtenOn": "2018-02-07T18:44:08Z",
       "side": 1,
       "message": "Perhaps change some information, and ensure that it updates correctly?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 24
+      },
+      "revId": "2c798189384eb81d0b28906403cd40373e2449e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe4274ea_232e9268",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-07T19:58:47Z",
+      "side": 1,
+      "message": "+1, except we should change all the information (not just some) and see what we can change.",
+      "parentUuid": "03831376_e448a9ef",
       "range": {
         "startLine": 151,
         "startChar": 0,
