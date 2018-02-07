@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b19002d2_acbaae4e",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-02-07T18:44:08Z",
+      "side": 1,
+      "message": "Perhaps reuse the command field? We appear to use it already to identify get/new",
+      "range": {
+        "startLine": 346,
+        "startChar": 51,
+        "endLine": 346,
+        "endChar": 65
+      },
+      "revId": "2c798189384eb81d0b28906403cd40373e2449e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03831376_e448a9ef",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-02-07T18:44:08Z",
+      "side": 1,
+      "message": "Perhaps change some information, and ensure that it updates correctly?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 24
+      },
+      "revId": "2c798189384eb81d0b28906403cd40373e2449e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
