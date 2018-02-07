@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fba1b15_26c997a6",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-02-07T19:54:56Z",
+      "side": 1,
+      "message": "Perhaps \"\"\"Verify that allocating the same SPI with different destination address succeeds\"",
+      "range": {
+        "startLine": 394,
+        "startChar": 4,
+        "endLine": 394,
+        "endChar": 49
+      },
+      "revId": "cb50b3f5e0cc7fa4825cafe9803f93c358edda0a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
