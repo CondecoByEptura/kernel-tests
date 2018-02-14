@@ -14,8 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from importlib import import_module
+import inspect
 import sys
 import unittest
+from xfrm_algorithm_test import XfrmAlgorithmTest
 
 test_modules = [
     'anycast_test',
@@ -36,13 +39,39 @@ test_modules = [
     'tcp_fastopen_test',
     'tcp_nuke_addr_test',
     'tcp_test',
-    'xfrm_algorithm_test',
     'xfrm_test',
     'xfrm_tunnel_test',
 ]
 
+parameterized_test_modules = [
+    'xfrm_algorithm_test',
+]
+
+def isTestClass(x):
+  return inspect.isclass(x) and x.__name__.endswith("Test")
+
 if __name__ == '__main__':
+
   loader = unittest.defaultTestLoader
   test_suite = loader.loadTestsFromNames(test_modules)
+
+  # Trigger parameterized test injections
+  for name in parameterized_test_modules:
+    # Get module
+    module = import_module(name)
+
+    # Get classes in module
+    testClasses = inspect.getmembers(module, isTestClass)
+
+    # Inject tests for each test class in module
+    for testClass in testClasses:
+      injectTestsMethod = getattr(testClass[1], "InjectTests", None)
+      if injectTestsMethod is None:
+        raise TypeError("Parameterized test %s was missing InjectTests method" % testClass[0])
+      injectTestsMethod()
+
+      # Manually add to test suite
+      test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(testClass[1]))
+
   runner = unittest.TextTestRunner(verbosity=2)
   sys.exit(runner.run(test_suite))
