@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1253614b_68f326a9",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-15T00:06:42Z",
+      "side": 1,
+      "message": "Nit: this could/should also just be \"InjectTests()\".",
+      "range": {
+        "startLine": 332,
+        "startChar": 2,
+        "endLine": 332,
+        "endChar": 33
+      },
+      "revId": "64832a01e08670f1f52a6cd3067d457fc3dcdb34",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
