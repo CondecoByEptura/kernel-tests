@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98dc4a2a_cedf632a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-15T14:26:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "4b51f6aa_48c9cf10",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 5
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b456591_53bd891b",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 3
@@ -83,6 +107,30 @@
       "writtenOn": "2018-01-18T00:49:54Z",
       "side": 1,
       "message": "Taking a second look at this (while rebasing my changes), I am concerned that this might affect the isolation of each of the tests. If any test puts it in a bad state, other tests running afterwards will be affected. And since we select a random few, that would mean that it could end up being hard to debug",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddadbf50_c7be816a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-15T14:26:32Z",
+      "side": 1,
+      "message": "It\u0027s true that the persistence of the interfaces can make failures a bit harder to debug. On the other hand though, I think it\u0027s very important to ensure that we test the system with all sorts of VTIs configured at the same time, just in case there are bugs that only happen when there is more than one VTI configured. And that doesn\u0027t just go for kernel bugs: it could be bugs in our code or invalid assumptions in our designs, too.\n\nOne thing we can do to address this is move the setup and teardown code from setUpClass/tearDownClass to setUp/tearDown. That makes the tests run more slowly - setting up and tearing down takes 2 seconds, so each new test we then add would take a minimum of 2 seconds to run - but it would prevent tests from influencing each other\u0027s results.\n\nThoughts? Generally I think keeping the tests fast is important for development velocity, but if you feel strongly about it we can do it.",
+      "parentUuid": "677e77d5_22e83df1",
       "range": {
         "startLine": 203,
         "startChar": 0,
