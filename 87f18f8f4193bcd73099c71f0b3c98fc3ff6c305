@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ddf2d42_4f15501c",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1124693
+      },
+      "writtenOn": "2018-02-15T22:50:49Z",
+      "side": 1,
+      "message": "This is how unittest.main() exits:\nhttps://android.googlesource.com/platform/external/python/+/upstream-2.7/Lib/unittest/main.py#234",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 38
+      },
+      "revId": "87f18f8f4193bcd73099c71f0b3c98fc3ff6c305",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
