@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2f53014_b3064033",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-15T19:16:23Z",
+      "side": 1,
+      "message": "Can you provide a comment on why we\u0027re distributing the tuns across 2 remote addresses? I\u0027m guessing (always dangerous) that this is simply to ensure that we aren\u0027t hard-coding anything elsewhere, but the fact that you bothered to do this makes me curious whether there\u0027s some other more significant benefit I\u0027m not seeing given the increased complexity of the function to make this happen? If that\u0027s the intention, should we pseudo-randomly fetch addresses?",
+      "range": {
+        "startLine": 212,
+        "startChar": 10,
+        "endLine": 212,
+        "endChar": 73
+      },
+      "revId": "a10e9b9666df675b800e0fd4113d4904b0b688f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
