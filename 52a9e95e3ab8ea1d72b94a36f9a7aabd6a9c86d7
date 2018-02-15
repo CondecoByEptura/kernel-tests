@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1b6ae845_68606ed9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-15T13:59:47Z",
+      "side": 1,
+      "message": "Mentioned here.\n\nYes, PMTUD works only if inbound marking and mark reflection are enabled.\n\nPMTUD does an inverse routing lookup on the packet to find the route whose MTU needs to be lowered, and if the mark is not set the route lookup would find the wrong network (or no network).",
+      "parentUuid": "f4f8a9dd_5540e1fe",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 32
+      },
+      "revId": "52a9e95e3ab8ea1d72b94a36f9a7aabd6a9c86d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96c080f3_6369a94c",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "0ddd38ef_d12d699e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-15T13:59:47Z",
+      "side": 1,
+      "message": "On the plus side, it does also test the behaviour of counters in the presence of ICMP errors, which you could argue is a good thing. At this point in the state of the codebase I don\u0027t think it\u0027s feasible to pull this test out, but once this patch series is merged and we have the VTI class it will be easier. Let\u0027s look at it then.",
+      "parentUuid": "96c080f3_6369a94c",
+      "revId": "52a9e95e3ab8ea1d72b94a36f9a7aabd6a9c86d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff5339b3_7184bf04",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 5
@@ -53,6 +95,30 @@
       "writtenOn": "2018-01-17T03:53:41Z",
       "side": 1,
       "message": "Can we use the len(toobig) here?",
+      "range": {
+        "startLine": 324,
+        "startChar": 22,
+        "endLine": 324,
+        "endChar": 26
+      },
+      "revId": "52a9e95e3ab8ea1d72b94a36f9a7aabd6a9c86d7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a0ac707_aa12ca53",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-15T13:59:47Z",
+      "side": 1,
+      "message": "Done in another way. We can\u0027t use len(toobig): the 1280 is not the length of the packet, it\u0027s the contents of one of the fields in the packet. The name of the field depends on the IP version and the scapy version.",
+      "parentUuid": "ff5339b3_7184bf04",
       "range": {
         "startLine": 324,
         "startChar": 22,
