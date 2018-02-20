@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "41274aa7_3dd11fbc",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1198958
+      },
+      "writtenOn": "2018-02-20T23:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09d7e223_5f176489",
+      "range": {
+        "startLine": 361,
+        "startChar": 28,
+        "endLine": 361,
+        "endChar": 38
+      },
+      "revId": "72470a2d150fed1acf89afcb2a1bcdab52b1cee9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "874070cf_261b7be2",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-20T22:51:30Z",
       "side": 1,
       "message": "I notice you\u0027re computing a new ikey and okey twice, inline. Seems like these should be computed once and then used, which will make this more clear.",
+      "range": {
+        "startLine": 168,
+        "startChar": 17,
+        "endLine": 168,
+        "endChar": 39
+      },
+      "revId": "72470a2d150fed1acf89afcb2a1bcdab52b1cee9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ec7323f_8397bc92",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1198958
+      },
+      "writtenOn": "2018-02-20T23:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "874070cf_261b7be2",
       "range": {
         "startLine": 168,
         "startChar": 17,
