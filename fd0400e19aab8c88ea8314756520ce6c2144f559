@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "412b547e_ee2a2fb2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-21T22:41:58Z",
+      "side": 1,
+      "message": "In order to flesh this out, I think Benedict will need to stash the vti and vti6 netids separately. Not a problem, but it\u0027s a design consequence. Then we can use self.RandomVti6Id() and self.RandomVtiId() consistent with the RandomNetid() pattern.",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 33
+      },
+      "revId": "fd0400e19aab8c88ea8314756520ce6c2144f559",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
