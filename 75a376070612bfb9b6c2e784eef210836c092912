@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34681e29_32220830",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-21T22:54:47Z",
+      "side": 1,
+      "message": "I think there\u0027s a way to specify if the data is in network order. https://docs.python.org/2/library/struct.html",
+      "range": {
+        "startLine": 310,
+        "startChar": 41,
+        "endLine": 310,
+        "endChar": 43
+      },
+      "revId": "75a376070612bfb9b6c2e784eef210836c092912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8e2bcb3_2e2a5230",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-21T22:54:47Z",
+      "side": 1,
+      "message": "if not flags \u0026 (flag1 | flag2):",
+      "range": {
+        "startLine": 359,
+        "startChar": 6,
+        "endLine": 359,
+        "endChar": 73
+      },
+      "revId": "75a376070612bfb9b6c2e784eef210836c092912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b056435_4f7af8c1",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-02-21T22:54:47Z",
+      "side": 1,
+      "message": "By doing this, you have now changed the default flags that are sent everywhere in the code. I think there\u0027s still a clean solution here, but this is likely to get pushback from Lorenzo.",
+      "range": {
+        "startLine": 359,
+        "startChar": 55,
+        "endLine": 359,
+        "endChar": 73
+      },
+      "revId": "75a376070612bfb9b6c2e784eef210836c092912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
