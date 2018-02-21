@@ -22,6 +22,30 @@
       "revId": "a10e9b9666df675b800e0fd4113d4904b0b688f7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69410aee_8a0093b9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-21T10:03:02Z",
+      "side": 1,
+      "message": "The intent is to distribute the tunnels over more than one destination IP address. This was the simplest, most reproducible method I found. We could also do pseudo-random, but it would be less reproducible.",
+      "parentUuid": "f2f53014_b3064033",
+      "range": {
+        "startLine": 212,
+        "startChar": 10,
+        "endLine": 212,
+        "endChar": 73
+      },
+      "revId": "a10e9b9666df675b800e0fd4113d4904b0b688f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }

@@ -164,6 +164,30 @@
       "revId": "94235625737caf8e008d5278ac145f1828108278",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c134d772_05673f2a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-02-21T10:03:02Z",
+      "side": 1,
+      "message": "Once we have code to setup multiple concurrent VTI interfaces, why would we want another class that runs some tests with just one VTI configured?\n\nAt best it would give us the same results as running those tests in this class, but on just one (or some) of the multiple VTIs that this class configures. At worst the tests could pass even if the test code doesn\u0027t actually work when more than one VTI interface at a time is configured.\n\nThis is the way multinetwork_base works: the 4 netIds are always up whenever any of the tests run. Some tests might choose to use only some (or just one) of those netIds, most choose to use all of them, but in any case, if there\u0027s anything that breaks with more than one netId configured, the tests will catch it. This has been invaluable in the past when debugging kernel code that works when there\u0027s only one possible way to do something (e.g., send a packet when there\u0027s one interface) but fails when there\u0027s more than one (e.g., send a packet when multiple interfaces are up).\n\nAs for tests putting things in a bad state: presumably that would result in one of the tests failing. If that\u0027s the case, then the cases that we care the most about, which are a) all tests passing, b) one or more failures, are still the same. The only difference is b) is harder to debug.\n\nPerhaps I\u0027m missing what you\u0027re proposing here. If so, then maybe you can re-state it in the form of a CL once this CL is merged.",
+      "parentUuid": "95d67202_1d3d6a94",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
