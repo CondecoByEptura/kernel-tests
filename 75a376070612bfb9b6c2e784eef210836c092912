@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2d1fb636_88c8bfa8",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1198958
+      },
+      "writtenOn": "2018-02-21T23:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34681e29_32220830",
+      "range": {
+        "startLine": 310,
+        "startChar": 41,
+        "endLine": 310,
+        "endChar": 43
+      },
+      "revId": "75a376070612bfb9b6c2e784eef210836c092912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8e2bcb3_2e2a5230",
         "filename": "net/test/iproute.py",
         "patchSetId": 12
@@ -62,6 +86,54 @@
       "range": {
         "startLine": 359,
         "startChar": 55,
+        "endLine": 359,
+        "endChar": 73
+      },
+      "revId": "75a376070612bfb9b6c2e784eef210836c092912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e6b4335_af6f9228",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1198958
+      },
+      "writtenOn": "2018-02-21T23:34:15Z",
+      "side": 1,
+      "message": "Yep, I agree, that\u0027s why I passed update as a separate flag instead of relying on flags.\n\nI\u0027m open to other suggestions if you have a better way to reuse flags.",
+      "parentUuid": "0b056435_4f7af8c1",
+      "range": {
+        "startLine": 359,
+        "startChar": 55,
+        "endLine": 359,
+        "endChar": 73
+      },
+      "revId": "75a376070612bfb9b6c2e784eef210836c092912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a02328a9_d6be0b93",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1198958
+      },
+      "writtenOn": "2018-02-21T23:34:15Z",
+      "side": 1,
+      "message": "Not sure, these two evaluate to the same. Added parenthesis for improved readability.",
+      "parentUuid": "c8e2bcb3_2e2a5230",
+      "range": {
+        "startLine": 359,
+        "startChar": 6,
         "endLine": 359,
         "endChar": 73
       },
