@@ -188,6 +188,30 @@
       "revId": "94235625737caf8e008d5278ac145f1828108278",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a31c00_35994267",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-02-21T22:32:00Z",
+      "side": 1,
+      "message": "Ok. I can rework around this. My concern was in being able to pick a specific VTI based on outer version, but I think I have a way to work around it.",
+      "parentUuid": "c134d772_05673f2a",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
