@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e403d08_6c86cf0b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-02-21T04:52:29Z",
+      "side": 1,
+      "message": "Nit: duplicate; done above already",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 24
+      },
+      "revId": "5a9ec0ac1373ee7d2115184280a452a7c7a0ba52",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "788b88e7_1dcd2e49",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 2
