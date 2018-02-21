@@ -140,6 +140,30 @@
       "revId": "94235625737caf8e008d5278ac145f1828108278",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d67202_1d3d6a94",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-02-21T04:50:47Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s a very valid point. \n\nWould it be possible to keep the the VtiInterface class, but only instantiate them the top level test method for this specific test? My first thought is that instead of our current self._CreateVti() method, we would do self._SetupMultipleVtis(), and then select from a returned list, tearing down that list in the finally block.\n\nThis allows the specific subset of tests to run with all the VTIs set up, but only if the multi-vti setup method is explicitly called. In that way, we would only incur the setup/teardown cost once per run of this test module.",
+      "parentUuid": "ddadbf50_c7be816a",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 51
+      },
+      "revId": "94235625737caf8e008d5278ac145f1828108278",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
