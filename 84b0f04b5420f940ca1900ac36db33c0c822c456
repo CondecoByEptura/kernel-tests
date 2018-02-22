@@ -22,6 +22,29 @@
       "revId": "84b0f04b5420f940ca1900ac36db33c0c822c456",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83ab960b_7b75bbfb",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1273909
+      },
+      "writtenOn": "2018-02-22T14:15:43Z",
+      "side": 1,
+      "message": "Shall we abort here on a non-zero exit code?\n\nIn the original code \u0027umount cg_bpf\u0027 was quite certainly failing, but it went unnoticed.",
+      "range": {
+        "startLine": 286,
+        "startChar": 4,
+        "endLine": 286,
+        "endChar": 57
+      },
+      "revId": "84b0f04b5420f940ca1900ac36db33c0c822c456",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
