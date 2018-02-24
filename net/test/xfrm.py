@@ -253,12 +253,13 @@ def SrcDstSelector(src, dst):
       prefixlen_s=prefixlen, prefixlen_d=prefixlen, family=family)
 
 
-def UserPolicy(direction, selector):
+def UserPolicy(direction, selector, blocking=False):
   """Create an IPsec policy.
 
   Args:
     direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
     selector: An XfrmSelector, the packets to transform.
+    blocking: Creates a blocking policy if set to true, defaults to False
 
   Return: a XfrmUserpolicyInfo cstruct.
   """
@@ -269,7 +270,7 @@ def UserPolicy(direction, selector):
       lft=NO_LIFETIME_CFG,
       curlft=NO_LIFETIME_CUR,
       dir=direction,
-      action=XFRM_POLICY_ALLOW,
+      action=XFRM_POLICY_ALLOW if not blocking else XFRM_POLICY_BLOCK,
       flags=XFRM_POLICY_LOCALOK,
       share=XFRM_SHARE_UNIQUE)
 

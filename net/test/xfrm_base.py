@@ -49,8 +49,10 @@ def SetPolicySockopt(sock, family, opt_data):
     csocket.Setsockopt(sock, IPPROTO_IPV6, xfrm.IPV6_XFRM_POLICY, opt_data,
                        optlen)
 
+def ApplyBlockingSocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+  ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs, True)
 
-def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
+def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs, blocking=False):
   """Create and apply an ESP policy to a socket.
 
   A socket may have only one policy per direction, so applying a policy will
@@ -69,7 +71,7 @@ def ApplySocketPolicy(sock, family, direction, spi, reqid, tun_addrs):
   selector = xfrm.EmptySelector(family)
 
   # Create an XFRM policy and template.
-  policy = xfrm.UserPolicy(direction, selector)
+  policy = xfrm.UserPolicy(direction, selector, blocking)
   template = xfrm.UserTemplate(family, spi, reqid, tun_addrs)
 
   # Set the policy and template on our socket.
