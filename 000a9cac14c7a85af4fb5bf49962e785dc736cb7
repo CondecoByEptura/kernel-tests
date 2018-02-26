@@ -22,6 +22,30 @@
       "revId": "000a9cac14c7a85af4fb5bf49962e785dc736cb7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a759eed5_287698c2",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2018-02-26T11:30:51Z",
+      "side": 1,
+      "message": "Oh I see: https://tools.ietf.org/html/rfc6458 suggests that _STREAM is for 1:1 sockets and _SEQPACKET is for 1:many.  Interesting.",
+      "parentUuid": "6f445b87_50e6bb71",
+      "range": {
+        "startLine": 58,
+        "startChar": 24,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "000a9cac14c7a85af4fb5bf49962e785dc736cb7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
