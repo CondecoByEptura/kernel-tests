@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59463b9f_2d5b9b49",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-02T02:30:53Z",
+      "side": 1,
+      "message": "This leaks a lot of implementation detail in a pretty narrow way. Brainstorming alternatives...\n\nI think Lorenzo has done something where there needed to be an abstraction here when determining how to select a network with a socket. Is that a useful pattern to re-apply?\nCreateTunnel(... match_method \u003d [\"spi\", \"mark\"]) that way we could also play around with setting the mark on the SA to zero, which would also allow a match (groan).",
+      "range": {
+        "startLine": 595,
+        "startChar": 50,
+        "endLine": 595,
+        "endChar": 58
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb663c6_0209799e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-02T02:30:53Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t we re-use policy direction constants for this?",
+      "range": {
+        "startLine": 576,
+        "startChar": 13,
+        "endLine": 576,
+        "endChar": 17
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37d5dbea_170fa18e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-02T02:30:53Z",
+      "side": 1,
+      "message": "Odd...",
+      "range": {
+        "startLine": 614,
+        "startChar": 4,
+        "endLine": 616,
+        "endChar": 5
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d4319f2_ccc82e9d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-02T02:30:53Z",
+      "side": 1,
+      "message": "net_test.GetAddressFamily()",
+      "range": {
+        "startLine": 618,
+        "startChar": 19,
+        "endLine": 618,
+        "endChar": 60
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87d49b81_7d1bdbd5",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-02T02:30:53Z",
+      "side": 1,
+      "message": "formatters be like...",
+      "range": {
+        "startLine": 667,
+        "startChar": 8,
+        "endLine": 667,
+        "endChar": 24
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8faac8a5_cf808c9c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-02T02:30:53Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 681,
+        "startChar": 8,
+        "endLine": 681,
+        "endChar": 23
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
