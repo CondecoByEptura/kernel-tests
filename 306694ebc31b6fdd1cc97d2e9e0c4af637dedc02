@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60c9bd06_73dd6530",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-10T01:52:38Z",
+      "side": 1,
+      "message": "Done. I switched it to use match_method, and have three options, the default of which requires both SPI and mark to be matched.",
+      "parentUuid": "59463b9f_2d5b9b49",
+      "range": {
+        "startLine": 595,
+        "startChar": 50,
+        "endLine": 595,
+        "endChar": 58
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb663c6_0209799e",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 15
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-02T02:30:53Z",
       "side": 1,
       "message": "Why wouldn\u0027t we re-use policy direction constants for this?",
+      "range": {
+        "startLine": 576,
+        "startChar": 13,
+        "endLine": 576,
+        "endChar": 17
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b33c6300_af52df8b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-10T01:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcb663c6_0209799e",
       "range": {
         "startLine": 576,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "32925b21_a2f3f373",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-10T01:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37d5dbea_170fa18e",
+      "range": {
+        "startLine": 614,
+        "startChar": 4,
+        "endLine": 616,
+        "endChar": 5
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d4319f2_ccc82e9d",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 15
@@ -82,6 +154,30 @@
       "writtenOn": "2018-03-02T02:30:53Z",
       "side": 1,
       "message": "net_test.GetAddressFamily()",
+      "range": {
+        "startLine": 618,
+        "startChar": 19,
+        "endLine": 618,
+        "endChar": 60
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3116865c_3c432a2c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-10T01:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d4319f2_ccc82e9d",
       "range": {
         "startLine": 618,
         "startChar": 19,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "039920c7_47a49ac7",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-10T01:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87d49b81_7d1bdbd5",
+      "range": {
+        "startLine": 667,
+        "startChar": 8,
+        "endLine": 667,
+        "endChar": 24
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8faac8a5_cf808c9c",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 15
@@ -128,6 +248,30 @@
       "writtenOn": "2018-03-02T02:30:53Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 681,
+        "startChar": 8,
+        "endLine": 681,
+        "endChar": 23
+      },
+      "revId": "306694ebc31b6fdd1cc97d2e9e0c4af637dedc02",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "618744b4_6b631584",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-10T01:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8faac8a5_cf808c9c",
       "range": {
         "startLine": 681,
         "startChar": 8,
