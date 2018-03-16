@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f94e21be_2471fa72",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-16T06:58:12Z",
+      "side": 1,
+      "message": "EEXIST. Can we move this to a common utils file or a common ancestor class? It looks like this is all boilerplate and the only thing that\u0027s specific to this test file is:\n\n  VERSIONS \u003d (4, 6)\n\n  # Tests all combinations of auth \u0026 crypt. Mutually exclusive with aead.\n  for name, inner_version, outer_version in itertools.product(\n      param_test_names, VERSIONS, VERSIONS):\n    InjectSingleTest(cls, name, inner_version, outer_version)\n\nand:\n\n  param_string \u003d \"IPv%d_in_IPv%d\" % (inner_version, outer_version)\n  new_name \u003d \"%s_%s\" % (func.__name__.replace(\"ParamTest\", \"test\"),\n                        param_string)\n\n\nSo perhaps we could have a common function to parameterize tests that takes a list of combinations and test names?\n\nIn general I\u0027m not a fan of these parameterized tests because it\u0027s not very easy to see what\u0027s going on via code inspection. But if you think that\u0027s the right way to go here, that\u0027s fine as long as most of the complexity is somewhere else :)",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 65
+      },
+      "revId": "7c800c3b49c2ba2406168df8b281397625223fe9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "635535c6_f561b43b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-16T06:58:12Z",
+      "side": 1,
+      "message": "Can you use a port that\u0027s not 4500 here? Otherwise the reader might thing that this is a UDP encap packet. Any random port will be fine.",
+      "revId": "7c800c3b49c2ba2406168df8b281397625223fe9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e290880_3836d3e9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-16T06:58:12Z",
+      "side": 1,
+      "message": "Note: the downside of separating the tests like this is that this test does not prove that input and output work at the same time.\n\nGiven that this is not testing a use case that we actually support this is fine, but when testing use cases that we actually support, it seems better to have a slightly more involved than more realistic test.\n\nAll else being equal, now that these tests are effectively conformance tests, I think it\u0027s better to optimize these tests for coverage and correctness than for ease of debugging failures (within reason, of course).",
+      "range": {
+        "startLine": 179,
+        "startChar": 56,
+        "endLine": 179,
+        "endChar": 74
+      },
+      "revId": "7c800c3b49c2ba2406168df8b281397625223fe9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2320d3e9_e1a60027",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-16T06:58:12Z",
+      "side": 1,
+      "message": "Idle musing: I wonder if this could cause the test to be flaky? This will cause recv() and friends to return an error instead of blocking.\n\nI don\u0027t think it\u0027s possible for this to happen on a thread that has just called write() on the tun filedescriptor. It might be possible for it to happen if the write to the filedescriptor happens on another thread. But I don\u0027t think we do that here.\n\nA good way to check would be to run this test multiple times on a device. Running the tests in the UML instance will almost never find races, because it\u0027s single-threaded.",
+      "range": {
+        "startLine": 401,
+        "startChar": 13,
+        "endLine": 401,
+        "endChar": 27
+      },
+      "revId": "7c800c3b49c2ba2406168df8b281397625223fe9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
