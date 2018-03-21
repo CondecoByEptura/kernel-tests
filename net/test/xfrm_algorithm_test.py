@@ -246,10 +246,12 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     sock_left = socket(family, params["proto"], 0)
     sock_left.settimeout(2.0)
     sock_left.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    net_test.DisableFinWait(sock_left)
     self.SelectInterface(sock_left, netid, "mark")
     sock_right = socket(family, params["proto"], 0)
     sock_right.settimeout(2.0)
     sock_right.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    net_test.DisableFinWait(sock_right)
     self.SelectInterface(sock_right, netid, "mark")
 
     # Apply the left outbound socket policy.
@@ -320,8 +322,6 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
       sock_left.send("hello request")
       data = sock_left.recv(2048)
       self.assertEquals("hello response", data)
-      if params["proto"] == SOCK_STREAM:
-        sock_left.shutdown(SHUT_RD)
       sock_left.close()
       server.join()
     if server_error:
