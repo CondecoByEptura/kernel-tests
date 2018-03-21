@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "537220ae_38d8b640",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-21T10:21:47Z",
+      "side": 1,
+      "message": "Suggest doing this only if params[\"proto\"] \u003d\u003d SOCK_STREAM.",
+      "range": {
+        "startLine": 249,
+        "startChar": 13,
+        "endLine": 249,
+        "endChar": 27
+      },
+      "revId": "c79dade488eebee2796bcb7560848fa0996ff7c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b69193_3db43823",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-21T10:21:47Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 254,
+        "startChar": 13,
+        "endLine": 254,
+        "endChar": 27
+      },
+      "revId": "c79dade488eebee2796bcb7560848fa0996ff7c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
