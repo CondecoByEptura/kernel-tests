@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb923c34_8f2940ff",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-21T18:08:46Z",
+      "side": 1,
+      "message": "Since SO_LINGER with timeout 0 appears to only apply to TCP, this seems harmless even for SOCK_DGRAM? If you feel that that\u0027s still the right way to go, I can change it.",
+      "parentUuid": "537220ae_38d8b640",
+      "range": {
+        "startLine": 249,
+        "startChar": 13,
+        "endLine": 249,
+        "endChar": 27
+      },
+      "revId": "c79dade488eebee2796bcb7560848fa0996ff7c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1b69193_3db43823",
         "filename": "net/test/xfrm_algorithm_test.py",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c79dade488eebee2796bcb7560848fa0996ff7c0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e16bc4fa_f87c92d0",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-03-21T18:08:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b1b69193_3db43823",
+      "range": {
+        "startLine": 254,
+        "startChar": 13,
+        "endLine": 254,
+        "endChar": 27
+      },
+      "revId": "c79dade488eebee2796bcb7560848fa0996ff7c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
