@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72fa3754_0053ca7e",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-22T10:30:22Z",
+      "side": 1,
+      "message": "TCP :-)",
+      "range": {
+        "startLine": 255,
+        "startChar": 10,
+        "endLine": 255,
+        "endChar": 13
+      },
+      "revId": "f7699431b8717d77c24b517dfb8ef43065874698",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
