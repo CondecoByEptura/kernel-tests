@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f088148e_225f835b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-03-27T21:56:23Z",
+      "side": 1,
+      "message": "Is there a bug number to reference?",
+      "revId": "c2b94100988f17e4a6eb43cad4e538ccd924e4ff",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
