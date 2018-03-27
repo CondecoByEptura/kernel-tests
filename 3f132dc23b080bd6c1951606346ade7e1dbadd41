@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5973c584_2b16edc7",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T22:19:59Z",
+      "side": 1,
+      "message": "Not for this CL, but this is, in general, incorrect, since we could be parsing the IFLA_INFO_DATA from any interface type, not just VTI.",
+      "range": {
+        "startLine": 286,
+        "startChar": 46,
+        "endLine": 286,
+        "endChar": 55
+      },
+      "revId": "3f132dc23b080bd6c1951606346ade7e1dbadd41",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
