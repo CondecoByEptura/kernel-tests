@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7470faf9_04c5ce6a",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:59:44Z",
+      "side": 1,
+      "message": "Lose 2 spaces.",
+      "range": {
+        "startLine": 360,
+        "startChar": 8,
+        "endLine": 360,
+        "endChar": 10
+      },
+      "revId": "d27aa332c275851a4b290b588f6941d11519b696",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07a740e7_03fe4bb2",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:59:44Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 393,
+        "startChar": 0,
+        "endLine": 395,
+        "endChar": 33
+      },
+      "revId": "d27aa332c275851a4b290b588f6941d11519b696",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32011c01_eac9c3da",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:59:44Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 33
+      },
+      "revId": "d27aa332c275851a4b290b588f6941d11519b696",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7edb574c_f8fa0e95",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:59:44Z",
+      "side": 1,
+      "message": "Do you need this?",
+      "range": {
+        "startLine": 637,
+        "startChar": 0,
+        "endLine": 638,
+        "endChar": 33
+      },
+      "revId": "d27aa332c275851a4b290b588f6941d11519b696",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
