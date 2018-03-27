@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58007d87_19192896",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:15:59Z",
+      "side": 1,
+      "message": "Suggest:\n\n  if flags \u0026 (netlink.NLM_F_REPLACE | NLM_F_CREATE) \u003d\u003d 0:\n    ...\n\nThat way:\n\n- If a caller didn\u0027t pass in any flags, then we pass in CREATE|EXCL as we did before.\n- If a caller passed in REPLACE (there is only one such caller), then we don\u0027t do anything as before.\n- If a caller passed in CREATE (there are no such callers), then it is responsible for passin in EXCL if it wishes to set that flag.\n\nOnce we\u0027ve done that we can delete all the other changes in the callers.",
+      "range": {
+        "startLine": 359,
+        "startChar": 9,
+        "endLine": 359,
+        "endChar": 77
+      },
+      "revId": "8285f4582e16c637228da9086496077f7be5b0ae",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4c86551_32eb3924",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:15:59Z",
+      "side": 1,
+      "message": "Nit: lose extra space here.",
+      "range": {
+        "startLine": 699,
+        "startChar": 33,
+        "endLine": 699,
+        "endChar": 34
+      },
+      "revId": "8285f4582e16c637228da9086496077f7be5b0ae",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f6ceae_0b9c88e7",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-03-27T21:15:59Z",
+      "side": 1,
+      "message": "is_update",
+      "range": {
+        "startLine": 709,
+        "startChar": 59,
+        "endLine": 709,
+        "endChar": 67
+      },
+      "revId": "8285f4582e16c637228da9086496077f7be5b0ae",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
