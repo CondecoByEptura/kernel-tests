@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5698cf96_4f715737",
+        "filename": "net/test/xfrm_interface_test.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-03T00:50:53Z",
+      "side": 1,
+      "message": "I think we can just use the XfrmInterface class, no?",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 64
+      },
+      "revId": "29f409f62213de68ea6816b0e7086469c21dd46b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b6abe5c_0c7faa1f",
+        "filename": "net/test/xfrm_interface_test.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-03T00:50:53Z",
+      "side": 1,
+      "message": "Can we share this code too?",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 169,
+        "endChar": 23
+      },
+      "revId": "29f409f62213de68ea6816b0e7086469c21dd46b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
