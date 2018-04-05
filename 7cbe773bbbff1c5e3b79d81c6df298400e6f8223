@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97ddf64d_8bac3efd",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "You should get most/all of this from xfrm_base.py and xfrm_test.py\n\nhttps://cs.corp.google.com/android/kernel/tests/net/test/xfrm_base.py?l\u003d28",
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d623f8a2_11793685",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "super is almost always called first (not last).",
+      "range": {
+        "startLine": 840,
+        "startChar": 4,
+        "endLine": 840,
+        "endChar": 9
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58c5c4d5_36656be7",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "None?",
+      "range": {
+        "startLine": 850,
+        "startChar": 19,
+        "endLine": 850,
+        "endChar": 21
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1839f60_feddfe90",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "The python way is to close and ignore errors rather than test.",
+      "range": {
+        "startLine": 855,
+        "startChar": 4,
+        "endLine": 858,
+        "endChar": 27
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "162bcb16_9c9ce1a7",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "for grp in [BPF_CGROUP_INET_EGRESS, BPF_CGROUP_INET_INGRESS]:\ntry...",
+      "range": {
+        "startLine": 859,
+        "startChar": 0,
+        "endLine": 866,
+        "endChar": 10
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68de5bad_9231a177",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "EmptySelector",
+      "range": {
+        "startLine": 893,
+        "startChar": 15,
+        "endLine": 893,
+        "endChar": 27
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbe6f42e_78aac2d6",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "xfrm.ApplySocketPolicy\nhttps://cs.corp.google.com/android/kernel/tests/net/test/xfrm_base.py?l\u003d53",
+      "range": {
+        "startLine": 903,
+        "startChar": 4,
+        "endLine": 921,
+        "endChar": 62
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63437e50_471220c1",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 941,
+        "startChar": 0,
+        "endLine": 942,
+        "endChar": 46
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4206c07_d65e161c",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "nit",
+      "range": {
+        "startLine": 947,
+        "startChar": 0,
+        "endLine": 947,
+        "endChar": 52
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "399596af_292970a9",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "Overall, please take a look at the more recent code of:\n_VerifyUdpEncapSocket\n\nhttps://cs.corp.google.com/android/kernel/tests/net/test/xfrm_test.py?q\u003dxfrm_test.py\u0026dr\u0026l\u003d251",
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89127292_51107a39",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-05T21:00:11Z",
+      "side": 1,
+      "message": "xfrm.EspHdr....",
+      "range": {
+        "startLine": 987,
+        "startChar": 15,
+        "endLine": 987,
+        "endChar": 26
+      },
+      "revId": "7cbe773bbbff1c5e3b79d81c6df298400e6f8223",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
