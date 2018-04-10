@@ -41,6 +41,20 @@ _ALGO_CBC_AES_256 = (xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 256)),
 MARK_MASK_ALL = 0xffffffff
 
 
+def GetParamTests(cls):
+  return [
+      name for name in dir(cls) if name.startswith("ParamTest")
+  ]
+
+
+def InjectSingleTest(cls, param_test_name, test_name, params):
+  func = getattr(cls, param_test_name)
+
+  def TestClosure(self):
+    func(self, params)
+  setattr(cls, test_name, TestClosure)
+
+
 def SetPolicySockopt(sock, family, opt_data):
   optlen = len(opt_data) if opt_data is not None else 0
   if family == AF_INET:
