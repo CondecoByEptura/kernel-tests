@@ -84,8 +84,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
 
     This finds methods named like "ParamTestFoo" and replaces them with several
     "testFoo(*)" methods taking different parameter dicts. A set of test
-    parameters is generated from every combination of encryption,
-    authentication, IP version, and TCP/UDP.
+    parameters is generated from every combination of algorithms, IP version,
+    and TCP/UDP.
 
     The benefit of this approach is that an individually failing tests have a
     clearly separated stack trace, and one failed test doesn't prevent the rest
@@ -100,21 +100,23 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     # Tests all combinations of auth & crypt. Mutually exclusive with aead.
     for crypt, auth, version, proto, name in itertools.product(
         CRYPT_ALGOS, AUTH_ALGOS, VERSIONS, TYPES, param_test_names):
-      XfrmAlgorithmTest.InjectSingleTest(name, version, proto, crypt=crypt, auth=auth)
+      params={"crypt": crypt, "auth": auth, "aead": None,
+          "version": version, "proto": proto}
+      test_name = XfrmAlgorithmTest.GetTestName(name, **params)
+
+      xfrm_base.InjectSingleTest(XfrmAlgorithmTest, name, test_name, params)
 
     # Tests all combinations of aead. Mutually exclusive with auth/crypt.
     for aead, version, proto, name in itertools.product(
         AEAD_ALGOS, VERSIONS, TYPES, param_test_names):
-      XfrmAlgorithmTest.InjectSingleTest(name, version, proto, aead=aead)
+      params={"crypt": None, "auth": None, "aead": aead,
+          "version": version, "proto": proto}
+      test_name = XfrmAlgorithmTest.GetTestName(name, **params)
+
+      xfrm_base.InjectSingleTest(XfrmAlgorithmTest, name, test_name, params)
 
   @classmethod
-  def InjectSingleTest(cls, name, version, proto, crypt=None, auth=None, aead=None):
-    func = getattr(cls, name)
-
-    def TestClosure(self):
-      func(self, {"crypt": crypt, "auth": auth, "aead": aead,
-          "version": version, "proto": proto})
-
+  def GetTestName(cls, func_name, version, proto, crypt, auth, aead):
     # Produce a unique and readable name for each test. e.g.
     #     testSocketPolicySimple_cbc-aes_256_hmac-sha512_512_256_IPv6_UDP
     param_string = ""
@@ -131,10 +133,9 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
 
     param_string += "%s_%s" % ("IPv4" if version == 4 else "IPv6",
         "UDP" if proto == SOCK_DGRAM else "TCP")
-    new_name = "%s_%s" % (func.__name__.replace("ParamTest", "test"),
+    new_name = "%s_%s" % (func_name.replace("ParamTest", "test"),
                           param_string)
-    new_name = new_name.replace("(", "-").replace(")", "")  # remove parens
-    setattr(cls, new_name, TestClosure)
+    return new_name.replace("(", "-").replace(")", "")  # remove parens
 
   def ParamTestSocketPolicySimple(self, params):
     """Test two-way traffic using transport mode and socket policies."""
