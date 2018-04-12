@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "856014ca_e0ee6ae5",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "nit: blank line.",
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3945cdbe_44e92908",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "seems like these names are no longer appropriate. IpSecIf? Xfrmi?",
+      "range": {
+        "startLine": 687,
+        "startChar": 9,
+        "endLine": 687,
+        "endChar": 12
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84d83044_4a8b7f0a",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "docstring plz.",
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7076bc52_d7bbf173",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "is requiring someone to fetch the if_id of the underlying interface something worth abstracting? It\u0027s not a big deal, but I think we\u0027ll almost always have to fetch it since we usually deal in device names.",
+      "range": {
+        "startLine": 750,
+        "startChar": 54,
+        "endLine": 750,
+        "endChar": 72
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "102eceaa_07fc2179",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "3 and 5 both seems reasonable to me. I think a somewhat generic Integer struct with helper methods to create the individual attribute types strikes a nice balance in my mind. Thing is, a structure can contain just an int, but an int or a primitive can\u0027t contain a struct, which means that the more general abstraction is the struct. In either case, helper methods to build these things is what a user should see directly, so whether it\u0027s ultimately an NLATTR with just an integer, or whether it\u0027s an NLATTR containing a complex structure, it should be totally agnostic to a user of the methods.",
+      "range": {
+        "startLine": 462,
+        "startChar": 0,
+        "endLine": 473,
+        "endChar": 58
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99cbc705_ddacf187",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "Should this be in iproute?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 43
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5b559c_abcac0f3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "nit: _Verify?",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 7
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e6dc64b_9360879b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "Can we pass this in to a constructor?\n\nhttps://pbs.twimg.com/media/DEahC53VYAArOAu.jpg",
+      "range": {
+        "startLine": 330,
+        "startChar": 18,
+        "endLine": 330,
+        "endChar": 33
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c922c5a_57d83a74",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-04-12T19:40:09Z",
+      "side": 1,
+      "message": "seems like this should get a name change to ipsec interface or something.",
+      "range": {
+        "startLine": 521,
+        "startChar": 10,
+        "endLine": 521,
+        "endChar": 29
+      },
+      "revId": "b4fad0b9381025832a5012e1129a645c0f7ff2e2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
