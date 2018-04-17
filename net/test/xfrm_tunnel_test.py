@@ -640,6 +640,66 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     self.assertEquals((tunnel.rx, tunnel.tx),
                       self.iproute.GetRxTxPackets(tunnel.iface))
 
+  # Test behavior of packets that are not being sent/received on tunnels
+  def ParamTestNonIpsecInput(self, inner_version, outer_version):
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(inner_version, netid)
+    remote_addr = self.GetRemoteSocketAddress(inner_version)
+
+    read_sock = net_test.UDPSocket(net_test.GetAddressFamily(inner_version))
+    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
+    local_port = read_sock.getsockname()[1]
+    # Guard against the eventuality of the receive failing.
+    net_test.SetNonBlocking(read_sock.fileno())
+
+    IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
+    input_pkt = (
+        IpType(src=remote_addr, dst=local_addr) / scapy.UDP(
+            sport=_TEST_REMOTE_PORT, dport=local_port) / net_test.UDP_PAYLOAD)
+    self.ReceivePacketOn(netid, input_pkt)
+
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals((remote_addr, _TEST_REMOTE_PORT), src[:2])
+
+  # Test behavior of packets that are not being sent/received on tunnels
+  def ParamTestNonIpsecOutputConnected(self, inner_version, outer_version):
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(inner_version, netid)
+    remote_addr = self.GetRemoteSocketAddress(inner_version)
+
+    local_port = _SendPacket(self, netid, inner_version, remote_addr,
+                             _TEST_REMOTE_PORT)
+
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    self.assertEquals(remote_addr, packet.dst)
+    self.assertEquals(local_addr, packet.src)
+    self.assertEquals(net_test.UDP_PAYLOAD, packet.load)
+
+  # Test behavior of packets that are not being sent/received on tunnels
+  def ParamTestNonIpsecOutputUnconnected(self, inner_version, outer_version):
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(inner_version, netid)
+    remote_addr = self.GetRemoteSocketAddress(inner_version)
+
+    try:
+      self.__class__.SetDefaultNetwork(netid)
+
+      write_sock = socket(
+          net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+      write_sock.sendto(net_test.UDP_PAYLOAD, (remote_addr, _TEST_REMOTE_PORT))
+
+      packets = self.ReadAllPacketsOn(netid)
+      self.assertEquals(1, len(packets))
+      packet = packets[0]
+      self.assertEquals(remote_addr, packet.dst)
+      self.assertEquals(local_addr, packet.src)
+      self.assertEquals(net_test.UDP_PAYLOAD, packet.load)
+    finally:
+      self.__class__.ClearDefaultNetwork()
+
   def _CheckTunnelInput(self, tunnel, inner_version, local_inner, remote_inner,
                      spi, seq_num, expect_fail=False):
     read_sock, local_port = _CreateReceiveSock(inner_version)
