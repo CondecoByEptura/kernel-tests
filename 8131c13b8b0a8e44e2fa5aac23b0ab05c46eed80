@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "068ae14f_3690c57f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-04-17T17:52:46Z",
+      "side": 1,
+      "message": "FYI: I couldn\u0027t find another good way to check this without updating scapy - To check the inner IP header and payload, we have to parse the ESP header, and the associated padding and whatnot. Doing this using offsets seemed like a bad idea.",
+      "range": {
+        "startLine": 606,
+        "startChar": 4,
+        "endLine": 606,
+        "endChar": 62
+      },
+      "revId": "8131c13b8b0a8e44e2fa5aac23b0ab05c46eed80",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
