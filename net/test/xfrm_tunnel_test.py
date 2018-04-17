@@ -114,11 +114,14 @@ def _CreateReceiveSock(version, port=0):
   return read_sock, local_port
 
 
-def _SendPacket(testInstance, netid, version, remote, remote_port):
+def _SendPacket(testInstance, netid, version, remote, remote_port,
+                useConnected):
   # Send a packet out via the tunnel-backed network, bound for the port number
   # of the input socket.
   write_sock = socket(net_test.GetAddressFamily(version), SOCK_DGRAM, 0)
   testInstance.SelectInterface(write_sock, netid, "mark")
+  if useConnected:
+    write_sock.connect((remote, remote_port))
   write_sock.sendto(net_test.UDP_PAYLOAD, (remote, remote_port))
   local_port = write_sock.getsockname()[1]
 
@@ -629,6 +632,50 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
                       self.iproute.GetRxTxPackets(tunnel.iface))
     sa_info.seq_num += 1
 
+  # Test that packets sent on non-IPsec protected interfaces are correctly received on UDP sockets without interference from IPsec tunnels
+  def ParamTestNonIpsecInput(self, inner_version, outer_version):
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(inner_version, netid)
+    remote_addr = self.GetRemoteSocketAddress(inner_version)
+
+    read_sock = net_test.UDPSocket(net_test.GetAddressFamily(inner_version))
+    read_sock.bind((net_test.GetWildcardAddress(inner_version), 0))
+    local_port = read_sock.getsockname()[1]
+    net_test.SetNonBlocking(read_sock.fileno())
+
+    IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
+    input_pkt = (
+        IpType(src=remote_addr, dst=local_addr) / scapy.UDP(
+            sport=_TEST_REMOTE_PORT, dport=local_port) / net_test.UDP_PAYLOAD)
+    self.ReceivePacketOn(netid, input_pkt)
+
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals((remote_addr, _TEST_REMOTE_PORT), src[:2])
+
+  def _CheckNonIpsecOutput(self, inner_version, outer_version, useConnected):
+    netid = self.RandomNetid()
+    local_addr = self.MyAddress(inner_version, netid)
+    remote_addr = self.GetRemoteSocketAddress(inner_version)
+
+    local_port = _SendPacket(self, netid, inner_version, remote_addr,
+                             _TEST_REMOTE_PORT, useConnected)
+
+    packets = self.ReadAllPacketsOn(netid)
+    self.assertEquals(1, len(packets))
+    packet = packets[0]
+    self.assertEquals(remote_addr, packet.dst)
+    self.assertEquals(local_addr, packet.src)
+    self.assertEquals(net_test.UDP_PAYLOAD, packet.load)
+
+  # Test that packets sent on non-IPsec protected interfaces are correctly sent on unconnected UDP sockets without interference from IPsec tunnels
+  def ParamTestNonIpsecOutputUnconnected(self, inner_version, outer_version):
+    self._CheckNonIpsecOutput(inner_version, outer_version, False)
+
+  # Test that packets sent on non-IPsec protected interfaces are correctly sent on connected UDP sockets without interference from IPsec tunnels
+  def ParamTestNonIpsecOutputConnected(self, inner_version, outer_version):
+    self._CheckNonIpsecOutput(inner_version, outer_version, True)
+
   def _CheckTunnelInput(self, tunnel, inner_version, local_inner, remote_inner,
                         sa_info=None, expect_fail=False):
     """Test null-crypt input path over an IPsec interface."""
@@ -656,7 +703,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     if sa_info is None:
       sa_info = tunnel.out_sa
     local_port = _SendPacket(self, tunnel.netid, inner_version, remote_inner,
-                             _TEST_REMOTE_PORT)
+                             _TEST_REMOTE_PORT, False)
 
     # Read a tunneled IP packet on the underlying (outbound) network
     # verifying that it is an ESP packet.
@@ -700,7 +747,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     input and output paths are tested separately, and using null encryption.
     """
     src_port = _SendPacket(self, tunnel.netid, inner_version, remote_inner,
-                           _TEST_REMOTE_PORT)
+                           _TEST_REMOTE_PORT, False)
 
     # Make sure it appeared on the underlying interface
     pkt = self._ExpectEspPacketOn(tunnel.underlying_netid, tunnel.out_sa.spi,
@@ -754,7 +801,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     }[tunnel.version]
 
     local_port = _SendPacket(self, tunnel.netid, inner_version, remote_inner,
-                             _TEST_REMOTE_PORT)
+                             _TEST_REMOTE_PORT, False)
     pkt = self._ExpectEspPacketOn(tunnel.underlying_netid, sa_info.spi,
                                   sa_info.seq_num, None, tunnel.local,
                                   tunnel.remote)
