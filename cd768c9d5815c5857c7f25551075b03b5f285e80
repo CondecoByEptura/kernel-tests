@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d283afd4_eacde5ba",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1000451
+      },
+      "writtenOn": "2018-04-19T10:09:44Z",
+      "side": 1,
+      "message": "We still needs these sleeps?",
+      "range": {
+        "startLine": 765,
+        "startChar": 0,
+        "endLine": 766,
+        "endChar": 0
+      },
+      "revId": "cd768c9d5815c5857c7f25551075b03b5f285e80",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
