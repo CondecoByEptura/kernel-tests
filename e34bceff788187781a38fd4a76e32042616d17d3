@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "604b1a8e_51622ac5",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-04-20T18:33:38Z",
+      "side": 1,
+      "message": "The netlink structure for XFRM-I would be nice here too",
+      "range": {
+        "startLine": 751,
+        "startChar": 0,
+        "endLine": 751,
+        "endChar": 66
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f4e672e_126ab010",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-04-20T18:33:38Z",
+      "side": 1,
+      "message": "Nit: should this be \"an integer\"?",
+      "range": {
+        "startLine": 401,
+        "startChar": 45,
+        "endLine": 401,
+        "endChar": 56
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "908b5fa4_94f4b5f8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-04-20T18:33:38Z",
+      "side": 1,
+      "message": "Question: If we just tossed an invalid index at it, and check for EOPNOTSUPP, would that be a viable way to test if the right support exists?",
+      "range": {
+        "startLine": 43,
+        "startChar": 26,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11d0934d_7cb4edec",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-04-20T18:33:38Z",
+      "side": 1,
+      "message": "Nit: Exclamation mark? Or is this a reference I\u0027m not getting? :)",
+      "range": {
+        "startLine": 47,
+        "startChar": 42,
+        "endLine": 47,
+        "endChar": 43
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cad4037_307e8f1f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-04-20T18:33:38Z",
+      "side": 1,
+      "message": "It appears we check VTI parameters, but not XFRMI parameters?",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 33
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
