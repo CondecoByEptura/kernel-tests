@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "022ef218_b3afca25",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-20T03:19:21Z",
+      "side": 1,
+      "message": "update comment?",
+      "range": {
+        "startLine": 107,
+        "startChar": 30,
+        "endLine": 107,
+        "endChar": 73
+      },
+      "revId": "ab8bf6ae3ca693a7c0e89abb0a3a327cd9b97706",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "504cb92f_3e1f8e19",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-20T03:19:21Z",
+      "side": 1,
+      "message": "Looks like when we test input we only have the input SA and policy configured, and when we test output we only have the output SA and policy configured. Can we instead make sure that when we test traffic (in either direction), both SAs and policies are configured?\n\nWe can still test input and output separately - just do the common setup in both tests, and move the last 5 lines of the input test and the last 2 lines of the output test into per-direction test methods.",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 75
+      },
+      "revId": "ab8bf6ae3ca693a7c0e89abb0a3a327cd9b97706",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
