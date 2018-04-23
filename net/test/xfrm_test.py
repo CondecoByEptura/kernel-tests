@@ -900,5 +900,29 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
       self.xfrm.DeleteSaInfo(remote, TEST_SPI, IPPROTO_ESP, mark)
       self.xfrm.DeletePolicyInfo(sel, xfrm.XFRM_POLICY_OUT, mark)
 
+  def testUpdateActiveSaAddIfid(self):
+    """Test that when an Active SA can have an if_id added."""
+    for version in [4, 6]:
+      spi = 0xABCD
+      if_id = 5
+      self.xfrm.AddSaInfo(net_test.GetWildcardAddress(version),
+                          net_test.GetWildcardAddress(version),
+                          spi, xfrm.XFRM_MODE_TUNNEL, 0,
+                          xfrm_base._ALGO_CBC_AES_256,
+                          xfrm_base._ALGO_HMAC_SHA1,
+                          None, None, None, 0, is_update=False)
+      self.xfrm.AddSaInfo(net_test.GetWildcardAddress(version),
+                          net_test.GetWildcardAddress(version),
+                          spi, xfrm.XFRM_MODE_TUNNEL, 0,
+                          xfrm_base._ALGO_CBC_AES_256,
+                          xfrm_base._ALGO_HMAC_SHA1,
+                          None, None, None, 0, is_update=True, xfrm_if_id=if_id)
+      dump = self.xfrm.DumpSaInfo()
+      self.assertEquals(1, len(dump)) # check that update updated
+      sainfo, attributes = dump[0]
+      self.assertEquals(if_id, attributes["XFRMA_IF_ID"])
+      self.xfrm.DeleteSaInfo(net_test.GetWildcardAddress(version),
+                             spi, IPPROTO_ESP, None)
+
 if __name__ == "__main__":
   unittest.main()
