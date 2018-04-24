@@ -202,6 +202,11 @@ def GetNextKey(map_fd, key):
   BpfSyscall(BPF_MAP_GET_NEXT_KEY, attr)
   return c_next_key
 
+def GetFirstKey(map_fd):
+  c_next_key = ctypes.c_uint32(0);
+  attr = BpfAttrOps((map_fd, 0, ctypes.addressof(c_next_key), 0))
+  BpfSyscall(BPF_MAP_GET_NEXT_KEY, attr)
+  return c_next_key
 
 def DeleteMap(map_fd, key):
   c_key = ctypes.c_uint32(key)

@@ -29,7 +29,6 @@ import net_test
 import sock_diag
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
-HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
 HAVE_EBPF_ACCOUNTING = net_test.LINUX_VERSION >= (4, 9, 0)
 KEY_SIZE = 8
 VALUE_SIZE = 4
@@ -146,8 +145,8 @@ INS_BPF_PARAM_STORE = [
     BpfStxMem(BPF_DW, BPF_REG_10, BPF_REG_0, key_offset),
 ]
 
-@unittest.skipUnless(HAVE_EBPF_SUPPORT,
-                     "eBPF function not fully supported")
+@unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
+                     "BPF helper function is not fully supported")
 class BpfTest(net_test.NetworkTest):
 
   def setUp(self):
@@ -172,6 +171,19 @@ class BpfTest(net_test.NetworkTest):
     DeleteMap(self.map_fd, key)
     self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, key)
 
+  def checkTotalMapEntry(self, key, totalEntries, value):
+    count = 0
+    while 1:
+      if count == totalEntries:
+        self.assertRaisesErrno(errno.ENOENT, GetNextKey, self.map_fd, key)
+        break
+      else:
+        result = GetNextKey(self.map_fd, key)
+        key = result.value
+        self.assertGreater(key, 0)
+        self.assertEquals(value, LookupMap(self.map_fd, key).value)
+        count += 1
+
   def testIterateMap(self):
     self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
                             TOTAL_ENTRIES)
@@ -182,21 +194,20 @@ class BpfTest(net_test.NetworkTest):
       self.assertEquals(value, LookupMap(self.map_fd, key).value)
     self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, 101)
     key = 0
-    count = 0
-    while 1:
-      if count == TOTAL_ENTRIES - 1:
-        self.assertRaisesErrno(errno.ENOENT, GetNextKey, self.map_fd, key)
-        break
-      else:
-        result = GetNextKey(self.map_fd, key)
-        key = result.value
-        self.assertGreater(key, 0)
-        self.assertEquals(value, LookupMap(self.map_fd, key).value)
-        count += 1
+    self.checkTotalMapEntry(key, TOTAL_ENTRIES - 1, value)
 
-  # TODO: move this check to the begining of the class insdead.
-  @unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
-                       "BPF helper function is not fully supported")
+  def testFindFirstMapKey(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            TOTAL_ENTRIES)
+    value = 1024
+    for key in xrange(1, TOTAL_ENTRIES):
+      UpdateMap(self.map_fd, key, value)
+    firstKey = GetFirstKey(self.map_fd)
+    key = firstKey.value
+    count = 0
+    self.checkTotalMapEntry(key, TOTAL_ENTRIES - 2, value)
+
+
   def testRdOnlyMap(self):
     self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
                             TOTAL_ENTRIES, map_flags=BPF_F_RDONLY)
