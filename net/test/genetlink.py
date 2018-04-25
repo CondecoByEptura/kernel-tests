@@ -92,7 +92,7 @@ class GenericNetlinkControl(GenericNetlink):
       ops.append(Op(op_id, op_flags))
     return ops
 
-  def _Decode(self, command, msg, nla_type, nla_data):
+  def _Decode(self, command, msg, nla_type, nla_data, attrs, parent_attrs):
     """Decodes generic netlink control attributes to human-readable format."""
 
     name = self._GetConstantName(__name__, nla_type, "CTRL_ATTR_")

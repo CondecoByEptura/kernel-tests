@@ -97,7 +97,7 @@ class NetlinkSocket(object):
           return name
     return value
 
-  def _Decode(self, command, msg, nla_type, nla_data):
+  def _Decode(self, command, msg, nla_type, nla_data, attrs, parent_attrs):
     """No-op, nonspecific version of decode."""
     return nla_type, nla_data
 
@@ -112,7 +112,7 @@ class NetlinkSocket(object):
 
     return nla, nla_data, data
 
-  def _ParseAttributes(self, command, msg, data, nested=0):
+  def _ParseAttributes(self, command, msg, data, parent_attrs):
     """Parses and decodes netlink attributes.
 
     Takes a block of NLAttr data structures, decodes them using Decode, and
@@ -122,7 +122,8 @@ class NetlinkSocket(object):
       command: An integer, the rtnetlink command being carried out.
       msg: A Struct, the type of the data after the netlink header.
       data: A byte string containing a sequence of NLAttr data structures.
-      nested: An integer, how deep we're currently nested.
+      parent_attrs: When parsing a nested attribute, a dict containing the
+        attributes of the enclosing attribute that have been parsed so far.
 
     Returns:
       A dictionary mapping attribute types (integers) to decoded values.
@@ -135,13 +136,13 @@ class NetlinkSocket(object):
       nla, nla_data, data = self._ReadNlAttr(data)
 
       # If it's an attribute we know about, try to decode it.
-      nla_name, nla_data = self._Decode(command, msg, nla.nla_type, nla_data)
-
+      nla_name, nla_data = self._Decode(command, msg, nla.nla_type, nla_data,
+                                        attributes, parent_attrs)
       if nla_name in attributes and nla_name not in DUP_ATTRS_OK:
         raise ValueError("Duplicate attribute %s" % nla_name)
 
       attributes[nla_name] = nla_data
-      if not nested:
+      if parent_attrs is None:
         self._Debug("      %s" % (str((nla_name, nla_data))))
 
     return attributes
@@ -220,7 +221,8 @@ class NetlinkSocket(object):
 
     # Parse the attributes in the nlmsg.
     attrlen = nlmsghdr.length - len(nlmsghdr) - len(nlmsg)
-    attributes = self._ParseAttributes(nlmsghdr.type, nlmsg, data[:attrlen])
+    attributes = self._ParseAttributes(nlmsghdr.type, nlmsg, data[:attrlen],
+                                       None)
     data = data[attrlen:]
     return (nlmsg, attributes), data
 

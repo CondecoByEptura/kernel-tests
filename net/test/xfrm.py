@@ -355,7 +355,7 @@ class Xfrm(netlink.NetlinkSocket):
     else:
       print "%s" % cmdname
 
-  def _Decode(self, command, unused_msg, nla_type, nla_data):
+  def _Decode(self, command, msg, nla_type, nla_data, attrs, parent_attrs):
     """Decodes netlink attributes to Python types."""
     name = self._GetConstantName(nla_type, "XFRMA_")
 
