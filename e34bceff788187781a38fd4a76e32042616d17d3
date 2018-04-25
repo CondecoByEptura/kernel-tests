@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9a74e31_4e22c55b",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-25T07:57:09Z",
+      "side": 1,
+      "message": "The structure is identical to the one above. Added a comment to say so.",
+      "parentUuid": "604b1a8e_51622ac5",
+      "range": {
+        "startLine": 751,
+        "startChar": 0,
+        "endLine": 751,
+        "endChar": 66
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f4e672e_126ab010",
         "filename": "net/test/xfrm.py",
         "patchSetId": 14
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4023faf4_01ba064e",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-25T07:57:09Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "6f4e672e_126ab010",
+      "range": {
+        "startLine": 401,
+        "startChar": 45,
+        "endLine": 401,
+        "endChar": 56
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "908b5fa4_94f4b5f8",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 14
@@ -59,6 +107,30 @@
       "writtenOn": "2018-04-20T18:33:38Z",
       "side": 1,
       "message": "Question: If we just tossed an invalid index at it, and check for EOPNOTSUPP, would that be a viable way to test if the right support exists?",
+      "range": {
+        "startLine": 43,
+        "startChar": 26,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af66ac0_1bd94232",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-25T07:57:09Z",
+      "side": 1,
+      "message": "Possibly. But given the current experimental state of the xfrmi code I\u0027m worried about what such an approach would do if it *didn\u0027t* return EOPNOTSUPP. For example, if I attempt to create an xfrmi with an underlying index of 999999 I get EEXIST (!).",
+      "parentUuid": "908b5fa4_94f4b5f8",
       "range": {
         "startLine": 43,
         "startChar": 26,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "99c34fae_3e77f9f2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-25T07:57:09Z",
+      "side": 1,
+      "message": "IIRC one of the Google 404/error pages used !!1 as an exclamation. Perhaps the idea was to convey an excitable typist releasing the shift key too early. Fixed.",
+      "parentUuid": "11d0934d_7cb4edec",
+      "range": {
+        "startLine": 47,
+        "startChar": 42,
+        "endLine": 47,
+        "endChar": 43
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cad4037_307e8f1f",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 14
@@ -105,6 +201,30 @@
       "writtenOn": "2018-04-20T18:33:38Z",
       "side": 1,
       "message": "It appears we check VTI parameters, but not XFRMI parameters?",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 33
+      },
+      "revId": "e34bceff788187781a38fd4a76e32042616d17d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12fb3174_842a3307",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-04-25T07:57:09Z",
+      "side": 1,
+      "message": "You mean there is no equivalent for _VerifyVtiInfoData? That is harder than it looks, so not done in this CL.",
+      "parentUuid": "4cad4037_307e8f1f",
       "range": {
         "startLine": 249,
         "startChar": 0,
