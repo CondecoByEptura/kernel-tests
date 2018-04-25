@@ -246,17 +246,27 @@ class VtiInterface(object):
 class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
   """Test the creation of an XFRM Interface."""
 
+  def tearDown(self):
+    self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
+    with self.assertRaises(IOError):
+      self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
+
+  def _VerifyXfrmInfoData(self, xfrm_info_data, underlying_ifindex, if_id):
+    self.assertEquals(struct.pack("=i", underlying_ifindex),
+                      xfrm_info_data["IFLA_XFRM_LINK"])
+    self.assertEquals(struct.pack("=i", if_id),
+                                  xfrm_info_data["IFLA_XFRM_IF_ID"])
+
   def testAddXfrmInterface(self):
     self.iproute.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
                                      _LOOPBACK_IFINDEX)
     if_index = self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
     net_test.SetInterfaceUp(_TEST_XFRM_IFNAME)
 
-    # Validate that the netlink interface matches the ioctl interface.
+    # Validate that the netlink interface matches what we configured.
     self.assertEquals(net_test.GetInterfaceIndex(_TEST_XFRM_IFNAME), if_index)
-    self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
-    with self.assertRaises(IOError):
-      self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
+    self._VerifyXfrmInfoData(self.iproute.GetIfinfoData(_TEST_XFRM_IFNAME),
+                           _LOOPBACK_IFINDEX, _TEST_XFRM_IF_ID)
 
 
 class XfrmInterface(object):

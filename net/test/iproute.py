@@ -293,6 +293,8 @@ class IPRoute(netlink.NetlinkSocket):
     elif command == -IFLA_INFO_DATA:
       if parent_attrs["IFLA_INFO_KIND"] in ["vti", "vti6"]:
         name = self._GetConstantName(nla_type, "IFLA_VTI_")
+      elif parent_attrs["IFLA_INFO_KIND"] == "xfrm":
+        name = self._GetConstantName(nla_type, "IFLA_XFRM_")
       else:
         name = self._GetConstantName(nla_type, "IFLA_")
     elif CommandSubject(command) == "ADDR":
