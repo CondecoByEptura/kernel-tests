@@ -251,7 +251,7 @@ class IPRoute(netlink.NetlinkSocket):
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
 
-  def _Decode(self, command, msg, nla_type, nla_data, nested=0):
+  def _Decode(self, command, msg, nla_type, nla_data, nested=None):
     """Decodes netlink attributes to Python types.
 
     Values for which the code knows the type (e.g., the fwmark ID in a
@@ -271,7 +271,7 @@ class IPRoute(netlink.NetlinkSocket):
       family: The address family. Used to convert IP addresses into strings.
       nla_type: An integer, then netlink attribute type.
       nla_data: A byte string, the netlink attribute data.
-      nested: An integer, how deep we're currently nested.
+      nested: The netlink message we're nested in, or None.
 
     Returns:
       A tuple (name, data):
@@ -282,12 +282,19 @@ class IPRoute(netlink.NetlinkSocket):
          (e.g., RTACacheinfo), etc. If we didn't understand the attribute, it
          will be the raw byte string.
     """
+    print nested
+
     if command == -RTA_METRICS:
       name = self._GetConstantName(nla_type, "RTAX_")
     elif command == -IFLA_LINKINFO:
       name = self._GetConstantName(nla_type, "IFLA_INFO_")
     elif command == -IFLA_INFO_DATA:
-      name = self._GetConstantName(nla_type, "IFLA_VTI_")
+      if nested.kind in ["vti", "vti6"]:
+        name = self._GetConstantName(nla_type, "IFLA_VTI_")
+      elif nested.kind == "xfrm":
+        name = self._GetConstantName(nla_type, "IFLA_XFRM_")
+      else:
+        name = self._GetConstantName(nla_type, "IFLA_")
     elif CommandSubject(command) == "ADDR":
       name = self._GetConstantName(nla_type, "IFA_")
     elif CommandSubject(command) == "LINK":
@@ -323,11 +330,11 @@ class IPRoute(netlink.NetlinkSocket):
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
       data = nla_data.strip("\x00")
     elif name == "RTA_METRICS":
-      data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
+      data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested)
     elif name == "IFLA_LINKINFO":
-      data = self._ParseAttributes(-IFLA_LINKINFO, None, nla_data, nested + 1)
+      data = self._ParseAttributes(-IFLA_LINKINFO, None, nla_data, nested)
     elif name == "IFLA_INFO_DATA":
-      data = self._ParseAttributes(-IFLA_INFO_DATA, None, nla_data)
+      data = self._ParseAttributes(-IFLA_INFO_DATA, None, nla_data, nested)
     elif name == "RTA_CACHEINFO":
       data = RTACacheinfo(nla_data)
     elif name == "IFA_CACHEINFO":

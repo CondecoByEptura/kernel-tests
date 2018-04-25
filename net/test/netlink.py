@@ -112,7 +112,7 @@ class NetlinkSocket(object):
 
     return nla, nla_data, data
 
-  def _ParseAttributes(self, command, msg, data, nested=0):
+  def _ParseAttributes(self, command, msg, data, nested=None):
     """Parses and decodes netlink attributes.
 
     Takes a block of NLAttr data structures, decodes them using Decode, and
@@ -122,7 +122,7 @@ class NetlinkSocket(object):
       command: An integer, the rtnetlink command being carried out.
       msg: A Struct, the type of the data after the netlink header.
       data: A byte string containing a sequence of NLAttr data structures.
-      nested: An integer, how deep we're currently nested.
+      nested: A list of integers, the nla_types we're currently nested under.
 
     Returns:
       A dictionary mapping attribute types (integers) to decoded values.
@@ -135,7 +135,7 @@ class NetlinkSocket(object):
       nla, nla_data, data = self._ReadNlAttr(data)
 
       # If it's an attribute we know about, try to decode it.
-      nla_name, nla_data = self._Decode(command, msg, nla.nla_type, nla_data)
+      nla_name, nla_data = self._Decode(command, msg, nla.nla_type, nla_data, nested=msg)
 
       if nla_name in attributes and nla_name not in DUP_ATTRS_OK:
         raise ValueError("Duplicate attribute %s" % nla_name)
