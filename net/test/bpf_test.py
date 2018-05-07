@@ -19,6 +19,8 @@ import errno
 import os
 import socket
 import struct
+import subprocess
+import tempfile
 import unittest
 
 from bpf import *  # pylint: disable=wildcard-import
@@ -27,7 +29,7 @@ import net_test
 import sock_diag
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
-HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
+HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
 HAVE_EBPF_ACCOUNTING = net_test.LINUX_VERSION >= (4, 9, 0)
 KEY_SIZE = 8
 VALUE_SIZE = 4
@@ -192,6 +194,27 @@ class BpfTest(net_test.NetworkTest):
         self.assertEquals(value, LookupMap(self.map_fd, key).value)
         count += 1
 
+  # TODO: move this check to the begining of the class insdead.
+  @unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
+                       "BPF helper function is not fully supported")
+  def testRdOnlyMap(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            TOTAL_ENTRIES, map_flags=BPF_F_RDONLY)
+    value = 1024
+    key = 1
+    self.assertRaisesErrno(errno.EPERM, UpdateMap, self.map_fd, key, value)
+    self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, key)
+
+  @unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
+                       "BPF helper function is not fully supported")
+  def testWrOnlyMap(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            TOTAL_ENTRIES, map_flags=BPF_F_WRONLY)
+    value = 1024
+    key = 1
+    UpdateMap(self.map_fd, key, value)
+    self.assertRaisesErrno(errno.EPERM, LookupMap, self.map_fd, key)
+
   def testProgLoad(self):
     # Move skb to BPF_REG_6 for further usage
     instructions = [
@@ -281,15 +304,22 @@ class BpfCgroupTest(net_test.NetworkTest):
 
   @classmethod
   def setUpClass(cls):
-    if not os.path.isdir("/tmp"):
-      os.mkdir('/tmp')
-    os.system('mount -t cgroup2 cg_bpf /tmp')
-    cls._cg_fd = os.open('/tmp', os.O_DIRECTORY | os.O_RDONLY)
+    cls._cg_dir = tempfile.mkdtemp(prefix="cg_bpf-")
+    cmd = "mount -t cgroup2 cg_bpf %s" % cls._cg_dir
+    try:
+      subprocess.check_call(cmd.split())
+    except subprocess.CalledProcessError:
+      # If an exception is thrown in setUpClass, the test fails and
+      # tearDownClass is not called.
+      os.rmdir(cls._cg_dir)
+      raise
+    cls._cg_fd = os.open(cls._cg_dir, os.O_DIRECTORY | os.O_RDONLY)
 
   @classmethod
   def tearDownClass(cls):
     os.close(cls._cg_fd)
-    os.system('umount cg_bpf')
+    subprocess.call(('umount %s' % cls._cg_dir).split())
+    os.rmdir(cls._cg_dir)
 
   def setUp(self):
     self.prog_fd = -1
