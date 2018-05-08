@@ -70,6 +70,47 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
                     reqId, xfrm_base._ALGO_CBC_AES_256, auth_algo, None,
                     encap_tmpl, None, None)
 
+  def testDupeSaByMark(self):
+    """Test the order dependency of duplicate SAs with mark partitioning"""
+    mark = xfrm.ExactMatchMark(0x1234)
+    # Add an SA with no mark.
+    self.xfrm.AddSaInfo("::", TEST_ADDR1, TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
+                    0, xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
+                    None, None, None, None)
+    # Add an otherwise identical SA with mark 0x1234 and expect EEXIST because
+    # it collides with the mark-less SA.
+    self.assertRaisesErrno(EEXIST, self.xfrm.AddSaInfo,
+            "::", TEST_ADDR1, TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
+            0, xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
+            None, None, mark, None)
+    # Clean up.
+    self.xfrm.DeleteSaInfo(TEST_ADDR1, TEST_SPI,
+                           IPPROTO_ESP, None)
+    # Now reverse the order of the SA creation, and start by adding an SA with
+    # an Exact Match Mark of 0x1234.
+    self.xfrm.AddSaInfo(
+                "::", TEST_ADDR1, TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
+                0, xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
+                None, None, mark, None)
+    # Successfully add an SA with zero mark, because the order is now specific
+    # to general, so it doesn't find the SA with 0x1234.
+    self.xfrm.AddSaInfo("::", TEST_ADDR1, TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
+                    0, xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1,
+                    None, None, None, None)
+    # Attempt to delete the SA with Mark = 0x1234. This succeeds but deletes
+    # the wrong SA because they are added to the kernel's linked list at the
+    # front, and the SA with no mark matches 0x1234 due to matching rules.
+    self.xfrm.DeleteSaInfo(TEST_ADDR1, TEST_SPI,
+                           IPPROTO_ESP, mark)
+    dump = self.xfrm.DumpSaInfo()
+    self.assertEquals(1, len(dump))
+    sainfo, attributes = dump[0]
+    # Verify that there is still an SA with the mark 0x1234 even though we
+    # attempted to delete it.
+    self.assertEquals(mark, attributes["XFRMA_MARK"])
+    self.xfrm.DeleteSaInfo(TEST_ADDR1, TEST_SPI,
+                           IPPROTO_ESP, mark)
+
   def testAddSa(self):
     self.CreateNewSa("::", TEST_ADDR1, TEST_SPI, 3320, None)
     expected = (
