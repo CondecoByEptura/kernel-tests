@@ -172,7 +172,7 @@ echo "Using $ROOTFS"
 # If we're not UML, we need to build the initramfs workaround
 if [ "$ARCH" != "um" ]; then
   echo "Building init for initramfs" >&2
-  gcc -W -Wall -Werror -Os -s -static -o init init-qemu.c
+  ${CC:-gcc} -W -Wall -Werror -Os -s -static -o init init-qemu.c
   echo "Building initramfs.cpio" >&2
   find -type f \( -not -name $ROOTFS -and -not -name initramfs.cpio \) | \
     cpio -o -H newc >initramfs.cpio
@@ -216,6 +216,15 @@ if ((nobuild == 0)); then
     # Exporting ARCH=um SUBARCH=x86_64 doesn't seem to work, as it
     # "sometimes" (?) results in a 32-bit kernel.
     make_flags="$make_flags ARCH=$ARCH SUBARCH=x86_64 CROSS_COMPILE= "
+  fi
+  if [ -n "$CC" ]; then
+    # The CC flag is *not* inherited from the environment.
+    make_flags="$make_flags CC=$CC"
+    # Workaround for a kernel bug that interacts with clang
+    # See https://lkml.org/lkml/2018/5/7/534
+    if [ "$CC" == "clang" ]; then
+      DISABLE_OPTIONS="$DISABLE_OPTIONS PARAVIRT"
+    fi
   fi
 
   # If there's no kernel config at all, create one or UML won't work.
