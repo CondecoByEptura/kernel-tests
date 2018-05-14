@@ -80,18 +80,25 @@ SCRIPT_DIR=$(dirname $(readlink -f $0))
 CONFIG_SCRIPT=${KERNEL_DIR}/scripts/config
 CONFIG_FILE=${OUT_DIR}/.config
 consolemode=
+netconfig=
 testmode=
-blockdevice=ubda
+cmdline=
+nowrite=0
 nobuild=0
 norun=0
 
 while [ -n "$1" ]; do
   if [ "$1" = "--builder" ]; then
-    consolemode="con=null,fd:1"
+    if [ "$ARCH" == "um" ]; then
+      consolemode="con=null,fd:1"
+    else
+      consolemode="-serial stdio"
+    fi
     testmode=builder
     shift
   elif [ "$1" == "--readonly" ]; then
-    blockdevice="${blockdevice}r"
+    cmdline="ro"
+    nowrite=1
     shift
   elif [ "$1" == "--nobuild" ]; then
     nobuild=1
@@ -104,6 +111,15 @@ while [ -n "$1" ]; do
     break  # Arguments after the test file are passed to the test itself.
   fi
 done
+
+if [ "$ARCH" != "um" -a -z "$consolemode" ]; then
+  # QEMU doesn't create a console by default, so if we haven't set up the
+  # --builder console, enable the VGA console explicitly instead
+  # Assume VGA on x86 for now
+  OPTIONS="$OPTIONS VT VGA_CONSOLE"
+  cmdline="$cmdline console=tty0"
+  consolemode="-vga std"
+fi
 
 # Check that test file exists and is readable
 test_file=$SCRIPT_DIR/$test
@@ -140,9 +156,9 @@ echo Running tests from: `pwd`
 
 set -e
 
+cd $SCRIPT_DIR
 # Check if we need to uncompress the disk image.
 # We use xz because it compresses better: to 42M vs 72M (gzip) / 62M (bzip2).
-cd $SCRIPT_DIR
 if [ ! -f $ROOTFS ]; then
   echo "Deleting $COMPRESSED_ROOTFS" >&2
   rm -f $COMPRESSED_ROOTFS
@@ -152,6 +168,15 @@ if [ ! -f $ROOTFS ]; then
   unxz $COMPRESSED_ROOTFS
 fi
 echo "Using $ROOTFS"
+
+# If we're not UML, we need to build the initramfs workaround
+if [ "$ARCH" != "um" ]; then
+  echo "Building init for initramfs" >&2
+  gcc -W -Wall -Werror -Os -s -static -o init init-qemu.c
+  echo "Building initramfs.cpio" >&2
+  find -type f \( -not -name $ROOTFS -and -not -name initramfs.cpio \) | \
+    cpio -o -H newc >initramfs.cpio
+fi
 cd -
 
 # If network access was requested, create NUMTAPINTERFACES tap interfaces on
@@ -160,12 +185,16 @@ cd -
 if (( $NUMTAPINTERFACES > 0 )); then
   user=${USER:0:10}
   tapinterfaces=
-  netconfig=
   for id in $(seq 0 $(( NUMTAPINTERFACES - 1 )) ); do
     tap=${user}TAP$id
     tapinterfaces="$tapinterfaces $tap"
     mac=$(printf fe:fd:00:00:00:%02x $id)
-    netconfig="$netconfig eth$id=tuntap,$tap,$mac"
+    if [ "$ARCH" == "um" ]; then
+      netconfig="$netconfig eth$id=tuntap,$tap,$mac"
+    else
+      netconfig="$netconfig -netdev tap,id=hostnet$id,ifname=$tap,script=no,downscript=no"
+      netconfig="$netconfig -device virtio-net-pci,netdev=hostnet$id,id=net$id,mac=$mac"
+    fi
   done
 
   for tap in $tapinterfaces; do
@@ -179,27 +208,28 @@ fi
 
 if [ -n "$KERNEL_BINARY" ]; then
   nobuild=1
-else
-  KERNEL_BINARY=./linux
 fi
 
 if ((nobuild == 0)); then
-  # Exporting ARCH=um SUBARCH=x86_64 doesn't seem to work, as it "sometimes"
-  # (?) results in a 32-bit kernel.
+  make_flags=
+  if [ "$ARCH" == "um" ]; then
+    # Exporting ARCH=um SUBARCH=x86_64 doesn't seem to work, as it
+    # "sometimes" (?) results in a 32-bit kernel.
+    make_flags="$make_flags ARCH=$ARCH SUBARCH=x86_64 CROSS_COMPILE= "
+  fi
 
   # If there's no kernel config at all, create one or UML won't work.
-  [ -f $CONFIG_FILE ] || (cd $KERNEL_DIR && $MAKE defconfig ARCH=um SUBARCH=x86_64)
+  [ -n "$DEFCONFIG" ] || DEFCONFIG=defconfig
+  [ -f $CONFIG_FILE ] || (cd $KERNEL_DIR && $MAKE $make_flags $DEFCONFIG)
 
   # Enable the kernel config options listed in $OPTIONS.
-  cmdline=${OPTIONS// / -e }
-  $CONFIG_SCRIPT --file $CONFIG_FILE $cmdline
+  $CONFIG_SCRIPT --file $CONFIG_FILE ${OPTIONS// / -e }
 
   # Disable the kernel config options listed in $DISABLE_OPTIONS.
-  cmdline=${DISABLE_OPTIONS// / -d }
-  $CONFIG_SCRIPT --file $CONFIG_FILE $cmdline
+  $CONFIG_SCRIPT --file $CONFIG_FILE ${DISABLE_OPTIONS// / -d }
 
   # olddefconfig doesn't work on old kernels.
-  if ! $MAKE olddefconfig ARCH=um SUBARCH=x86_64 CROSS_COMPILE= ; then
+  if ! $MAKE $make_flags olddefconfig; then
     cat >&2 << EOF
 
 Warning: "make olddefconfig" failed.
@@ -211,18 +241,64 @@ EOF
   fi
 
   # Compile the kernel.
-  $MAKE -j$J linux ARCH=um SUBARCH=x86_64 CROSS_COMPILE=
+  if [ "$ARCH" == "um" ]; then
+    $MAKE -j$J $make_flags linux
+    KERNEL_BINARY=./linux
+  else
+    $MAKE -j$J $make_flags
+    # Assume x86_64 bzImage for now
+    KERNEL_BINARY=./arch/x86/boot/bzImage
+  fi
 fi
 
 if (( norun == 1 )); then
   exit 0
 fi
 
-# Get the absolute path to the test file that's being run.
-dir=/host$SCRIPT_DIR
+# The cmdline is flags the *kernel* interprets, not UML or QEMU
+cmdline="$cmdline init=/sbin/net_test.sh"
+cmdline="$cmdline net_test_args=\"$test_args\" net_test_mode=$testmode"
 
-# Start the VM.
-exec $KERNEL_BINARY umid=net_test $blockdevice=$SCRIPT_DIR/$ROOTFS \
-    mem=512M init=/sbin/net_test.sh net_test=$dir/$test \
-    net_test_args=\"$test_args\" \
-    net_test_mode=$testmode $netconfig $consolemode >&2
+if [ "$ARCH" == "um" ]; then
+  # Get the absolute path to the test file that's being run.
+  cmdline="$cmdline net_test=/host$SCRIPT_DIR/$test"
+
+  # Use UML's /proc/exitcode feature to communicate errors on test failure
+  cmdline="$cmdline net_test_exitcode=/proc/exitcode"
+
+  # Map the --readonly flag to UML block device names
+  if ((nowrite == 0)); then
+    blockdevice=ubda
+  else
+    blockdevice="${blockdevice}r"
+  fi
+
+  exec $KERNEL_BINARY >&2 umid=net_test mem=512M \
+    $blockdevice=$SCRIPT_DIR/$ROOTFS $netconfig $consolemode $cmdline
+else
+  # The test is embedded in the initramfs; we don't need SCRIPT_DIR
+  cmdline="$cmdline net_test=/host/$test"
+
+  # QEMU has no way to modify its exitcode; simulate it with a serial port
+  cmdline="$cmdline net_test_exitcode=/dev/ttyS1"
+
+  # Map the --readonly flag to a QEMU block device flag
+  blockdevice=
+  if ((nowrite > 0)); then
+    blockdevice=",readonly"
+  fi
+  blockdevice="-drive file=$SCRIPT_DIR/$ROOTFS,format=raw,if=none,id=drive-virtio-disk0$blockdevice"
+  blockdevice="$blockdevice -device virtio-blk-pci,drive=drive-virtio-disk0"
+
+  # Assume x86_64 PC emulation for now
+  qemu-system-x86_64 >&2 -name net_test -m 512 \
+    -kernel $KERNEL_BINARY -initrd $SCRIPT_DIR/initramfs.cpio \
+    -no-user-config -nodefaults -no-reboot \
+    -machine pc,accel=kvm -cpu host -smp 2,sockets=2,cores=1,threads=1 \
+    -chardev file,id=exitcode,path=exitcode \
+    -device isa-serial,chardev=exitcode \
+     $blockdevice $netconfig $consolemode -append "$cmdline"
+  [ -s exitcode ] && exitcode=`cat exitcode | tr -d '\r'` || exitcode=1
+  rm -f exitcode
+  exit $exitcode
+fi
