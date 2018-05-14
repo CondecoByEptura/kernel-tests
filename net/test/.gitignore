@@ -1,2 +1,4 @@
+init
+initramfs.cpio
 net_test.rootfs.*
 *.pyc
