@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "afb4d065_37ad9c0e",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T18:21:26Z",
+      "side": 1,
+      "message": "Never mind, I think you are right. It can call write() which could update errno, so we must save errno. Fixed in the new CL.",
+      "parentUuid": "5dfdc05a_a9fdcde7",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16f8520a_c6735c6e",
         "filename": "net/test/init-qemu.c",
         "patchSetId": 3
@@ -187,6 +211,30 @@
       "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364c83db_6b715694",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T18:21:26Z",
+      "side": 1,
+      "message": "Converted to C++ after evaluating the small increase in size.",
+      "parentUuid": "783c9c0d_08e61183",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
