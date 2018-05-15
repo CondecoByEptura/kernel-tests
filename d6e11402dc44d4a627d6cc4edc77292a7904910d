@@ -332,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "a050d490_edfb5514",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T18:48:37Z",
+      "side": 1,
+      "message": "Answering my own question. The kernel doesn\u0027t make this simple :)\n\nThe kernel default for an automatic mount of rootfs, which happens when root\u003d is specified and there is no initrd or initramfs configured, is actually to mount R/O (see init/do_mounts.c).\n\nHowever, this default is changed back to R/W (as I had observed) on the x86 architecture if \"root_flags\" is not specified in the boot_hdr, which it isn\u0027t normally (see arch/x86/kernel/setup.c). As this setup code doesn\u0027t exist for the \u0027um\u0027 architecture, I assume that mounts R/O by default.\n\nTo improve clarity here, I\u0027ve left the default assumption of \u0027init\u0027 to be mount R/W, but I added a parser for \"rw\" too just in case we want to change this default down the road for some reason.",
+      "parentUuid": "bbbe7f97_d8d42169",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 16
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d2912aa_494152ee",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 3
