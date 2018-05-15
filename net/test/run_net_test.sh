@@ -172,7 +172,7 @@ echo "Using $ROOTFS"
 # If we're not UML, we need to build the initramfs workaround
 if [ "$ARCH" != "um" ]; then
   echo "Building init for initramfs" >&2
-  gcc -W -Wall -Werror -std=c++14 -Os -s -static \
+  ${CC:-gcc} -W -Wall -Werror -std=c++14 -Os -s -static \
     -o init init-qemu.cpp -lstdc++
   echo "Building initramfs.cpio" >&2
   find -type f \( -not -name $ROOTFS -and -not -name initramfs.cpio \) | \
@@ -217,6 +217,19 @@ if ((nobuild == 0)); then
     # Exporting ARCH=um SUBARCH=x86_64 doesn't seem to work, as it
     # "sometimes" (?) results in a 32-bit kernel.
     make_flags="$make_flags ARCH=$ARCH SUBARCH=x86_64 CROSS_COMPILE= "
+  fi
+  if [ -n "$CC" ]; then
+    # The CC flag is *not* inherited from the environment, so it must be
+    # passed in on the command line.
+    make_flags="$make_flags CC=$CC"
+    # TODO: Remove this workaround for https://lkml.org/lkml/2018/5/7/534
+    # Needs a change to clang to be merged, an updated toolchain, and
+    # a new __nostackprotector annotation of the affected PARAVIRT
+    # code in the affected kernel branches (android-4.4, android-4.9,
+    # android-4.14). This sidesteps the issue by disabling PARAVIRT.
+    if [ "$CC" == "clang" ]; then
+      DISABLE_OPTIONS="$DISABLE_OPTIONS PARAVIRT"
+    fi
   fi
 
   # If there's no kernel config at all, create one or UML won't work.
