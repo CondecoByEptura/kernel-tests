@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c8d3111_7c1846a3",
+        "filename": "net/test/.gitignore",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "Out of curiosity, what are these?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 14
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d65cbab_17985fdc",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "FWIW, we can change the filesystem if we want/need to. It\u0027s not super-easy, but the result would probably be cleaner. Have you tried that?\n\nYou can mount the fs read-write by removing the .cow parameter from the UML kernel command line. You can also remove \"/sbin/net_test.sh\" from the command line and boot into the full debian system to make changes to the fs.",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dac58a9_0414f3d2",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "Is perror guaranteed not to touch errno? perror(3) states \"Note that errno is undefined after a successful library call\". Seems safest to save it.",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f8520a_c6735c6e",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "Since this is new code... does it have to be written in C or can we use C++ standard library functions to make the code safer and easier to read?",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c8db7c_fbadccf2",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "Does this really need to be compiled code? Is there a reason we can\u0027t use a bash script? That\u0027s what the current framework uses. It looks like this code doesn\u0027t do anything fancy a bash script couldn\u0027t do, and all it does in the end is exec another process anyway.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 14
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29a150d5_940afc70",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "Is this sufficient to ensure that blockdevice is not changed? Adding \"r\" to the end of the device like the old code did might be a stronger guarantee.",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 16
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d2912aa_494152ee",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "Are you confident that this is the same as \"make defconfig ARCH\u003dum SUBARCH\u003d...\"? I don\u0027t know much about how these variables work.",
+      "range": {
+        "startLine": 223,
+        "startChar": 50,
+        "endLine": 223,
+        "endChar": 72
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df204c9d_8c177a25",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-15T15:42:06Z",
+      "side": 1,
+      "message": "FWIW I think we can delete this at this point, it was only needed on really old kernels like 3.4.",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 4
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
