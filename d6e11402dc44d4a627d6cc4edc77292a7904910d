@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e0d38589_e7d4a6a9",
+        "filename": "net/test/.gitignore",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "init \u003d kernel\u0027s \u0027rdinit\u0027 run from the initramfs. This gets compiled from init-qemu.c. It enables us to use the same root filesystem as the UML flow. This kernel doesn\u0027t have a hostfs equivalent so all of the scripts are packaged into the initramfs and run from there.\n\ninitramfs.cpio \u003d this is where all of the net test code goes, including the init binary and halt workaround.",
+      "parentUuid": "2c8d3111_7c1846a3",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 14
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d65cbab_17985fdc",
         "filename": "net/test/init-qemu.c",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-15T15:42:06Z",
       "side": 1,
       "message": "FWIW, we can change the filesystem if we want/need to. It\u0027s not super-easy, but the result would probably be cleaner. Have you tried that?\n\nYou can mount the fs read-write by removing the .cow parameter from the UML kernel command line. You can also remove \"/sbin/net_test.sh\" from the command line and boot into the full debian system to make changes to the fs.",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fd22140_64579426",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "This was meant as a stop-gap solution for updating that filesystem. I think if we can find a way to expose the host from inside the VM (with a cuttlefish kernel) then we can do this. I preferred not to enable network filesystems and such as I knew there were interactions with the net tests from other experiments.\n\nThere are definitely some nice things we can do if we can refresh the filesystem, like fix the use of \u0027halt\u0027.",
+      "parentUuid": "0d65cbab_17985fdc",
       "range": {
         "startLine": 17,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5dfdc05a_a9fdcde7",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "I don\u0027t read the manpage like this. I think it is simply saying that perror() needs to be called immediately after the system call or it might not be reliable. I can\u0027t think of how perror() could be implemented as anything other than a dereference of an array of strings.\n\nIn practice, it doesn\u0027t matter much. If init fails, the kernel panics, and the errno won\u0027t make  it back to the host.",
+      "parentUuid": "8dac58a9_0414f3d2",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16f8520a_c6735c6e",
         "filename": "net/test/init-qemu.c",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2018-05-15T15:42:06Z",
       "side": 1,
       "message": "Since this is new code... does it have to be written in C or can we use C++ standard library functions to make the code safer and easier to read?",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "783c9c0d_08e61183",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "As this is a ramdisk init, it\u0027s statically linked. C++ would make things more complicated to build and the binary would be larger. Apart from that, yes, it\u0027s possible.",
+      "parentUuid": "16f8520a_c6735c6e",
       "range": {
         "startLine": 49,
         "startChar": 5,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "186ab898_3f0ffa15",
+        "filename": "net/test/init-qemu.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "Yes, we can\u0027t use a bash script because then we need bash from somewhere. In a limited environment like a ramdisk, you start with nothing, and need to build everything you need. Changing this to be a bash script would simply transfer the problem somewhere else, and make the solution much more complicated.",
+      "parentUuid": "60c8db7c_fbadccf2",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 14
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29a150d5_940afc70",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2018-05-15T15:42:06Z",
       "side": 1,
       "message": "Is this sufficient to ensure that blockdevice is not changed? Adding \"r\" to the end of the device like the old code did might be a stronger guarantee.",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 16
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbbe7f97_d8d42169",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "We have that strong guarantee. This \u0027ro\u0027 flag just tells the kernel to use MS_RDONLY, otherwise the mount would fail. The bit that actually makes the blockdevice readonly is below, when the \",readonly\" qualifier is passed on the QEMU command line. There is *no way* the guest can write to the block device once that flag has been specified.\n\nI don\u0027t fully understand how the UML flow\u0027s kernel knows not to mount the root filesystem rw without \"ro\" on the kernel command line. That\u0027s definitely the default kernel behavior.",
+      "parentUuid": "29a150d5_940afc70",
       "range": {
         "startLine": 100,
         "startChar": 4,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "00114329_2bff042c",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "Yes, I am. GNU make passes all command line variables through to the environment with a \u0027cmdline\u0027 flag, once these have been stripped away the rest of the strings are interpreted as targets. It does not matter which order they are specified in.",
+      "parentUuid": "4d2912aa_494152ee",
+      "range": {
+        "startLine": 223,
+        "startChar": 50,
+        "endLine": 223,
+        "endChar": 72
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df204c9d_8c177a25",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "2018-05-15T15:42:06Z",
       "side": 1,
       "message": "FWIW I think we can delete this at this point, it was only needed on really old kernels like 3.4.",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 4
+      },
+      "revId": "d6e11402dc44d4a627d6cc4edc77292a7904910d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05fd4c07_e79fc28d",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-15T16:01:40Z",
+      "side": 1,
+      "message": "Sure! I will upload another change to remove this.",
+      "parentUuid": "df204c9d_8c177a25",
       "range": {
         "startLine": 231,
         "startChar": 0,
