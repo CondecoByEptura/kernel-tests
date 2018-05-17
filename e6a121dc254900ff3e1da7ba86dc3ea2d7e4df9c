@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "9a26fe06_42dc9b7c",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-17T20:37:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "daa2789b_bd28a365",
+      "range": {
+        "startLine": 33,
+        "startChar": 65,
+        "endLine": 33,
+        "endChar": 71
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1d61385_140c0a19",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-17T20:37:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d8ca6f1d_00de80db",
+      "range": {
+        "startLine": 33,
+        "startChar": 60,
+        "endLine": 33,
+        "endChar": 64
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "428f8103_c6b9cb77",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 2
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2f01d2c7_49ef4819",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-17T20:37:56Z",
+      "side": 1,
+      "message": "I promoted it to the common section for two reasons:\n\n1) DEVTMPFS_MOUNT is always needed for the UML flow, because debian\u0027s initramfs has been bypassed and the filesystem image lacks needed device nodes. This option won\u0027t do anything on the QEMU flow, but it also won\u0027t break anything, because we are using an initramfs (which inhibits automount).\n\n2) DEVTMPFS is needed for both UML and QEMU flows, and it isn\u0027t a \u0027default y\u0027 option.",
+      "parentUuid": "428f8103_c6b9cb77",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 69
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca32a550_def585e8",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76fb733d_32689d02",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-05-17T20:37:56Z",
+      "side": 1,
+      "message": "I see it. Put this in a better position in the latest upload.",
+      "parentUuid": "ca32a550_def585e8",
+      "range": {
+        "startLine": 46,
+        "startChar": 18,
+        "endLine": 46,
+        "endChar": 32
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
