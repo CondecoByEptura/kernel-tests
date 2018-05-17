@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49fb76f8_7cf5d17a",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-17T13:18:56Z",
+      "side": 1,
+      "message": ", so it must be passed in on the make command line.",
+      "range": {
+        "startLine": 222,
+        "startChar": 57,
+        "endLine": 222,
+        "endChar": 58
+      },
+      "revId": "83829934454a0e14a7696174e95826cb8424878e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba45db0_e1ce5e67",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-05-17T13:18:56Z",
+      "side": 1,
+      "message": "Can you phrase this comment in the form of a TODO that explains when it will be possible to remove this hack?",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 44
+      },
+      "revId": "83829934454a0e14a7696174e95826cb8424878e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
