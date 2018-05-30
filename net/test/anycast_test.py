@@ -94,6 +94,8 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
     thread = CloseFileDescriptorThread(self.tuns[netid])
     thread.start()
     time.sleep(0.1)
+    thread.join(0.1)
+    self.assertFalse(thread.isAlive())
 
     # Make teardown work.
     del self.tuns[netid]
