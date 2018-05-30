@@ -93,7 +93,10 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
     # This will hang if the kernel has the bug.
     thread = CloseFileDescriptorThread(self.tuns[netid])
     thread.start()
-    time.sleep(0.1)
+    # What we're doing here is to wait up to 0.5 seconds
+    # for the thread to finish,
+    # but continue and fail the test if the thread hangs.
+    thread.join(0.5)
 
     # Make teardown work.
     del self.tuns[netid]
