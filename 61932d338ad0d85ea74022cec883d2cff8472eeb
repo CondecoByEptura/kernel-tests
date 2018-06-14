@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5699b251_9dd8e0df",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-14T10:29:15Z",
+      "side": 1,
+      "message": "I agree that using only thread.join is better. Maybe replace this with something higher like 0.3 or 0.5 and remove the time.sleep() above? Also add a comment to explain that what we\u0027re doing is to wait up to 0.5 seconds for the thread to finish, but continue and fail the test if the thread hangs.",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "61932d338ad0d85ea74022cec883d2cff8472eeb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
