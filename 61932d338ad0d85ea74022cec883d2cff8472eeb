@@ -22,6 +22,30 @@
       "revId": "61932d338ad0d85ea74022cec883d2cff8472eeb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "955addd9_e250a1f6",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1041813
+      },
+      "writtenOn": "2018-06-15T00:34:31Z",
+      "side": 1,
+      "message": "updated as your suggestions here, please help to check again.",
+      "parentUuid": "5699b251_9dd8e0df",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "61932d338ad0d85ea74022cec883d2cff8472eeb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
