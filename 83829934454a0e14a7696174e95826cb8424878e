@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ef22f69c_965331c5",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-18T00:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "058de9f1_c20daea8",
+      "range": {
+        "startLine": 222,
+        "startChar": 57,
+        "endLine": 222,
+        "endChar": 58
+      },
+      "revId": "83829934454a0e14a7696174e95826cb8424878e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ba45db0_e1ce5e67",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "9ba45db0_e1ce5e67",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 44
+      },
+      "revId": "83829934454a0e14a7696174e95826cb8424878e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fcb3a59_4940d24e",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-18T00:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84bbed2b_d064cc57",
       "range": {
         "startLine": 224,
         "startChar": 0,
