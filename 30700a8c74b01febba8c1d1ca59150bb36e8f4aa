@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83c77003_e1d8eba0",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Given that we construct most of $cmdline much later in this script, it seems like it would make things clearer to initialize and construct it all together later on instead of starting to touch it here.\n\nSo here you could just set nowrite\u003d1, and then later on, when constructing cmdline, add \"ro\" if nowrite is set.",
+      "range": {
+        "startLine": 102,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 16
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06231244_3d6f6b89",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Pre-existing, but... do you know if this comment is correct? For example, is it obviously incorrect to expect that exporting ARCH\u003d and SUBARCH\u003d will do anything?",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 49
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94f429e7_f45825a0",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Is this an input parameter to the script? If so, can/should we make this a command line option?",
+      "range": {
+        "startLine": 211,
+        "startChar": 7,
+        "endLine": 211,
+        "endChar": 19
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f64c57c_a3189d33",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "I think \"make olddefconfig\" works since at least 3.10, so we can delete this.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 3
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "869ea7ef_512dab9a",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Nit: this seems clear enough that it doesn\u0027t need a comment.",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 63
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d204b7b_8246df70",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Any reason not to use a file in the plan9 filesystem? Is it so to avoid writing to the source tree when running the tests? (This script already writes to the source tree to download the filesystem image, but perhaps that\u0027s a different problem.) In any case, might want to mention the reason in this comment.",
+      "range": {
+        "startLine": 274,
+        "startChar": 44,
+        "endLine": 274,
+        "endChar": 74
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb85ad5_fcb99382",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Does this guarantee that the device will never be modified even if the VM attempts to mount it read-write? This option is used by parallel_tests.sh, which reuses the same fs image across an arbitrary number of parallel VM executions to catch flaky tests.",
+      "range": {
+        "startLine": 280,
+        "startChar": 16,
+        "endLine": 280,
+        "endChar": 27
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c46648c_7ba4d9ad",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Nit: seems like we could get some more interesting races if we had more than 2 threads.",
+      "range": {
+        "startLine": 289,
+        "startChar": 43,
+        "endLine": 289,
+        "endChar": 70
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b3f9db_67a85915",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T14:59:01Z",
+      "side": 1,
+      "message": "Can you explain how this works with the above net_test_exitcode? Is the first \"isa-serial\" device guaranteed to be ttyS1 and thus match the net_test_exitcode setting above?",
+      "range": {
+        "startLine": 290,
+        "startChar": 4,
+        "endLine": 290,
+        "endChar": 43
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
