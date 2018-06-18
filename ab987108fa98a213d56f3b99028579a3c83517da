@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54941db0_24b859f3",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-18T12:14:36Z",
+      "side": 1,
+      "message": "Suggest adding:\n\n    These exist so we can check that the code that implements them has been removed.",
+      "range": {
+        "startLine": 45,
+        "startChar": 51,
+        "endLine": 45,
+        "endChar": 58
+      },
+      "revId": "ab987108fa98a213d56f3b99028579a3c83517da",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
