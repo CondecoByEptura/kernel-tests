@@ -96,6 +96,54 @@
     },
     {
       "key": {
+        "uuid": "5a5af1df_0588f1f8",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-18T00:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d61385_140c0a19",
+      "range": {
+        "startLine": 33,
+        "startChar": 60,
+        "endLine": 33,
+        "endChar": 64
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e20fc974_1a7047e2",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-18T00:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a26fe06_42dc9b7c",
+      "range": {
+        "startLine": 33,
+        "startChar": 65,
+        "endLine": 33,
+        "endChar": 71
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "428f8103_c6b9cb77",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 2
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "0330bbac_2df6662e",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-18T00:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f01d2c7_49ef4819",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 69
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca32a550_def585e8",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 2
@@ -178,6 +250,30 @@
       "side": 1,
       "message": "I see it. Put this in a better position in the latest upload.",
       "parentUuid": "ca32a550_def585e8",
+      "range": {
+        "startLine": 46,
+        "startChar": 18,
+        "endLine": 46,
+        "endChar": 32
+      },
+      "revId": "e6a121dc254900ff3e1da7ba86dc3ea2d7e4df9c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dd46ae1_586a20aa",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-18T00:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76fb733d_32689d02",
       "range": {
         "startLine": 46,
         "startChar": 18,
