@@ -1,0 +1,19 @@
+--- iptables/debian/control
++++ iptables/debian/control
+@@ -13,6 +13,7 @@
+                libnetfilter-conntrack3,
+                libnfnetlink-dev,
+                libnftnl-dev,
++               libpcap-dev,
+                libtool (>= 2.2.6)
+ Standards-Version: 4.1.3
+ Homepage: http://www.netfilter.org/
+--- iptables/debian/rules
++++ iptables/debian/rules
+@@ -10,5 +10,5 @@
+ 	dh $@ --with autoreconf
+ 
+ override_dh_auto_configure:
+-	dh_auto_configure -- --disable-libipq --enable-devel \
++	dh_auto_configure -- --disable-libipq --enable-devel --enable-bpf-compiler \
+ 			--libdir=$(LIB_DIR) --with-xtlibdir=$(LIB_DIR)/xtables
