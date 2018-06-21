@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "bb218893_4f81fc40",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-21T15:18:54Z",
+      "side": 1,
+      "message": "Ah, of course.",
+      "parentUuid": "2efb8bf3_311f3292",
+      "range": {
+        "startLine": 211,
+        "startChar": 7,
+        "endLine": 211,
+        "endChar": 19
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f64c57c_a3189d33",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 8
@@ -272,6 +296,30 @@
       "side": 1,
       "message": "I\u0027ll update the comment. I think a serial port is probably better for a number of reasons.\n\n1) It\u0027s probably better if we can avoid writing to the host filesystem unless absolutely necessary. I had enough pain getting the flags to qemu right to make permissions and groups (sort of) work for manual edits.\n\n2) The serial port file gets initialized (emptied) by qemu when it starts up, which saves some scripting foo.\n\n3) The solution is more extensible to future use cases that might not have 9p or need to mount an external filesystem. The exitcode serial port is nearly functionally equivalent to the UML /proc/exitcode feature.",
       "parentUuid": "8d204b7b_8246df70",
+      "range": {
+        "startLine": 274,
+        "startChar": 44,
+        "endLine": 274,
+        "endChar": 74
+      },
+      "revId": "30700a8c74b01febba8c1d1ca59150bb36e8f4aa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a365bbb_71c37a46",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-21T15:18:54Z",
+      "side": 1,
+      "message": "Thanks for the clear comment.",
+      "parentUuid": "c62952a1_096f0080",
       "range": {
         "startLine": 274,
         "startChar": 44,
