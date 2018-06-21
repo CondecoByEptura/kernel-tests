@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "153e727e_100bf71c",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-21T03:45:10Z",
+      "side": 1,
+      "message": "git is not required any more. I will remove it.",
+      "revId": "7ec90165e83dade30958b108ef26572837df2a89",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
