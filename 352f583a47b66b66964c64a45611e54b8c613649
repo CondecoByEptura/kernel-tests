@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73d054e8_0b219da9",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-06-25T20:11:13Z",
+      "side": 1,
+      "message": "Suggest testTunnelModeUpdateActiveSAOutputMark\n\nAlso, a comment that output marks are unused in Transport Mode would be nice.",
+      "range": {
+        "startLine": 803,
+        "startChar": 6,
+        "endLine": 803,
+        "endChar": 29
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ec08ea7_6dda1d38",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-06-25T20:11:13Z",
+      "side": 1,
+      "message": "Should we just use TEST_SPI?",
+      "range": {
+        "startLine": 806,
+        "startChar": 12,
+        "endLine": 806,
+        "endChar": 18
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e7cb0cf_5f2e21b0",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-06-25T20:11:13Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem like we\u0027re calling s.connect() here; perhaps this comment is out of date?",
+      "range": {
+        "startLine": 809,
+        "startChar": 0,
+        "endLine": 809,
+        "endChar": 48
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
