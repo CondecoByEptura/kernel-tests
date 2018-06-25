@@ -17,6 +17,7 @@
 import ctypes
 import ctypes.util
 import os
+import re
 import socket
 import struct
 
@@ -80,7 +81,7 @@ libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 def LinuxVersion():
   # Example: "3.4.67-00753-gb7a556f".
   # Get the part before the dash.
-  version = os.uname()[2].split("-")[0]
+  version = re.search("^[0-9.]*", os.uname()[2]).group()
   # Convert it into a tuple such as (3, 4, 67). That allows comparing versions
   # using < and >, since tuples are compared lexicographically.
   version = tuple(int(i) for i in version.split("."))
