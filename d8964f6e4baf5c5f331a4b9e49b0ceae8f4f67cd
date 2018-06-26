@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c425ef5_b1ed4e7a",
+        "filename": "net/test/csocket.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-26T04:41:08Z",
+      "side": 1,
+      "message": "Please also add an example of the type of string that this code currently fails to parse. That way, we can avoid this type of failure in the future.\n\nI believe the one in the bug was \"4.4.135+\", so maybe just add that as an example?",
+      "range": {
+        "startLine": 82,
+        "startChar": 36,
+        "endLine": 82,
+        "endChar": 37
+      },
+      "revId": "d8964f6e4baf5c5f331a4b9e49b0ceae8f4f67cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
