@@ -1,0 +1,8 @@
+Verified+1: Hsin-Yi Chen <hsinyichen@google.com>
+Code-Review+2: Lorenzo Colitti <lorenzo@google.com>
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Submitted-by: Hsin-Yi Chen <hsinyichen@google.com>
+Submitted-at: Tue, 26 Jun 2018 07:49:50 +0000
+Reviewed-on: https://android-review.googlesource.com/708878
+Project: kernel/tests
+Branch: refs/heads/master
