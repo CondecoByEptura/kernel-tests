@@ -1,0 +1,486 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11cbf45a_149ba237",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Generally I prefer to use #!/bin/bash here to protect against the script doing the wrong thing due to subtle differences in behaviour between different shells. (Sometimes I\u0027ve seen systems where /bin/sh is dash, for example.) Might want to do that here too. If you do, don\u0027t forget the other scripts as well.",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 9
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff45b33_981ee891",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "If we think it\u0027s a good idea for the image files we generate to contain the generation date, then why require that the user pass in the image name?\n\nMaybe default to net_test.rootfs.`date +%Y%m%d` if no image name was specified? I suppose in that case you can\u0027t make the distro name (wheezy, stretch) optional without having an arg parsing loop.\n\nOr always just pick the name to be net_test.rootfs.`date +%Y%m%d` and remove the parameter entirely?\n\nNo strong opinions; what you have is fine.",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7fccd6e_05828ff7",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Should this be created using mktemp or some such? Do you need a trap to delete it when the script exits? Or is leaving in-progress results in workdir intended, so the script can resume from where it left off?",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c237066_a791aa9e",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "What you have here is fine, but out of curiosity, any reason not to do something like:\n\n    for path in $(cat /proc/mounts | cut -d \" \" -f2 | grep $workdir); do\n        sudo umount $path 2\u003e/dev/null || true\n    done",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f82d0ad_89aae56b",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Ditto, should this be coming from mktemp?",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d180d5f_2fa78e01",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Out of curiosity, is there a difference between /proc/self/mounts and /proc/mounts? Do you do this because the process might be in a mount namespace?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a42701a_0a3ddb3d",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Do we want to add some safety measure here, such as fail if we somehow detect we\u0027re not in the chroot? I suppose we do have set -e.",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbfcea85_9e5028bf",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Does this need a license header?",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94168081_64f250c7",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "What about /sys? IIRC the net_test scripts mount it. Is it unneeded?",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be7452c_6d4495ef",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "This may be obvious to anyone reading this code, but still... consider adding a comment along that says that if /proc/exitcode exists, we assume UML and otherwise we assume qemu.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97fd633f_d76179ed",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Use spaces instead?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23f35e71_be212767",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Use spaces?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff797f58_2a335696",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "I\u0027m surprised that these aren\u0027t there already. Is this file empty when the bootstrap scripts finish?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc0c3bf_02d64142",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Out of curiosity, what\u0027s the problem? Does it really not work at all? If there\u0027s a workaround we can apply in the tests, that\u0027s an option too.",
+      "range": {
+        "startLine": 54,
+        "startChar": 65,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3863560_1af2fc39",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "If we run this script in the future, will the version of these headers change? Even if they do, will that matter other than making this comment inaccurate?",
+      "range": {
+        "startLine": 76,
+        "startChar": 42,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19b740b4_11c002f2",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Can we use a tag such as \"android-p-preview-3\" or \"android-8.1.0_r30\" here? That seems cleaner and more maintainable than an arbitrary SHA.",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e321f9a_f1006b1f",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Might want to add to this comment that we\u0027ll need to update this when we merge down a newer iptables from upstream.\n\nDo you anticipate problems when we do that, btw? Are we just being lucky here that debian has a build file for 1.6.1 which is the version we happen to be using in Android at the moment? If this part of the script fails when we do a future mergedown, will it give a clear error, and is there a way to run just this part in isolation, or do we always have to run the whole process to see if we have a compatible debian build file?",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a9f7005_d71a91b4",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Is there a reason we don\u0027t simply install all the .debs in this directory? That way we won\u0027t need to know what they are if a future iptables package is split out differently.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44311a5c_cb58ee87",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Ditto, put this at the beginning?",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 23
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699e9ab2_dcb519cf",
+        "filename": "net/test/rootfs/wheezy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Is it feasible/reasonable to abort if we\u0027re obviously not in a chroot?",
+      "range": {
+        "startLine": 18,
+        "startChar": 35,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7bdbc67_a41a23a7",
+        "filename": "net/test/rootfs/wheezy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Well, actually the original rootfs was created by hand in a way that was much more primitive and less reproducible than this script. :-)",
+      "range": {
+        "startLine": 21,
+        "startChar": 64,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61d42006_550eacfc",
+        "filename": "net/test/rootfs/wheezy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-27T15:58:07Z",
+      "side": 1,
+      "message": "Since this is a library, why not source it at the beginning?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
