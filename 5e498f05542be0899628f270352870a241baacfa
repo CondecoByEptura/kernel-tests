@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07bac949_a25db3f9",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11cbf45a_149ba237",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 9
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ff45b33_981ee891",
         "filename": "net/test/build_rootfs.sh",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beb9a3e5_36836245",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff45b33_981ee891",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "45d44b38_4719aa01",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "I\u0027ve changed both cases to use mktemp -d, however I\u0027m not a huge fan of mktemp because I think it unreasonably assumes that the user has plenty of space on their root partition or tmpfs mount, when actually they\u0027re much more likely to have it in a location they can run the script. \n\n(Maybe later we could make it configurable.)",
+      "parentUuid": "f7fccd6e_05828ff7",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c237066_a791aa9e",
         "filename": "net/test/build_rootfs.sh",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05ae2ae2_566839bd",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c237066_a791aa9e",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ee006d91_a1d8e639",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f82d0ad_89aae56b",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 14
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d180d5f_2fa78e01",
         "filename": "net/test/rootfs/common.sh",
         "patchSetId": 3
@@ -137,6 +257,30 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "368d969e_5328a521",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "There\u0027s no difference between the files in Linux, afaik. The namespace should be handled before the user reads either proc file.\n\nI think systemd uses this file instead because then it can work with the procfs \"hidepid\u003d2\" feature, but I\u0027m not 100% sure.\n\nThe reason I use exactly this file, and a relative path instead of an absolute one, is because systemd readlink()s the symlink at startup, and will rewrite it if it is not exactly \"../proc/self/mounts\". If we\u0027re a read-only root, rewriting this symlink fails.",
+      "parentUuid": "6d180d5f_2fa78e01",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "afb60517_baa1eda4",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "I think this is fine. We just disabled the root password, rewrote critical files in /etc, and other things we can\u0027t reasonably unwind.\n\nThis particular file is a fragment anyway, even if somebody did run it, it wouldn\u0027t do anything.",
+      "parentUuid": "3a42701a_0a3ddb3d",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbfcea85_9e5028bf",
         "filename": "net/test/rootfs/net_test.sh",
         "patchSetId": 3
@@ -180,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "c37592c0_4c77b753",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbfcea85_9e5028bf",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94168081_64f250c7",
         "filename": "net/test/rootfs/net_test.sh",
         "patchSetId": 3
@@ -194,6 +380,24 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ab84e85_a48839ae",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "It isn\u0027t needed, but I added it anyway.",
+      "parentUuid": "94168081_64f250c7",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "9165485e_8ec174ca",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6be7452c_6d4495ef",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97fd633f_d76179ed",
         "filename": "net/test/rootfs/net_test.sh",
         "patchSetId": 3
@@ -240,6 +468,30 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "838106c6_44ac8446",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97fd633f_d76179ed",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -266,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "d8268e25_a11f3299",
+        "filename": "net/test/rootfs/net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23f35e71_be212767",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff797f58_2a335696",
         "filename": "net/test/rootfs/stretch.sh",
         "patchSetId": 3
@@ -289,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "3946c502_229523b1",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "The file only contains the suite it was configured with, which in this case would be \"stretch\". It won\u0027t contain a deb-src line. I think because we are adding so many additional suites, I just decided to rewrite the file to make sure it was explicitly defined which would be available.",
+      "parentUuid": "ff797f58_2a335696",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccc0c3bf_02d64142",
         "filename": "net/test/rootfs/stretch.sh",
         "patchSetId": 3
@@ -300,6 +600,30 @@
       "writtenOn": "2018-06-27T15:58:07Z",
       "side": 1,
       "message": "Out of curiosity, what\u0027s the problem? Does it really not work at all? If there\u0027s a workaround we can apply in the tests, that\u0027s an option too.",
+      "range": {
+        "startLine": 54,
+        "startChar": 65,
+        "endLine": 54,
+        "endChar": 71
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8126e5f3_759f4f10",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Symptom of the problem is this:\n\nTraceback (most recent call last):\n  File \"./multinetwork_test.py\", line 764, in testManyRIOs\n    self.SendRIO(RTLIFETIME, PLEN, prefix, PRF)\n  File \"./multinetwork_test.py\", line 604, in SendRIO\n    self.SendRA(self.NETID, options\u003d(options,))\n  File \"/host/multinetwork_base.py\", line 259, in SendRA\n    posix.write(cls.tuns[netid].fileno(), str(ra))\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 277, in __str__\n    return self.build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 354, in build\n    p \u003d self.do_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 344, in do_build\n    pay \u003d self.do_build_payload()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 336, in do_build_payload\n    return self.payload.do_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 344, in do_build\n    pay \u003d self.do_build_payload()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 336, in do_build_payload\n    return self.payload.do_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 344, in do_build\n    pay \u003d self.do_build_payload()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 336, in do_build_payload\n    return self.payload.do_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 344, in do_build\n    pay \u003d self.do_build_payload()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 336, in do_build_payload\n    return self.payload.do_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 344, in do_build\n    pay \u003d self.do_build_payload()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 336, in do_build_payload\n    return self.payload.do_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 341, in do_build\n    pkt \u003d self.self_build()\n  File \"/usr/lib/python2.7/dist-packages/scapy/packet.py\", line 332, in self_build\n    p \u003d f.addfield(self, p, val)\n  File \"/usr/lib/python2.7/dist-packages/scapy/fields.py\", line 72, in addfield\n    return s+struct.pack(self.fmt, self.i2m(pkt,val))\n  File \"/usr/lib/python2.7/dist-packages/scapy/fields.py\", line 642, in i2m\n    f \u003d fld.i2len(pkt, fval)\n  File \"/usr/lib/python2.7/dist-packages/scapy/layers/inet6.py\", line 1680, in i2len\n    return len(self.i2m(pkt, x))\n  File \"/usr/lib/python2.7/dist-packages/scapy/layers/inet6.py\", line 1689, in i2m\n    x \u003d inet_pton(socket.AF_INET6, x)\nerror: illegal IP address string passed to inet_pton\n\nI didn\u0027t bother to root cause because I found hits in other projects that had the same problem with 2.3.3 and pinned back to 2.3.2. When I found 2.4.0 worked too, I just used that.\n\nIt could be this: https://github.com/secdev/scapy/pull/843/commits/48d45e384c953c54be81f89fa4d5fdef1d88c6d1\n\nBut that says it\u0027s to do with Python3, I\u0027m not really sure if that\u0027s true though.\n\nFor now, I don\u0027t think this is worth worrying too much about. If you want to try to reproduce it, you can just extract scapy under a \u0027scapy\u0027 directory in the same directory as the net tests and the filesystems will use it instead of the system-installed scapy:\n\n$ ls scapy/__init__.py\nscapy/__init__.py",
+      "parentUuid": "ccc0c3bf_02d64142",
       "range": {
         "startLine": 54,
         "startChar": 65,
@@ -335,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "927ebbc5_658b0372",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "These headers are already the \u0027bleeding edge\u0027 coming from stretch-backports. I think it\u0027s unlikely that they will get bumped again, but if they do, it shouldn\u0027t make a difference. \n\nPinning a package to an exact version isn\u0027t really supported by Debian, because the mirror will drop the package a while after it is removed from the index, so when we use a moving target like \u0027stretch-backports\u0027 we don\u0027t have much choice.\n\nI don\u0027t anticipate that this will break, as the point of \u0027stretch-backports\u0027 is to bump up key fast-moving packages without breaking glibc/build-essential/release binary abi (they cannot and do not bump a glibc version), so if it doesn\u0027t break glibc it shouldn\u0027t break iptables.",
+      "parentUuid": "b3863560_1af2fc39",
+      "range": {
+        "startLine": 76,
+        "startChar": 42,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19b740b4_11c002f2",
         "filename": "net/test/rootfs/stretch.sh",
         "patchSetId": 3
@@ -352,6 +700,24 @@
     },
     {
       "key": {
+        "uuid": "56bb15b4_e1461dec",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19b740b4_11c002f2",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e321f9a_f1006b1f",
         "filename": "net/test/rootfs/stretch.sh",
         "patchSetId": 3
@@ -366,6 +732,24 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb039e88_79dd7a12",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "If you check on salsa (https://salsa.debian.org/pkg-netfilter-team/pkg-iptables), iptables is an actively maintained debian package, and they have not skipped a version of iptables in the Debian packaging since it was migrated to git. Looking further back on the developer page (https://tracker.debian.org/pkg/iptables) they did skip over 1.4.15, but that seems to be it in the last ~6 years of packaging.\n\nThe packaging isn\u0027t doing that much for iptables so I think it\u0027s unlikely the older version of the packaging wouldn\u0027t work for a newer release, and we can always inject a patch to update it.\n\n\u003e If this part of the script fails when we do a future mergedown, will it give a clear error\n\nNo, per policy, the \u0027debian\u0027 directory must be self-contained, so it will never create merge problems, and any incompatibility will only be detected at build time.\n\n\u003e is there a way to run just this part in isolation, or do we always have to run the whole process to see if we have a compatible debian build file?\n\nNot really. There are a few ways it can fail which make not checking this for updates a little more difficult. 1) The source package must exactly match the expected name. 2) The patches, if any, must apply without any hunk mismatches. 3) The dependencies must all be installed and explicitly listed in the debian control file.\n\nI think this will end up being pretty robust, and if it is not, we can check the debian packaging into our fork of iptables and remove this code. I would strongly suggest against doing that for now (because I think it is actually *more* likely to bitrot).",
+      "parentUuid": "1e321f9a_f1006b1f",
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -392,6 +776,30 @@
     },
     {
       "key": {
+        "uuid": "3d79c354_4d0f031d",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "This is avoiding installing the debug symbol packages, which are large. We can do it differently with a find | xargs.",
+      "parentUuid": "4a9f7005_d71a91b4",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 22
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44311a5c_cb58ee87",
         "filename": "net/test/rootfs/stretch.sh",
         "patchSetId": 3
@@ -412,6 +820,30 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9c91534_6f2ee3f0",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44311a5c_cb58ee87",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 23
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -438,6 +870,30 @@
     },
     {
       "key": {
+        "uuid": "ff613486_61b04df9",
+        "filename": "net/test/rootfs/wheezy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "699e9ab2_dcb519cf",
+      "range": {
+        "startLine": 18,
+        "startChar": 35,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7bdbc67_a41a23a7",
         "filename": "net/test/rootfs/wheezy.sh",
         "patchSetId": 3
@@ -461,6 +917,30 @@
     },
     {
       "key": {
+        "uuid": "5599c1a4_e0448c26",
+        "filename": "net/test/rootfs/wheezy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e7bdbc67_a41a23a7",
+      "range": {
+        "startLine": 21,
+        "startChar": 64,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61d42006_550eacfc",
         "filename": "net/test/rootfs/wheezy.sh",
         "patchSetId": 3
@@ -481,6 +961,30 @@
       "revId": "5e498f05542be0899628f270352870a241baacfa",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bbd1531_39b876ab",
+        "filename": "net/test/rootfs/wheezy.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-06-27T19:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61d42006_550eacfc",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
