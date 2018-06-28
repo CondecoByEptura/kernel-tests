@@ -22,6 +22,30 @@
       "revId": "38e357c7d4c0533286c4d0505154199878b245b7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d7b308e_9809d965",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1041813
+      },
+      "writtenOn": "2018-06-28T12:36:52Z",
+      "side": 1,
+      "message": "sorry, was not aware of the cleanup steps, updated with this check line removed already, please help to check it again.",
+      "parentUuid": "c51c4fe1_0e556a8d",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "38e357c7d4c0533286c4d0505154199878b245b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
