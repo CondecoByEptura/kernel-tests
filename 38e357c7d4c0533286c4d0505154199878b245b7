@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c51c4fe1_0e556a8d",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-06-28T09:13:53Z",
+      "side": 1,
+      "message": "If the thread hangs, then this assert will fail the test and we\u0027ll skip the cleanup steps below.\n\nWhy add this assert here? We have an equivalent assert at line 110, right?",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 38
+      },
+      "revId": "38e357c7d4c0533286c4d0505154199878b245b7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
