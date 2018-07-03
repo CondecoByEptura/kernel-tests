@@ -14,3 +14,21 @@
 
 def GetPadLength(block_size, length):
   return (block_size - (length % block_size)) % block_size
+
+
+def InjectParameterizedTest(cls, param_list, name_generator):
+  param_test_names = [name for name in dir(cls) if name.startswith("ParamTest")]
+
+  for test_name in param_test_names:
+    func = getattr(cls, test_name)
+
+    for params in param_list:
+      def TestClosure(self):
+        func(self, *params)
+
+      param_string = name_generator(*params)
+      new_name = "%s_%s" % (func.__name__.replace("ParamTest", "test"),
+                            param_string)
+      new_name = new_name.replace("(", "-").replace(")", "")  # remove parens
+
+      setattr(cls, new_name, TestClosure)
