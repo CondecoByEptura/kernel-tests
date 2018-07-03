@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "863e323e_9acaf3f6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:54:00Z",
+      "side": 0,
+      "message": "Why rename this from IF_ID to NETID? It\u0027s still the xfrmi ID, right?",
+      "range": {
+        "startLine": 44,
+        "startChar": 45,
+        "endLine": 44,
+        "endChar": 61
+      },
+      "revId": "b4a20296116dd27c622f1708373a351f6b2e5a44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}

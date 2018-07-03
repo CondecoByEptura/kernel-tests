@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e00facde_9b70287e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:54:00Z",
+      "side": 1,
+      "message": "As I might have said before I think that given that these are conformance tests, we should test input and output on the same interface in the same test method. A test that checks input separately from output is less valuable than a test that tests both at the same time, because it\u0027s less realistic.\n\nThis doesn\u0027t matter for the floating tunnel mode tests because those won\u0027t be a production configuration. But for VTI and xfrmi, we want the tests to be as close to reality as possible.\n\nAdditionally, it has the benefit of separating the configuration of the test (i.e., constructing the tunnels) from the logic of the tests.",
+      "range": {
+        "startLine": 571,
+        "startChar": 6,
+        "endLine": 571,
+        "endChar": 23
+      },
+      "revId": "32390a2d48cca39d28c3709d29d3ba46711c65c4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1285f428_a68e5ff3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:54:00Z",
+      "side": 1,
+      "message": "Why do we need to maintain packet sequence numbers? The idea was that the tunnel itself would know how many packets it sent/received, and would store those numbers in self.rx and self.tx. Or is it a per-SA counter? If so, it still seems better to store it in some class instead of in return values and local variables.",
+      "revId": "32390a2d48cca39d28c3709d29d3ba46711c65c4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "328d01cc_b07d4694",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:54:00Z",
+      "side": 1,
+      "message": "Can you add a comment explaining why we do this? If we already have the outer packet (pkt), then why do we need to tell _GetNullAuthCryptTunnelModePkt what to build based on pkt? Also, if pkt is the outer packet, then why do we take its id/flags in an \"if inner_version \u003d\u003d 4\"? The version of pkt is the outer version, not the inner version.",
+      "range": {
+        "startLine": 599,
+        "startChar": 0,
+        "endLine": 605,
+        "endChar": 66
+      },
+      "revId": "32390a2d48cca39d28c3709d29d3ba46711c65c4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54481110_b6d38345",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:54:00Z",
+      "side": 1,
+      "message": "Is this commented-out code? Should it be removed?",
+      "range": {
+        "startLine": 640,
+        "startChar": 0,
+        "endLine": 641,
+        "endChar": 43
+      },
+      "revId": "32390a2d48cca39d28c3709d29d3ba46711c65c4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
