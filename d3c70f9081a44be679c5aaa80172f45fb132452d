@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1b5ba93_1bfccab6",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T17:00:50Z",
+      "side": 1,
+      "message": "Blank line before here.",
+      "revId": "d3c70f9081a44be679c5aaa80172f45fb132452d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d01760_2752a54b",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T17:00:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is a good name. It\u0027s too generic for what we have here at the moment, since this only tests the reject target. Maybe IptablesRejectTargetTest? Or is the idea that this test will grow over time to match our iptables rules?\n\nThe name would probably be easier to come up with if this class had a docstring explaining what it\u0027s trying to test.",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 18
+      },
+      "revId": "d3c70f9081a44be679c5aaa80172f45fb132452d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c63cce_f539ee73",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T17:00:50Z",
+      "side": 1,
+      "message": "Given that these IP addresses are going to end up on real devices on real networks in labs, suggest using IP address ranges that aren\u0027t valid global addresses, such as 192.0.2.0/24 and 2001:db8::/32.",
+      "range": {
+        "startLine": 28,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "d3c70f9081a44be679c5aaa80172f45fb132452d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a06d7b43_bacd3466",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T17:00:50Z",
+      "side": 1,
+      "message": "Style guide says methods are SentenceCase. (methods starting with test, and setUp / tearDown, are exceptions as they are required by the framework)",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 7
+      },
+      "revId": "d3c70f9081a44be679c5aaa80172f45fb132452d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
