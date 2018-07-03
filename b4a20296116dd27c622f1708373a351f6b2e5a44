@@ -22,6 +22,30 @@
       "revId": "b4a20296116dd27c622f1708373a351f6b2e5a44",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03fb5c7f_40515d0a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-03T21:38:18Z",
+      "side": 0,
+      "message": "I tried to unify the VTI and XFRMI offsets, since they\u0027re never used together. I can revert or rename these if it\u0027s unclear.",
+      "parentUuid": "863e323e_9acaf3f6",
+      "range": {
+        "startLine": 44,
+        "startChar": 45,
+        "endLine": 44,
+        "endChar": 61
+      },
+      "revId": "b4a20296116dd27c622f1708373a351f6b2e5a44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
