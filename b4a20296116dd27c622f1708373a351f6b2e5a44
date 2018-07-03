@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c52ba2d6_b602e42d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:27:58Z",
+      "side": 1,
+      "message": "The more I see this the more I think we should not duplicate this code.\n\nIf we\u0027re going to use this type of parameterized test more often, then that should not occur via copy+pasting code with adjustments like this, but by having code that can be reused.\n\nIt seems like the input of the parameterization is just a list of tuples of args - in this case [(4, 4), (4, 6), (6, 4), (6, 6)] - and a way to name the test method for a given tuple - in this case something like lambda args: \"IPv%d_inIPv%d\" % (args[0], args[1]). If so, then that can be achieved simply by passing those tuples into the InjectParameterizedTests method, which could then live in its own utility file.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 15
+      },
+      "revId": "b4a20296116dd27c622f1708373a351f6b2e5a44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e81bf30b_98df5bb0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-03T16:27:58Z",
+      "side": 1,
+      "message": "This is just tunneling with floating policies without a tunnel interface, right? If so then the wording here is incorrect. It doesn\u0027t represent the tunnel network because there is no such concept. It represents the netId on which the app is sending the cleartext traffic.",
+      "range": {
+        "startLine": 163,
+        "startChar": 65,
+        "endLine": 164,
+        "endChar": 50
+      },
+      "revId": "b4a20296116dd27c622f1708373a351f6b2e5a44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
