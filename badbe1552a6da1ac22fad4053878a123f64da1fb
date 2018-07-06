@@ -1,0 +1,371 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7216881_5c246e6a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Nit: this is never used for the netId. Rename back to _TEST_XFRM_IF_ID?",
+      "range": {
+        "startLine": 39,
+        "startChar": 11,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c209dd0c_858ea92b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Nit: the actual on-device code reserves high numbers for tunnel interface netId, right? If so, we might want to do the same here for extra realism. In these tests, \"physical\" netIds are limited to be \u003c\u003d 254 because of the way their IPv4 addresses are generated, but hopefully that doesn\u0027t apply to these netIds.",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4517def1_ef4c5072",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "If you rename auth_algo to auth and crypt_algo to crypt will this fit on fewer lines?",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 61
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245e34ae_4e891a3c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "xfrm interfaces don\u0027t have a version. Maybe explain here that we only use XFRM interfaces one-to-one with tunnel interfaces, for which the version is the IP version of the tunnel IP addresses?",
+      "range": {
+        "startLine": 373,
+        "startChar": 9,
+        "endLine": 373,
+        "endChar": 16
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "725da52a_d00fd007",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Most of this code seems to be identical to the VTI code. Maybe refactor out to a common IpSecInterface or BaseIpSecInterface superclass?",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 61
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3c3877b_ddc52926",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Explain that we group tunnels by version because we want to ensure we always test at least one IPv4 and one IPv6 tunnel?",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 22
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0347da12_4fa71547",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Use ( instead of \\ for multi-line statements because it continues to be correct when you re-flow. Also, I think this could be more readable:\n\n  if version \u003d\u003d 4:\n    addrs \u003d (net_test.IPV4_ADDR, net_test.IPV4_ADDR2)\n  else:\n    addrs \u003d (net_test.IPV6_ADDR, net_test.IPV6_ADDR2)\n\n  remote, null_crypt_remote \u003d addrs if (i % 2) else tuple(reversed(addrs))",
+      "range": {
+        "startLine": 441,
+        "startChar": 38,
+        "endLine": 441,
+        "endChar": 39
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b0fa602_2c6d76cd",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Is this __class__. necessary? I thought class members automatically became instance members, so just plain \"self.\" should work.",
+      "range": {
+        "startLine": 471,
+        "startChar": 24,
+        "endLine": 471,
+        "endChar": 34
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a000661_a0fadd49",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Out of curiosity, is there a reason we pass this in instead of using tunnel.in_sa? Will it be necessary anyway in a future change?",
+      "range": {
+        "startLine": 549,
+        "startChar": 41,
+        "endLine": 549,
+        "endChar": 48
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37081d96_ca917ff4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "One-line docstring? Something like:\n\n    \"\"\"Test the input path using null auth/crypt.\"\"\"",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b288b6e_6a552558",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Docstring?",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74725ce4_fd89c275",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Will this always be tunnel.out_sa even during rekey?",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 29
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "758d468a_45d42ce0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Now that we have a recent scapy, can we end this suffering by just doing something like:\n\n    ln -s .../external/scapy .\n\nor suchlike? At least for new code that we\u0027re writing now?",
+      "range": {
+        "startLine": 593,
+        "startChar": 46,
+        "endLine": 593,
+        "endChar": 84
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d5c23c6_285b732d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Docstring? Should at least explain how this is different from _CheckTunnelOutput above.",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f9242a_b4070ab8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Docstring?",
+      "range": {
+        "startLine": 659,
+        "startChar": 6,
+        "endLine": 659,
+        "endChar": 22
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5a01a8b_d934beab",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "Should this say \"ipsec interface\"?",
+      "range": {
+        "startLine": 693,
+        "startChar": 43,
+        "endLine": 693,
+        "endChar": 67
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f5f5ee4_10cca667",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T03:06:36Z",
+      "side": 1,
+      "message": "If we tear down the XFRM state during tests like this, then we can\u0027t be confident that input, output and ICMP continue to work on the same tunnel with the same SA. Is there a reason we can\u0027t use a single set of SAs for the null tests and a single set of SAs for the non-null tests?",
+      "range": {
+        "startLine": 697,
+        "startChar": 13,
+        "endLine": 697,
+        "endChar": 25
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
