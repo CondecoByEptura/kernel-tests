@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9dd6311e_3623c21d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-07-06T21:04:04Z",
+      "side": 1,
+      "message": "I don\u0027t see the relationship with transport or tunnel mode. I have to pick one to test it, but afaik there\u0027s no tie-in between this functionality (the update-ability of the SA) and the mode. Thus, I don\u0027t want to suggest a tie-in that doesn\u0027t exist as that will just cause confusion.",
+      "parentUuid": "73d054e8_0b219da9",
+      "range": {
+        "startLine": 803,
+        "startChar": 6,
+        "endLine": 803,
+        "endChar": 29
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ec08ea7_6dda1d38",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b87e95db_077e6d5b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-07-06T21:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ec08ea7_6dda1d38",
+      "range": {
+        "startLine": 806,
+        "startChar": 12,
+        "endLine": 806,
+        "endChar": 18
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e7cb0cf_5f2e21b0",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "352f583a47b66b66964c64a45611e54b8c613649",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "011a335c_85e6f835",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-07-06T21:04:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e7cb0cf_5f2e21b0",
+      "range": {
+        "startLine": 809,
+        "startChar": 0,
+        "endLine": 809,
+        "endChar": 48
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
