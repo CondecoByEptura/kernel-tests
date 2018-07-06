@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "929db69b_8149c5ba",
+        "filename": "net/test/util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T01:59:12Z",
+      "side": 1,
+      "message": "This needs a docstring containing the types of its arguments and examples of how to use it.",
+      "range": {
+        "startLine": 19,
+        "startChar": 60,
+        "endLine": 19,
+        "endChar": 61
+      },
+      "revId": "dc1eaf03a92a877e15473f86f9398d8783d0f324",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da441e31_6c318048",
+        "filename": "net/test/util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T01:59:12Z",
+      "side": 1,
+      "message": "# Find test methods to parameterize.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "dc1eaf03a92a877e15473f86f9398d8783d0f324",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73ab7496_4f400931",
+        "filename": "net/test/util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T01:59:12Z",
+      "side": 1,
+      "message": "# Generate the actual test method.",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "dc1eaf03a92a877e15473f86f9398d8783d0f324",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c9a6734_de6c4a6d",
+        "filename": "net/test/util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T01:59:12Z",
+      "side": 1,
+      "message": "# Give the test method a readable name.",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "dc1eaf03a92a877e15473f86f9398d8783d0f324",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c0caffe_238c72d7",
+        "filename": "net/test/util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-06T01:59:12Z",
+      "side": 1,
+      "message": "# Add the test method to the class.",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "dc1eaf03a92a877e15473f86f9398d8783d0f324",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
