@@ -22,6 +22,30 @@
       "revId": "0f75dd0c319cc7751c7e6f846c6c8b77f1fdcfd1",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7b84370_40b721ca",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1041813
+      },
+      "writtenOn": "2018-07-08T15:14:11Z",
+      "side": 1,
+      "message": "Hi, Lorenzo\nupdated as you suggested, please help to check again.\nThanks,\nYongqin Liu",
+      "parentUuid": "b4f80a39_b55c15be",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 57
+      },
+      "revId": "0f75dd0c319cc7751c7e6f846c6c8b77f1fdcfd1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
