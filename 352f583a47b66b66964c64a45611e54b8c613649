@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "029ae197_b50e9b86",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-09T17:38:13Z",
+      "side": 1,
+      "message": "Valid points. Marking as resolved.",
+      "parentUuid": "9dd6311e_3623c21d",
+      "range": {
+        "startLine": 803,
+        "startChar": 6,
+        "endLine": 803,
+        "endChar": 29
+      },
+      "revId": "352f583a47b66b66964c64a45611e54b8c613649",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ec08ea7_6dda1d38",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 4
