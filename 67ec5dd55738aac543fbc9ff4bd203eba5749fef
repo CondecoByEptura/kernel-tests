@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00eda682_cf0cf87e",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-09T15:56:59Z",
+      "side": 1,
+      "message": "In case this takes a long time, suggest:\n\n   echo \"Removing temporary files...\" \u003e\u00262\n\nor the like.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 1
+      },
+      "revId": "67ec5dd55738aac543fbc9ff4bd203eba5749fef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7856b35b_48f0ff59",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-09T15:56:59Z",
+      "side": 1,
+      "message": "What does this do? If it\u0027s just \"redirect stderr to stdout\", then when does echo write to stderr?",
+      "range": {
+        "startLine": 78,
+        "startChar": 39,
+        "endLine": 78,
+        "endChar": 44
+      },
+      "revId": "67ec5dd55738aac543fbc9ff4bd203eba5749fef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c820ff8c_36da686d",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-09T15:56:59Z",
+      "side": 1,
+      "message": "I like the use of progressive traps that call prior trap functions to do progressive error unwinding. Don\u0027t think I\u0027ve seen this before.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 23
+      },
+      "revId": "67ec5dd55738aac543fbc9ff4bd203eba5749fef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a43ac4a3_82a245d1",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-09T15:56:59Z",
+      "side": 1,
+      "message": "Typo, contaminants.",
+      "revId": "67ec5dd55738aac543fbc9ff4bd203eba5749fef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
