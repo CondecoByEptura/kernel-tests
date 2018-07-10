@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "86a4903f_fd011cd5",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7216881_5c246e6a",
+      "range": {
+        "startLine": 39,
+        "startChar": 11,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c209dd0c_858ea92b",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -39,6 +63,24 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87fa0414_a94cf353",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done. I\u0027ve offset the netids by the start of the reserved range (0xFC00). I\u0027ve also had to subtract that when attempting IP addresses are assigned, but it works with those changes.",
+      "parentUuid": "c209dd0c_858ea92b",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "134df2a9_596d33b2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4517def1_ef4c5072",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 61
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "245e34ae_4e891a3c",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -85,6 +151,30 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f0a4d00_3cf0a46c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "245e34ae_4e891a3c",
+      "range": {
+        "startLine": 373,
+        "startChar": 9,
+        "endLine": 373,
+        "endChar": 16
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "6217dda7_c0384648",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "725da52a_d00fd007",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 61
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c3877b_ddc52926",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -131,6 +245,30 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f84f741_8cfc41f8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c3877b_ddc52926",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 22
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "a61039f7_9f2db383",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done. Turns out I was never using null_crypt_remote.",
+      "parentUuid": "0347da12_4fa71547",
+      "range": {
+        "startLine": 441,
+        "startChar": 38,
+        "endLine": 441,
+        "endChar": 39
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b0fa602_2c6d76cd",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -177,6 +339,30 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034da5d8_d8052990",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b0fa602_2c6d76cd",
+      "range": {
+        "startLine": 471,
+        "startChar": 24,
+        "endLine": 471,
+        "endChar": 34
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "241bbbc3_e0bd9faa",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Yeah; for the full rekey tests, we need to specify which set of SAs are to be used, and in some cases we want to test both the old and new ones. This could be hacked in based on the timings of when we change the tunnel\u0027s sa_info field, but that seems likely to cause potential test bugs.",
+      "parentUuid": "6a000661_a0fadd49",
+      "range": {
+        "startLine": 549,
+        "startChar": 41,
+        "endLine": 549,
+        "endChar": 48
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37081d96_ca917ff4",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -220,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "5d54fbbe_8dcf71cf",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37081d96_ca917ff4",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b288b6e_6a552558",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -234,6 +462,24 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d01552b_4c29849e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b288b6e_6a552558",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "dc091d9b_cf92c3c1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "During rekey, we specify the sa_info that is to be used. This just sets the default, which is out_sa unless rekeying. (I couldn\u0027t find a way to put this as a default, given that it is a field of another parameter.",
+      "parentUuid": "74725ce4_fd89c275",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 29
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "758d468a_45d42ce0",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -283,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "0524c77b_cee64443",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "758d468a_45d42ce0",
+      "range": {
+        "startLine": 593,
+        "startChar": 46,
+        "endLine": 593,
+        "endChar": 84
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d5c23c6_285b732d",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -297,6 +591,24 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e55e824a_5bcda411",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d5c23c6_285b732d",
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -323,6 +635,30 @@
     },
     {
       "key": {
+        "uuid": "df7c7430_40942e0f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f9242a_b4070ab8",
+      "range": {
+        "startLine": 659,
+        "startChar": 6,
+        "endLine": 659,
+        "endChar": 22
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5a01a8b_d934beab",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -346,6 +682,30 @@
     },
     {
       "key": {
+        "uuid": "46fe27c2_5bf32639",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5a01a8b_d934beab",
+      "range": {
+        "startLine": 693,
+        "startChar": 43,
+        "endLine": 693,
+        "endChar": 67
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f5f5ee4_10cca667",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
@@ -366,6 +726,30 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7ab5c17_c4d432d8",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:17:36Z",
+      "side": 1,
+      "message": "My intent behind this was to ensure that each tests maintains isolation, so that a single failure doesn\u0027t cascade and make it harder to debug. I\u0027ve added an additional test (ParamTestVtiEncryptedWithIcmp) to ensure that this works properly.",
+      "parentUuid": "6f5f5ee4_10cca667",
+      "range": {
+        "startLine": 697,
+        "startChar": 13,
+        "endLine": 697,
+        "endChar": 25
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
