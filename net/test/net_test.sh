@@ -19,6 +19,8 @@ if [ "$net_test_mode" != "builder" ]; then
   trap "exec /bin/bash" ERR EXIT
 fi
 
+ln -s ../../../../external/scapy/scapy .
+
 echo -e "Running $net_test $net_test_args\n"
 $net_test $net_test_args
 
