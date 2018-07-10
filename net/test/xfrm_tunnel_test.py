@@ -430,6 +430,28 @@ class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
     with self.assertRaises(IOError):
       self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
 
+  def testAddXfrmInterfaceWithInvalidUnderlyingInterface(self):
+    self.assertRaisesErrno(ENODEV, self.iproute.CreateXfrmInterface, _TEST_XFRM_IFNAME,
+                           _TEST_XFRM_IF_ID, 0xFFFFFFFF)
+
+  def testAddDuplicateXfrmInterfaces(self):
+    try:
+      self.iproute.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
+                                      _LOOPBACK_IFINDEX)
+
+      # Test duplicate interface name
+      self.assertRaisesErrno(EEXIST, self.iproute.CreateXfrmInterface,
+                            _TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID+1,
+                            _LOOPBACK_IFINDEX)
+
+      # Test duplicate IF_ID
+      self.assertRaisesErrno(EEXIST, self.iproute.CreateXfrmInterface,
+                            _TEST_XFRM_IFNAME + "_DUP", _TEST_XFRM_IF_ID,
+                            _LOOPBACK_IFINDEX)
+
+    finally:
+      self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
+
 
 class XfrmInterface(IpSecBaseInterface):
 
