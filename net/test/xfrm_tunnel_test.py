@@ -706,37 +706,38 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
                              _TEST_REMOTE_PORT, False)
 
     # Read a tunneled IP packet on the underlying (outbound) network
-    # verifying that it is an ESP packet.
+    # verifying that it is an ESP packet, and the SPI/sequence numbers
     pkt = self._ExpectEspPacketOn(tunnel.underlying_netid, sa_info.spi,
                                   sa_info.seq_num, None, tunnel.local,
                                   tunnel.remote)
 
-    # Get and update the IP headers on the inner payload so that we can do a simple
-    # comparison of byte data. Unfortunately, due to the scapy version this runs on,
-    # we cannot parse past the ESP header to the inner IP header, and thus have to
-    # workaround in this manner
-    if inner_version == 4:
-      ip_hdr_options = {
-        'id': scapy.IP(str(pkt.payload)[8:]).id,
-        'flags': scapy.IP(str(pkt.payload)[8:]).flags
-      }
-    else:
-      ip_hdr_options = {'fl': scapy.IPv6(str(pkt.payload)[8:]).fl}
+    sa = scapy.SecurityAssociation(
+        scapy.ESP, spi=sa_info.spi, crypt_algo="NULL", crypt_key="")
+    decoded = sa.decrypt(pkt.getlayer(_SCAPY_IP_TYPE[tunnel.version]))
 
-    expected = _GetNullAuthCryptTunnelModePkt(
-        inner_version, local_inner, tunnel.local, local_port, remote_inner,
-        tunnel.remote, _TEST_REMOTE_PORT, sa_info.spi, sa_info.seq_num,
-        ip_hdr_options)
+    # Parse all the different layers
+    outer_ip_hdr = decoded
+    inner_ip_hdr = decoded.payload.getlayer(_SCAPY_IP_TYPE[inner_version])
+    udp_hdr = inner_ip_hdr.getlayer(scapy.UDP)
+    payload = udp_hdr.payload
 
-    # Check outer header manually (Avoids having to overwrite outer header's
-    # id, flags or flow label)
+    # Check packet was sent
     self.assertSentPacket(tunnel, sa_info)
-    self.assertEquals(expected.src, pkt.src)
-    self.assertEquals(expected.dst, pkt.dst)
-    self.assertEquals(len(expected), len(pkt))
 
-    # Check everything else
-    self.assertEquals(str(expected.payload), str(pkt.payload))
+    # Check outer addresses
+    self.assertEquals(tunnel.local, outer_ip_hdr.src)
+    self.assertEquals(tunnel.remote, outer_ip_hdr.dst)
+
+    # Check inner addresses
+    self.assertEquals(local_inner, inner_ip_hdr.src)
+    self.assertEquals(remote_inner, inner_ip_hdr.dst)
+
+    # Check ports
+    self.assertEquals(local_port, udp_hdr.sport)
+    self.assertEquals(_TEST_REMOTE_PORT, udp_hdr.dport)
+
+    # Check payload
+    self.assertEquals(net_test.UDP_PAYLOAD, str(payload))
 
   def _CheckTunnelEncryption(self, tunnel, inner_version, local_inner,
                              remote_inner):
