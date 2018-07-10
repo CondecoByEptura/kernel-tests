@@ -577,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "6e058b54_701ee8b2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-07-10T02:39:47Z",
+      "side": 1,
+      "message": "Apparently Treehugger is extremely unhappy with this. It does not appear to clone the platform/external/scapy project, and thus cannot link properly. I\u0027ve reverted these changes, and pushed it as a new WIP CL, pending further investigation into getting external/scapy pulled in treehugger builds: aosp/714812\n\nThat new CL also should include removal of TunTwister and Null crypt.",
+      "parentUuid": "0524c77b_cee64443",
+      "range": {
+        "startLine": 593,
+        "startChar": 46,
+        "endLine": 593,
+        "endChar": 84
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d5c23c6_285b732d",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 22
