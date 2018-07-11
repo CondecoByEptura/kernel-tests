@@ -22,6 +22,30 @@
       "revId": "5225976eef69068f4e7ed28a34e843624d6143a9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7acc74e_0f7356dd",
+        "filename": "net/test/rootfs/iptables-enable-bpf-compiler.diff",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-07-11T18:15:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633f99c9_0316a8fc",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "5225976eef69068f4e7ed28a34e843624d6143a9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }

@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "a77af7fd_778ffbca",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-07-11T18:15:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc5795bb_76315894",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "5e498f05542be0899628f270352870a241baacfa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a42701a_0a3ddb3d",
         "filename": "net/test/rootfs/common.sh",
         "patchSetId": 3
