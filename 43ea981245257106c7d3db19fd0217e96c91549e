@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "221cb76c_fc42f18a",
+        "filename": "net/test/parameterization_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "Why not simply \"\u003d []\"?",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a595005b_2d8c5fb0",
+        "filename": "net/test/parameterization_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "Do you need this or can you just use \"self\"?",
+      "range": {
+        "startLine": 55,
+        "startChar": 33,
+        "endLine": 55,
+        "endChar": 43
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b498c9d_5ab026e3",
+        "filename": "net/test/parameterization_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "Can you list these for readability?\n\n  expected \u003d [\n    \"testDummyFunc_1_3_5\",\n    \"testDummyFunc_1_3_6\",\n    ...\n  ]\n\n  actual \u003d [\n        name for name in dir(self) if name.startswith(\"testDummyFunc\")\n  ]\n\n  self.assertSameElements(expected, test_names)",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 40
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2314a201_3a7687fc",
+        "filename": "net/test/parameterization_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "Suggest:\n\n  test_method \u003d getattr(self, test_name)\n  test_method()",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f87ac414_4d088141",
+        "filename": "net/test/util.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "set?",
+      "range": {
+        "startLine": 23,
+        "startChar": 37,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07008f4_1a318122",
+        "filename": "net/test/util.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "parameterized",
+      "range": {
+        "startLine": 27,
+        "startChar": 43,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f421b75d_42298e32",
+        "filename": "net/test/util.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "Why is this a 2d array? Isn\u0027t it just an array of all the possible combinations of all the parameters? I\u0027d say:\n\n    param_list: An list of tuples, where each tuple is a combination of\n        parameters to test (i.e., represents a single test case).",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af8be09_f8b2f787",
+        "filename": "net/test/util.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "A function that takes a combination of parameters and returns a string that identifies the test case.",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 69
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c008a9f_63b5ddd7",
+        "filename": "net/test/util.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:19:50Z",
+      "side": 1,
+      "message": "If this is used only in this file, rename to _GetTestClosure.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "43ea981245257106c7d3db19fd0217e96c91549e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
