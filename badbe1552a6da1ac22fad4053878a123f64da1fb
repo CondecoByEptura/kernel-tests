@@ -774,6 +774,30 @@
       "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1291f001_8584bcc4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-24T14:46:50Z",
+      "side": 1,
+      "message": "That helps. I\u0027m still not a fan of the way we tear down XFRM and set it up again between testcases, but as long as we can test input, output, and ICMP in the same test method without ever calling TeardownXfrm (and we can, right?) that works for me.",
+      "parentUuid": "f7ab5c17_c4d432d8",
+      "range": {
+        "startLine": 697,
+        "startChar": 13,
+        "endLine": 697,
+        "endChar": 25
+      },
+      "revId": "badbe1552a6da1ac22fad4053878a123f64da1fb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
