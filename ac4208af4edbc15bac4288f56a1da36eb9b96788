@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89c14378_78f705c1",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-25T13:40:08Z",
+      "side": 1,
+      "message": "This isn\u0027t really a good reason, since generally speaking, all such panics are bugs that need to be fixed. Maybe instead say, \"and that has been known to trigger bugs in surrounding code\".",
+      "range": {
+        "startLine": 33,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 79
+      },
+      "revId": "ac4208af4edbc15bac4288f56a1da36eb9b96788",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9571a6e_085cd37f",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-25T13:40:08Z",
+      "side": 1,
+      "message": "Have you checked that this passes on a device with a full set of iptables rules, in addition to passing on a VM setup?",
+      "range": {
+        "startLine": 38,
+        "startChar": 36,
+        "endLine": 38,
+        "endChar": 45
+      },
+      "revId": "ac4208af4edbc15bac4288f56a1da36eb9b96788",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0146d63_59d5fc5f",
+        "filename": "net/test/nf_test.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-25T13:40:08Z",
+      "side": 1,
+      "message": "Nit: remove this blank line?",
+      "revId": "ac4208af4edbc15bac4288f56a1da36eb9b96788",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
