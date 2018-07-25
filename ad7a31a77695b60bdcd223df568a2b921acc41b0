@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be0e0914_815059da",
+        "filename": "net/test/parameterization_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-07-25T13:28:40Z",
+      "side": 1,
+      "message": "Nit: []. Don\u0027t bother spinning a new patchset just for this.",
+      "range": {
+        "startLine": 71,
+        "startChar": 26,
+        "endLine": 71,
+        "endChar": 32
+      },
+      "revId": "ad7a31a77695b60bdcd223df568a2b921acc41b0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
