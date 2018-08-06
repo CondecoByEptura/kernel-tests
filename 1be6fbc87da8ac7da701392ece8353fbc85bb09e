@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6951d5dc_6edd0b14",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-06T18:08:25Z",
+      "side": 1,
+      "message": "Constants added.\n\nI do believe this is still necessary. A caller should always pass in the SPI, since that is used for the SA, but may not want it on the templates (specifically inbound SAs, for rekey purposes).",
+      "parentUuid": "7fe02786_bc113182",
+      "range": {
+        "startLine": 672,
+        "startChar": 23,
+        "endLine": 672,
+        "endChar": 29
+      },
+      "revId": "1be6fbc87da8ac7da701392ece8353fbc85bb09e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bfe44204_16a07bc7",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 34
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-24T15:03:48Z",
       "side": 1,
       "message": "This probably duplicates the code in xfrm.CreateTunnel, which is not great since that code is in a different file. Should that method be split into two, one part that creates the SA and one part that creates the policies?",
+      "range": {
+        "startLine": 452,
+        "startChar": 0,
+        "endLine": 478,
+        "endChar": 35
+      },
+      "revId": "1be6fbc87da8ac7da701392ece8353fbc85bb09e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32f1bff5_5bd3031b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-06T18:08:25Z",
+      "side": 1,
+      "message": "Since rekeys are not fully symmetric (we create two new SAs, but only update one policy), i was hoping to keep it here as a clear reference to what needs to be done for a successful rekey.\n\nIf i refactored the CreateTunnel to split the create-SA and create-Policy so that I can update only one of the policy directions, we\u0027d only condense this by one or two lines (and then either need to add more for every place CreateTunnel is called, or have another CreateTunnel abstraction)\n\nI don\u0027t particularly see the benefit, but if you feel strongly about this, i can attempt to rework this.",
+      "parentUuid": "bfe44204_16a07bc7",
       "range": {
         "startLine": 452,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "523f58b1_227a9176",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-06T18:08:25Z",
+      "side": 1,
+      "message": "As above.",
+      "parentUuid": "3613fdd1_c01ef8e5",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 486,
+        "endChar": 69
+      },
+      "revId": "1be6fbc87da8ac7da701392ece8353fbc85bb09e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1707fc7f_649e42a3",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 34
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "956f8acb_6293ed12",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-06T18:08:25Z",
+      "side": 1,
+      "message": "I did want to check that it got EAGAIN, rather than any other error mode.",
+      "parentUuid": "1707fc7f_649e42a3",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 58
+      },
+      "revId": "1be6fbc87da8ac7da701392ece8353fbc85bb09e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6df360b_1c57ccbb",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 34
@@ -114,6 +210,30 @@
       "revId": "1be6fbc87da8ac7da701392ece8353fbc85bb09e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddf100a1_cdac2ae4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-06T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6df360b_1c57ccbb",
+      "range": {
+        "startLine": 788,
+        "startChar": 8,
+        "endLine": 788,
+        "endChar": 38
+      },
+      "revId": "1be6fbc87da8ac7da701392ece8353fbc85bb09e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
