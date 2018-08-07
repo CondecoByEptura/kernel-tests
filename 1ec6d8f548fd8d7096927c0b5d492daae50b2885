@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e51a978b_45a310d4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-07T22:16:57Z",
+      "side": 1,
+      "message": "This seems like we might be mixing tests with a teardown method? Should/could we do this as a separate test?",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 48
+      },
+      "revId": "1ec6d8f548fd8d7096927c0b5d492daae50b2885",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
