@@ -131,6 +131,22 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self.assertRaisesErrno(
         EAGAIN,
         s.sendto, net_test.UDP_PAYLOAD, (remotesockaddr, 53))
+ 
+    # Dump SA info to find if XFRM_MSG_ACQUIRE exists.
+    # If there's a userspace security manager, after applying socket policy,
+    # calling sendto() will create an SA in state XFRM_STATE_ACQ. When we dump SA,
+    # there will be a xfrm state, so we delete that SA here if it exists.
+    dump = self.xfrm.DumpSaInfo()
+    if len(dump) != 0:
+        for x in range(0, len(dump)):
+            sa, attributes = dump[x]
+            if sa.id.spi == TEST_SPI:
+                try:
+                    usersa_id = xfrm.XfrmUsersaId((sa.sel.daddr, sa.id.spi, sa.sel.family, IPPROTO_ESP))
+                    nlattrs = []
+                    self.xfrm.SendXfrmNlRequest(xfrm.XFRM_MSG_DELSA, usersa_id, nlattrs)
+                except IOError, e:
+                    self.assertEquals(ENOENT, e.errno, "Unexpected error when delete ACQ SA")
 
     # Adding a matching SA causes the packet to go out encrypted. The SA's
     # SPI must match the one in our template, and the destination address must
@@ -139,6 +155,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self.CreateNewSa(
         net_test.GetWildcardAddress(xfrm_version),
         self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid, None)
+
     s.sendto(net_test.UDP_PAYLOAD, (remotesockaddr, 53))
     expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT,
                                                 version, False,
