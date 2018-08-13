@@ -125,13 +125,6 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     xfrm_base.ApplySocketPolicy(s, xfrm_family, xfrm.XFRM_POLICY_OUT,
                                 TEST_SPI, reqid, None)
 
-    # Because the policy has level set to "require" (the default), attempting
-    # to send a packet results in an error, because there is no SA that
-    # matches the socket policy we set.
-    self.assertRaisesErrno(
-        EAGAIN,
-        s.sendto, net_test.UDP_PAYLOAD, (remotesockaddr, 53))
-
     # Adding a matching SA causes the packet to go out encrypted. The SA's
     # SPI must match the one in our template, and the destination address must
     # match the packet's destination address (in tunnel mode, it has to match
