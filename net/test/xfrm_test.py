@@ -132,6 +132,15 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
         EAGAIN,
         s.sendto, net_test.UDP_PAYLOAD, (remotesockaddr, 53))
 
+    # If there is a userspace key manager, after applying socket policy, calling sendto will create
+    # an SA in state XFRM_STATE_ACQ, just delete it. If there is not a userspace key manager,
+    # deleting SA will pop up ESRCH.
+
+    try:
+        self.xfrm.DeleteSaInfo(self.GetRemoteAddress(xfrm_version), TEST_SPI, IPPROTO_ESP)
+    except IOError, e:
+        self.assertEquals(ESRCH, e.errno, "Unexpected error when delete ACQ SA")
+
     # Adding a matching SA causes the packet to go out encrypted. The SA's
     # SPI must match the one in our template, and the destination address must
     # match the packet's destination address (in tunnel mode, it has to match
@@ -139,6 +148,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self.CreateNewSa(
         net_test.GetWildcardAddress(xfrm_version),
         self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid, None)
+
     s.sendto(net_test.UDP_PAYLOAD, (remotesockaddr, 53))
     expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT,
                                                 version, False,
