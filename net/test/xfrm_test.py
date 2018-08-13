@@ -132,13 +132,22 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
         EAGAIN,
         s.sendto, net_test.UDP_PAYLOAD, (remotesockaddr, 53))
 
-    # Adding a matching SA causes the packet to go out encrypted. The SA's
-    # SPI must match the one in our template, and the destination address must
-    # match the packet's destination address (in tunnel mode, it has to match
-    # the tunnel destination).
-    self.CreateNewSa(
-        net_test.GetWildcardAddress(xfrm_version),
-        self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid, None)
+    dump = self.xfrm.DumpSaInfo()
+    if len(dump) == 0:
+        # Adding a matching SA causes the packet to go out encrypted. The SA's
+        # SPI must match the one in our template, and the destination address must
+        # match the packet's destination address (in tunnel mode, it has to match
+        # the tunnel destination).
+        self.CreateNewSa(
+            net_test.GetWildcardAddress(xfrm_version),
+            self.GetRemoteAddress(xfrm_version), TEST_SPI, reqid, None)
+    else:
+        self.xfrm.AddSaInfo(
+            net_test.GetWildcardAddress(xfrm_version),
+            self.GetRemoteAddress(xfrm_version), TEST_SPI, xfrm.XFRM_MODE_TRANSPORT,
+            reqid, xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1, None,
+            None, None, None, is_update=True)
+
     s.sendto(net_test.UDP_PAYLOAD, (remotesockaddr, 53))
     expected_length = xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT,
                                                 version, False,
