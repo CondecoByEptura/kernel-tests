@@ -31,6 +31,7 @@ import platform
 # are not running with COMPAT_UTS_MACHINE and must be 64-bit at all times.
 # TODO: is there a better way of doing this?
 __NR_bpf = {
+<<<<<<< HEAD   (06e96b Refactor VTI tests to support null encryption am: 91b562615b)
     "aarch64-64bit": 280,
     "armv7l-32bit": 386,
     "armv8l-32bit": 386,
@@ -39,6 +40,12 @@ __NR_bpf = {
     "i686-64bit": 321,
     "x86_64-64bit": 321,
 }[os.uname()[4] + "-" + platform.architecture()[0]]
+=======
+    "aarch64": 280,
+    "armv7l": 386,
+    "armv8l": 386,
+    "x86_64": 321}[os.uname()[4]]
+>>>>>>> BRANCH (e57d07 Fix net tests for 32-bit kernel)
 
 LOG_LEVEL = 1
 LOG_SIZE = 65536
