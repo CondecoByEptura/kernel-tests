@@ -39,6 +39,10 @@ HAVE_SO_COOKIE_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
 IPPROTO_SCTP = 132
 
 def HaveUdpDiag():
+  # The Udp Diag is required for device running 4.9 kernel that ship with P,
+  # never skip the test in this case;
+  if HAVE_SO_COOKIE_SUPPORT:
+      return True;
   # There is no way to tell whether a dump succeeded: if the appropriate handler
   # wasn't found, __inet_diag_dump just returns an empty result instead of an
   # error. So, just check to see if a UDP dump returns no sockets when we know
