@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f817a84_e3cdfbda",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-08-24T23:55:19Z",
+      "side": 1,
+      "message": "\"\"\"Checks if ...\n\n...\n\nReturns:\n   True if ..., False otherwise.",
+      "range": {
+        "startLine": 42,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 6
+      },
+      "revId": "2b7d9444bb6311a753dc8390c383f4ba7766b80c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
