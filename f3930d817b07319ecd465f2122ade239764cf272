@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc21b31_b8435e6f",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-27T02:52:50Z",
+      "side": 1,
+      "message": "I don\u0027t think this is correct. This test should run and pass even if there are other SAs on the system (e.g., if wi-fi calling is on and using an IPsec tunnel).",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 22
+      },
+      "revId": "f3930d817b07319ecd465f2122ade239764cf272",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6514f27_2abdda81",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-27T02:52:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure this code is what we want here. On a real device, nothing on the system should be modifying an existing SA to match a socket policy. On platforms that run an IKE daemon, what actually happens when we call sendto? Does it return EAGAIN? Or does it succeed?\n\nIf it succeeds, perhaps we should instead do the following?\n\n1. Apply the policy.\n2. Call sendto().\n3. If sendto() does not return EAGAIN, check that no packet was sent, check for the presence of an embryonic SA in state XFRM_STATE ACQUIRE, and then delete that SA.\n4. Continue with the existing code (line 137-).\n\n#3 would be new code, #1, #2 and #4 are existing code.",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 45
+      },
+      "revId": "f3930d817b07319ecd465f2122ade239764cf272",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
