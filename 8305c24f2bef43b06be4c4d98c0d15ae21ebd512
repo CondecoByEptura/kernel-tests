@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7d3ec11_6002bf85",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "This only works for xfrmi, because it modifies xfrmi-specific fields, right? If so, suggest changing these to _XFRMI and \"xfrmi\".",
+      "range": {
+        "startLine": 225,
+        "startChar": 21,
+        "endLine": 225,
+        "endChar": 25
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d6cd955_d0cbd9bb",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "Nit: it would likely improve readability if we could make this explicit and lose the default parameter, but perhaps that would be too much change in this CL.",
+      "range": {
+        "startLine": 670,
+        "startChar": 61,
+        "endLine": 671,
+        "endChar": 25
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1027eb9f_acf1d0e2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "Per style guide, optional parameters must always specify the parameter name. Either make this non-optional or write match_method\u003dxfrm.MATCH_METHOD_IFID.",
+      "range": {
+        "startLine": 434,
+        "startChar": 44,
+        "endLine": 434,
+        "endChar": 66
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c5fc07_71d86073",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "A docstring would be nice. Particularly it would be useful to know what types the parameters are.",
+      "range": {
+        "startLine": 442,
+        "startChar": 54,
+        "endLine": 442,
+        "endChar": 55
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daa2734a_ce4e7cd2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "Nit: I\u0027d find this MUCH more readable if it wrapped instead of being one parameter per line.",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 35
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03c88a2_19dd5d23",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "Is this because the twister always arranges for an outbound packet to be seen by the inbound SA? If so, saying that in the comment would be helpful.",
+      "range": {
+        "startLine": 792,
+        "startChar": 71,
+        "endLine": 792,
+        "endChar": 72
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "843b7ab6_0e124a9a",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-08-28T14:56:57Z",
+      "side": 1,
+      "message": "Is there a reason why the Rekey method doesn\u0027t do this as well?",
+      "range": {
+        "startLine": 826,
+        "startChar": 0,
+        "endLine": 830,
+        "endChar": 0
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
