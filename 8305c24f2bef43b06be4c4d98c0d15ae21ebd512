@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a701813_be1178da",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "Hmm. If I did that, I\u0027d would like to change it to MATCH_TYPE_XFRMI, MATCH_TYPE_VTI and MATCH_TYPE_FLOATING to signify what the use cases are. Currently the idea is that in xfrm_tunnel_test, we can tell what the template-SPI matching is based on at a glance, whereas MATCH_TYPE_XFRM/VTI/FLOATING would require us to dig back a little further.\n\nThoughts? I\u0027d probably end up doing this in another CL, but I\u0027d argue that this helps xfrm_tunnel_test be clearer",
+      "parentUuid": "c7d3ec11_6002bf85",
+      "range": {
+        "startLine": 225,
+        "startChar": 21,
+        "endLine": 225,
+        "endChar": 25
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d6cd955_d0cbd9bb",
         "filename": "net/test/xfrm.py",
         "patchSetId": 37
@@ -45,6 +69,30 @@
       "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aea43e3_9c146928",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d6cd955_d0cbd9bb",
+      "range": {
+        "startLine": 670,
+        "startChar": 61,
+        "endLine": 671,
+        "endChar": 25
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "808ba1b8_76889297",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1027eb9f_acf1d0e2",
+      "range": {
+        "startLine": 434,
+        "startChar": 44,
+        "endLine": 434,
+        "endChar": 66
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3c5fc07_71d86073",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 37
@@ -91,6 +163,30 @@
       "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "527fca8a_33240f6e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c5fc07_71d86073",
+      "range": {
+        "startLine": 442,
+        "startChar": 54,
+        "endLine": 442,
+        "endChar": 55
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "46e69957_b3626d15",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "Done; overriding formatter.",
+      "parentUuid": "daa2734a_ce4e7cd2",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 35
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03c88a2_19dd5d23",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 37
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "2f7a55d2_b7a093f9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b03c88a2_19dd5d23",
+      "range": {
+        "startLine": 792,
+        "startChar": 71,
+        "endLine": 792,
+        "endChar": 72
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843b7ab6_0e124a9a",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 37
@@ -160,6 +304,30 @@
       "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9386d67f_14df2ff9",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 37
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-08-30T20:59:47Z",
+      "side": 1,
+      "message": "I\u0027ve refactored to make a common rekey method that does this, and delegates the rest of the rekey to the individual tunnels.",
+      "parentUuid": "843b7ab6_0e124a9a",
+      "range": {
+        "startLine": 826,
+        "startChar": 0,
+        "endLine": 830,
+        "endChar": 0
+      },
+      "revId": "8305c24f2bef43b06be4c4d98c0d15ae21ebd512",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
