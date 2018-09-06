@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "668c055a_5ccd6182",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-06T10:13:46Z",
+      "side": 1,
+      "message": "Remove stray whitespace.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 1
+      },
+      "revId": "ca70dd241689aa4d4ec05bf632143bd405cc1d58",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a655f902_4d10e308",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-06T10:13:46Z",
+      "side": 1,
+      "message": "Why do you need to dump all the SAs? You already know what to delete. sa.sel.daddr should just be daddr (or remotesockaddr). sa.id.spi is TEST_SPI. sa.sel.family should be net_test.getAddressFamily(xfrm_version). So can\u0027t you do something like:\n\n    try:\n      xfrm.DeleteSaInfo(daddr, TEST_SPI, IPPPROTO_ESP)\n    except IOError, e:\n      self.assertEquals(ENOENT, e.errno, \"Unexpected error when delete ACQ SA\")\n\nor, if DeleteSaInfo doesn\u0027t do what you want, build an XfrmUserSaId and then call SendXfrmNlRequest like you do here, but without doing the dump?",
+      "range": {
+        "startLine": 139,
+        "startChar": 21,
+        "endLine": 139,
+        "endChar": 31
+      },
+      "revId": "ca70dd241689aa4d4ec05bf632143bd405cc1d58",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
