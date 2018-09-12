@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a48efc57_a6b41108",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-12T15:56:11Z",
+      "side": 1,
+      "message": "# If there is a user space key manager, alling sendto() after applying the socket policy creates\n# an SA in XFRM_STATE_ACQ state. So this just deletes it. If there is no user space key manager, \n    # deleting SA returns ESRCH as the error code.\n\n? or please rewrite?",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 36
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16bba869_4cbb9710",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-12T15:56:11Z",
+      "side": 1,
+      "message": "as?",
+      "range": {
+        "startLine": 140,
+        "startChar": 18,
+        "endLine": 140,
+        "endChar": 19
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "852b526e_8eef1b30",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-12T15:56:11Z",
+      "side": 1,
+      "message": "deleting?\n\nexplain SA and ACQ too for users?",
+      "range": {
+        "startLine": 141,
+        "startChar": 65,
+        "endLine": 141,
+        "endChar": 71
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
