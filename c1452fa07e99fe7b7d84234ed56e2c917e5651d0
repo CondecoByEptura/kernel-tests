@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45abac51_0619e877",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-12T07:59:40Z",
+      "side": 1,
+      "message": "Nit: remove this blank line.",
+      "revId": "c1452fa07e99fe7b7d84234ed56e2c917e5651d0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
