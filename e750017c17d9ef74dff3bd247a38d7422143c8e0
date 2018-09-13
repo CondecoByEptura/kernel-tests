@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28009571_76241592",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-09-13T08:54:37Z",
+      "side": 1,
+      "message": "spacing, and looks bogus double UDP swapping.",
+      "range": {
+        "startLine": 242,
+        "startChar": 7,
+        "endLine": 242,
+        "endChar": 8
+      },
+      "revId": "e750017c17d9ef74dff3bd247a38d7422143c8e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60f7b068_6e53c3e4",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-09-13T08:54:37Z",
+      "side": 1,
+      "message": "should probably be RemoteSocketAddress even though we don\u0027t use v5",
+      "range": {
+        "startLine": 403,
+        "startChar": 22,
+        "endLine": 403,
+        "endChar": 38
+      },
+      "revId": "e750017c17d9ef74dff3bd247a38d7422143c8e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
