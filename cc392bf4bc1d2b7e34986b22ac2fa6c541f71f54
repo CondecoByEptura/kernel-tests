@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "176c59eb_aa0767e2",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-09-13T09:05:00Z",
+      "side": 1,
+      "message": "suggest doing dst,src\u003dsrc,dst to be in sync with d,s\u003ds,d on port",
+      "revId": "cc392bf4bc1d2b7e34986b22ac2fa6c541f71f54",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
