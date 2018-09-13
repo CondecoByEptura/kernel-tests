@@ -206,10 +206,10 @@ class SockDiagTest(SockDiagBaseTest):
       self.sock_diag.GetSockInfo(diag_req)
       # No errors? Good.
 
-  def testFindsAllMySockets(self):
+  def CheckFindsAllMySockets(self, socktype, proto):
     """Tests that basic socket dumping works."""
-    self.socketpairs = self._CreateLotsOfSockets(SOCK_STREAM)
-    sockets = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, NO_BYTECODE)
+    self.socketpairs = self._CreateLotsOfSockets(socktype)
+    sockets = self.sock_diag.DumpAllInetSockets(proto, NO_BYTECODE)
     self.assertGreaterEqual(len(sockets), NUM_SOCKETS)
 
     # Find the cookies for all of our sockets.
@@ -241,6 +241,13 @@ class SockDiagTest(SockDiagBaseTest):
         req.id.cookie = cookie
         info = self.sock_diag.GetSockInfo(req)
         self.assertSockInfoMatchesSocket(sock, info)
+
+  def testFindsAllMySocketsTcp(self):
+    self.CheckFindsAllMySockets(SOCK_STREAM, IPPROTO_TCP)
+
+  @unittest.skipUnless(HAVE_UDP_DIAG, "INET_UDP_DIAG not enabled")
+  def testFindsAllMySocketsUdp(self):
+    self.CheckFindsAllMySockets(SOCK_DGRAM, IPPROTO_UDP)
 
   def testBytecodeCompilation(self):
     # pylint: disable=bad-whitespace
@@ -378,6 +385,26 @@ class SockDiagTest(SockDiagBaseTest):
   def testGetsockoptcookie(self):
     self.CheckSocketCookie(AF_INET, "127.0.0.1")
     self.CheckSocketCookie(AF_INET6, "::1")
+
+  @unittest.skipUnless(HAVE_UDP_DIAG, "INET_UDP_DIAG not enabled")
+  def testGetSingleUdpSocket(self):
+    """Checks that getting UDP sockets does not require swapping src/dst."""
+    for version in [4, 5, 6]:
+      family = net_test.GetAddressFamily(version)
+      s = socket(family, SOCK_DGRAM, 0)
+      self.SelectInterface(s, self.RandomNetid(), "mark")
+      s.connect((self.GetRemoteSocketAddress(version), 53))
+
+      # Create a fully-specified diag req from our socket, including cookie if
+      # we can get it.
+      req = self.sock_diag.DiagReqFromSocket(s)
+      if HAVE_SO_COOKIE_SUPPORT:
+        req.id.cookie = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
+      else:
+        req.id.cookie = "\xff" * 16  # INET_DIAG_NOCOOKIE[2]
+
+      # Check that we can find the socket.
+      self.assertSockInfoMatchesSocket(s, self.sock_diag.GetSockInfo(req))
 
 
 class SockDestroyTest(SockDiagBaseTest):
