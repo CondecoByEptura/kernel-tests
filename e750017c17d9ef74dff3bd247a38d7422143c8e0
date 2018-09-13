@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2c537bae_8a9fbf8e",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-13T09:02:56Z",
+      "side": 1,
+      "message": "Oh indeed. That was a local merge snafu. Done.",
+      "parentUuid": "28009571_76241592",
+      "range": {
+        "startLine": 242,
+        "startChar": 7,
+        "endLine": 242,
+        "endChar": 8
+      },
+      "revId": "e750017c17d9ef74dff3bd247a38d7422143c8e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60f7b068_6e53c3e4",
         "filename": "net/test/sock_diag_test.py",
         "patchSetId": 1
