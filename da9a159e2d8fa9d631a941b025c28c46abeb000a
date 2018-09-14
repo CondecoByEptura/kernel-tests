@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be132d88_d4d34d71",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-14T07:52:58Z",
+      "side": 1,
+      "message": "Nit: this code is xfrm code so it uses the term \"SA\" all over the place. There\u0027s no need to clarify that SA means security association. Remove?",
+      "range": {
+        "startLine": 136,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 42
+      },
+      "revId": "da9a159e2d8fa9d631a941b025c28c46abeb000a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec49f1c6_7d98f65e",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-14T07:52:58Z",
+      "side": 1,
+      "message": "Remove trailing whitespace.",
+      "range": {
+        "startLine": 136,
+        "startChar": 98,
+        "endLine": 136,
+        "endChar": 99
+      },
+      "revId": "da9a159e2d8fa9d631a941b025c28c46abeb000a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
