@@ -68,6 +68,30 @@
       "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05118b2d_af6cba84",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1226402
+      },
+      "writtenOn": "2018-09-14T08:03:04Z",
+      "side": 1,
+      "message": "According to Lorenzo\u0027s comment, I think we don\u0027t need to explain SA and ACQ here. What do you think?",
+      "parentUuid": "852b526e_8eef1b30",
+      "range": {
+        "startLine": 141,
+        "startChar": 65,
+        "endLine": 141,
+        "endChar": 71
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
