@@ -56,6 +56,9 @@ DISABLE_OPTIONS=" REISERFS_FS ANDROID_PMEM"
 # This one breaks the fugu kernel due to a nonexistent sem_wait_array.
 DISABLE_OPTIONS="$DISABLE_OPTIONS SYSVIPC"
 
+# Cuttlefish-specific.
+DISABLE_OPTIONS="$DISABLE_OPTIONS CFG80211_REQUIRE_SIGNED_REGDB SYSTEM_DATA_VERIFICATION SYSTEM_TRUSTED_KEYRING OF OF_SELFTEST OF_UNITTEST"
+
 # How many TAP interfaces to create to provide the VM with real network access
 # via the host. This requires privileges (e.g., root access) on the host.
 #
@@ -69,7 +72,7 @@ DISABLE_OPTIONS="$DISABLE_OPTIONS SYSVIPC"
 NUMTAPINTERFACES=0
 
 # The root filesystem disk image we'll use.
-ROOTFS=net_test.rootfs.20150203
+ROOTFS=net_test.rootfs.20180913
 COMPRESSED_ROOTFS=$ROOTFS.xz
 URL=https://dl.google.com/dl/android/$COMPRESSED_ROOTFS
 
