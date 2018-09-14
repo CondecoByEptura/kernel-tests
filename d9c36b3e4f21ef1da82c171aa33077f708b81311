@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bbbe29a8_acc4e78d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-14T16:38:57Z",
+      "side": 1,
+      "message": "ping?",
+      "parentUuid": "16bba869_4cbb9710",
+      "range": {
+        "startLine": 140,
+        "startChar": 18,
+        "endLine": 140,
+        "endChar": 19
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "852b526e_8eef1b30",
         "filename": "net/test/xfrm_test.py",
         "patchSetId": 5
@@ -83,6 +107,30 @@
       "side": 1,
       "message": "According to Lorenzo\u0027s comment, I think we don\u0027t need to explain SA and ACQ here. What do you think?",
       "parentUuid": "852b526e_8eef1b30",
+      "range": {
+        "startLine": 141,
+        "startChar": 65,
+        "endLine": 141,
+        "endChar": 71
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef48e28_9cc33165",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-14T16:38:57Z",
+      "side": 1,
+      "message": "what\u0027s the comment referred? \n\ns/delete/deleting",
+      "parentUuid": "05118b2d_af6cba84",
       "range": {
         "startLine": 141,
         "startChar": 65,
