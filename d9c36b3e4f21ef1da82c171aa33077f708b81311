@@ -140,6 +140,30 @@
       "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25695202_5d40ac45",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-18T02:19:40Z",
+      "side": 1,
+      "message": "We don\u0027t need to explain the term \"SA\" because it\u0027s used all over the place in this file. I also think we probably don\u0027t need to explain the term \"ACQ\" because it\u0027s explained by the comment immediately above which mentions an SA in state XFRM_STATE_ACQ.",
+      "parentUuid": "6ef48e28_9cc33165",
+      "range": {
+        "startLine": 141,
+        "startChar": 65,
+        "endLine": 141,
+        "endChar": 71
+      },
+      "revId": "d9c36b3e4f21ef1da82c171aa33077f708b81311",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
