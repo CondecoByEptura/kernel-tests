@@ -93,6 +93,30 @@
       "revId": "da9a159e2d8fa9d631a941b025c28c46abeb000a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df9894c5_45b27803",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-18T16:42:18Z",
+      "side": 1,
+      "message": "the first reference to SA can include this? i don\u0027t see any place in this file which explains what SA stands for. what\u0027d be the cons if we do?",
+      "parentUuid": "83237e43_61b5c691",
+      "range": {
+        "startLine": 136,
+        "startChar": 20,
+        "endLine": 136,
+        "endChar": 42
+      },
+      "revId": "da9a159e2d8fa9d631a941b025c28c46abeb000a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }

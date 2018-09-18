@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1bbf0de_1e294a3b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1072728
+      },
+      "writtenOn": "2018-09-18T16:42:18Z",
+      "side": 1,
+      "message": "this\u0027s an error message to users where many users need some clarification, Lorenzo wdyt?",
+      "range": {
+        "startLine": 141,
+        "startChar": 74,
+        "endLine": 141,
+        "endChar": 80
+      },
+      "revId": "f9e22fba0a22afcafba358ba44ca6972c980f085",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
