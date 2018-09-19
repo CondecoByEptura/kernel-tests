@@ -22,6 +22,30 @@
       "revId": "f9e22fba0a22afcafba358ba44ca6972c980f085",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58aae4af_e684bf63",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-09-19T05:03:46Z",
+      "side": 1,
+      "message": "Personally I think it\u0027s fine to leave this message as is. Anyone seeing it will look at the line that is throwing it, read the comment immediately above, and understand what\u0027s going on.\n\nThis is not something we expect to see often, and when we do see it, it\u0027s going to indicate a complex issue that can only be diagnosed and fixed by someone very familiar with the IPsec setup of the platform involved.",
+      "parentUuid": "e1bbf0de_1e294a3b",
+      "range": {
+        "startLine": 141,
+        "startChar": 74,
+        "endLine": 141,
+        "endChar": 80
+      },
+      "revId": "f9e22fba0a22afcafba358ba44ca6972c980f085",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
