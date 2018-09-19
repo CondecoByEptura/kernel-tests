@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aabefa68_2b7c0e54",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-09-19T21:41:57Z",
+      "side": 1,
+      "message": "we\u0027ve lost \"nested\"",
+      "range": {
+        "startLine": 275,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 58
+      },
+      "revId": "120ebb72beea3683f01ea69816280eee6d2ba1dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c29326a_5066f99e",
+        "filename": "net/test/iproute.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-09-19T21:41:57Z",
+      "side": 1,
+      "message": "overall I feel like this is straining the capability of this function, which was initially predicated on a stateless/contextless decode of elements. Perhaps if we concede that the paradigm no longer holds, there\u0027s a more easily comprehensible way to do this (even possibly at the cost of more lines of code)?",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 72
+      },
+      "revId": "120ebb72beea3683f01ea69816280eee6d2ba1dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "786e631e_3fdb3041",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-09-19T21:41:57Z",
+      "side": 1,
+      "message": "nit the second line is shorter than the one above. I believe moving nla_data to the next line will fix this.",
+      "range": {
+        "startLine": 139,
+        "startChar": 40,
+        "endLine": 140,
+        "endChar": 65
+      },
+      "revId": "120ebb72beea3683f01ea69816280eee6d2ba1dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58ba5d98_b721dc8e",
+        "filename": "net/test/netlink.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-09-19T21:41:57Z",
+      "side": 1,
+      "message": "nit same, weird line break.",
+      "revId": "120ebb72beea3683f01ea69816280eee6d2ba1dd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
