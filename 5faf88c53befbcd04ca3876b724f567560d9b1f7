@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ae5cd53_0eca3066",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2018-09-19T21:36:06Z",
+      "side": 1,
+      "message": "I think this breaks in mysterious ways. In your case I believe it\u0027s working because the function doesn\u0027t assign to it, but let\u0027s avoid passing an empty dict here.",
+      "range": {
+        "startLine": 58,
+        "startChar": 74,
+        "endLine": 58,
+        "endChar": 76
+      },
+      "revId": "5faf88c53befbcd04ca3876b724f567560d9b1f7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
