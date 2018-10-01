@@ -16,6 +16,24 @@
       "revId": "308c2a300aab6907e164b20f249f7b364c6b5298",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "068b35cd_d3eebeb3",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2018-10-01T16:53:52Z",
+      "side": 1,
+      "message": "I figured that this is more of a set-once, run-often that might be annoying as a command line flag. I\u0027d be happy to add it there too if you\u0027d like.",
+      "parentUuid": "65b962ed_41a39b52",
+      "revId": "308c2a300aab6907e164b20f249f7b364c6b5298",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
