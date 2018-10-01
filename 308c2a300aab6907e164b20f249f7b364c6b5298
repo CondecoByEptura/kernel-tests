@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65b962ed_41a39b52",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-01T11:34:00Z",
+      "side": 1,
+      "message": "Should we instead (or additionally) make this a command-line argument?",
+      "revId": "308c2a300aab6907e164b20f249f7b364c6b5298",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
