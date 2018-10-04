@@ -685,6 +685,28 @@ class Xfrm(netlink.NetlinkSocket):
     self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, 0, encryption, auth_trunc,
                    None, None, None, output_mark, xfrm_if_id=xfrm_if_id)
 
+    self.CreateTunnelPolicy(direction, outer_family, selector, src, dst,
+                            tmpl_spi, mark, xfrm_if_id)
+
+  def CreateTunnelPolicy(self, direction, outer_family, selector, src, dst,
+                         tmpl_spi, mark, xfrm_if_id):
+    """Create an XFRM Tunnel Mode Policy
+
+    Create a unidirectional XFRM Policy
+
+    Args:
+      direction: XFRM_POLICY_IN or XFRM_POLICY_OUT
+      selector: An XfrmSelector that specifies the packets to be transformed.
+        This is only applied to the policy; the selector in the SA is always
+        empty. If the passed-in selector is None, then the tunnel is made
+        dual-stack. This requires two policies, one for IPv4 and one for IPv6.
+      src: The source address of the tunneled packets
+      dst: The destination address of the tunneled packets
+      spi: The SPI for the IPsec SA that encapsulates the tunneled packet
+      mark: An XfrmMark, the mark used for selecting packets to be tunneled, and
+        for matching the security policy. None means unspecified.
+      xfrm_if_id: The ID of the XFRM interface to use or None.
+    """
     if selector is None:
       selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
     else:
@@ -694,6 +716,7 @@ class Xfrm(netlink.NetlinkSocket):
       policy = UserPolicy(direction, selector)
       tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
       self.AddPolicyInfo(policy, tmpl, mark, xfrm_if_id=xfrm_if_id)
+
 
   def DeleteTunnel(self, direction, selector, dst, spi, mark, xfrm_if_id):
     if mark is not None:
