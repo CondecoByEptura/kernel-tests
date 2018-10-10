@@ -259,6 +259,9 @@ if [ "$ARCH" == "um" ]; then
   # Use UML's /proc/exitcode feature to communicate errors on test failure
   cmdline="$cmdline net_test_exitcode=/proc/exitcode"
 
+  # Use RDRAND to initialize random number generator if available.
+  cmdline="$cmdline random.trust_cpu=on"
+
   # Map the --readonly flag to UML block device names
   if ((nowrite == 0)); then
     blockdevice=ubda
