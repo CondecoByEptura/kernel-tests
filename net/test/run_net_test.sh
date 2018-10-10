@@ -207,6 +207,10 @@ if ((nobuild == 0)); then
     # Exporting ARCH=um SUBARCH=x86_64 doesn't seem to work, as it
     # "sometimes" (?) results in a 32-bit kernel.
     make_flags="$make_flags ARCH=$ARCH SUBARCH=x86_64 CROSS_COMPILE= "
+
+    # Use RDRAND to initialize random number generator if available.
+    # Added in 4.19, Intel x86 requires ivybridge+ cpu
+    OPTIONS="$OPTIONS RANDOM_TRUST_CPU"
   fi
   if [ -n "$CC" ]; then
     # The CC flag is *not* inherited from the environment, so it must be
