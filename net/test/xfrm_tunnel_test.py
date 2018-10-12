@@ -377,9 +377,13 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
       # underlying network.
       pkt = TunTwister.TwistPacket(pkt)
       self.ReceivePacketOn(vti.underlying_netid, pkt)
-      self.assertReceivedPacket(vti)
       # Receive the decrypted packet on the dest port number.
+      f 2
+      Prev
+      Up
+
       read_packet = read_sock.recv(4096)
+      self.assertReceivedPacket(vti)
       self.assertEquals(read_packet, net_test.UDP_PAYLOAD)
     finally:
       # Unwind the switcheroo
