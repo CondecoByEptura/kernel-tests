@@ -30,6 +30,7 @@ import net_test
 import packets
 import xfrm
 import xfrm_base
+import time
 
 # Parameters to Set up VTI as a special network
 _BASE_VTI_NETID = {4: 40, 6: 60}
@@ -377,9 +378,9 @@ class XfrmVtiTest(xfrm_base.XfrmBaseTest):
       # underlying network.
       pkt = TunTwister.TwistPacket(pkt)
       self.ReceivePacketOn(vti.underlying_netid, pkt)
-      self.assertReceivedPacket(vti)
       # Receive the decrypted packet on the dest port number.
       read_packet = read_sock.recv(4096)
+      self.assertReceivedPacket(vti)
       self.assertEquals(read_packet, net_test.UDP_PAYLOAD)
     finally:
       # Unwind the switcheroo
