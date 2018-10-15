@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89c9e5ca_a84a6a98",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T04:08:01Z",
+      "side": 1,
+      "message": "I don\u0027t know what the implications of [ vs. [[ are. Others might not know either. Care to mention in the commit description that you\u0027re doing this, and why?",
+      "range": {
+        "startLine": 97,
+        "startChar": 5,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "2d41450412923328f9431d3d00626bc1643a41ec",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
