@@ -1,4 +1,18 @@
 #!/bin/bash
+if [[ -n "${random_initializer}" ]]; then
+  echo "adding entropy from hex string [${random_initializer}]" 1>&2
+
+  # In kernel/include/uapi/linux/random.h RNDADDENTROPY is defined as
+  # _IOW('R', 0x03, int[2]) =(R is 0x52)= 0x40085203 = 1074287107
+  python 9>/dev/random <<EOF
+import fcntl, struct
+rnd = '${random_initializer}'.decode('hex')
+fcntl.ioctl(9, 0x40085203, struct.pack('ii', len(rnd) * 8, len(rnd)) + rnd)
+EOF
+
+  # Give the system a moment to catch up.
+  sleep 0.2
+fi
 
 # In case IPv6 is compiled as a module.
 [ -f /proc/net/if_inet6 ] || insmod $DIR/kernel/net-next/net/ipv6/ipv6.ko
