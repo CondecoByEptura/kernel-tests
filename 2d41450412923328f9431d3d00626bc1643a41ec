@@ -46,6 +46,30 @@
       "revId": "2d41450412923328f9431d3d00626bc1643a41ec",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "756e4547_e4d57a09",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T04:39:04Z",
+      "side": 1,
+      "message": "It\u0027s definitely worth mentioning in the commit message that you\u0027re including those changes in this commit. Maybe just say, \"While I\u0027m at it, change some occurences of [ to [[.\" or something.",
+      "parentUuid": "2d71106a_ebc848a2",
+      "range": {
+        "startLine": 97,
+        "startChar": 5,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "2d41450412923328f9431d3d00626bc1643a41ec",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
