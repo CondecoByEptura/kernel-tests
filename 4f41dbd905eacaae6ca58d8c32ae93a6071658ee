@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa914143_3fc7b794",
+        "filename": "net/test/no_test",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T04:37:59Z",
+      "side": 1,
+      "message": "Do you need this extra line?",
+      "revId": "4f41dbd905eacaae6ca58d8c32ae93a6071658ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
