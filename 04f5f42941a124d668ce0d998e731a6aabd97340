@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6620e53_495cbbb7",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-15T05:00:06Z",
+      "side": 1,
+      "message": "Shell doesn\u0027t strip spaces, only tabs from here docs.",
+      "parentUuid": "d586dc52_e529f825",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 1
+      },
+      "revId": "04f5f42941a124d668ce0d998e731a6aabd97340",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4c7aa24_5ceb4e7e",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-10-15T04:45:10Z",
       "side": 1,
       "message": "Instead of doing this at the beginning of the script, where it gets executed even if we don\u0027t do anything (e.g., exit due to invalid args), can we do this after running UML?\n\nAlso, is this a bug in uml? Should we at least report it upstream? This might be happening because we\u0027re passing in invalid arguments. Have we looked into the \"con\u003d\" argument to UML? I see that in some cases we pass in \"con\u003dnull,fd:1\". The UML page at http://user-mode-linux.sourceforge.net/configure.html suggests always passing in \"con0\u003dfd:0,fd:1 con\u003dpts\" or \"con0\u003dfd:0,fd:1 con1\u003dnull con\u003dpts\". Perhaps we can try one of those?",
+      "revId": "04f5f42941a124d668ce0d998e731a6aabd97340",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e966b606_468d569f",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-15T05:00:06Z",
+      "side": 1,
+      "message": "I\u0027ve read the docs, not found anything useful.\n\nUML afaict is single-threaded and thus must use all file descriptors in non-blocking mode.\nI don\u0027t think there\u0027s any way to guarantee that it won\u0027t crash and thus leave them in non-blocking mode.\n\nI fix it up after UML... but I also fix it here before, but we could drop this one I guess.",
+      "parentUuid": "a4c7aa24_5ceb4e7e",
       "revId": "04f5f42941a124d668ce0d998e731a6aabd97340",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
