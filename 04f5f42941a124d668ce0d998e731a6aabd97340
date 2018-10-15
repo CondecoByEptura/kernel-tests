@@ -117,6 +117,24 @@
       "revId": "04f5f42941a124d668ce0d998e731a6aabd97340",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30511559_38eeaab8",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-15T05:25:58Z",
+      "side": 1,
+      "message": "Yes - they don\u0027t help.\n\nbtw. con0\u003dfd:0,fd:1 appears to be the default we have if we don\u0027t specify anything.",
+      "parentUuid": "f5ecc1e6_643f9997",
+      "revId": "04f5f42941a124d668ce0d998e731a6aabd97340",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
