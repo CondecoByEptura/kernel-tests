@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe2f0338_466d2b23",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "Long line.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 118
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf7dbd1c_d6d22526",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "No tabs in this file.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8ce0c1_991f62da",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "Why not just do rnd.decode(\"hex\") to turn it into a raw bytestring? At that point there\u0027s no need to pass in the number of entropy bits per character and I think you can simplify this code.",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b3dddb3_38d03784",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "Why output this? At least on my system, generating a UUID does not appear to result in a decrease of available entroy.",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 75
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1552efa8_a8fb1fa8",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "Seems like this comment belongs in the calling code?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35dfca1a_02fe0dfd",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "Can you provide a bit more detail here? Are we trying to ensure that we don\u0027t run a test that attempts to access kernel entropy before we have any entropy to access?",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef37fc03_bc7e6963",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:15:56Z",
+      "side": 1,
+      "message": "Mention that we\u0027re concatenating two UUIDs to do this?",
+      "range": {
+        "startLine": 280,
+        "startChar": 37,
+        "endLine": 280,
+        "endChar": 38
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
