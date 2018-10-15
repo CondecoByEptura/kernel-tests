@@ -22,6 +22,30 @@
       "revId": "2d41450412923328f9431d3d00626bc1643a41ec",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d71106a_ebc848a2",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-15T04:29:13Z",
+      "side": 1,
+      "message": "There isn\u0027t really one (at least in this case).\n\n[[ is a bash builtin, while [ shells out to an external program.\n\nOur shell style says to use [[\n\nhttps://google.github.io/styleguide/shell.xml#Test,_%5B_and_%5B%5B\n\n[[ … ]] is preferred over [, test and /usr/bin/[.\n[[ … ]] reduces errors as no pathname expansion or word splitting takes place between [[ and ]]. In addition, [[ … ]] allows for regular expression matching while [ … ] does not.\n\nI don\u0027t think it\u0027s worth mentioning in the commit comment?  Is it?",
+      "parentUuid": "89c9e5ca_a84a6a98",
+      "range": {
+        "startLine": 97,
+        "startChar": 5,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "2d41450412923328f9431d3d00626bc1643a41ec",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
