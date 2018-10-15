@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a84d3bf_8bcfa719",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:34:55Z",
+      "side": 1,
+      "message": "Can you rename this to something more descriptive? \"flags\", maybe?",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "dfc757d9b0789d2f7582d64ee4e6741bb19c13ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb98910f_3bc5a0b0",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:34:55Z",
+      "side": 1,
+      "message": "No tabs.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "dfc757d9b0789d2f7582d64ee4e6741bb19c13ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7198291f_d33636e6",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-15T05:34:55Z",
+      "side": 1,
+      "message": "Re-use same variable?",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "dfc757d9b0789d2f7582d64ee4e6741bb19c13ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
