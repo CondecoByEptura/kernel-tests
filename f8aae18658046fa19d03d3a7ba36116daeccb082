@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85d2c5fc_b5459127",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-16T06:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe2f0338_466d2b23",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 118
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf7dbd1c_d6d22526",
         "filename": "net/test/net_test.sh",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b6fa12d_aac31134",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-16T06:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf7dbd1c_d6d22526",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "13f14080_842b7064",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-16T06:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8ce0c1_991f62da",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b3dddb3_38d03784",
         "filename": "net/test/net_test.sh",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0d7e081e_8cc6bb5f",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-16T06:43:11Z",
+      "side": 1,
+      "message": "Done.  But this isn\u0027t about whether generating a UUID decreases entropy, but rather about whether adding entropy actually added it.  Either way you\u0027re right it\u0027s not truly needed.",
+      "parentUuid": "4b3dddb3_38d03784",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 75
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1552efa8_a8fb1fa8",
         "filename": "net/test/net_test.sh",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3cf3825_7e03e14e",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-16T06:43:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1552efa8_a8fb1fa8",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "f8aae18658046fa19d03d3a7ba36116daeccb082",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
