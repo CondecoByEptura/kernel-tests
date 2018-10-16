@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b856de75_3e9cfb94",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-16T06:54:26Z",
+      "side": 1,
+      "message": "Why even make this optional? Just pass it in unconditionally and get rid of a branch.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 41
+      },
+      "revId": "6ff3aa7badd28d4bf2fad145b9a91f7c2eab9a00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa68f3dd_741907f2",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-16T06:54:26Z",
+      "side": 1,
+      "message": "Why 9? Do lower numbers cause the code to fail? If so, suggest using a higher number. Or, perhaps better, do something like:\n\n    fd \u003d open(\"/dev/random\", \"w\").fileno()",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "6ff3aa7badd28d4bf2fad145b9a91f7c2eab9a00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92779a50_4e64f4b7",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-16T06:54:26Z",
+      "side": 1,
+      "message": "Does it make sense to use a shorter name such as \"entropy\"? IIRC kernel command lines are limited in length, but I can\u0027t remember if the limit is short or not.",
+      "range": {
+        "startLine": 285,
+        "startChar": 22,
+        "endLine": 285,
+        "endChar": 40
+      },
+      "revId": "6ff3aa7badd28d4bf2fad145b9a91f7c2eab9a00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
