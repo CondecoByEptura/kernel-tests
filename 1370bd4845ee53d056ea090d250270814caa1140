@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ea1b040_46dac36d",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-16T02:29:04Z",
+      "side": 1,
+      "message": "I don\u0027t suppose we can indent this using 4 spaces, can we?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 1
+      },
+      "revId": "1370bd4845ee53d056ea090d250270814caa1140",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c929e19_a5b84f73",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-16T02:29:04Z",
+      "side": 1,
+      "message": "For principle of least surprise I do think this shouldn\u0027t run unless we actually run uml.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "1370bd4845ee53d056ea090d250270814caa1140",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
