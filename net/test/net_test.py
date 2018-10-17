@@ -343,6 +343,9 @@ def SetFlowLabel(s, addr, label):
 def RunIptablesCommand(version, args):
   iptables = {4: "iptables", 6: "ip6tables"}[version]
   iptables_path = "/sbin/" + iptables
+  # Always pass -w in case something else on the system is running iptables at
+  # the same time as we are.
+  args = "-w " + args
   if not os.access(iptables_path, os.X_OK):
     iptables_path = "/system/bin/" + iptables
   return os.spawnvp(os.P_WAIT, iptables_path, [iptables_path] + args.split(" "))
