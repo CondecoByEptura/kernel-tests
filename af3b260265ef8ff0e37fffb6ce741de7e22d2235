@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30ba05ce_0414454f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-18T08:05:58Z",
+      "side": 1,
+      "message": "Generally speaking it\u0027s not a good idea to add sleeps in tests. It seems like just below there\u0027s a \"read_sock.recv(4096)\" which has a timeout of 100ms. Instead of adding this sleep, can we make the test pass reliably by reordering the lines of code so that the recv() is before the assert?",
+      "range": {
+        "startLine": 381,
+        "startChar": 6,
+        "endLine": 381,
+        "endChar": 21
+      },
+      "revId": "af3b260265ef8ff0e37fffb6ce741de7e22d2235",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
