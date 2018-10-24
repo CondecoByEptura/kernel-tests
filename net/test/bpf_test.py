@@ -350,6 +350,10 @@ class BpfCgroupTest(net_test.NetworkTest):
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
     except socket.error:
       pass
+    try:
+      BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+    except socket.error:
+      pass
 
   def testCgroupBpfAttach(self):
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, INS_BPF_EXIT_BLOCK)
@@ -392,10 +396,31 @@ class BpfCgroupTest(net_test.NetworkTest):
       self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, uid)
       SocketUDPLoopBack(packet_count, 4, None)
       self.assertEquals(packet_count, LookupMap(self.map_fd, uid).value)
-      DeleteMap(self.map_fd, uid);
+      DeleteMap(self.map_fd, uid)
       SocketUDPLoopBack(packet_count, 6, None)
       self.assertEquals(packet_count, LookupMap(self.map_fd, uid).value)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+
+  def testCgroupSocketBlock(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
+                            TOTAL_ENTRIES)
+    # Similar to the program used in testGetSocketUid.
+    instructions = [
+        BpfFuncCall(BPF_FUNC_get_current_uid_gid),
+        BpfAlu64Imm(BPF_AND, BPF_REG_0, 0xfffffff),
+        BpfJumpImm(BPF_JNE, BPF_REG_0, 0, 2),
+    ]
+    instructions += INS_BPF_EXIT_BLOCK + INS_CGROUP_ACCEPT;
+    self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SOCK, instructions)
+    BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+    uid = TEST_UID
+    for family in {socket.AF_INET, socket.AF_INET6}:
+      self.assertRaisesErrno(errno.EPERM, socket.socket, family, socket.SOCK_DGRAM, 0);
+      self.assertRaisesErrno(errno.EPERM, socket.socket, family, socket.SOCK_STREAM, 0);
+    BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+    for family in {socket.AF_INET, socket.AF_INET6}:
+      sock = socket.socket(family, socket.SOCK_DGRAM, 0)
+      sock = socket.socket(family, socket.SOCK_STREAM, 0)
 
 if __name__ == "__main__":
   unittest.main()
