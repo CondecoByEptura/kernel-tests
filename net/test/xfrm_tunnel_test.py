@@ -721,9 +721,23 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     self.assertSentPacket(tunnel, tunnel.out_sa)
 
     try:
+<<<<<<< HEAD   (7c68a3 Improve xfrm net test)
       # Swap the interface addresses to pretend we are the remote
       self._SwapInterfaceAddress(
           tunnel.iface, new_addr=remote_inner, old_addr=local_inner)
+=======
+      # Swap the packet's IP headers and write it back to the
+      # underlying network.
+      pkt = TunTwister.TwistPacket(pkt)
+      self.ReceivePacketOn(vti.underlying_netid, pkt)
+      # Receive the decrypted packet on the dest port number.
+      read_packet = read_sock.recv(4096)
+      self.assertEquals(read_packet, net_test.UDP_PAYLOAD)
+      self.assertReceivedPacket(vti)
+    finally:
+      # Unwind the switcheroo
+      self._SwapInterfaceAddress(vti.iface, new_addr=local, old_addr=remote)
+>>>>>>> BRANCH (7d4de3 Improve xfrm net test)
 
       # Swap the packet's IP headers and write it back to the underlying
       # network.
