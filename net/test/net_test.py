@@ -390,6 +390,19 @@ class RunAsUid(RunAsUidGid):
   def __init__(self, uid):
     RunAsUidGid.__init__(self, uid, 0)
 
+class RunAsRealUid():
+  """Context guard to run a code block as a given real UID."""
+
+  def __init__(self, uid):
+    self.ruid = uid;
+
+  def __enter__(self):
+    self.saved_uid = os.getuid()
+    self.euid = os.geteuid()
+    os.setresuid(self.ruid, self.euid, self.saved_uid)
+
+  def __exit__(self, unused_type, unused_value, unused_traceback):
+    os.setresuid(self.saved_uid, self.euid, self.saved_uid)
 
 class NetworkTest(unittest.TestCase):
 
