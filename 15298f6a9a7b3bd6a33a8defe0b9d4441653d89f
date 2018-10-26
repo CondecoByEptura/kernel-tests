@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71b20f69_e2eaf9fb",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-26T01:17:56Z",
+      "side": 1,
+      "message": "Per VC discussion, we should try to actually test UID here if we can. Perhaps we can do this by forking a new process that changes UID, tries to create a socket, and then returns in its exit status whether that succeeded.",
+      "range": {
+        "startLine": 433,
+        "startChar": 60,
+        "endLine": 434,
+        "endChar": 44
+      },
+      "revId": "15298f6a9a7b3bd6a33a8defe0b9d4441653d89f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
