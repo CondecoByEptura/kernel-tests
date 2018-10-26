@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e374339_41fab0de",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-26T23:06:31Z",
+      "side": 1,
+      "message": "should perhaps call os.getresuid() ?",
+      "range": {
+        "startLine": 400,
+        "startChar": 4,
+        "endLine": 400,
+        "endChar": 8
+      },
+      "revId": "47388c185079a970903d2ec01620615764f854d5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
