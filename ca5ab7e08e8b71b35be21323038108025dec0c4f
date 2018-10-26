@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b155a196_eb0dd71e",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-26T23:50:04Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be:\n\nself.saved_ruid, self.saved_euid, self.saved_suid \u003d os.getresuid()\n\nand then restore exactly that when done?",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 53
+      },
+      "revId": "ca5ab7e08e8b71b35be21323038108025dec0c4f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
