@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd440b41_65b58afe",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-29T02:53:41Z",
+      "side": 1,
+      "message": "Use [] instead of {} since this is a list, not a dict. Also consider just doing:\n\n    for family in [socket.AF_INET, socket.AF_INET6]:\n      for socktype in [socket.SOCK_DGRAM, socket.SOCK_STREAM]:\n        ...\n\nNote that using loops in tests like this makes it difficult to know what exactly failed. In this case, if the test fails we won\u0027t know if the IPv4 assertion failed or the IPv6 assertion failed. We usually address this by adding a custom error message. Something like:\n\n  if success:\n    for family in ...\n      for type in ...\n        try:\n          sock \u003d socket.socket(family, socktype, 0)\n        except socket.error, e:\n          self.fail(\"Failed to create socket family\u003d%d type\u003d%d err\u003d%s\" % (\n              family, socktype, os.strerror(e.errno))\n\nYou can probably avoid some code duplication by having a function that only attempts to create a single socket. That could be an inner function of this function.",
+      "range": {
+        "startLine": 408,
+        "startChar": 20,
+        "endLine": 408,
+        "endChar": 21
+      },
+      "revId": "469a5e4b355ca1b33a05aea42ce057bad723c8fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89408c70_cb27766d",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-29T02:53:41Z",
+      "side": 1,
+      "message": "Can we add the word \"create\" to this function name so it\u0027s clear that we\u0027re not blocking traffic on the socket, but blocking socket creation itself?",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 27
+      },
+      "revId": "469a5e4b355ca1b33a05aea42ce057bad723c8fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b87924_27688af8",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-29T02:53:41Z",
+      "side": 1,
+      "message": "Do we use this for anything? If not, can we either use it (e.g., by adding a map lookup to our test program below) or delete it?",
+      "range": {
+        "startLine": 420,
+        "startChar": 9,
+        "endLine": 420,
+        "endChar": 15
+      },
+      "revId": "469a5e4b355ca1b33a05aea42ce057bad723c8fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5ecba22_1016a32c",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-29T02:53:41Z",
+      "side": 1,
+      "message": "It looks like the reason we need this is that RunAsUidGid only sets the effective UID and not the real UID? If so, then can we fix RunAsUidGid instead of adding this new RunAsRealUid?",
+      "range": {
+        "startLine": 393,
+        "startChar": 6,
+        "endLine": 393,
+        "endChar": 18
+      },
+      "revId": "469a5e4b355ca1b33a05aea42ce057bad723c8fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "956bfcf8_ec826c5a",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-29T02:53:41Z",
+      "side": 1,
+      "message": "Since this is always a 3-element tuple, I\u0027d just do:\n\n    self.saved_uids \u003d os.getresuid()\n\nand later in __exit__(), just restore them all via:\n\n    os.setresuid(*self.saved_uids)",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 401,
+        "endChar": 55
+      },
+      "revId": "469a5e4b355ca1b33a05aea42ce057bad723c8fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
