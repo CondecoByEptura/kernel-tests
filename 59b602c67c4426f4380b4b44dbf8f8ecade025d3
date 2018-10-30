@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "850ada3f_7cd589fa",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-10-30T05:06:57Z",
+      "side": 0,
+      "message": "This regexp change really seems like a no-op, but if all we\u0027re doing here is better logging, maybe don\u0027t touch it for now?",
+      "range": {
+        "startLine": 436,
+        "startChar": 60,
+        "endLine": 436,
+        "endChar": 61
+      },
+      "revId": "59b602c67c4426f4380b4b44dbf8f8ecade025d3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
