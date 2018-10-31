@@ -1,4 +1,54 @@
 #!/bin/bash
+uname -a
+set
+
+echo Z
+python -c 'print 99'
+
+ip link set lo up
+
+echo Y
+python -c 'print 98'
+
+ip link set lo mtu 16436
+
+echo X
+python -c 'print 97'
+
+ip link set eth0 up
+
+
+echo A
+python -c 'print 0'
+echo B
+python -c 'import fcntl; print 1'
+echo C
+python -c 'import struct; print 2'
+echo D
+python -c 'import fcntl, struct; print 3'
+echo E
+python -c 'import fcntl, struct; print 4' 3>/dev/random
+echo F
+python <<EOF
+print 5
+EOF
+echo G
+python <<EOF
+import fcntl
+print 6
+EOF
+echo H
+python <<EOF
+import struct
+print 7
+EOF
+echo I
+python <<EOF
+import fcntl, struct
+print 8
+EOF
+echo J
+
 if [[ -n "${entropy}" ]]; then
   echo "adding entropy from hex string [${entropy}]" 1>&2
 
