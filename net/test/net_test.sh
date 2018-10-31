@@ -1,4 +1,7 @@
 #!/bin/bash
+uname -a
+set
+
 if [[ -n "${entropy}" ]]; then
   echo "adding entropy from hex string [${entropy}]" 1>&2
 
