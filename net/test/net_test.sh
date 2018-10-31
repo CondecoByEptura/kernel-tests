@@ -33,7 +33,7 @@ echo "0 65536" > /proc/sys/net/ipv4/ping_group_range
 
 if [ "$net_test_mode" != "builder" ]; then
   # Fall out to a shell once the test completes or if there's an error.
-  trap "exec /bin/bash" ERR EXIT
+  trap "exec /usr/bin/setsid /bin/bash </dev/tty0 >/dev/tty0 2>/dev/tty0" ERR EXIT
 fi
 
 echo -e "Running $net_test $net_test_args\n"
