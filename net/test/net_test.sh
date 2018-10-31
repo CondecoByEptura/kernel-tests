@@ -1,4 +1,122 @@
 #!/bin/bash
+uname -a
+set
+
+python -c 'print 1001'
+python -v -c 'print 1002'
+python -v -c 'print 1003'
+python -vv -c 'print 1004'
+python -S -c 'print 1005'
+python -Sv -c 'print 1006'
+python -Sv -c 'print 1007'
+python -Svv -c 'print 1008'
+python -s -c 'print 1009'
+python -sv -c 'print 1010'
+python -sv -c 'print 1011'
+python -svv -c 'print 1012'
+python -sS -c 'print 1013'
+python -sSv -c 'print 1014'
+python -sSv -c 'print 1015'
+python -sSvv -c 'print 1016'
+
+python -E -c 'print 1001a'
+python -Ev -c 'print 1002a'
+python -Ev -c 'print 1003a'
+python -Evv -c 'print 1004a'
+python -ES -c 'print 1005a'
+python -ESv -c 'print 1006a'
+python -ESv -c 'print 1007a'
+python -ESvv -c 'print 1008a'
+python -Es -c 'print 1009a'
+python -Esv -c 'print 1010a'
+python -Esv -c 'print 1011a'
+python -Esvv -c 'print 1012a'
+python -EsS -c 'print 1013a'
+python -EsSv -c 'print 1014a'
+python -EsSv -c 'print 1015a'
+python -EsSvv -c 'print 1016a'
+
+python -B -c 'print 1001b'
+python -Bv -c 'print 1002b'
+python -Bv -c 'print 1003b'
+python -Bvv -c 'print 1004b'
+python -BS -c 'print 1005b'
+python -BSv -c 'print 1006b'
+python -BSv -c 'print 1007b'
+python -BSvv -c 'print 1008b'
+python -Bs -c 'print 1009b'
+python -Bsv -c 'print 1010b'
+python -Bsv -c 'print 1011b'
+python -Bsvv -c 'print 1012b'
+python -BsS -c 'print 1013b'
+python -BsSv -c 'print 1014b'
+python -BsSv -c 'print 1015b'
+python -BsSvv -c 'print 1016b'
+
+python -BE -c 'print 1001c'
+python -BEv -c 'print 1002c'
+python -BEv -c 'print 1003c'
+python -BEvv -c 'print 1004c'
+python -BES -c 'print 1005c'
+python -BESv -c 'print 1006c'
+python -BESv -c 'print 1007c'
+python -BESvv -c 'print 1008c'
+python -BEs -c 'print 1009c'
+python -BEsv -c 'print 1010c'
+python -BEsv -c 'print 1011c'
+python -BEsvv -c 'print 1012c'
+python -BEsS -c 'print 1013c'
+python -BEsSv -c 'print 1014c'
+python -BEsSv -c 'print 1015c'
+python -BEsSvv -c 'print 1016c'
+
+echo Z
+python -c 'print 99'
+
+ip link set lo up
+
+echo Y
+python -c 'print 98'
+
+ip link set lo mtu 16436
+
+echo X
+python -c 'print 97'
+
+ip link set eth0 up
+
+
+echo A
+python -c 'print 0'
+echo B
+python -c 'import fcntl; print 1'
+echo C
+python -c 'import struct; print 2'
+echo D
+python -c 'import fcntl, struct; print 3'
+echo E
+python -c 'import fcntl, struct; print 4' 3>/dev/random
+echo F
+python <<EOF
+print 5
+EOF
+echo G
+python <<EOF
+import fcntl
+print 6
+EOF
+echo H
+python <<EOF
+import struct
+print 7
+EOF
+echo I
+python <<EOF
+import fcntl, struct
+print 8
+EOF
+echo J
+
 if [[ -n "${entropy}" ]]; then
   echo "adding entropy from hex string [${entropy}]" 1>&2
 
