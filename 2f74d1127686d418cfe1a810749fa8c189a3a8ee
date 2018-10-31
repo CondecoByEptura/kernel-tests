@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9be9de7_9bf095e4",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-10-31T20:04:07Z",
+      "side": 1,
+      "message": "this should be within the try I think\nso we only close if creation succeeded.\n\nof course in practice we won\u0027t get here if there\u0027s an exception anyway...",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 8
+      },
+      "revId": "2f74d1127686d418cfe1a810749fa8c189a3a8ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
