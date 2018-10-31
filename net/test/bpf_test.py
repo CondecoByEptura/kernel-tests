@@ -410,7 +410,9 @@ class BpfCgroupTest(net_test.NetworkTest):
       if success:
         self.fail("Failed to create socket family=%d type=%d err=%s" %
                   (family, socktype, os.strerror(e.errno)))
+
       return;
+    sock.close();
     if not success:
       self.fail("unexpected socket family=%d type=%d created, should be blocked" %
                 (family, socktype))
