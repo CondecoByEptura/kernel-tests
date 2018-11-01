@@ -35,8 +35,13 @@ import tcp_test
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
 HAVE_SO_COOKIE_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
+HAVE_INIT_WINDOW_SUPPORT = net_test.LINUX_VERSION >= (4, 19, 0)
 
 IPPROTO_SCTP = 132
+
+MINIMUM_RWND_SIZE = 64000
+TCP_INFO_STRUCT_SIZE = 8*1+4*21
+RCV_SSTHRESH_INDEX = 21
 
 def HaveUdpDiag():
   """Checks if the current kernel has config CONFIG_INET_UDP_DIAG enabled.
@@ -545,6 +550,23 @@ class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
                        child.id.dst)
       self.assertEqual(self.sock_diag.PaddedAddress(self.mysockaddr),
                        child.id.src)
+
+
+@unittest.skipUnless(HAVE_INIT_WINDOW_SUPPORT, "Initial receive window is not adjusted")
+class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
+
+  def checkInitRwndSize(self, version, netid):
+    self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
+    fmt = "B"*7+"I"*21
+    tcpInfo = struct.unpack(fmt, self.accepted.getsockopt(net_test.SOL_TCP, net_test.TCP_INFO,
+                                                          TCP_INFO_STRUCT_SIZE))
+    # Check the initial receive window is greater then 64k
+    self.assertLess(MINIMUM_RWND_SIZE, tcpInfo[RCV_SSTHRESH_INDEX])
+
+  def testTcpCwndSize(self):
+    for version in [4, 5, 6]:
+      for netid in self.NETIDS:
+        self.checkInitRwndSize(version, netid)
 
 
 class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
