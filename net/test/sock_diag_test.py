@@ -34,7 +34,8 @@ import tcp_test
 
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
-HAVE_SO_COOKIE_SUPPORT = net_test.LINUX_VERSION >= (4, 9, 0)
+ABOVE_LINUX_4_9 = net_test.LINUX_VERSION >= (4, 9, 0)
+ABOVE_LINUX_4_19 = net_test.LINUX_VERSION >= (4, 19, 0)
 
 IPPROTO_SCTP = 132
 
@@ -55,7 +56,7 @@ def HaveUdpDiag():
     True if the kernel is 4.9 or above, or the CONFIG_INET_UDP_DIAG is enabled.
     False otherwise.
   """
-  if HAVE_SO_COOKIE_SUPPORT:
+  if ABOVE_LINUX_4_9:
       return True;
   s = socket(AF_INET6, SOCK_DGRAM, 0)
   s.bind(("::", 0))
@@ -386,7 +387,7 @@ class SockDiagTest(SockDiagBaseTest):
       cookie = sock.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
       self.assertEqual(diag_msg.id.cookie, cookie)
 
-  @unittest.skipUnless(HAVE_SO_COOKIE_SUPPORT, "SO_COOKIE not supported")
+  @unittest.skipUnless(ABOVE_LINUX_4_9, "SO_COOKIE not supported")
   def testGetsockoptcookie(self):
     self.CheckSocketCookie(AF_INET, "127.0.0.1")
     self.CheckSocketCookie(AF_INET6, "::1")
@@ -410,7 +411,7 @@ class SockDiagTest(SockDiagBaseTest):
       # Create a fully-specified diag req from our socket, including cookie if
       # we can get it.
       req = self.sock_diag.DiagReqFromSocket(s)
-      if HAVE_SO_COOKIE_SUPPORT:
+      if ABOVE_LINUX_4_9:
         req.id.cookie = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
       else:
         req.id.cookie = "\xff" * 16  # INET_DIAG_NOCOOKIE[2]
@@ -545,6 +546,36 @@ class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
                        child.id.dst)
       self.assertEqual(self.sock_diag.PaddedAddress(self.mysockaddr),
                        child.id.src)
+
+OLD_RWND_SIZE = 42000
+NEW_RWND_SIZE = 64000
+TCP_INFO_STRUCT_FMT = "B"*7+"I"*21
+RCV_SSTHRESH_INDEX = 21
+TCP_DEFAULT_INIT_RWND = "/proc/sys/net/ipv4/tcp_default_init_rwnd"
+
+class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
+
+  def setUp(self):
+    super(SockDiagBaseTest, self).setUp()
+    if not ABOVE_LINUX_4_19:
+      f = open(TCP_DEFAULT_INIT_RWND, "w")
+      f.write("60")
+
+  def tearDown(self):
+    super(SockDiagBaseTest, self).tearDown()
+
+  def checkInitRwndSize(self, version, netid):
+    self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
+    tcpInfo = struct.unpack(TCP_INFO_STRUCT_FMT,
+                            self.accepted.getsockopt(net_test.SOL_TCP, net_test.TCP_INFO,
+                                                     struct.calcsize(TCP_INFO_STRUCT_FMT)))
+    tcp_rwnd_size = NEW_RWND_SIZE if ABOVE_LINUX_4_19 else OLD_RWND_SIZE;
+    self.assertLess(tcp_rwnd_size, tcpInfo[RCV_SSTHRESH_INDEX])
+
+  def testTcpCwndSize(self):
+    for version in [4, 5, 6]:
+      for netid in self.NETIDS:
+        self.checkInitRwndSize(version, netid)
 
 
 class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
