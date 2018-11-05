@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4c5c3cc_5c01a32c",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "LINUX_4_9_OR_ABOVE.\n\nABOVE might mean \u003e",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49704d58_7fd8d4b3",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 16
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "826135c3_d51f9ca5",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "should these not be in the class instead of global?",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 13
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df0ae2fc_43488f62",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "could also possibly just do\nRWND_SIZE \u003d x if LINUX_4_19_OR_ABOVE else y",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 551,
+        "endChar": 13
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1d2fb5_eabd85d4",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "if there\u0027s 1 byte padding here, perhaps add a comment to that effect?\nor just bump to 8?",
+      "range": {
+        "startLine": 552,
+        "startChar": 26,
+        "endLine": 552,
+        "endChar": 27
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a99185e9_accb45ce",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "looks like this is spurious? if it just calls super...",
+      "range": {
+        "startLine": 564,
+        "startChar": 6,
+        "endLine": 564,
+        "endChar": 14
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "217de4e8_e4b63e89",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T20:34:56Z",
+      "side": 1,
+      "message": "ah I see. ignore the 7-\u003e8 comment above then I think.",
+      "range": {
+        "startLine": 571,
+        "startChar": 60,
+        "endLine": 571,
+        "endChar": 68
+      },
+      "revId": "1bf07f1c0fce0fe649dc3f4a809ac0be360f8878",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
