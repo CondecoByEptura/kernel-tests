@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb1a8e5e_c3bb165f",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2018-11-05T20:01:12Z",
+      "side": 1,
+      "message": "Currently we do not set tcp_default_init_rwnd in net test so this test cannot pass on older kernels. I think we can have a kernel version check to make sure 4.19 kernel have enough rwnd by default and for older kernel, we set the tcp_default_init_rwnd then check the rwnd is large enough. But the rcv_ssthresh of new kernel (64k) is different from the old (approximately 42k), I am not sure if we want to test the old one as well if this test is aimed for checking the new rwnd on 4.19 to make partner have the correct patch.",
+      "parentUuid": "964c974a_14fb52f6",
+      "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95066634_494cb14e",
         "filename": "net/test/sock_diag_test.py",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d9c28b4e_90912e70",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2018-11-05T20:01:12Z",
+      "side": 1,
+      "message": "Actually this need to be 8 since there are paddings involved, but I can make it depend on the format instead of hard code it.",
+      "parentUuid": "95066634_494cb14e",
+      "range": {
+        "startLine": 43,
+        "startChar": 23,
+        "endLine": 43,
+        "endChar": 24
+      },
+      "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "215180e9_0642ed64",
         "filename": "net/test/sock_diag_test.py",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b2d31f1_d7310101",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2018-11-05T20:01:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "215180e9_0642ed64",
+      "range": {
+        "startLine": 560,
+        "startChar": 14,
+        "endLine": 560,
+        "endChar": 15
+      },
+      "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
