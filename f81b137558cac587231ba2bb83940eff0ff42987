@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc9f99b4_32ceaef9",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-05T22:37:36Z",
+      "side": 1,
+      "message": "self.TCP...",
+      "range": {
+        "startLine": 561,
+        "startChar": 15,
+        "endLine": 561,
+        "endChar": 36
+      },
+      "revId": "f81b137558cac587231ba2bb83940eff0ff42987",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
