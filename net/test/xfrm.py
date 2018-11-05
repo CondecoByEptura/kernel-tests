@@ -683,7 +683,13 @@ class Xfrm(netlink.NetlinkSocket):
     # UPDSA does not update marks at this time. Actual use case will have no
     # mark set. Test this use case.
     self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, 0, encryption, auth_trunc,
-                   None, None, None, output_mark, xfrm_if_id=xfrm_if_id)
+                   None, None, None, None)
+
+    # Test two-stage creation as used in Android Platform
+    if(output_mark is not None):
+      self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, 0, encryption, auth_trunc,
+                    None, None, None, output_mark, xfrm_if_id=xfrm_if_id,
+                    is_update=True)
 
     if selector is None:
       selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
