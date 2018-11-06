@@ -84,6 +84,29 @@
     },
     {
       "key": {
+        "uuid": "d5cf6c6f_ab9384a7",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-06T10:55:04Z",
+      "side": 1,
+      "message": "Can we use an actual cstruct for this? Even if for now it\u0027s all consists of padding except the field we use, that\u0027s better than just an offset search like we have here.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "215180e9_0642ed64",
         "filename": "net/test/sock_diag_test.py",
         "patchSetId": 1
@@ -128,6 +151,29 @@
       "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "040fd544_4570bc91",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-06T10:55:04Z",
+      "side": 1,
+      "message": "Can we also do a non-blocking connect and observe the syn packet?",
+      "range": {
+        "startLine": 563,
+        "startChar": 6,
+        "endLine": 563,
+        "endChar": 58
+      },
+      "revId": "d783b8388e6f77647d3d61210fe3a69ceb71b948",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }

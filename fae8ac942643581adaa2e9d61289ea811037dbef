@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1b34177_181f290c",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-06T10:55:04Z",
+      "side": 1,
+      "message": "Instead of manually rolling packing/unpacking code, can we make this a proper cstruct instead for safety and readability? We don\u0027t need to list all the fields here? Something like:\n\nTcpInfo \u003d cstruct.struct(\"TcpInfo\", \"\u003d64xI\", \"rcv_ssthresh\")\n\nTo get this out of the setsockopt, you can just pass a sufficient buffer.\n\ntcpinfo \u003d TcpInfo(self.accepted.getsockopt(net_test.SOL_TCP, net_test.TCP_INFO, 1024))\n\nThen you can just treat it like a standard cstruct, and access tcpinfo.rcv_ssthresh.",
+      "range": {
+        "startLine": 554,
+        "startChar": 2,
+        "endLine": 554,
+        "endChar": 36
+      },
+      "revId": "fae8ac942643581adaa2e9d61289ea811037dbef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1b76dc4_d91111dc",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-06T10:55:04Z",
+      "side": 1,
+      "message": "Should we also ensure that this file does not exist on 4.19 and above?\n\n    else:\n      assertRaisesErrno(errno.ENOENT, open(self.TCP_DEFAULT_INIT_RWND, \"w\"))",
+      "range": {
+        "startLine": 560,
+        "startChar": 4,
+        "endLine": 560,
+        "endChar": 10
+      },
+      "revId": "fae8ac942643581adaa2e9d61289ea811037dbef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b099f98_94338d71",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-06T10:55:04Z",
+      "side": 1,
+      "message": "Code in this directory has an 80-character limit.",
+      "range": {
+        "startLine": 567,
+        "startChar": 71,
+        "endLine": 567,
+        "endChar": 88
+      },
+      "revId": "fae8ac942643581adaa2e9d61289ea811037dbef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
