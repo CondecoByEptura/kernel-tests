@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97d30032_a1c03ced",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-07T12:30:53Z",
+      "side": 1,
+      "message": "That would make them not print out on the build machines... which kind of defeats the purpose.\n\nThe kernel already prints out a ton, this changes adds about another 50 lines.\nIt\u0027s not that much compared to how much kernel, and the tests themselves output.",
+      "parentUuid": "d7ab0c8e_f907a3f0",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34fcbf78_2fc8a23a",
         "filename": "net/test/net_test.sh",
         "patchSetId": 2
@@ -91,6 +115,30 @@
       "revId": "e07fde868d1fa35762391d22d84c878695848497",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27d48b9d_398deff7",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-07T12:30:53Z",
+      "side": 1,
+      "message": "This is actually entirely intentional.\nIt\u0027s our last chance before we redirect stdio possibly breaking logging, so we need to log where we\u0027re redirecting to in case of /dev/null.",
+      "parentUuid": "a9b78c12_c6ba2337",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
