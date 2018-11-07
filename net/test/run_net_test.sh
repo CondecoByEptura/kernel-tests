@@ -316,6 +316,12 @@ else
   blockdevice="-drive file=$SCRIPT_DIR/$ROOTFS,format=raw,if=none,id=drive-virtio-disk0$blockdevice"
   blockdevice="$blockdevice -device virtio-blk-pci,drive=drive-virtio-disk0"
 
+  # Pass through our current console/screen size to inner shell session
+  read rows cols < <(stty size 2>/dev/null)
+  [[ -z "${rows}" ]] || cmdline="${cmdline} console_rows=${rows}"
+  [[ -z "${cols}" ]] || cmdline="${cmdline} console_cols=${cols}"
+  unset rows cols
+
   # QEMU has no way to modify its exitcode; simulate it with a serial port.
   #
   # Choose to do it this way over writing a file to /host, because QEMU will
@@ -343,18 +349,22 @@ else
 
   $qemu >&2 -name net_test -m 512 \
     -kernel $KERNEL_BINARY \
-    -no-user-config -nodefaults -no-reboot -display none \
+    -no-user-config -nodefaults -no-reboot \
+    -display none -nographic -serial mon:stdio -parallel none \
     -smp 4,sockets=4,cores=1,threads=1 \
     -device virtio-rng-pci \
     -chardev file,id=exitcode,path=exitcode \
     -device pci-serial,chardev=exitcode \
     -fsdev local,security_model=mapped-xattr,id=fsdev0,fmode=0644,dmode=0755,path=$SCRIPT_DIR \
     -device virtio-9p-pci,id=fs0,fsdev=fsdev0,mount_tag=host \
-    $blockdevice $netconfig -serial stdio -append "$cmdline"
-  [ -s exitcode ] && exitcode=`cat exitcode | tr -d '\r'` || exitcode=1
+    $blockdevice $netconfig -append "$cmdline"
+  [[ -s exitcode ]] && exitcode=`cat exitcode | tr -d '\r'` || exitcode=1
   rm -f exitcode
 fi
 
 # UML reliably screws up the ptys, QEMU probably can as well...
 fixup_ptys
+stty sane || :
+
+echo "Returning exit code ${exitcode}." 1>&2
 exit "${exitcode}"

@@ -1,4 +1,101 @@
 #!/bin/bash
+echo 'Current working directory:'
+echo " - according to builtin:  [$(pwd)]"
+echo " - according to /bin/pwd: [$(/bin/pwd)]"
+echo
+
+echo 'Shell environment:'
+env
+echo
+
+echo -n "net_test.sh (pid $$, parent ${PPID}, tty $(tty)) running [$0] with args:"
+for arg in "$@"; do
+  echo -n " [${arg}]"
+done
+echo
+echo
+
+if [[ "$(tty)" == '/dev/console' ]]; then
+  ARCH="$(uname -m)"
+  # Underscore is illegal in hostname, replace with hyphen
+  ARCH="${ARCH//_/-}"
+
+  # setsid + /dev/tty{,AMA,S}0 allows bash's job control to work, ie. Ctrl+C/Z
+  if [[ -c '/dev/tty0' ]]; then
+    # exists in UML, does not exist on graphics/vga/curses-less QEMU
+    CON='/dev/tty0'
+    hostname "uml-${ARCH}"
+  elif [[ -c '/dev/ttyAMA0' ]]; then
+    # Qemu for arm (note: /dev/ttyS0 also exists for exitcode)
+    CON='/dev/ttyAMA0'
+    hostname "qemu-${ARCH}"
+  elif [[ -c '/dev/ttyS0' ]]; then
+    # Qemu for x86 (note: /dev/ttyS1 also exists for exitcode)
+    CON='/dev/ttyS0'
+    hostname "qemu-${ARCH}"
+  else
+    # Can't figure it out, job control won't work, tough luck
+    echo 'Unable to figure out proper console - job control will not work.' 1>&2
+    CON=''
+    hostname "local-${ARCH}"
+  fi
+
+  unset ARCH
+
+  echo "$(hostname): Currently tty[/dev/console], but it should be [${CON}]..."
+
+  if [[ -n "${CON}" ]]; then
+    # Redirect std{in,out,err} to the console equivalent tty
+    # which actually supports all standard tty ioctls
+    exec <"${CON}" >&"${CON}"
+
+    # Re-executing if we were called with -c is too hard, hence this extra
+    # check, but this should not happen due to how image is formed...
+    if [[ -z "${BASH_EXECUTION_STRING}" ]]; then
+      # Bash wants to be session leader, hence need for setsid
+      echo "Re-executing..."
+      exec /usr/bin/setsid "$0" "$@"
+      # If the above exec fails, we just fall through...
+      # (this implies failure to *find* setsid, not error return from bash,
+      #  in practice due to image construction this cannot happen)
+    fi
+  fi
+
+  # In case we fall through, clean up
+  unset CON
+fi
+
+echo 'TTY settings:'
+stty
+echo
+
+echo 'TTY settings (verbose):'
+stty -a
+echo
+
+echo 'Restoring TTY sanity...'
+stty sane
+stty 115200
+[[ -z "${console_cols}" ]] || stty columns "${console_cols}"
+[[ -z "${console_rows}" ]] || stty rows    "${console_rows}"
+echo
+
+echo 'TTY settings:'
+stty
+echo
+
+echo 'TTY settings (verbose):'
+stty -a
+echo
+
+# By the time we get here we should have a sane console:
+#  - 115200 baud rate
+#  - appropriate (and known) width and height (note: this assumes
+#    that the terminal doesn't get further resized)
+#  - it is no longer /dev/console, so job control should function
+#    (this means working ctrl+c [abort] and ctrl+z [suspend])
+
+
 # This defaults to 60 which is needlessly long during boot
 # (we will reset it back to the default later)
 echo 0 > /proc/sys/kernel/random/urandom_min_reseed_secs
