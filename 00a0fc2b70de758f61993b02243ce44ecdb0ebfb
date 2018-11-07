@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62bfbc06_0ea7bce9",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2018-11-07T19:30:42Z",
+      "side": 1,
+      "message": "I\u0027m surprised you need this bit. Doesn\u0027t \u0027-nodefaults\u0027 turn off the parallel port?",
+      "range": {
+        "startLine": 356,
+        "startChar": 47,
+        "endLine": 356,
+        "endChar": 61
+      },
+      "revId": "00a0fc2b70de758f61993b02243ce44ecdb0ebfb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
