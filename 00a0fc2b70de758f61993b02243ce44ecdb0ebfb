@@ -22,6 +22,30 @@
       "revId": "00a0fc2b70de758f61993b02243ce44ecdb0ebfb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea48eec8_fa5db931",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-07T20:03:25Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure what is needed... I\u0027m surprised I need this at all.\nThis just happens to work... Supposedly -nographic redirects serial and parallel.\n\n...\n\nman qemu-system-x86_64 \n\n-display type\n  Select type of display to use. This option is a replacement for the old style -sdl/-curses/... options. Valid values for type are\n\n  none\n    Do not display video output. The guest will still see an emulated graphics card, but its output will not be displayed to the QEMU user. This option differs from the -nographic option in that it only affects what is done with video output; -nographic also changes the destination of the serial and parallel port data.\n\n-nographic\n  Normally, if QEMU is compiled with graphical window support, it displays output such as guest graphics, guest console, and the QEMU monitor in a window. With this option, you can totally disable graphical output so that QEMU is a simple command line application. The emulated serial port is redirected on the console and muxed with the monitor (unless redirected elsewhere explicitly). Therefore, you can still use QEMU to debug a Linux kernel with a serial console. Use C-a h for help on switching between the console and monitor.\n\n...\n\nEither way it shouldn\u0027t hurt I think.\n\nPreviously Ctrl+C would just abort QEMU.\nInstead of being passed in to the guest kernel and console.\n\nSupposedly -serial mon:stdio should have fixed this...\n\nBut then I ended up in a weird state where qemu would provide no output *until* you pressed ctrl+C at which point it would abort, flush buffers, and suddenly all your output (including all the tests having run and passed) was just there.\n\nYeah, I don\u0027t know why... when I got it working I just left it be ;-)",
+      "parentUuid": "62bfbc06_0ea7bce9",
+      "range": {
+        "startLine": 356,
+        "startChar": 47,
+        "endLine": 356,
+        "endChar": 61
+      },
+      "revId": "00a0fc2b70de758f61993b02243ce44ecdb0ebfb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
