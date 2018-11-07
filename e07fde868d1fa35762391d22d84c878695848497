@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7ab0c8e_f907a3f0",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-07T11:04:16Z",
+      "side": 1,
+      "message": "Can we make these debug prints optional? I assume this can\u0027t be a function, because we have to be able to access $0 and \"$@\"?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34fcbf78_2fc8a23a",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-07T11:04:16Z",
+      "side": 1,
+      "message": "Can you make this a shell function, and maybe use the \"local\" statement for variables?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9be1c56_62dbd542",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-07T11:04:16Z",
+      "side": 1,
+      "message": "Log an error here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9b78c12_c6ba2337",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-07T11:04:16Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
