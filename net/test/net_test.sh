@@ -1,4 +1,59 @@
 #!/bin/bash
+echo "uname -a == [$(uname -a)]"
+echo
+
+echo "kernel command line [$(< /proc/cmdline)]"
+echo
+
+echo 'shell environment:'
+env
+echo
+
+echo -n "net_test.sh (pid $$, parent ${PPID}, tty $(tty)) running [$0] with args"
+for arg in "$@"; do
+  echo -n " [${arg}]"
+done
+echo
+echo
+
+if [[ "$(tty)" == '/dev/console' ]]; then
+  # setsid + /dev/tty{,AMA,S}0 allows bash's job control to work, ie. Ctrl+C/Z
+  if [[ -c '/dev/tty0' ]]; then
+    # exists in UML, does not exist on graphics/vga/curses-less QEMU
+    con='/dev/tty0'
+  elif [[ -c '/dev/ttyAMA0' ]]; then
+    # Qemu for arm (note: /dev/ttyS0 also exists for exitcode)
+    con='/dev/ttyAMA0'
+  elif [[ -c '/dev/ttyS0' ]]; then
+    # Qemu for x86 (note: /dev/ttyS1 also exists for exitcode)
+    con='/dev/ttyS0'
+  else
+    # Can't figure it out, job control won't work, tough luck
+    :
+  fi
+
+  echo "Currently tty[/dev/console], but it should be [${con}]..."
+
+  if [[ -n "${con}" ]]; then
+    # Redirect std{in,out,err} to the console equivalent tty
+    # which actually supports all standard tty ioctls
+    exec <"${con}" >&"${con}"
+
+    # Re-executing if we were called with -c is too hard, hence this extra
+    # check, but this should not happen due to how image is formed...
+    if [[ -z "${BASH_EXECUTION_STRING}" ]]; then
+      # Bash wants to be session leader, hence need for setsid
+      echo "Re-executing..."
+      exec /usr/bin/setsid /bin/bash "$@"
+      # If the above exec fails, we just fall through...
+      # (this implies failure to *find* setsid, not error return from bash,
+      #  in practice due to image construction this cannot happen)
+    fi
+  fi
+fi
+
+# By the time we get here job control (ctrl+c in particular) should function.
+
 if [[ -n "${entropy}" ]]; then
   echo "adding entropy from hex string [${entropy}]" 1>&2
 
