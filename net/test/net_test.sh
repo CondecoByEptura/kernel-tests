@@ -1,4 +1,126 @@
 #!/bin/bash
+echo "uname -a == [$(uname -a)]"
+echo
+
+echo "kernel command line [$(< /proc/cmdline)]"
+echo
+
+
+echo 'Current working directory:'
+echo " - according to PWD:      [${PWD}]"
+echo " - according to builtin:  [$(pwd)]"
+echo " - according to /bin/pwd: [$(/bin/pwd)]"
+echo
+
+echo "PATH[${PATH}]"
+echo
+
+echo 'shell environment:'
+env
+echo
+
+echo -n "net_test.sh (pid $$, parent ${PPID}, tty $(tty)) running [$0] with args:"
+for arg in "$@"; do
+  echo -n " [${arg}]"
+done
+echo
+echo
+
+if [[ "$(tty)" == '/dev/console' ]]; then
+  ARCH="$(uname -m)"
+  # Underscore is illegal in hostname, replace with hyphen
+  ARCH="${ARCH//_/-}"
+
+  # setsid + /dev/tty{,AMA,S}0 allows bash's job control to work, ie. Ctrl+C/Z
+  if [[ -c '/dev/tty0' ]]; then
+    # exists in UML, does not exist on graphics/vga/curses-less QEMU
+    con='/dev/tty0'
+    hostname "uml-${ARCH}"
+  elif [[ -c '/dev/ttyAMA0' ]]; then
+    # Qemu for arm (note: /dev/ttyS0 also exists for exitcode)
+    con='/dev/ttyAMA0'
+    hostname "qemu-${ARCH}"
+  elif [[ -c '/dev/ttyS0' ]]; then
+    # Qemu for x86 (note: /dev/ttyS1 also exists for exitcode)
+    con='/dev/ttyS0'
+    hostname "qemu-${ARCH}"
+  else
+    # Can't figure it out, job control won't work, tough luck
+    hostname "local-${ARCH}"
+  fi
+
+  unset ARCH
+
+  echo "Currently tty[/dev/console], but it should be [${con}]..."
+
+  if [[ -n "${con}" ]]; then
+    # Redirect std{in,out,err} to the console equivalent tty
+    # which actually supports all standard tty ioctls
+    exec <"${con}" >&"${con}"
+
+    # Re-executing if we were called with -c is too hard, hence this extra
+    # check, but this should not happen due to how image is formed...
+    if [[ -z "${BASH_EXECUTION_STRING}" ]]; then
+      # Bash wants to be session leader, hence need for setsid
+      echo "Re-executing..."
+      exec /usr/bin/setsid "$0" "$@"
+      # If the above exec fails, we just fall through...
+      # (this implies failure to *find* setsid, not error return from bash,
+      #  in practice due to image construction this cannot happen)
+    fi
+  fi
+fi
+
+init_columns_and_lines() {
+  # We want to initialize LINES and COLUMNS even though we're not interactive
+  shopt -s checkwinsize
+  # Actually force the initialization... (yes, the 'cat' is needed... don't ask)
+  set | cat > /dev/null
+  shopt -u checkwinsize
+}
+
+echo 'TTY settings (concise):'
+stty
+echo
+
+echo 'TTY settings (verbose):'
+stty -a
+echo
+
+init_columns_and_lines
+echo "COLUMNS[${COLUMNS}] LINES[${LINES}]"
+echo
+
+echo 'Restoring TTY sanity...'
+stty sane
+stty 115200
+
+get_kcmdline() {
+  sed -rn "s@^(.* )?$1=([^ ]*)( .*)?\$@\2@p" < /proc/cmdline
+}
+
+COLS="$(get_kcmdline console_columns)"
+[[ -z "${COLS}" ]] || stty columns "${COLS}"
+unset COLS
+
+ROWS="$(get_kcmdline console_rows)"
+[[ -z "${ROWS}" ]] || stty rows "${ROWS}"
+unset ROWS
+
+echo 'TTY settings (concise):'
+stty
+echo
+
+echo 'TTY settings (verbose):'
+stty -a
+echo
+
+init_columns_and_lines
+echo "COLUMNS[${COLUMNS}] LINES[${LINES}]"
+echo
+
+# By the time we get here job control (ctrl+c in particular) should function.
+
 if [[ -n "${entropy}" ]]; then
   echo "adding entropy from hex string [${entropy}]" 1>&2
 
