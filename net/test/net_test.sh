@@ -1,4 +1,13 @@
 #!/bin/bash
+echo "PATH=[${PATH}]"
+which python
+
+echo '---Z---'
+strace -ff python -c 'print 1'
+echo '---Y---'
+strace -ff /usr/bin/python -c 'print 2'
+echo '---X---'
+
 if [[ -n "${entropy}" ]]; then
   echo "adding entropy from hex string [${entropy}]" 1>&2
 
