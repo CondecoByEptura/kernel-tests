@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "71150108_b4a6d5cb",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-08T03:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d30032_a1c03ced",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34fcbf78_2fc8a23a",
         "filename": "net/test/net_test.sh",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2018-11-07T11:04:16Z",
       "side": 1,
       "message": "Can you make this a shell function, and maybe use the \"local\" statement for variables?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7da3d674_646011fa",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-08T03:13:39Z",
+      "side": 1,
+      "message": "Used unset.",
+      "parentUuid": "34fcbf78_2fc8a23a",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -92,6 +140,30 @@
       "revId": "e07fde868d1fa35762391d22d84c878695848497",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60f3e392_a694154b",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-08T03:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9be1c56_62dbd542",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "e07fde868d1fa35762391d22d84c878695848497",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
