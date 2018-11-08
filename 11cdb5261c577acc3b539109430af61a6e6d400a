@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "716f9393_101bcc7b",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-08T11:44:27Z",
+      "side": 1,
+      "message": "Do we really need all this debug information all the time? Can we flag it off?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 4
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08dd1f0_7524ab2c",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-08T11:44:27Z",
+      "side": 1,
+      "message": "Nit: just \u003e\u00262 should work too.",
+      "range": {
+        "startLine": 38,
+        "startChar": 76,
+        "endLine": 39,
+        "endChar": 0
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb1b69ec_ac4b1fa6",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-08T11:44:27Z",
+      "side": 1,
+      "message": "Ditto, can we flag this off? Maybe a top-level DEBUG_CONSOLE flag? Or maybe something like:\n\nfunction debug() {\n  (( DEBUG_CONSOLE )) \u0026\u0026 echo \"$@\"\n}",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 79
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b01b302b_ca42e7b2",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-08T11:44:27Z",
+      "side": 1,
+      "message": "I find this comment rather hard to understand. Could you clarify what this code is trying to do?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 69
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c2dc13_7e7555c4",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-08T11:44:27Z",
+      "side": 1,
+      "message": "Out of curiosity, what happens today if the window is resized?",
+      "range": {
+        "startLine": 94,
+        "startChar": 23,
+        "endLine": 94,
+        "endChar": 50
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
