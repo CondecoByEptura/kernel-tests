@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "768b8638_c802c8cf",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-10T03:46:31Z",
+      "side": 1,
+      "message": "How about I leave it enabled for non-interactive use, and require some sort of verbose\u003don on kcmdline otherwise?",
+      "parentUuid": "716f9393_101bcc7b",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 4
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c08dd1f0_7524ab2c",
         "filename": "net/test/net_test.sh",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec9f7bd_8eaef731",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-10T03:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c08dd1f0_7524ab2c",
+      "range": {
+        "startLine": 38,
+        "startChar": 76,
+        "endLine": 39,
+        "endChar": 0
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "53deb353_718de948",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-10T03:46:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb1b69ec_ac4b1fa6",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 79
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b01b302b_ca42e7b2",
         "filename": "net/test/net_test.sh",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "07650c33_2328d4ee",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-10T03:46:31Z",
+      "side": 1,
+      "message": "This is trying to protect against\n  bash -c ...\nand some sort of infinite loop\n\nbut I don\u0027t think this can ever actually happen - I\u0027ll just remove it.\n\nI was cribbing of off my own code from my home imac\u0027s .bashrc/.bash_profile for mac auto-caffeination (caffeinate [-i|-s] disables power saving and prevents network from timing out and is basically needed to have a useful remote ssh session into an idle imac)",
+      "parentUuid": "b01b302b_ca42e7b2",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 69
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73c2dc13_7e7555c4",
         "filename": "net/test/net_test.sh",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67ed037c_65718984",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2018-11-10T03:46:31Z",
+      "side": 1,
+      "message": "Nothing interesting.\nIf it doesn\u0027t know any better it just assumes 80x25 (or 80x24, one of the two)",
+      "parentUuid": "73c2dc13_7e7555c4",
+      "range": {
+        "startLine": 94,
+        "startChar": 23,
+        "endLine": 94,
+        "endChar": 50
+      },
+      "revId": "11cdb5261c577acc3b539109430af61a6e6d400a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
