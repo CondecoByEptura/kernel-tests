@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57c3941e_3bdd9301",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-13T02:01:50Z",
+      "side": 1,
+      "message": "Does this make it harder to change the size of the terminal once the VM has booted? This seems to work at the moment, at least on UML.",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 17
+      },
+      "revId": "42f963407a4c6e6630f0e72b1a8eae741fbb3eef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
