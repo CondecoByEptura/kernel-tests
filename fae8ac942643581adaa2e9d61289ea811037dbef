@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "62c6635b_e313c304",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2018-11-17T01:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1b34177_181f290c",
+      "range": {
+        "startLine": 554,
+        "startChar": 2,
+        "endLine": 554,
+        "endChar": 36
+      },
+      "revId": "fae8ac942643581adaa2e9d61289ea811037dbef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1b76dc4_d91111dc",
         "filename": "net/test/sock_diag_test.py",
         "patchSetId": 4
@@ -81,6 +105,30 @@
         "id": 1121354
       },
       "writtenOn": "2018-11-17T00:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1b76dc4_d91111dc",
+      "range": {
+        "startLine": 560,
+        "startChar": 4,
+        "endLine": 560,
+        "endChar": 10
+      },
+      "revId": "fae8ac942643581adaa2e9d61289ea811037dbef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5331d86_f4ffd2f4",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1121354
+      },
+      "writtenOn": "2018-11-17T01:14:11Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "d1b76dc4_d91111dc",
