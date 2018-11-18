@@ -632,6 +632,30 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
                       self.iproute.GetRxTxPackets(tunnel.iface))
     sa_info.seq_num += 1
 
+  def _CheckTunnelNoSaInput(self, tunnel, inner_version, local_inner, remote_inner):
+    outer_family = net_test.GetAddressFamily(tunnel.version)
+
+    tunnel.DeleteOldSaInfo(outer_family, tunnel.in_sa.spi, tunnel.out_sa.spi)
+    
+    try:
+      self._CheckTunnelInput(tunnel, inner_version, local_inner, remote_inner,
+                             expect_fail=True)
+    finally:
+      # Rebuild SAs to ensure teardown works properly.
+      tunnel.Rekey(outer_family, SaInfo(tunnel.out_sa.spi), SaInfo(tunnel.in_sa.spi))
+
+  def _CheckTunnelNoSaOutput(self, tunnel, inner_version, local_inner, remote_inner):
+    outer_family = net_test.GetAddressFamily(tunnel.version)
+
+    tunnel.DeleteOldSaInfo(outer_family, tunnel.in_sa.spi, tunnel.out_sa.spi)
+    
+    try:
+      self._CheckTunnelOutput(tunnel, inner_version, local_inner, remote_inner,
+                             expect_fail=True)
+    finally:
+      # Rebuild SAs to ensure teardown works properly.
+      tunnel.Rekey(outer_family, SaInfo(tunnel.out_sa.spi), SaInfo(tunnel.in_sa.spi))
+
   def _CheckTunnelInput(self, tunnel, inner_version, local_inner, remote_inner,
                         sa_info=None, expect_fail=False):
     """Test null-crypt input path over an IPsec interface."""
@@ -646,21 +670,31 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
 
     if expect_fail:
       self.assertRaisesErrno(EAGAIN, read_sock.recv, 4096)
-    else:
-      # Verify that the packet data and src are correct
-      data, src = read_sock.recvfrom(4096)
-      self.assertReceivedPacket(tunnel, sa_info)
-      self.assertEquals(net_test.UDP_PAYLOAD, data)
-      self.assertEquals((remote_inner, _TEST_REMOTE_PORT), src[:2])
+      return
+
+    # Verify that the packet data and src are correct
+    data, src = read_sock.recvfrom(4096)
+    self.assertReceivedPacket(tunnel, sa_info)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals((remote_inner, _TEST_REMOTE_PORT), src[:2])
 
   def _CheckTunnelOutput(self, tunnel, inner_version, local_inner,
-                         remote_inner, sa_info=None):
+                         remote_inner, sa_info=None, expect_fail=False):
     """Test null-crypt output path over an IPsec interface."""
     if sa_info is None:
       sa_info = tunnel.out_sa
+    
     local_port = _SendPacket(self, tunnel.netid, inner_version, remote_inner,
-                             _TEST_REMOTE_PORT)
+                           _TEST_REMOTE_PORT)
 
+    if expect_fail:
+      packets = self.ReadAllPacketsOn(tunnel.underlying_netid)
+      
+      # Check to make sure we did not send the payload (in plaintext)
+      for pkt in packets:
+        self.assertTrue(str(net_test.UDP_PAYLOAD) not in str(pkt))
+      return
+    
     # Read a tunneled IP packet on the underlying (outbound) network
     # verifying that it is an ESP packet.
     pkt = self._ExpectEspPacketOn(tunnel.underlying_netid, sa_info.spi,
@@ -885,6 +919,12 @@ class XfrmVtiTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = VtiInterface
 
+  def ParamTestVtiNoSaInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelNoSaInput, True)
+    
+  def ParamTestVtiNoSaOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelNoSaOutput, True)
+
   def ParamTestVtiInput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
 
@@ -911,6 +951,12 @@ class XfrmVtiTest(XfrmTunnelBase):
 class XfrmInterfaceTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = XfrmInterface
+
+  def ParamTestXfrmIntfNoSaInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelNoSaInput, True)
+    
+  def ParamTestXfrmIntfNoSaOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelNoSaOutput, True)
 
   def ParamTestXfrmIntfInput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
