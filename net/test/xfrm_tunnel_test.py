@@ -595,6 +595,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       # is received.
       cls.SetSysctl(
           "/proc/sys/net/ipv6/conf/%s/router_solicitations" % tunnel.iface, 0)
+      cls.SetSysctl("/proc/sys/net/ipv6/conf/%s/autoconf" % tunnel.iface, 0)
       net_test.SetInterfaceUp(tunnel.iface)
 
     for version in [4, 6]:
