@@ -285,8 +285,17 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
       scapy.IP/IPv6: the read packet
     """
     packets = self.ReadAllPacketsOn(netid)
-    self.assertEquals(1, len(packets))
-    packet = packets[0]
+
+    # Filter out non-ESP packets; this helps to prevent spurious packets.
+    #   Without this, tunnel mode tests show flake due to IPv6 Neighbor
+    #   Discovery packets.
+    espPkts = [];
+    for packet in packets:
+      if isinstance(packet.payload, scapy.ESP):
+        espPkts.append(packet)
+
+    self.assertEquals(1, len(espPkts))
+    packet = espPkts[0]
     if length is not None:
       self.assertEquals(length, len(packet.payload))
     if dst_addr is not None:
