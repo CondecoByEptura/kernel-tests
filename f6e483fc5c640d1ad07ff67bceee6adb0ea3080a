@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12b44929_81f8a45e",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-19T01:27:06Z",
+      "side": 1,
+      "message": "# Mostly empty structure definition containing only the fields we currently use.",
+      "revId": "f6e483fc5c640d1ad07ff67bceee6adb0ea3080a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbfd936c_f398013f",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-19T01:27:06Z",
+      "side": 1,
+      "message": "Nit: for readability, prefer unindenting by using early returns. Also prefer negations if possible. So maybe rewrite as:\n\n  if LINUX_4_19_OR_ABOVE:\n    self.assertRaisesErrno(...)\n\n  f \u003d open(...)\n  f.write(...)",
+      "range": {
+        "startLine": 560,
+        "startChar": 1,
+        "endLine": 564,
+        "endChar": 75
+      },
+      "revId": "f6e483fc5c640d1ad07ff67bceee6adb0ea3080a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba015408_ac7c94b4",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-19T01:27:06Z",
+      "side": 1,
+      "message": "Does \"len(TcpInfo)\" work instead of 1024? If so, use that.\n\nIf not, I\u0027d say:\n\n  # Pass a 1024-byte buffer since we\u0027re not sure how large struct tcp_info is.",
+      "range": {
+        "startLine": 569,
+        "startChar": 66,
+        "endLine": 569,
+        "endChar": 70
+      },
+      "revId": "f6e483fc5c640d1ad07ff67bceee6adb0ea3080a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aefbdd78_b968f12f",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-11-19T01:27:06Z",
+      "side": 1,
+      "message": "Align with the n in netid above.",
+      "range": {
+        "startLine": 573,
+        "startChar": 35,
+        "endLine": 573,
+        "endChar": 36
+      },
+      "revId": "f6e483fc5c640d1ad07ff67bceee6adb0ea3080a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
