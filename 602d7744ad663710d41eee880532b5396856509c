@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "173bcdf6_3c917597",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-12-07T09:51:38Z",
+      "side": 1,
+      "message": "Please limit line length to 80 characters for consistency with the rest of the code.",
+      "revId": "602d7744ad663710d41eee880532b5396856509c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
