@@ -22,6 +22,30 @@
       "revId": "32c4b5e8ffbb68aae877cbeddb759bfaef24a6ed",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84528781_45fc30c6",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1272272
+      },
+      "writtenOn": "2018-12-07T07:53:26Z",
+      "side": 1,
+      "message": "For kernels that MPTCP is ported, it take more than 0.5 sec to close tun interface, because of DAD procedure within MPTCP fullmesh module. It seems to be the duplicate address-timer takes a refcount on the IPv6-address, preventing it from getting closed.",
+      "parentUuid": "5026751c_9db919f1",
+      "range": {
+        "startLine": 97,
+        "startChar": 52,
+        "endLine": 97,
+        "endChar": 53
+      },
+      "revId": "32c4b5e8ffbb68aae877cbeddb759bfaef24a6ed",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
