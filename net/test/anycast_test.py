@@ -93,6 +93,7 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
     # This will hang if the kernel has the bug.
     thread = CloseFileDescriptorThread(self.tuns[netid])
     thread.start()
+<<<<<<< HEAD   (1ff603 Merge "anycast_test.py: increase waiting time to 3 sec to wa)
     # Wait up to 3 seconds for the thread to finish, but
     # continue and fail the test if the thread hangs.
 
@@ -101,6 +102,11 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
     # more time, because duplicate address-timer takes a refcount
     # on the IPv6-address, preventing it from getting closed.
     thread.join(3)
+=======
+    # Wait up to 0.5 seconds for the thread to finish, but
+    # continue and fail the test if the thread hangs.
+    thread.join(0.5)
+>>>>>>> BRANCH (2eacd4 anycast_test.py: change to use thread.join to wait CloseFile)
 
     # Make teardown work.
     del self.tuns[netid]
