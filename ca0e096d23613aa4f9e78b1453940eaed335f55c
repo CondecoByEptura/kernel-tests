@@ -22,6 +22,30 @@
       "revId": "ca0e096d23613aa4f9e78b1453940eaed335f55c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d759a0d_557dd688",
+        "filename": "net/test/anycast_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2018-12-17T05:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01a52c1f_bff8099e",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 92
+      },
+      "revId": "ca0e096d23613aa4f9e78b1453940eaed335f55c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
