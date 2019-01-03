@@ -172,7 +172,8 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
     self.assertEquals(net_test.UDP_PAYLOAD, data)
     self.assertEquals((remote_inner, _TEST_REMOTE_PORT), src[:2])
 
-  def _TestTunnel(self, inner_version, outer_version, func, direction):
+  def _TestTunnel(self, inner_version, outer_version, func, direction,
+                  use_output_mark):
     """Test a unidirectional XFRM Tunnel with explicit selectors"""
     # Select the underlying netid, which represents the external
     # interface from/to which to route ESP packets.
@@ -186,6 +187,15 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
     local_outer = self.MyAddress(outer_version, u_netid)
     remote_outer = _GetRemoteOuterAddress(outer_version)
 
+    output_mark = u_netid
+    if not use_output_mark:
+      try:
+        self.ClearDefaultNetwork()
+      except:
+        pass
+      output_mark = None
+      self.SetDefaultNetwork(u_netid)
+
     # Create input/ouput SPs, SAs and sockets to simulate a more realistic
     # environment.
     self.xfrm.CreateTunnel(
@@ -196,7 +206,7 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
     self.xfrm.CreateTunnel(
         xfrm.XFRM_POLICY_OUT, xfrm.SrcDstSelector(local_inner, remote_inner),
         local_outer, remote_outer, _TEST_OUT_SPI, xfrm_base._ALGO_CBC_AES_256,
-        xfrm_base._ALGO_HMAC_SHA1, None, u_netid, None, xfrm.MATCH_METHOD_ALL)
+        xfrm_base._ALGO_HMAC_SHA1, None, output_mark, None, xfrm.MATCH_METHOD_ALL)
 
     write_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
     self.SelectInterface(write_sock, netid, "mark")
@@ -206,13 +216,20 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
     func(inner_version, outer_version, u_netid, netid, local_inner,
          remote_inner, local_outer, remote_outer, sock)
 
+    if not use_output_mark:
+      self.ClearDefaultNetwork()
+
   def ParamTestTunnelInput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput,
-                     xfrm.XFRM_POLICY_IN)
+                     xfrm.XFRM_POLICY_IN, True)
 
   def ParamTestTunnelOutput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
-                     xfrm.XFRM_POLICY_OUT)
+                     xfrm.XFRM_POLICY_OUT, True)
+
+  def ParamTestTunnelOutputNoSetMark(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
+                     xfrm.XFRM_POLICY_OUT, False)
 
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
