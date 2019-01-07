@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b2b585c_233e205d",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-01-07T14:20:43Z",
+      "side": 1,
+      "message": "What exact packets are causing the problem? Perhaps we can disable them in other ways. For example, if they\u0027re DAD packets, then we can set dad_transmits to 0.",
+      "range": {
+        "startLine": 290,
+        "startChar": 58,
+        "endLine": 291,
+        "endChar": 26
+      },
+      "revId": "b5537baf797a72f184b37d3ae52541dc56d3266c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d2f213b_742f0e38",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-01-07T14:20:43Z",
+      "side": 1,
+      "message": "I don\u0027t think this actually does anything unless the stack receives an RA.",
+      "range": {
+        "startLine": 598,
+        "startChar": 6,
+        "endLine": 598,
+        "endChar": 76
+      },
+      "revId": "b5537baf797a72f184b37d3ae52541dc56d3266c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
