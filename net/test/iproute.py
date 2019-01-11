@@ -47,6 +47,9 @@ RTM_GETNEIGH = 30
 RTM_NEWRULE = 32
 RTM_DELRULE = 33
 RTM_GETRULE = 34
+RTM_NEWTFILTER = 44
+RTM_DELTFILTER = 45
+RTM_GETTFILTER = 46
 
 # Routing message type values (rtm_type).
 RTN_UNSPEC = 0
@@ -82,6 +85,44 @@ RTA_MARK = 16
 RTA_PREF = 20
 RTA_UID = 25
 
+# TC attributes.
+#TCA_ACT_UNSPEC = 1
+#TCA_ACT_KIND = 2
+#TCA_ACT_OPTIONS = 3
+#TCA_ACT_INDEX = 4
+#TCA_ACT_STATS = 5
+#TCA_ACT_PAD = 6
+#TCA_ACT_COOKIE = 7
+
+# TC filter attributes
+#TCA_KIND = 1
+#TCA_OPTIONS = 2
+#TCA_STATS = 3
+#TCA_XSTATS = 4
+#TCA_RATE = 5
+#TCA_FCNT = 6
+#TCA_STATS2 = 7
+#TCA_STAB = 8
+#TCA_PAD = 9
+#TCA_DUMP_INVISIBLE = 10
+#TCA_CHAIN = 11
+#TCA_HW_OFFLOAD = 12
+#TCA_INGRESS_BLOCK = 13
+#TCA_EGRESS_BLOCK = 14
+
+# TC BPF filter attributes
+TCA_BPF_ACT = 1
+TCA_BPF_POLICE = 2
+TCA_BPF_CLASSID = 3 
+TCA_BPF_OPS_LEN = 4
+TCA_BPF_OPS = 5
+TCA_BPF_FD = 6
+TCA_BPF_NAME = 7
+TCA_BPF_FLAGS = 8
+TCA_BPF_FLAGS_GEN = 9
+TCA_BPF_TAG = 10
+TCA_BPF_ID =11
+
 # Netlink groups.
 RTMGRP_IPV6_IFADDR = 0x100
 
@@ -97,6 +138,8 @@ RTMsg = cstruct.Struct(
     "family dst_len src_len tos table protocol scope type flags")
 RTACacheinfo = cstruct.Struct(
     "RTACacheinfo", "=IIiiI", "clntref lastuse expires error used")
+TCMsg = cstruct.Struct( "TCMsg", "=BxxiIII",
+                       "family ifindex handle parent info")
 
 
 ### Interface address constants. See include/uapi/linux/if_addr.h.
@@ -233,7 +276,7 @@ def CommandVerb(command):
 
 
 def CommandSubject(command):
-  return ["LINK", "ADDR", "ROUTE", "NEIGH", "RULE"][(command - 16) / 4]
+  return ["LINK", "ADDR", "ROUTE", "NEIGH", "RULE", "QDISC", "TCLASS", "TCFILTER"][(command - 16) / 4]
 
 
 def CommandName(command):
@@ -299,6 +342,8 @@ class IPRoute(netlink.NetlinkSocket):
       name = self._GetConstantName(nla_type, "RTA_")
     elif CommandSubject(command) == "NEIGH":
       name = self._GetConstantName(nla_type, "NDA_")
+    elif CommandSubject(command) == "TCFILTER":
+      name = self._GetConstantName(nla_type, "TCA_")
     else:
       # Don't know what this is. Leave it as an integer.
       name = nla_type
@@ -309,7 +354,7 @@ class IPRoute(netlink.NetlinkSocket):
                 "IFLA_PROMISCUITY", "IFLA_NUM_RX_QUEUES",
                 "IFLA_NUM_TX_QUEUES", "NDA_PROBES", "RTAX_MTU",
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
-                "IFLA_GSO_MAX_SIZE", "RTA_UID"]:
+                "IFLA_GSO_MAX_SIZE", "RTA_UID", "TCA_BPF_FLAGS", "TCA_BPF_FD"]:
       data = struct.unpack("=I", nla_data)[0]
     elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
       data = struct.unpack("!I", nla_data)[0]
@@ -321,7 +366,7 @@ class IPRoute(netlink.NetlinkSocket):
                   "RTA_GATEWAY", "RTA_PREFSRC", "NDA_DST"]:
       data = socket.inet_ntop(msg.family, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
-                  "IFA_LABEL", "IFLA_INFO_KIND"]:
+                  "IFA_LABEL", "IFLA_INFO_KIND", "TCA_BPF_NAME"]:
       data = nla_data.strip("\x00")
     elif name == "RTA_METRICS":
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
@@ -445,6 +490,7 @@ class IPRoute(netlink.NetlinkSocket):
           "NEIGH": NdMsg,
           "ROUTE": RTMsg,
           "RULE": RTMsg,
+          "TCFILTER" : TCMsg,
       }[subject]
       parsed = self._ParseNLMsg(data, struct_type)
       return "%s %s" % (name, str(parsed))
@@ -768,7 +814,13 @@ class IPRoute(netlink.NetlinkSocket):
 
 if __name__ == "__main__":
   iproute = IPRoute()
-  iproute.DEBUG = True
+  # iproute.DEBUG = True
   iproute.DumpRules(6)
   iproute.DumpLinks()
-  print iproute.GetRoutes("2001:4860:4860::8888", 0, 0, None)
+  # print iproute.GetRoutes("2001:4860:4860::8888", 0, 0, None)
+  nlmsg = netlink.NLMsgHdr(length=88, type=44)
+  AF_UNSPEC = 0
+  tcmsg = TCMsg((AF_UNSPEC, 1, 0, 4294967283, 66304))
+  msg = "\x08\x00\x06\x00\x04\x00\x00\x00\x18\x00\x07\x00\x74\x63\x5f\x6d\x61\x7a\x65\x5f\x6f\x6b\x3a\x5b\x2a\x66\x73\x6f\x62\x6a\x5d\x00\x08\x00\x08\x00\x01\x00\x00\x00"
+  print iproute._ParseAttributes(44, nlmsg, msg)
+
