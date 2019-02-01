@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f45a3158_259949a6",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "should probably test ipv4 on ipv6 socket as well\n5: scapy.IP",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 52
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91b845a7_bf77f4e7",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "why write this with \u0027with\u0027?",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 8
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3e5d19_da41c350",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "sequence",
+      "range": {
+        "startLine": 156,
+        "startChar": 23,
+        "endLine": 156,
+        "endChar": 30
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feecdea2_2bb9045a",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "what\u0027s this \u0026 doing?",
+      "range": {
+        "startLine": 159,
+        "startChar": 40,
+        "endLine": 159,
+        "endChar": 50
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52b81657_ddc28778",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "why \u0026",
+      "range": {
+        "startLine": 168,
+        "startChar": 39,
+        "endLine": 168,
+        "endChar": 40
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe56f8c0_63891a0f",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "perhaps reset QUEUE to none before you turn repair off?\nalso tests that works\n\nboth here and above",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 8
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "000d873d_3943a257",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "what\u0027s this doing? create thread, join, create 2nd thread, join ???",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 7
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fd09ce3_aecbd517",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "perhaps just [0, 1]",
+      "range": {
+        "startLine": 198,
+        "startChar": 13,
+        "endLine": 198,
+        "endChar": 18
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be4be11c_c774c73e",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "shutdown",
+      "range": {
+        "startLine": 211,
+        "startChar": 11,
+        "endLine": 211,
+        "endChar": 17
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ed3328_cd2e7b07",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "shutdown",
+      "range": {
+        "startLine": 221,
+        "startChar": 11,
+        "endLine": 221,
+        "endChar": 17
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2785ea47_23b60348",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "spurious space",
+      "range": {
+        "startLine": 227,
+        "startChar": 10,
+        "endLine": 227,
+        "endChar": 11
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7951879d_16876e31",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-02-01T00:41:07Z",
+      "side": 1,
+      "message": "shutdown",
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
