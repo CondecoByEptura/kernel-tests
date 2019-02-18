@@ -409,6 +409,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
       cls.SendRA(netid)
       cls._RunSetupCommands(netid, True)
+      cls.SetSysctl("/proc/sys/net/ipv6/neigh/%s/delay_first_probe_time" % iface , 10)
 
     # Don't print lots of "device foo entered promiscuous mode" warnings.
     cls.loglevel = cls.GetConsoleLogLevel()

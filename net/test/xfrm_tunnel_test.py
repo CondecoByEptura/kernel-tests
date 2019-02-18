@@ -444,6 +444,8 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
         cls._SetInboundMarking(netid, iface, True)
         cls._SetupTunnelNetwork(tunnel, True)
 
+        if version == 6:
+          cls.SetSysctl("/proc/sys/net/ipv6/neigh/%s/delay_first_probe_time" % cls.GetInterfaceName(underlying_netid) , 10)
         if version == 4:
           cls.tunnelsV4[netid] = tunnel
         else:
