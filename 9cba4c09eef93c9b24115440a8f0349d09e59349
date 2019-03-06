@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04aba24f_aa867ed0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-03-06T03:52:26Z",
+      "side": 1,
+      "message": "Limit lines to 80 characters.\n\nPlease add a comment explaining why we do this, and link to a bug. Suggest:\n\n  # On slower platforms, the test does not complete before the delay probe time fires.\n  # This causes the test to fail because of the unexpected NUD packet. b/123202162",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 123
+      },
+      "revId": "9cba4c09eef93c9b24115440a8f0349d09e59349",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
