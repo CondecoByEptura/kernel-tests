@@ -135,6 +135,11 @@ echo 60 > /proc/sys/kernel/random/urandom_min_reseed_secs
 [ -f /proc/net/if_inet6 ] || insmod $DIR/kernel/net-next/net/ipv6/ipv6.ko
 
 # Minimal network setup.
+# without setting src_valid_mark: FAILED (failures=30, errors=110, skipped=8)
+# with src_valid_mark: FAILED (failures=32, errors=109, skipped=8)
+# and INPUT -> PREROUTING: FAILED (failures=18, errors=86, skipped=8)
+#echo 1 > /proc/sys/net/ipv4/conf/all/src_valid_mark
+#echo 1 > /proc/sys/net/ipv4/conf/all/rp_filter
 ip link set lo up
 ip link set lo mtu 16436
 ip link set eth0 up

@@ -1,0 +1,27 @@
+python -m compileall .
+
+Debian 7 wheezy, Debian 8 jessie, Debian 9 stretch, Debian 10 buster:
+  32-bit PC [Intel x86-based]  (i386)
+  64-bit PC [AMD64 & Intel 64] (amd64)
+  ARM EABI (armel)
+  ARMv7 [ARM with hardware fpu] (EABI hard-float ABI, armhf)
+  64-bit ARM (arm64)
+
+armhf === armv7 + vpf3-d16 + Thumb-2   a.k.a. cortex
+
+---
+5.1.7. (stretch+) Minimum requirement for 32-bit Intel is now i686 (with a minor exception)
+
+The 32-bit PC support (known as the Debian architecture i386) now no longer
+covers a plain i586 processor. The new baseline is the i686, although some
+i586 processors (e.g. the “AMD Geode”) will remain supported.
+
+The supported i586 processors have all the features of an i686 processor
+except the “long NOP” (NOPL) instruction. The following shell script may be
+a useful indicator (assuming only one processor is installed in the machine):
+
+grep -q '^flags.*\bfpu\b.*\btsc\b.*\bcx8\b.*\bcmov\b' /proc/cpuinfo \
+&& echo "OK (assuming all CPUs are of the same type)"
+
+486dx adds 'fpu', pentium adds 'tsc' and 'cx8', pentium pro adds 'cmov'
+

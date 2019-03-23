@@ -11,6 +11,43 @@ fcntl.fcntl(fd, fcntl.F_SETFL, flags)
 EOF
 }
 
+# export PATH=".../prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:${PATH}"
+# export PATH=".../prebuilts/clang/host/linux-x86/clang-r328903/bin:${PATH}"
+# CC=clang
+# WERROR=0
+
+: "${CC:=CLANG}"
+
+case "${ARCH}" in
+  um|uml|um64|uml64)
+    ARCH='um'
+    SUBARCH='x86_64'
+    ;;
+  um32|uml32)
+    ARCH='um'
+    SUBARCH='i386'
+    ;;
+  um48|uml48)
+    ARCH='um'
+    SUBARCH='x86_64'
+    ;;
+  x86|x86_32)
+    ;;
+  x86_48)
+    ;;
+  x86_64)
+    ARCH='x86_64'
+    : "${DEFCONFIG:=x86_64_cuttlefish_defconfig}"
+    ;;
+  armhf)
+    ;;
+  arm64)
+    : "${CROSS_COMPILE:=aarch64-linux-android-}"
+    : "${CLANG_TRIPLE:=aarch64-linux-gnu-}"
+    : "${DEFCONFIG:=cuttlefish_defconfig}"
+    ;;
+esac
+
 # Common kernel options
 OPTIONS=" DEBUG_SPINLOCK DEBUG_ATOMIC_SLEEP DEBUG_MUTEXES DEBUG_RT_MUTEXES"
 OPTIONS="$OPTIONS WARN_ALL_UNSEEDED_RANDOM IKCONFIG IKCONFIG_PROC"

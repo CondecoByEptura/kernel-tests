@@ -323,7 +323,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       # Run iptables to set up incoming packet marking.
       add_del = "-A" if is_add else "-D"
       iptables = {4: "iptables", 6: "ip6tables"}[version]
-      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (
+      args = "%s PREROUTING -t mangle -i %s -j MARK --set-mark %d" % (
           add_del, iface, netid)
       if net_test.RunIptablesCommand(version, args):
         raise ConfigurationError("Setup command failed: %s" % args)
