@@ -1,0 +1,498 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a66a3ab7_a64d65eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "isn\u0027t the style to capitalize?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4bc8d8_1380d6af",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "is this used elsewhere?\n\nI wonder if this wasn\u0027t this way on purpose...",
+      "range": {
+        "startLine": 471,
+        "startChar": 6,
+        "endLine": 471,
+        "endChar": 22
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e10263a8_1a209cf0",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "one more space before # I think",
+      "range": {
+        "startLine": 19,
+        "startChar": 19,
+        "endLine": 19,
+        "endChar": 20
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0744361_2b9835b8",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "perhaps for the following constants add links to kernel uapi header files that define them\n\nie. linux-kernel:include/uapi/linux/tcp.h\n\nProbably worth clarifying which of these are SOL_TCP level options, and which are arguments and to what.\n\nie. TCP_REPAIR_OFF/ON is an argument to TCP_REPAIR and should thus come after it.\n\nTCP_REPAIR_QUEUE is a SOL_TCP level option",
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3745299_a0fbd4b8",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "space before 0",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 17
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ce30bcb_7f560d41",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "spaces before/after \u003d here and next 4 lines",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 13
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "845b6e88_62c2d586",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "suggest moving this to just below SOL_TCP since it\u0027s coming from outside and basically just simplifying notation (it\u0027s kind of like an import statement, and indeed could be written as one)",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf87476_ce90323c",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "This test is aiming to ensure tcp keep alive offload works correctly\nwhen it fetches tcp information from kernel via tcp repair mode.\n\n(potentially via-\u003ein)",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 63
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f0228b6_968ef885",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "space before (",
+      "range": {
+        "startLine": 71,
+        "startChar": 50,
+        "endLine": 71,
+        "endChar": 51
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ea27c6_3cac361b",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "space around \u003d",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 83,
+        "endChar": 39
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a74eb73b_57d47992",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "spurious ;",
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99a9e6d9_c48b1d70",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "instead of \u0027would\u0027 use \u0027will\u0027 *or* \u0027to\u0027",
+      "range": {
+        "startLine": 122,
+        "startChar": 56,
+        "endLine": 122,
+        "endChar": 61
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09f14658_f7a81ca6",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "read/written",
+      "range": {
+        "startLine": 123,
+        "startChar": 37,
+        "endLine": 123,
+        "endChar": 47
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d78a52c0_d3487806",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "cannot",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 33
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6089061_8e8e1a9f",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "you seem to have phrased this differently elsewhere...\nbe consistent\n\nself.assertRaisesErrno(EINVAL, sock.send(\"write test\"))",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef81a3f8_1339c7af",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 8
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c60d97fa_78b35ca5",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "poll()\u0027ed",
+      "range": {
+        "startLine": 192,
+        "startChar": 42,
+        "endLine": 192,
+        "endChar": 48
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35197200_798fcb9c",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "testMultiThreadedPoll\n\n(not Mutil and add ed)",
+      "range": {
+        "startLine": 194,
+        "startChar": 6,
+        "endLine": 194,
+        "endChar": 25
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a1e35f5_e15ba049",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "...InMultipleThreads perhaps?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 35
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f103aad_5051ae55",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "perhaps should have had \u0027SHUT_WR \u003d net_test.SHUT_WR\u0027 at top after imports?\n(same for SHUT_RD)",
+      "range": {
+        "startLine": 228,
+        "startChar": 18,
+        "endLine": 228,
+        "endChar": 34
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff02a00_58e16f7d",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "you only use this twice, could just write net_test.UDP_PAYLOAD down below\n\nit\u0027s probably more legible too\n\n(because net_test.UDP_PAYLOD is clearly a test udp payload, while TEST_RECEIVED smells like a boolean or counter)",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 40
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2d34665_f0bc315a",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "you use this more times, but *perhaps* the comment from above still applies?\n\nTEST_SEND is a bad name.  perhaps TEST_UDP_SEND_PAYLOAD\n\n(possibly TEST_UDP_RECV_PAYLOAD up above?)",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 36
+      },
+      "revId": "67d7fad917ba9b554f77b612eb1e41b626a69ce3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}

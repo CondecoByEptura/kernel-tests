@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "52306352_9589eaea",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "Ah interesting didn\u0027t know this (mis?)feature of python.",
+      "parentUuid": "79abda1d_9e843808",
+      "range": {
+        "startLine": 159,
+        "startChar": 40,
+        "endLine": 159,
+        "endChar": 50
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52b81657_ddc28778",
         "filename": "net/test/tcp_repair_test.py",
         "patchSetId": 3
@@ -234,6 +258,30 @@
       "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6a7e9e4_79f30e50",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-03-28T21:02:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e4cfa2a_b77aa1ab",
+      "range": {
+        "startLine": 168,
+        "startChar": 39,
+        "endLine": 168,
+        "endChar": 40
+      },
+      "revId": "0eea0aefb6b538dfe1513d4531ab47c1903cbd8a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
