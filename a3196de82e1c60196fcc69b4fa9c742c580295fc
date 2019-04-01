@@ -1,0 +1,434 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e862528_831c83bf",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Note that 5555 is often used by adb. You might want to pick another port to avoid confusion.",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42a8851a_ccb2c92e",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Do you need a self.ExpectPacketOn() here? Do you need to pretend that the remote side acked the packet you just sent?",
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae91aa37_5350e28e",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Per style guide, method names are SentenceCase. (The testXyz methods are special.)",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 7
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335061ce_ecdc72b1",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "What does this do? For a 32-bit number, an and with 0xffffffff returns the number itself. Maybe add a comment? Or factor out to a function? For example, if you need this to make the number unsigned, then you can just define a simple function called Make32BitUnsigned.",
+      "range": {
+        "startLine": 166,
+        "startChar": 22,
+        "endLine": 166,
+        "endChar": 50
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded329bb_dac8bb6f",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Why no \u0026 0xffffffff here? If anything it\u0027s more necessary, since in theory sequence_before + len(TEST_SEND) could overflow the 32-bit sequence number and return a number close to 0.",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 54
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e926a5c8_5b44b526",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "on multiple",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 14
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89196c42_711b9365",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Nit: On\n\nAlso, suggest adding a docstring explaining what this does. Maybe:\n\n   \"\"\"Runs fdSelect on two threads and asserts they both see the expected event.\"\"\"",
+      "range": {
+        "startLine": 205,
+        "startChar": 22,
+        "endLine": 205,
+        "endChar": 24
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f11fb8c_87e9bf65",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Nit: per style guide, variable names are snake_case.",
+      "range": {
+        "startLine": 216,
+        "startChar": 17,
+        "endLine": 216,
+        "endChar": 29
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c7e4e0d_152bf127",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "You don\u0027t need parentheses around if statement clauses. This can be just:\n\n  if thread.is_alive():",
+      "range": {
+        "startLine": 220,
+        "startChar": 9,
+        "endLine": 220,
+        "endChar": 28
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21b1b477_b990293f",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "What is this 1 for? How is it related to the 500 above? Can you make this a constant as well?",
+      "range": {
+        "startLine": 221,
+        "startChar": 20,
+        "endLine": 221,
+        "endChar": 21
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb6da9db_821c953d",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "# Check that poll() returns POLLIN when shutdown (SHUT_RD) is performed.",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 30
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0dca0c0_bc29bc9a",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "# Check that poll() returns no events when shutdown (SHUT_WR) is performed.",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 19
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a443969_32936be4",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "# Check that...",
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7702f613_2cb764ab",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "# Check that poll() returns POLLIN when a FIN is received.",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 30
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64816e21_9472842d",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "R",
+      "range": {
+        "startLine": 263,
+        "startChar": 6,
+        "endLine": 263,
+        "endChar": 7
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d64df9_5821f788",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "W",
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54973abc_bfe141fb",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "SelectOnFd?",
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49591117_b75a2ce8",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "You don\u0027t need to specify these, they\u0027re always returned regardless of whether they\u0027re specified or not.\n\nAlso, line limit is 80 characters.",
+      "range": {
+        "startLine": 311,
+        "startChar": 49,
+        "endLine": 311,
+        "endChar": 98
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ef113d2_ec812600",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Specify units. Something like:\n\nPOLL_TIMEOUT_MS \u003d 500\n\nat the top of the file. Also, maybe add a comment to explain why you chose this value.",
+      "range": {
+        "startLine": 314,
+        "startChar": 20,
+        "endLine": 314,
+        "endChar": 23
+      },
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a0d51da_f0f86251",
+        "filename": "net/test/tcp_repair_test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-04-01T13:17:43Z",
+      "side": 1,
+      "message": "Why is this called ExceptionThread? I don\u0027t see any exceptions here. SocketOperationThread? SocketBackgroundThread?",
+      "revId": "a3196de82e1c60196fcc69b4fa9c742c580295fc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
