@@ -31,6 +31,7 @@ import platform
 # are not running with COMPAT_UTS_MACHINE and must be 64-bit at all times.
 # TODO: is there a better way of doing this?
 __NR_bpf = {
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
     "aarch64-32bit": 386,
     "aarch64-64bit": 280,
     "armv7l-32bit": 386,
@@ -41,6 +42,14 @@ __NR_bpf = {
     "x86_64-32bit": 357,
     "x86_64-64bit": 321,
 }[os.uname()[4] + "-" + platform.architecture()[0]]
+=======
+    "aarch64": 280,
+    "armv7l": 386,
+    "armv8l": 386,
+    "i686" : 357,
+    "x86_64": 321,
+}[os.uname()[4]]
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
 LOG_LEVEL = 1
 LOG_SIZE = 65536

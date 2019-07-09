@@ -87,6 +87,7 @@ def _GetRemoteOuterAddress(version):
 
 def _GetNullAuthCryptTunnelModePkt(inner_version, src_inner, src_outer,
                                    src_port, dst_inner, dst_outer,
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                                    dst_port, spi, seq_num, ip_hdr_options=None):
   if ip_hdr_options is None:
     ip_hdr_options = {}
@@ -113,6 +114,31 @@ def _CreateReceiveSock(version, port=0):
   local_port = read_sock.getsockname()[1]
   # Guard against the eventuality of the receive failing.
   csocket.SetSocketTimeout(read_sock, 500)
+=======
+                                   dst_port, spi, seq_num, ip_hdr_options={}):
+  ip_hdr_options.update({'src': src_inner, 'dst': dst_inner})
+
+  # Build and receive an ESP packet destined for the inner socket
+  IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
+  input_pkt = (
+      IpType(**ip_hdr_options) / scapy.UDP(sport=src_port, dport=dst_port) /
+      net_test.UDP_PAYLOAD)
+  input_pkt = IpType(str(input_pkt))  # Compute length, checksum.
+  input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, spi, seq_num,
+                                              (src_outer, dst_outer))
+
+  return input_pkt
+
+
+def _CreateReceiveSock(version, port=0):
+  # Create a socket to receive packets.
+  read_sock = socket(net_test.GetAddressFamily(version), SOCK_DGRAM, 0)
+  read_sock.bind((net_test.GetWildcardAddress(version), port))
+  # The second parameter of the tuple is the port number regardless of AF.
+  local_port = read_sock.getsockname()[1]
+  # Guard against the eventuality of the receive failing.
+  net_test.SetNonBlocking(read_sock.fileno())
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
   return read_sock, local_port
 
@@ -149,6 +175,8 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
   def _CheckTunnelOutput(self, inner_version, outer_version, underlying_netid,
                          netid, local_inner, remote_inner, local_outer,
                          remote_outer, write_sock):
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
+=======
 
     write_sock.sendto(net_test.UDP_PAYLOAD, (remote_inner, 53))
     self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
@@ -161,6 +189,76 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
     # The second parameter of the tuple is the port number regardless of AF.
     local_port = read_sock.getsockname()[1]
 
+    # Build and receive an ESP packet destined for the inner socket
+    input_pkt = _GetNullAuthCryptTunnelModePkt(
+        inner_version, remote_inner, remote_outer, _TEST_REMOTE_PORT,
+        local_inner, local_outer, local_port, _TEST_IN_SPI, 1)
+    self.ReceivePacketOn(underlying_netid, input_pkt)
+
+    # Verify that the packet data and src are correct
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals((remote_inner, _TEST_REMOTE_PORT), src[:2])
+
+  def _TestTunnel(self, inner_version, outer_version, func, direction):
+    """Test a unidirectional XFRM Tunnel with explicit selectors"""
+    # Select the underlying netid, which represents the external
+    # interface from/to which to route ESP packets.
+    u_netid = self.RandomNetid()
+    # Select a random netid that will originate traffic locally and
+    # which represents the netid on which the plaintext is sent
+    netid = self.RandomNetid(exclude=u_netid)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
+
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
+    write_sock.sendto(net_test.UDP_PAYLOAD, (remote_inner, 53))
+    self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
+                            local_outer, remote_outer)
+=======
+    local_inner = self.MyAddress(inner_version, netid)
+    remote_inner = _GetRemoteInnerAddress(inner_version)
+    local_outer = self.MyAddress(outer_version, u_netid)
+    remote_outer = _GetRemoteOuterAddress(outer_version)
+
+    # Create input/ouput SPs, SAs and sockets to simulate a more realistic
+    # environment.
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN,
+                           xfrm.SrcDstSelector(remote_inner, local_inner),
+                           remote_outer, local_outer, _TEST_IN_SPI,
+                           xfrm_base._ALGO_CRYPT_NULL,
+                           xfrm_base._ALGO_AUTH_NULL, None, None, None)
+
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT,
+                           xfrm.SrcDstSelector(local_inner, remote_inner),
+                           local_outer, remote_outer, _TEST_OUT_SPI,
+                           xfrm_base._ALGO_CBC_AES_256,
+                           xfrm_base._ALGO_HMAC_SHA1, None, u_netid, None)
+
+    write_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
+    self.SelectInterface(write_sock, netid, "mark")
+    read_sock, _ = _CreateReceiveSock(inner_version)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
+
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
+  def _CheckTunnelInput(self, inner_version, outer_version, underlying_netid,
+                        netid, local_inner, remote_inner, local_outer,
+                        remote_outer, read_sock):
+=======
+    sock = write_sock if direction == xfrm.XFRM_POLICY_OUT else read_sock
+    func(inner_version, outer_version, u_netid, netid, local_inner,
+         remote_inner, local_outer, remote_outer, sock)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
+
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
+    # The second parameter of the tuple is the port number regardless of AF.
+    local_port = read_sock.getsockname()[1]
+=======
+  def ParamTestTunnelInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput,
+                     xfrm.XFRM_POLICY_IN)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
+
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
     # Build and receive an ESP packet destined for the inner socket
     input_pkt = _GetNullAuthCryptTunnelModePkt(
         inner_version, remote_inner, remote_outer, _TEST_REMOTE_PORT,
@@ -227,6 +325,11 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
   def ParamTestTunnelOutputNoSetMark(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
                      xfrm.XFRM_POLICY_OUT, True)
+=======
+  def ParamTestTunnelOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
+                     xfrm.XFRM_POLICY_OUT)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
 
 @unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
@@ -336,6 +439,7 @@ class IpSecBaseInterface(object):
 
     self._SetupXfrmByType(auth, crypt)
 
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
   def Rekey(self, outer_family, new_out_sa, new_in_sa):
     """Rekeys the Tunnel Interface
 
@@ -359,6 +463,12 @@ class IpSecBaseInterface(object):
     raise NotImplementedError("Subclasses should implement this")
 
   def _Rekey(self, outer_family, new_out_sa, new_in_sa):
+=======
+  def TeardownXfrm(self):
+    raise NotImplementedError("Subclasses should implement this")
+
+  def _SetupXfrmByType(self, auth_algo, crypt_algo):
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
     raise NotImplementedError("Subclasses should implement this")
 
 
@@ -385,18 +495,27 @@ class VtiInterface(IpSecBaseInterface):
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
                            self.out_sa.spi, crypt_algo, auth_algo,
                            xfrm.ExactMatchMark(self.okey),
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                            self.underlying_netid, None, xfrm.MATCH_METHOD_ALL)
+=======
+                           self.underlying_netid, None)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
                            self.in_sa.spi, crypt_algo, auth_algo,
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                            xfrm.ExactMatchMark(self.ikey), None, None,
                            xfrm.MATCH_METHOD_MARK)
+=======
+                           xfrm.ExactMatchMark(self.ikey), None, None)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
   def TeardownXfrm(self):
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
                            self.out_sa.spi, self.okey, None)
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
                            self.in_sa.spi, self.ikey, None)
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
 
   def _Rekey(self, outer_family, new_out_sa, new_in_sa):
     # TODO: Consider ways to share code with xfrm.CreateTunnel(). It's mostly
@@ -426,6 +545,8 @@ class VtiInterface(IpSecBaseInterface):
                            xfrm.ExactMatchMark(self.ikey))
     self.xfrm.DeleteSaInfo(self.remote, old_out_spi, IPPROTO_ESP,
                            xfrm.ExactMatchMark(self.okey))
+=======
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
 
 @unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
@@ -465,6 +586,7 @@ class XfrmInterface(IpSecBaseInterface):
   def _SetupXfrmByType(self, auth_algo, crypt_algo):
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
                            self.out_sa.spi, crypt_algo, auth_algo, None,
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                            self.underlying_netid, self.xfrm_if_id,
                            xfrm.MATCH_METHOD_ALL)
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
@@ -504,6 +626,19 @@ class XfrmInterface(IpSecBaseInterface):
                            self.xfrm_if_id)
     self.xfrm.DeleteSaInfo(self.remote, old_out_spi, IPPROTO_ESP, None,
                            self.xfrm_if_id)
+=======
+                           self.underlying_netid, self.xfrm_if_id)
+    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
+                           self.in_sa.spi, crypt_algo, auth_algo, None, None,
+                           self.xfrm_if_id)
+
+  def TeardownXfrm(self):
+    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
+                           self.out_sa.spi, None, self.xfrm_if_id)
+    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
+                           self.in_sa.spi, None, self.xfrm_if_id)
+
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
 
 class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
@@ -536,6 +671,14 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
         cls._SetInboundMarking(netid, iface, True)
         cls._SetupTunnelNetwork(tunnel, True)
 
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
+=======
+        # On slower platforms, the test does not complete before the delay probe time fires.
+        # This causes the test to fail because of the unexpected NUD packet. b/123202162
+        if version == 6:
+          cls.SetSysctl("/proc/sys/net/ipv6/neigh/%s/delay_first_probe_time"
+                        % cls.GetInterfaceName(underlying_netid) , 10)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
         if version == 4:
           cls.tunnelsV4[netid] = tunnel
         else:
@@ -647,7 +790,11 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     sa_info.seq_num += 1
 
   def _CheckTunnelInput(self, tunnel, inner_version, local_inner, remote_inner,
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                         sa_info=None, expect_fail=False):
+=======
+                        sa_info=None):
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
     """Test null-crypt input path over an IPsec interface."""
     if sa_info is None:
       sa_info = tunnel.in_sa
@@ -658,6 +805,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
         local_inner, tunnel.local, local_port, sa_info.spi, sa_info.seq_num)
     self.ReceivePacketOn(tunnel.underlying_netid, input_pkt)
 
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
     if expect_fail:
       self.assertRaisesErrno(EAGAIN, read_sock.recv, 4096)
     else:
@@ -666,6 +814,13 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       self.assertReceivedPacket(tunnel, sa_info)
       self.assertEquals(net_test.UDP_PAYLOAD, data)
       self.assertEquals((remote_inner, _TEST_REMOTE_PORT), src[:2])
+=======
+    # Verify that the packet data and src are correct
+    self.assertReceivedPacket(tunnel, sa_info)
+    data, src = read_sock.recvfrom(4096)
+    self.assertEquals(net_test.UDP_PAYLOAD, data)
+    self.assertEquals((remote_inner, _TEST_REMOTE_PORT), src[:2])
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
   def _CheckTunnelOutput(self, tunnel, inner_version, local_inner,
                          remote_inner, sa_info=None):
@@ -806,6 +961,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     tunnel = self.randomTunnel(outer_version)
 
     try:
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
       # Some tests require that the out_seq_num and in_seq_num are the same
       # (Specifically encrypted tests), rebuild SAs to ensure seq_num is 1
       #
@@ -946,6 +1102,69 @@ class XfrmInterfaceTest(XfrmTunnelBase):
 
   def ParamTestXfrmIntfRekey(self, inner_version, outer_version):
     self._TestTunnelRekey(inner_version, outer_version)
+=======
+      tunnel.TeardownXfrm()
+      tunnel.SetupXfrm(use_null_crypt)
+
+      local_inner = tunnel.addrs[inner_version]
+      remote_inner = _GetRemoteInnerAddress(inner_version)
+
+      # Run twice to ensure sequence numbers are tested
+      for i in range(2):
+        func(tunnel, inner_version, local_inner, remote_inner)
+    finally:
+      if use_null_crypt:
+        tunnel.TeardownXfrm()
+        tunnel.SetupXfrm(False)
+
+
+@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
+class XfrmVtiTest(XfrmTunnelBase):
+
+  INTERFACE_CLASS = VtiInterface
+
+  def ParamTestVtiInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+
+  def ParamTestVtiOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
+                     True)
+
+  def ParamTestVtiInOutEncrypted(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
+                     False)
+
+  def ParamTestVtiIcmp(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
+
+  def ParamTestVtiEncryptionWithIcmp(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version,
+                     self._CheckTunnelEncryptionWithIcmp, False)
+
+
+@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
+class XfrmInterfaceTest(XfrmTunnelBase):
+
+  INTERFACE_CLASS = XfrmInterface
+
+  def ParamTestXfrmIntfInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+
+  def ParamTestXfrmIntfOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
+                     True)
+
+  def ParamTestXfrmIntfInOutEncrypted(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
+                     False)
+
+  def ParamTestXfrmIntfIcmp(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
+
+  def ParamTestXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version,
+                     self._CheckTunnelEncryptionWithIcmp, False)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
 
 if __name__ == "__main__":

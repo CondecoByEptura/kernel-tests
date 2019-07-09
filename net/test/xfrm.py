@@ -635,7 +635,11 @@ class Xfrm(netlink.NetlinkSocket):
     self._SendNlRequest(XFRM_MSG_FLUSHSA, usersa_flush.Pack(), flags)
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                    auth_trunc, mark, output_mark, xfrm_if_id, match_method):
+=======
+                   auth_trunc, mark, output_mark, xfrm_if_id):
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -657,8 +661,11 @@ class Xfrm(netlink.NetlinkSocket):
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm. None means unspecified.
       xfrm_if_id: The ID of the XFRM interface to use or None.
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
       match_method: One of MATCH_METHOD_[MARK | ALL | IFID]. This determines how
         SAs and policies are matched.
+=======
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
     """
     outer_family = net_test.GetAddressFamily(net_test.GetAddressVersion(dst))
 
@@ -683,7 +690,11 @@ class Xfrm(netlink.NetlinkSocket):
     # UPDSA does not update marks at this time. Actual use case will have no
     # mark set. Test this use case.
     self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, 0, encryption, auth_trunc,
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
                    None, None, None, output_mark, xfrm_if_id=xfrm_if_id)
+=======
+                   None, None, mark, output_mark, xfrm_if_id=xfrm_if_id)
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
 
     if selector is None:
       selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
@@ -692,7 +703,11 @@ class Xfrm(netlink.NetlinkSocket):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
+<<<<<<< HEAD   (9ed887 DO NOT MERGE - Merge pi-platform-release (PPRL.190505.001) i)
       tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
+=======
+      tmpl = UserTemplate(outer_family, spi, 0, (src, dst))
+>>>>>>> BRANCH (776c2f Snap for 5622519 from e90514f71460097fa3c1058cb73d78238c1214)
       self.AddPolicyInfo(policy, tmpl, mark, xfrm_if_id=xfrm_if_id)
 
   def DeleteTunnel(self, direction, selector, dst, spi, mark, xfrm_if_id):
