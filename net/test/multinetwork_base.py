@@ -323,7 +323,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       # Run iptables to set up incoming packet marking.
       add_del = "-A" if is_add else "-D"
       iptables = {4: "iptables", 6: "ip6tables"}[version]
-      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (
+      args = "%s PREROUTING -t mangle -i %s -j MARK --set-mark %d" % (
           add_del, iface, netid)
       if net_test.RunIptablesCommand(version, args):
         raise ConfigurationError("Setup command failed: %s" % args)
@@ -356,6 +356,13 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     if sysctl not in cls.saved_sysctls:
       cls.saved_sysctls[sysctl] = cls.GetSysctl(sysctl)
     open(sysctl, "w").write(str(value) + "\n")
+
+  @classmethod
+  def SetIPv4SysctlOnAllIfaces(cls, sysctl, value):
+    for netid in cls.tuns:
+      iface = cls.GetInterfaceName(netid)
+      name = "/proc/sys/net/ipv4/conf/%s/%s" % (iface, sysctl)
+      cls.SetSysctl(name, value)
 
   @classmethod
   def SetIPv6SysctlOnAllIfaces(cls, sysctl, value):
@@ -756,6 +763,8 @@ class InboundMarkingTest(MultiNetworkBaseTest):
   def setUpClass(cls):
     super(InboundMarkingTest, cls).setUpClass()
     cls.SetInboundMarks(True)
+    cls.SetIPv4SysctlOnAllIfaces("rp_filter", "1")
+    cls.SetIPv4SysctlOnAllIfaces("src_valid_mark", "0")
 
   @classmethod
   def tearDownClass(cls):
