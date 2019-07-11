@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11149e05_be474b1a",
+        "filename": "net/test/rootfs/buster.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-07-11T11:44:54Z",
+      "side": 1,
+      "message": "ugh, we should be using master or something ;-) but I guess that\u0027s not for this cl.  -\u003e b/137262547",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "b1c05f29f54f7b3485f32ea890d8d39b7c815a92",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
