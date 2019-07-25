@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02156bd6_676e125d",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2019-07-25T02:58:34Z",
+      "side": 1,
+      "message": "Nit: Indent to align with \"local\"",
+      "range": {
+        "startLine": 859,
+        "startChar": 24,
+        "endLine": 859,
+        "endChar": 26
+      },
+      "revId": "cab70574b13d73be160762a9957bd93a55fead56",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
