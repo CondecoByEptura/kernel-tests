@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c31168e_9087327f",
+        "filename": "net/test/net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2019-08-15T19:31:37Z",
+      "side": 1,
+      "message": "yes, I realize we could have switched this instead, to use $(readlink /proc/self/fd/0) instead of $(tty)...\n\nsomehow this approach feels cleaner because it better documents why tty doesn\u0027t work...\nbut maybe??",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "b998db0431e753fd773f7e14f2a87c881e4332d1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
