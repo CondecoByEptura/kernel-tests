@@ -49,6 +49,149 @@ TEST_SPI = 0x1234
 TEST_SPI2 = 0x1235
 
 
+class XfrmExpiryTest(xfrm_base.XfrmLazyTest):
+
+  def getListenerGroup(self, group):
+    if group == 0:
+      return 0
+    else:
+      return (1 << (group - 1))
+
+  def getNextExpiryNotification(self, xfrm_listener, timeout=1.0):
+    data = xfrm_listener._RecvTimeout(timeout)
+    ((nlmsg, attrs), data) = self.xfrm._ParseNLMsg(data, xfrm.XfrmUserExpire)
+    return nlmsg
+
+  def setupSocketAndSas(self, netid, version, remote_addr, lifetime_cfg):
+    # Open a UDP socket and connect it.
+    family = net_test.GetAddressFamily(version)
+    s = socket(family, SOCK_DGRAM, 0)
+    self.SelectInterface(s, netid, "mark")
+
+    s.connect((remote_addr, 53))
+    saddr, sport = s.getsockname()[:2]
+    daddr, dport = s.getpeername()[:2]
+    if version == 5:
+      saddr = saddr.replace("::ffff:", "")
+      daddr = daddr.replace("::ffff:", "")
+
+    # Using IPv4 XFRM on a dual-stack socket requires setting an AF_INET policy
+    # that's written in terms of IPv4 addresses.
+    xfrm_version = 4 if version == 5 else version
+    xfrm_family = net_test.GetAddressFamily(xfrm_version)
+    xfrm_base.ApplySocketPolicy(s, xfrm_family, xfrm.XFRM_POLICY_OUT, TEST_SPI,
+                                1234, None)
+
+    # Build a SA with provided lifetime
+    self.xfrm.AddSaInfo(
+        net_test.GetWildcardAddress(xfrm_version),
+        self.GetRemoteAddress(xfrm_version),
+        TEST_SPI,
+        xfrm.XFRM_MODE_TRANSPORT,
+        1234,
+        xfrm_base._ALGO_CBC_AES_256,
+        xfrm_base._ALGO_AUTH_NULL,
+        None,
+        None,
+        None,
+        None,
+        lifetime_cfg=lifetime_cfg)
+
+    return s
+
+  def GetExpectedPacketSize(self, version):
+    return xfrm_base.GetEspPacketLength(xfrm.XFRM_MODE_TRANSPORT, version,
+                                        False, net_test.UDP_PAYLOAD,
+                                        xfrm_base._ALGO_AUTH_NULL,
+                                        xfrm_base._ALGO_CBC_AES_256)
+
+  def VerifyPacketCountExpiry(self, version):
+    """Test that a listening socket can be registered, and receives updates"""
+
+    # Build a SA with an extremely limited soft/hard lifetime of 1 and 2 packets, respectively.
+    expected_pkt_size = self.GetExpectedPacketSize(version)
+    netid = self.RandomNetid()
+    remote_addr = self.GetRemoteSocketAddress(version)
+
+    lifetime_cfg = xfrm.XfrmLifetimeCfg(
+        (xfrm._INF, xfrm._INF, 1, 2, 0, 0, 0, 0))
+    sock = self.setupSocketAndSas(netid, version, remote_addr, lifetime_cfg)
+
+    # Build and register a listener for expiry events
+    xfrm_listener = xfrm.Xfrm(
+        groups=self.getListenerGroup(xfrm.XFRM_NL_GRP_EXPIRE))
+
+    sock.sendto(net_test.UDP_PAYLOAD, (remote_addr, 53))
+    self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_pkt_size, None, None)
+
+    # Verify soft lifetime enforced
+    sock.sendto(net_test.UDP_PAYLOAD, (remote_addr, 53))
+    self._ExpectEspPacketOn(netid, TEST_SPI, 2, expected_pkt_size, None, None)
+    soft_lifetime = self.getNextExpiryNotification(xfrm_listener)
+    self.assertFalse(soft_lifetime.hard)
+    self.assertEquals(TEST_SPI, soft_lifetime.state.id.spi)
+
+    # Verify hard lifetime enforced
+    self.assertRaisesErrno(EINVAL, sock.sendto, net_test.UDP_PAYLOAD,
+                           (remote_addr, 53))
+    self.ExpectNoPacketsOn(netid, "SA no longer valid")
+    hard_lifetime = self.getNextExpiryNotification(xfrm_listener)
+    self.assertTrue(hard_lifetime.hard)
+    self.assertEquals(TEST_SPI, hard_lifetime.state.id.spi)
+
+  def testPacketCountExpiryV4(self):
+    self.VerifyPacketCountExpiry(4)
+
+  def testPacketCountExpiryDualStack(self):
+    self.VerifyPacketCountExpiry(5)
+
+  def testPacketCountExpiryV6(self):
+    self.VerifyPacketCountExpiry(6)
+
+  def VerifyByteCountExpiry(self, version):
+    """Test that a listening socket can be registered, and receives updates"""
+
+    # Build a SA with an extremely limited soft/hard lifetime of 1 and 2 packets worth of data, respectively.
+    expected_pkt_size = self.GetExpectedPacketSize(version)
+    netid = self.RandomNetid()
+    remote_addr = self.GetRemoteSocketAddress(version)
+
+    lifetime_cfg = xfrm.XfrmLifetimeCfg(
+        (len(net_test.UDP_PAYLOAD) - 1, len(net_test.UDP_PAYLOAD) * 2 - 1,
+         xfrm._INF, xfrm._INF, 0, 0, 0, 0))
+    sock = self.setupSocketAndSas(netid, version, remote_addr, lifetime_cfg)
+
+    # Build and register a listener for expiry events
+    xfrm_listener = xfrm.Xfrm(
+        groups=self.getListenerGroup(xfrm.XFRM_NL_GRP_EXPIRE))
+
+    sock.sendto(net_test.UDP_PAYLOAD, (remote_addr, 53))
+    self._ExpectEspPacketOn(netid, TEST_SPI, 1, expected_pkt_size, None, None)
+
+    # Verify soft lifetime enforced
+    sock.sendto(net_test.UDP_PAYLOAD, (remote_addr, 53))
+    self._ExpectEspPacketOn(netid, TEST_SPI, 2, expected_pkt_size, None, None)
+    soft_lifetime = self.getNextExpiryNotification(xfrm_listener)
+    self.assertFalse(soft_lifetime.hard)
+    self.assertEquals(TEST_SPI, soft_lifetime.state.id.spi)
+
+    # Verify hard lifetime enforced
+    self.assertRaisesErrno(EINVAL, sock.sendto, net_test.UDP_PAYLOAD,
+                           (remote_addr, 53))
+    self.ExpectNoPacketsOn(netid, "SA no longer valid")
+    hard_lifetime = self.getNextExpiryNotification(xfrm_listener)
+    self.assertTrue(hard_lifetime.hard)
+    self.assertEquals(TEST_SPI, hard_lifetime.state.id.spi)
+
+  def testByteCountExpiryV4(self):
+    self.VerifyByteCountExpiry(4)
+
+  def testByteCountExpiryDualStack(self):
+    self.VerifyByteCountExpiry(5)
+
+  def testByteCountExpiryV6(self):
+    self.VerifyByteCountExpiry(6)
+
 
 class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
 
@@ -139,9 +282,9 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     # creates an SA whose state is XFRM_STATE_ACQ. So this just deletes it.
     # If there is no user space key manager, deleting SA returns ESRCH as the error code.
     try:
-        self.xfrm.DeleteSaInfo(self.GetRemoteAddress(xfrm_version), TEST_SPI, IPPROTO_ESP)
+      self.xfrm.DeleteSaInfo(self.GetRemoteAddress(xfrm_version), TEST_SPI, IPPROTO_ESP)
     except IOError as e:
-        self.assertEquals(ESRCH, e.errno, "Unexpected error when deleting ACQ SA")
+      self.assertEquals(ESRCH, e.errno, "Unexpected error when deleting ACQ SA")
 
     # Adding a matching SA causes the packet to go out encrypted. The SA's
     # SPI must match the one in our template, and the destination address must
@@ -772,13 +915,13 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
     invalid_auth = (xfrm.XfrmAlgoAuth(("invalid(algo)", 128, 96)), key)
     invalid_crypt = (xfrm.XfrmAlgo(("invalid(algo)", 128)), key)
     with self.assertRaisesErrno(ENOSYS):
-        self.xfrm.AddSaInfo(TEST_ADDR1, TEST_ADDR2, 0x1234,
-            xfrm.XFRM_MODE_TRANSPORT, 0, xfrm_base._ALGO_CBC_AES_256,
-            invalid_auth, None, None, None, 0)
+      self.xfrm.AddSaInfo(TEST_ADDR1, TEST_ADDR2, 0x1234,
+          xfrm.XFRM_MODE_TRANSPORT, 0, xfrm_base._ALGO_CBC_AES_256,
+          invalid_auth, None, None, None, 0)
     with self.assertRaisesErrno(ENOSYS):
-        self.xfrm.AddSaInfo(TEST_ADDR1, TEST_ADDR2, 0x1234,
-            xfrm.XFRM_MODE_TRANSPORT, 0, invalid_crypt,
-            xfrm_base._ALGO_HMAC_SHA1, None, None, None, 0)
+      self.xfrm.AddSaInfo(TEST_ADDR1, TEST_ADDR2, 0x1234,
+          xfrm.XFRM_MODE_TRANSPORT, 0, invalid_crypt,
+          xfrm_base._ALGO_HMAC_SHA1, None, None, None, 0)
 
   def testUpdateSaAddMark(self):
     """Test that an embryonic SA can be updated to add a mark."""
@@ -805,9 +948,9 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
     stateVal = 0
     with open(XFRM_STATS_PROCFILE, 'r') as f:
       for line in f:
-          if statName in line:
-            stateVal = int(line.split()[1])
-            break
+        if statName in line:
+          stateVal = int(line.split()[1])
+          break
       f.close()
     return stateVal
 
@@ -847,20 +990,20 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
 
       # Add a default SA with no mark that routes to nowhere.
       try:
-          self.xfrm.AddSaInfo(local,
-                              remote,
-                              TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
-                              xfrm_base._ALGO_CBC_AES_256,
-                              xfrm_base._ALGO_HMAC_SHA1,
-                              None, None, mark, 0, is_update=False)
+        self.xfrm.AddSaInfo(local,
+                            remote,
+                            TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
+                            xfrm_base._ALGO_CBC_AES_256,
+                            xfrm_base._ALGO_HMAC_SHA1,
+                            None, None, mark, 0, is_update=False)
       except IOError as e:
-          self.assertEquals(EEXIST, e.errno, "SA exists")
-          self.xfrm.AddSaInfo(local,
-                              remote,
-                              TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
-                              xfrm_base._ALGO_CBC_AES_256,
-                              xfrm_base._ALGO_HMAC_SHA1,
-                              None, None, mark, 0, is_update=True)
+        self.assertEquals(EEXIST, e.errno, "SA exists")
+        self.xfrm.AddSaInfo(local,
+                            remote,
+                            TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
+                            xfrm_base._ALGO_CBC_AES_256,
+                            xfrm_base._ALGO_HMAC_SHA1,
+                            None, None, mark, 0, is_update=True)
 
       self.assertRaisesErrno(
           ENETUNREACH,

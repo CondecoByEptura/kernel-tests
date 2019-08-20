@@ -121,6 +121,17 @@ XFRM_POLICY_ICMP = 2
 # State flags.
 XFRM_STATE_AF_UNSPEC = 32
 
+# Listener flags.
+XFRM_NL_GRP_NONE = 0
+XFRM_NL_GRP_ACQUIRE = 1
+XFRM_NL_GRP_EXPIRE = 2
+XFRM_NL_GRP_SA = 3
+XFRM_NL_GRP_POLICY = 4
+XFRM_NL_GRP_AEVENTS = 5
+XFRM_NL_GRP_REPORT = 6
+XFRM_NL_GRP_MIGRATE = 7
+XFRM_NL_GRP_MAPPING = 8
+
 # XFRM algorithm names, as defined in net/xfrm/xfrm_algo.c.
 XFRM_EALG_CBC_AES = "cbc(aes)"
 XFRM_AALG_HMAC_MD5 = "hmac(md5)"
@@ -172,6 +183,9 @@ XfrmUsersaInfo = cstruct.Struct(
 
 XfrmUserSpiInfo = cstruct.Struct(
     "XfrmUserSpiInfo", "=SII", "info min max", [XfrmUsersaInfo])
+
+XfrmUserExpire = cstruct.Struct("XfrmUserExpire", "=SB", "state hard",
+                                [XfrmUsersaInfo])
 
 # Technically the family is a 16-bit field, but only a few families are in use,
 # and if we pretend it's 8 bits (i.e., use "Bx" instead of "H") we can think
@@ -330,8 +344,8 @@ class Xfrm(netlink.NetlinkSocket):
 
   DEBUG = False
 
-  def __init__(self):
-    super(Xfrm, self).__init__(netlink.NETLINK_XFRM)
+  def __init__(self, groups=None):
+    super(Xfrm, self).__init__(netlink.NETLINK_XFRM, groups)
 
   def _GetConstantName(self, value, prefix):
     return super(Xfrm, self)._GetConstantName(__name__, value, prefix)
@@ -482,8 +496,21 @@ class Xfrm(netlink.NetlinkSocket):
       msg += self._NlAttr(attr_type, attr_msg)
     return self._SendNlRequest(msg_type, msg, flags)
 
-  def AddSaInfo(self, src, dst, spi, mode, reqid, encryption, auth_trunc, aead,
-                encap, mark, output_mark, is_update=False, xfrm_if_id=None):
+  def AddSaInfo(self,
+                src,
+                dst,
+                spi,
+                mode,
+                reqid,
+                encryption,
+                auth_trunc,
+                aead,
+                encap,
+                mark,
+                output_mark,
+                is_update=False,
+                xfrm_if_id=None,
+                lifetime_cfg=NO_LIFETIME_CFG):
     """Adds an IPsec security association.
 
     Args:
@@ -554,7 +581,7 @@ class Xfrm(netlink.NetlinkSocket):
     flags = XFRM_STATE_AF_UNSPEC if mode == XFRM_MODE_TUNNEL else 0
     selector = EmptySelector(AF_UNSPEC)
 
-    sa = XfrmUsersaInfo((selector, xfrm_id, PaddedAddress(src), NO_LIFETIME_CFG,
+    sa = XfrmUsersaInfo((selector, xfrm_id, PaddedAddress(src), lifetime_cfg,
                          cur, stats, seq, reqid, family, mode, replay, flags))
     msg = sa.Pack() + nlattrs
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK

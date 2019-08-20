@@ -18,7 +18,9 @@
 
 # pylint: disable=g-bad-todo
 
+from errno import *  # pylint: disable=wildcard-import
 import os
+import select
 import socket
 import struct
 import sys
@@ -94,7 +96,7 @@ class NetlinkSocket(object):
       if (name.startswith(prefix) and
           not name.startswith(prefix + "F_") and
           name.isupper() and getattr(thismodule, name) == value):
-          return name
+        return name
     return value
 
   def _Decode(self, command, msg, nla_type, nla_data):
@@ -153,10 +155,10 @@ class NetlinkSocket(object):
     sock.connect((0, 0))  # The kernel.
     return sock
 
-  def __init__(self, family):
+  def __init__(self, family, groups=None):
     # Global sequence number.
     self.seq = 0
-    self.sock = self._OpenNetlinkSocket(family)
+    self.sock = self._OpenNetlinkSocket(family, groups)
     self.pid = self.sock.getsockname()[1]
 
   def MaybeDebugCommand(self, command, flags, data):
@@ -172,6 +174,13 @@ class NetlinkSocket(object):
     data = self.sock.recv(self.BUFSIZE)
     # self._Debug(data.encode("hex"))
     return data
+
+  def _RecvTimeout(self, timeout_sec):
+    ready = select.select([self.sock], [], [], timeout_sec)
+    if ready[0]:
+      return self._Recv()
+
+    raise IOError(ETIMEDOUT, os.strerror(ETIMEDOUT))
 
   def _ExpectDone(self):
     response = self._Recv()
