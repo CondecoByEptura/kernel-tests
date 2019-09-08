@@ -146,7 +146,6 @@ echo 60 > /proc/sys/kernel/random/urandom_min_reseed_secs
 # Minimal network setup.
 ip link set lo up
 ip link set lo mtu 16436
-ip link set eth0 up
 
 # Allow people to run ping.
 echo "0 65536" > /proc/sys/net/ipv4/ping_group_range
