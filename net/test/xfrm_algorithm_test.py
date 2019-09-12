@@ -70,6 +70,7 @@ AEAD_ALGOS = [
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32,  8*8)),
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 12*8)),
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 16*8)),
+    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_CHACHA20POLY1305, 256+32, 16*8)),
 ]
 
 def InjectTests():
@@ -115,6 +116,10 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     """Test two-way traffic using transport mode and socket policies."""
 
     def AssertEncrypted(packet):
+      if aead is not None and aead.name == xfrm.XFRM_AEAD_CHACHA20POLY1305 and net_test.LINUX_VERSION < (5, 0, 0):
+          # Cannot require based on kernel version. Will be required in CTS.
+          return
+
       # This gives a free pass to ICMP and ICMPv6 packets, which show up
       # nondeterministically in tests.
       self.assertEquals(None,
