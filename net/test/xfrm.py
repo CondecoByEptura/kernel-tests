@@ -129,6 +129,7 @@ XFRM_AALG_HMAC_SHA256 = "hmac(sha256)"
 XFRM_AALG_HMAC_SHA384 = "hmac(sha384)"
 XFRM_AALG_HMAC_SHA512 = "hmac(sha512)"
 XFRM_AEAD_GCM_AES = "rfc4106(gcm(aes))"
+XFRM_AEAD_CHACHA20POLY1305 = "rfc7539esp(chacha20,poly1305)"
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
