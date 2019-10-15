@@ -811,6 +811,11 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
       f.close()
     return stateVal
 
+  # Note: this should really be a test for >= Q
+  # since 4.9-O/P 4.14-P also lack CONFIG_XFRM_STATISTICS=y
+  # while 4.9-Q 4.14-Q/R 4.19+ have it enabled
+  # (there's also presumably a dependency on some XFRMA_SET_MARK backports that happened in Q)
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "xfrm_stats not supported")
   def testUpdateActiveSaMarks(self):
     """Test that the OUTPUT_MARK can be updated on an ACTIVE SA."""
     for version in [4, 6]:
