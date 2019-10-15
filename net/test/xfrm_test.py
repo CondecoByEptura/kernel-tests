@@ -811,6 +811,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
       f.close()
     return stateVal
 
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "xfrm_stats not supported")
   def testUpdateActiveSaMarks(self):
     """Test that the OUTPUT_MARK can be updated on an ACTIVE SA."""
     for version in [4, 6]:
