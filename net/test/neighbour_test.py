@@ -64,6 +64,15 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       cls.SetSysctl(
           "/proc/sys/net/ipv6/neigh/%s/delay_first_probe_time" % iface,
           cls.DELAY_TIME_MS / 1000)
+      cls.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/delay_first_probe_time" % iface,
+          cls.DELAY_TIME_MS / 1000)
+      # init ARP retry times as 10
+      cls.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/ucast_solicit" % iface, 10)
+      cls.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/retrans_time_ms" % iface,
+          cls.RETRANS_TIME_MS)
 
   def setUp(self):
     super(NeighbourTest, self).setUp()
@@ -86,6 +95,15 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
 
     self.netid = random.choice(self.tuns.keys())
     self.ifindex = self.ifindices[self.netid]
+
+  def tearDown(self):
+    super(NeighbourTest, self).tearDown()
+    # ensure IPv4 router restore as NUD_PERMANENT after testARPReconfigure
+    for netid in self.tuns:
+      addr = self._RouterAddress(netid, 4)
+      ifindex = self.ifindices[netid]
+      macaddr = self.RouterMacAddress(netid)
+      self.iproute.UpdateNeighbour(4, addr, macaddr, ifindex, NUD_PERMANENT)
 
   def GetNeighbour(self, addr, ifindex):
     version = csocket.AddressVersion(addr)
@@ -133,6 +151,16 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       )
       msg = "%s probe" % ("Unicast" if is_unicast else "Multicast")
       self.ExpectPacketOn(self.netid, msg, expected)
+    elif version == 4:
+      if is_unicast:
+        src = self._MyIPv4Address(self.netid)
+        dst = addr
+        mac = self.MyMacAddress(self.netid)
+      else:
+        ValueError
+      expected = scapy.ARP(psrc=src, pdst=dst, hwsrc=mac, op=1)
+      msg = "%s probe" % ("Unicast" if is_unicast else "Multicast")
+      self.ExpectPacketOn(self.netid, msg, expected)
     else:
       raise NotImplementedError
 
@@ -159,6 +187,16 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       self.ReceiveEtherPacketOn(self.netid, packet)
     else:
       raise NotImplementedError
+
+  def sendDnsRequest(self, addr):
+    version = csocket.AddressVersion(addr)
+    if version != 6 and version != 4:
+      raise ValueError
+    routing_mode = random.choice(["mark", "oif", "uid"])
+    s = self.BuildSocket(version, net_test.UDPSocket, self.netid, routing_mode)
+    s.connect((addr, 53))
+    s.send(net_test.UDP_PAYLOAD)
+    return s
 
   def MonitorSleepMs(self, interval, addr):
     slept = 0
@@ -195,10 +233,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.assertNeighbourState(NUD_STALE, router6)
 
     # Send a packet and check that we go into DELAY.
-    routing_mode = random.choice(["mark", "oif", "uid"])
-    s = self.BuildSocket(6, net_test.UDPSocket, self.netid, routing_mode)
-    s.connect((net_test.IPV6_ADDR, 53))
-    s.send(net_test.UDP_PAYLOAD)
+    s = self.sendDnsRequest(net_test.IPV6_ADDR)
     self.assertNeighbourState(NUD_DELAY, router6)
 
     # Wait for the probe interval, then check that we're in PROBE, and that the
@@ -277,10 +312,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     time.sleep(1)
 
     # Send another packet and expect a multicast NS.
-    routing_mode = random.choice(["mark", "oif", "uid"])
-    s = self.BuildSocket(6, net_test.UDPSocket, self.netid, routing_mode)
-    s.connect((net_test.IPV6_ADDR, 53))
-    s.send(net_test.UDP_PAYLOAD)
+    self.sendDnsRequest(net_test.IPV6_ADDR)
     self.ExpectMulticastNS(router6)
 
     # Receive a unicast NA with the R flag set to 0.
@@ -293,6 +325,39 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectNeighbourNotification(router6, NUD_REACHABLE)
     self.assertNeighbourState(NUD_REACHABLE, router6)
 
+  # Check neighbor state after re-config ARP probe times.
+  def testARPReconfigure(self):
+    router4 = self._RouterAddress(self.netid, 4)
+    self.iproute.UpdateNeighbour(4, router4, None, self.ifindex, NUD_STALE)
+    self.ExpectNeighbourNotification(router4, NUD_STALE)
+    self.assertNeighbourState(NUD_STALE, router4)
+
+    # Send a packet and check that we go into DELAY.
+    self.sendDnsRequest(net_test.IPV4_ADDR)
+    self.assertNeighbourState(NUD_DELAY, router4)
+
+    self.SleepMs(self.DELAY_TIME_MS * 1.1)
+    self.ExpectNeighbourNotification(router4, NUD_PROBE)
+    self.assertNeighbourState(NUD_PROBE, router4)
+    self.ExpectUnicastProbe(router4)
+
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectUnicastProbe(router4)
+
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectUnicastProbe(router4)
+
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectUnicastProbe(router4)
+
+    # re-config while probing and the state should change to NUD_FAILED
+    for netid in self.tuns:
+      iface = self.GetInterfaceName(netid)
+      self.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/ucast_solicit" % iface, 3)
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectNeighbourNotification(router4, NUD_FAILED)
+    self.assertNeighbourState(NUD_FAILED, router4)
 
 if __name__ == "__main__":
   unittest.main()
