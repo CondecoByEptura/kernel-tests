@@ -64,6 +64,15 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       cls.SetSysctl(
           "/proc/sys/net/ipv6/neigh/%s/delay_first_probe_time" % iface,
           cls.DELAY_TIME_MS / 1000)
+      cls.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/delay_first_probe_time" % iface,
+          cls.DELAY_TIME_MS / 1000)
+      # init ARP retry times as 10
+      cls.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/ucast_solicit" % iface, 10)
+      cls.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/retrans_time_ms" % iface,
+          cls.RETRANS_TIME_MS)
 
   def setUp(self):
     super(NeighbourTest, self).setUp()
@@ -133,6 +142,16 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       )
       msg = "%s probe" % ("Unicast" if is_unicast else "Multicast")
       self.ExpectPacketOn(self.netid, msg, expected)
+    elif version == 4:
+      if is_unicast:
+        src = self._MyIPv4Address(self.netid)
+        dst = addr
+        mac = self.MyMacAddress(self.netid)
+      else:
+        NotImplementedError
+      expected = scapy.ARP(psrc=src, pdst=dst, hwsrc=mac)
+      msg = "%s probe" % ("Unicast" if is_unicast else "Multicast")
+      self.ExpectPacketOn(self.netid, msg, expected)
     else:
       raise NotImplementedError
 
@@ -189,9 +208,10 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       android-3.18:
         2011e72 neigh: Better handling of transition to NUD_PROBE state
     """
-    router4 = self._RouterAddress(self.netid, 4)
+    # Ipv4 no need and Neighbour State is not permanent after run testARPConfigure
+    #router4 = self._RouterAddress(self.netid, 4)
     router6 = self._RouterAddress(self.netid, 6)
-    self.assertNeighbourState(NUD_PERMANENT, router4)
+    #self.assertNeighbourState(NUD_PERMANENT, router4)
     self.assertNeighbourState(NUD_STALE, router6)
 
     # Send a packet and check that we go into DELAY.
@@ -246,10 +266,11 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectNeighbourNotification(router6, NUD_FAILED, {"NDA_PROBES": 3})
 
   def testRepeatedProbes(self):
-    router4 = self._RouterAddress(self.netid, 4)
+    # Ipv4 no need and Neighbour State is not permanent after run testARPConfigure
+    #router4 = self._RouterAddress(self.netid, 4)
     router6 = self._RouterAddress(self.netid, 6)
     routermac = self.RouterMacAddress(self.netid)
-    self.assertNeighbourState(NUD_PERMANENT, router4)
+    #self.assertNeighbourState(NUD_PERMANENT, router4)
     self.assertNeighbourState(NUD_STALE, router6)
 
     def ForceProbe(addr, mac):
@@ -293,6 +314,42 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.ExpectNeighbourNotification(router6, NUD_REACHABLE)
     self.assertNeighbourState(NUD_REACHABLE, router6)
 
+  # Check neighbor state after re-config ARP probe times.
+  def testARPReconfigure(self):
+    router4 = self._RouterAddress(self.netid, 4)
+    self.iproute.UpdateNeighbour(4, router4, None, self.ifindex, NUD_STALE)
+    self.ExpectNeighbourNotification(router4, NUD_STALE)
+    self.assertNeighbourState(NUD_STALE, router4)
+
+    # Send a packet and check that we go into DELAY.
+    routing_mode = random.choice(["mark", "oif", "uid"])
+    s = self.BuildSocket(4, net_test.UDPSocket, self.netid, routing_mode)
+    s.connect((net_test.IPV4_ADDR, 53))
+    s.send(net_test.UDP_PAYLOAD)
+    self.assertNeighbourState(NUD_DELAY, router4)
+
+    self.SleepMs(self.DELAY_TIME_MS * 1.1)
+    self.ExpectNeighbourNotification(router4, NUD_PROBE)
+    self.assertNeighbourState(NUD_PROBE, router4)
+    self.ExpectUnicastProbe(router4)
+
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectUnicastProbe(router4)
+
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectUnicastProbe(router4)
+
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectUnicastProbe(router4)
+
+    # re-config while probing and the state should changed to NUD_FAILED
+    for netid in self.tuns:
+      iface = self.GetInterfaceName(netid)
+      self.SetSysctl(
+          "/proc/sys/net/ipv4/neigh/%s/ucast_solicit" % iface, 3)
+    self.SleepMs(self.RETRANS_TIME_MS)
+    self.ExpectNeighbourNotification(router4, NUD_FAILED)
+    self.assertNeighbourState(NUD_FAILED, router4)
 
 if __name__ == "__main__":
   unittest.main()
