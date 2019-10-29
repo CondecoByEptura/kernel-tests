@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe0bd57d_ecf6beb1",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-10-29T03:00:42Z",
+      "side": 1,
+      "message": "raise?",
+      "revId": "7262decd268aea026ca06ad19fa2851ca02d9861",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28715aa8_77e3c930",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-10-29T03:00:42Z",
+      "side": 1,
+      "message": "should we also assign \"opcode\"?",
+      "range": {
+        "startLine": 152,
+        "startChar": 17,
+        "endLine": 152,
+        "endChar": 26
+      },
+      "revId": "7262decd268aea026ca06ad19fa2851ca02d9861",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a7f0961_174861ce",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-10-29T03:00:42Z",
+      "side": 1,
+      "message": "do we need to recover the default ND entry state in tearDown()? If so, we don\u0027t care whether or not the previous test result will cause the next test case.",
+      "revId": "7262decd268aea026ca06ad19fa2851ca02d9861",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e1f6c2_3b8bad77",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-10-29T03:00:42Z",
+      "side": 1,
+      "message": "maybe we can refactor sending a DNS packet by encapsulating one method.",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 49
+      },
+      "revId": "7262decd268aea026ca06ad19fa2851ca02d9861",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
