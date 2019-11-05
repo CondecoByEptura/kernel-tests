@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62344ea7_77b3f3aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-11-05T05:16:45Z",
+      "side": 1,
+      "message": "Is it better to specific the test case name here? e.g. ARP Probe Reconfiuration test case or something else. Otherwise, we cannot tell what the specific test case added for this change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "dae167dedca1e6d9472e7e1e7e41d782203a0a97",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248f6a03_05e7676f",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-11-05T05:16:45Z",
+      "side": 1,
+      "message": "\"raise ValueError\"? not sure whether or not we can say ValueError directly.",
+      "revId": "dae167dedca1e6d9472e7e1e7e41d782203a0a97",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8047873_413e1e45",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1406251
+      },
+      "writtenOn": "2019-11-05T05:16:45Z",
+      "side": 1,
+      "message": "change?",
+      "range": {
+        "startLine": 353,
+        "startChar": 51,
+        "endLine": 353,
+        "endChar": 58
+      },
+      "revId": "dae167dedca1e6d9472e7e1e7e41d782203a0a97",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
