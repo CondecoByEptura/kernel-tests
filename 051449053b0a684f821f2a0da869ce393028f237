@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba181c7_79171405",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "for proto in [\"ipv4\", \"ipv6\"]:\n    cls.SetSysctl(\n        \"/proc/sys/net/%s/neigh/%s/delay_first_probe_time\" % (\n            proto, iface, cls.DELAY_TIME_MS / 1000)",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 30
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c10bcc5_8cebc4b5",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "It\u0027s good that this code is in tearDown because that guarantees that we will clean up this change even if the test fails. But it\u0027s confusing that the code that makes the change is not in setUp.\n\nHow about moving the change to NUD_STALE into setUp? Maybe do something like add a function to do this:\n\n  def ChangeRouterNudState(self, version, state):\n    router \u003d self._RouterAddress(self.netid, version)\n    self.iproute.UpdateNeighbour(version, router, None, self.ifindex, state)\n    self.ExpectNeighbourNotification(router, state)\n    self.assertNeighbourState(state, router)\n\n\nand then add this to setUp:\n\n    # MultinetworkBaseTest always uses NUD_PERMANENT for router ARP entries.\n    # Temporarily change those entries to NUD_STALE so we can test them.\n    ChangeRouterNeighbourState(4, NUD_STALE)\n\n\nand this to tearDown:\n\n    # Change router ARP entries back to NUD_PERMANENT,\n    # so as not to affect other tests.\n    ChangeRouterNeighbourState(4, NUD_PERMANENT)\n\nThat way, in the future, we can add IPv4 support to other tests.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 76
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c7c6a7_e31cac24",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "Move this to before \"if version \u003d\u003d 6:\" so you can reuse it below?",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 43
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb521831_614d874c",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "Remove this and just use llsrc instead?",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 158,
+        "endChar": 43
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "039975a7_ccda63d8",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "raise NotImplementedError(\"This test does not support broadcast ARP\")",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 18
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf53c4b_ad42d366",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "is_unicast can never be true. Also ARP doesn\u0027t use Multicast. Maybe just say:\n\n    msg \u003d \"Unicast ARP probe\"",
+      "range": {
+        "startLine": 162,
+        "startChar": 6,
+        "endLine": 162,
+        "endChar": 67
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fefa07a1_2d4d3117",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "Thank you for refactoring this into a function, it improves code readability.\n\nNit: style guide here says that functions are SentenceCase. So maybe call this SendDnsRequest?",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 20
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67446e4_12ef869e",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "This cannot happen, because the code of csocket.AddressVersion is:\n\ndef AddressVersion(addr):\n  return 6 if \":\" in addr else 4\n\nDelete this if?",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 22
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd34a59_e9bb86b1",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "This code should probably be taken out of this test, see other comment above on lines 101-106.",
+      "range": {
+        "startLine": 330,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 49
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f530f98f_8b54fded",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-07T03:55:38Z",
+      "side": 1,
+      "message": "We should test this behaviour for IPv6 as well. Is there an existing test method we can add this test to? If not, then perhaps you can easily modify this test to test IPv4 as well. You could take the code you wrote, and just do:\n\n    def testReconfigureDuringProbing(self):\n      # Send a packet and check that we go into DELAY.\n      ...",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 360,
+        "endChar": 50
+      },
+      "revId": "051449053b0a684f821f2a0da869ce393028f237",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
