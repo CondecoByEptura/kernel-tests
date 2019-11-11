@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed0d6b53_f0b440ba",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "Thank you for adding this comment.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af634d6_f3697e36",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "Could you add the suggested comment here?\n\n    # MultinetworkBaseTest always uses NUD_PERMANENT for router ARP entries.\n    # Temporarily change those entries to NUD_STALE so we can test them.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 43
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa0c230_8204ea42",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "Might want to add: \"It is already reset to default by TearDownClass, but here we need to set it to default after each testcase.\"",
+      "range": {
+        "startLine": 103,
+        "startChar": 31,
+        "endLine": 103,
+        "endChar": 38
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c6fb546_b822f7ea",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "Is there a reason to set the MAC address to None here? STALE entries have MAC addresses, right?",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 20
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21656c52_ad77e87d",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "Suggest unindenting this code by removing the inner function, like so:\n\n  def DoReconfigureDuringProbing(version):\n    ...\n    ...\n    ...\n    ...\n\n  def testReconfigureDuringProbing(self):\n    DoReconfigureDuringProbing(4)\n    DoReconfigureDuringProbing(6)",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 44
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d12e4b0_0dad3273",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "You do this several times. Maybe factor to a function?\n\n    def SetUnicastSolicit(self, proto, iface, value):\n      self.SetSysctl(\n          \"/proc/sys/net/%s/neigh/%s/ucast_solicit\" % (proto, iface), value)",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 35
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02b90556_ffc7fbf1",
+        "filename": "net/test/neighbour_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2019-11-11T15:00:09Z",
+      "side": 1,
+      "message": "Suggest:\n\n  for i in range(0, 3):\n    self.SleepMs(self.RETRANS_TIME_MS)\n    self.ExpectUnicastProbe(router)",
+      "range": {
+        "startLine": 369,
+        "startChar": 0,
+        "endLine": 376,
+        "endChar": 37
+      },
+      "revId": "e3f39bf199077820f1f115636b9e3d12a39e49f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
