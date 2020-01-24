@@ -37,6 +37,7 @@ IPV6_PREFER_SRC_PUBLIC = 0x0002
 # short enough that we don't have to wait too long for DAD to complete.
 RETRANS_TIMER = 150
 
+LESS_THAN_LINUX_5_0 = net_test.LINUX_VERSION < (5, 0, 0)
 
 class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
   """Test for IPv6 source address selection.
@@ -266,6 +267,7 @@ class ValidBeforeOptimisticTest(MultiInterfaceSourceAddressSelectionTest):
 
 class DadFailureTest(MultiInterfaceSourceAddressSelectionTest):
 
+  @unittest.skipUnless(LESS_THAN_LINUX_5_0, "test fails on 5.0 kernels and up")
   def testDadFailure(self):
     # [3]  Get an IPv6 address back, in optimistic DAD start-up.
     self.SetDAD(self.test_ifname, 1)  # Enable DAD
