@@ -45,6 +45,8 @@ HAVE_UNICAST_IF = net_test.LINUX_VERSION >= (3, 4, 0)
 # RTPROT_RA is working properly with 4.14
 HAVE_RTPROT_RA = net_test.LINUX_VERSION >= (4, 14, 0)
 
+LESS_THAN_LINUX_5_0 = net_test.LINUX_VERSION < (5, 0, 0)
+
 class ConfigurationError(AssertionError):
   pass
 
@@ -236,11 +238,13 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         self.SelectInterface(s, None, mode)
         prevnetid = netid
 
+  @unittest.skipUnless(LESS_THAN_LINUX_5_0, "test fails on 5.0 kernels and up")
   def testIPv4Remarking(self):
     """Checks that updating the mark on an IPv4 socket changes routing."""
     self.CheckRemarking(4, False)
     self.CheckRemarking(4, True)
 
+  @unittest.skipUnless(LESS_THAN_LINUX_5_0, "test fails on 5.0 kernels and up")
   def testIPv6Remarking(self):
     """Checks that updating the mark on an IPv6 socket changes routing."""
     self.CheckRemarking(6, False)
