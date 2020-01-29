@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a10dab44_46e1c598",
+        "filename": "net/test/rootfs/buster.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-01-29T03:10:01Z",
+      "side": 0,
+      "message": "Mind adding something like:\n\n# The only works if Android always uses a version of iptables that exists for debian as well.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 1
+      },
+      "revId": "277404bee6f570f078fe63a3df4f0fbeaf2d1171",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b0a532_168ca4c5",
+        "filename": "net/test/rootfs/stretch.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-01-29T03:10:01Z",
+      "side": 0,
+      "message": "Mind adding something like:\n\n# The only works if Android always uses a version of iptables that exists for debian as well.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 1
+      },
+      "revId": "277404bee6f570f078fe63a3df4f0fbeaf2d1171",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
