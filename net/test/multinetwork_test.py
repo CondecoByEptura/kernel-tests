@@ -201,12 +201,15 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
       # check that the packets sent on that socket go out on the right network.
       #
       # For connected sockets, routing is cached in the socket's destination
-      # cache entry. In this case, we check that just re-selecting the netid
-      # (except via SO_BINDTODEVICE) does not change routing, but that
-      # subsequently invalidating the destination cache entry does. Arguably
-      # this is a bug in the kernel because re-selecting the netid should cause
-      # routing to change. But it is a convenient way to check that
-      # InvalidateDstCache actually works.
+      # cache entry. In this case, we check that selecting the network a second
+      # time on the same socket (except via SO_BINDTODEVICE, or SO_MARK on 5.0+
+      # kernels) does not change routing, but that subsequently invalidating the
+      # destination cache entry does. This is a bug in the kernel because
+      # re-selecting the netid should cause routing to change, and future
+      # kernels may fix this bug for per-UID routing and ucast_oif routing like
+      # they already have for mark-based routing. But until they do, this
+      # behaviour provides a convenient way to check that InvalidateDstCache
+      # actually works.
       prevnetid = None
       for netid in self.tuns:
         self.SelectInterface(s, netid, mode)
@@ -224,14 +227,20 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
           self.ExpectPacketOn(netid, msg, expected)
 
         if use_connect and mode in ["mark", "uid", "ucast_oif"]:
-          # If we have a destination cache entry, packets are not rerouted...
-          if prevnetid:
+          # If we have a destination cache entry, packets are not rerouted,
+          # unless using socket marks on >= 5.0 kernels, which do not have
+          # this problem.
+          expect_rerouted = (mode == "mark"
+                             and net_test.LINUX_VERSION >= (5, 0, 0))
+
+          if prevnetid and not expect_rerouted:
+            # If we have a destination cache entry, packets are not rerouted...
             ExpectSendUsesNetid(prevnetid)
             # ... until we invalidate it.
             self.InvalidateDstCache(version, prevnetid)
-          ExpectSendUsesNetid(netid)
-        else:
-          ExpectSendUsesNetid(netid)
+
+        # In any case, future sends must be correct.
+        ExpectSendUsesNetid(netid)
 
         self.SelectInterface(s, None, mode)
         prevnetid = netid
