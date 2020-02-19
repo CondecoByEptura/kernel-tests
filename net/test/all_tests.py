@@ -45,6 +45,23 @@ test_modules = [
     'xfrm_tunnel_test',
 ]
 
+#Remove test related to multinetwork for device support only adb over tcp
+test_modules_no_multinetwork = [
+    'bpf_test',
+    'csocket_test',
+    'cstruct_test',
+    'leak_test',
+    'pf_key_test',
+    'policy_crash_test',
+    'qtaguid_test',
+    'removed_feature_test',
+    'tcp_nuke_addr_test',
+    'tcp_test',
+]
+
+#For device which runs kernel_net_test with adb over tcp.
+if len(sys.argv) > 1 and sys.argv[1] == "AdbOverTcp":
+    test_modules = test_modules_no_multinetwork
 if __name__ == '__main__':
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
