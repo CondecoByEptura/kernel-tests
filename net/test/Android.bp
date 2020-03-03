@@ -1,13 +1,24 @@
-python_test {
-    name: "kernel_net_tests",
-    main: "all_tests.py",
+python_defaults {
+    name: "kernel_net_tests_defaults",
     srcs: [
         "*.py",
     ],
     libs: [
         "scapy",
     ],
-    defaults: [
-        "kernel_tests_defaults"
-    ],
+    defaults: ["kernel_tests_defaults",],
+}
+
+python_test {
+    name: "kernel_net_tests",
+    main: "all_tests.py",
+    defaults: ["kernel_net_tests_defaults",],
+}
+
+python_test {
+    name: "vts_kernel_net_tests",
+    main: "all_tests.py",
+    defaults: ["kernel_net_tests_defaults",],
+    test_suites: ["vts-core",],
+    auto_gen_config: false,
 }
