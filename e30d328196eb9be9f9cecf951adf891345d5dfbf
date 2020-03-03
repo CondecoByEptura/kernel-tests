@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00129498_1bb11b98",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1307893
+      },
+      "writtenOn": "2020-03-03T08:30:09Z",
+      "side": 1,
+      "message": "You can use python_defaults.\ne.g.\npython_defaults {\n    name: \"kernel_nett_tests_defaults\",\n\nThen, create 2 tests to prevent duplicate code.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 29
+      },
+      "revId": "e30d328196eb9be9f9cecf951adf891345d5dfbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1a6fe9e_1bb8e54d",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1307893
+      },
+      "writtenOn": "2020-03-03T08:30:09Z",
+      "side": 1,
+      "message": "python_test{\n    name: \"kernel_net_tests\",\n    defaults: [\n        \"kernel_nett_tests_defaults\",\n    ],\n}\n\npython_test {\n    name: \"vts_core_kernel_net_tests\",\n    defaults: [\n        \"kernel_nett_tests_defaults\",\n    ],\n}",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "e30d328196eb9be9f9cecf951adf891345d5dfbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
