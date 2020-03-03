@@ -52,6 +52,24 @@
       "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7c60e8_5e861286",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1308044
+      },
+      "writtenOn": "2020-03-03T07:49:46Z",
+      "side": 1,
+      "message": "Ya, Kelly already use this way to declare dependency.\nhttps://android-review.googlesource.com/c/platform/test/vts/+/1239668/9/testcases/host/kernel_net_test/Android.bp#27\n\ntarget_required could make kernel_net_tests be build when building original VTSKernelTest, but it won\u0027t be pack into vts-core.zip which make it testing fail on infra. Making another module with auto_gen_config disabled may be the way.",
+      "parentUuid": "daf19fe2_a6e06a60",
+      "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
