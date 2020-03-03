@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08cb8881_ca67296f",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1088076
+      },
+      "writtenOn": "2020-03-03T07:27:13Z",
+      "side": 1,
+      "message": "This will introduce a new test in vts-core suite. \nvts-tradefed will try to run this python test as a standalone test vs running through KernelNetTest.java\nI don\u0027t think that\u0027s the behavior we want, right?",
+      "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
