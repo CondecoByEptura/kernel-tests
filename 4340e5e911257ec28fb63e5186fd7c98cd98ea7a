@@ -16,6 +16,24 @@
       "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38f2357_5d6a0d03",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1308044
+      },
+      "writtenOn": "2020-03-03T07:35:21Z",
+      "side": 1,
+      "message": "hmmm, got the point. Using data arg to package this may be an option. But I remember that soong made a restriction on the host module packaging file which is for the target. Will have a try.",
+      "parentUuid": "08cb8881_ca67296f",
+      "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
