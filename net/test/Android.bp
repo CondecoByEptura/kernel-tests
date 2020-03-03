@@ -11,3 +11,21 @@ python_test {
         "kernel_tests_defaults"
     ],
 }
+
+python_test {
+    name: "vts_core_kernel_net_tests",
+    main: "all_tests.py",
+    srcs: [
+        "*.py",
+    ],
+    libs: [
+        "scapy",
+    ],
+    defaults: [
+        "kernel_tests_defaults"
+    ],
+    test_suites: [
+        "vts-core",
+    ],
+    auto_gen_config: false,
+}
