@@ -10,4 +10,7 @@ python_test {
     defaults: [
         "kernel_tests_defaults"
     ],
+    test_suites: [
+        "vts-core",
+    ],
 }
