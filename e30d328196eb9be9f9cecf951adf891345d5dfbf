@@ -45,6 +45,30 @@
       "revId": "e30d328196eb9be9f9cecf951adf891345d5dfbf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02ab2c0a_881a5ed3",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1307893
+      },
+      "writtenOn": "2020-03-03T08:32:35Z",
+      "side": 1,
+      "message": "auto_gen_config: false,\nI don\u0027t think it can prevent vts-core to test it.\nIt just don\u0027t generate the test config automatically.",
+      "parentUuid": "e1a6fe9e_1bb8e54d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "e30d328196eb9be9f9cecf951adf891345d5dfbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
