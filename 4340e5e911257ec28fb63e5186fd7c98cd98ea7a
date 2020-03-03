@@ -34,6 +34,24 @@
       "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daf19fe2_a6e06a60",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1088076
+      },
+      "writtenOn": "2020-03-03T07:38:19Z",
+      "side": 1,
+      "message": "target_required?\nor we can create another module with auto_gen_config disabled.",
+      "parentUuid": "e38f2357_5d6a0d03",
+      "revId": "4340e5e911257ec28fb63e5186fd7c98cd98ea7a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
