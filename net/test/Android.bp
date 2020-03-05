@@ -7,7 +7,5 @@ python_test {
     libs: [
         "scapy",
     ],
-    defaults: [
-        "kernel_tests_defaults"
-    ],
+    defaults: "kernel_tests_defaults",
 }
