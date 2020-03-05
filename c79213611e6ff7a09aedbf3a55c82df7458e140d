@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ae438735_fc51b05b",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1308036
+      },
+      "writtenOn": "2020-03-05T03:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e4ff7c8_fe1d185a",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed5d05c9_98264d25",
         "filename": "net/test/Android.bp",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fdf6105_5e42a1aa",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1308036
+      },
+      "writtenOn": "2020-03-05T03:14:05Z",
+      "side": 1,
+      "message": "Done. Change to one line to meet the bpfmt.\nThanks Maciej.",
+      "parentUuid": "ed5d05c9_98264d25",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
