@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e4ff7c8_fe1d185a",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-03-05T02:21:39Z",
+      "side": 1,
+      "message": "style - space",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed5d05c9_98264d25",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-03-05T02:21:39Z",
+      "side": 1,
+      "message": "is there a reason for this to be a [] ? or on multiple lines?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
