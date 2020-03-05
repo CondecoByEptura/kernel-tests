@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9b8fe60_e4ccf35d",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-03-05T13:07:11Z",
+      "side": 1,
+      "message": "Please add comments explaining what each of these two tests are for and why they are both necessary. Also: will we be able to delete one of these two tests in the future, when some infrastructure/build/packaging limitation is fixed? If so, then add a comment explaining when.",
+      "revId": "ad163d3538acefa0a8822444f4421fa8b74bd84a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
