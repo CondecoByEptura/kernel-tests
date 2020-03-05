@@ -93,6 +93,30 @@
       "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "328183e0_236d4b8f",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1308044
+      },
+      "writtenOn": "2020-03-05T03:23:00Z",
+      "side": 1,
+      "message": "Thanks.\nIt\u0027s currently a restriction in soong that the defaults value need to be a list type, so we still need to keep it to [] for defaults.",
+      "parentUuid": "8fdf6105_5e42a1aa",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "c79213611e6ff7a09aedbf3a55c82df7458e140d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
