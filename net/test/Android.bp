@@ -1,13 +1,7 @@
 python_test {
-    name: "kernel_net_tests",
+    name: "kernel_net_tests2",
     main: "all_tests.py",
-    srcs: [
-        "*.py",
-    ],
-    libs: [
-        "scapy",
-    ],
-    defaults: [
-        "kernel_tests_defaults"
-    ],
+    srcs: "*.py",
+    libs: "scapy",
+    defaults: ["kernel_tests_defaults"],
 }
