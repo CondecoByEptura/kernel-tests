@@ -16,6 +16,24 @@
       "revId": "ad163d3538acefa0a8822444f4421fa8b74bd84a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f77f4fb0_dfabb205",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1088076
+      },
+      "writtenOn": "2020-03-05T17:42:52Z",
+      "side": 1,
+      "message": "Let\u0027s add a TODO(b/146651404) here to remove all vts10 only test modules after vts11 is released.",
+      "parentUuid": "c9b8fe60_e4ccf35d",
+      "revId": "ad163d3538acefa0a8822444f4421fa8b74bd84a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
