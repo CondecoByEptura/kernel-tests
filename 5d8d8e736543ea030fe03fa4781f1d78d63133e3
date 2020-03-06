@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c71ef472_fee15ba4",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-03-06T07:34:04Z",
+      "side": 1,
+      "message": "ISTM that this could be useful to produce a binary that can be run manually on the device. Maybe say that here too?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "5d8d8e736543ea030fe03fa4781f1d78d63133e3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
