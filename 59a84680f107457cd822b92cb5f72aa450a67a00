@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72bd1f40_f1ffcdfc",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1088076
+      },
+      "writtenOn": "2020-03-06T07:09:13Z",
+      "side": 1,
+      "message": "the comment belongs to line 11. It\u0027s that module should be removed.",
+      "revId": "59a84680f107457cd822b92cb5f72aa450a67a00",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
