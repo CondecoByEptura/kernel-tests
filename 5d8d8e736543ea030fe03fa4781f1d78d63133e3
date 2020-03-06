@@ -22,6 +22,30 @@
       "revId": "5d8d8e736543ea030fe03fa4781f1d78d63133e3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c223438_00dfa2f6",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1308036
+      },
+      "writtenOn": "2020-03-06T07:43:57Z",
+      "side": 1,
+      "message": "Done, thanks Lorenzo.",
+      "parentUuid": "c71ef472_fee15ba4",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "5d8d8e736543ea030fe03fa4781f1d78d63133e3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
