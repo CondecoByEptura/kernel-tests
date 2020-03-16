@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17d69d9_0c25c7c9",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-03-16T14:10:51Z",
+      "side": 1,
+      "message": "Looks like this will skip more than half the tests if ADB over TCP is enabled. That is not acceptable because it means that a lot of the kernel networking code will no longer be tested. Can you find a better way to do this, by fixing individual tests? Or, if you can\u0027t propose fixes to the individual tests, if you can analyze what the problem is, we can help propose solutions.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "cc0f93d52c15600731ca54be17daab536a28518a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
