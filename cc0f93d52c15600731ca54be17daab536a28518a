@@ -22,6 +22,30 @@
       "revId": "cc0f93d52c15600731ca54be17daab536a28518a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7327632_32d33126",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1635039
+      },
+      "writtenOn": "2020-03-19T02:25:08Z",
+      "side": 1,
+      "message": "While executing kernel_net_tests, tests which inherit MultiNetworkBaseTest class adds unreachable rule to DUT\u0027s ip rule table, which let device could not send/response network packets during testing.\nThis lead to Host (Vts test suite) think DUT is disconnected while testing via adb over tcp, and test could not be done.\nOur device has no usb peripheral feature and can only connectted to adb via tcp(ethernet), this is why we prefer skip all multinetwork related tests.",
+      "parentUuid": "c17d69d9_0c25c7c9",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 1
+      },
+      "revId": "cc0f93d52c15600731ca54be17daab536a28518a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
