@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c19623eb_ceae1bee",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2020-03-21T03:45:47Z",
+      "side": 1,
+      "message": "Pre-Q, this was known as XFRMA_OUTPUT_MARK, and should be available in the 3.18, 4.4, 4.9 trees as well.",
+      "range": {
+        "startLine": 817,
+        "startChar": 50,
+        "endLine": 817,
+        "endChar": 64
+      },
+      "revId": "aa4694f151a20bf4f4b11780d8ada255918c2a37",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
