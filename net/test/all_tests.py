@@ -19,29 +19,6 @@ import sys
 import unittest
 
 test_modules = [
-    'anycast_test',
-    'bpf_test',
-    'csocket_test',
-    'cstruct_test',
-    'forwarding_test',
-    'leak_test',
-    'multinetwork_test',
-    'neighbour_test',
-    'nf_test',
-    'pf_key_test',
-    'ping6_test',
-    'policy_crash_test',
-    'qtaguid_test',
-    'removed_feature_test',
-    'resilient_rs_test',
-    'sock_diag_test',
-    'srcaddr_selection_test',
-    'tcp_fastopen_test',
-    'tcp_nuke_addr_test',
-    'tcp_repair_test',
-    'tcp_test',
-    'xfrm_algorithm_test',
-    'xfrm_test',
     'xfrm_tunnel_test',
 ]
 

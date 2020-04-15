@@ -20,8 +20,10 @@ from socket import *  # pylint: disable=wildcard-import
 
 import random
 import itertools
+import os
 import struct
 import unittest
+import subprocess
 
 from scapy import all as scapy
 from tun_twister import TunTwister
@@ -29,7 +31,9 @@ import csocket
 import iproute
 import multinetwork_base
 import net_test
+from tun_twister import TapTwister
 import packets
+import time
 import util
 import xfrm
 import xfrm_base
@@ -129,9 +133,7 @@ def _SendPacket(testInstance, netid, version, remote, remote_port):
 
 
 def InjectTests():
-  InjectParameterizedTests(XfrmTunnelTest)
   InjectParameterizedTests(XfrmInterfaceTest)
-  InjectParameterizedTests(XfrmVtiTest)
 
 
 def InjectParameterizedTests(cls):
@@ -242,7 +244,7 @@ class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
     self.assertEquals(inet_ntop(family, vti_info_data["IFLA_VTI_REMOTE"]),
                       remote_addr)
 
-  def testAddVti(self):
+  def _TestAddVti(self):
     """Test the creation of a Virtual Tunnel Interface."""
     for version in [4, 6]:
       netid = self.RandomNetid()
@@ -432,7 +434,7 @@ class VtiInterface(IpSecBaseInterface):
 class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
   """Test the creation of an XFRM Interface."""
 
-  def testAddXfrmInterface(self):
+  def _TestAddXfrmInterface(self):
     self.iproute.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
                                      _LOOPBACK_IFINDEX)
     if_index = self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
@@ -513,43 +515,27 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     xfrm_base.XfrmBaseTest.setUpClass()
     # Tunnel interfaces use marks extensively, so configure realistic packet
     # marking rules to make the test representative, make PMTUD work, etc.
-    cls.SetInboundMarks(True)
-    cls.SetMarkReflectSysctls(1)
 
-    # Group by tunnel version to ensure that we test at least one IPv4 and one
-    # IPv6 tunnel
-    cls.tunnelsV4 = {}
-    cls.tunnelsV6 = {}
-    for i, underlying_netid in enumerate(cls.tuns):
-      for version in 4, 6:
-        netid = _BASE_TUNNEL_NETID[version] + _TUNNEL_NETID_OFFSET + i
-        iface = "ipsec%s" % netid
-        local = cls.MyAddress(version, underlying_netid)
-        if version == 4:
-          remote = (net_test.IPV4_ADDR if (i % 2) else net_test.IPV4_ADDR2)
-        else:
-          remote = (net_test.IPV6_ADDR if (i % 2) else net_test.IPV6_ADDR2)
-
-        ifindex = cls.ifindices[underlying_netid]
-        tunnel = cls.INTERFACE_CLASS(iface, netid, underlying_netid, ifindex,
-                                   local, remote, version)
-        cls._SetInboundMarking(netid, iface, True)
-        cls._SetupTunnelNetwork(tunnel, True)
-
-        if version == 4:
-          cls.tunnelsV4[netid] = tunnel
-        else:
-          cls.tunnelsV6[netid] = tunnel
+    net_test.RunIptablesCommand(4, "-t mangle -A PREROUTING -j MARK --set-mark 0x12345678")
+    net_test.RunIptablesCommand(4, "-t mangle -A POSTROUTING -j MARK --set-mark 0x12345678")
+    # net_test.RunIptablesCommand(4, "-t mangle -A POSTROUTING -j TEE --to 10.")
+    subprocess.call("ip rule add from all lookup local pref 2".split())
+    subprocess.call("ip rule del pref 0".split())
+    subprocess.call("ip rule add from all fwmark 0x00000000 lookup 1 pref 1".split())
+    subprocess.call("ip rule add from all fwmark 0x12345678 lookup local pref 0".split())
+    # echo 1 > /proc/sys/net/ipv4/conf/all/accept_local
 
   @classmethod
   def tearDownClass(cls):
     # The sysctls are restored by MultinetworkBaseTest.tearDownClass.
-    cls.SetInboundMarks(False)
-    for tunnel in cls.tunnelsV4.values() + cls.tunnelsV6.values():
-      cls._SetInboundMarking(tunnel.netid, tunnel.iface, False)
-      cls._SetupTunnelNetwork(tunnel, False)
-      tunnel.Teardown()
     xfrm_base.XfrmBaseTest.tearDownClass()
+
+    subprocess.call("ip rule del pref 0".split())
+    subprocess.call("ip rule del pref 1".split())
+    subprocess.call("ip rule add from all lookup local pref 0".split())
+    subprocess.call("ip rule del pref 2".split())
+    net_test.RunIptablesCommand(4, "-t mangle -D POSTROUTING -j MARK --set-mark 0x12345678")
+    net_test.RunIptablesCommand(4, "-t mangle -D PREROUTING -j MARK --set-mark 0x12345678")
 
   def randomTunnel(self, outer_version):
     version_dict = self.tunnelsV4 if outer_version == 4 else self.tunnelsV6
@@ -894,59 +880,107 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       tunnel.SetupXfrm(False)
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
-class XfrmVtiTest(XfrmTunnelBase):
-
-  INTERFACE_CLASS = VtiInterface
-
-  def ParamTestVtiInput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
-
-  def ParamTestVtiOutput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
-                     True)
-
-  def ParamTestVtiInOutEncrypted(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
-                     False)
-
-  def ParamTestVtiIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
-
-  def ParamTestVtiEncryptionWithIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version,
-                     self._CheckTunnelEncryptionWithIcmp, False)
-
-  def ParamTestVtiRekey(self, inner_version, outer_version):
-    self._TestTunnelRekey(inner_version, outer_version)
-
-
 @unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmInterfaceTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = XfrmInterface
 
-  def ParamTestXfrmIntfInput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+  def testStuff(self):
+    # Select the underlying netid, which represents the external
+    # interface from/to which to route ESP packets.
+    u_netid = 100
+    u_ifindex = self.ifindices[u_netid]
 
-  def ParamTestXfrmIntfOutput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
-                     True)
+    local_outer = self.MyAddress(4, u_netid)
+    output_mark = u_netid
+    self.iproute.AddRoute(4, 255, "10.1.1.1", 32, None, u_ifindex) #255 = local
+    self.iproute.AddRoute(4, 255, "10.1.1.2", 32, None, u_ifindex) #255 = local
 
-  def ParamTestXfrmIntfInOutEncrypted(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
-                     False)
+    # Create interfaces
+    iface_1_ifid = 1
+    iface_1_name = "ipsectest1"
+    self.iproute.CreateXfrmInterface(iface_1_name, iface_1_ifid,
+                                     _LOOPBACK_IFINDEX)
+    if_index1 = self.iproute.GetIfIndex(iface_1_name)
+    net_test.SetInterfaceUp(iface_1_name)
 
-  def ParamTestXfrmIntfIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
+    iface_2_ifid = 2
+    iface_2_name = "ipsectest2"
+    self.iproute.CreateXfrmInterface(iface_2_name, iface_2_ifid,
+                                     _LOOPBACK_IFINDEX)
+    if_index2 = self.iproute.GetIfIndex(iface_2_name)
+    net_test.SetInterfaceUp(iface_2_name)
 
-  def ParamTestXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version,
-                     self._CheckTunnelEncryptionWithIcmp, False)
+    try:
+      # Create SAs
+      algo_aead = (xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 128+32, 8*8)), os.urandom(20))
+    #   self.xfrm.AddSaInfo(local_outer, local_outer, 0x1234, xfrm.XFRM_MODE_TUNNEL, 0, None, None, algo_aead, None, xfrm.ExactMatchMark(0x0), output_mark, xfrm_if_id=iface_1_ifid)
+    #   self.xfrm.AddSaInfo(local_outer, local_outer, 0x1235, xfrm.XFRM_MODE_TUNNEL, 0, None, None, algo_aead, None, xfrm.ExactMatchMark(0x0), output_mark, xfrm_if_id=iface_2_ifid)
+    #   self.xfrm.AddSaInfo(local_outer, local_outer, 0x1234, xfrm.XFRM_MODE_TUNNEL, 0, None, None, algo_aead, None, xfrm.ExactMatchMark(0x12345678), output_mark, xfrm_if_id=iface_1_ifid)
+    #   self.xfrm.AddSaInfo(local_outer, local_outer, 0x1235, xfrm.XFRM_MODE_TUNNEL, 0, None, None, algo_aead, None, xfrm.ExactMatchMark(0x12345678), output_mark, xfrm_if_id=iface_2_ifid)
 
-  def ParamTestXfrmIntfRekey(self, inner_version, outer_version):
-    self._TestTunnelRekey(inner_version, outer_version)
+      self.xfrm.AddSaInfo(local_outer, local_outer, 0x1234, xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL, None, None, None, xfrm.ExactMatchMark(0x0), output_mark, xfrm_if_id=iface_1_ifid)
+      self.xfrm.AddSaInfo(local_outer, local_outer, 0x1235, xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL, None, None, None, xfrm.ExactMatchMark(0x0), output_mark, xfrm_if_id=iface_2_ifid)
+      self.xfrm.AddSaInfo(local_outer, local_outer, 0x1234, xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL, None, None, None, xfrm.ExactMatchMark(0x12345678), output_mark, xfrm_if_id=iface_1_ifid)
+      self.xfrm.AddSaInfo(local_outer, local_outer, 0x1235, xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL, None, None, None, xfrm.ExactMatchMark(0x12345678), output_mark, xfrm_if_id=iface_2_ifid)
 
+      # Add addresses, routes and policies
+      self.iproute.AddAddress("10.0.0.1", 32, if_index1)
+      self.iproute.AddRoute(4, 1, "10.0.0.2", 32, None, if_index1) #255 = local
+      self.xfrm.AddPolicyInfo(
+          xfrm.UserPolicy(xfrm.XFRM_POLICY_IN, xfrm.EmptySelector(AF_INET)),
+          xfrm.UserTemplate(AF_INET, 0, 0, (local_outer, local_outer)),
+          None,
+          xfrm_if_id=iface_1_ifid)
+      self.xfrm.AddPolicyInfo(
+          xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, xfrm.EmptySelector(AF_INET)),
+          xfrm.UserTemplate(AF_INET, 0x1234, 0, (local_outer, local_outer)),
+          None,
+          xfrm_if_id=iface_1_ifid)
+
+      self.iproute.AddAddress("10.0.0.2", 32, if_index2)
+      self.iproute.AddRoute(4, 1, "10.0.0.1", 32, None, if_index2) #255 = local
+      self.xfrm.AddPolicyInfo(
+          xfrm.UserPolicy(xfrm.XFRM_POLICY_IN, xfrm.EmptySelector(AF_INET)),
+          xfrm.UserTemplate(AF_INET, 0, 0, (local_outer, local_outer)),
+          None,
+          xfrm_if_id=iface_2_ifid)
+      self.xfrm.AddPolicyInfo(
+          xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, xfrm.EmptySelector(AF_INET)),
+          xfrm.UserTemplate(AF_INET, 0x1235, 0, (local_outer, local_outer)),
+          None,
+          xfrm_if_id=iface_2_ifid)
+
+      with TapTwister(fd=self.tuns[u_netid].fileno()):
+        # Create a socket to receive packets.
+        read_sock = socket(AF_INET, SOCK_DGRAM, 0)
+        read_sock.bind(("10.0.0.1", 0))
+        # self.BindToDevice(read_sock, iface_1_name)
+        read_sock_port = read_sock.getsockname()[1]
+        read_sock.setsockopt(1, 11, 1) # Disable UDP checksum
+
+        # Guard against the eventuality of the receive failing.
+        csocket.SetSocketTimeout(read_sock, 1000)
+
+        write_sock = socket(AF_INET, SOCK_DGRAM, 0)
+        write_sock.bind(("10.0.0.2", 0))
+        # self.BindToDevice(read_sock, iface_2_name)
+        write_sock_port = write_sock.getsockname()[1]
+        write_sock.setsockopt(1, 11, 1) # Disable UDP checksum
+
+        write_sock.sendto(net_test.UDP_PAYLOAD, ("10.0.0.1", read_sock_port))
+
+        data, src = read_sock.recvfrom(4096)
+        print data
+        print src
+
+        time.sleep(90)
+    finally:
+      self.iproute.DeleteLink(iface_1_name)
+      self.iproute.DeleteLink(iface_2_name)
+
+      self.xfrm.FlushPolicyInfo()
+      self.xfrm.FlushSaInfo()
 
 if __name__ == "__main__":
   InjectTests()
