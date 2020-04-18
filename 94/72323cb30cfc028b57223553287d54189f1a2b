@@ -1,0 +1,7 @@
+Code-Review+2: Alistair Delva <adelva@google.com>
+Presubmit-Ready+1: Treehugger Robot <treehugger-gerrit@google.com>
+Submitted-by: Maciej Żenczykowski <maze@google.com>
+Submitted-at: Sat, 18 Apr 2020 00:07:28 +0000
+Reviewed-on: https://android-review.googlesource.com/c/kernel/tests/+/1289116
+Project: kernel/tests
+Branch: refs/heads/master
