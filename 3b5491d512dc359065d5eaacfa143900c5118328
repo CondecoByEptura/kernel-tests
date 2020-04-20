@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be9c211b_0a5f7c15",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1307893
+      },
+      "writtenOn": "2020-04-20T01:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f621bae_c7103d08",
+      "revId": "3b5491d512dc359065d5eaacfa143900c5118328",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40c5db2f_39cef244",
         "filename": "net/test/vts_kernel_net_tests.xml",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "3b5491d512dc359065d5eaacfa143900c5118328",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdeea781_4c136606",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1307893
+      },
+      "writtenOn": "2020-04-20T01:39:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40c5db2f_39cef244",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "3b5491d512dc359065d5eaacfa143900c5118328",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
