@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c33af93b_82dc28e2",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-04-21T11:55:09Z",
+      "side": 1,
+      "message": "In the AndroidTest.xml that is being deleted in b/1288614 I see:\n\n    \u003ctarget_preparer class\u003d\"com.android.tradefed.targetprep.DeviceSetup\"\u003e\n        \u003coption name\u003d\"airplane-mode\" value\u003d\"ON\" /\u003e\n    \u003c/target_preparer\u003e\n\nI assume we need this here too? The test does require that it be run in airplane mode (and in general with no networking connected).",
+      "revId": "9433d1c496731e3508daa046cd7b6f4b6941e681",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
