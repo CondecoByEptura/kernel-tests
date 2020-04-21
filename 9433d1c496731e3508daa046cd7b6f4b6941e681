@@ -16,6 +16,24 @@
       "revId": "9433d1c496731e3508daa046cd7b6f4b6941e681",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfa4341a_ad348c12",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1088076
+      },
+      "writtenOn": "2020-04-21T17:01:13Z",
+      "side": 1,
+      "message": "+1\n\nDo we also need adb root to run this test?",
+      "parentUuid": "c33af93b_82dc28e2",
+      "revId": "9433d1c496731e3508daa046cd7b6f4b6941e681",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
