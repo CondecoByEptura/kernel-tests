@@ -54,7 +54,10 @@ if __name__ == '__main__':
       sys.modules[name].InjectTests()
 
   loader = unittest.defaultTestLoader
-  test_suite = loader.loadTestsFromNames(test_modules)
+  if len(sys.argv) > 1:
+    test_suite = loader.loadTestsFromNames(sys.argv[1:])
+  else:
+    test_suite = loader.loadTestsFromNames(test_modules)
   runner = unittest.TextTestRunner(verbosity=2)
   result = runner.run(test_suite)
   sys.exit(not result.wasSuccessful())
