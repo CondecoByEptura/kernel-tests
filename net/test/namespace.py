@@ -19,6 +19,7 @@
 import ctypes
 import ctypes.util
 import os
+import socket
 
 import net_test
 
@@ -145,4 +146,13 @@ def IfPossibleEnterNewNetworkNamespace():
     raise
 
   print 'succeeded.'
+  return True
+
+
+def IsTcpPortAvailable(port):
+  try:
+    s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM, 0)
+    s.bind(('::', port))
+  except:
+    return False
   return True
