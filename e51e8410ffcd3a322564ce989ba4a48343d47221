@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b8d248d_51ad9192",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-11T07:45:44Z",
+      "side": 1,
+      "message": "Can this code go into a new file? namespace.py?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "e51e8410ffcd3a322564ce989ba4a48343d47221",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d105c5f_a9aaf387",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-11T07:45:44Z",
+      "side": 1,
+      "message": "Long line. Also elsewhere.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 106
+      },
+      "revId": "e51e8410ffcd3a322564ce989ba4a48343d47221",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43bffe92_1e10b74b",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-11T07:45:44Z",
+      "side": 1,
+      "message": "Style guide says methods should be SentenceCase.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 5
+      },
+      "revId": "e51e8410ffcd3a322564ce989ba4a48343d47221",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59e9438d_d4e915e3",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-11T07:45:44Z",
+      "side": 1,
+      "message": "We should determine when to do this. Perhaps only when the active connection to adb is via network? Not sure how to do this though. You can shell out to \"getprop service.adb.tcp.port\" and use SockDiag to see if there is an established tcp connection to that port, perhaps?",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "e51e8410ffcd3a322564ce989ba4a48343d47221",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91c0f84_e4e81fd5",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-11T07:45:44Z",
+      "side": 1,
+      "message": "If you want to ignore errors when creating, but not after creation, then:\n\n  # Ignore failures when creating the namespace, but any failure after that\n  # must cause the tests to fail.\n  try:\n    libc.unshare(CLONE_NEWNS|CLONE_NEWUTS|CLONE_NEWNET)\n  except:\n    return\n\nThat said, does this actually work? Will, say, \"libc.umount\" throw an exception? I would expect it to return -1.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 19
+      },
+      "revId": "e51e8410ffcd3a322564ce989ba4a48343d47221",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
