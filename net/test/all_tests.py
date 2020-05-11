@@ -15,6 +15,11 @@
 # limitations under the License.
 
 from importlib import import_module
+import ctypes
+import ctypes.util
+import net_test
+import os
+import socket
 import sys
 import unittest
 
@@ -45,12 +50,61 @@ test_modules = [
     'xfrm_tunnel_test',
 ]
 
+
+# //include/uapi/linux/sched.h
+CLONE_NEWNS = 0x00020000
+CLONE_NEWCGROUP = 0x02000000
+CLONE_NEWUTS = 0x04000000
+CLONE_NEWIPC = 0x08000000
+CLONE_NEWUSER = 0x10000000
+CLONE_NEWPID = 0x20000000
+CLONE_NEWNET = 0x40000000
+
+libc = ctypes.CDLL(ctypes.util.find_library('c'), use_errno=True)
+libc.mount.argtypes = (ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p, ctypes.c_ulong, ctypes.c_char_p)
+
+def mount(src, tgt, fs, opt=''):
+  ret = libc.mount(src, tgt, fs, 0, opt)
+  if ret < 0:
+    errno = ctypes.get_errno()
+    raise OSError(errno, '%s mounting %s on %s (fs=%s opt=%s)' % (os.strerror(errno), src, tgt, fs, opt))
+
+
 if __name__ == '__main__':
+  netns = False
+  try:
+    print 'Creating clean namespace...',
+    # Requires at least kernel configuration options:
+    #   CONFIG_NAMESPACES=y
+    #   CONFIG_NET_NS=y
+    #   CONFIG_UTS_NS=y
+    libc.unshare(CLONE_NEWNS|CLONE_NEWUTS|CLONE_NEWNET)
+    netns = True
+    # print ''
+    # print 'Before:'
+    # print (open('/proc/mounts', 'r').read())
+    # print '---'
+    libc.umount('/proc')
+    libc.umount('/sys')
+    mount('proc', '/proc', 'proc', 'rw')
+    mount('sysfs', '/sys', 'sysfs', 'rw')
+    # print 'After:'
+    # print (open('/proc/mounts', 'r').read())
+    libc.sethostname('netns', 5)
+    open('/proc/sys/net/ipv4/ping_group_range', 'w').write('0 2147483647')
+    net_test.SetInterfaceUp('lo')
+    print 'succeeded.'
+    # raise
+  except:
+    print 'failed.'
+    # If we've already created the netns, it's too late to recover.
+    if netns: raise
+
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
   for name in test_modules:
     import_module(name)
-    if hasattr(sys.modules[name], "InjectTests"):
+    if hasattr(sys.modules[name], 'InjectTests'):
       sys.modules[name].InjectTests()
 
   loader = unittest.defaultTestLoader
@@ -60,7 +114,7 @@ if __name__ == '__main__':
     test_suite = loader.loadTestsFromNames(test_modules)
 
   assert test_suite.countTestCases() > 0, (
-      "Inconceivable: no tests found! Command line: %s" % " ".join(sys.argv))
+      'Inconceivable: no tests found! Command line: %s' % ' '.join(sys.argv))
 
   runner = unittest.TextTestRunner(verbosity=2)
   result = runner.run(test_suite)
