@@ -18,6 +18,8 @@ import importlib
 import sys
 import unittest
 
+import namespace
+
 test_modules = [
     'anycast_test',
     'bpf_test',
@@ -46,6 +48,7 @@ test_modules = [
 ]
 
 if __name__ == '__main__':
+  namespace.IfPossibleEnterNewNetworkNamespace()
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
   for name in test_modules:
