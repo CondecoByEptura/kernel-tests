@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf0865a_c7a8e275",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-14T07:08:06Z",
+      "side": 1,
+      "message": "Generally, convention in this code is that capitals in camelcase or sentence-case words correspond to word breaks or underscores. So for example, this should be Sethostname, and a function with an underscore, such as posix_spawn, would be PosixSpawn.",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dba5f086_94e0ffbf",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-14T07:08:06Z",
+      "side": 1,
+      "message": "You have this error printing code three times. To reduce duplication, you could use something like MaybeRaiseSocketError, which is very simple:\n\ndef MaybeRaiseSocketError(ret):\n  if ret \u003c 0:\n    errno \u003d ctypes.get_errno()\n    raise socket.error(errno, os.strerror(errno))\n\n\nEven better would be to combine this with setting the argument types. You could use a decorator for this, like so:\n\n\ndef InitErrnoFunction(func, argtypes):\n  \"\"\"Python decorator for a libc function that returns 0 or sets errno.\n\n  Takes a libc function and argument types. Sets the function\u0027s argtype to the\n  passed-in tuple, and modifies the function in place so that it will throw\n  OSError instead of returning nonzero.\n\n  Example:\n    libc.sethostname \u003d \"InitErrnoFunction(libc.sethostname,\n                                          ((ctypes.c_char_p, ctypes.c_size_t))\n    libc.sethostname(\"hostname\", len(\"hostname))\n\n  Args:\n    func: A libc function.\n    argtypes: A tuple, the argument types.\n  \"\"\"\n  func.argtype \u003d argtypes\n\n  def ErrnoWrapper(*args):\n    ret \u003d func(*args)\n    if ret \u003d\u003d 0:\n      return\n    errno \u003d ctypes.get_errno()\n    argstr \u003d \", \".join((str(x) for x in args))\n    msg \u003d \"%s(%s): %s\" % (func.__name__, argstr, os.strerror(errno))\n    raise OSError(errno, msg)\n\n  return ErrnoWrapper\n\nYou could put this decorator in utils.py so it could be used elsewhere. Then in this file, you\u0027d simply do:\n\nmount \u003d InitErrnoFunction(libc.mount, ctypes.c_char_p, ctypes.c_char_p,\n                          ctypes.c_char_p, ctypes.c_ulong, ctypes.c_void_p)\nsethostname \u003d InitErrorFunction(libc.sethostname,\n                                (ctypes.c_char_p, ctypes.c_size_t))\n\nand later on, just use it as:\n\n    sethostname(\"foo\", 3)\n\nIf you want to use the original one that doesn\u0027t throw, that\u0027s still available as libc.sethostname.",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 78
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a0c165_83648908",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-14T07:08:06Z",
+      "side": 1,
+      "message": "We probably shouldn\u0027t print to stdout in debug code. I don\u0027t think any of the other tests do this.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da8fa3b2_77944a60",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-14T07:08:06Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ecae3ec_f9f32c37",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-14T07:08:06Z",
+      "side": 1,
+      "message": "No need to return true. If the method throws, it failed, and if not, it succeded.",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 141,
+        "endChar": 13
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
