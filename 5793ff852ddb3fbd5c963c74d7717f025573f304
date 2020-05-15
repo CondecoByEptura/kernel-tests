@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1e8a5535_5b445f60",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-15T18:54:54Z",
+      "side": 1,
+      "message": "I don\u0027t understand.  Why you can get into an argument whether \u0027hostname\u0027 is one word or two, clearly \u0027set\u0027 is a different word from \u0027hostname\u0027, so this should be called either \u0027SetHostName\u0027 or \u0027SetHostname\u0027\n\n?",
+      "parentUuid": "ddf0865a_c7a8e275",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dba5f086_94e0ffbf",
         "filename": "net/test/namespace.py",
         "patchSetId": 5
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d3b04f57_2e3f5cfe",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-15T18:54:54Z",
+      "side": 1,
+      "message": "Hmm, I wasn\u0027t thinking of this as debug code...\nAnd there\u0027s plenty of printouts happening on a normal test run.\n\nWhen I run uml all_tests.py with this I see:\n\nadding entropy from hex string [...]\nrandom: crng init done\nrandom: 14 get_random_xx warning(s) missed due to ratelimiting\nCannot find device \"eth0\"\nRunning /host/mnt/zoom/maze/aosp-tests/net/test/all_tests.py \n\nWARNING: No route found for IPv6 destination :: (no default route?)\nCreating clean namespace... succeeded.\ntestAnycastNetdeviceUnregister (anycast_test.AnycastTest) ... ok",
+      "parentUuid": "33a0c165_83648908",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da8fa3b2_77944a60",
         "filename": "net/test/namespace.py",
         "patchSetId": 5
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "65881f83_b722eee6",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-15T18:54:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da8fa3b2_77944a60",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ecae3ec_f9f32c37",
         "filename": "net/test/namespace.py",
         "patchSetId": 5
@@ -114,6 +186,30 @@
       "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be544169_2bbe4289",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-15T18:54:54Z",
+      "side": 1,
+      "message": "It throws only on critical unrecoverable error.\nIt returns true if it created netns and false if it didn\u0027t (due to privs or lack of kernel support).",
+      "parentUuid": "8ecae3ec_f9f32c37",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 141,
+        "endChar": 13
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
