@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f0a1e567_93af9423",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-16T04:32:08Z",
+      "side": 1,
+      "message": "SetHostname would be better than SetHostName, yes. For kernel APIs, I think the convention is essentially \"capital letter when there is an underscore\".",
+      "parentUuid": "1e8a5535_5b445f60",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dba5f086_94e0ffbf",
         "filename": "net/test/namespace.py",
         "patchSetId": 5
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "Hmm, I wasn\u0027t thinking of this as debug code...\nAnd there\u0027s plenty of printouts happening on a normal test run.\n\nWhen I run uml all_tests.py with this I see:\n\nadding entropy from hex string [...]\nrandom: crng init done\nrandom: 14 get_random_xx warning(s) missed due to ratelimiting\nCannot find device \"eth0\"\nRunning /host/mnt/zoom/maze/aosp-tests/net/test/all_tests.py \n\nWARNING: No route found for IPv6 destination :: (no default route?)\nCreating clean namespace... succeeded.\ntestAnycastNetdeviceUnregister (anycast_test.AnycastTest) ... ok",
       "parentUuid": "33a0c165_83648908",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "5793ff852ddb3fbd5c963c74d7717f025573f304",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c94a94c_5f274325",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-16T04:32:08Z",
+      "side": 1,
+      "message": "Don\u0027t those all go to stderr, though? You can use:\n\n    sys.stderr.write(\"foo %s: %s\\n\" % (foo1, foo2))",
+      "parentUuid": "d3b04f57_2e3f5cfe",
       "range": {
         "startLine": 136,
         "startChar": 0,
