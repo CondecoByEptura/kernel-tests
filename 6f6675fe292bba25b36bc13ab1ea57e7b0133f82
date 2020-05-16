@@ -70,6 +70,30 @@
       "revId": "6f6675fe292bba25b36bc13ab1ea57e7b0133f82",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b94d523_1678f72f",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-16T05:10:46Z",
+      "side": 1,
+      "message": "So the way this normally runs out of uml /proc is already mounted, and /sys isn\u0027t yet mounted.\nBut there isn\u0027t anything that actually guarantees that besides other net_test code.\n\nOn a phone normally both would be (and it turns out sometimes at least there\u0027s additional stuff mounted underneath /proc and/or /sys - for example /proc/usb/usb or /sys/fs/bpf).\n\nEither way: whether the umount succeeds or not just doesn\u0027t matter.\nIt\u0027s only laying the ground work (cleaning up).\n\nWhat does matter is whether this follow up mount succeeds.\n(and that will raise if it doesn\u0027t)\n\nBasically the correct way to handle an error from this umount is to either utterly ignore it,\nor to print a warning and simply continue on.\nIf stuff is broken you\u0027ll get an actual error out of the mount call.",
+      "parentUuid": "f511005e_84a58521",
+      "range": {
+        "startLine": 84,
+        "startChar": 55,
+        "endLine": 84,
+        "endChar": 75
+      },
+      "revId": "6f6675fe292bba25b36bc13ab1ea57e7b0133f82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
