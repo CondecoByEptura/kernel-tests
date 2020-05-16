@@ -22,6 +22,30 @@
       "revId": "6f6675fe292bba25b36bc13ab1ea57e7b0133f82",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9214a540_e730bc25",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-16T04:17:55Z",
+      "side": 1,
+      "message": "If you run this *immediately* after boot.",
+      "parentUuid": "92d6b9a9_a17e11b4",
+      "range": {
+        "startLine": 84,
+        "startChar": 55,
+        "endLine": 84,
+        "endChar": 75
+      },
+      "revId": "6f6675fe292bba25b36bc13ab1ea57e7b0133f82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
