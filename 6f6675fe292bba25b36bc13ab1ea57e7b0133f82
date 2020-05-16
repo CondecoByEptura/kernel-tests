@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92d6b9a9_a17e11b4",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-16T04:12:53Z",
+      "side": 1,
+      "message": "Under which circumstances might proc not be mounted?",
+      "range": {
+        "startLine": 84,
+        "startChar": 55,
+        "endLine": 84,
+        "endChar": 75
+      },
+      "revId": "6f6675fe292bba25b36bc13ab1ea57e7b0133f82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
