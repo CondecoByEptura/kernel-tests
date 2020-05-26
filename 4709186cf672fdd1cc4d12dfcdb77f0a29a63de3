@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b125150a_4688245e",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-26T15:13:49Z",
+      "side": 1,
+      "message": "Can we do better than this and check whether there is an active TCP connection to port 5555? It shouldn\u0027t be hard to do with the sock_diag module in this directory. There are easy examples of how to use it in sock_diag_test.py.\n\nGiven that the test runs as root it is going to be able to see which process has the inode open, but that would require listing /proc to look for the inode fd which is likely time consuming.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "4709186cf672fdd1cc4d12dfcdb77f0a29a63de3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
