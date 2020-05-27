@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f9a2529c_89061935",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-05-27T02:38:35Z",
+      "side": 1,
+      "message": "Firewall blocks incoming connections to 5555, and as I\u0027ve said it works with 22.",
+      "parentUuid": "24b360f8_be16e6ab",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 110
+      },
+      "revId": "99110e677562b8747509fddb656a1b2dd491c607",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2e88def_38e801c6",
         "filename": "net/test/namespace.py",
         "patchSetId": 5
