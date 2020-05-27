@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3949af42_7d0ae53b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-27T02:01:30Z",
+      "side": 1,
+      "message": "No longer current?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "99110e677562b8747509fddb656a1b2dd491c607",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24b360f8_be16e6ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-27T02:01:30Z",
+      "side": 1,
+      "message": "Can you try doing something like:\n\nadb tcpip 5555\nadb connect \u003cphone IP address\u003e:5555   # IPv6 works iff in square brackets\n# run the tests to see if they run in namespace mode\nadb disconnect\n\nto see if this actually triggers on a device using adb-over-TCP?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 110
+      },
+      "revId": "99110e677562b8747509fddb656a1b2dd491c607",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e88def_38e801c6",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-05-27T02:01:30Z",
+      "side": 1,
+      "message": "Line limit in our python tests is 80 characters.",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 89
+      },
+      "revId": "99110e677562b8747509fddb656a1b2dd491c607",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
