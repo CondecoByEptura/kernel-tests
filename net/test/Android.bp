@@ -25,5 +25,16 @@ python_test {
     main: "all_tests.py",
     defaults: ["kernel_net_tests_defaults",],
     test_suites: ["vts",],
-    test_config: "vts_kernel_net_tests.xml",
+    gen_config: [":gen_vts_kernel_net_tests"]
+}
+
+genrule {
+    name: "gen_vts_kernel_net_tests",
+    srcs: [
+        "template.xml",
+    ],
+    out: [
+        "vts_kernel_net_tests.xml",
+    ],
+    cmd: "cp -f $(in) $(out)",
 }
