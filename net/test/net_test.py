@@ -410,9 +410,9 @@ class NetworkTest(unittest.TestCase):
     """
     msg = os.strerror(err_num)
     if f is None:
-      return self.assertRaisesRegexp(EnvironmentError, msg)
+      return self.assertRaisesRegex(EnvironmentError, msg)
     else:
-      self.assertRaisesRegexp(EnvironmentError, msg, f, *args)
+      self.assertRaisesRegex(EnvironmentError, msg, f, *args)
 
   def ReadProcNetSocket(self, protocol):
     # Read file.

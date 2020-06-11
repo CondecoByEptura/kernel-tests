@@ -115,6 +115,7 @@ def DumpMounts(hdr):
   print()
   print(hdr)
   print open('/proc/mounts', 'r').read(),
+  print(open('/proc/mounts', 'r').read(), end=' ')
   print('---')
 
 
@@ -125,7 +126,7 @@ def DumpMounts(hdr):
 def IfPossibleEnterNewNetworkNamespace():
   """Instantiate and transition into a fresh new network namespace if possible."""
 
-  print 'Creating clean namespace...',
+  print('Creating clean namespace...', end=' ')
 
   try:
     UnShare(CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWNET)

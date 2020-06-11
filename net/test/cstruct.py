@@ -101,10 +101,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
       # Make the class object have the name that's passed in.
       type.__init__(cls, namespace["_name"], unused_bases, namespace)
 
-  class CStruct(object):
+  class CStruct(object, metaclass=Meta):
     """Class representing a C-like structure."""
-
-    __metaclass__ = Meta
 
     # Name of the struct.
     _name = name
