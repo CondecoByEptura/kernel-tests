@@ -314,13 +314,13 @@ class PfKey(object):
 
   def PrintSaInfos(self, dump):
     for msg, extensions in dump:
-      print self.DecodeSadbMsg(msg)
+      print(self.DecodeSadbMsg(msg))
       for exttype, ext, attrs in extensions:
         exttype = _GetMultiConstantName(exttype, ["SADB_EXT", "SADB_X_EXT"])
         if exttype == SADB_EXT_SA:
-          print " ", exttype, self.DecodeSadbSa(ext), attrs.encode("hex")
-        print " ", exttype, ext, attrs.encode("hex")
-      print
+          print(" ", exttype, self.DecodeSadbSa(ext), attrs.encode("hex"))
+        print(" ", exttype, ext, attrs.encode("hex"))
+      print()
 
 
 if __name__ == "__main__":
