@@ -70,11 +70,14 @@ NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 import ctypes
 import string
 import struct
+import re
 
 
 def CalcSize(fmt):
   if "A" in fmt:
     fmt = fmt.replace("A", "s")
+  # Remove the last digital since it will cause error in python3.
+  fmt = (re.split('\d+$', fmt)[0])
   return struct.calcsize(fmt)
 
 def CalcNumElements(fmt):
@@ -82,7 +85,7 @@ def CalcNumElements(fmt):
   fmt = fmt.replace("S", "")
   numstructs = prevlen - len(fmt)
   size = CalcSize(fmt)
-  elements = struct.unpack(fmt, "\x00" * size)
+  elements = struct.unpack(fmt, "\x00".encode() * size)
   return len(elements) + numstructs
 
 
@@ -118,7 +121,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
     # where XX is the length of the struct type's packed representation.
     _format = ""
     laststructindex = 0
-    for i in xrange(len(fmt)):
+    for i in range(len(fmt)):
       if fmt[i] == "S":
         # Nested struct. Record the index in our struct it should go into.
         index = CalcNumElements(fmt[:i])
@@ -138,17 +141,17 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     offset_list = [0]
     last_offset = 0
-    for i in xrange(len(_format)):
+    for i in range(len(_format)):
       offset = CalcSize(_format[:i])
       if offset > last_offset:
         last_offset = offset
         offset_list.append(offset)
 
     # A dictionary that maps field names to their offsets in the struct.
-    _offsets = dict(zip(_fieldnames, offset_list))
+    _offsets = dict(list(zip(_fieldnames, offset_list)))
 
     # Check that the number of field names matches the number of fields.
-    numfields = len(struct.unpack(_format, "\x00" * _length))
+    numfields = len(struct.unpack(_format, "\x00".encode() * _length))
     if len(_fieldnames) != numfields:
       raise ValueError("Invalid cstruct: \"%s\" has %d elements, \"%s\" has %d."
                        % (fmt, numfields, fieldnames, len(_fieldnames)))
@@ -182,7 +185,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
         # Default construct from null bytes.
         self._Parse("\x00" * len(self))
         # If any keywords were supplied, set those fields.
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
           setattr(self, k, v)
       elif isinstance(tuple_or_bytes, str):
         # Initializing from a string.
