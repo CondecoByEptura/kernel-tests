@@ -164,7 +164,7 @@ class SockDiag(netlink.NetlinkSocket):
     if "ALL" not in self.NL_DEBUG and "SOCK" not in self.NL_DEBUG:
       return
     parsed = self._ParseNLMsg(data, InetDiagReqV2)
-    print "%s %s" % (name, str(parsed))
+    print("%s %s" % (name, str(parsed)))
 
   @staticmethod
   def _EmptyInetDiagSockId():
@@ -363,7 +363,7 @@ class SockDiag(netlink.NetlinkSocket):
     src, sport = s.getsockname()[:2]
     try:
       dst, dport = s.getpeername()[:2]
-    except error, e:
+    except error as e:
       if e.errno == errno.ENOTCONN:
         dport = 0
         dst = "::" if family == AF_INET6 else "0.0.0.0"
@@ -430,4 +430,4 @@ if __name__ == "__main__":
   states = 0xffffffff
   diag_msgs = n.DumpAllInetSockets(IPPROTO_TCP, "",
                                    sock_id=sock_id, ext=ext, states=states)
-  print diag_msgs
+  print(diag_msgs)
