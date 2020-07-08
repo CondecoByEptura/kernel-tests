@@ -68,7 +68,7 @@ class RemovedFeatureTest(net_test.NetworkTest):
     self.assertFeatureEnabled("CONFIG_IP6_NF_TARGET_REJECT")
     self.assertFeatureAbsent("CONFIG_IP6_NF_TARGET_REJECT_SKERR")
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 19, 0), "removed in 4.14-r")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 14, 0), "removed in 4.14-r")
   def testRemovedAndroidParanoidNetwork(self):
     """Verify that ANDROID_PARANOID_NETWORK is gone."""
 
@@ -76,7 +76,7 @@ class RemovedFeatureTest(net_test.NetworkTest):
     with net_test.RunAsUidGid(12345, AID_NET_RAW):
       self.assertRaisesErrno(errno.EPERM, socket, AF_PACKET, SOCK_RAW, 0)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 19, 0), "exists in 4.14-P")
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 14, 0), "exists in 4.14-P")
   def testRemovedQtaguid(self):
     self.assertRaisesErrno(errno.ENOENT, open, "/proc/net/xt_qtaguid")
 
