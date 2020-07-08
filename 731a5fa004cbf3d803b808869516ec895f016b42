@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15810197_45e5454c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-08T19:18:50Z",
+      "side": 1,
+      "message": "technically this now passes TH...\n\nnot sure what that implies...\n\nwhere do we expect aosp/master to pass?",
+      "revId": "731a5fa004cbf3d803b808869516ec895f016b42",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
