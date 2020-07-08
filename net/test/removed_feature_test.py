@@ -66,6 +66,10 @@ class RemovedFeatureTest(net_test.NetworkTest):
     self.assertFeatureEnabled("CONFIG_IP6_NF_TARGET_REJECT")
     self.assertFeatureAbsent("CONFIG_IP6_NF_TARGET_REJECT_SKERR")
 
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 19, 0), "exists in 4.14")
+  def testRemovedQtaguid(self):
+    self.assertRaisesErrno(errno.ENOENT, open, "/proc/net/xt_qtaguid")
+
 
 if __name__ == "__main__":
   unittest.main()
