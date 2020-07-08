@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "db657d04_d4043cf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-07-08T04:57:40Z",
+      "side": 1,
+      "message": "LGTM but fix typo.",
+      "revId": "692e022564e7583f0fd4ec274465e40a7f8b998e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38b38a99_62be2a17",
         "filename": "net/test/removed_feature_test.py",
         "patchSetId": 1
@@ -35,6 +52,29 @@
         "startChar": 2,
         "endLine": 69,
         "endChar": 46
+      },
+      "revId": "692e022564e7583f0fd4ec274465e40a7f8b998e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b22404f_55b3528e",
+        "filename": "net/test/removed_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-07-08T04:57:40Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 73,
+        "startChar": 48,
+        "endLine": 73,
+        "endChar": 49
       },
       "revId": "692e022564e7583f0fd4ec274465e40a7f8b998e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
