@@ -66,6 +66,13 @@ class RemovedFeatureTest(net_test.NetworkTest):
     self.assertFeatureEnabled("CONFIG_IP6_NF_TARGET_REJECT")
     self.assertFeatureAbsent("CONFIG_IP6_NF_TARGET_REJECT_SKERR")
 
+  def testRemovedAndroidParanoidNetwork(self):
+    """Verify that ANDROID_PARANOID_NETWORK is gone."""
+
+    AID_NET_RAW=3004
+    with net_test.RunAsUidGid(12345, AID_NET_RAW):
+      assertRaisesErrno(EPERM, socket, AF_PACKET_SOCK_RAW, 0)
+
 
 if __name__ == "__main__":
   unittest.main()
