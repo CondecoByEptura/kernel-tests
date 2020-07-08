@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e3ebf8b_f1ccfe33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-08T06:53:40Z",
+      "side": 1,
+      "message": "As kind of expected, failure in:\n  6652503 kernel_test on kernel-q-dev-msm-floral-4.14\n\nThis matches ACK 4.14-p/q having this code, but 4.14-r not having it.",
+      "revId": "a7cd9da9b7422a58e3fe4bac86275a4f4678905c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
