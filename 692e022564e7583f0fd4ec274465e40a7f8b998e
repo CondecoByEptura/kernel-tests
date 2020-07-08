@@ -79,6 +79,23 @@
       "revId": "692e022564e7583f0fd4ec274465e40a7f8b998e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b36df24_7208ddff",
+        "filename": "net/test/removed_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2020-07-08T05:03:26Z",
+      "side": 1,
+      "message": "While we\u0027re at it, could we also have:\n\n  @unittest.skipUnless(net_test.LINUX_VERSION \u003e\u003d (4, 19, 0), \"exists in 4.14\")\n  def testRemovedQtaguid(self):\n    assertRaisesErrno(ENOENT, open, \"/proc/net/xt_qtaguid\")\n\nSeparate CL is fine.",
+      "revId": "692e022564e7583f0fd4ec274465e40a7f8b998e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
     }
   ]
 }
