@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ff37a8_50d10542",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T07:08:29Z",
+      "side": 1,
+      "message": "Updated a few more comments to use python3 compatible syntax.\n\nRetested on Android Common Kernel:\n  android-5.4:         uml64_net_all_test_sh   (a.k.a. android12-5.4)\n  android-5.4-stable:  uml32_net_all_test_py   (a.k.a. android11-5.4)\n  android-4.19-stable: uml32_net_all_test_sh\n  android-4.19-q:      uml64_net_all_test_py\n\nWhere:\n  uml32_net_all_test_py() {\n    ARCH\u003dum SUBARCH\u003di386 .../net/test/run_net_test.sh --builder all_tests.py\n  }\n  uml32_net_all_test_sh() {\n    ARCH\u003dum SUBARCH\u003di386 .../net/test/run_net_test.sh --builder all_tests.sh\n  }\n  uml64_net_all_test_py() {\n    ARCH\u003dum SUBARCH\u003dx86_64 .../net/test/run_net_test.sh --builder all_tests.py\n  }\n  uml64_net_all_test_sh() {\n    ARCH\u003dum SUBARCH\u003dx86_64 .../net/test/run_net_test.sh --builder all_tests.sh\n  }",
+      "revId": "b7769d6474435c70b2be16aeb0ae4e268c840968",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
