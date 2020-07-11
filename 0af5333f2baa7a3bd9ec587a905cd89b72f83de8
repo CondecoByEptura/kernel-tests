@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68796f7c_bc52032d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T06:49:23Z",
+      "side": 1,
+      "message": "Reusing Bernie\u0027s +2 after making 2 requested changes and responding to 3 other comments.",
+      "revId": "0af5333f2baa7a3bd9ec587a905cd89b72f83de8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
