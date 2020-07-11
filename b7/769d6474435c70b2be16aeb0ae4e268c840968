@@ -1,0 +1,8 @@
+Code-Review+2: Maciej Żenczykowski <maze@google.com>
+Presubmit-Verified+1: Treehugger Robot <treehugger-gerrit@google.com>
+Lint+1: Lint 🤖 <android-build-prod-ayeaye@system.gserviceaccount.com>
+Submitted-by: Maciej Żenczykowski <maze@google.com>
+Submitted-at: Sat, 11 Jul 2020 08:25:24 +0000
+Reviewed-on: https://android-review.googlesource.com/c/kernel/tests/+/1340802
+Project: kernel/tests
+Branch: refs/heads/master
