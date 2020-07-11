@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8bf0c12a_df88bb53",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T06:26:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a81aa676_8d1a6254",
+      "range": {
+        "startLine": 88,
+        "startChar": 32,
+        "endLine": 88,
+        "endChar": 47
+      },
+      "revId": "22a14f0d16833c84dfb84b451189749664084c99",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f54bb6_5fa8d59a",
         "filename": "net/test/cstruct.py",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "22a14f0d16833c84dfb84b451189749664084c99",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15d22eeb_ee538b0f",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T06:26:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f54bb6_5fa8d59a",
+      "range": {
+        "startLine": 154,
+        "startChar": 43,
+        "endLine": 154,
+        "endChar": 58
+      },
+      "revId": "22a14f0d16833c84dfb84b451189749664084c99",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5258844a_9d44d14e",
+        "filename": "net/test/cstruct_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T06:26:49Z",
+      "side": 1,
+      "message": "struct.unpack() seems to need binary strings - this probably does not.\nHonestly I don\u0027t know... not a python expert.\n\nThis patch isn\u0027t actually by itself enough to be compatible with python3.\nIt is just fixing up the all-over-the-place-but-easier-to-solve problems.",
+      "parentUuid": "811a1a1f_74c48d62",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 56
+      },
+      "revId": "22a14f0d16833c84dfb84b451189749664084c99",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b09422e2_3df8cae6",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "22a14f0d16833c84dfb84b451189749664084c99",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f37d73c8_9703cd98",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T06:26:49Z",
+      "side": 1,
+      "message": "Maybe?  If it does, that can be fixed on another pass.",
+      "parentUuid": "b09422e2_3df8cae6",
+      "range": {
+        "startLine": 289,
+        "startChar": 54,
+        "endLine": 289,
+        "endChar": 61
+      },
+      "revId": "22a14f0d16833c84dfb84b451189749664084c99",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     },
     {
       "key": {
