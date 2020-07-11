@@ -210,6 +210,30 @@
       "revId": "22a14f0d16833c84dfb84b451189749664084c99",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f5f8903_0756b083",
+        "filename": "net/test/namespace.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-07-11T06:28:11Z",
+      "side": 1,
+      "message": "Well\n  print \u0027foo,\u0027; print \u0027bar\u0027\nis equivalent to\n  print(\u0027foo\u0027, end\u003d\u0027 \u0027); print(\u0027bar\u0027)\n\nHowever... the real problem is that end\u003d... is not valid syntax in python2.\nAnd I didn\u0027t catch this because this code is normally not run...\nReverted this piece.",
+      "parentUuid": "76b16687_b0c9996e",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 46
+      },
+      "revId": "22a14f0d16833c84dfb84b451189749664084c99",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
