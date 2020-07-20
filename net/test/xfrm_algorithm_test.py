@@ -36,6 +36,12 @@ CRYPT_ALGOS = [
     xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 128)),
     xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 192)),
     xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 256)),
+    # RFC 3686 specifies that key length must be 128, 192 or 256 bits,
+    #   with an additional 4 bytes (32 bits) of salt. The salt must be unique
+    #   for each new SA using the same key.
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 128+32)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 192+32)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 256+32)),
 ]
 
 # List of auth algorithms for use in ParamTests.
@@ -47,6 +53,7 @@ AUTH_ALGOS = [
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA256, 256, 128)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA384, 384, 192)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA512, 512, 256)),
+    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_XCBC_AES, 128, 96)),
     # Test larger truncation lengths for good measure.
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_MD5, 128, 128)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 160, 160)),
@@ -70,6 +77,7 @@ AEAD_ALGOS = [
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32,  8*8)),
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 12*8)),
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 16*8)),
+    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_CHACHA20_POLY1305, 256+32, 16*8)),
 ]
 
 def InjectTests():
