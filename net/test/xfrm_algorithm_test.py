@@ -30,29 +30,38 @@ from tun_twister import TapTwister
 import util
 import xfrm
 import xfrm_base
+import xfrm_test
 
 # List of encryption algorithms for use in ParamTests.
 CRYPT_ALGOS = [
     xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 128)),
     xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 192)),
     xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 256)),
+    # RFC 3686 specifies that key length must be 128, 192 or 256 bits,
+    # with an additional 4 bytes (32 bits) of nonce. A fresh nonce value
+    # MUST be assigned for each SA.
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 128+32)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 192+32)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 256+32)),
 ]
 
 # List of auth algorithms for use in ParamTests.
 AUTH_ALGOS = [
-    # RFC 4868 specifies that the only supported truncation length is half the
+    # RFC 4868 and RFC 4494 specify that the only supported truncation length is half the
     # hash size.
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_MD5, 128, 96)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 160, 96)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA256, 256, 128)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA384, 384, 192)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA512, 512, 256)),
+    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_AUTH_AES_CMAC, 128, 96)),
     # Test larger truncation lengths for good measure.
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_MD5, 128, 128)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 160, 160)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA256, 256, 256)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA384, 384, 384)),
     xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA512, 512, 512)),
+    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_AUTH_AES_CMAC, 128, 128)),
 ]
 
 # List of aead algorithms for use in ParamTests.
@@ -71,6 +80,84 @@ AEAD_ALGOS = [
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 12*8)),
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 16*8)),
 ]
+
+# Does the kernel support this algorithm?
+def HaveAlgo(crypt_algo, auth_algo, aead_algo):
+  try:
+    test_xfrm = xfrm.Xfrm()
+    test_xfrm.FlushSaInfo()
+    test_xfrm.FlushPolicyInfo()
+
+    test_xfrm.AddSaInfo(
+        src=xfrm_test.TEST_ADDR1,
+        dst=xfrm_test.TEST_ADDR2,
+        spi=xfrm_test.TEST_SPI,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=100,
+        encryption=(crypt_algo, GenerateKey(crypt_algo.key_len)) if crypt_algo else None,
+        auth_trunc=(auth_algo, GenerateKey(auth_algo.key_len)) if auth_algo else None,
+        aead=(aead_algo, GenerateKey(aead_algo.key_len)) if aead_algo else None,
+        encap=None,
+        mark=None,
+        output_mark=None)
+
+    test_xfrm.FlushSaInfo()
+    test_xfrm.FlushPolicyInfo()
+
+    return True
+  except IOError as err:
+    return False if err.errno == ENOSYS else True
+
+def GenerateKey(key_len):
+  return os.urandom(key_len / 8)
+
+# Add tests to verify this encryption algorithm if it is required or opt-in being enabled by this kernel
+def MayAddCryptTestCase(algo_name, key_len_list, kernel_version):
+  crypt_algo_list = []
+  for key_len in key_len_list:
+    crypt_algo_list.append(xfrm.XfrmAlgo((algo_name, key_len)))
+
+  crypt = crypt_algo_list[0]
+  auth = xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 160, 96))
+  MayAddTestCase(crypt, auth, None, kernel_version, CRYPT_ALGOS, crypt_algo_list)
+
+def MayAddAuthTestCase(algo_name, key_trunc_pair_list, kernel_version):
+  auth_algo_list = []
+  for key_trunc_pair in key_trunc_pair_list:
+    auth_algo_list.append(xfrm.XfrmAlgoAuth((algo_name, key_trunc_pair[0], key_trunc_pair[1])))
+
+  crypt = xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 128))
+  auth = auth_algo_list[0]
+  MayAddTestCase(crypt, auth, None, kernel_version, AUTH_ALGOS, auth_algo_list)
+
+def MayAddAeadTestCase(algo_name, key_trunc_pair_list, kernel_version):
+  aead_algo_list = []
+  for key_trunc_pair in key_trunc_pair_list:
+    aead_algo_list.append(xfrm.XfrmAeadAuth((algo_name, key_trunc_pair[0], key_trunc_pair[1])))
+
+  MayAddTestCase(None, None, aead_algo_list[0], kernel_version, AEAD_ALGOS, aead_algo_list)
+
+def MayAddTestCase(crypt, auth, aead, kernel_version, test_cases, optional_cases):
+  if net_test.LINUX_VERSION > kernel_version or HaveAlgo(crypt,auth,aead):
+    test_cases.extend(optional_cases)
+
+
+EALG_CTR_AES_KEY_LEN = [128+32, 192+32, 256+32]
+MayAddCryptTestCase(xfrm.XFRM_EALG_CTR_AES, EALG_CTR_AES_KEY_LEN,(5, 4, 0))
+
+AUTH_AES_CMAC_KEY_TRUNC = [(128, 12*8)]
+MayAddAuthTestCase(xfrm.XFRM_AALG_AUTH_AES_CMAC, AUTH_AES_CMAC_KEY_TRUNC,(5, 4, 0))
+
+AUTH_AES_XCBC_KEY_TRUNC = [(128, 12*8)]
+MayAddAuthTestCase(xfrm.XFRM_AALG_AUTH_AES_XCBC, AUTH_AES_XCBC_KEY_TRUNC,(5, 4, 0))
+
+AEAD_CHACHA20_POLY1305_KEY_TRUNC = [(256+32, 12*8)]
+MayAddAuthTestCase(xfrm.XFRM_AEAD_CHACHA20_POLY1305, AEAD_CHACHA20_POLY1305_KEY_TRUNC,(5, 4, 0))
+
+print("CRYPT_ALGOS: ", CRYPT_ALGOS)
+print("AUTH_ALGOS: ", AUTH_ALGOS)
+print("AEAD_ALGOS: ", AEAD_ALGOS)
+
 
 def InjectTests():
   XfrmAlgorithmTest.InjectTests()
