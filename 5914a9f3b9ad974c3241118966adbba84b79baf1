@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94613e67_b9503266",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1297255
+      },
+      "writtenOn": "2020-08-03T17:48:19Z",
+      "side": 1,
+      "message": "Hi Ben, can you take a look at the overall shape of this CL ?",
+      "revId": "5914a9f3b9ad974c3241118966adbba84b79baf1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
