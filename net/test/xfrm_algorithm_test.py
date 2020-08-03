@@ -30,29 +30,51 @@ from tun_twister import TapTwister
 import util
 import xfrm
 import xfrm_base
+import xfrm_test
 
 # List of encryption algorithms for use in ParamTests.
 CRYPT_ALGOS = [
-    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 128)),
-    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 192)),
-    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 256)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 128, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 192, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CBC_AES, 256, net_test.LINUX_ANY_VERSION)),
+    # RFC 3686 specifies that key length must be 128, 192 or 256 bits, with
+    # an additional 4 bytes (32 bits) of nonce. A fresh nonce alue MUST be
+    # assigned for each SA.
+    # CTR-AES is enforced since kernel version 5.8
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 128+32, "5.8")),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 192+32, "5.8")),
+    xfrm.XfrmAlgo((xfrm.XFRM_EALG_CTR_AES, 256+32, "5.8")),
 ]
 
 # List of auth algorithms for use in ParamTests.
 AUTH_ALGOS = [
     # RFC 4868 specifies that the only supported truncation length is half the
     # hash size.
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_MD5, 128, 96)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 160, 96)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA256, 256, 128)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA384, 384, 192)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA512, 512, 256)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_MD5, 128, 96, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA1, 160, 96, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA256, 256, 128, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA384, 384, 192, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA512, 512, 256, net_test.LINUX_ANY_VERSION)),
     # Test larger truncation lengths for good measure.
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_MD5, 128, 128)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 160, 160)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA256, 256, 256)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA384, 384, 384)),
-    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA512, 512, 512)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_MD5, 128, 128, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA1, 160, 160, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA256, 256, 256, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA384, 384, 384, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAuth(
+        (xfrm.XFRM_AALG_HMAC_SHA512, 512, 512, net_test.LINUX_ANY_VERSION)),
+    # RFC 3566 specifies that the only supported truncation length
+    # is 96 bits
+    # XCBC-AES is enforced since kernel version 5.8
+    xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_AUTH_XCBC_AES, 128, 96, "5.8")),
 ]
 
 # List of aead algorithms for use in ParamTests.
@@ -61,16 +83,96 @@ AEAD_ALGOS = [
     #   with an additional 4 bytes (32 bits) of salt. The salt must be unique
     #   for each new SA using the same key.
     # RFC 4106 specifies that ICV length must be 8, 12, or 16 bytes
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 128+32,  8*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 128+32, 12*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 128+32, 16*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 192+32,  8*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 192+32, 12*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 192+32, 16*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32,  8*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 12*8)),
-    xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 16*8)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 128+32, 8*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 128+32, 12*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 128+32, 16*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 192+32, 8*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 192+32, 12*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 192+32, 16*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 256+32, 8*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 256+32, 12*8, net_test.LINUX_ANY_VERSION)),
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_GCM_AES, 256+32, 16*8, net_test.LINUX_ANY_VERSION)),
+    # RFC 7634 specifies that key length must be 256 bits, with an additional
+    # 4 bytes (32 bits) of nonce. A fresh nonce value MUST be assigned for
+    # each SA. RFC 7634 also specifies that ICV length must be 16 bytes.
+    # ChaCha20-Poly1305 is enforced since kernel version 5.8
+    xfrm.XfrmAlgoAead(
+        (xfrm.XFRM_AEAD_CHACHA20_POLY1305, 256+32, 16*8, "5.8")),
 ]
+
+def GenerateKey(key_len):
+  return os.urandom(key_len / 8)
+
+# Does the kernel support this algorithm?
+def HaveAlgo(crypt_algo, auth_algo, aead_algo):
+  try:
+    test_xfrm = xfrm.Xfrm()
+    test_xfrm.FlushSaInfo()
+    test_xfrm.FlushPolicyInfo()
+
+    test_xfrm.AddSaInfo(
+        src=xfrm_test.TEST_ADDR1,
+        dst=xfrm_test.TEST_ADDR2,
+        spi=xfrm_test.TEST_SPI,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=100,
+        encryption=(crypt_algo,
+                    GenerateKey(crypt_algo.key_len)) if crypt_algo else None,
+        auth_trunc=(auth_algo,
+                    GenerateKey(auth_algo.key_len)) if auth_algo else None,
+        aead=(aead_algo, GenerateKey(aead_algo.key_len)) if aead_algo else None,
+        encap=None,
+        mark=None,
+        output_mark=None)
+
+    test_xfrm.FlushSaInfo()
+    test_xfrm.FlushPolicyInfo()
+
+    return True
+  except IOError as err:
+    if err.errno == ENOSYS:
+      return False
+    else:
+      print("Unexpected error:", err.errno)
+      return True
+
+def KernelVersionStringToTuple(kernel_version):
+  return tuple(int(i) for i in kernel_version.split("."))
+
+# Dictionary to record the algorithm state. Mark the state True if this
+# algorithm is enforced or enabled on this kernel. Otherwise, mark it
+# False
+algorithmState = {}
+
+def AlgoEnforcedOrEnabled(crypt, auth, aead, target_algo, target_kernel):
+  if algorithmState.get(target_algo) is None:
+    enforcedOrEnabled = net_test.LINUX_VERSION >= KernelVersionStringToTuple(
+      target_kernel) or HaveAlgo(crypt, auth, aead)
+    algorithmState[target_algo] = enforcedOrEnabled
+  return algorithmState.get(target_algo)
+
+# Return true if this algorithm should be enforced or is enabled on this kernel
+def AuthEnforcedOrEnabled(auth):
+  crypt = xfrm.XfrmAlgo(("ecb(cipher_null)", 0, net_test.LINUX_ANY_VERSION))
+  return AlgoEnforcedOrEnabled(crypt, auth, None, auth.name, auth.kernel_version)
+
+# Return true if this algorithm should be enforced or is enabled on this kernel
+def CryptEnforcedOrEnabled(crypt):
+  auth = xfrm.XfrmAlgoAuth(("digest_null", 0, 0, net_test.LINUX_ANY_VERSION))
+  return AlgoEnforcedOrEnabled(crypt, auth, None, crypt.name, crypt.kernel_version)
+
+# Return true if this algorithm should be enforced or is enabled on this kernel
+def AeadEnforcedOrEnabled(aead):
+  return AlgoEnforcedOrEnabled(None, None, aead, aead.name, aead.kernel_version)
 
 def InjectTests():
   XfrmAlgorithmTest.InjectTests()
@@ -114,6 +216,15 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
   def ParamTestSocketPolicySimple(self, version, proto, auth, crypt, aead):
     """Test two-way traffic using transport mode and socket policies."""
 
+    # Bypass the test if any algorithm going to be tested is not enforced
+    # or enabled on this kernel
+    if auth is not None and not AuthEnforcedOrEnabled(auth):
+      return
+    if crypt is not None and not CryptEnforcedOrEnabled(crypt):
+      return
+    if aead is not None and not AeadEnforcedOrEnabled(aead):
+      return
+
     def AssertEncrypted(packet):
       # This gives a free pass to ICMP and ICMPv6 packets, which show up
       # nondeterministically in tests.
@@ -131,17 +242,23 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     family = net_test.GetAddressFamily(version)
     local_addr = self.MyAddress(version, netid)
     remote_addr = self.GetRemoteSocketAddress(version)
-    auth_left = (xfrm.XfrmAlgoAuth((auth.name, auth.key_len, auth.trunc_len)),
+    auth_left = (xfrm.XfrmAlgoAuth(
+                 (auth.name, auth.key_len, auth.trunc_len, auth.kernel_version)),
                  os.urandom(auth.key_len / 8)) if auth else None
-    auth_right = (xfrm.XfrmAlgoAuth((auth.name, auth.key_len, auth.trunc_len)),
+    auth_right = (xfrm.XfrmAlgoAuth(
+                  (auth.name, auth.key_len, auth.trunc_len, auth.kernel_version)),
                   os.urandom(auth.key_len / 8)) if auth else None
-    crypt_left = (xfrm.XfrmAlgo((crypt.name, crypt.key_len)),
+    crypt_left = (xfrm.XfrmAlgo(
+                  (crypt.name, crypt.key_len, crypt.kernel_version)),
                   os.urandom(crypt.key_len / 8)) if crypt else None
-    crypt_right = (xfrm.XfrmAlgo((crypt.name, crypt.key_len)),
+    crypt_right = (xfrm.XfrmAlgo(
+                   (crypt.name, crypt.key_len, crypt.kernel_version)),
                    os.urandom(crypt.key_len / 8)) if crypt else None
-    aead_left = (xfrm.XfrmAlgoAead((aead.name, aead.key_len, aead.icv_len)),
+    aead_left = (xfrm.XfrmAlgoAead(
+                 (aead.name, aead.key_len, aead.icv_len, aead.kernel_version)),
                  os.urandom(aead.key_len / 8)) if aead else None
-    aead_right = (xfrm.XfrmAlgoAead((aead.name, aead.key_len, aead.icv_len)),
+    aead_right = (xfrm.XfrmAlgoAead(
+                  (aead.name, aead.key_len, aead.icv_len, aead.kernel_version)),
                   os.urandom(aead.key_len / 8)) if aead else None
     spi_left = 0xbeefface
     spi_right = 0xcafed00d

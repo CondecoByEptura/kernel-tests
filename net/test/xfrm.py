@@ -123,12 +123,15 @@ XFRM_STATE_AF_UNSPEC = 32
 
 # XFRM algorithm names, as defined in net/xfrm/xfrm_algo.c.
 XFRM_EALG_CBC_AES = "cbc(aes)"
+XFRM_EALG_CTR_AES = "rfc3686(ctr(aes))"
 XFRM_AALG_HMAC_MD5 = "hmac(md5)"
 XFRM_AALG_HMAC_SHA1 = "hmac(sha1)"
 XFRM_AALG_HMAC_SHA256 = "hmac(sha256)"
 XFRM_AALG_HMAC_SHA384 = "hmac(sha384)"
 XFRM_AALG_HMAC_SHA512 = "hmac(sha512)"
+XFRM_AALG_AUTH_XCBC_AES = "xcbc(aes)"
 XFRM_AEAD_GCM_AES = "rfc4106(gcm(aes))"
+XFRM_AEAD_CHACHA20_POLY1305 = "rfc7539esp(chacha20,poly1305)"
 
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
@@ -145,12 +148,19 @@ XfrmLifetimeCfg = cstruct.Struct(
 XfrmLifetimeCur = cstruct.Struct(
     "XfrmLifetimeCur", "=QQQQ", "bytes packets add_time use_time")
 
-XfrmAlgo = cstruct.Struct("XfrmAlgo", "=64AI", "name key_len")
+# Encryption algortihm that is enforced on kernel with version equal to
+# or larger than "kernel_version"
+XfrmAlgo = cstruct.Struct("XfrmAlgo", "=64AIs", "name key_len kernel_version")
 
-XfrmAlgoAuth = cstruct.Struct("XfrmAlgoAuth", "=64AII",
-                              "name key_len trunc_len")
+# Authentication algortihm that is enforced on kernel with version equal to
+# or larger than "kernel_version"
+XfrmAlgoAuth = cstruct.Struct("XfrmAlgoAuth", "=64AIIs",
+                              "name key_len trunc_len kernel_version")
 
-XfrmAlgoAead = cstruct.Struct("XfrmAlgoAead", "=64AII", "name key_len icv_len")
+# Encryption and Authentication algortihm that is enforced on kernel with
+# version equal to or larger than "kernel_version"
+XfrmAlgoAead = cstruct.Struct("XfrmAlgoAead", "=64AIIs",
+                              "name key_len icv_len kernel_version")
 
 XfrmStats = cstruct.Struct(
     "XfrmStats", "=III", "replay_window replay integrity_failed")
