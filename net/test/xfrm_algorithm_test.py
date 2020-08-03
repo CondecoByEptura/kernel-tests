@@ -30,6 +30,7 @@ from tun_twister import TapTwister
 import util
 import xfrm
 import xfrm_base
+import xfrm_test
 
 # List of encryption algorithms for use in ParamTests.
 CRYPT_ALGOS = [
@@ -71,6 +72,93 @@ AEAD_ALGOS = [
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 12*8)),
     xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_GCM_AES, 256+32, 16*8)),
 ]
+
+# Add tests to verify this encryption algorithm if it is required or
+# opt-in being enabled by this kernel
+def MaybeAddCryptTestCase(algo_name, key_len_list, kernel_version):
+  crypt_algo_list = []
+  for key_len in key_len_list:
+    crypt_algo_list.append(xfrm.XfrmAlgo((algo_name, key_len)))
+
+  crypt = crypt_algo_list[0]
+  MayAddTestCase(crypt, None, None, kernel_version, CRYPT_ALGOS,
+                 crypt_algo_list)
+
+def MaybeAddAuthTestCase(algo_name, key_trunc_pair_list, kernel_version):
+  auth_algo_list = []
+  for key_trunc_pair in key_trunc_pair_list:
+    auth_algo_list.append(
+        xfrm.XfrmAlgoAuth((algo_name, key_trunc_pair[0], key_trunc_pair[1])))
+
+  auth = auth_algo_list[0]
+  MayAddTestCase(None, auth, None, kernel_version, AUTH_ALGOS, auth_algo_list)
+
+def MaybeAddAeadTestCase(algo_name, key_trunc_pair_list, kernel_version):
+  aead_algo_list = []
+  for key_trunc_pair in key_trunc_pair_list:
+    aead_algo_list.append(
+        xfrm.XfrmAlgoAead((algo_name, key_trunc_pair[0], key_trunc_pair[1])))
+
+  MayAddTestCase(None, None, aead_algo_list[0], kernel_version, AEAD_ALGOS,
+                 aead_algo_list)
+
+def MayAddTestCase(crypt, auth, aead, kernel_version, test_cases,
+                   optional_cases):
+  if net_test.LINUX_VERSION > kernel_version or HaveAlgo(crypt, auth, aead):
+    test_cases.extend(optional_cases)
+
+# Does the kernel support this algorithm?
+def HaveAlgo(crypt_algo, auth_algo, aead_algo):
+  try:
+    test_xfrm = xfrm.Xfrm()
+    test_xfrm.FlushSaInfo()
+    test_xfrm.FlushPolicyInfo()
+
+    test_xfrm.AddSaInfo(
+        src=xfrm_test.TEST_ADDR1,
+        dst=xfrm_test.TEST_ADDR2,
+        spi=xfrm_test.TEST_SPI,
+        mode=xfrm.XFRM_MODE_TRANSPORT,
+        reqid=100,
+        encryption=(crypt_algo,
+                    GenerateKey(crypt_algo.key_len)) if crypt_algo else None,
+        auth_trunc=(auth_algo,
+                    GenerateKey(auth_algo.key_len)) if auth_algo else None,
+        aead=(aead_algo, GenerateKey(aead_algo.key_len)) if aead_algo else None,
+        encap=None,
+        mark=None,
+        output_mark=None)
+
+    test_xfrm.FlushSaInfo()
+    test_xfrm.FlushPolicyInfo()
+
+    return True
+  except IOError as err:
+    return False if err.errno == ENOSYS else True
+
+def GenerateKey(key_len):
+  return os.urandom(key_len / 8)
+
+# RFC 3686 specifies that key length must be 128, 192 or 256 bits,
+# with an additional 4 bytes (32 bits) of nonce. A fresh nonce value
+# MUST be assigned for each SA.
+# This algorithm is enforced for kernel newer than version 5.4
+EALG_CTR_AES_KEY_LEN = [128 + 32, 192 + 32, 256 + 32]
+MaybeAddCryptTestCase(xfrm.XFRM_EALG_CTR_AES, EALG_CTR_AES_KEY_LEN, (5, 4, 0))
+
+# RFC 3566 specify that the only supported truncation length is half the hash size.
+# This algorithm is enforced for kernel newer than version 5.4
+AUTH_AES_XCBC_KEY_TRUNC = [(128, 12 * 8)]
+MaybeAddAuthTestCase(xfrm.XFRM_AALG_AUTH_AES_XCBC, AUTH_AES_XCBC_KEY_TRUNC,
+                   (5, 4, 0))
+
+# RFC 3686 specifies that key length must be 256 bits, with an additional
+# 4 bytes (32 bits) of nonce. A fresh nonce value MUST be assigned for each SA.
+# RFC 7634 also specifies that ICV length must be 16 bytes.
+# This algorithm is enforced for kernel newer than version 5.4
+AEAD_CHACHA20_POLY1305_KEY_TRUNC = [(256 + 32, 16 * 8)]
+MaybeAddAeadTestCase(xfrm.XFRM_AEAD_CHACHA20_POLY1305,
+                   AEAD_CHACHA20_POLY1305_KEY_TRUNC, (5, 4, 0))
 
 def InjectTests():
   XfrmAlgorithmTest.InjectTests()
