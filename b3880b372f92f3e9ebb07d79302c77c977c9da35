@@ -16,6 +16,23 @@
       "revId": "b3880b372f92f3e9ebb07d79302c77c977c9da35",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f2ce72a_c23d9a5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-08T17:40:27Z",
+      "side": 1,
+      "message": "(note that for P I don\u0027t have OWNERS)",
+      "revId": "b3880b372f92f3e9ebb07d79302c77c977c9da35",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
