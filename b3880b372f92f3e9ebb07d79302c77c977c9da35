@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "395d76d8_7435d22d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1328424
+      },
+      "writtenOn": "2020-08-08T16:19:48Z",
+      "side": 1,
+      "message": "Hi Maciej, Please help the review of this DAD sync backport to P",
+      "revId": "b3880b372f92f3e9ebb07d79302c77c977c9da35",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
