@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "95df1281_b8f5b896",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2020-08-11T18:07:35Z",
+      "side": 1,
+      "message": "Could you note what common kernels you\u0027ve tested this on? Good things to test would be:\n\n\u003e\u003d 5.4 (with and without config set properly), so it is auto-enabled\n\u003c 5.4 (with and without config set), and verify it adds the additional tests",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "5914a9f3b9ad974c3241118966adbba84b79baf1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94613e67_b9503266",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
