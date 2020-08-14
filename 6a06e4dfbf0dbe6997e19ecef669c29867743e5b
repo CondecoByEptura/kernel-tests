@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9672125_d58f0f68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2020-08-14T00:53:03Z",
+      "side": 1,
+      "message": "Send to Maze after this revision?",
+      "revId": "6a06e4dfbf0dbe6997e19ecef669c29867743e5b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bf4cea7_a256b63f",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2020-08-14T00:53:03Z",
+      "side": 1,
+      "message": "Nit: Suggest renaming these to Maybe*",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 7
+      },
+      "revId": "6a06e4dfbf0dbe6997e19ecef669c29867743e5b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
