@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f020daa_725faac4",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-17T23:06:32Z",
+      "side": 1,
+      "message": "wonder if None, \"\", \"0.0\" or \"3.18\" would be better (in the sense of clearer).",
+      "range": {
+        "startLine": 37,
+        "startChar": 48,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "037700e9cad77fa1463156157b46a63921159912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed4800b1_e55f9835",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-17T23:06:32Z",
+      "side": 1,
+      "message": "I can\u0027t remember whether the right way to test for None is\n\u003d\u003d / !\u003d or \u0027is not None\u0027\n\nI think our python style guide is \u0027is not None\u0027",
+      "range": {
+        "startLine": 179,
+        "startChar": 13,
+        "endLine": 179,
+        "endChar": 14
+      },
+      "revId": "037700e9cad77fa1463156157b46a63921159912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d827fc5_7c2f6183",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-17T23:06:32Z",
+      "side": 1,
+      "message": "or maybe use a ANY_KERNEL constant to make it more readable?",
+      "range": {
+        "startLine": 32,
+        "startChar": 59,
+        "endLine": 32,
+        "endChar": 62
+      },
+      "revId": "037700e9cad77fa1463156157b46a63921159912",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
