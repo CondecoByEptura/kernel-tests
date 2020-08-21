@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed3d535_e2450c2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-21T03:43:30Z",
+      "side": 1,
+      "message": "I really don\u0027t like it when lines which are similar like this split on to two...\n",
+      "revId": "70abf035813a0eab634047383f2042a44d754e7c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e744b5bc_71e8f23d",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-21T03:43:30Z",
+      "side": 1,
+      "message": "perhaps:\nANY \u003d net_test.LINUX_ANY_VERSION",
+      "revId": "70abf035813a0eab634047383f2042a44d754e7c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a57b735_bf2bceeb",
+        "filename": "net/test/xfrm_algorithm_test.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-08-21T03:43:30Z",
+      "side": 1,
+      "message": "this is too verbose, the fact it spills on to the next line is terrible.\n\nAnyway to just use None or ANY or ANY_KVER without net_test. prefix, and shorter in general.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 34
+      },
+      "revId": "70abf035813a0eab634047383f2042a44d754e7c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": true
+    }
+  ]
+}
