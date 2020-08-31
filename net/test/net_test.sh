@@ -148,6 +148,10 @@ ip link set lo up
 ip link set lo mtu 16436
 ip link set eth0 up
 
+# USB setup.
+mkdir /tmp/config
+mount -t configfs none /tmp/config
+
 # Allow people to run ping.
 echo '0 2147483647' > /proc/sys/net/ipv4/ping_group_range
 

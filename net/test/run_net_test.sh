@@ -68,6 +68,10 @@ OPTIONS="$OPTIONS IP_NF_TARGET_REJECT_SKERR IP6_NF_TARGET_REJECT_SKERR"
 # These two break the flo kernel due to differences in -Werror on recent GCC.
 DISABLE_OPTIONS=" REISERFS_FS ANDROID_PMEM"
 
+# USB configfs
+OPTIONS="$OPTIONS USB_SUPPORT USB CONFIGFS_FS USB_CONFIGFS USB_GADGET"
+OPTIONS="$OPTIONS USB_LIBCOMPOSITE USB_DUMMY_HCD CONFIG_USB_CONFIGFS_NCM"
+
 # How many TAP interfaces to create to provide the VM with real network access
 # via the host. This requires privileges (e.g., root access) on the host.
 #
