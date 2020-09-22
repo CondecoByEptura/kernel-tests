@@ -16,6 +16,23 @@
       "revId": "ff104de287715e2ec47e4784c38fdc5b1fa11a5d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1964022_5c486f5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2020-09-22T22:50:40Z",
+      "side": 1,
+      "message": "Is this a backport from the master branch?",
+      "revId": "ff104de287715e2ec47e4784c38fdc5b1fa11a5d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
