@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c690c61b_d2c9e972",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1328424
+      },
+      "writtenOn": "2020-09-22T08:35:20Z",
+      "side": 1,
+      "message": "I received from OEM request that flaky VTS failure happen due to this.",
+      "revId": "ff104de287715e2ec47e4784c38fdc5b1fa11a5d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
