@@ -33,6 +33,24 @@
       "revId": "ff104de287715e2ec47e4784c38fdc5b1fa11a5d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcde186f_38e20b9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1328424
+      },
+      "writtenOn": "2020-09-23T04:14:16Z",
+      "side": 1,
+      "message": "Yes, this is cherry-picked of master - the same change. Master CL had been merged long ago but not for P, That still introduces failures in some partners who remains in P.",
+      "parentUuid": "c1964022_5c486f5c",
+      "revId": "ff104de287715e2ec47e4784c38fdc5b1fa11a5d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
