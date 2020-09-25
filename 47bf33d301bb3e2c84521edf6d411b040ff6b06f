@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d79968_5d2689fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1120612
+      },
+      "writtenOn": "2020-09-25T23:49:44Z",
+      "side": 1,
+      "message": "Hi Yan,\n\nCan we please get this revert merged? The presubmit test kernel_test is still failing on android_mainline: https://android-build.googleplex.com/builds/branches/aosp_kernel-common-android-mainline/grid?\n\nThanks,\nHridya",
+      "revId": "47bf33d301bb3e2c84521edf6d411b040ff6b06f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
