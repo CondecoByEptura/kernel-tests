@@ -16,6 +16,23 @@
       "revId": "47bf33d301bb3e2c84521edf6d411b040ff6b06f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed17925_4feff384",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1297255
+      },
+      "writtenOn": "2020-09-26T00:06:33Z",
+      "side": 1,
+      "message": "Sorry for the delay. We have a fix CL (aosp/1439891) that is waiting for the presubmit to be checked in",
+      "revId": "47bf33d301bb3e2c84521edf6d411b040ff6b06f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
