@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import collections
 import cstruct
 import ctypes
 import errno
@@ -793,6 +794,7 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect that we can return to baseline config without lingering routes.
     self.assertEqual(baseline, self.CountRoutes())
 
+
 class RATest(multinetwork_base.MultiNetworkBaseTest):
 
   ND_ROUTER_ADVERT = 134
@@ -926,6 +928,158 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     actual_opt = self.Pref64Option(data)
     self.assertEqual(opt, actual_opt)
 
+
+class PrivacyAddressTest(multinetwork_base.MultiNetworkBaseTest):
+
+  @classmethod
+  def setUpClass(cls):
+    super(PrivacyAddressTest, cls).setUpClass()
+
+  def setUp(self):
+    self.SetIPv6SysctlOnAllIfaces("use_tempaddr", "2")
+
+  @classmethod
+  def tearDownClass(cls):
+    super(PrivacyAddressTest, cls).tearDownClass()
+
+  Address = collections.namedtuple("Address",
+                                   "addr flags scope ifindex")
+
+
+  class AddressesByType(
+      collections.namedtuple("AddressesByType", "linklocal stable privacy")):
+
+    def TotalCount(self):
+      total = 0
+      for field in self._fields:
+        total += len(getattr(self, field))
+      return total
+
+
+  def FromNetlinkAddress(self, ifaddrmsg, attrs):
+    return self.Address(attrs["IFA_ADDRESS"], ifaddrmsg.flags, ifaddrmsg.scope,
+                        ifaddrmsg.index)
+
+  @staticmethod
+  def IsLinkLocal(addr):
+    return addr.scope == iproute.RT_SCOPE_LINK
+
+  @staticmethod
+  def IsGlobalStable(addr):
+    return (addr.scope == iproute.RT_SCOPE_UNIVERSE and
+            (addr.flags & iproute.IFA_F_TEMPORARY) == 0)
+
+  @staticmethod
+  def IsGlobalPrivacy(addr):
+    return (addr.scope == iproute.RT_SCOPE_UNIVERSE and
+            (addr.flags & iproute.IFA_F_TEMPORARY) != 0)
+
+  def GetAddresses(self, netid):
+    addrs = []
+    for ifaddrmsg, attrs in self.iproute.DumpAddresses(6):
+      if netid not in self.tuns:
+        continue
+      if netid is None or ifaddrmsg.index == self.ifindices[netid]:
+        addrs.append(self.FromNetlinkAddress(ifaddrmsg, attrs))
+
+    bytype = self.AddressesByType([], [], [])
+    for addr in addrs:
+      if self.IsLinkLocal(addr): bytype.linklocal.append(addr)
+      elif self.IsGlobalStable(addr): bytype.stable.append(addr)
+      elif self.IsGlobalPrivacy(addr): bytype.privacy.append(addr)
+      else: raise ValueError("Unknown type for address: %s" % addr)
+
+    return bytype
+
+  def assertSourceAddressForConnectionIn(self, addrlist, netid, addrpref):
+    s = net_test.UDPSocket(AF_INET6)
+    self.SelectInterface(s, netid, "mark")
+    if addrpref is not None:
+      s.setsockopt(IPPROTO_IPV6, net_test.IPV6_ADDR_PREFERENCES, addrpref)
+    s.connect((net_test.IPV6_ADDR, 53))
+    srcaddr, port = s.getsockname()[:2]
+    self.assertTrue(any(srcaddr == a.addr for a in addrlist))
+
+  def testPrivacyAddressesPreference(self):
+    for netid in self.tuns:
+      # No privacy addresses expected because the sysctl was created after
+      # the initial RAs were set in setUpClass.
+      addrs = self.GetAddresses(netid)
+
+      bytype = self.GetAddresses(netid)
+      self.assertEqual(2, bytype.TotalCount())
+      self.assertEquals(1, len(bytype.linklocal))
+      self.assertEquals(1, len(bytype.stable))
+      self.assertEquals(0, len(bytype.privacy))
+
+      # Now send an RA and expect to see a privacy address as well.
+      self.SendRA(netid)
+      addrs = self.GetAddresses(netid)
+
+      bytype = self.GetAddresses(netid)
+      self.assertEqual(3, bytype.TotalCount())
+      self.assertEquals(1, len(bytype.linklocal))
+      self.assertEquals(1, len(bytype.stable))
+      self.assertEquals(1, len(bytype.privacy))
+
+    # Check that connections use privacy addresses by default.
+    for netid in self.tuns:
+      self.assertSourceAddressForConnectionIn(
+          self.GetAddresses(netid).privacy, netid, None)
+      self.assertSourceAddressForConnectionIn(
+          self.GetAddresses(netid).stable, netid,
+          net_test.IPV6_PREFER_SRC_PUBLIC)
+
+    # but with PREFER_SRC_PUBLIC uses stable addresses.
+    self.SetIPv6SysctlOnAllIfaces("use_tempaddr", "1")
+    for netid in self.tuns:
+      self.assertSourceAddressForConnectionIn(
+          self.GetAddresses(netid).stable, netid, None)
+      self.assertSourceAddressForConnectionIn(
+          self.GetAddresses(netid).privacy, netid,
+          net_test.IPV6_PREFER_SRC_TMP)
+
+  @staticmethod
+  def GetIID(addr):
+    addr = inet_pton(AF_INET6, addr)
+    addr = "\x00" * 8 + addr[8:]
+    return inet_ntop(AF_INET6, addr)
+
+  def testGetIID(self):
+    self.assertEqual("::", self.GetIID("::"))
+    self.assertEqual("::1", self.GetIID("::1"))
+    self.assertEqual("::b", self.GetIID("a::b"))
+    self.assertEqual("::f110:8c2f:14a:8064",
+                     self.GetIID("2001:db8:a:b:f110:8c2f:14a:8064"))
+
+  def testPrivacyOnDifferentPrefixes(self):
+    for netid in self.tuns:
+      bytype = self.GetAddresses(netid)
+      self.assertEqual(3, bytype.TotalCount())
+      self.assertEquals(1, len(bytype.linklocal))
+      self.assertEquals(1, len(bytype.stable))
+      self.assertEquals(1, len(bytype.privacy))
+
+      # Send an RA with a new prefix to all the interfaces.
+      prefix = "2001:db8:aaaa:%02x::" % netid
+      self.SendRA(netid, prefix=prefix)
+
+    # Ensure no duplicate interface IDs anywhere on any interface.
+    bytype = self.GetAddresses(None)
+    iids = set(self.GetIID(addr.address) for addr in bytype.privacy)
+    addresses_by_iid = {}
+    for iid in iids:
+      addresses_by_iid[iid] = []
+      for addr in bytype.privacy:
+        if self.GetIID(addr.address) == iid:
+          addresses_by_iid[iid].append(addr.address)
+      self.assertGreater(0, len(addresses_by_iid[iid]),
+                         "Test bug: no addresses found for IID %s; %s" %
+                         (iid, bytype.privacy))
+      self.assertEqual(1, len(addresses_by_iid[iid]),
+                       "Same interface ID %s used for multiple addresses. "
+                       "Please ensure kernel implements RFC4941bis."
+                       % (iid, addresses_by_iid[iid]))
 
 
 class PMTUTest(multinetwork_base.InboundMarkingTest):

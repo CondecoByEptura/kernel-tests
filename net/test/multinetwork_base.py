@@ -228,8 +228,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     return f
 
   @classmethod
-  def SendRA(cls, netid, retranstimer=None, reachabletime=0, options=()):
-    validity = cls.RA_VALIDITY # seconds
+  def SendRA(cls, netid, validity=None, retranstimer=None, reachabletime=0,
+             prefix=None, options=()):
+    validity = validity if validity is not None else cls.RA_VALIDITY # seconds
     macaddr = cls.RouterMacAddress(netid)
     lladdr = cls._RouterAddress(netid, 6)
 
@@ -243,17 +244,19 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     # putting RA routes into per-interface tables, configure routing manually.
     routerlifetime = validity if HAVE_AUTOCONF_TABLE else 0
 
+    prefix = prefix if prefix is not None else cls.OnlinkPrefix(6, netid)
+
     ra = (scapy.Ether(src=macaddr, dst="33:33:00:00:00:01") /
           scapy.IPv6(src=lladdr, hlim=255) /
           scapy.ICMPv6ND_RA(reachabletime=reachabletime,
                             retranstimer=retranstimer,
                             routerlifetime=routerlifetime) /
           scapy.ICMPv6NDOptSrcLLAddr(lladdr=macaddr) /
-          scapy.ICMPv6NDOptPrefixInfo(prefix=cls.OnlinkPrefix(6, netid),
+          scapy.ICMPv6NDOptPrefixInfo(prefix=prefix,
                                       prefixlen=cls.OnlinkPrefixLen(6),
                                       L=1, A=1,
-                                      validlifetime=validity,
-                                      preferredlifetime=validity))
+                                      validlifetime=433600,
+                                      preferredlifetime=433600))
     for option in options:
       ra /= option
     posix.write(cls.tuns[netid].fileno(), str(ra))
@@ -412,7 +415,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
     # Don't print lots of "device foo entered promiscuous mode" warnings.
     cls.loglevel = cls.GetConsoleLogLevel()
-    cls.SetConsoleLogLevel(net_test.KERN_INFO)
+    cls.SetConsoleLogLevel(7)
 
     # When running on device, don't send connections through FwmarkServer.
     os.environ["ANDROID_NO_USE_FWMARK_CLIENT"] = "1"
