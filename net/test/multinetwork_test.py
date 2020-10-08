@@ -793,6 +793,7 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect that we can return to baseline config without lingering routes.
     self.assertEqual(baseline, self.CountRoutes())
 
+
 class RATest(multinetwork_base.MultiNetworkBaseTest):
 
   ND_ROUTER_ADVERT = 134
@@ -925,7 +926,6 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
 
     actual_opt = self.Pref64Option(data)
     self.assertEqual(opt, actual_opt)
-
 
 
 class PMTUTest(multinetwork_base.InboundMarkingTest):
