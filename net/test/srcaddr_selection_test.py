@@ -28,10 +28,6 @@ import multinetwork_base
 import packets
 import net_test
 
-# Setsockopt values.
-IPV6_ADDR_PREFERENCES = 72
-IPV6_PREFER_SRC_PUBLIC = 0x0002
-
 # The retrans timer is also the DAD timeout. We set this to a value that's not
 # so short that DAD will complete before we attempt to use the network, but
 # short enough that we don't have to wait too long for DAD to complete.
@@ -78,7 +74,8 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
   def GetSourceIP(self, netid, mode="mark"):
     s = self.BuildSocket(6, net_test.UDPSocket, netid, mode)
     # Because why not...testing for temporary addresses is a separate thing.
-    s.setsockopt(IPPROTO_IPV6, IPV6_ADDR_PREFERENCES, IPV6_PREFER_SRC_PUBLIC)
+    s.setsockopt(IPPROTO_IPV6, net_test.IPV6_ADDR_PREFERENCES,
+                 net_test.IPV6_PREFER_SRC_PUBLIC)
 
     s.connect((net_test.IPV6_ADDR, 123))
     src_addr = s.getsockname()[0]
