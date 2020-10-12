@@ -132,12 +132,6 @@ class PrivacyAddressBaseTest(multinetwork_base.MultiNetworkBaseTest):
     srcaddr, port = s.getsockname()[:2]
     self.assertTrue(any(srcaddr == a.addr for a in addrlist))
 
-  @staticmethod
-  def GetIID(addr):
-    addr = inet_pton(AF_INET6, addr)
-    addr = "\x00" * 8 + addr[8:]
-    return inet_ntop(AF_INET6, addr)
-
 
 class PrivacyAddressPreferenceTest(PrivacyAddressBaseTest):
 
@@ -192,6 +186,50 @@ class PrivacyAddressLifetimeTest(PrivacyAddressBaseTest):
       self.assertEqual(oldaddr.scope, newaddr.scope)
       self.assertEqual(oldaddr.flags & iproute.IFA_F_TEMPORARY,
                        newaddr.flags & iproute.IFA_F_TEMPORARY)
+
+
+class PrivacyAddressMultiPrefixTest(PrivacyAddressBaseTest):
+
+  @staticmethod
+  def GetIID(addr):
+    addr = inet_pton(AF_INET6, addr)
+    addr = "\x00" * 8 + addr[8:]
+    return inet_ntop(AF_INET6, addr)
+
+  def testGetIID(self):
+    # Not in PrivacyAddressBaseTest because otherwise it runs in every subclass
+    # of that class.
+    self.assertEqual("::", self.GetIID("::"))
+    self.assertEqual("::1", self.GetIID("::1"))
+    self.assertEqual("::b", self.GetIID("a::b"))
+    self.assertEqual("::f110:8c2f:14a:8064",
+                     self.GetIID("2001:db8:a:b:f110:8c2f:14a:8064"))
+
+  def testPrivacyOnDifferentPrefixes(self):
+    for netid in self.tuns:
+      # Create privacy addresses.
+      self.SendRA(netid)
+      self.WaitForAddresses(netid, 3, linklocal=1, stable=1, privacy=1)
+
+      # Send an RA with a new prefix.
+      prefix = "2001:db8:aaaa:%02x::" % netid
+      self.SendRA(netid, prefix=prefix)
+      self.WaitForAddresses(netid, 5, linklocal=1, stable=2, privacy=2)
+
+    # Ensure no duplicate interface IDs anywhere on any interface.
+    bytype = self.GetAddressesByType(None)
+    self.assertEqual(2 * len(self.tuns), len(bytype.privacy))
+
+    addresses_by_iid = {}
+    for addr in bytype.privacy:
+      iid = self.GetIID(addr.addr)
+      existing = addresses_by_iid.get(iid, None)
+      self.assertFalse(
+          existing,
+          "Same interface ID used for multiple addresses: %s, %s. "
+          "Please ensure kernel implements RFC4941bis." % (
+              existing, addr))
+      addresses_by_iid[iid] = addr
 
 
 if __name__ == "__main__":
