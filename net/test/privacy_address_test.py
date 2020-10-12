@@ -186,5 +186,35 @@ class PrivacyAddressLifetimeTest(PrivacyAddressBaseTest):
       self.assertEquals(oldaddr, newaddr)
 
 
+@unittest.skipUnless(False, "not yet supported by kernels")
+class PrivacyAddressMultiPrefixTest(PrivacyAddressBaseTest):
+
+  def testPrivacyOnDifferentPrefixes(self):
+    for netid in self.tuns:
+      # Create privacy addresses.
+      self.assertExpectedAddressCount(netid, 2, linklocal=1, stable=1, privacy=0)
+      self.SendRA(netid)
+      self.assertExpectedAddressCount(netid, 3, linklocal=1, stable=1, privacy=1)
+
+      # Send an RA with a new prefix.
+      prefix = "2001:db8:aaaa:%02x::" % netid
+      self.SendRA(netid, prefix=prefix)
+
+    # Ensure no duplicate interface IDs anywhere on any interface.
+    bytype = self.GetAddresses(None)
+    self.assertEqual(2 * len(self.tuns), len(bytype.privacy))
+
+    addresses_by_iid = {}
+    for addr in bytype.privacy:
+      iid = self.GetIID(addr.addr)
+      existing = addresses_by_iid.get(iid, None)
+      self.assertFalse(
+          existing,
+          "Same interface ID used for multiple addresses: %s, %s. "
+          "Please ensure kernel implements RFC4941bis." % (
+              existing, addr))
+      addresses_by_iid[iid] = addr
+
+
 if __name__ == "__main__":
   unittest.main()
