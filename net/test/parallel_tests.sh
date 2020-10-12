@@ -15,10 +15,16 @@ function runtests() {
   local test=$3
   local j=0
   while ((j < runs)); do
-    $DIR/run_net_test.sh --builder --nobuild $test \
-        > /dev/null 2> $RESULTSDIR/results.$worker.$j
+    local outfile=$RESULTSDIR/results.$worker.$j
+    $DIR/run_net_test.sh --builder --nobuild $test > /dev/null 2> $outfile
+    if (( $? == 0 )); then
+      echo -n "." >&2
+    elif grep -q "^ERROR: " $outfile; then
+      echo -n "E" >&2
+    else
+      echo -n "F" >&2
+    fi
     j=$((j + 1))
-    echo -n "." >&2
   done
 }
 
@@ -55,7 +61,7 @@ egrep -h "^ERROR:|^FAIL:|0 failed tests|giving up" $RESULTSDIR/results.* | \
     sort | uniq -c | sort -rn >&2
 
 # If there were any failures, leave the results around for examination.
-if egrep -q "^ERROR|^FAIL" $RESULTSDIR/results.*; then
+if egrep -q "^ERROR:|^FAIL:" $RESULTSDIR/results.*; then
   echo "Failures occurred, leaving results in $RESULTSDIR" >&2
 else
   rm -rf $RESULTSDIR
