@@ -15,10 +15,24 @@ function runtests() {
   local test=$3
   local j=0
   while ((j < runs)); do
-    $DIR/run_net_test.sh --builder --nobuild $test \
-        > /dev/null 2> $RESULTSDIR/results.$worker.$j
+    local outfile=$RESULTSDIR/results.$worker.$j
+    $DIR/run_net_test.sh --builder --nobuild $test > /dev/null 2> $outfile
+
+    # We can't check for exit status because sometimes UML exits with nonzero
+    # status even though the tests passed. Grep the logs for errors instead.
+    # This matches what the error parsing below does, except in the case of
+    # errors where the test doesn't fail (e.g., syntax errors).
+    if egrep -q "^ERROR: " $outfile; then
+      echo -n "E" >&2
+    elif egrep -q "^FAIL: " $outfile; then
+      echo -n "F" >&2
+    elif egrep -q "^Ran [0-9]+ tests in " $outfile; then
+      echo -n "." >&2
+    else
+      echo -n "e" >&2
+    fi
+
     j=$((j + 1))
-    echo -n "." >&2
   done
 }
 
@@ -55,7 +69,7 @@ egrep -h "^ERROR:|^FAIL:|0 failed tests|giving up" $RESULTSDIR/results.* | \
     sort | uniq -c | sort -rn >&2
 
 # If there were any failures, leave the results around for examination.
-if egrep -q "^ERROR|^FAIL" $RESULTSDIR/results.*; then
+if egrep -q "^ERROR:|^FAIL:" $RESULTSDIR/results.*; then
   echo "Failures occurred, leaving results in $RESULTSDIR" >&2
 else
   rm -rf $RESULTSDIR

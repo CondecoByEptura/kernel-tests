@@ -113,7 +113,8 @@ class PrivacyAddressBaseTest(multinetwork_base.MultiNetworkBaseTest):
         return addrs
       time.sleep(0.05)
       addrs = self.GetAddresses(netid)
-    self.fail("%d addresses did not appear after waiting 2 seconds" % total)
+    self.fail("%d addresses did not appear after waiting 2 seconds: %s" % (
+        total, addrs))
 
     bytype = self.GetAddressesByType(netid)
     if linklocal is not None:
