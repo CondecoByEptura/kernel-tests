@@ -1,0 +1,47 @@
+{
+  "comments": [
+    {
+      "robotId": "ayeaye",
+      "robotRunId": "AR00000000000005464544",
+      "url": "https://android-build.googleplex.com/builds/treetop/android-review/1455035?revision\u003d3",
+      "fixSuggestions": [
+        {
+          "fixId": "ed34f776_646c36d8",
+          "description": "Change to \"net/test/privacy_address_test.py\"",
+          "replacements": [
+            {
+              "path": "net/test/privacy_address_test.py",
+              "range": {
+                "startLine": 61,
+                "startChar": 39,
+                "endLine": 61,
+                "endChar": 47
+              },
+              "replacement": "preferred"
+            }
+          ]
+        }
+      ],
+      "key": {
+        "uuid": "530f2918_79577abd",
+        "filename": "net/test/privacy_address_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1757831
+      },
+      "writtenOn": "2020-10-12T03:24:32Z",
+      "side": 1,
+      "message": "Common typo found: \"prefered\" -- should it be \"preferred\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027NO_TYPO_CHECK\u003d\u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 61,
+        "startChar": 39,
+        "endLine": 61,
+        "endChar": 47
+      },
+      "revId": "89c015e64cdb140e78c1393cb57991a26690dcee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
