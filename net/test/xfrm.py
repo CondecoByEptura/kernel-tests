@@ -140,6 +140,11 @@ XfrmSelector = cstruct.Struct(
     "daddr saddr dport dport_mask sport sport_mask "
     "family prefixlen_d prefixlen_s proto ifindex user")
 
+XfrmMigrate = cstruct.Struct(
+    "XfrmMigrate", "=16s16s16s16sBBxxIHH",
+    "old_daddr old_saddr new_daddr new_saddr proto "
+    "mode reqid old_family new_family")
+
 XfrmLifetimeCfg = cstruct.Struct(
     "XfrmLifetimeCfg", "=QQQQQQQQ",
     "soft_byte hard_byte soft_packet hard_packet "
@@ -441,6 +446,49 @@ class Xfrm(netlink.NetlinkSocket):
                            XfrmUserpolicyId(sel=selector, dir=direction),
                            nlattrs)
 
+# XfrmMigrate = cstruct.Struct(
+#     "XfrmMigrate", "=16s16s16s16sxxHIHH",
+#     "old_daddr old_saddr new_daddr new_saddr proto "
+#     "mode reserved reqid old_family new_family")
+
+  def MigrateTunnel(self, direction, selector, old_saddr, old_daddr,
+                    new_saddr, new_daddr, proto, reqid,
+                    old_family, new_family):
+    """Delete a policy from the Security Policy Database
+
+    Args:
+      selector: an XfrmSelector matching the policy to delete
+      direction: policy direction
+      xfrm_address_t		old_daddr;
+	    xfrm_address_t		old_saddr;
+	    xfrm_address_t		new_daddr;
+	    xfrm_address_t		new_saddr;
+	    u8			proto;
+	    u8			mode;
+	    u16			reserved;
+	    u32			reqid;
+	    u16			old_family;
+	    u16			new_family;
+
+    """
+
+    if selector is None:
+      selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
+    else:
+      selectors = [selector]
+
+    nlattrs = []
+    xfrmMigrate = XfrmMigrate((PaddedAddress(old_daddr), PaddedAddress(old_saddr),
+                      PaddedAddress(new_daddr), PaddedAddress(new_saddr), proto, XFRM_MODE_TUNNEL, reqid,
+                      old_family, new_family))
+    nlattrs.append((XFRMA_MIGRATE, xfrmMigrate))
+
+    print("--------MigrateTunnel--------")
+    for selector in selectors:
+        self.SendXfrmNlRequest(XFRM_MSG_MIGRATE,
+                           XfrmUserpolicyId(sel=selector, dir=direction),
+                           nlattrs)
+
   # TODO: this function really needs to be in netlink.py
   def SendXfrmNlRequest(self, msg_type, req, nlattrs=None,
                         flags=netlink.NLM_F_ACK|netlink.NLM_F_REQUEST):
@@ -693,10 +741,18 @@ class Xfrm(netlink.NetlinkSocket):
     else:
       selectors = [selector]
 
+    print("CreateTunnel direction "+ str(direction))
+    print(src)
+    print(dst)
     for selector in selectors:
       policy = UserPolicy(direction, selector)
       tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
       self.AddPolicyInfo(policy, tmpl, mark, xfrm_if_id=xfrm_if_id)
+
+      # self.MigrateTunnel(direction, selector, src, dst
+      #               new_saddr, new_daddr, IPPROTO_ESP, XFRM_MODE_TUNNEL, 0,
+      #                 net_test.GetAddressFamily(net_test.GetAddressVersion(dst)),
+      #                 net_test.GetAddressFamily(net_test.GetAddressVersion(new_daddr)))
 
   def DeleteTunnel(self, direction, selector, dst, spi, mark, xfrm_if_id):
     if mark is not None:
