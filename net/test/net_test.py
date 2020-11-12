@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import binascii
 import fcntl
 import os
 import random
@@ -209,7 +210,7 @@ def CreateSocketPair(family, socktype, addr):
 
 def GetInterfaceIndex(ifname):
   s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname, 0)
+  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode("ascii"), 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
   return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
 
@@ -217,15 +218,17 @@ def GetInterfaceIndex(ifname):
 def SetInterfaceHWAddr(ifname, hwaddr):
   s = UDPSocket(AF_INET)
   hwaddr = hwaddr.replace(":", "")
-  hwaddr = hwaddr.decode("hex")
+  hwaddr = binascii.unhexlify(hwaddr)
   if len(hwaddr) != 6:
     raise ValueError("Unknown hardware address length %d" % len(hwaddr))
-  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname, scapy.ARPHDR_ETHER, hwaddr)
+  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode("ascii"),
+                    scapy.ARPHDR_ETHER, hwaddr)
   fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
 
 
 def SetInterfaceState(ifname, up):
   s = UDPSocket(AF_INET)
+  ifname = ifname.encode("ascii")
   ifr = struct.pack("%dsH" % IFNAMSIZ, ifname, 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
   _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)

@@ -211,11 +211,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def CreateTunInterface(cls, netid):
     iface = cls.GetInterfaceName(netid)
     try:
-      f = open("/dev/net/tun", "r+b")
+      f = open("/dev/net/tun", "r+b", buffering=0)
     except IOError:
-      f = open("/dev/tun", "r+b")
-    ifr = struct.pack("16sH", iface, IFF_TAP | IFF_NO_PI)
-    ifr += "\x00" * (40 - len(ifr))
+      f = open("/dev/tun", "r+b", buffering=0)
+    ifr = struct.pack("16sH", iface.encode("ascii"), IFF_TAP | IFF_NO_PI)
+    ifr += b"\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
     # Give ourselves a predictable MAC address.
     net_test.SetInterfaceHWAddr(iface, cls.MyMacAddress(netid))
@@ -256,7 +256,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
                                       preferredlifetime=validity))
     for option in options:
       ra /= option
-    posix.write(cls.tuns[netid].fileno(), str(ra))
+    posix.write(cls.tuns[netid].fileno(), bytes(ra))
 
   @classmethod
   def _RunSetupCommands(cls, netid, is_add):
