@@ -25,13 +25,13 @@ import net_test
 
 IPV4_LOOPBACK_ADDR = "127.0.0.1"
 IPV6_LOOPBACK_ADDR = "::1"
-LOOPBACK_DEV = "lo"
+LOOPBACK_DEV = b"lo"
 LOOPBACK_IFINDEX = 1
 
 SIOCKILLADDR = 0x8939
 
 
-Ifreq = cstruct.Struct("Ifreq", "=16s16s", "name data")
+Ifreq = cstruct.Struct("Ifreq", "=16A16s", "name data")
 In6Ifreq = cstruct.Struct("In6Ifreq", "=16sIi", "addr prefixlen ifindex")
 
 def KillAddrIoctl(addr):
@@ -86,7 +86,7 @@ class TcpNukeAddrTest(net_test.NetworkTest):
   def CheckNukeAddrUnsupported(self, socketpair, addr):
     s1, s2 = socketpair
     self.assertRaisesErrno(errno.ENOTTY, KillAddrIoctl, addr)
-    data = "foo"
+    data = b"foo"
     try:
       self.assertEqual(len(data), s1.send(data))
       self.assertEqual(data, s2.recv(4096))
