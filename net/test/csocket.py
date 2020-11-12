@@ -326,7 +326,7 @@ def Recvmsg(s, buflen, controllen, flags, addrlen=len(SockaddrStorage)):
   MaybeRaiseSocketError(ret)
 
   data = buf.raw[:ret]
-  msghdr = MsgHdr(str(msghdr._buffer.raw))
+  msghdr = MsgHdr(bytes(msghdr._buffer.raw))
   addr = _ToSocketAddress(addr, msghdr.namelen)
   control = control.raw[:msghdr.msg_controllen]
   msglist = _ParseMsgControl(control)
