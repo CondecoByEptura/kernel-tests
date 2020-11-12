@@ -67,6 +67,7 @@ NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 >>>
 """
 
+import binascii
 import ctypes
 import string
 import struct
@@ -104,10 +105,18 @@ class StructMetaclass(type):
 def Struct(name, fmt, fieldnames, substructs={}):
   """Function that returns struct classes."""
 
-  class CStruct(object):
-    """Class representing a C-like structure."""
+  # Hack to make struct classes use the StructMetaclass class on both python2 and
+  # python3. This is needed because in python2 the metaclass is assigned in the
+  # class definition, but in python3 it's passed into the constructor via
+  # keyword argument. Works by introducing a superclass type whose __new__
+  # method uses StructMetaclass as a superclass.
+  #
+  # A better option would be to use six.with_metaclass, but the existing python2
+  # VM image doesn't have the six module.
+  CStructSuperclass = type.__new__(StructMetaclass, 'unused', (), {})
 
-    __metaclass__ = StructMetaclass
+  class CStruct(CStructSuperclass):
+    """Class representing a C-like structure."""
 
     # Name of the struct.
     _name = name
@@ -132,8 +141,11 @@ def Struct(name, fmt, fieldnames, substructs={}):
         laststructindex += 1
         _format += "%ds" % len(_nested[index])
       elif fmt[i] == "A":
-        # Null-terminated ASCII string.
-        index = CalcNumElements(fmt[:i])
+        # Null-terminated ASCII string. Remove digits before the A, so we don't
+        # call CalcNumElements on an (invalid) format that ends with a digit.
+        start = i
+        while start > 0 and fmt[start - 1].isdigit(): start -= 1
+        index = CalcNumElements(fmt[:start])
         _asciiz.add(index)
         _format += "s"
       else:
@@ -251,11 +263,13 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     def __str__(self):
       def FieldDesc(index, name, value):
+        def tochar(b):
+          return chr(b) if isinstance(b, int) else b
         if isinstance(value, bytes):
           if index in self._asciiz:
-            value = value.rstrip(b"\x00")
-          elif any(c not in string.printable for c in value):
-            value = value.encode("hex")
+            value = value.rstrip(b"\x00").decode()
+          elif any(tochar(c) not in string.printable for c in value):
+            value = "".join(("%02x" % ord(tochar(c)) for c in value))
         return "%s=%s" % (name, value)
 
       descriptions = [
