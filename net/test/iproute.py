@@ -237,7 +237,7 @@ def CommandVerb(command):
 
 
 def CommandSubject(command):
-  return ["LINK", "ADDR", "ROUTE", "NEIGH", "RULE"][(command - 16) / 4]
+  return ["LINK", "ADDR", "ROUTE", "NEIGH", "RULE"][(command - 16) // 4]
 
 
 def CommandName(command):
@@ -251,7 +251,7 @@ class IPRoute(netlink.NetlinkSocket):
   """Provides a tiny subset of iproute functionality."""
 
   def _NlAttrInterfaceName(self, nla_type, interface):
-    return self._NlAttr(nla_type, interface + "\x00")
+    return self._NlAttr(nla_type, interface.encode("ascii") + b"\x00")
 
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
@@ -314,11 +314,11 @@ class IPRoute(netlink.NetlinkSocket):
                 "IFLA_NUM_TX_QUEUES", "NDA_PROBES", "RTAX_MTU",
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
                 "IFLA_GSO_MAX_SIZE", "RTA_UID"]:
-      data = struct.unpack("=I", nla_data)[0]
+      data = struct.unpack_from("=I", nla_data)[0]
     elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
-      data = struct.unpack("!I", nla_data)[0]
+      data = struct.unpack_from("!I", nla_data)[0]
     elif name == "FRA_SUPPRESS_PREFIXLEN":
-      data = struct.unpack("=i", nla_data)[0]
+      data = struct.unpack_from("=i", nla_data)[0]
     elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER"]:
       data = ord(nla_data)
     elif name in ["IFA_ADDRESS", "IFA_LOCAL", "RTA_DST", "RTA_SRC",
@@ -326,7 +326,7 @@ class IPRoute(netlink.NetlinkSocket):
       data = socket.inet_ntop(msg.family, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
-      data = nla_data.strip("\x00")
+      data = nla_data.strip(b"\x00")
     elif name == "RTA_METRICS":
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
     elif name == "IFLA_LINKINFO":
@@ -340,7 +340,7 @@ class IPRoute(netlink.NetlinkSocket):
     elif name == "NDA_CACHEINFO":
       data = NDACacheinfo(nla_data)
     elif name in ["NDA_LLADDR", "IFLA_ADDRESS", "IFLA_BROADCAST"]:
-      data = ":".join(x.encode("hex") for x in nla_data)
+      data = ":".join("%02x" % x for x in nla_data)
     elif name == "FRA_UID_RANGE":
       data = FibRuleUidRange(nla_data)
     elif name == "IFLA_STATS":
@@ -474,16 +474,16 @@ class IPRoute(netlink.NetlinkSocket):
     # Create a struct rtmsg specifying the table and the given match attributes.
     family = self._AddressFamily(version)
     rtmsg = RTMsg((family, 0, 0, 0, 0, 0, 0, 0, 0))
-    return self._Dump(RTM_GETRULE, rtmsg, RTMsg, "")
+    return self._Dump(RTM_GETRULE, rtmsg, RTMsg, b"")
 
   def DumpLinks(self):
     ifinfomsg = IfinfoMsg((0, 0, 0, 0, 0, 0))
-    return self._Dump(RTM_GETLINK, ifinfomsg, IfinfoMsg, "")
+    return self._Dump(RTM_GETLINK, ifinfomsg, IfinfoMsg, b"")
 
   def DumpAddresses(self, version):
     family = self._AddressFamily(version)
     ifaddrmsg = IfAddrMsg((family, 0, 0, 0, 0))
-    return self._Dump(RTM_GETADDR, ifaddrmsg, IfAddrMsg, "")
+    return self._Dump(RTM_GETADDR, ifaddrmsg, IfAddrMsg, b"")
 
   def _Address(self, version, command, addr, prefixlen, flags, scope, ifindex):
     """Adds or deletes an IP address."""
@@ -624,7 +624,7 @@ class IPRoute(netlink.NetlinkSocket):
       lladdr = lladdr.split(":")
       if len(lladdr) != 6:
         raise ValueError("Invalid lladdr %s" % ":".join(lladdr))
-      lladdr = "".join(chr(int(hexbyte, 16)) for hexbyte in lladdr)
+      lladdr = bytearray((int(hexbyte, 16)) for hexbyte in lladdr)
 
     ndmsg = NdMsg((family, dev, state, 0, RTN_UNICAST)).Pack()
     ndmsg += self._NlAttrIPAddress(NDA_DST, family, addr)

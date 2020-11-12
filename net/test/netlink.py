@@ -72,7 +72,7 @@ class NetlinkSocket(object):
   def _NlAttr(self, nla_type, data):
     datalen = len(data)
     # Pad the data if it's not a multiple of NLA_ALIGNTO bytes long.
-    padding = "\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
+    padding = b"\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
     nla_len = datalen + len(NLAttr)
     return NLAttr((nla_len, nla_type)).Pack() + data + padding
 
@@ -256,7 +256,7 @@ class NetlinkSocket(object):
     """
     # Create a netlink dump request containing the msg.
     flags = NLM_F_DUMP | NLM_F_REQUEST
-    msg = "" if msg is None else msg.Pack()
+    msg = b"" if msg is None else msg.Pack()
     length = len(NLMsgHdr) + len(msg) + len(attrs)
     nlmsghdr = NLMsgHdr((length, command, flags, self.seq, self.pid))
 
