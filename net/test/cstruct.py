@@ -67,10 +67,12 @@ NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 >>>
 """
 
+import binascii
 import ctypes
 import string
 import struct
 import re
+import six
 
 
 def CalcSize(fmt):
@@ -92,7 +94,7 @@ def CalcNumElements(fmt):
 def Struct(name, fmt, fieldnames, substructs={}):
   """Function that returns struct classes."""
 
-  class Meta(type):
+  class StructMeta(type):
 
     def __len__(cls):
       return cls._length
@@ -101,10 +103,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
       # Make the class object have the name that's passed in.
       type.__init__(cls, namespace["_name"], unused_bases, namespace)
 
-  class CStruct(object):
+  class CStruct(six.with_metaclass(StructMeta, object)):
     """Class representing a C-like structure."""
-
-    __metaclass__ = Meta
 
     # Name of the struct.
     _name = name
@@ -129,8 +129,11 @@ def Struct(name, fmt, fieldnames, substructs={}):
         laststructindex += 1
         _format += "%ds" % len(_nested[index])
       elif fmt[i] == "A":
-        # Null-terminated ASCII string.
-        index = CalcNumElements(fmt[:i])
+        # Null-terminated ASCII string. Remove digits before the A, so we don't
+        # call CalcNumElements on an (invalid) format that ends with a digit.
+        start = i
+        while start > 0 and fmt[start - 1].isdigit(): start -= 1
+        index = CalcNumElements(fmt[:start])
         _asciiz.add(index)
         _format += "s"
       else:
@@ -165,7 +168,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       data = data[:self._length]
       values = list(struct.unpack(self._format, data))
       for index, value in enumerate(values):
-        if isinstance(value, str) and index in self._nested:
+        if isinstance(value, bytes) and index in self._nested:
           values[index] = self._nested[index](value)
       self._SetValues(values)
 
@@ -183,14 +186,14 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
       if tuple_or_bytes is None:
         # Default construct from null bytes.
-        self._Parse("\x00" * len(self))
+        self._Parse(b"\x00" * len(self))
         # If any keywords were supplied, set those fields.
         for k, v in kwargs.items():
           setattr(self, k, v)
-      elif isinstance(tuple_or_bytes, str):
-        # Initializing from a string.
+      elif isinstance(tuple_or_bytes, bytes):
+        # Initializing from a byte string.
         if len(tuple_or_bytes) < self._length:
-          raise TypeError("%s requires string of length %d, got %d" %
+          raise TypeError("%s requires bytes of length %d, got %d" %
                           (self._name, self._length, len(tuple_or_bytes)))
         self._Parse(tuple_or_bytes)
       else:
@@ -236,7 +239,9 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     @staticmethod
     def _MaybePackStruct(value):
-      if hasattr(value, "__metaclass__"):# and value.__metaclass__ == Meta:
+      # TODO: is there a better way?
+      # type(value.__class__) == StructMeta always returns False.
+      if type(value.__class__).__name__ == "StructMeta":
         return value.Pack()
       else:
         return value
@@ -251,7 +256,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
           if index in self._asciiz:
             value = value.rstrip("\x00")
           elif any(c not in string.printable for c in value):
-            value = value.encode("hex")
+            value = "".join(("%02x" % ord(c) for c in value))
         return "%s=%s" % (name, value)
 
       descriptions = [
