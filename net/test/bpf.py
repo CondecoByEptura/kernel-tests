@@ -21,6 +21,7 @@ import csocket
 import cstruct
 import net_test
 import socket
+import resource
 
 # __NR_bpf syscall numbers for various architectures.
 # TODO: is there a better way of doing this?
@@ -167,6 +168,8 @@ BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
 
+#set memlock resource 1 GiB
+resource.setrlimit(resource.RLIMIT_MEMLOCK, (1073741824, 1073741824))
 
 # BPF program syscalls
 def BpfSyscall(op, attr):
