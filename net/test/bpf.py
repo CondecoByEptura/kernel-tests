@@ -21,7 +21,11 @@ import csocket
 import cstruct
 import net_test
 import socket
+<<<<<<< HEAD   (4e68f2 [automerger skipped] Merge branch 'android10-dev' into 'andr)
 import platform
+=======
+import resource
+>>>>>>> CHANGE (c6f917 Set sufficient MEMLOCK rlimit for bpf test)
 
 # __NR_bpf syscall numbers for various architectures.
 # NOTE: If python inherited COMPAT_UTS_MACHINE, uname's 'machine' field will
@@ -178,6 +182,8 @@ BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 HAVE_EBPF_SUPPORT = net_test.LINUX_VERSION >= (4, 4, 0)
 
+#set memlock resource 1 GiB
+resource.setrlimit(resource.RLIMIT_MEMLOCK, (1073741824, 1073741824))
 
 # BPF program syscalls
 def BpfSyscall(op, attr):
