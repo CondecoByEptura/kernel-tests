@@ -35,11 +35,12 @@ import xfrm
 import xfrm_base
 
 _LOOPBACK_IFINDEX = 1
+_LOOPBACK_NET_ID = 1
 _TEST_XFRM_IFNAME = "ipsec42"
 _TEST_XFRM_IF_ID = 42
 
 # Does the kernel support xfrmi interfaces?
-def HaveXfrmInterfaces():
+def SupportsXfrmInterfaces():
   try:
     i = iproute.IPRoute()
     i.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
@@ -54,7 +55,7 @@ def HaveXfrmInterfaces():
   except IOError:
     return False
 
-HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
+SUPPORTS_XFRM_INTERFACES = SupportsXfrmInterfaces()
 
 # Parameters to setup tunnels as special networks
 _TUNNEL_NETID_OFFSET = 0xFC00  # Matches reserved netid range for IpSecService
@@ -132,6 +133,7 @@ def InjectTests():
   InjectParameterizedTests(XfrmTunnelTest)
   InjectParameterizedTests(XfrmInterfaceTest)
   InjectParameterizedTests(XfrmVtiTest)
+  InjectParameterizedTests(XfrmInterfaceMigrateTest)
 
 
 def InjectParameterizedTests(cls):
@@ -334,6 +336,9 @@ class IpSecBaseInterface(object):
     else:
       auth, crypt = xfrm_base._ALGO_HMAC_SHA1, xfrm_base._ALGO_CBC_AES_256
 
+    self.auth=auth
+    self.crypt=crypt
+
     self._SetupXfrmByType(auth, crypt)
 
   def Rekey(self, outer_family, new_out_sa, new_in_sa):
@@ -428,7 +433,7 @@ class VtiInterface(IpSecBaseInterface):
                            xfrm.ExactMatchMark(self.okey))
 
 
-@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
+@unittest.skipUnless(SUPPORTS_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
   """Test the creation of an XFRM Interface."""
 
@@ -448,7 +453,7 @@ class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
 class XfrmInterface(IpSecBaseInterface):
 
   def __init__(self, iface, netid, underlying_netid, ifindex, local, remote,
-               version):
+               version, use_null_crypt=False):
     super(XfrmInterface, self).__init__(iface, netid, underlying_netid, local,
                                         remote, version)
 
@@ -456,7 +461,7 @@ class XfrmInterface(IpSecBaseInterface):
     self.xfrm_if_id = netid
 
     self.SetupInterface()
-    self.SetupXfrm(False)
+    self.SetupXfrm(use_null_crypt)
 
   def SetupInterface(self):
     """Create an XFRM interface."""
@@ -504,6 +509,21 @@ class XfrmInterface(IpSecBaseInterface):
                            self.xfrm_if_id)
     self.xfrm.DeleteSaInfo(self.remote, old_out_spi, IPPROTO_ESP, None,
                            self.xfrm_if_id)
+
+  def Migrate(self, new_underlying_netid, new_local, new_remote):
+    self.xfrm.MigrateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
+                            new_remote, new_local, self.in_sa.spi,
+                            self.crypt, self.auth, None, None,
+                            new_underlying_netid, self.xfrm_if_id)
+
+    self.xfrm.MigrateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
+                            new_local, new_remote, self.out_sa.spi,
+                            self.crypt, self.auth, None, None,
+                            new_underlying_netid, self.xfrm_if_id)
+
+    self.local = new_local
+    self.remote = new_remote
+    self.underlying_netid = new_underlying_netid
 
 
 class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
@@ -921,7 +941,7 @@ class XfrmVtiTest(XfrmTunnelBase):
     self._TestTunnelRekey(inner_version, outer_version)
 
 
-@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
+@unittest.skipUnless(SUPPORTS_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmInterfaceTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = XfrmInterface
@@ -947,6 +967,42 @@ class XfrmInterfaceTest(XfrmTunnelBase):
   def ParamTestXfrmIntfRekey(self, inner_version, outer_version):
     self._TestTunnelRekey(inner_version, outer_version)
 
+# Does the kernel support CONFIG_XFRM_MIGRATE?
+def SupportsXfrmMigrate():
+  try:
+    x = xfrm.Xfrm()
+    wildcard_addr = net_test.GetWildcardAddress(6)
+    local_outer = "FE80::1"
+    remote_outer = _GetRemoteOuterAddress(6)
+    selector = xfrm.SrcDstSelector(wildcard_addr, wildcard_addr)
+    x.CreateTunnel(
+          xfrm.XFRM_POLICY_OUT, selector,
+          local_outer, remote_outer, _TEST_OUT_SPI, xfrm_base._ALGO_CBC_AES_256,
+          xfrm_base._ALGO_HMAC_SHA1, None, None, None, xfrm.MATCH_METHOD_ALL)
+
+    # FAILS
+    new_local_outer = "169.254.0.1"
+    new_remote_outer = "187.111.0.12"
+
+    # WORKS
+    # new_local_outer = "FE80::2"
+    # new_remote_outer = "2001:db8:2::2"
+    x.MigrateTunnel(xfrm.XFRM_POLICY_OUT, selector, local_outer, remote_outer,
+                    new_local_outer, new_remote_outer, _TEST_OUT_SPI,
+                    xfrm_base._ALGO_CBC_AES_256, xfrm_base._ALGO_HMAC_SHA1, None,
+                    None, None, None)
+    x.DeleteTunnel(xfrm.XFRM_POLICY_OUT, selector, new_remote_outer,
+                   _TEST_OUT_SPI, None, None)
+    return True
+  except IOError as err:
+    if err.errno == ENOPROTOOPT:
+      print("No support for Migrate:", err.errno)
+      return False
+    else:
+      print("Unexpected error:", err.errno)
+      return True
+
+SUPPORTS_XFRM_MIGRATE = SupportsXfrmMigrate()
 
 if __name__ == "__main__":
   InjectTests()
