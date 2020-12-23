@@ -140,6 +140,11 @@ XfrmSelector = cstruct.Struct(
     "daddr saddr dport dport_mask sport sport_mask "
     "family prefixlen_d prefixlen_s proto ifindex user")
 
+XfrmMigrate = cstruct.Struct(
+    "XfrmMigrate", "=16s16s16s16sBBxxIHH",
+    "old_daddr old_saddr new_daddr new_saddr proto "
+    "mode reqid old_family new_family")
+
 XfrmLifetimeCfg = cstruct.Struct(
     "XfrmLifetimeCfg", "=QQQQQQQQ",
     "soft_byte hard_byte soft_packet hard_packet "
@@ -709,6 +714,50 @@ class Xfrm(netlink.NetlinkSocket):
       selectors = [selector]
     for selector in selectors:
       self.DeletePolicyInfo(selector, direction, mark, xfrm_if_id)
+
+  def MigrateTunnel(self, direction, selector, old_saddr, old_daddr,
+                    new_saddr, new_daddr, spi, proto, reqid,
+                    encryption, auth_trunc, aead,
+                    encap, mark, new_underlying_netid, xfrm_if_id):
+    """Delete a policy from the Security Policy Database
+
+    Args:
+      selector: an XfrmSelector matching the policy to delete
+      direction: policy direction
+      xfrm_address_t		old_daddr;
+	    xfrm_address_t		old_saddr;
+	    xfrm_address_t		new_daddr;
+	    xfrm_address_t		new_saddr;
+	    u8			proto;
+	    u8			mode;
+	    u16			reserved;
+	    u32			reqid;
+	    u16			old_family;
+	    u16			new_family;
+
+    """
+
+    if selector is None:
+      selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
+    else:
+      selectors = [selector]
+
+    nlattrs = []
+    xfrmMigrate = XfrmMigrate((PaddedAddress(old_daddr), PaddedAddress(old_saddr),
+                      PaddedAddress(new_daddr), PaddedAddress(new_saddr), proto, XFRM_MODE_TUNNEL, reqid,
+                       net_test.GetAddressFamily(net_test.GetAddressVersion(old_saddr)),
+                       net_test.GetAddressFamily(net_test.GetAddressVersion(new_saddr))))
+    nlattrs.append((XFRMA_MIGRATE, xfrmMigrate))
+
+    print("--------MigrateTunnel--------")
+    for selector in selectors:
+        self.SendXfrmNlRequest(XFRM_MSG_MIGRATE,
+                           XfrmUserpolicyId(sel=selector, dir=direction),
+                           nlattrs)
+
+    self.AddSaInfo(new_saddr, new_daddr, spi,
+                        XFRM_MODE_TUNNEL, reqid, encryption, auth_trunc, aead,
+                        encap, mark, new_underlying_netid, True, xfrm_if_id)
 
 
 if __name__ == "__main__":

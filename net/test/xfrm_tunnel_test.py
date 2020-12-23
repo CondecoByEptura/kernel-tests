@@ -129,9 +129,11 @@ def _SendPacket(testInstance, netid, version, remote, remote_port):
 
 
 def InjectTests():
+  pass
   InjectParameterizedTests(XfrmTunnelTest)
   InjectParameterizedTests(XfrmInterfaceTest)
   InjectParameterizedTests(XfrmVtiTest)
+  InjectParameterizedTests(XfrmInterfaceMigrateTest)
 
 
 def InjectParameterizedTests(cls):
@@ -333,6 +335,9 @@ class IpSecBaseInterface(object):
       auth, crypt = xfrm_base._ALGO_AUTH_NULL, xfrm_base._ALGO_CRYPT_NULL
     else:
       auth, crypt = xfrm_base._ALGO_HMAC_SHA1, xfrm_base._ALGO_CBC_AES_256
+
+    self.auth=auth
+    self.crypt=crypt
 
     self._SetupXfrmByType(auth, crypt)
 
@@ -946,6 +951,115 @@ class XfrmInterfaceTest(XfrmTunnelBase):
 
   def ParamTestXfrmIntfRekey(self, inner_version, outer_version):
     self._TestTunnelRekey(inner_version, outer_version)
+
+
+@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
+class XfrmInterfaceMigrateTest(XfrmTunnelBase):
+  INTERFACE_CLASS = XfrmInterface
+
+  @classmethod
+  def setUpClass(cls):
+    xfrm_base.XfrmBaseTest.setUpClass()
+    # Tunnel interfaces use marks extensively, so configure realistic packet
+    # marking rules to make the test representative, make PMTUD work, etc.
+    cls.SetInboundMarks(True)
+    cls.SetMarkReflectSysctls(1)
+
+    # Group by tunnel version to ensure that we test at least one IPv4 and one
+    # IPv6 tunnel
+    cls.tunnelsV4 = {}
+    cls.tunnelsV6 = {}
+
+
+  def _MigrateTunnel(self, tunnel, outer_version):
+    new_underlying_netid = self.RandomNetid(exclude=tunnel.underlying_netid)
+    new_local = self.MyAddress(outer_version, new_underlying_netid)
+    if outer_version == 4:
+      new_remote = net_test.IPV4_ADDR2
+    else:
+      new_remote = net_test.IPV6_ADDR2
+
+    print("tunnel.remote %s " + tunnel.remote)
+    print("tunnel.local %s " + tunnel.local)
+    print("new_remote %s " + new_remote)
+    print("new_local %s " + new_local)
+
+    # Update addresses of SP and SA
+    tunnel.xfrm.MigrateTunnel(xfrm.XFRM_POLICY_IN,
+                      None,
+                      tunnel.remote,
+                      tunnel.local,
+                      new_remote,
+                      new_local,
+                      tunnel.in_sa.spi,
+                      IPPROTO_ESP, 0,
+                      tunnel.crypt, tunnel.auth, None,
+                      None, None, new_underlying_netid, tunnel.xfrm_if_id)
+
+    tunnel.xfrm.MigrateTunnel(xfrm.XFRM_POLICY_OUT,
+                      None,
+                      tunnel.local,
+                      tunnel.remote,
+                      new_local,
+                      new_remote,
+                      tunnel.out_sa.spi,
+                      IPPROTO_ESP, 0,
+                      tunnel.crypt, tunnel.auth, None,
+                      None, None, new_underlying_netid, tunnel.xfrm_if_id)
+
+    tunnel.local = new_local
+    tunnel.remote = new_remote
+    tunnel.underlying_netid = new_underlying_netid
+
+  def _TestTunnel(self, inner_version, outer_version, func, use_null_crypt):
+    underlying_netid = self.RandomNetid()
+    netid = _BASE_TUNNEL_NETID[outer_version] + _TUNNEL_NETID_OFFSET
+    iface = "ipsec%s" % netid
+    local = self.MyAddress(outer_version, underlying_netid)
+    if outer_version == 4:
+      remote = net_test.IPV4_ADDR
+    else:
+      remote = net_test.IPV6_ADDR
+
+    ifindex = self.ifindices[underlying_netid]
+
+    # try:
+    tunnel = XfrmInterface(iface, netid, underlying_netid, ifindex,
+                                local, remote, outer_version)
+    tunnel.TeardownXfrm()
+    tunnel.SetupXfrm(use_null_crypt)
+    self._SetInboundMarking(netid, iface, True)
+    self._SetupTunnelNetwork(tunnel, True)
+    local_inner = tunnel.addrs[inner_version]
+    remote_inner = _GetRemoteInnerAddress(inner_version)
+
+    # test something
+    self._MigrateTunnel(tunnel,outer_version)
+    func(tunnel, inner_version, local_inner, remote_inner)
+
+    # finally:
+    self._SetInboundMarking(tunnel.netid, tunnel.iface, False)
+    self._SetupTunnelNetwork(tunnel, False)
+    tunnel.Teardown()
+
+  def ParamTestMigrateXfrmIntfInput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+
+  def ParamTestMigrateXfrmIntfOutput(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
+                     True)
+
+  def ParamTestMigrateXfrmIntfInOutEncrypted(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
+                     False)
+
+  def ParamTestMigrateXfrmIntfIcmp(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
+
+  def ParamTestMigrateXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version,
+                     self._CheckTunnelEncryptionWithIcmp, False)
+
 
 
 if __name__ == "__main__":
