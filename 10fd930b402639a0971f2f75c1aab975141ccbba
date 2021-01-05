@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32d29773_82074459",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-01-05T21:38:14Z",
+      "side": 1,
+      "message": "Neither of those failures seems relevant.  Indeed, one is a kernel build failure due to git/gerrit sync failure.",
+      "revId": "10fd930b402639a0971f2f75c1aab975141ccbba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
