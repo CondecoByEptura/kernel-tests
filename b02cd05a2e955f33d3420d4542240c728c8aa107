@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6677162_40c548e6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-01-12T21:53:57Z",
+      "side": 1,
+      "message": "You can migrate an SA without an XFRM Interface, no? I think they are independent. For our purposes, we only care when both are supported, so we can either check both and then check them together or we can just:\n1) check XFRMI\n2) check XFRMI_MIGRATE and only have a flag for the \"combined\" feature?",
+      "range": {
+        "startLine": 972,
+        "startChar": 2,
+        "endLine": 972,
+        "endChar": 44
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b2eb66_8473d9b1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-01-12T21:53:57Z",
+      "side": 1,
+      "message": "I think we need to return false here. We can separately have a test that verifies it\u0027s TRUE for devices where it should be true. :-)",
+      "range": {
+        "startLine": 988,
+        "startChar": 6,
+        "endLine": 988,
+        "endChar": 17
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b48e96e8_0c3ccbf3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-01-12T21:53:57Z",
+      "side": 1,
+      "message": "1 move up to the top plz?\n2) Can we change the verb to SUPPORTS?\n3) Can the HAVE_XFRM_INTERFACES also be changes to SUPPORTS_XFRM_INTERFACES?",
+      "range": {
+        "startLine": 990,
+        "startChar": 0,
+        "endLine": 990,
+        "endChar": 20
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e57d53c5_6de79702",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-01-12T21:53:57Z",
+      "side": 1,
+      "message": "you can use a ternary operator here:\n\nremote \u003d net_test.IPV4_ADRR if outer_version \u003d\u003d 4 else net_test.IPV6_ADDR\n\nSince we are paying by lines of code...",
+      "range": {
+        "startLine": 1017,
+        "startChar": 4,
+        "endLine": 1020,
+        "endChar": 33
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8089d466_8231c1e1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-01-12T21:53:57Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure, but I think this test might pass if:\n1) tunnel setup succeeds.\n2) migrate silently fails\n\nCan we verify explicitly that the kernel updates the SAs in response to XFRM_MIGRATE?",
+      "range": {
+        "startLine": 1049,
+        "startChar": 11,
+        "endLine": 1049,
+        "endChar": 18
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
