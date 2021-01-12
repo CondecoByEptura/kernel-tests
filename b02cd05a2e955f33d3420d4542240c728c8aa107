@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fef2f28d_f7bab6be",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-01-12T21:59:20Z",
+      "side": 1,
+      "message": "Do these values need to be specified as part of the SA Info in migrate? Since I didn\u0027t think they could change, they seem superfluous. If they need to be specified, can you clarify what happens when they mismatch (or, if they are allowed to be garbage... can we omit them)?",
+      "range": {
+        "startLine": 720,
+        "startChar": 20,
+        "endLine": 720,
+        "endChar": 49
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f6677162_40c548e6",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 6
