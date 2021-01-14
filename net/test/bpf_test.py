@@ -17,6 +17,7 @@
 import ctypes
 import errno
 import os
+import resource
 import socket
 import struct
 import subprocess
@@ -151,11 +152,16 @@ INS_BPF_PARAM_STORE = [
 @unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
                      "BPF helper function is not fully supported")
 class BpfTest(net_test.NetworkTest):
+  old_rlimit_mlock = None
 
   def setUp(self):
     self.map_fd = -1
     self.prog_fd = -1
     self.sock = None
+    old_rlimit_mlock = resource.getrlimit(resource.RLIMIT_MEMLOCK)
+    # set the RLIMIT_MEMLOCK to 1GB for test,
+    # otherwise it might cause permission error reported for some kernels
+    resource.setrlimit(resource.RLIMIT_MEMLOCK, (1<<30, 1<<30))
 
   def tearDown(self):
     if self.prog_fd >= 0:
@@ -164,6 +170,8 @@ class BpfTest(net_test.NetworkTest):
       os.close(self.map_fd)
     if self.sock:
       self.sock.close()
+    if self.old_rlimit_mlock:
+      resource.setrlimit(resource.RLIMIT_MEMLOCK, old_rlimit_mlock)
 
   def testCreateMap(self):
     key, value = 1, 1
