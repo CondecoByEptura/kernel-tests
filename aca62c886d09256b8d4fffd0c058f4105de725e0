@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f25d1c72_d73101c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1041813
+      },
+      "writtenOn": "2021-01-14T05:36:36Z",
+      "side": 1,
+      "message": "Hi, All\n\nThe bpf \"Operation not permitted\" problem could not be reproduced with the latest VTS package,\nnot sure which change fixed the problem or just hide the problem to be reported.\n\nBut I think Maciej\u0027s idea to set up the RLIMIT_MEMLOCK for the test itself is the right solution for the bpf test, so submit this change for check.\n\nThanks,\nYongqin Liu\n",
+      "revId": "aca62c886d09256b8d4fffd0c058f4105de725e0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
