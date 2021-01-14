@@ -33,6 +33,23 @@
       "message": "I\u0027m not sure what the benefits/drawbacks of restoring the rlimit are...\nIt\u0027s a per-process setting, so once process terminates it doesn\u0027t matter.\nBut I\u0027m not sure how much other stuff runs in the same process (maybe other tests from other files?)",
       "revId": "41f5ccdbc8cf9c07c62a5378f070e99df9b587de",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58752b1e_f8e245f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-01-14T05:47:10Z",
+      "side": 1,
+      "message": "I think the previously linked CL effectively makes this one a no-op.\nSince the \u0027import bpf\u0027 at top of file will set rlimit to 1GB already.\n\nShould this CL be merged and the other reverted???\n\nThoughts?",
+      "revId": "41f5ccdbc8cf9c07c62a5378f070e99df9b587de",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
