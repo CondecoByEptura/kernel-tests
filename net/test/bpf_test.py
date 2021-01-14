@@ -17,6 +17,7 @@
 import ctypes
 import errno
 import os
+import resource
 import socket
 import struct
 import subprocess
@@ -151,11 +152,16 @@ INS_BPF_PARAM_STORE = [
 @unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
                      "BPF helper function is not fully supported")
 class BpfTest(net_test.NetworkTest):
+  old_rlimit_mlock = None
 
   def setUp(self):
     self.map_fd = -1
     self.prog_fd = -1
     self.sock = None
+    self.old_rlimit_mlock = resource.getrlimit(resource.RLIMIT_MEMLOCK)
+    # set the RLIMIT_MEMLOCK to 1GB for test,
+    # otherwise it might cause permission error reported for some kernels
+    resource.setrlimit(resource.RLIMIT_MEMLOCK, (1<<30, 1<<30))
 
   def tearDown(self):
     if self.prog_fd >= 0:
@@ -164,6 +170,8 @@ class BpfTest(net_test.NetworkTest):
       os.close(self.map_fd)
     if self.sock:
       self.sock.close()
+    if self.old_rlimit_mlock:
+      resource.setrlimit(resource.RLIMIT_MEMLOCK, self.old_rlimit_mlock)
 
   def testCreateMap(self):
     key, value = 1, 1
@@ -315,6 +323,7 @@ class BpfTest(net_test.NetworkTest):
 @unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
                      "Cgroup BPF is not fully supported")
 class BpfCgroupTest(net_test.NetworkTest):
+  old_rlimit_mlock = None
 
   @classmethod
   def setUpClass(cls):
@@ -338,6 +347,10 @@ class BpfCgroupTest(net_test.NetworkTest):
   def setUp(self):
     self.prog_fd = -1
     self.map_fd = -1
+    self.old_rlimit_mlock = resource.getrlimit(resource.RLIMIT_MEMLOCK)
+    # set the RLIMIT_MEMLOCK to 1GB for test,
+    # otherwise it might cause permission error reported for some kernels
+    resource.setrlimit(resource.RLIMIT_MEMLOCK, (1<<30, 1<<30))
 
   def tearDown(self):
     if self.prog_fd >= 0:
@@ -356,6 +369,8 @@ class BpfCgroupTest(net_test.NetworkTest):
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
     except socket.error:
       pass
+    if self.old_rlimit_mlock:
+      resource.setrlimit(resource.RLIMIT_MEMLOCK, self.old_rlimit_mlock)
 
   def testCgroupBpfAttach(self):
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, INS_BPF_EXIT_BLOCK)
