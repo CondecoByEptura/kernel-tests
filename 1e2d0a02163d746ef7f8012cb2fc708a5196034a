@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7e1417_16aa6034",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1041813
+      },
+      "writtenOn": "2021-01-14T08:41:03Z",
+      "side": 1,
+      "message": "Hi, Maciej\n\nFor this change, I guess we could just leave it here, until we find it\u0027s better than the change you mentioned previously.\n\nThanks for review for this change!\n\nThanks,\nYongqin Liu",
+      "revId": "1e2d0a02163d746ef7f8012cb2fc708a5196034a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
