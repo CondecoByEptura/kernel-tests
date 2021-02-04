@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c05bdf76_be6aadd0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T02:58:51Z",
+      "side": 1,
+      "message": "Any IPv4 addresses I\u0027ve tried fail here. Any IPv6 addresses I\u0027ve tried seem to work...",
+      "range": {
+        "startLine": 983,
+        "startChar": 6,
+        "endLine": 983,
+        "endChar": 11
+      },
+      "revId": "af4dcfbe7ef735af3ec92e1c747853c0353a50ac",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
