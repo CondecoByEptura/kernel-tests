@@ -310,6 +310,30 @@
       },
       "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a454973d_6cb671a3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1297255
+      },
+      "writtenOn": "2021-02-04T19:54:10Z",
+      "side": 1,
+      "message": "I have the code to use DumpSaInfo to check the addresses are updated. I didn\u0027t get chance to upload it yet. Let me paste it here in case it is useful to you.\n\n   saInfoOne \u003d tunnel.xfrm.DumpSaInfo()[0][0]\n   saInfoTwo \u003d tunnel.xfrm.DumpSaInfo()[1][0]\n   self.assertTrue(self.srcDstMatched(new_local, new_remote, saInfoOne)\n                      and self.srcDstMatched(new_remote, new_local, saInfoTwo)\n                      or self.srcDstMatched(new_remote, new_local, saInfoOne)\n                      and self.srcDstMatched(new_local, new_remote, saInfoTwo))\n\n    def srcDstMatched(self, expectedSrc, expectedDst, saInfo):\n    return xfrm.PaddedAddress(expectedSrc) \u003d\u003d saInfo.saddr and xfrm.PaddedAddress(expectedDst) \u003d\u003d saInfo.id.daddr",
+      "parentUuid": "d7b29cb3_a3bacbe2",
+      "range": {
+        "startLine": 1049,
+        "startChar": 11,
+        "endLine": 1049,
+        "endChar": 18
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
