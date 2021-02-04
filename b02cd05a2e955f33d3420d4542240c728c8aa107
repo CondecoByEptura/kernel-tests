@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca889f0_d4bb0658",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T18:07:49Z",
+      "side": 1,
+      "message": "They do, even though the values aren\u0027t used. If they aren\u0027t included in some way, the kernel returns EINVAL.",
+      "parentUuid": "fef2f28d_f7bab6be",
+      "range": {
+        "startLine": 720,
+        "startChar": 20,
+        "endLine": 720,
+        "endChar": 49
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd3b11b8_f821d304",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "This is for updating the mark to use new_underlying_netid. I can add a comment here.",
       "parentUuid": "bd3b11b8_f821d304",
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "441314e9_268aa220",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T18:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b585985_b5d4d424",
       "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
