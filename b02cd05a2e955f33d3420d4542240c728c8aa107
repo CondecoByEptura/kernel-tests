@@ -126,6 +126,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa10a3be_945f1b49",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T19:39:31Z",
+      "side": 1,
+      "message": "No tests exist yet that work on MIGRATE without XFRMI. Deferring until that\u0027s needed and changed the flag to XFRMI_MIGRATE.",
+      "parentUuid": "f6677162_40c548e6",
+      "range": {
+        "startLine": 972,
+        "startChar": 2,
+        "endLine": 972,
+        "endChar": 44
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85b2eb66_8473d9b1",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 6
@@ -137,6 +161,30 @@
       "writtenOn": "2021-01-12T21:53:57Z",
       "side": 1,
       "message": "I think we need to return false here. We can separately have a test that verifies it\u0027s TRUE for devices where it should be true. :-)",
+      "range": {
+        "startLine": 988,
+        "startChar": 6,
+        "endLine": 988,
+        "endChar": 17
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2a6145_3175567f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T19:39:31Z",
+      "side": 1,
+      "message": "Better idea... since ENOPROTOOPT is returned without regard to the other parameters, we can actually send down a test MIGRATE message and any other error is OK. This can also bypass the need for the tunnel (or anything else) to work.",
+      "parentUuid": "85b2eb66_8473d9b1",
       "range": {
         "startLine": 988,
         "startChar": 6,
@@ -193,6 +241,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af5c188_0a7dd0cf",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T19:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e57d53c5_6de79702",
+      "range": {
+        "startLine": 1017,
+        "startChar": 4,
+        "endLine": 1020,
+        "endChar": 33
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8089d466_8231c1e1",
@@ -206,6 +278,30 @@
       "writtenOn": "2021-01-12T21:53:57Z",
       "side": 1,
       "message": "I\u0027m not 100% sure, but I think this test might pass if:\n1) tunnel setup succeeds.\n2) migrate silently fails\n\nCan we verify explicitly that the kernel updates the SAs in response to XFRM_MIGRATE?",
+      "range": {
+        "startLine": 1049,
+        "startChar": 11,
+        "endLine": 1049,
+        "endChar": 18
+      },
+      "revId": "b02cd05a2e955f33d3420d4542240c728c8aa107",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b29cb3_a3bacbe2",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1060151
+      },
+      "writtenOn": "2021-02-04T19:39:31Z",
+      "side": 1,
+      "message": "Because of the IP addresses changes and verifying the packets... actually I don\u0027t think is the case.",
+      "parentUuid": "8089d466_8231c1e1",
       "range": {
         "startLine": 1049,
         "startChar": 11,
