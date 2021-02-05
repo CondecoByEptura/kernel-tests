@@ -34,6 +34,24 @@
       "parentUuid": "0a013135_48fd59b7",
       "revId": "fe3e052abba2a755ca53487bdba96e685ef41def",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d13be4f8_a7c0132a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003224
+      },
+      "writtenOn": "2021-02-05T20:48:22Z",
+      "side": 1,
+      "message": "i suspect this was just a badly generated CL --- the other ones i\u0027ve seen (that _haven\u0027t_ broken the build) all define the licenses they refer to in the same CL...",
+      "parentUuid": "fdb7a201_75b9cb27",
+      "revId": "fe3e052abba2a755ca53487bdba96e685ef41def",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
