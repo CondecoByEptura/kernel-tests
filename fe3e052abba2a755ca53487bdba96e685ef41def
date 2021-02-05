@@ -16,6 +16,24 @@
       "message": "\"me too\". i\u0027ve reverted this locally and can confirm that it fixes my ToT AOSP master build...",
       "revId": "fe3e052abba2a755ca53487bdba96e685ef41def",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb7a201_75b9cb27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1414465
+      },
+      "writtenOn": "2021-02-05T20:44:39Z",
+      "side": 1,
+      "message": "Thanks for confirming. The license changes look independent, so I\u0027ve forced it through for now. Will follow up on why whatever defines this license target wasn\u0027t merged.",
+      "parentUuid": "0a013135_48fd59b7",
+      "revId": "fe3e052abba2a755ca53487bdba96e685ef41def",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
