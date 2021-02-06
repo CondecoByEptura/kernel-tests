@@ -16,6 +16,23 @@
       "message": "where will it blow up...",
       "revId": "52f7f5f40793161433e9505362dbce822ad29806",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f46dfe4b_a84a51dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-06T02:27:58Z",
+      "side": 1,
+      "message": "LGTM, but will presubmit actually do anything given that the kernel_test targets are currently turned down?",
+      "revId": "52f7f5f40793161433e9505362dbce822ad29806",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
