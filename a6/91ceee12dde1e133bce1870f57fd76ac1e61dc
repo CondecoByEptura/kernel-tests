@@ -1,0 +1,8 @@
+Presubmit-Verified+2: Treehugger Robot <treehugger-gerrit@google.com>
+Lint+1: Lint 🤖 <ayeaye-gerrit@google.com>
+Code-Review+2: Lorenzo Colitti <lorenzo@google.com>
+Submitted-by: Maciej Żenczykowski <maze@google.com>
+Submitted-at: Fri, 12 Feb 2021 09:34:16 +0000
+Reviewed-on: https://android-review.googlesource.com/c/kernel/tests/+/1577064
+Project: kernel/tests
+Branch: refs/heads/master
