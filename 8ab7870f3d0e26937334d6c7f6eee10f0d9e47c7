@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ac41c2_aa4a19ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-13T09:17:36Z",
+      "side": 1,
+      "message": "Hmm, that fails on 4.14.180-g4352342183e4-abP19776072 -- commit 4352342183e4cf94eb71edbf05a366bef3cf4738 (partner-android/kernel/private/msm-google/android-msm-floral-4.14) which is a frozen branch, so can\u0027t cherrypick to it...",
+      "revId": "8ab7870f3d0e26937334d6c7f6eee10f0d9e47c7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
