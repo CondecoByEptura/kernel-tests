@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8366f1fe_723f5e5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-15T11:02:25Z",
+      "side": 1,
+      "message": "LGTM but can you either revert the \"bpf.*\" that makes up most of this CL, or do it in a separate cleanup-only CL?",
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc468c6_07e7d8e4",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-15T11:02:25Z",
+      "side": 1,
+      "message": "FWIW, I think that when we had the \"import *\" this code was more readable. Also it means this CL will show up in git blame as having modified most of this test, which isn\u0027t great. And it makes this CL hard to review because the actual changes are hard to tell apart from these repetitive changes. So I\u0027d prefer if you change it back if you can. Failing that, maybe do that conversion in its own CL? No objection to the other style fixes staying in this CL.",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 22
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69345d45_7c0a1551",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-15T11:02:25Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary because BpfTest\u0027s parent class (NetworkTest) does not have a setUp method, and the setUp method of NetworkTest\u0027s parent class (TestCase) is empty.",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36428af6_3a2082db",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-15T11:02:25Z",
+      "side": 1,
+      "message": "Ditto. Also everywhere else.",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 35
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7c7dff_8c036c03",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-15T11:02:25Z",
+      "side": 1,
+      "message": "Do you need this? There\u0027s already an equivalent annotation that applies to the whole class, right?",
+      "range": {
+        "startLine": 286,
+        "startChar": 2,
+        "endLine": 286,
+        "endChar": 65
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
