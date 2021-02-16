@@ -105,6 +105,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "691e5107_bec209e1",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T01:01:03Z",
+      "side": 1,
+      "message": "Moved to parent cl.  The linter insists and it\u0027s harmless.",
+      "parentUuid": "69345d45_7c0a1551",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36428af6_3a2082db",
@@ -118,6 +142,30 @@
       "writtenOn": "2021-02-15T11:02:25Z",
       "side": 1,
       "message": "Ditto. Also everywhere else.",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 35
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac02abe_c29aae9b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T01:01:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "36428af6_3a2082db",
       "range": {
         "startLine": 184,
         "startChar": 4,
