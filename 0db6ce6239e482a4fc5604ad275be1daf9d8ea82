@@ -58,6 +58,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "733e18b5_7465062b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc468c6_07e7d8e4",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 22
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69345d45_7c0a1551",
@@ -117,6 +141,30 @@
       "writtenOn": "2021-02-15T11:02:25Z",
       "side": 1,
       "message": "Do you need this? There\u0027s already an equivalent annotation that applies to the whole class, right?",
+      "range": {
+        "startLine": 286,
+        "startChar": 2,
+        "endLine": 286,
+        "endChar": 65
+      },
+      "revId": "0db6ce6239e482a4fc5604ad275be1daf9d8ea82",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fd051fa_185a1d44",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc7c7dff_8c036c03",
       "range": {
         "startLine": 286,
         "startChar": 2,
