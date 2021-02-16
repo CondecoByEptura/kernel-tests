@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "030c035f_fa792866",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:38:02Z",
+      "side": 1,
+      "message": "LGTM assuming comments addressed.",
+      "revId": "e925e6c62592aff7bbe39fee8073059ddba531f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2d2d0f4_ff77dd46",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:38:02Z",
+      "side": 1,
+      "message": "Nit: suggest \"APACHE2\". Just \"apache\" makes me think of the web server.",
+      "range": {
+        "startLine": 94,
+        "startChar": 23,
+        "endLine": 94,
+        "endChar": 29
+      },
+      "revId": "e925e6c62592aff7bbe39fee8073059ddba531f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ed907e4_b1951337",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:38:02Z",
+      "side": 1,
+      "message": "For clarity, suggest maybe:\n\n    # No exceptions? Good.",
+      "revId": "e925e6c62592aff7bbe39fee8073059ddba531f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
