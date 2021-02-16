@@ -89,6 +89,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "344660d5_12edbabb",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T04:56:09Z",
+      "side": 1,
+      "message": "Yes, precisely.\n\nI\u0027m not entirely sure what the difference between \u0027every future reference\u0027 and \u0027every reference\u0027 is.  I assume my point was mentions of a keyword before the import would indeed be correctly marked as undefined, while only mentions after the import would be defined, yet incorrectly flagged by the linter.\n\nEither way, the \u0027disable\u003dwildcard-import\u0027 only fixes the warning that would show up in the \u0027from bpf import *\u0027 line, not every later reference to something from bpf without the bpf. prefix.",
+      "parentUuid": "ac245107_3aa65b89",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0dbbc14_66c5f220",
