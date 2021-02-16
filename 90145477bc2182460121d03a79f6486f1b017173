@@ -65,6 +65,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac245107_3aa65b89",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T01:33:16Z",
+      "side": 1,
+      "message": "Not sure I understand. If we do:\n\nfrom bpf import *  # pylint: disable\u003dwildcard-import\n\nyou\u0027re saying that doing something like:\n\n    key \u003d GetFirstKey(map)\n\n- which we do everywhere in the file - will cause an undefined variable lint error? If so, then we probably shouldn\u0027t do it.\n\nBut I\u0027m not sure that\u0027s what you\u0027re saying, because you say \"every future reference\", not \"every reference\"?",
+      "parentUuid": "f6357f07_89bbfe04",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0dbbc14_66c5f220",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "I\u0027m not actually sure what exception this can throw...\nbut socket error seems unlikely for bpf operations no?",
       "parentUuid": "a0dbbc14_66c5f220",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d60ccaff_8cbce9d8",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T01:33:16Z",
+      "side": 1,
+      "message": "No need to guess, just look at the implementation of LookupMap. It bottoms out at BpfSyscall, which calls MaybeRaiseSocketError, which raises socket.error.",
+      "parentUuid": "b222149e_bdcb4fc8",
       "range": {
         "startLine": 109,
         "startChar": 4,
