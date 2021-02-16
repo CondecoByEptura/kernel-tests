@@ -41,6 +41,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6357f07_89bbfe04",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:58:38Z",
+      "side": 1,
+      "message": "That makes every future reference a lint error (undefined variable and the like)...",
+      "parentUuid": "b1eeb89c_94ccf284",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0dbbc14_66c5f220",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-16T00:35:41Z",
       "side": 1,
       "message": "I think you can just make this be \"except socket.error\" and get rid of the pylint comment. Also elsewhere.",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b222149e_bdcb4fc8",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:58:38Z",
+      "side": 1,
+      "message": "I\u0027m not actually sure what exception this can throw...\nbut socket error seems unlikely for bpf operations no?",
+      "parentUuid": "a0dbbc14_66c5f220",
       "range": {
         "startLine": 109,
         "startChar": 4,
@@ -87,6 +135,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd9971a4_cad5ae2a",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:58:38Z",
+      "side": 1,
+      "message": "As mentioned in chat... the linter insists.",
+      "parentUuid": "0e7a2b0a_97e98b26",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17c283fc_6bbe2add",
@@ -110,6 +182,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58e28817_7278edee",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:58:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "17c283fc_6bbe2add",
+      "range": {
+        "startLine": 223,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "072aaa34_75982c29",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-02-16T00:35:41Z",
       "side": 1,
       "message": "Ditto (and everywhere else, as well).",
+      "range": {
+        "startLine": 372,
+        "startChar": 4,
+        "endLine": 372,
+        "endChar": 42
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876e0231_2694f72e",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T00:58:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "072aaa34_75982c29",
       "range": {
         "startLine": 372,
         "startChar": 4,
