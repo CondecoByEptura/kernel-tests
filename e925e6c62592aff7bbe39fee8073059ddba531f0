@@ -41,6 +41,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6946155f_aa166dd5",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T04:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2d2d0f4_ff77dd46",
+      "range": {
+        "startLine": 94,
+        "startChar": 23,
+        "endLine": 94,
+        "endChar": 29
+      },
+      "revId": "e925e6c62592aff7bbe39fee8073059ddba531f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ed907e4_b1951337",
@@ -90,6 +114,24 @@
       "side": 1,
       "message": "Did you forget to add this? But don\u0027t bother to respin just for this.",
       "parentUuid": "447847c5_9c3af0b0",
+      "revId": "e925e6c62592aff7bbe39fee8073059ddba531f0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "316a8d20_f4dfa48c",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-16T04:58:10Z",
+      "side": 1,
+      "message": "Oh, I added it to the function 1 higher, instead of this one.\nTechnically I guess all 3 functions could have used it...",
+      "parentUuid": "2ace5b6c_828771ce",
       "revId": "e925e6c62592aff7bbe39fee8073059ddba531f0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
