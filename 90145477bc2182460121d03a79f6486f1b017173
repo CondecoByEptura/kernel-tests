@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3931160_ffaaafe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:35:41Z",
+      "side": 1,
+      "message": "LGTM assuming comments addressed. Also, presubmit failed with:\n\n  File \"./bpf_test.py\", line 37, in \u003cmodule\u003e\n    from bpf import BPF_FUNC_ktime_get_boot_ns\nImportError: cannot import name BPF_FUNC_ktime_get_boot_ns\n\u0027./bpf_test.py\u0027 failed more than once, giving up\n\nso you\u0027ll presumably need to fix that before submitting.",
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1eeb89c_94ccf284",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:35:41Z",
+      "side": 1,
+      "message": "Can we go back to \"from bpf import *\" here, with just one \"pylint: disable\u003dwildcard-import\"? If so, let\u0027s do that. If we can\u0027t do that - for example, if doing so would cause each of the lines that use one of these symbols to generate a warning - then listing everything here explicitly LGTM.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0dbbc14_66c5f220",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:35:41Z",
+      "side": 1,
+      "message": "I think you can just make this be \"except socket.error\" and get rid of the pylint comment. Also elsewhere.",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 53
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7a2b0a_97e98b26",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:35:41Z",
+      "side": 1,
+      "message": "Per comment on previous incarnation of this CL, you don\u0027t need this...",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c283fc_6bbe2add",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:35:41Z",
+      "side": 1,
+      "message": "... or this. Suggest removing, unless the linter insists on it being there.",
+      "range": {
+        "startLine": 223,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 35
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "072aaa34_75982c29",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-02-16T00:35:41Z",
+      "side": 1,
+      "message": "Ditto (and everywhere else, as well).",
+      "range": {
+        "startLine": 372,
+        "startChar": 4,
+        "endLine": 372,
+        "endChar": 42
+      },
+      "revId": "90145477bc2182460121d03a79f6486f1b017173",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
