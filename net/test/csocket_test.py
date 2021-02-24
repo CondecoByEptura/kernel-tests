@@ -18,13 +18,11 @@
 
 from socket import *  # pylint: disable=wildcard-import
 import unittest
-
 import csocket
-
+import subprocess
 
 LOOPBACK_IFINDEX = 1
 SOL_IPV6 = 41
-
 
 class CsocketTest(unittest.TestCase):
 
@@ -48,9 +46,20 @@ class CsocketTest(unittest.TestCase):
     self.CheckRecvfrom(AF_INET, "127.0.0.1")
     self.CheckRecvfrom(AF_INET6, "::1")
 
+  def getTTL(self, family):
+    if family == AF_INET:
+        cmd = "ping -c1 127.0.0.1 | awk -F '[ =]' '/ttl/ {print $8}'"
+    elif family == AF_INET6:
+        cmd = "ping6 -c1 ::1 | awk -F '[ =]' '/ttl/ {print $8}'"
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE,
+                           stdout=subprocess.PIPE, shell=True)
+    out, err = proc.communicate()
+    return int(out)
+
   def CheckRecvmsg(self, family, addr):
     s = self._BuildSocket(family, addr)
-
+    ttlCnt = self.getTTL(family)
+    self.assertTrue(ttlCnt >= 64, 'TTL count is lower than 64')
     if family == AF_INET:
       s.setsockopt(SOL_IP, csocket.IP_PKTINFO, 1)
       s.setsockopt(SOL_IP, csocket.IP_RECVTTL, 1)
@@ -58,14 +67,14 @@ class CsocketTest(unittest.TestCase):
       pktinfo = (SOL_IP, csocket.IP_PKTINFO,
                  csocket.InPktinfo((LOOPBACK_IFINDEX,
                                     pktinfo_addr, pktinfo_addr)))
-      ttl = (SOL_IP, csocket.IP_TTL, 64)
+      ttl = (SOL_IP, csocket.IP_TTL, ttlCnt)
     elif family == AF_INET6:
       s.setsockopt(SOL_IPV6, csocket.IPV6_RECVPKTINFO, 1)
       s.setsockopt(SOL_IPV6, csocket.IPV6_RECVHOPLIMIT, 1)
       pktinfo_addr = inet_pton(AF_INET6, addr)
       pktinfo = (SOL_IPV6, csocket.IPV6_PKTINFO,
                  csocket.In6Pktinfo((pktinfo_addr, LOOPBACK_IFINDEX)))
-      ttl = (SOL_IPV6, csocket.IPV6_HOPLIMIT, 64)
+      ttl = (SOL_IPV6, csocket.IPV6_HOPLIMIT, ttlCnt)
 
     addr = s.getsockname()
     sockaddr = csocket.Sockaddr(addr)
