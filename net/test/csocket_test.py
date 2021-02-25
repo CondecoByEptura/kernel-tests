@@ -56,6 +56,30 @@ class CsocketTest(unittest.TestCase):
     self.CheckRecvfrom(AF_INET, "127.0.0.1")
     self.CheckRecvfrom(AF_INET6, "::1")
 
+  @classmethod
+  def GetConfiguredTtl(cls):
+    return int(open("/proc/sys/net/ipv4/ip_default_ttl").readline())
+
+  # Anything lower and the internet might not be fully reachable
+  def testConfiguredIPv4DefaultTtlIsAtLeast63(self):
+    self.assertGreaterEqual(self.GetConfiguredTtl(), 63)
+
+  # 64 is the Linux default, potentially waivable for automotive
+  def testConfiguredIPv4DefaultTtlIs64(self):
+    self.assertEqual(self.GetConfiguredTtl(), 64)
+
+  @classmethod
+  def GetConfiguredHoplimit(cls):
+    return int(open("/proc/sys/net/ipv6/conf/default/hop_limit").readline())
+
+  # Anything lower and the internet might not be fully reachable
+  def testConfiguredIPv6DefaultHopLimitIsAtLeast63(self):
+    self.assertGreaterEqual(self.GetConfiguredHoplimit(), 63)
+
+  # 64 is the Linux default, potentially waivable for automotive
+  def testConfiguredIPv6DefaultHopLimitIs64(self):
+    self.assertEqual(self.GetConfiguredHoplimit(), 64)
+
   def CheckRecvmsg(self, family, addr):
     s = self._BuildSocket(family, addr)
 
@@ -66,14 +90,14 @@ class CsocketTest(unittest.TestCase):
       pktinfo = (SOL_IP, csocket.IP_PKTINFO,
                  csocket.InPktinfo((LOOPBACK_IFINDEX,
                                     pktinfo_addr, pktinfo_addr)))
-      ttl = (SOL_IP, csocket.IP_TTL, 64)
+      ttl = (SOL_IP, csocket.IP_TTL, self.GetConfiguredTtl())
     elif family == AF_INET6:
       s.setsockopt(SOL_IPV6, csocket.IPV6_RECVPKTINFO, 1)
       s.setsockopt(SOL_IPV6, csocket.IPV6_RECVHOPLIMIT, 1)
       pktinfo_addr = inet_pton(AF_INET6, addr)
       pktinfo = (SOL_IPV6, csocket.IPV6_PKTINFO,
                  csocket.In6Pktinfo((pktinfo_addr, LOOPBACK_IFINDEX)))
-      ttl = (SOL_IPV6, csocket.IPV6_HOPLIMIT, 64)
+      ttl = (SOL_IPV6, csocket.IPV6_HOPLIMIT, self.GetConfiguredHoplimit())
 
     addr = s.getsockname()
     sockaddr = csocket.Sockaddr(addr)
