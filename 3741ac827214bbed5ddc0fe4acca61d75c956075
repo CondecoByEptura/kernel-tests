@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "374eda64_66adc303",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "android-mainline is on 5.12-rc1-ish.\n\nSo did you test on 5.10 or on mainline?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6de2a54a_9e20c86f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "can you point at where CONFIG_XFRM_MIGRATE is required by VINTF?\n\nI assume this is https://android.git.corp.google.com/kernel/configs/+/fb001b160efd702631ac840d236b8c3c90753ccc%5E%21/\n\nRequire XFRM_MIGRATE for S devices\nie. {4.19/5.4/5.10}-S",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bc03e3d_501822f1",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "space after :",
+      "range": {
+        "startLine": 726,
+        "startChar": 6,
+        "endLine": 726,
+        "endChar": 17
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27666bf2_0d052c1a",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "updated",
+      "range": {
+        "startLine": 726,
+        "startChar": 62,
+        "endLine": 726,
+        "endChar": 68
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24d9aefb_c04d0867",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "space before ( here and in line below",
+      "range": {
+        "startLine": 729,
+        "startChar": 24,
+        "endLine": 729,
+        "endChar": 25
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b57dff2_c894a1ae",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "what exactly is netid here?  This runs without netd...",
+      "range": {
+        "startLine": 738,
+        "startChar": 0,
+        "endLine": 738,
+        "endChar": 64
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8c1a3b3_5faec8b4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "this could use a comment/explanation",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 20
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a8d76ab_3f830144",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "what\u0027s the minimum kernel that supports this?\nIdeally this would also blindly return true for \u003e5.4 or \u003e4.19 or whenever this was added and enforced by VINTF - it\u0027s been a while hasn\u0027t it?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 43
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "550c009d_6ae86221",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "please make this outright/blindly return true for 5.10+ or \u003e5.4 kernels.\nThere\u0027s no valid case of a \u003e5.4 kernel with this disabled.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d03e3c1_c6ce5319",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "if not ...",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 35
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b2186e_1e0f9d96",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "...ed",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e02fa39_c6f2d346",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "why is this \u0027unexpected\u0027 ?",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 41
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c47e5d5_e93774bf",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "space before/after \u003d and in line below",
+      "range": {
+        "startLine": 365,
+        "startChar": 14,
+        "endLine": 365,
+        "endChar": 18
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9446ea9_d79f7038",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "note that not calling super(cls...).setUpClass() is a gpylint2 error.\ncould you do this in such a way that you call base class constructor and tell it not to do stuff, or something?",
+      "range": {
+        "startLine": 999,
+        "startChar": 0,
+        "endLine": 999,
+        "endChar": 83
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b12faa1e_7d691952",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "bad indent",
+      "range": {
+        "startLine": 1024,
+        "startChar": 0,
+        "endLine": 1024,
+        "endChar": 32
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa7bb651_9165858e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "sp",
+      "range": {
+        "startLine": 1043,
+        "startChar": 14,
+        "endLine": 1043,
+        "endChar": 20
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f53f9b53_9fab49d5",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-26T00:57:05Z",
+      "side": 1,
+      "message": "perhaps match syntax in line 1021",
+      "range": {
+        "startLine": 1048,
+        "startChar": 0,
+        "endLine": 1048,
+        "endChar": 38
+      },
+      "revId": "3741ac827214bbed5ddc0fe4acca61d75c956075",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
