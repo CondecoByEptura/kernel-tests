@@ -32,7 +32,8 @@ usage() {
   exit 1
 }
 
-mirror=http://ftp.debian.org/debian
+# mirror=http://ftp.debian.org/debian
+mirror=http://ftp.us.debian.org/debian/
 debootstrap=debootstrap
 suite=bullseye
 arch=amd64
@@ -111,13 +112,17 @@ sudo chown root:root "${workdir}"
 
 # Run the debootstrap first
 cd $workdir
+echo "***************** 0 *****************"
 sudo $debootstrap --arch=$arch --variant=minbase --include=$packages \
                   $suite . $mirror
 # Workarounds for bugs in the debootstrap suite scripts
+echo "***************** 1 *****************"
 for mount in `cat /proc/mounts | cut -d' ' -f2 | grep -e ^$workdir`; do
   echo "Unmounting mountpoint $mount.." >&2
   sudo umount $mount
 done
+
+echo "***************** 2 *****************"
 # Copy the chroot preparation scripts, and enter the chroot
 for file in $suite.sh common.sh net_test.sh; do
   sudo cp -a $SCRIPT_DIR/rootfs/$file root/$file
@@ -125,9 +130,11 @@ for file in $suite.sh common.sh net_test.sh; do
 done
 sudo chroot . /root/$suite.sh
 
+echo "***************** 3 *****************"
 # Leave the workdir, to build the filesystem
 cd -
 
+echo "***************** 4 *****************"
 # For the final image mount
 mount=`mktemp -d`
 mount_remove() {
@@ -136,10 +143,12 @@ mount_remove() {
 }
 trap mount_remove EXIT
 
+echo "***************** 5 *****************"
 # Create a 1G empty ext3 filesystem
 truncate -s 1G $name
 mke2fs -F -t ext3 -L ROOT $name
 
+echo "***************** 6 *****************"
 # Mount the new filesystem locally
 sudo mount -o loop -t ext3 $name $mount
 image_unmount() {
@@ -148,9 +157,11 @@ image_unmount() {
 }
 trap image_unmount EXIT
 
+echo "***************** 7 *****************"
 # Copy the patched debootstrap results into the new filesystem
 sudo cp -a $workdir/* $mount
 
+echo "***************** 8 *****************"
 # Fill the rest of the space with zeroes, to optimize compression
 sudo dd if=/dev/zero of=$mount/sparse bs=1M 2>/dev/null || true
 sudo rm -f $mount/sparse
