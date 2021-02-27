@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc74accb_057250dc",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-27T02:41:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d80decd_38fc15e4",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 42
+      },
+      "revId": "72980dd71d87d404d0f047f30b2cf9b9f3154733",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72879066_21bc3ac8",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-27T02:40:18Z",
       "side": 1,
       "message": "spurious double ()",
+      "range": {
+        "startLine": 566,
+        "startChar": 51,
+        "endLine": 566,
+        "endChar": 52
+      },
+      "revId": "72980dd71d87d404d0f047f30b2cf9b9f3154733",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93ad83c6_31815b8e",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-02-27T02:41:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72879066_21bc3ac8",
       "range": {
         "startLine": 566,
         "startChar": 51,
