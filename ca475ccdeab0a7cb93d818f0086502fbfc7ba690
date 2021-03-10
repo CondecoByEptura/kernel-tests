@@ -16,6 +16,24 @@
       "message": "Is this the right way to go about this?",
       "revId": "ca475ccdeab0a7cb93d818f0086502fbfc7ba690",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a351ee3a_a1951c99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086523
+      },
+      "writtenOn": "2021-03-10T18:05:57Z",
+      "side": 1,
+      "message": "Depends on the context...\n\nIf this is for CTS, you might want to go to android11-tests-dev instead (perform an checkout android11-tests-dev and merge aosp/android11-dev).\n\nSince android11-release is no longer being maintained upstream (new releases would be android11-qpr2-release for now), if the goal is to deliver this to AOSP consumers, then it\u0027s Okay to land it here.",
+      "parentUuid": "3be75349_99e2c0a6",
+      "revId": "ca475ccdeab0a7cb93d818f0086502fbfc7ba690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
