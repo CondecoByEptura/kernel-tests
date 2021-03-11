@@ -35,6 +35,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d11c2e4a_bf1ef190",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-03-11T07:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c29e1cd_421b1f41",
+      "revId": "2134cc9cbdfbd1af033b23b43e49bd0272f4ed83",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e29c60_c7a8d5c7",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-03-11T06:58:20Z",
       "side": 1,
       "message": "Please remove android12-dev as this was not yet pushed and we want to avoid diverging from internal branches.",
+      "revId": "2134cc9cbdfbd1af033b23b43e49bd0272f4ed83",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56dcab60_a4e68541",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-03-11T07:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e29c60_c7a8d5c7",
       "revId": "2134cc9cbdfbd1af033b23b43e49bd0272f4ed83",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
