@@ -322,6 +322,24 @@ if [ "$ARCH" == "um" ]; then
   # if not for UML having a tendency to crash during shutdown,
   # so instead use an extra serial line we'll redirect to an open fd...
   cmdline="$cmdline net_test_exitcode=/dev/ttyS3"
+<<<<<<< TARGET BRANCH (122de3 Merge branch 'android11-dev' into 'android11-tests-dev')
+=======
+
+  # Experience shows that we need at least 128 bits of entropy for the
+  # kernel's crng init to complete (before it fully initializes stuff behaves
+  # *weirdly* and there's plenty of kernel warnings and some tests even fail),
+  # hence net_test.sh needs at least 32 hex chars (which is the amount of hex
+  # in a single random UUID) provided to it on the kernel cmdline.
+  #
+  # Just to be safe, we'll pass in 384 bits, and we'll do this as a random
+  # 64 character base64 seed (because this is shorter than base16).
+  # We do this by getting *three* random UUIDs and concatenating their hex
+  # digits into an *even* length hex encoded string, which we then convert
+  # into base64.
+  entropy="$(cat /proc/sys/kernel/random{/,/,/}uuid | tr -d '\n-')"
+  entropy="$(xxd -r -p <<< "${entropy}" | base64 -w 0)"
+  cmdline="${cmdline} entropy=${entropy}"
+>>>>>>> SOURCE BRANCH (eab615 Merge branch 'android10-dev' into 'android10-tests-dev')
 
   # Map the --readonly flag to UML block device names
   if ((nowrite == 0)); then
