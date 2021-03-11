@@ -51,6 +51,24 @@
       "message": "The goal is to deflake tests we\u0027re still running.\n\nFor example those run by the manifest at\n  https://partner-android.googlesource.com/kernel/manifest/+/refs/heads/q-marmot-common-android-4.19-dev/default.xml\n\nand that points to \"q-release\" as the used branch for kernel/tests - but on partner repo.\n\nbased on\nhttps://partner-android.googlesource.com/kernel/tests/+log/refs/heads/q-release\n\npartner-android / kernel / tests / refs/heads/q-release\n\nbfef3bb Snap for 5546586 from 777b177c6ff6583cee0665682e1f95c99f38d9b6 to qt-release by android-build-team Robot · 1 year, 10 months ago mirror-aosp-android10-release q-fs-release q-goats-release q-release security-aosp-qt-release\n\nthat seems to probably be coming from aosp/android10-release ...",
       "revId": "ca475ccdeab0a7cb93d818f0086502fbfc7ba690",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e71c954_c5b5cdab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086523
+      },
+      "writtenOn": "2021-03-11T06:54:42Z",
+      "side": 1,
+      "message": "Thanks.\n\nq-release comes from internal (qt-release), so if you need to bring a change there, you would need to either cherry-pick it there (harder) or amend the manifest to use mirror-aosp-android10-release which is already replicated to partner from AOSP\u0027s android10-release.\n\nThat\u0027s said, I would recommend the second approach (use android10-release as the vehicle to deliver the changes needed) and will +2 the ACL change.",
+      "parentUuid": "7db1fdbc_55ef7d75",
+      "revId": "ca475ccdeab0a7cb93d818f0086502fbfc7ba690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
