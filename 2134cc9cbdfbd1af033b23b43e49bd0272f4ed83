@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02f1b805_05c976f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086523
+      },
+      "writtenOn": "2021-03-11T06:58:20Z",
+      "side": 1,
+      "message": "Could you please remove the android12-dev as it\u0027s not pushed yet (we can\u0027t have diverging change as it would prevent us from pushing to AOSP)?",
+      "revId": "2134cc9cbdfbd1af033b23b43e49bd0272f4ed83",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c29e1cd_421b1f41",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1086523
+      },
+      "writtenOn": "2021-03-11T06:58:20Z",
+      "side": 1,
+      "message": "[OPTIONAL] Please consider removing the \u0027exclusive\u0027 autosubmit part as it\u0027s not really needed for your goal.",
+      "revId": "2134cc9cbdfbd1af033b23b43e49bd0272f4ed83",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e29c60_c7a8d5c7",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086523
+      },
+      "writtenOn": "2021-03-11T06:58:20Z",
+      "side": 1,
+      "message": "Please remove android12-dev as this was not yet pushed and we want to avoid diverging from internal branches.",
+      "revId": "2134cc9cbdfbd1af033b23b43e49bd0272f4ed83",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
