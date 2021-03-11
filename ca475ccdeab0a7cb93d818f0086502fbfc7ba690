@@ -69,6 +69,23 @@
       "parentUuid": "7db1fdbc_55ef7d75",
       "revId": "ca475ccdeab0a7cb93d818f0086502fbfc7ba690",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "285f6ab6_181b4a28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-03-11T07:18:37Z",
+      "side": 1,
+      "message": "Note that I can\u0027t submit this (lack of privs).",
+      "revId": "ca475ccdeab0a7cb93d818f0086502fbfc7ba690",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
