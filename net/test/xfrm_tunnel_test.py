@@ -686,9 +686,11 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     # we cannot parse past the ESP header to the inner IP header, and thus have to
     # workaround in this manner
     if inner_version == 4:
+      ttlCount = packets.getTTL()
       ip_hdr_options = {
         'id': scapy.IP(str(pkt.payload)[8:]).id,
-        'flags': scapy.IP(str(pkt.payload)[8:]).flags
+        'flags': scapy.IP(str(pkt.payload)[8:]).flags,
+        'ttl': ttlCount
       }
     else:
       ip_hdr_options = {'fl': scapy.IPv6(str(pkt.payload)[8:]).fl}
