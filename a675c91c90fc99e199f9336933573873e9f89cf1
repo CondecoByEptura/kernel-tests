@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd7f7a5_e7054915",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1138324
+      },
+      "writtenOn": "2021-03-12T21:34:44Z",
+      "side": 1,
+      "message": "Details of my -1 vote are on the bug, we will review this offline.",
+      "revId": "a675c91c90fc99e199f9336933573873e9f89cf1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
