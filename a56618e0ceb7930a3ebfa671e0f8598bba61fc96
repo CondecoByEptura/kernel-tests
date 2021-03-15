@@ -16,6 +16,23 @@
       "message": "Can you please provide DrNo?",
       "revId": "a56618e0ceb7930a3ebfa671e0f8598bba61fc96",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1d3e26_15256e4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-03-15T21:56:56Z",
+      "side": 1,
+      "message": "Don\u0027t have the privs.",
+      "revId": "a56618e0ceb7930a3ebfa671e0f8598bba61fc96",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
