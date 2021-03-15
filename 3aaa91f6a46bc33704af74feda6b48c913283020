@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9600c230_49a45af2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1505109
+      },
+      "writtenOn": "2021-03-15T19:03:12Z",
+      "side": 1,
+      "message": "VTS fix cherry pick.",
+      "revId": "3aaa91f6a46bc33704af74feda6b48c913283020",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
