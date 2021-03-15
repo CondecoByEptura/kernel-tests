@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c27878ca_ce3c630a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1110792
+      },
+      "writtenOn": "2021-03-15T21:53:30Z",
+      "side": 1,
+      "message": "Can you please provide DrNo?",
+      "revId": "a56618e0ceb7930a3ebfa671e0f8598bba61fc96",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
