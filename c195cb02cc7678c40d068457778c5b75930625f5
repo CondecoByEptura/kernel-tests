@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65377841_8baa33e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-03-23T23:09:48Z",
+      "side": 1,
+      "message": "(failure is on kernel/cts/cts-kernel-triggered-presubmit-git_sc-gsi-dev on kernel_cf_x86_64 on aosp_kernel-common-android-4.19-stable which is broken at HEAD)",
+      "revId": "c195cb02cc7678c40d068457778c5b75930625f5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
