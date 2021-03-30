@@ -33,7 +33,6 @@ usage() {
 }
 
 mirror=http://ftp.debian.org/debian
-debootstrap=debootstrap
 suite=bullseye
 arch=amd64
 
@@ -81,11 +80,6 @@ if [[ -z "${name}" ]]; then
   name=net_test.rootfs.${arch}.${suite}.`date +%Y%m%d`
 fi
 
-# Switch to qemu-debootstrap for incompatible architectures
-if [ "$arch" = "arm64" ]; then
-  debootstrap=qemu-debootstrap
-fi
-
 # Sometimes it isn't obvious when the script fails
 failure() {
   echo "Filesystem generation process failed." >&2
@@ -111,19 +105,17 @@ sudo chown root:root "${workdir}"
 
 # Run the debootstrap first
 cd $workdir
-sudo $debootstrap --arch=$arch --variant=minbase --include=$packages \
-                  $suite . $mirror
+sudo debootstrap --arch=$arch --variant=minbase --include=$packages \
+                 --foreign $suite . $mirror
 # Workarounds for bugs in the debootstrap suite scripts
 for mount in `cat /proc/mounts | cut -d' ' -f2 | grep -e ^$workdir`; do
   echo "Unmounting mountpoint $mount.." >&2
   sudo umount $mount
 done
-# Copy the chroot preparation scripts, and enter the chroot
-for file in $suite.sh common.sh net_test.sh; do
-  sudo cp -a $SCRIPT_DIR/rootfs/$file root/$file
-  sudo chown root:root root/$file
-done
-sudo chroot . /root/$suite.sh
+# Copy the net_test.sh wrapper script
+sudo cp -a $SCRIPT_DIR/rootfs/net_test.sh sbin/$file
+sudo chown root:root sbin/net_test.sh
+sudo mkdir host
 
 # Leave the workdir, to build the filesystem
 cd -

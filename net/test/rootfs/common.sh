@@ -42,12 +42,6 @@ EOF
   echo vm >/etc/hostname
   echo "nameserver 127.0.0.1" >/etc/resolv.conf
 
-  # Put the helper net_test.sh script into place
-  mv /root/net_test.sh /sbin/net_test.sh
-
-  # Make sure the /host mountpoint exists for net_test.sh
-  mkdir /host
-
   # Disable the root password
   passwd -d root
 
