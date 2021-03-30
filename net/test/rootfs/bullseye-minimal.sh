@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2019 The Android Open Source Project
+# Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,11 +16,25 @@
 #
 
 set -e
+set -u
 
-for s in bullseye; do
-  for a in i386 amd64 armhf arm64; do
-    ./build_rootfs.sh -s "${s}" -a "${a}"
-  done
-done
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
-echo 'All rootfs builds completed.'
+. $SCRIPT_DIR/bullseye-common.sh
+
+setup_static_networking
+
+update_apt_sources bullseye
+
+# Disable the root password
+passwd -d root
+
+get_installed_packages >/root/originally-installed
+setup_and_build_iptables
+get_installed_packages >/root/installed
+remove_installed_packages /root/originally-installed /root/installed
+install_and_cleanup_iptables
+
+create_systemd_getty_symlinks ttyS0
+
+bullseye_cleanup
