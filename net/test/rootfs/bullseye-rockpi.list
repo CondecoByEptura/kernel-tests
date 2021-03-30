@@ -1,0 +1,7 @@
+#include "bullseye.list"
+binfmt-support
+eject
+gdisk
+libc6-dev:amd64
+qemu-user-static
+u-boot-tools
