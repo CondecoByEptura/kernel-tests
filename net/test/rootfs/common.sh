@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2018 The Android Open Source Project
+# Copyright (C) 2021 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,43 +15,19 @@
 # limitations under the License.
 #
 
-chroot_sanity_check() {
-  if [ ! -f /var/log/bootstrap.log ]; then
-    echo "Do not run this script directly!"
-    echo "This is supposed to be run from inside a debootstrap chroot!"
-    echo "Aborting."
-    exit 1
-  fi
+trap "echo $? >${exitcode}" ERR EXIT
+
+setup_networking() {
+  # Bring up QEMU SLIRP networking
+  ip link set dev eth0 up
+  ip addr add 10.0.2.15/24 broadcast 10.0.2.255 dev eth0
+  ip route add default via 10.0.2.2 dev eth0
+  echo "nameserver 10.0.2.3" >>/etc/resolv.conf
 }
 
-chroot_cleanup() {
-  # Read-only root breaks booting via init
-  cat >/etc/fstab << EOF
-tmpfs /tmp     tmpfs defaults 0 0
-tmpfs /var/log tmpfs defaults 0 0
-tmpfs /var/tmp tmpfs defaults 0 0
-EOF
-
-  # systemd will attempt to re-create this symlink if it does not exist,
-  # which fails if it is booting from a read-only root filesystem (which
-  # is normally the case). The syslink must be relative, not absolute,
-  # and it must point to /proc/self/mounts, not /proc/mounts.
-  ln -sf ../proc/self/mounts /etc/mtab
-
-  # Remove contaminants coming from the debootstrap process
-  echo vm >/etc/hostname
+cleanup() {
   echo "nameserver 127.0.0.1" >/etc/resolv.conf
-
-  # Put the helper net_test.sh script into place
-  mv /root/net_test.sh /sbin/net_test.sh
-
-  # Make sure the /host mountpoint exists for net_test.sh
-  mkdir /host
-
-  # Disable the root password
-  passwd -d root
-
-  # Clean up any junk created by the imaging process
-  rm -rf /var/lib/apt/lists/* /var/log/bootstrap.log /root/* /tmp/*
-  find /var/log -type f -exec rm -f '{}' ';'
+  rm -f /root/* || true
+  echo 0 >"${exitcode}"
+  poweroff -f
 }
