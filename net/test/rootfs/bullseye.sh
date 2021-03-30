@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2018 The Android Open Source Project
+# Copyright (C) 2021 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,115 +16,64 @@
 #
 
 set -e
+set -u
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 . $SCRIPT_DIR/common.sh
+. $SCRIPT_DIR/bullseye-common.sh
 
-chroot_sanity_check
-
-cd /root
-
-# Add the needed debian sources
-cat >/etc/apt/sources.list <<EOF
-deb http://ftp.debian.org/debian bullseye main
-deb-src http://ftp.debian.org/debian bullseye main
+# So isc-dhcp-client can work with a read-only rootfs..
+cat >>/etc/fstab <<EOF
+tmpfs /var/lib/dhcp tmpfs defaults 0 0
 EOF
 
-# Disable the automatic installation of recommended packages
-cat >/etc/apt/apt.conf.d/90recommends <<EOF
-APT::Install-Recommends "0";
+# Bring up networking one time with dhclient
+mount /var/lib/dhcp
+dhclient eth0
+echo "nameserver 8.8.8.8"  >/run/resolvconf/resolv.conf
+echo "nameserver 8.8.4.4" >>/run/resolvconf/resolv.conf
+
+update_apt_sources bullseye
+
+# Set up automatic DHCP for future boots
+cat >/etc/systemd/network/dhcp.network <<EOF
+[Match]
+Name=en*
+
+[Network]
+DHCP=yes
 EOF
 
-# Update for the above changes
-apt-get update
+# Mask the NetworkManaher-wait-online service to prevent hangs
+systemctl mask NetworkManager-wait-online.service
 
-# Note what we have installed; we will go back to this
-LANG=C dpkg --get-selections | sort >originally-installed
+# Add a default user and put them in the right group
+addgroup --system cvdnetwork
+useradd -m -G cvdnetwork,kvm,sudo -d /home/vsoc-01 --shell /bin/bash vsoc-01
 
-# Install everything needed from bullseye to build iptables
-apt-get install -y \
-  build-essential \
-  autoconf \
-  automake \
-  bison \
-  debhelper \
-  devscripts \
-  fakeroot \
-  flex \
-  libmnl-dev \
-  libnetfilter-conntrack-dev \
-  libnfnetlink-dev \
-  libnftnl-dev \
-  libtool
+# Set a root password so SSH can work
+echo -e "cuttlefish\ncuttlefish" | passwd
+echo -e "cuttlefish\ncuttlefish" | passwd vsoc-01
 
-# We are done with apt; reclaim the disk space
-apt-get clean
-
-# Construct the iptables source package to build
-iptables=iptables-1.8.4
-mkdir -p /usr/src/$iptables
-
-cd /usr/src/$iptables
-# Download a specific revision of iptables from AOSP
-wget -qO - \
-  https://android.googlesource.com/platform/external/iptables/+archive/master.tar.gz | \
-  tar -zxf -
-# Download a compatible 'debian' overlay from Debian salsa
-# We don't want all of the sources, just the Debian modifications
-# NOTE: This will only work if Android always uses a version of iptables that exists
-#       for Debian as well.
-debian_iptables=1.8.4-3
-debian_iptables_dir=pkg-iptables-debian-$debian_iptables
-wget -qO - \
-  https://salsa.debian.org/pkg-netfilter-team/pkg-iptables/-/archive/debian/$debian_iptables/$debian_iptables_dir.tar.gz | \
-  tar --strip-components 1 -zxf - \
-  $debian_iptables_dir/debian
+# Fetch android-cuttlefish and build it for cuttlefish-common
+git clone https://github.com/google/android-cuttlefish.git /usr/src/android-cuttlefish
+cd /usr/src/android-cuttlefish
+  apt-get install -y -f libc6:amd64 qemu-user-static
+  dpkg-buildpackage -d -uc -us
 cd -
-
 cd /usr/src
-# Generate a source package to leave in the filesystem. This is done for license
-# compliance and build reproducibility.
-tar --exclude=debian -cf - $iptables | \
-  xz -9 >`echo $iptables | tr -s '-' '_'`.orig.tar.xz
+  apt-get install -y -f ./cuttlefish-common_*.deb
+  # Tidy up the mess we left behind, leaving just the source tarballs
+  rm -rf android-cuttlefish *.buildinfo *.changes *.deb *.dsc
 cd -
 
-cd /usr/src/$iptables
-# Build debian packages from the integrated iptables source
-dpkg-buildpackage -F -us -uc
-cd -
+get_installed_packages >/root/originally-installed
+setup_and_build_iptables
+get_installed_packages >/root/installed
+remove_installed_packages /root/originally-installed /root/installed
+install_and_cleanup_iptables
 
-# Record the list of packages we have installed now
-LANG=C dpkg --get-selections | sort >installed
+create_systemd_getty_symlinks ttyS0 hvc1
 
-# Compute the difference, and remove anything installed between the snapshots
-dpkg -P `comm -3 originally-installed installed | sed -e 's,install,,' -e 's,\t,,' | xargs`
-
-cd /usr/src
-# Find any packages generated, resolve to the debian package name, then
-# exclude any compat, header or symbol packages
-packages=`find -maxdepth 1 -name '*.deb' | colrm 1 2 | cut -d'_' -f1 |
-          grep -ve '-compat$\|-dbg$\|-dbgsym$\|-dev$' | xargs`
-# Install the patched iptables packages, and 'hold' then so
-# "apt-get dist-upgrade" doesn't replace them
-dpkg -i `
-for package in $packages; do
-  echo ${package}_*.deb
-done | xargs`
-for package in $packages; do
-  echo "$package hold" | dpkg --set-selections
-done
-# Tidy up the mess we left behind, leaving just the source tarballs
-rm -rf $iptables *.buildinfo *.changes *.deb *.dsc
-cd -
-
-# Ensure a getty is spawned on ttyS0, if booting the image manually
-ln -s /lib/systemd/system/serial-getty\@.service \
-  /etc/systemd/system/getty.target.wants/serial-getty\@ttyS0.service
-
-# systemd needs some directories to be created
-mkdir -p /var/lib/systemd/coredump /var/lib/systemd/rfkill \
-  /var/lib/systemd/timesync
-
-# Finalize and tidy up the created image
-chroot_cleanup
+cleanup
