@@ -31,7 +31,7 @@ else
   mount -t 9p -o trans=virtio,version=9p2000.L host /host
 fi
 
-test="$(sed -r 's/.*net_test=([^ ]*).*/\1/g' < /proc/cmdline)"
-cd "$(dirname "${test}")"
-./net_test.sh
+script="$(sed -r 's/.*script=([^ ]*).*/\1/g' < /proc/cmdline)"
+cd "$(dirname "${script}")"
+./script.sh
 poweroff -f
