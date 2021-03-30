@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+trap "echo 3 >${exitcode}" ERR
+
 # $1 - Suite name for apt sources
 update_apt_sources() {
   # Add the needed debian sources
@@ -49,6 +51,11 @@ remove_installed_packages() {
 }
 
 setup_static_networking() {
+  # Temporarily bring up static QEMU SLIRP networking (no DHCP)
+  ip link set dev eth0 up
+  ip addr add 10.0.2.15/24 broadcast 10.0.2.255 dev eth0
+  ip route add default via 10.0.2.2 dev eth0
+
   # Permanently update the resolv.conf with the Google DNS servers
   echo "nameserver 8.8.8.8"  >/etc/resolv.conf
   echo "nameserver 8.8.4.4" >>/etc/resolv.conf
@@ -102,10 +109,29 @@ cleanup() {
   # If embedding isn't enabled, remove the embedded modules and initrd and
   # uninstall the tools to regenerate the initrd, as they're unlikely to
   # ever be used
-  apt-get purge -y initramfs-tools initramfs-tools-core klibc-utils kmod
+  if [ -z "${embed_kernel_initrd_dtb}" ]; then
+    apt-get purge -y initramfs-tools initramfs-tools-core klibc-utils kmod
+    rm -f "/boot/initrd.img-$(uname -r)"
+    rm -rf "/lib/modules/$(uname -r)"
+  else
+    # For testing the image with a virtual device
+    apt-get install -y grub2-common
+    cat >/etc/default/grub <<"EOF"
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=Debian
+GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+GRUB_CMDLINE_LINUX="\$cmdline"
+EOF
+    mkdir /boot/grub
+    update-grub
+  fi
 
   # Miscellaneous cleanup
   rm -rf /var/lib/apt/lists/* || true
   rm -f /root/* || true
   apt-get clean
+
+  echo 0 >"${exitcode}"
+  sync && poweroff -f
 }
