@@ -6,6 +6,7 @@ ca-certificates
 file
 gpgv
 ifupdown
+initramfs-tools
 insserv
 iputils-ping
 iptables
@@ -21,7 +22,7 @@ openssl
 pciutils
 procps
 psmisc
-python3
+python2
 python3-scapy
 strace
 systemd-sysv

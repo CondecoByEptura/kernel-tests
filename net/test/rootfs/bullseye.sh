@@ -19,11 +19,13 @@ set -e
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
-. $SCRIPT_DIR/common.sh
-
-chroot_sanity_check
-
 cd /root
+
+# Bring up QEMU SLIRP networking
+ip link set dev eth0 up
+ip addr add 10.0.2.15/24 broadcast 10.0.2.255 dev eth0
+ip route add default via 10.0.2.2 dev eth0
+echo "nameserver 10.0.2.3" >>/etc/resolv.conf
 
 # Add the needed debian sources
 cat >/etc/apt/sources.list <<EOF
@@ -59,6 +61,7 @@ apt-get install -y \
   libtool
 
 # We are done with apt; reclaim the disk space
+rm -rf /var/lib/apt/lists/*
 apt-get clean
 
 # Construct the iptables source package to build
@@ -91,14 +94,15 @@ cd -
 
 cd /usr/src/$iptables
 # Build debian packages from the integrated iptables source
-dpkg-buildpackage -F -us -uc
+PATH=$PATH dpkg-buildpackage -F -us -uc
 cd -
 
 # Record the list of packages we have installed now
 LANG=C dpkg --get-selections | sort >installed
 
 # Compute the difference, and remove anything installed between the snapshots
-dpkg -P `comm -3 originally-installed installed | sed -e 's,install,,' -e 's,\t,,' | xargs`
+PATH=$PATH dpkg -P `comm -3 originally-installed installed | sed -e 's,install,,' -e 's,\t,,' | xargs`
+rm -f originally-installed installed
 
 cd /usr/src
 # Find any packages generated, resolve to the debian package name, then
@@ -107,7 +111,7 @@ packages=`find -maxdepth 1 -name '*.deb' | colrm 1 2 | cut -d'_' -f1 |
           grep -ve '-compat$\|-dbg$\|-dbgsym$\|-dev$' | xargs`
 # Install the patched iptables packages, and 'hold' then so
 # "apt-get dist-upgrade" doesn't replace them
-dpkg -i `
+PATH=$PATH dpkg -i `
 for package in $packages; do
   echo ${package}_*.deb
 done | xargs`
@@ -126,5 +130,4 @@ ln -s /lib/systemd/system/serial-getty\@.service \
 mkdir -p /var/lib/systemd/coredump /var/lib/systemd/rfkill \
   /var/lib/systemd/timesync
 
-# Finalize and tidy up the created image
-chroot_cleanup
+poweroff -f
