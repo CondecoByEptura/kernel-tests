@@ -25,6 +25,7 @@ import re
 from socket import *  # pylint: disable=wildcard-import
 import struct
 import time
+import binascii
 
 from scapy import all as scapy
 
@@ -557,6 +558,10 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
         # Multicast frames are frames where the first byte of the destination
         # MAC address has 1 in the least-significant bit.
         if include_multicast or not int(ether.dst.split(":")[0], 16) & 0x1:
+          print("ReadAllPacketsOn")
+          print(type(ether.payload))
+          print(binascii.hexlify(packet))
+
           packets.append(ether.payload)
       except OSError as e:
         # EAGAIN means there are no more packets waiting.

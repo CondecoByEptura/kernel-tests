@@ -186,7 +186,7 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
   def _CheckTunnelOutput(self, inner_version, outer_version, underlying_netid,
                          netid, local_inner, remote_inner, local_outer,
                          remote_outer, write_sock):
-
+    print("_CheckTunnelOutput XfrmTunnelTest")
     write_sock.sendto(net_test.UDP_PAYLOAD, (remote_inner, 53))
     self._ExpectEspPacketOn(underlying_netid, _TEST_OUT_SPI, 1, None,
                             local_outer, remote_outer)
@@ -734,6 +734,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
 
   def _CheckTunnelOutput(self, tunnel, inner_version, local_inner,
                          remote_inner, sa_info=None):
+    print("_CheckTunnelOutput XfrmTunnelBase")
     """Test null-crypt output path over an IPsec interface."""
     if sa_info is None:
       sa_info = tunnel.out_sa
