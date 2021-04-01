@@ -26,6 +26,7 @@ import net_test
 import csocket
 import cstruct
 import netlink
+import subprocess
 
 
 # Netlink constants. See include/uapi/linux/xfrm.h.
@@ -623,9 +624,11 @@ class Xfrm(netlink.NetlinkSocket):
     raise ValueError("Unexpected netlink message type: %d" % nl_hdr.type)
 
   def DumpSaInfo(self):
+    # print("DumpSaInfo")
     return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo, "")
 
   def DumpPolicyInfo(self):
+    # print("DumpPolicyInfo")
     return self._Dump(XFRM_MSG_GETPOLICY, None, XfrmUserpolicyInfo, "")
 
   def FindSaInfo(self, spi):
@@ -752,12 +755,16 @@ class Xfrm(netlink.NetlinkSocket):
                       net_test.GetAddressFamily(net_test.GetAddressVersion(old_saddr)),
                       net_test.GetAddressFamily(net_test.GetAddressVersion(new_saddr))))
     nlattrs.append((XFRMA_MIGRATE, xfrmMigrate))
+    nlattrs.append((XFRMA_IF_ID, struct.pack("=I", xfrm_if_id)))
 
     for selector in selectors:
         self.SendXfrmNlRequest(XFRM_MSG_MIGRATE,
                                XfrmUserpolicyId(sel=selector, dir=direction), nlattrs)
+    # print("!!!MigrateTunnel: After migration!!!")
+    # # print(subprocess.check_output("ip xfrm state".split()))
 
-    # UPDSA is called exclusively to update the set_mark=new_output_mark.
+    # # UPDSA is called exclusively to update the set_mark=new_output_mark.
+    # print("!!!MigrateTunnel: Start UPDSA!!!")
     self.AddSaInfo(new_saddr, new_daddr, spi, XFRM_MODE_TUNNEL, 0, encryption,
                    auth_trunc, aead, encap, None, new_output_mark, True, xfrm_if_id)
 

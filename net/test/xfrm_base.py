@@ -24,6 +24,7 @@ import multinetwork_base
 import net_test
 import util
 import xfrm
+import binascii
 
 _ENCRYPTION_KEY_256 = ("308146eb3bd84b044573d60f5a5fd159"
                        "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
