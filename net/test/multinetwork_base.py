@@ -25,6 +25,7 @@ import re
 from socket import *  # pylint: disable=wildcard-import
 import struct
 import time
+import binascii
 
 from scapy import all as scapy
 
@@ -536,6 +537,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     mymac = self.MyMacAddress(netid)
     packet = scapy.Ether(src=routermac, dst=mymac) / ip_packet
     self.ReceiveEtherPacketOn(netid, packet)
+    # print("ReceivePacketOn")
+    # print(binascii.hexlify(str(packet)))
 
   def ReadAllPacketsOn(self, netid, include_multicast=False):
     """Return all queued packets on a netid as a list.
@@ -557,6 +560,14 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
         # Multicast frames are frames where the first byte of the destination
         # MAC address has 1 in the least-significant bit.
         if include_multicast or not int(ether.dst.split(":")[0], 16) & 0x1:
+          # if isinstance(ether.payload, scapy.IPv6):
+          #   print("IPv6 %d" % ether.payload.nh)
+          #   print(binascii.hexlify(packet))
+          # elif isinstance(ether.payload, scapy.IP):
+          #   print("IPv4 %d" % ether.payload.proto)
+          #   print(binascii.hexlify(packet))
+          # else:
+          #   print(type(ether.payload))
           packets.append(ether.payload)
       except OSError as e:
         # EAGAIN means there are no more packets waiting.
