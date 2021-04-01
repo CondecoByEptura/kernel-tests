@@ -270,6 +270,25 @@ def DecryptPacketWithNull(packet):
 class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
   """Base test class for all XFRM-related testing."""
 
+  def _isEsp(self, payload):
+    if isinstance(payload, scapy.IPv6) and payload.nh == 50:
+      return True
+    elif isinstance(payload, scapy.IP) and payload.proto == 50:
+      return True
+    return False
+
+  def _isIcmp(self, payload):
+    if isinstance(payload, scapy.IPv6) and payload.nh == 58:
+      print("ICMPv6 dropped")
+      return True
+    elif isinstance(payload, scapy.IPv6) and payload.nh == 0 and payload.payload.nh == 58:
+      print("ICMPv6(Hop-by-Hop option) dropped")
+      return True
+    elif isinstance(payload, scapy.IP) and payload.proto == 58:
+      print("ICMP dropped")
+      return True
+    return False
+
   def _ExpectEspPacketOn(self, netid, spi, seq, length, src_addr, dst_addr):
     """Read a packet from a netid and verify its properties.
 
@@ -284,7 +303,25 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     Returns:
       scapy.IP/IPv6: the read packet
     """
-    packets = self.ReadAllPacketsOn(netid)
+    # packets = self.ReadAllPacketsOn(netid)
+    packets = []
+    for packet in self.ReadAllPacketsOn(netid):
+      if isinstance(packet, scapy.IPv6):
+        print("IPv6 %d" % packet.nh)
+        # print(binascii.hexlify(packet))
+      elif isinstance(packet, scapy.IP):
+        print("IPv4 %d" % packet.proto)
+        # print(binascii.hexlify(packet))
+      else:
+        print(type(packet))
+
+      if not self._isIcmp(packet):
+        packets.append(packet)
+
+    # for packet in self.ReadAllPacketsOn(netid):
+    #   if self._isEsp(packet):
+    #     packets.append(packet)
+
     self.assertEqual(1, len(packets))
     packet = packets[0]
     if length is not None:

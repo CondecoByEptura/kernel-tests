@@ -31,6 +31,7 @@ from scapy import all as scapy
 import csocket
 import iproute
 import net_test
+import binascii
 
 
 IFF_TUN = 1
@@ -554,9 +555,21 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
         if not packet:
           break
         ether = scapy.Ether(packet)
+        # if isinstance(ether.payload, scapy.IPv6):
+        #   print("IPv6 %d" % ether.payload.nh)
+        #   # print(binascii.hexlify(packet))
+        # elif isinstance(ether.payload, scapy.IP):
+        #   print("IPv4 %d" % ether.payload.proto)
+        #   # print(binascii.hexlify(packet))
+        # else:
+        #   print(type(ether.payload))
+        
+        # print("Check anyway")
+        # self.isIcmp(ether.payload)
+
         # Multicast frames are frames where the first byte of the destination
         # MAC address has 1 in the least-significant bit.
-        if include_multicast or not int(ether.dst.split(":")[0], 16) & 0x1:
+        if (include_multicast or not int(ether.dst.split(":")[0], 16) & 0x1):
           packets.append(ether.payload)
       except OSError as e:
         # EAGAIN means there are no more packets waiting.
