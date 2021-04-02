@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d128f353_f6e73126",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-04-02T02:46:37Z",
+      "side": 1,
+      "message": "Not sure why we lost +2 access... something must have changed.",
+      "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
