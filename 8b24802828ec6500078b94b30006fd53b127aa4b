@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "141a5c7d_ea2f6547",
+        "filename": "net/test/sysctls_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-04-02T05:57:35Z",
+      "side": 1,
+      "message": "We need a better message here to aid in diagnosing failures. Something like:\n\n    msg \u003d (\"Obsolete TCP congestion control algorithm found. These \"\n           \"algorithms will decrease real-world networking performance for \"\n           \"users and must be disabled. Found: %s\" % bad_algs)\n    self.assertEquals(bad_algs, [], msg)",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "8b24802828ec6500078b94b30006fd53b127aa4b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
