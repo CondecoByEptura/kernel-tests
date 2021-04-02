@@ -16,6 +16,23 @@
       "message": "Not sure why we lost +2 access... something must have changed.",
       "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd5b70dd_055bed00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-04-02T02:49:25Z",
+      "side": 1,
+      "message": "LGTM.\n\nI cannot vote on this CL in any way (not even +1), but LGTM since core networking wrote these test, has always maintained them, and is the primary/only contributor to them.",
+      "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
