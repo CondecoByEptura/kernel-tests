@@ -33,6 +33,23 @@
       "message": "LGTM.\n\nI cannot vote on this CL in any way (not even +1), but LGTM since core networking wrote these test, has always maintained them, and is the primary/only contributor to them.",
       "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "291b7f8d_564687a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-04-02T03:12:29Z",
+      "side": 1,
+      "message": "The fact we lost +2 access appears to be an unintended consequence of:\n\nhttps://android.googlesource.com/kernel/tests/+/26694058548e7d75ac8f3c58756cb8f6ab5a9f73%5E%21/\n\nChange parent project of kernel/tests to Kernel-Projects\n\nkernel/tests is a kernel project, hence change the parent.\n",
+      "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
