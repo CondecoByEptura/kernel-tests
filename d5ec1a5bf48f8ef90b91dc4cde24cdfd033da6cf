@@ -50,6 +50,23 @@
       "message": "The fact we lost +2 access appears to be an unintended consequence of:\n\nhttps://android.googlesource.com/kernel/tests/+/26694058548e7d75ac8f3c58756cb8f6ab5a9f73%5E%21/\n\nChange parent project of kernel/tests to Kernel-Projects\n\nkernel/tests is a kernel project, hence change the parent.\n",
       "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aab4cd2_8a7444b7",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1402878
+      },
+      "writtenOn": "2021-04-02T06:01:09Z",
+      "side": 1,
+      "message": "I believe you only need one of the entries. probably the refs/heads/ one.",
+      "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
