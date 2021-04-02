@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b9ad658_a5b9547e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-04-02T18:25:17Z",
+      "side": 1,
+      "message": "(the failure was on kernel/gki_vk_mix/boot_test/ack_triggered_sc_redfin on kernel_aarch64-internal on aosp_kernel-common-android-4.19-stable\nDeviceBootTest.DeviceBootTest#DeviceBootTest Failed)",
+      "revId": "c3bc6d71b3525ce39caccf096053e2acb31d5d0c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
