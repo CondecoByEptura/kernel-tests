@@ -69,6 +69,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c13bd99_fe1a9777",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1402878
+      },
+      "writtenOn": "2021-04-02T06:07:47Z",
+      "side": 1,
+      "message": "can you remove the refs/for ... then I can submit",
+      "parentUuid": "df1bb95c_97e0880a",
+      "revId": "d5ec1a5bf48f8ef90b91dc4cde24cdfd033da6cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7aab4cd2_8a7444b7",
