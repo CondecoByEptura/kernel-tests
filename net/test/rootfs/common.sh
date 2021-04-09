@@ -54,6 +54,38 @@ setup_static_networking() {
   echo "nameserver 8.8.4.4" >>/etc/resolv.conf
 }
 
+setup_dynamic_networking() {
+  # So isc-dhcp-client can work with a read-only rootfs..
+  cat >>/etc/fstab <<EOF
+tmpfs /var/lib/dhcp tmpfs defaults 0 0
+EOF
+
+  # Bring up networking one time with dhclient
+  mount /var/lib/dhcp
+  dhclient eth0
+  echo "nameserver 8.8.8.8"  >/run/resolvconf/resolv.conf
+  echo "nameserver 8.8.4.4" >>/run/resolvconf/resolv.conf
+
+  # Set up automatic DHCP for future boots
+  cat >/etc/systemd/network/dhcp.network <<EOF
+[Match]
+Name=en*
+
+[Network]
+DHCP=yes
+EOF
+
+  # Mask the NetworkManager-wait-online service to prevent hangs
+  systemctl mask NetworkManager-wait-online.service
+}
+
+setup_cuttlefish_user() {
+  # Add a default user and put them in the right group
+  addgroup --system cvdnetwork
+  useradd -m -G cvdnetwork,kvm,sudo -d /home/vsoc-01 --shell /bin/bash vsoc-01
+  echo -e "cuttlefish\ncuttlefish" | passwd vsoc-01
+}
+
 # $* - One or more device names for getty spawns
 create_systemd_getty_symlinks() {
   for device in $*; do
