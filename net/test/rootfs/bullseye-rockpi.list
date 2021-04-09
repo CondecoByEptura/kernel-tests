@@ -1,0 +1,6 @@
+#include "bullseye-cuttlefish.list"
+binfmt-support
+eject
+gdisk
+qemu-user-static
+u-boot-tools
