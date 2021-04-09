@@ -1,0 +1,11 @@
+#include "bullseye.list"
+libpam-systemd
+locales
+lsof
+lzop
+network-manager
+ntpdate
+openssh-server
+resolvconf
+sudo
+vim
