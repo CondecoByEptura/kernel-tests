@@ -128,6 +128,12 @@ fi'
 if mmc dev 1 0; then; else
 	run bootcmd_dhcp;
 fi
+if test -e mmc ${devnum}:${distro_bootpart} /boot/rootfs.gz; then
+	setenv loadaddr 0x00200000
+	mw.b ${loadaddr} 0 0x400000
+	load mmc ${devnum}:${distro_bootpart} ${loadaddr} /boot/rootfs.gz
+	gzwrite mmc ${devnum} ${loadaddr} 0x${filesize} 100000 0x1000000
+fi
 load mmc ${devnum}:${distro_bootpart} 0x06080000 /boot/boot.fit
 setenv bootargs "earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 sdhci.debug_quirks=0x20000000 root=LABEL=ROOT"
 bootm 0x06080000
