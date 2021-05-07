@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db61ba69_88952b71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1463276
+      },
+      "writtenOn": "2021-05-07T19:05:44Z",
+      "side": 1,
+      "message": "@Lorenzo / @Maciej - Anything blocking approval on this CL? It looks like it has been stalled for some time.",
+      "revId": "7ad24320761451c894265ef87495f296563960ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
