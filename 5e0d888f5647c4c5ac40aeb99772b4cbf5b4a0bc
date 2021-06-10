@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e8f2dc_72cb98a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-06-10T23:14:11Z",
+      "side": 1,
+      "message": "but basically I wasn\u0027t 100% certain I had fixed everything",
+      "revId": "5e0d888f5647c4c5ac40aeb99772b4cbf5b4a0bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61d3b4e1_b7f86fe7",
@@ -14,6 +31,24 @@
       "writtenOn": "2021-06-10T23:12:20Z",
       "side": 1,
       "message": "So why not add -u here?\nAnd why not move this line to the top of the script?",
+      "revId": "5e0d888f5647c4c5ac40aeb99772b4cbf5b4a0bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca94437_55fb3538",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-06-10T23:14:11Z",
+      "side": 1,
+      "message": "patches are welcome ;-)",
+      "parentUuid": "61d3b4e1_b7f86fe7",
       "revId": "5e0d888f5647c4c5ac40aeb99772b4cbf5b4a0bc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
