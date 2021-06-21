@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed004268_a84ef6e0",
+        "filename": "net/test/resilient_rs_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1273909
+      },
+      "writtenOn": "2021-06-21T21:52:31Z",
+      "side": 1,
+      "message": "Why don\u0027t we make EPSILON 0.25, so we can use it like this?\n\n    # Test error tolerance\n    EPSILON \u003d 0.25\n\n    # MRFC3315 S14 backoff\n    AVG_EXP \u003d 2.0\n    MIN_EXP \u003d AVG_EXP - EPSILON\n    MAX_EXP \u003d AVG_EXP + EPSILON\n\n    # Practically unlimited backoff\n    SOLICITATION_MAX_INTERVAL \u003d 1000\n    MIN_LIN \u003d SOLICITATION_INTERVAL * (1.0 - EPSILON)\n    MAX_LIN \u003d SOLICITATION_INTERVAL * (1.0 + EPSILON)\n    \n    \nWe might actually want two separate constants for tolerance, since the first one is an exponent, while the second is a factor.",
+      "revId": "55dbf6dfa3b99882fd9e0f7f17465f6d29e52bc9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
