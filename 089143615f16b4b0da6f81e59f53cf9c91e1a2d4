@@ -16,6 +16,23 @@
       "message": "not tested by TH",
       "revId": "089143615f16b4b0da6f81e59f53cf9c91e1a2d4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a6777d2_eb838fec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-07-26T10:54:07Z",
+      "side": 1,
+      "message": "AFAIK this isn\u0027t part of GKI.\nBut I\u0027ll let lorenzo comment.",
+      "revId": "089143615f16b4b0da6f81e59f53cf9c91e1a2d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
