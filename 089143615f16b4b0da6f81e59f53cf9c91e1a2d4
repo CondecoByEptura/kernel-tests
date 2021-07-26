@@ -33,6 +33,24 @@
       "message": "AFAIK this isn\u0027t part of GKI.\nBut I\u0027ll let lorenzo comment.",
       "revId": "089143615f16b4b0da6f81e59f53cf9c91e1a2d4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6230dcff_462bc6eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1402878
+      },
+      "writtenOn": "2021-07-26T11:01:39Z",
+      "side": 1,
+      "message": "This is part of GKI as it is part of the android12-5.10 manifest. Note, this is the \u0027master-kernel-build-2021\u0027 branch.",
+      "parentUuid": "5a6777d2_eb838fec",
+      "revId": "089143615f16b4b0da6f81e59f53cf9c91e1a2d4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
