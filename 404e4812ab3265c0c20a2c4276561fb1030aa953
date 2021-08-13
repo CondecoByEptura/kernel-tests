@@ -16,6 +16,24 @@
       "message": "IOError: [Errno 2] No such file or directory: \u0027/proc/sys/net/ipv4/tcp_fastopen_blackhole_timeout_sec\u0027\n\non a 4.9 branch",
       "revId": "404e4812ab3265c0c20a2c4276561fb1030aa953",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3daba34e_ca43d6b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1193375
+      },
+      "writtenOn": "2021-08-13T00:47:08Z",
+      "side": 1,
+      "message": "Thanks for the feedback. Added a kernel version test to limit to kernels that support the timeout.",
+      "parentUuid": "6be9f4e1_5e754199",
+      "revId": "404e4812ab3265c0c20a2c4276561fb1030aa953",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
