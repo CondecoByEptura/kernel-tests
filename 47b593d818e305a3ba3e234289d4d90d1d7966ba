@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5c099c_e98f9759",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-08-16T22:17:09Z",
+      "side": 1,
+      "message": "(but please note that I don\u0027t have the privs to submit this, and I\u0027m not sure if this is the right branch anyway)",
+      "revId": "47b593d818e305a3ba3e234289d4d90d1d7966ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
