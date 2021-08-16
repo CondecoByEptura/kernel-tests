@@ -35,6 +35,7 @@ arch=amd64
 embed_kernel_initrd_dtb=
 dtb_subdir=
 ramdisk=
+kernel=
 rootfs=
 dtb=
 
@@ -99,27 +100,27 @@ fi
 case "${arch}" in
   i386)
     cmdline="${cmdline} exitcode=/dev/ttyS1"
-    machine="pc-i440fx-2.8,accel=kvm"
+    qemu_machine="pc-i440fx-2.8,accel=kvm"
     qemu="qemu-system-i386"
-    cpu="max"
+    qemu_cpu="max"
     ;;
   amd64)
     cmdline="${cmdline} exitcode=/dev/ttyS1"
-    machine="pc-i440fx-2.8,accel=kvm"
+    qemu_machine="pc-i440fx-2.8,accel=kvm"
     qemu="qemu-system-x86_64"
-    cpu="max"
+    qemu_cpu="max"
     ;;
   armhf)
     cmdline="${cmdline} exitcode=/dev/ttyS0"
-    machine="virt,gic-version=2"
+    qemu_machine="virt,gic-version=2"
     qemu="qemu-system-arm"
-    cpu="cortex-a15"
+    qemu_cpu="cortex-a15"
     ;;
   arm64)
     cmdline="${cmdline} exitcode=/dev/ttyS0"
-    machine="virt,gic-version=2"
+    qemu_machine="virt,gic-version=2"
     qemu="qemu-system-aarch64"
-    cpu="cortex-a53" # "max" is too slow
+    qemu_cpu="cortex-a53" # "max" is too slow
     ;;
   *)
     echo "Invalid arch: ${OPTARG}" >&2
@@ -246,19 +247,26 @@ trap raw_initrd_remove EXIT
 truncate -s 64M "${raw_initrd}"
 
 # Complete the bootstrap process using QEMU and the specified kernel
-${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
-  -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
-  -no-reboot -display none -nographic -serial stdio -parallel none \
-  -smp 8,sockets=8,cores=1,threads=1 \
-  -object rng-random,id=objrng0,filename=/dev/urandom \
-  -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
-  -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
-  -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk0 \
-  -drive file="${raw_initrd}",format=raw,if=none,aio=threads,id=drive-virtio-disk1 \
-  -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk1 \
-  -chardev file,id=exitcode,path=exitcode \
-  -device pci-serial,chardev=exitcode \
-  -append "root=/dev/ram0 ramdisk_size=524288 init=/root/stage1.sh ${cmdline}"
+#${qemu} -machine "${qemu_machine}" -cpu "${qemu_cpu}" -m 2048 >&2 \
+#  -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
+#  -no-reboot -display none -nographic -serial stdio -parallel none \
+#  -smp 8,sockets=8,cores=1,threads=1 \
+#  -object rng-random,id=objrng0,filename=/dev/urandom \
+#  -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
+#  -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
+#  -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk0 \
+#  -drive file="${raw_initrd}",format=raw,if=none,aio=threads,id=drive-virtio-disk1 \
+#  -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk1 \
+#  -chardev file,id=exitcode,path=exitcode \
+#  -device pci-serial,chardev=exitcode \
+#  -append "root=/dev/ram0 ramdisk_size=524288 init=/root/stage1.sh ${cmdline}"
+crosvm run --disable-sandbox \
+           --mem=2048 --cpus=8 --no-smt --initrd="${initrd}" \
+           --serial=type=stdout,hardware=serial,num=1 \
+           --serial=type=file,hardware=serial,num=2,path=exitcode \
+           --rwdisk="${rootfs}" --rwdisk="${raw_initrd}" \
+           --params="root=/dev/ram0 ramdisk_size=524288 init=/root/stage1.sh ${cmdline}" \
+           "${kernel}"
 [[ -s exitcode ]] && exitcode=$(cat exitcode | tr -d '\r') || exitcode=2
 rm -f exitcode
 if [ "${exitcode}" != "0" ]; then
@@ -323,19 +331,26 @@ sudo umount "${mount}"
 trap raw_initrd_remove EXIT
 
 # Boot test the new system and run stage 3
-${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
-  -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
-  -no-reboot -display none -nographic -serial stdio -parallel none \
-  -smp 8,sockets=8,cores=1,threads=1 \
-  -object rng-random,id=objrng0,filename=/dev/urandom \
-  -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
-  -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
-  -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk0 \
-  -chardev file,id=exitcode,path=exitcode \
-  -device pci-serial,chardev=exitcode \
-  -netdev user,id=usernet0,ipv6=off \
-  -device virtio-net-pci-non-transitional,netdev=usernet0,id=net0 \
-  -append "root=LABEL=ROOT init=/root/${suite}.sh ${cmdline}"
+#${qemu} -machine "${qemu_machine}" -cpu "${qemu_cpu}" -m 2048 >&2 \
+#  -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
+#  -no-reboot -display none -nographic -serial stdio -parallel none \
+#  -smp 8,sockets=8,cores=1,threads=1 \
+#  -object rng-random,id=objrng0,filename=/dev/urandom \
+#  -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
+#  -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
+#  -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk0 \
+#  -chardev file,id=exitcode,path=exitcode \
+#  -device pci-serial,chardev=exitcode \
+#  -netdev user,id=usernet0,ipv6=off \
+#  -device virtio-net-pci-non-transitional,netdev=usernet0,id=net0 \
+#  -append "root=LABEL=ROOT init=/root/${suite}.sh ${cmdline}"
+crosvm run --disable-sandbox \
+           --mem=2048 --cpus=8 --no-smt --initrd="${initrd}" \
+           --serial=type=stdout,hardware=serial,num=1 \
+           --serial=type=file,hardware=serial,num=2,path=exitcode \
+           --rwdisk="${rootfs}" \
+           --params="root=LABEL=ROOT init=/root/${suite}.sh ${cmdline}" \
+           "${kernel}"
 [[ -s exitcode ]] && exitcode=$(cat exitcode | tr -d '\r') || exitcode=2
 rm -f exitcode
 if [ "${exitcode}" != "0" ]; then
