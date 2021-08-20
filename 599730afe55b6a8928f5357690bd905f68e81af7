@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f255c3ab_630b1757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2021-08-20T03:50:50Z",
+      "side": 1,
+      "message": "Generally LGTM, but let\u0027s see what Maciej thinks.",
+      "revId": "599730afe55b6a8928f5357690bd905f68e81af7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
