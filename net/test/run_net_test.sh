@@ -341,7 +341,11 @@ if [ "$ARCH" == "um" ]; then
 
   exitcode=0
   $KERNEL_BINARY >&2 3>"${SSL3}" umid=net_test mem=512M \
+<<<<<<< HEAD   (0f7c16 [automerger skipped] Merge "Use blocking sockets with timeou)
     $blockdevice=$ROOTFS $netconfig $consolemode ssl3=null,fd:3 $cmdline \
+=======
+    $blockdevice=$SCRIPT_DIR/$ROOTFS $netconfig $consolemode ssl3=null,fd:3 $cmdline \
+>>>>>>> BRANCH (122de3 Merge branch 'android11-dev' into 'android11-tests-dev')
   || exitcode=$?
 
   if [[ "${exitcode}" == 134 && -s "${SSL3}" && "$(tr -d '\r' < "${SSL3}")" == 0 ]]; then
