@@ -25,6 +25,12 @@ import socket
 import csocket
 import cstruct
 import net_test
+<<<<<<< HEAD   (0e42fb [automerger skipped] Merge branch 'android10-dev' into 'andr)
+=======
+import socket
+import platform
+import resource
+>>>>>>> BRANCH (a56618 net-test: set sufficient MEMLOCK rlimit for bpf test)
 
 # __NR_bpf syscall numbers for various architectures.
 # NOTE: If python inherited COMPAT_UTS_MACHINE, uname's 'machine' field will
@@ -200,6 +206,8 @@ HAVE_EBPF_5_4 = net_test.LINUX_VERSION >= (5, 4, 0)
 # set memlock resource 1 GiB
 resource.setrlimit(resource.RLIMIT_MEMLOCK, (1073741824, 1073741824))
 
+# set memlock resource 1 GiB
+resource.setrlimit(resource.RLIMIT_MEMLOCK, (1073741824, 1073741824))
 
 # BPF program syscalls
 def BpfSyscall(op, attr):
