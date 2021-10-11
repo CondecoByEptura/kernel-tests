@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f8de6da_91fe5175",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-10-11T19:42:07Z",
+      "side": 1,
+      "message": "https://android-build.googleplex.com/builds/pending/P26696641/kernel_test/latest/view/logs/build_error.log\n\nlogs/build_error.log on branch kernel-q-dev-msm-pixel-4.9 on target kernel_test at P26696641\n\nstty: standard input: Inappropriate ioctl for device\n",
+      "revId": "7c95cc3ed23573fc5c055e3cf7f43616b14e197f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
