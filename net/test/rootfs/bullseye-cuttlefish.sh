@@ -22,7 +22,7 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 . $SCRIPT_DIR/bullseye-common.sh
 
-setup_dynamic_networking "eth0" "br0"
+setup_dynamic_networking "eth1" "br0"
 
 update_apt_sources bullseye
 

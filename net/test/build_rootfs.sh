@@ -98,25 +98,25 @@ fi
 
 case "${arch}" in
   i386)
-    cmdline="${cmdline} exitcode=/dev/ttyS1"
+    cmdline="${cmdline} console=ttyS0 exitcode=/dev/ttyS1"
     machine="pc-i440fx-2.8,accel=kvm"
     qemu="qemu-system-i386"
     cpu="max"
     ;;
   amd64)
-    cmdline="${cmdline} exitcode=/dev/ttyS1"
+    cmdline="${cmdline} console=ttyS0 exitcode=/dev/ttyS1"
     machine="pc-i440fx-2.8,accel=kvm"
     qemu="qemu-system-x86_64"
     cpu="max"
     ;;
   armhf)
-    cmdline="${cmdline} exitcode=/dev/ttyS0"
+    cmdline="${cmdline} console=ttyAMA0 exitcode=/dev/ttyS0"
     machine="virt,gic-version=2"
     qemu="qemu-system-arm"
     cpu="cortex-a15"
     ;;
   arm64)
-    cmdline="${cmdline} exitcode=/dev/ttyS0"
+    cmdline="${cmdline} console=ttyAMA0 exitcode=/dev/ttyS0"
     machine="virt,gic-version=2"
     qemu="qemu-system-aarch64"
     cpu="cortex-a53" # "max" is too slow
