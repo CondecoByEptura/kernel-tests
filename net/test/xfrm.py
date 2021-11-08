@@ -752,6 +752,7 @@ class Xfrm(netlink.NetlinkSocket):
                       net_test.GetAddressFamily(net_test.GetAddressVersion(old_saddr)),
                       net_test.GetAddressFamily(net_test.GetAddressVersion(new_saddr))))
     nlattrs.append((XFRMA_MIGRATE, xfrmMigrate))
+    nlattrs.append((XFRMA_IF_ID, struct.pack("=I", xfrm_if_id)))
 
     for selector in selectors:
         self.SendXfrmNlRequest(XFRM_MSG_MIGRATE,

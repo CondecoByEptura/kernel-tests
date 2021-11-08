@@ -1014,13 +1014,7 @@ class XfrmInterfaceTest(XfrmTunnelBase):
 
 @unittest.skipUnless(SUPPORTS_XFRM_MIGRATE, "XFRM migration unsupported")
 class XfrmInterfaceMigrateTest(XfrmTunnelBase):
-  # TODO: b/172497215 There is a kernel issue that XFRM_MIGRATE cannot work correctly
-  # when there are multiple tunnels with the same selectors. Thus before this issue
-  # is fixed, #allowMultipleTunnels must be overridden to avoid setting up multiple
-  # tunnels. This need to be removed after the kernel issue is fixed.
-  @classmethod
-  def allowMultipleTunnels(cls):
-    return False
+  INTERFACE_CLASS = XfrmInterface
 
   def setUpTunnel(self, outer_version, use_null_crypt):
     underlying_netid = self.RandomNetid()
@@ -1044,8 +1038,29 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
     tunnel.Teardown()
 
   def _TestTunnel(self, inner_version, outer_version, func, use_null_crypt):
+    tunnel = self.randomTunnel(outer_version)
+
+    old_underlying_netid = tunnel.underlying_netid
+    old_local = tunnel.local
+    old_remote = tunnel.remote
+
+
     try:
-      tunnel = self.setUpTunnel(outer_version, use_null_crypt)
+      # Some tests require that the out_seq_num and in_seq_num are the same
+      # (Specifically encrypted tests), rebuild SAs to ensure seq_num is 1
+      #
+      # Until we get better scapy support, the only way we can build an
+      # encrypted packet is to send it out, and read the packet from the wire.
+      # We then generally use this as the "inbound" encrypted packet, injecting
+      # it into the interface for which it is expected on.
+      #
+      # As such, this is required to ensure that encrypted packets (which we
+      # currently have no way to easily modify) are not considered replay
+      # attacks by the inbound SA.  (eg: received 3 packets, seq_num_in = 3,
+      # sent only 1, # seq_num_out = 1, inbound SA would consider this a replay
+      # attack)
+      tunnel.TeardownXfrm()
+      tunnel.SetupXfrm(use_null_crypt)
 
       # Verify functionality before migration
       local_inner = tunnel.addrs[inner_version]
@@ -1063,7 +1078,14 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
       # Verify functionality after migration
       func(tunnel, inner_version, local_inner, remote_inner)
     finally:
-      self.tearDownTunnel(tunnel)
+      # Reset the tunnel to the original configuration
+      tunnel.TeardownXfrm()
+
+      self.local = old_local
+      self.remote = old_remote
+      self.underlying_netid = old_underlying_netid
+      tunnel.SetupXfrm(False)
+
 
   def ParamTestMigrateXfrmIntfInput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
