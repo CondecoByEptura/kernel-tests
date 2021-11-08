@@ -23,6 +23,7 @@ import itertools
 import struct
 import unittest
 
+from net_test import LINUX_VERSION
 from scapy import all as scapy
 from tun_twister import TunTwister
 import csocket
@@ -60,10 +61,21 @@ def HaveXfrmInterfaces():
 
 HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
 
-# Does the kernel support CONFIG_XFRM_MIGRATE?
+# Two kernel fixes have been added in 5.17 to allow XFRM_MIGRATE to work correctly
+# when (1) there are multiple tunnels with the same selectors; and (2) addresses
+# are updated to a different IP family. Both of the two fixes were backported to
+# Android Common Kernel in 5.4.186, 5.10.107, and 5.15.30.
+# As such we require 5.4.186+, 5.10.107+, 5.15.30+ and 5.17+ to have these fixes.
+def HasXfrmMigrateFixes():
+    return (((LINUX_VERSION >= (5, 4, 186)) and (LINUX_VERSION < (5, 10, 0))) or
+        ((LINUX_VERSION >= (5, 10, 107)) and (LINUX_VERSION < (5, 15, 0))) or
+        (LINUX_VERSION >= (5, 15, 30)))
+
+
+# Does the kernel support CONFIG_XFRM_MIGRATE and include the kernel fixes?
 def SupportsXfrmMigrate():
   if net_test.LINUX_VERSION >= (5, 10, 0):
-    return True
+    return HasXfrmMigrateFixes()
 
   # XFRM_MIGRATE depends on xfrmi interfaces
   if not HAVE_XFRM_INTERFACES:
@@ -80,15 +92,15 @@ def SupportsXfrmMigrate():
                     wildcard_addr, wildcard_addr, _TEST_SPI,
                     None, None, None, None, None, None)
     print("Migration succeeded unexpectedly, assuming XFRM_MIGRATE is enabled")
-    return True
+    return HasXfrmMigrateFixes()
   except IOError as err:
     if err.errno == ENOPROTOOPT:
       return False
     elif err.errno == EINVAL:
-      return True
+      return HasXfrmMigrateFixes()
     else:
       print("Unexpected error, assuming XFRM_MIGRATE is enabled:", err.errno)
-      return True
+      return HasXfrmMigrateFixes()
 
 SUPPORTS_XFRM_MIGRATE = SupportsXfrmMigrate()
 
@@ -168,7 +180,7 @@ def InjectTests():
   InjectParameterizedTests(XfrmTunnelTest)
   InjectParameterizedTests(XfrmInterfaceTest)
   InjectParameterizedTests(XfrmVtiTest)
-  InjectParameterizedTests(XfrmInterfaceMigrateTest)
+  InjectParameterizedMigrateTests(XfrmInterfaceMigrateTest)
 
 
 def InjectParameterizedTests(cls):
@@ -177,6 +189,15 @@ def InjectParameterizedTests(cls):
 
   def NameGenerator(*args):
     return "IPv%d_in_IPv%d" % tuple(args)
+
+  util.InjectParameterizedTest(cls, param_list, NameGenerator)
+
+def InjectParameterizedMigrateTests(cls):
+  VERSIONS = (4, 6)
+  param_list = itertools.product(VERSIONS, VERSIONS, VERSIONS)
+
+  def NameGenerator(*args):
+    return "IPv%d_in_IPv%d_to_outer_IPv%d" % tuple(args)
 
   util.InjectParameterizedTest(cls, param_list, NameGenerator)
 
@@ -558,16 +579,11 @@ class XfrmInterface(IpSecBaseInterface):
 
     self.local = new_local
     self.remote = new_remote
+    self.version = net_test.GetAddressVersion(new_local)
     self.underlying_netid = new_underlying_netid
 
 
 class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
-
-  # Subclass that does not allow multiple tunnels (e.g. XfrmInterfaceMigrateTest)
-  # should override this method.
-  @classmethod
-  def allowMultipleTunnels(cls):
-    return True
 
   @classmethod
   def setUpClass(cls):
@@ -581,9 +597,6 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     # IPv6 tunnel
     cls.tunnelsV4 = {}
     cls.tunnelsV6 = {}
-
-    if not cls.allowMultipleTunnels():
-      return
 
     for i, underlying_netid in enumerate(cls.tuns):
       for version in 4, 6:
@@ -1012,15 +1025,33 @@ class XfrmInterfaceTest(XfrmTunnelBase):
   def ParamTestXfrmIntfRekey(self, inner_version, outer_version):
     self._TestTunnelRekey(inner_version, outer_version)
 
-@unittest.skipUnless(SUPPORTS_XFRM_MIGRATE, "XFRM migration unsupported")
+ ##############################################################################
+  #
+  # Test for presence of CONFIG_XFRM_MIGRATE and kernel patches
+  #
+  #   xfrm: Check if_id in xfrm_migrate
+  #   xfrm: Fix xfrm migrate issues when address family changes
+  #
+  # 5.4: https://android-review.googlesource.com/c/kernel/common/+/2031989
+  #       commit 49b41d6cdc2c74cc113e14860ac7f1dd0349d083
+  #
+  # 5.10: https://android-review.googlesource.com/c/kernel/common/+/2031991
+  #       commit 12781cdcae815b6390ba2bc7139f9c41d113b721
+  #
+  # 5.15: https://android-review.googlesource.com/c/kernel/common/+/2031992
+  #       commit 167b1e671c5f13a1b950aae17b1395ef69e57345
+  #
+  # Upstream in Linux v5.17:
+  #   xfrm: Check if_id in xfrm_migrate
+  #   commit d8889a445b538dbcc25d9a8c118d18228b5bbab5
+  #
+  #   xfrm: Fix xfrm migrate issues when address family changes
+  #   commit ca142038a54f44ffd407ae2f6c65958f5e382ec6
+  #
+@unittest.skipUnless(SUPPORTS_XFRM_MIGRATE,
+                     "XFRM migration unsupported or fixes not included")
 class XfrmInterfaceMigrateTest(XfrmTunnelBase):
-  # TODO: b/172497215 There is a kernel issue that XFRM_MIGRATE cannot work correctly
-  # when there are multiple tunnels with the same selectors. Thus before this issue
-  # is fixed, #allowMultipleTunnels must be overridden to avoid setting up multiple
-  # tunnels. This need to be removed after the kernel issue is fixed.
-  @classmethod
-  def allowMultipleTunnels(cls):
-    return False
+  INTERFACE_CLASS = XfrmInterface
 
   def setUpTunnel(self, outer_version, use_null_crypt):
     underlying_netid = self.RandomNetid()
@@ -1043,9 +1074,31 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
     self._SetupTunnelNetwork(tunnel, False)
     tunnel.Teardown()
 
-  def _TestTunnel(self, inner_version, outer_version, func, use_null_crypt):
+  def _TestTunnel(self, inner_version, outer_version, new_outer_version, func,
+                  use_null_crypt):
+    tunnel = self.randomTunnel(outer_version)
+
+    old_underlying_netid = tunnel.underlying_netid
+    old_local = tunnel.local
+    old_remote = tunnel.remote
+
+
     try:
-      tunnel = self.setUpTunnel(outer_version, use_null_crypt)
+      # Some tests require that the out_seq_num and in_seq_num are the same
+      # (Specifically encrypted tests), rebuild SAs to ensure seq_num is 1
+      #
+      # Until we get better scapy support, the only way we can build an
+      # encrypted packet is to send it out, and read the packet from the wire.
+      # We then generally use this as the "inbound" encrypted packet, injecting
+      # it into the interface for which it is expected on.
+      #
+      # As such, this is required to ensure that encrypted packets (which we
+      # currently have no way to easily modify) are not considered replay
+      # attacks by the inbound SA.  (eg: received 3 packets, seq_num_in = 3,
+      # sent only 1, # seq_num_out = 1, inbound SA would consider this a replay
+      # attack)
+      tunnel.TeardownXfrm()
+      tunnel.SetupXfrm(use_null_crypt)
 
       # Verify functionality before migration
       local_inner = tunnel.addrs[inner_version]
@@ -1053,39 +1106,54 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
       func(tunnel, inner_version, local_inner, remote_inner)
 
       # Migrate tunnel
-      # TODO:b/169170981 Add tests that migrate 4 -> 6 and 6 -> 4
       new_underlying_netid = self.RandomNetid(exclude=tunnel.underlying_netid)
-      new_local = self.MyAddress(outer_version, new_underlying_netid)
-      new_remote = net_test.IPV4_ADDR2 if outer_version == 4 else net_test.IPV6_ADDR2
+      new_version = new_outer_version
+      new_local = self.MyAddress(new_version, new_underlying_netid)
+      new_remote = net_test.IPV4_ADDR2 if new_version == 4 else net_test.IPV6_ADDR2
 
       tunnel.Migrate(new_underlying_netid, new_local, new_remote)
 
       # Verify functionality after migration
       func(tunnel, inner_version, local_inner, remote_inner)
     finally:
-      self.tearDownTunnel(tunnel)
+      # Reset the tunnel to the original configuration
+      tunnel.TeardownXfrm()
 
-  def ParamTestMigrateXfrmIntfInput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+      self.local = old_local
+      self.remote = old_remote
+      self.underlying_netid = old_underlying_netid
+      tunnel.SetupXfrm(False)
 
-  def ParamTestMigrateXfrmIntfOutput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
-                     True)
 
-  def ParamTestMigrateXfrmIntfInOutEncrypted(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
-                     False)
+  def ParamTestMigrateXfrmIntfInput(self, inner_version, outer_version,
+                                    new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelInput, True)
 
-  def ParamTestMigrateXfrmIntfIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
+  def ParamTestMigrateXfrmIntfOutput(self, inner_version, outer_version,
+                                     new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelOutput, True)
 
-  def ParamTestMigrateXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version,
+  def ParamTestMigrateXfrmIntfInOutEncrypted(self, inner_version, outer_version,
+                                             new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelEncryption, False)
+
+  def ParamTestMigrateXfrmIntfIcmp(self, inner_version, outer_version,
+                                   new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelIcmp, False)
+
+  def ParamTestMigrateXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version,
+                                                 new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
                      self._CheckTunnelEncryptionWithIcmp, False)
 
-  def ParamTestMigrateXfrmIntfRekey(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelRekey,
-                     True)
+  def ParamTestMigrateXfrmIntfRekey(self, inner_version, outer_version,
+                                    new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelRekey, True)
 
 if __name__ == "__main__":
   InjectTests()
