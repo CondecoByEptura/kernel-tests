@@ -32,10 +32,10 @@ rm -rf /debootstrap /var/lib/apt/lists/*
 
 # Read-only root breaks booting via init
 cat >/etc/fstab << EOF
-LABEL=ROOT /             ext4  defaults,discard 0 1
-tmpfs      /tmp          tmpfs defaults         0 0
-tmpfs      /var/log      tmpfs defaults         0 0
-tmpfs      /var/tmp      tmpfs defaults         0 0
+LABEL=ROOT /             ext4  defaults 0 1
+tmpfs      /tmp          tmpfs defaults 0 0
+tmpfs      /var/log      tmpfs defaults 0 0
+tmpfs      /var/tmp      tmpfs defaults 0 0
 EOF
 
 # systemd will attempt to re-create this symlink if it does not exist,
