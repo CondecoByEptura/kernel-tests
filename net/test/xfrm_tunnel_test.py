@@ -168,7 +168,17 @@ def InjectTests():
   InjectParameterizedTests(XfrmTunnelTest)
   InjectParameterizedTests(XfrmInterfaceTest)
   InjectParameterizedTests(XfrmVtiTest)
-  InjectParameterizedTests(XfrmInterfaceMigrateTest)
+  InjectMigrateParameterizedTests(XfrmInterfaceMigrateTest)
+
+
+def InjectMigrateParameterizedTests(cls):
+  VERSIONS = (4, 6)
+  param_list = itertools.product(VERSIONS, VERSIONS, VERSIONS)
+
+  def NameGenerator(*args):
+    return "IPv%d_in_IPv%d_to__IPv%d" % tuple(args)
+
+  util.InjectParameterizedTest(cls, param_list, NameGenerator)
 
 
 def InjectParameterizedTests(cls):
@@ -558,6 +568,7 @@ class XfrmInterface(IpSecBaseInterface):
 
     self.local = new_local
     self.remote = new_remote
+    self.version = net_test.GetAddressVersion(new_local)
     self.underlying_netid = new_underlying_netid
 
 
@@ -1037,7 +1048,8 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
     self._SetupTunnelNetwork(tunnel, False)
     tunnel.Teardown()
 
-  def _TestTunnel(self, inner_version, outer_version, func, use_null_crypt):
+  def _TestTunnel(self, inner_version, outer_version, new_outer_version, func,
+                  use_null_crypt):
     tunnel = self.randomTunnel(outer_version)
 
     old_underlying_netid = tunnel.underlying_netid
@@ -1070,8 +1082,9 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
       # Migrate tunnel
       # TODO:b/169170981 Add tests that migrate 4 -> 6 and 6 -> 4
       new_underlying_netid = self.RandomNetid(exclude=tunnel.underlying_netid)
-      new_local = self.MyAddress(outer_version, new_underlying_netid)
-      new_remote = net_test.IPV4_ADDR2 if outer_version == 4 else net_test.IPV6_ADDR2
+      new_version = new_outer_version
+      new_local = self.MyAddress(new_version, new_underlying_netid)
+      new_remote = net_test.IPV4_ADDR2 if new_version == 4 else net_test.IPV6_ADDR2
 
       tunnel.Migrate(new_underlying_netid, new_local, new_remote)
 
@@ -1087,27 +1100,35 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
       tunnel.SetupXfrm(False)
 
 
-  def ParamTestMigrateXfrmIntfInput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+  def ParamTestMigrateXfrmIntfInput(self, inner_version, outer_version,
+                                    new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelInput, True)
 
-  def ParamTestMigrateXfrmIntfOutput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
-                     True)
+  def ParamTestMigrateXfrmIntfOutput(self, inner_version, outer_version,
+                                     new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelOutput, True)
 
-  def ParamTestMigrateXfrmIntfInOutEncrypted(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
-                     False)
+  def ParamTestMigrateXfrmIntfInOutEncrypted(self, inner_version, outer_version,
+                                             new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelEncryption, False)
 
-  def ParamTestMigrateXfrmIntfIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
+  def ParamTestMigrateXfrmIntfIcmp(self, inner_version, outer_version,
+                                   new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelIcmp, False)
 
-  def ParamTestMigrateXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version,
+  def ParamTestMigrateXfrmIntfEncryptionWithIcmp(self, inner_version, outer_version,
+                                                 new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
                      self._CheckTunnelEncryptionWithIcmp, False)
 
-  def ParamTestMigrateXfrmIntfRekey(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelRekey,
-                     True)
+  def ParamTestMigrateXfrmIntfRekey(self, inner_version, outer_version,
+                                    new_outer_version):
+    self._TestTunnel(inner_version, outer_version, new_outer_version,
+                     self._CheckTunnelRekey, True)
 
 if __name__ == "__main__":
   InjectTests()
