@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2df1892_238ded5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1707594
+      },
+      "writtenOn": "2021-12-01T09:08:26Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded new patch. Please check it, thanks.",
+      "revId": "7b07e88d38aa3211f47dc1fcd360399d75514479",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}

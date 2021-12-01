@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d9f23b0_0ddd7858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1707594
+      },
+      "writtenOn": "2021-12-01T09:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c08e617_4b0d17e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d681f2e_16ab2007",
@@ -47,6 +71,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8239a35_d91b48fd",
+        "filename": "net/test/tcp_fastopen_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1707594
+      },
+      "writtenOn": "2021-12-01T09:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d681f2e_16ab2007",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 35
+      },
+      "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7a4be85_e4a2ff8a",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-12-01T08:34:34Z",
       "side": 1,
       "message": "please include comment:\n# Prior to 4.15 this sysctl is not namespace aware.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 86
+      },
+      "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41fc29b3_f69fb02a",
+        "filename": "net/test/tcp_fastopen_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1707594
+      },
+      "writtenOn": "2021-12-01T09:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7a4be85_e4a2ff8a",
       "range": {
         "startLine": 74,
         "startChar": 0,
