@@ -45,6 +45,29 @@
       },
       "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a4be85_e4a2ff8a",
+        "filename": "net/test/tcp_fastopen_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-12-01T08:34:34Z",
+      "side": 1,
+      "message": "please include comment:\n# Prior to 4.15 this sysctl is not namespace aware.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 86
+      },
+      "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
