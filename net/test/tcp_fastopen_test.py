@@ -22,6 +22,7 @@ from scapy import all as scapy
 
 import multinetwork_base
 import net_test
+import os
 import packets
 import tcp_metrics
 
@@ -64,8 +65,13 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
     with self.assertRaisesErrno(ENOENT):
       self.tcp_metrics.GetMetrics(saddr, daddr)
 
+  def FileExists(self, filename):
+    return os.path.exists(filename)
+
   def clearBlackhole(self):
     if net_test.LINUX_VERSION < (4, 14, 0):
+      return
+    if net_test.LINUX_VERSION < (4, 15, 0) and not self.FileExists(BH_TIMEOUT_SYSCTL):
       return
     timeout = self.GetSysctl(BH_TIMEOUT_SYSCTL)
 
