@@ -22,6 +22,7 @@ from scapy import all as scapy
 
 import multinetwork_base
 import net_test
+import os
 import packets
 import tcp_metrics
 
@@ -66,6 +67,8 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
 
   def clearBlackhole(self):
     if net_test.LINUX_VERSION < (4, 14, 0):
+      return
+    if net_test.LINUX_VERSION < (4, 15, 0) and not os.path.exists(BH_TIMEOUT_SYSCTL):
       return
     timeout = self.GetSysctl(BH_TIMEOUT_SYSCTL)
 
