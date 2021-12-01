@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c08e617_4b0d17e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-12-01T08:34:01Z",
+      "side": 1,
+      "message": "please order bug/test/change-id\n\nplease mention in commit message a link to https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id\u003d3733be14a32bae288b61ed28341e593baba983af and that it is included in 4.15",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d681f2e_16ab2007",
+        "filename": "net/test/tcp_fastopen_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-12-01T08:34:01Z",
+      "side": 1,
+      "message": "no need to make this a separate function, I was just writing pseudocode",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 35
+      },
+      "revId": "168a7eb3d94702960b438ca031a9c1cf1ffeeb6a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
