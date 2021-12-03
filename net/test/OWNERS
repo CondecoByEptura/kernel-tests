@@ -3,3 +3,4 @@ lorenzo@google.com
 maze@google.com
 
 per-file build_rootfs.sh = rammuthiah@google.com, adelva@google.com, muntsinger@google.com
+per-file *xfrm* = file:platform/frameworks/base:master:/services/core/java/com/android/server/vcn/OWNERS
