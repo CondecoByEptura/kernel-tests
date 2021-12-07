@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7655545e_252dbd06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2021-12-07T21:36:54Z",
+      "side": 1,
+      "message": "Added ** prefix to ensure all files match.",
+      "revId": "90083e548bb8ed78422bad828d1cf99bc8e516b2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
