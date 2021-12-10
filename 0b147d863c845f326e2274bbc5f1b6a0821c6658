@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e032782a_feae3136",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1244622
+      },
+      "writtenOn": "2021-12-10T08:03:51Z",
+      "side": 1,
+      "message": "Pls set the CL to autosubmit+1.",
+      "revId": "0b147d863c845f326e2274bbc5f1b6a0821c6658",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
