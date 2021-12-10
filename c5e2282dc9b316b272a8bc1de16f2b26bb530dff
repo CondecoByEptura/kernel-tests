@@ -16,6 +16,23 @@
       "message": "CL needs owner code-review+2.",
       "revId": "c5e2282dc9b316b272a8bc1de16f2b26bb530dff",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "030e7cc4_c18a2334",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-12-10T00:50:20Z",
+      "side": 1,
+      "message": "AFAICT this code is already in android12 by virtue of having been merged to android10",
+      "revId": "c5e2282dc9b316b272a8bc1de16f2b26bb530dff",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
