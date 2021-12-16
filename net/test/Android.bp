@@ -34,6 +34,6 @@ python_test {
     stem: "kernel_net_tests_bin",
     main: "all_tests.py",
     defaults: ["kernel_net_tests_defaults",],
-    test_suites: ["vts",],
+    test_suites: ["vts", "general-tests"],
     test_config: "vts_kernel_net_tests.xml",
 }
