@@ -16,6 +16,23 @@
       "message": "Pls set the CL to autosubmit+1.",
       "revId": "0b147d863c845f326e2274bbc5f1b6a0821c6658",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec90cef5_b71e9268",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-12-24T04:02:13Z",
+      "side": 1,
+      "message": "It\u0027s another case of a trivial cherrypick needing 2nd party code review in spite of multiple people having already looked at it.",
+      "revId": "0b147d863c845f326e2274bbc5f1b6a0821c6658",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
