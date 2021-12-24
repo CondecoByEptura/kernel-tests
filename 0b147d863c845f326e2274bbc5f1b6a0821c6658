@@ -33,6 +33,23 @@
       "message": "It\u0027s another case of a trivial cherrypick needing 2nd party code review in spite of multiple people having already looked at it.",
       "revId": "0b147d863c845f326e2274bbc5f1b6a0821c6658",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d989e131_6c98a787",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2021-12-24T04:03:43Z",
+      "side": 1,
+      "message": "Gregory, you might be able to get this to submit by editing the commit message through the web ui (any trivial change, like adding a period might be enough)",
+      "revId": "0b147d863c845f326e2274bbc5f1b6a0821c6658",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
