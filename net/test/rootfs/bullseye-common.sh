@@ -97,7 +97,8 @@ setup_and_build_cuttlefish() {
     config-package-dev \
     debhelper \
     dpkg-dev \
-    git
+    git \
+    go
 
   # Fetch cuttlefish and build it for cuttlefish-common
   git clone https://github.com/google/android-cuttlefish.git /usr/src/$cuttlefish
