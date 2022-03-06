@@ -22,6 +22,8 @@ debian_iptables=1.8.7-1
 cuttlefish=android-cuttlefish
 
 setup_and_build_iptables() {
+  get_installed_packages >/root/originally-installed
+
   # Install everything needed from bullseye to build iptables
   apt-get install -y \
     build-essential \
@@ -68,6 +70,10 @@ setup_and_build_iptables() {
     # Build debian packages from the integrated iptables source
     dpkg-buildpackage -F -d -us -uc
   cd -
+
+  get_installed_packages >/root/installed
+  remove_installed_packages /root/originally-installed /root/installed
+  apt-get clean
 }
 
 install_and_cleanup_iptables() {
@@ -91,19 +97,30 @@ install_and_cleanup_iptables() {
 }
 
 setup_and_build_cuttlefish() {
+  get_installed_packages >/root/originally-installed
+
   # Install everything needed from bullseye to build cuttlefish-common
   apt-get install -y \
     cdbs \
     config-package-dev \
     debhelper \
     dpkg-dev \
-    git
+    git \
+    golang
+
+  if [ "$(uname -m)" = "arm64" ]; then
+    apt-get install -y libc6-dev:amd64
+  fi
 
   # Fetch cuttlefish and build it for cuttlefish-common
   git clone https://github.com/google/android-cuttlefish.git /usr/src/$cuttlefish
   cd /usr/src/$cuttlefish
     dpkg-buildpackage -d -uc -us
   cd -
+
+  get_installed_packages >/root/installed
+  remove_installed_packages /root/originally-installed /root/installed
+  apt-get clean
 }
 
 install_and_cleanup_cuttlefish() {
