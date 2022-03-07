@@ -699,58 +699,58 @@ class IPRoute(netlink.NetlinkSocket):
     stats = self.GetIfaceStats(dev_name)
     return stats.rx_packets, stats.tx_packets
 
-  def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
-                                   i_key=None, o_key=None, is_update=False):
-    """
-    Create a Virtual Tunnel Interface that provides a proxy interface
-    for IPsec tunnels.
+  # def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
+  #                                  i_key=None, o_key=None, is_update=False):
+  #   """
+  #   Create a Virtual Tunnel Interface that provides a proxy interface
+  #   for IPsec tunnels.
 
-    The VTI Newlink structure is a series of nested netlink
-    attributes following a mostly-ignored 'struct ifinfomsg':
+  #   The VTI Newlink structure is a series of nested netlink
+  #   attributes following a mostly-ignored 'struct ifinfomsg':
 
-    NLMSGHDR (type=RTM_NEWLINK)
-    |
-    |-{IfinfoMsg}
-    |
-    |-IFLA_IFNAME = <user-provided ifname>
-    |
-    |-IFLA_LINKINFO
-      |
-      |-IFLA_INFO_KIND = "vti"
-      |
-      |-IFLA_INFO_DATA
-        |
-        |-IFLA_VTI_LOCAL = <local addr>
-        |-IFLA_VTI_REMOTE = <remote addr>
-        |-IFLA_VTI_LINK = ????
-        |-IFLA_VTI_OKEY = [outbound mark]
-        |-IFLA_VTI_IKEY = [inbound mark]
-    """
-    family = AF_INET6 if ":" in remote_addr else AF_INET
+  #   NLMSGHDR (type=RTM_NEWLINK)
+  #   |
+  #   |-{IfinfoMsg}
+  #   |
+  #   |-IFLA_IFNAME = <user-provided ifname>
+  #   |
+  #   |-IFLA_LINKINFO
+  #     |
+  #     |-IFLA_INFO_KIND = "vti"
+  #     |
+  #     |-IFLA_INFO_DATA
+  #       |
+  #       |-IFLA_VTI_LOCAL = <local addr>
+  #       |-IFLA_VTI_REMOTE = <remote addr>
+  #       |-IFLA_VTI_LINK = ????
+  #       |-IFLA_VTI_OKEY = [outbound mark]
+  #       |-IFLA_VTI_IKEY = [inbound mark]
+  #   """
+  #   family = AF_INET6 if ":" in remote_addr else AF_INET
 
-    ifinfo = IfinfoMsg().Pack()
-    ifinfo += self._NlAttrStr(IFLA_IFNAME, dev_name)
+  #   ifinfo = IfinfoMsg().Pack()
+  #   ifinfo += self._NlAttrStr(IFLA_IFNAME, dev_name)
 
-    linkinfo = self._NlAttrStr(IFLA_INFO_KIND,
-        {AF_INET6: "vti6", AF_INET: "vti"}[family])
+  #   linkinfo = self._NlAttrStr(IFLA_INFO_KIND,
+  #       {AF_INET6: "vti6", AF_INET: "vti"}[family])
 
-    ifdata = self._NlAttrIPAddress(IFLA_VTI_LOCAL, family, local_addr)
-    ifdata += self._NlAttrIPAddress(IFLA_VTI_REMOTE, family,
-                                    remote_addr)
-    if i_key is not None:
-      ifdata += self._NlAttrU32(IFLA_VTI_IKEY, socket.htonl(i_key))
-    if o_key is not None:
-      ifdata += self._NlAttrU32(IFLA_VTI_OKEY, socket.htonl(o_key))
-    linkinfo += self._NlAttr(IFLA_INFO_DATA, ifdata)
+  #   ifdata = self._NlAttrIPAddress(IFLA_VTI_LOCAL, family, local_addr)
+  #   ifdata += self._NlAttrIPAddress(IFLA_VTI_REMOTE, family,
+  #                                   remote_addr)
+  #   if i_key is not None:
+  #     ifdata += self._NlAttrU32(IFLA_VTI_IKEY, socket.htonl(i_key))
+  #   if o_key is not None:
+  #     ifdata += self._NlAttrU32(IFLA_VTI_OKEY, socket.htonl(o_key))
+  #   linkinfo += self._NlAttr(IFLA_INFO_DATA, ifdata)
 
-    ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
+  #   ifinfo += self._NlAttr(IFLA_LINKINFO, linkinfo)
 
-    # Always pass CREATE to prevent _SendNlRequest() from incorrectly
-    # guessing the flags.
-    flags = netlink.NLM_F_CREATE
-    if not is_update:
-      flags |= netlink.NLM_F_EXCL
-    return self._SendNlRequest(RTM_NEWLINK, ifinfo, flags)
+  #   # Always pass CREATE to prevent _SendNlRequest() from incorrectly
+  #   # guessing the flags.
+  #   flags = netlink.NLM_F_CREATE
+  #   if not is_update:
+  #     flags |= netlink.NLM_F_EXCL
+  #   return self._SendNlRequest(RTM_NEWLINK, ifinfo, flags)
 
   def CreateXfrmInterface(self, dev_name, xfrm_if_id, underlying_ifindex):
     """Creates an XFRM interface with the specified parameters."""

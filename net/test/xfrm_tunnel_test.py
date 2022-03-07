@@ -95,18 +95,11 @@ SUPPORTS_XFRM_MIGRATE = SupportsXfrmMigrate()
 # Parameters to setup tunnels as special networks
 _TUNNEL_NETID_OFFSET = 0xFC00  # Matches reserved netid range for IpSecService
 _BASE_TUNNEL_NETID = {4: 40, 6: 60}
-_BASE_VTI_OKEY = 2000000100
-_BASE_VTI_IKEY = 2000000200
 
 _TEST_OUT_SPI = _TEST_SPI
 _TEST_IN_SPI = _TEST_OUT_SPI
 
-_TEST_OKEY = 2000000100
-_TEST_IKEY = 2000000200
-
 _TEST_REMOTE_PORT = 1234
-
-_SCAPY_IP_TYPE = {4: scapy.IP, 6: scapy.IPv6}
 
 
 def _GetLocalInnerAddress(version):
@@ -167,7 +160,6 @@ def _SendPacket(testInstance, netid, version, remote, remote_port):
 def InjectTests():
   InjectParameterizedTests(XfrmTunnelTest)
   InjectParameterizedTests(XfrmInterfaceTest)
-  InjectParameterizedTests(XfrmVtiTest)
   InjectParameterizedTests(XfrmInterfaceMigrateTest)
 
 
@@ -235,12 +227,12 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
       self.xfrm.CreateTunnel(
           xfrm.XFRM_POLICY_IN, xfrm.SrcDstSelector(remote_inner, local_inner),
           remote_outer, local_outer, _TEST_IN_SPI, xfrm_base._ALGO_CRYPT_NULL,
-          xfrm_base._ALGO_AUTH_NULL, None, None, None, xfrm.MATCH_METHOD_ALL)
+          xfrm_base._ALGO_AUTH_NULL, None, None, xfrm.MATCH_METHOD_ALL)
 
       self.xfrm.CreateTunnel(
           xfrm.XFRM_POLICY_OUT, xfrm.SrcDstSelector(local_inner, remote_inner),
           local_outer, remote_outer, _TEST_OUT_SPI, xfrm_base._ALGO_CBC_AES_256,
-          xfrm_base._ALGO_HMAC_SHA1, None, output_mark, None, xfrm.MATCH_METHOD_ALL)
+          xfrm_base._ALGO_HMAC_SHA1, output_mark, None, xfrm.MATCH_METHOD_ALL)
 
       write_sock = socket(net_test.GetAddressFamily(inner_version), SOCK_DGRAM, 0)
       self.SelectInterface(write_sock, netid, "mark")
@@ -264,69 +256,6 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
   def ParamTestTunnelOutputNoSetMark(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
                      xfrm.XFRM_POLICY_OUT, True)
-
-
-@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
-class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
-  def _VerifyVtiInfoData(self, vti_info_data, version, local_addr, remote_addr,
-                         ikey, okey):
-    self.assertEqual(vti_info_data["IFLA_VTI_IKEY"], ikey)
-    self.assertEqual(vti_info_data["IFLA_VTI_OKEY"], okey)
-
-    family = AF_INET if version == 4 else AF_INET6
-    self.assertEqual(inet_ntop(family, vti_info_data["IFLA_VTI_LOCAL"]),
-                      local_addr)
-    self.assertEqual(inet_ntop(family, vti_info_data["IFLA_VTI_REMOTE"]),
-                      remote_addr)
-
-  def testAddVti(self):
-    """Test the creation of a Virtual Tunnel Interface."""
-    for version in [4, 6]:
-      netid = self.RandomNetid()
-      local_addr = self.MyAddress(version, netid)
-      self.iproute.CreateVirtualTunnelInterface(
-          dev_name=_TEST_XFRM_IFNAME,
-          local_addr=local_addr,
-          remote_addr=_GetRemoteOuterAddress(version),
-          o_key=_TEST_OKEY,
-          i_key=_TEST_IKEY)
-      self._VerifyVtiInfoData(
-          self.iproute.GetIfinfoData(_TEST_XFRM_IFNAME), version, local_addr,
-          _GetRemoteOuterAddress(version), _TEST_IKEY, _TEST_OKEY)
-
-      new_remote_addr = {4: net_test.IPV4_ADDR2, 6: net_test.IPV6_ADDR2}
-      new_okey = _TEST_OKEY + _TEST_XFRM_IF_ID
-      new_ikey = _TEST_IKEY + _TEST_XFRM_IF_ID
-      self.iproute.CreateVirtualTunnelInterface(
-          dev_name=_TEST_XFRM_IFNAME,
-          local_addr=local_addr,
-          remote_addr=new_remote_addr[version],
-          o_key=new_okey,
-          i_key=new_ikey,
-          is_update=True)
-
-      self._VerifyVtiInfoData(
-          self.iproute.GetIfinfoData(_TEST_XFRM_IFNAME), version, local_addr,
-          new_remote_addr[version], new_ikey, new_okey)
-
-      if_index = self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
-
-      # Validate that the netlink interface matches the ioctl interface.
-      self.assertEqual(net_test.GetInterfaceIndex(_TEST_XFRM_IFNAME), if_index)
-      self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
-      with self.assertRaises(IOError):
-        self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
-
-  def _QuietDeleteLink(self, ifname):
-    try:
-      self.iproute.DeleteLink(ifname)
-    except IOError:
-      # The link was not present.
-      pass
-
-  def tearDown(self):
-    super(XfrmAddDeleteVtiTest, self).tearDown()
-    self._QuietDeleteLink(_TEST_XFRM_IFNAME)
 
 
 class SaInfo(object):
@@ -402,72 +331,6 @@ class IpSecBaseInterface(object):
     raise NotImplementedError("Subclasses should implement this")
 
 
-class VtiInterface(IpSecBaseInterface):
-
-  def __init__(self, iface, netid, underlying_netid, _, local, remote, version):
-    super(VtiInterface, self).__init__(iface, netid, underlying_netid, local,
-                                       remote, version)
-
-    self.ikey = _TEST_IKEY + netid
-    self.okey = _TEST_OKEY + netid
-
-    self.SetupInterface()
-    self.SetupXfrm(False)
-
-  def SetupInterface(self):
-    return self.iproute.CreateVirtualTunnelInterface(
-        self.iface, self.local, self.remote, self.ikey, self.okey)
-
-  def _SetupXfrmByType(self, auth_algo, crypt_algo):
-    # For the VTI, the selectors are wildcard since packets will only
-    # be selected if they have the appropriate mark, hence the inner
-    # addresses are wildcard.
-    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
-                           self.out_sa.spi, crypt_algo, auth_algo,
-                           xfrm.ExactMatchMark(self.okey),
-                           self.underlying_netid, None, xfrm.MATCH_METHOD_ALL)
-
-    self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
-                           self.in_sa.spi, crypt_algo, auth_algo,
-                           xfrm.ExactMatchMark(self.ikey), None, None,
-                           xfrm.MATCH_METHOD_MARK)
-
-  def TeardownXfrm(self):
-    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
-                           self.out_sa.spi, self.okey, None)
-    self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
-                           self.in_sa.spi, self.ikey, None)
-
-  def _Rekey(self, outer_family, new_out_sa, new_in_sa):
-    # TODO: Consider ways to share code with xfrm.CreateTunnel(). It's mostly
-    #       the same, but rekeys are asymmetric, and only update the outbound
-    #       policy.
-    self.xfrm.AddSaInfo(self.local, self.remote, new_out_sa.spi,
-                        xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL,
-                        xfrm_base._ALGO_AUTH_NULL, None, None,
-                        xfrm.ExactMatchMark(self.okey), self.underlying_netid)
-
-    self.xfrm.AddSaInfo(self.remote, self.local, new_in_sa.spi,
-                        xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL,
-                        xfrm_base._ALGO_AUTH_NULL, None, None,
-                        xfrm.ExactMatchMark(self.ikey), None)
-
-    # Create new policies for IPv4 and IPv6.
-    for sel in [xfrm.EmptySelector(AF_INET), xfrm.EmptySelector(AF_INET6)]:
-      # Add SPI-specific output policy to enforce using new outbound SPI
-      policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
-      tmpl = xfrm.UserTemplate(outer_family, new_out_sa.spi, 0,
-                                    (self.local, self.remote))
-      self.xfrm.UpdatePolicyInfo(policy, tmpl, xfrm.ExactMatchMark(self.okey),
-                                 0)
-
-  def DeleteOldSaInfo(self, outer_family, old_in_spi, old_out_spi):
-    self.xfrm.DeleteSaInfo(self.local, old_in_spi, IPPROTO_ESP,
-                           xfrm.ExactMatchMark(self.ikey))
-    self.xfrm.DeleteSaInfo(self.remote, old_out_spi, IPPROTO_ESP,
-                           xfrm.ExactMatchMark(self.okey))
-
-
 @unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
   """Test the creation of an XFRM Interface."""
@@ -504,18 +367,18 @@ class XfrmInterface(IpSecBaseInterface):
 
   def _SetupXfrmByType(self, auth_algo, crypt_algo):
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
-                           self.out_sa.spi, crypt_algo, auth_algo, None,
+                           self.out_sa.spi, crypt_algo, auth_algo,
                            self.underlying_netid, self.xfrm_if_id,
                            xfrm.MATCH_METHOD_ALL)
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
-                           self.in_sa.spi, crypt_algo, auth_algo, None, None,
+                           self.in_sa.spi, crypt_algo, auth_algo, None,
                            self.xfrm_if_id, xfrm.MATCH_METHOD_IFID)
 
   def TeardownXfrm(self):
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
-                           self.out_sa.spi, None, self.xfrm_if_id)
+                           self.out_sa.spi, self.xfrm_if_id)
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_IN, None, self.local,
-                           self.in_sa.spi, None, self.xfrm_if_id)
+                           self.in_sa.spi, self.xfrm_if_id)
 
   def _Rekey(self, outer_family, new_out_sa, new_in_sa):
     # TODO: Consider ways to share code with xfrm.CreateTunnel(). It's mostly
@@ -660,7 +523,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     Android Network for purposes of testing.
 
     Args:
-      tunnel: A VtiInterface or XfrmInterface, the tunnel to set up.
+      tunnel: A XfrmInterface, the tunnel to set up.
       is_add: Boolean that causes this method to perform setup if True or
         teardown if False
     """
@@ -957,33 +820,6 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     finally:
       tunnel.TeardownXfrm()
       tunnel.SetupXfrm(False)
-
-
-@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
-class XfrmVtiTest(XfrmTunnelBase):
-
-  INTERFACE_CLASS = VtiInterface
-
-  def ParamTestVtiInput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
-
-  def ParamTestVtiOutput(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
-                     True)
-
-  def ParamTestVtiInOutEncrypted(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelEncryption,
-                     False)
-
-  def ParamTestVtiIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version, self._CheckTunnelIcmp, False)
-
-  def ParamTestVtiEncryptionWithIcmp(self, inner_version, outer_version):
-    self._TestTunnel(inner_version, outer_version,
-                     self._CheckTunnelEncryptionWithIcmp, False)
-
-  def ParamTestVtiRekey(self, inner_version, outer_version):
-    self._TestTunnelRekey(inner_version, outer_version)
 
 
 @unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
