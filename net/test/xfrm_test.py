@@ -602,31 +602,9 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     for version in [4, 6]:
       self._CheckNullEncryptionTransportMode(version)
 
-  def _CheckGlobalPoliciesByMark(self, version):
-    """Tests that global policies may differ by only the mark."""
-    family = net_test.GetAddressFamily(version)
-    sel = xfrm.EmptySelector(family)
-    # Pick 2 arbitrary mark values.
-    mark1 = xfrm.XfrmMark(mark=0xf00, mask=xfrm_base.MARK_MASK_ALL)
-    mark2 = xfrm.XfrmMark(mark=0xf00d, mask=xfrm_base.MARK_MASK_ALL)
-    # Create a global policy.
-    policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
-    tmpl = xfrm.UserTemplate(AF_UNSPEC, 0xfeed, 0, None)
-    # Create the policy with the first mark.
-    self.xfrm.AddPolicyInfo(policy, tmpl, mark1)
-    # Create the same policy but with the second (different) mark.
-    self.xfrm.AddPolicyInfo(policy, tmpl, mark2)
-    # Delete the policies individually
-    self.xfrm.DeletePolicyInfo(sel, xfrm.XFRM_POLICY_OUT, mark1)
-    self.xfrm.DeletePolicyInfo(sel, xfrm.XFRM_POLICY_OUT, mark2)
-
-  def testGlobalPoliciesByMarkV4(self):
-    self._CheckGlobalPoliciesByMark(4)
-
-  def testGlobalPoliciesByMarkV6(self):
-    self._CheckGlobalPoliciesByMark(6)
-
   def _CheckUpdatePolicy(self, version):
+    # TODO: b/119463515 Update the test to use XFRM_INTERFACE as part
+    # of removing VTI support from Android
     """Tests that we can can update the template on a policy."""
     family = net_test.GetAddressFamily(version)
     tmpl1 = xfrm.UserTemplate(family, 0xdead, 0, None)
@@ -662,6 +640,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self._CheckUpdatePolicy(6)
 
   def _CheckPolicyDifferByDirection(self,version):
+    # TODO: b/119463515 Update the test to use XFRM_INTERFACE as part
+    # of removing VTI support from Android
     """Tests that policies can differ only by direction."""
     family = net_test.GetAddressFamily(version)
     tmpl = xfrm.UserTemplate(family, 0xdead, 0, None)
@@ -780,27 +760,6 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
             xfrm.XFRM_MODE_TRANSPORT, 0, invalid_crypt,
             xfrm_base._ALGO_HMAC_SHA1, None, None, None, 0)
 
-  def testUpdateSaAddMark(self):
-    """Test that an embryonic SA can be updated to add a mark."""
-    for version in [4, 6]:
-      spi = 0xABCD
-      # Test that an SA created with ALLOCSPI can be updated with the mark.
-      new_sa = self.xfrm.AllocSpi(net_test.GetWildcardAddress(version),
-                                  IPPROTO_ESP, spi, spi)
-      mark = xfrm.ExactMatchMark(0xf00d)
-      self.xfrm.AddSaInfo(net_test.GetWildcardAddress(version),
-                          net_test.GetWildcardAddress(version),
-                          spi, xfrm.XFRM_MODE_TUNNEL, 0,
-                          xfrm_base._ALGO_CBC_AES_256,
-                          xfrm_base._ALGO_HMAC_SHA1,
-                          None, None, mark, 0, is_update=True)
-      dump = self.xfrm.DumpSaInfo()
-      self.assertEqual(1, len(dump)) # check that update updated
-      sainfo, attributes = dump[0]
-      self.assertEqual(mark, attributes["XFRMA_MARK"])
-      self.xfrm.DeleteSaInfo(net_test.GetWildcardAddress(version),
-                             spi, IPPROTO_ESP, mark)
-
   def getXfrmStat(self, statName):
     stateVal = 0
     with open(XFRM_STATS_PROCFILE, 'r') as f:
@@ -812,6 +771,8 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
     return stateVal
 
   def testUpdateActiveSaMarks(self):
+    # TODO: b/119463515 Update the test to use XFRM_INTERFACE as part
+    # of removing VTI support from Android
     """Test that the OUTPUT_MARK can be updated on an ACTIVE SA."""
     for version in [4, 6]:
       family = net_test.GetAddressFamily(version)

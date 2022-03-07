@@ -229,7 +229,6 @@ ALL_ALGORITHMS = 0xffffffff
 
 # Policy-SA match method (for VTI/XFRM-I).
 MATCH_METHOD_ALL = "all"
-MATCH_METHOD_MARK = "mark"
 MATCH_METHOD_IFID = "ifid"
 
 
@@ -643,7 +642,7 @@ class Xfrm(netlink.NetlinkSocket):
     self._SendNlRequest(XFRM_MSG_FLUSHSA, usersa_flush.Pack(), flags)
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark, xfrm_if_id, match_method):
+                   auth_trunc, output_mark, xfrm_if_id, match_method):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -660,23 +659,17 @@ class Xfrm(netlink.NetlinkSocket):
       spi: The SPI for the IPsec SA that encapsulates the tunneled packet
       encryption: A tuple (XfrmAlgo, key), the encryption parameters.
       auth_trunc: A tuple (XfrmAlgoAuth, key), the authentication parameters.
-      mark: An XfrmMark, the mark used for selecting packets to be tunneled, and
-        for matching the security policy. None means unspecified.
       output_mark: The mark used to select the underlying network for packets
         outbound from xfrm. None means unspecified.
       xfrm_if_id: The ID of the XFRM interface to use or None.
-      match_method: One of MATCH_METHOD_[MARK | ALL | IFID]. This determines how
+      match_method: One of MATCH_METHOD_[ALL | IFID]. This determines how
         SAs and policies are matched.
     """
     outer_family = net_test.GetAddressFamily(net_test.GetAddressVersion(dst))
 
     # SA mark is currently unused due to UPDSA not updating marks.
     # Kept as documentation of ideal/desired behavior.
-    if match_method == MATCH_METHOD_MARK:
-      # sa_mark = mark
-      tmpl_spi = 0
-      if_id = None
-    elif match_method == MATCH_METHOD_ALL:
+    if match_method == MATCH_METHOD_ALL:
       # sa_mark = mark
       tmpl_spi = spi
       if_id = xfrm_if_id
@@ -701,19 +694,16 @@ class Xfrm(netlink.NetlinkSocket):
     for selector in selectors:
       policy = UserPolicy(direction, selector)
       tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
-      self.AddPolicyInfo(policy, tmpl, mark, xfrm_if_id=xfrm_if_id)
+      self.AddPolicyInfo(policy, tmpl, None, xfrm_if_id=xfrm_if_id)
 
-  def DeleteTunnel(self, direction, selector, dst, spi, mark, xfrm_if_id):
-    if mark is not None:
-      mark = ExactMatchMark(mark)
-
-    self.DeleteSaInfo(dst, spi, IPPROTO_ESP, mark, xfrm_if_id)
+  def DeleteTunnel(self, direction, selector, dst, spi, xfrm_if_id):
+    self.DeleteSaInfo(dst, spi, IPPROTO_ESP, None, xfrm_if_id)
     if selector is None:
       selectors = [EmptySelector(AF_INET), EmptySelector(AF_INET6)]
     else:
       selectors = [selector]
     for selector in selectors:
-      self.DeletePolicyInfo(selector, direction, mark, xfrm_if_id)
+      self.DeletePolicyInfo(selector, direction, None, xfrm_if_id)
 
   def MigrateTunnel(self, direction, selector, old_saddr, old_daddr,
                     new_saddr, new_daddr, spi,
