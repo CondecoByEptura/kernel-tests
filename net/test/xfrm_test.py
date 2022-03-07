@@ -48,6 +48,8 @@ TUNNEL_ENDPOINTS = {4: "8.8.4.4", 6: TEST_ADDR2}
 TEST_SPI = 0x1234
 TEST_SPI2 = 0x1235
 
+TEST_XFRM_IF_ID = 42
+
 
 
 class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
@@ -603,15 +605,12 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
       self._CheckNullEncryptionTransportMode(version)
 
   def _CheckUpdatePolicy(self, version):
-    # TODO: b/119463515 Update the test to use XFRM_INTERFACE as part
-    # of removing VTI support from Android
     """Tests that we can can update the template on a policy."""
     family = net_test.GetAddressFamily(version)
     tmpl1 = xfrm.UserTemplate(family, 0xdead, 0, None)
     tmpl2 = xfrm.UserTemplate(family, 0xbeef, 0, None)
     sel = xfrm.EmptySelector(family)
     policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
-    mark = xfrm.XfrmMark(mark=0xf00, mask=xfrm_base.MARK_MASK_ALL)
 
     def _CheckTemplateMatch(tmpl):
       """Dump the SPD and match a single template on a single policy."""
@@ -621,14 +620,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
       self.assertEqual(attributes['XFRMA_TMPL'], tmpl)
 
     # Create a new policy using update.
-    self.xfrm.UpdatePolicyInfo(policy, tmpl1, mark, None)
+    self.xfrm.UpdatePolicyInfo(policy, tmpl1, None, TEST_XFRM_IF_ID)
     # NEWPOLICY will not update the existing policy. This checks both that
     # UPDPOLICY created a policy and that NEWPOLICY will not perform updates.
     _CheckTemplateMatch(tmpl1)
     with self.assertRaisesErrno(EEXIST):
-      self.xfrm.AddPolicyInfo(policy, tmpl2, mark, None)
+      self.xfrm.AddPolicyInfo(policy, tmpl2, None, TEST_XFRM_IF_ID)
     # Update the policy using UPDPOLICY.
-    self.xfrm.UpdatePolicyInfo(policy, tmpl2, mark, None)
+    self.xfrm.UpdatePolicyInfo(policy, tmpl2, None, TEST_XFRM_IF_ID)
     # There should only be one policy after update, and it should have the
     # updated template.
     _CheckTemplateMatch(tmpl2)
@@ -640,17 +639,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self._CheckUpdatePolicy(6)
 
   def _CheckPolicyDifferByDirection(self,version):
-    # TODO: b/119463515 Update the test to use XFRM_INTERFACE as part
-    # of removing VTI support from Android
     """Tests that policies can differ only by direction."""
     family = net_test.GetAddressFamily(version)
     tmpl = xfrm.UserTemplate(family, 0xdead, 0, None)
     sel = xfrm.EmptySelector(family)
-    mark = xfrm.XfrmMark(mark=0xf00, mask=xfrm_base.MARK_MASK_ALL)
     policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
-    self.xfrm.AddPolicyInfo(policy, tmpl, mark)
+    self.xfrm.AddPolicyInfo(policy, tmpl, None, TEST_XFRM_IF_ID)
     policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_IN, sel)
-    self.xfrm.AddPolicyInfo(policy, tmpl, mark)
+    self.xfrm.AddPolicyInfo(policy, tmpl, None, TEST_XFRM_IF_ID)
 
   def testPolicyDifferByDirectionV4(self):
     self._CheckPolicyDifferByDirection(4)
@@ -771,8 +767,6 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
     return stateVal
 
   def testUpdateActiveSaMarks(self):
-    # TODO: b/119463515 Update the test to use XFRM_INTERFACE as part
-    # of removing VTI support from Android
     """Test that the OUTPUT_MARK can be updated on an ACTIVE SA."""
     for version in [4, 6]:
       family = net_test.GetAddressFamily(version)
@@ -788,7 +782,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
       sel = xfrm.EmptySelector(family)
       policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
       tmpl = xfrm.UserTemplate(family, 0, 0, (local, remote))
-      self.xfrm.AddPolicyInfo(policy, tmpl, mark)
+      self.xfrm.AddPolicyInfo(policy, tmpl, None, TEST_XFRM_IF_ID)
 
       # Pull /proc/net/xfrm_stats for baseline
       outNoStateCount = self.getXfrmStat(XFRM_STATS_OUT_NO_STATES);
@@ -813,7 +807,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
                               TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
                               xfrm_base._ALGO_CBC_AES_256,
                               xfrm_base._ALGO_HMAC_SHA1,
-                              None, None, mark, 0, is_update=False)
+                              None, None, None, 0, False, TEST_XFRM_IF_ID)
       except IOError as e:
           self.assertEqual(EEXIST, e.errno, "SA exists")
           self.xfrm.AddSaInfo(local,
@@ -821,7 +815,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
                               TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
                               xfrm_base._ALGO_CBC_AES_256,
                               xfrm_base._ALGO_HMAC_SHA1,
-                              None, None, mark, 0, is_update=True)
+                              None, None, None, 0, True, TEST_XFRM_IF_ID)
 
       self.assertRaisesErrno(
           ENETUNREACH,
@@ -833,7 +827,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
                           TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
                           xfrm_base._ALGO_CBC_AES_256,
                           xfrm_base._ALGO_HMAC_SHA1,
-                          None, None, mark, netid, is_update=True)
+                          None, None, None, netid, True, TEST_XFRM_IF_ID)
 
       # Now the payload routes to the updated netid.
       s.sendto(net_test.UDP_PAYLOAD, (remote, 53))
@@ -847,7 +841,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
                          TEST_SPI, xfrm.XFRM_MODE_TUNNEL, 0,
                          xfrm_base._ALGO_CBC_AES_256,
                          xfrm_base._ALGO_HMAC_SHA1,
-                         None, None, mark, reroute_netid, is_update=True)
+                         None, None, None, reroute_netid, True, TEST_XFRM_IF_ID)
 
       s.sendto(net_test.UDP_PAYLOAD, (remote, 53))
       self._ExpectEspPacketOn(reroute_netid, TEST_SPI, 2, length, None, None)
@@ -858,8 +852,8 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
       sainfo, attributes = dump[0]
       self.assertEqual(reroute_netid, attributes["XFRMA_OUTPUT_MARK"])
 
-      self.xfrm.DeleteSaInfo(remote, TEST_SPI, IPPROTO_ESP, mark)
-      self.xfrm.DeletePolicyInfo(sel, xfrm.XFRM_POLICY_OUT, mark)
+      self.xfrm.DeleteSaInfo(remote, TEST_SPI, IPPROTO_ESP, None, TEST_XFRM_IF_ID)
+      self.xfrm.DeletePolicyInfo(sel, xfrm.XFRM_POLICY_OUT, None, TEST_XFRM_IF_ID)
 
 if __name__ == "__main__":
   unittest.main()
