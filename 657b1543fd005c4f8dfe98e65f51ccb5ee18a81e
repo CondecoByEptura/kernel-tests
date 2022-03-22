@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aafaeee_9b8d372e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086523
+      },
+      "writtenOn": "2022-03-22T17:09:08Z",
+      "side": 1,
+      "message": "aosp/1804236 and aosp/1908155 would be skipped -- please verify if this is intentional.",
+      "revId": "657b1543fd005c4f8dfe98e65f51ccb5ee18a81e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
