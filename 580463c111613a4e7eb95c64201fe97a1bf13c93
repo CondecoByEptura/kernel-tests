@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5338b97e_849373a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-28T12:36:17Z",
+      "side": 1,
+      "message": "If you\u0027re fixing 2 issues, there should be 2 commits.\n\nSubject line should match the rest of the repo:\n\n\"build_rootfs.sh: Provide Debian keyring to ... \"\n\"build_rootfs.sh: Fix permissions issue when ... \"\n\nPlease provide a complete commit log.\n\nWhat was the initial issue (provide a paste of the error)?\nWhat did you do to solve the issue?",
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecc0e100_2c39540a",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-28T12:36:17Z",
+      "side": 1,
+      "message": "- Space after the #\n- What is this comment telling us - more information please\n- Might not even need a comment - maybe explaining it in the commit log surface",
+      "range": {
+        "startLine": 174,
+        "startChar": 1,
+        "endLine": 174,
+        "endChar": 7
+      },
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "624791e0_95130b3d",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-28T12:36:17Z",
+      "side": 1,
+      "message": "- Please spell check this.\n- There should be a space after the #\n- Debian should be capitalised",
+      "range": {
+        "startLine": 184,
+        "startChar": 39,
+        "endLine": 184,
+        "endChar": 45
+      },
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2abd61_fafd71ce",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-28T12:36:17Z",
+      "side": 1,
+      "message": "- This line looks very rigid and final\n- Maybe define the keyname in the same place as the suite/mirror and/or packages",
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83d95572_f6874a6b",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-28T12:36:17Z",
+      "side": 1,
+      "message": "As above.  Please define this name in a variable with the others.",
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
