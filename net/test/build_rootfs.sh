@@ -171,6 +171,8 @@ tmpdir_remove() {
 }
 trap tmpdir_remove EXIT
 
+#noexec or nodev permission denied
+sudo mount -i -o remount,exec,dev /tmp
 workdir="${tmpdir}/_"
 mkdir "${workdir}"
 chmod 0755 "${workdir}"
@@ -178,8 +180,13 @@ sudo chown root:root "${workdir}"
 
 # Run the debootstrap first
 cd "${workdir}"
+
+#GPG keysiging with debain 11 to avoid unkonw key signature
+wget https://ftp-master.debian.org/keys/archive-key-11.asc -qO- | sudo gpg --import --no-default-keyring --keyring ./debian-release-11.gpg
 sudo debootstrap --arch="${arch}" --variant=minbase --include="${packages}" \
-                 --foreign "${suite%-*}" . "${mirror}"
+                 --keyring=./debian-release-11.gpg --foreign "${suite%-*}" . "${mirror}"
+
+sudo rm -rf debian-release-11.gpg*
 
 # Copy some bootstrapping scripts into the rootfs
 sudo cp -a "${SCRIPT_DIR}"/rootfs/*.sh root/
