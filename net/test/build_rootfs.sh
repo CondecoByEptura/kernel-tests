@@ -31,6 +31,9 @@ usage() {
 mirror=http://ftp.debian.org/debian
 suite=bullseye
 arch=amd64
+keysigning_mirror=https://ftp-master.debian.org
+keysigning_tool=debian-release-11.gpg
+
 
 embed_kernel_initrd_dtb=
 dtb_subdir=
@@ -171,6 +174,7 @@ tmpdir_remove() {
 }
 trap tmpdir_remove EXIT
 
+sudo mount -i -o remount,exec,dev /tmp
 workdir="${tmpdir}/_"
 mkdir "${workdir}"
 chmod 0755 "${workdir}"
@@ -178,8 +182,12 @@ sudo chown root:root "${workdir}"
 
 # Run the debootstrap first
 cd "${workdir}"
+
+# GPG keysigning with DEBAIN 11 to avoid unknown key signature
+wget "${keysigning_mirror}"/keys/archive-key-11.asc -qO- | sudo gpg --import --no-default-keyring --keyring ./"${keysigning_tool}"
 sudo debootstrap --arch="${arch}" --variant=minbase --include="${packages}" \
-                 --foreign "${suite%-*}" . "${mirror}"
+                 --keyring=./${keysigning_tool} --foreign "${suite%-*}" . "${mirror}"
+sudo rm -rf "${keysigning_tool}"*
 
 # Copy some bootstrapping scripts into the rootfs
 sudo cp -a "${SCRIPT_DIR}"/rootfs/*.sh root/
