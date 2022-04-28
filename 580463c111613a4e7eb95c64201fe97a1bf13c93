@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d365c7a_c597461b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-28T12:37:15Z",
+      "side": 1,
+      "message": "You\u0027re missing your Signed-off-by tag.",
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecc0e100_2c39540a",
         "filename": "net/test/build_rootfs.sh",
         "patchSetId": 1
