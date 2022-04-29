@@ -58,6 +58,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c0563c_49e3f4b5",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecc0e100_2c39540a",
+      "range": {
+        "startLine": 174,
+        "startChar": 1,
+        "endLine": 174,
+        "endChar": 7
+      },
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "624791e0_95130b3d",
@@ -71,6 +95,30 @@
       "writtenOn": "2022-04-28T12:36:17Z",
       "side": 1,
       "message": "- Please spell check this.\n- There should be a space after the #\n- Debian should be capitalised",
+      "range": {
+        "startLine": 184,
+        "startChar": 39,
+        "endLine": 184,
+        "endChar": 45
+      },
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876a6099_63e2d467",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "624791e0_95130b3d",
       "range": {
         "startLine": 184,
         "startChar": 39,
@@ -98,6 +146,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49e240f2_95f32ff1",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac2abd61_fafd71ce",
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83d95572_f6874a6b",
@@ -111,6 +177,24 @@
       "writtenOn": "2022-04-28T12:36:17Z",
       "side": 1,
       "message": "As above.  Please define this name in a variable with the others.",
+      "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4dff61c_633da00c",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d95572_f6874a6b",
       "revId": "580463c111613a4e7eb95c64201fe97a1bf13c93",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }

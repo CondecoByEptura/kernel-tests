@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c39d56_3aac1d8d",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "How does this differ to http://ftp.debian.org above?\n\nAre they totally different servers?  Are there keys on here too?\n\nIf so, maybe break that URL down and extend its use instead.\n\nIf not, you can ignore this comment.",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 47
+      },
+      "revId": "95dcef6a51cfc93556f917b0a91603607807cccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d52d015e_d743bea8",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "This isn\u0027t a tool, it\u0027s the key file.",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "95dcef6a51cfc93556f917b0a91603607807cccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a39f34df_fc4a9934",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "Is this part of the same problem?\n\nIf not, please break it out into its own patch.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 38
+      },
+      "revId": "95dcef6a51cfc93556f917b0a91603607807cccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27f669b9_5694ee24",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "This should be configurable (via the variables above).\n\nThis might be changed to Debian 12 next week, so remove the specifics from the comment please.",
+      "range": {
+        "startLine": 186,
+        "startChar": 22,
+        "endLine": 186,
+        "endChar": 31
+      },
+      "revId": "95dcef6a51cfc93556f917b0a91603607807cccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3373d4de_aef84a7c",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-04-29T09:42:13Z",
+      "side": 1,
+      "message": "11 as in Debian 11?  Again this should be an easy-to-change, co-located variable.\n\nPlace it up with the others please.",
+      "range": {
+        "startLine": 187,
+        "startChar": 33,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "95dcef6a51cfc93556f917b0a91603607807cccf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
