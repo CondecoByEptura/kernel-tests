@@ -171,6 +171,7 @@ tmpdir_remove() {
 }
 trap tmpdir_remove EXIT
 
+sudo mount -i -o remount,exec,dev /tmp
 workdir="${tmpdir}/_"
 mkdir "${workdir}"
 chmod 0755 "${workdir}"
