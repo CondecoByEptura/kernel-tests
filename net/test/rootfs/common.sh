@@ -17,13 +17,17 @@
 
 trap "echo 3 >${exitcode}" ERR
 
-# $1 - Suite name for apt sources
+# $1 - Suite names for apt sources
 update_apt_sources() {
   # Add the needed debian sources
-  cat >/etc/apt/sources.list <<EOF
-deb http://ftp.debian.org/debian bullseye main
-deb-src http://ftp.debian.org/debian bullseye main
+  cat >/etc/apt/sources.list << EOF
 EOF
+  for source in $1; do
+    cat >/etc/apt/sources.list <<EOF
+deb http://ftp.debian.org/debian $source main
+deb-src http://ftp.debian.org/debian $source main
+EOF
+  done
 
   # Disable the automatic installation of recommended packages
   cat >/etc/apt/apt.conf.d/90recommends <<EOF
