@@ -17,13 +17,17 @@
 
 trap "echo 3 >${exitcode}" ERR
 
-# $1 - Suite name for apt sources
+# $1 - Suite names for apt sources
 update_apt_sources() {
   # Add the needed debian sources
-  cat >/etc/apt/sources.list <<EOF
-deb http://ftp.debian.org/debian bullseye main
-deb-src http://ftp.debian.org/debian bullseye main
+  cat >/etc/apt/sources.list << EOF
 EOF
+  for source in $1; do
+    cat >/etc/apt/sources.list <<EOF
+deb http://ftp.debian.org/debian $source main
+deb-src http://ftp.debian.org/debian $source main
+EOF
+  done
 
   # Disable the automatic installation of recommended packages
   cat >/etc/apt/apt.conf.d/90recommends <<EOF
@@ -103,6 +107,10 @@ setup_cuttlefish_user() {
   useradd -m -G cvdnetwork,kvm,render,sudo,video \
     -d /home/vsoc-01 --shell /bin/bash vsoc-01
   echo -e "cuttlefish\ncuttlefish" | passwd vsoc-01
+
+  # Enable unlimited memory locking for vsoc-01, which is needed by protected
+  # KVM, which is enabled by default on arm64 devices
+  echo "vsoc-01 - memlock unlimited" >>/etc/security/limits.conf
 }
 
 # $* - One or more device names for getty spawns
