@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "665138b4_503a3bdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-09T11:56:34Z",
+      "side": 1,
+      "message": "\"build_rootfs.sh: Remount /tmp with exec,dev flags to fix debootstrap issue\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "3319b8a4745d7b1d46e853e3cc83723c31db13fe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6da0bb76_4a9ee920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-09T11:56:34Z",
+      "side": 1,
+      "message": "When creating the Debian base system `debootstrap` outputs the following error:\n\n\u003cpaste the exact error message here\u003e\n\nFix this by remounting the /tmp (working) directory with exec,dev flags.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 198
+      },
+      "revId": "3319b8a4745d7b1d46e853e3cc83723c31db13fe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
