@@ -16,6 +16,24 @@
       "message": "Nit: Subjects should match the repo/subsystem/directory you\u0027re submitting to.\n\n`git log --oneline -- net/test/build_rootfs.sh` is your friend here.\n\nSuggest: \"build_rootfs.sh: Add /bin to the local PATH\"\n\nCan you copy and paste the error you receive when running without this patch?\n\nCan you mention which commands were not found as well please?",
       "revId": "9b8d5922d9ecf267ea062e2cd0cacb24b9e183c8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ace8e73_298af3e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-10T08:31:26Z",
+      "side": 1,
+      "message": "Unresolved.",
+      "parentUuid": "b2d8a3ba_0736f38c",
+      "revId": "9b8d5922d9ecf267ea062e2cd0cacb24b9e183c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
