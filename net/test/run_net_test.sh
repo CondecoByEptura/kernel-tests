@@ -2,7 +2,7 @@
 
 # Builds mysteriously fail if stdout is non-blocking.
 fixup_ptys() {
-  python << 'EOF'
+  python3 << 'EOF'
 import fcntl, os, sys
 fd = sys.stdout.fileno()
 flags = fcntl.fcntl(fd, fcntl.F_GETFL)
