@@ -68,9 +68,12 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
   def clearBlackhole(self):
     if net_test.LINUX_VERSION < (4, 14, 0):
       return
+<<<<<<< HEAD   (e5fae4 [automerger skipped] net-test: set sufficient MEMLOCK rlimit)
     # Prior to 4.15 this sysctl is not namespace aware.
     if net_test.LINUX_VERSION < (4, 15, 0) and not os.path.exists(BH_TIMEOUT_SYSCTL):
       return
+=======
+>>>>>>> BRANCH (33f721 net-test: Reset blackhole before fastopen test am: 47b593d81)
     timeout = self.GetSysctl(BH_TIMEOUT_SYSCTL)
 
     # Write to timeout to clear any pre-existing blackhole condition
