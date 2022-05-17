@@ -21,7 +21,7 @@ set -u
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 usage() {
-  echo -n "usage: $0 [-h] [-s bullseye|bullseye-cuttlefish|bullseye-rockpi] "
+  echo -n "usage: $0 [-h] [-s bullseye|bullseye-cuttlefish|bullseye-rockpi|bullseye-server] "
   echo -n "[-a i386|amd64|armhf|arm64] -k /path/to/kernel "
   echo -n "-i /path/to/initramfs.gz [-d /path/to/dtb:subdir] "
   echo "[-m http://mirror/debian] [-n rootfs] [-r initrd] [-e]"
@@ -89,7 +89,7 @@ while getopts ":hs:a:m:n:r:k:i:d:e" opt; do
 done
 
 # Disable Debian's "persistent" network device renaming
-cmdline="net.ifnames=0 rw 8250.nr_uarts=2 PATH=/usr/sbin:/usr/bin"
+cmdline="net.ifnames=0 rw 8250.nr_uarts=2 PATH=/usr/sbin:/bin:/usr/bin"
 
 # Pass down embedding option, if specified
 if [ -n "${embed_kernel_initrd_dtb}" ]; then

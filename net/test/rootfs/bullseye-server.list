@@ -1,0 +1,9 @@
+#include "bullseye-cuttlefish.list"
+aapt
+bzip2
+gcc
+make
+openjdk-11-jre
+screen
+software-properties-common
+unzip
