@@ -232,7 +232,8 @@ trap initrd_remove EXIT
 
 # Copy the initial ramdisk to the final rootfs name and extend it
 sudo cp -a "${initrd}" "${rootfs}"
-truncate -s 2G "${rootfs}"
+# Original 2G isn't enough to install nvidia-driver
+truncate -s 3G "${rootfs}"
 e2fsck -p -f "${rootfs}" || true
 resize2fs "${rootfs}"
 
