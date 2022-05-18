@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2ad447_a9b2915b",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-05-18T20:45:35Z",
+      "side": 1,
+      "message": "I think you just need to add systemd-timesyncd to the package list.",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 2
+      },
+      "revId": "16027718d070b9196fa1860c612a40c02919161f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
