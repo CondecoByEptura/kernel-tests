@@ -28,8 +28,18 @@ arch=$(uname -m)
 setup_dynamic_networking "en*" ""
 
 if [ "${arch}" = "amd64" ]; then
+  # apt-key error, need gnupg package install
+  # TODO: this will ask Do you want to continue? [Y/n] y
+  apt -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update
+  apt-get --allow-unauthenticated upgrade
+  apt-get --assume-yes install gnupg
+  
   # Install apt-key for packages.cloud.google.com
-  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  # TODO: this has error gpg: no valid OpenPGP data found
+  apt-get install ca-certificates
+  wget --no-check-certificate -qO - https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+  #wget --no-check-certificate https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
   # Enable cloud-sdk repository
   cat >/etc/apt/sources.list.d/google-cloud-sdk.list <<EOF

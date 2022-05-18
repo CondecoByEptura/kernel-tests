@@ -141,6 +141,10 @@ EOF
 cleanup() {
   # Prevents systemd boot issues with read-only rootfs
   mkdir -p /var/lib/systemd/{coredump,linger,rfkill,timesync}
+
+  # TODO: this will ask many questions to input, New password: Is the information correct? [Y/n] y
+  adduser --disabled-password --gecos "" "systemd-timesync"
+  
   chown systemd-timesync:systemd-timesync /var/lib/systemd/timesync
 
   # If embedding isn't enabled, remove the embedded modules and initrd and
