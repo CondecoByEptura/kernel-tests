@@ -22,6 +22,30 @@
       },
       "revId": "16027718d070b9196fa1860c612a40c02919161f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7224a61e_f0d0ae8a",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-19T08:25:33Z",
+      "side": 1,
+      "message": "Yes, we have a patch for that.",
+      "parentUuid": "4a2ad447_a9b2915b",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 2
+      },
+      "revId": "16027718d070b9196fa1860c612a40c02919161f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
