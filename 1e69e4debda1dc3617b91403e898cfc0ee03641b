@@ -16,6 +16,24 @@
       "message": "I\u0027m not against this change, but did you try to use a different mirror? Perhaps https://packages.cloud.google.com/apt/dists would work better.",
       "revId": "1e69e4debda1dc3617b91403e898cfc0ee03641b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0157d88e_8682aee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-25T18:37:38Z",
+      "side": 1,
+      "message": "I didn\u0027t, but http://ftp.debian.org/debian (the one we\u0027re already using) is the one people advise others to switch to when you look these types of errors up.  Also, there is no guarantee that any particular mirror would behave better than any other at any given point.\n\nAn alternative to this solution would be to try different mirrors until it becomes possible to pull down all packages from a single source.  However that doesn\u0027t help when it the source of the flakiness is from our side.",
+      "parentUuid": "65b4e7e7_ceecdda5",
+      "revId": "1e69e4debda1dc3617b91403e898cfc0ee03641b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
