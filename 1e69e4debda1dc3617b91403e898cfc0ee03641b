@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65b4e7e7_ceecdda5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-05-25T18:26:39Z",
+      "side": 1,
+      "message": "I\u0027m not against this change, but did you try to use a different mirror? Perhaps https://packages.cloud.google.com/apt/dists would work better.",
+      "revId": "1e69e4debda1dc3617b91403e898cfc0ee03641b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
