@@ -46,6 +46,30 @@
       },
       "revId": "16027718d070b9196fa1860c612a40c02919161f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f66d07f2_3058e497",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-26T18:35:57Z",
+      "side": 1,
+      "message": "It seems the latest source has this fixed (added systemd-timesyncd to package list already). Therefore, I will remove this line.",
+      "parentUuid": "7224a61e_f0d0ae8a",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 2
+      },
+      "revId": "16027718d070b9196fa1860c612a40c02919161f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
