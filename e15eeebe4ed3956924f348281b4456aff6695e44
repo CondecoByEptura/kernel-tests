@@ -16,6 +16,161 @@
       "message": "Hi,\n\nThis CL is ready for review now. All 3 cases are passing and generating rootfs. These are logs:\n1. x86_64:\ncommand: device/google/cuttlefish/tools/create_base_image_combined.sh x86_64\n log: https://paste.googleplex.com/5400704039518208\n\n2. arm:\ncommand: device/google/cuttlefish/tools/create_base_image_combined.sh arm\n\n3. rockpi:\ncommand: device/google/cuttlefish/tools/create_base_image_arm.sh ~/temp/uboot_arm ~/temp/kernel_rockpi ./test_image\n log: https://paste.googleplex.com/6093916727148544",
       "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35089fe8_3ccfe1c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "Lots of functional changes in here and the commit log doesn\u0027t cover them all.\n\nWould you be kind enough to break them down into smaller commits please?",
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea942f74_3e40dc34",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "Why are you commenting this out?  Seems a little non-committal. 😊\n\nIf it\u0027s not required, remove the line please.",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b883476f_aa09f985",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "As well as what?  The code you just removed?\n\nHow about \"Also install from \u0027contrib\u0027 and \u0027non-free\u0027repos\"?\n\nOr, maybe we don\u0027t need a comment for this?  Seems readable already.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f28ad654_bd0ae35c",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "This adds \" contrib non-free\" to every line.\n\nAre all lines in the sources.list file deb{-src} lines?\n\nWhy roll your own anyway?  What\u0027s wrong with:\n\n  apt-add-repository non-free\n  apt-add-repository contrib",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "072f57b7_69da170d",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "I\u0027m struggling to parse this.  Can you put it another way please?",
+      "range": {
+        "startLine": 72,
+        "startChar": 47,
+        "endLine": 72,
+        "endChar": 87
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af5ff9fb_dd774782",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "Nit: All the other comments in this file seem to start with an uppercase char.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f1e38e_950353f4",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1870730
+      },
+      "writtenOn": "2022-05-27T08:12:53Z",
+      "side": 1,
+      "message": "What do you mean by original code?  The code you\u0027re removing?\n\nIf so, this should be in the commit message, not a comment.\n\nNarrating old code like this would become pretty confusing, pretty fast.",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 86
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
