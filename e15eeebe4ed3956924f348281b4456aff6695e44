@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66a76204_b6f8a63a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T00:02:46Z",
+      "side": 1,
+      "message": "Hi,\n\nThis CL is ready for review now. All 3 cases are passing and generating rootfs. These are logs:\n1. x86_64:\ncommand: device/google/cuttlefish/tools/create_base_image_combined.sh x86_64\n log: https://paste.googleplex.com/5400704039518208\n\n2. arm:\ncommand: device/google/cuttlefish/tools/create_base_image_combined.sh arm\n\n3. rockpi:\ncommand: device/google/cuttlefish/tools/create_base_image_arm.sh ~/temp/uboot_arm ~/temp/kernel_rockpi ./test_image\n log: https://paste.googleplex.com/6093916727148544",
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
