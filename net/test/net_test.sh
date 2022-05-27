@@ -139,6 +139,11 @@ sleep 1.1
 # Reset it back to boot time default
 echo 60 > /proc/sys/kernel/random/urandom_min_reseed_secs
 
+# Make sure /sys is mounted
+[[ -d /sys/fs/bpf ]] || mount -t sysfs none /sys
+
+# Mount the bpf filesystem
+mount -t bpf none /sys/fs/bpf
 
 # In case IPv6 is compiled as a module.
 [ -f /proc/net/if_inet6 ] || insmod $DIR/kernel/net-next/net/ipv6/ipv6.ko
