@@ -58,6 +58,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd1dbb3a_7e791b21",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T18:31:52Z",
+      "side": 1,
+      "message": "Originally, this line only appends \"non-free\" to source list. But Nvidia drivers need both contrib and non-free. See the following link:\nhttps://phoenixnap.com/kb/nvidia-drivers-debian\n\nI encounter failures if there is no \"contrib\", and there are some bugs talking about same problem when they don\u0027t have contrib.\nI will remove this line.",
+      "parentUuid": "ea942f74_3e40dc34",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b883476f_aa09f985",
@@ -81,6 +105,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c7752c_e483f897",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T18:31:52Z",
+      "side": 1,
+      "message": "Nvidia drivers need both contrib and non-free. See the following link:\nhttps://phoenixnap.com/kb/nvidia-drivers-debian\n\nI encounter failures if there is no \"contrib\", and there are some bugs talking about same problem when they don\u0027t have contrib.\nI will remove this line.",
+      "parentUuid": "b883476f_aa09f985",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f28ad654_bd0ae35c",
@@ -94,6 +142,30 @@
       "writtenOn": "2022-05-27T08:12:53Z",
       "side": 1,
       "message": "This adds \" contrib non-free\" to every line.\n\nAre all lines in the sources.list file deb{-src} lines?\n\nWhy roll your own anyway?  What\u0027s wrong with:\n\n  apt-add-repository non-free\n  apt-add-repository contrib",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec4bff68_9e498d9e",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T18:31:52Z",
+      "side": 1,
+      "message": "Nothing wrong with your commands, just I didn\u0027t try your commands. If you prefer those two commands, I could change to that.\n\nAccording to the solution: https://phoenixnap.com/kb/nvidia-drivers-debian\nWe need \"contrib non-free\" to every line.\n\nLet me try your suggested commands and see.",
+      "parentUuid": "f28ad654_bd0ae35c",
       "range": {
         "startLine": 54,
         "startChar": 2,
@@ -129,6 +201,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df1b7014_bec3f26d",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T18:31:52Z",
+      "side": 1,
+      "message": "Could you explain your question? Do you want me to change/add my comments to be more readable?\nOr you want me to change this part of parsing codes to be more readable?",
+      "parentUuid": "072f57b7_69da170d",
+      "range": {
+        "startLine": 72,
+        "startChar": 47,
+        "endLine": 72,
+        "endChar": 87
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af5ff9fb_dd774782",
         "filename": "net/test/rootfs/bullseye-server.sh",
         "patchSetId": 4
@@ -140,6 +236,30 @@
       "writtenOn": "2022-05-27T08:12:53Z",
       "side": 1,
       "message": "Nit: All the other comments in this file seem to start with an uppercase char.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0163b173_95551a8e",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T18:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af5ff9fb_dd774782",
       "range": {
         "startLine": 95,
         "startChar": 4,
@@ -163,6 +283,30 @@
       "writtenOn": "2022-05-27T08:12:53Z",
       "side": 1,
       "message": "What do you mean by original code?  The code you\u0027re removing?\n\nIf so, this should be in the commit message, not a comment.\n\nNarrating old code like this would become pretty confusing, pretty fast.",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 86
+      },
+      "revId": "e15eeebe4ed3956924f348281b4456aff6695e44",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed3fbc32_d0639f18",
+        "filename": "net/test/rootfs/common.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-27T18:31:52Z",
+      "side": 1,
+      "message": "This is the original code:\ncat \u003e/etc/apt/sources.list \u003c\u003cEOF\n\nThe original code has a potential bug that \"\u003e\" will keep overwriting source list file. It works fine most of time if input parameter $ has only one variable. But for x86_64 case which inputs two variables \"bullseye bullseye-backport\", the original code will cause error, because bullseye-backport overwrites bullseye source list. In other words, bullseye source list is gone.\n\nLet me add in the commit message and remove this line of comment.",
+      "parentUuid": "c0f1e38e_950353f4",
       "range": {
         "startLine": 26,
         "startChar": 6,
