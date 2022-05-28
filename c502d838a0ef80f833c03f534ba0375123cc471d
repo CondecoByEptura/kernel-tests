@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c6af7c_321ebeed",
+        "filename": "net/test/rootfs/bullseye-server.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1928727
+      },
+      "writtenOn": "2022-05-28T04:01:14Z",
+      "side": 1,
+      "message": "@joneslee, I tried apt-add-repository non-free, apt-add-repository contrib, but I got error when it install nvidia-driver. We have to change back to:\nsed -e \"s/$/ contrib non-free/\" -i /etc/apt/sources.list\n\nI print out the source list and found these 2 commands only update first 2 lines which are bullseye. The \"bullseye-backports\" repository doesn\u0027t have contrib+non-free.\ncat /etc/apt/sources.list\ndeb http://ftp.debian.org/debian bullseye main contrib non-free\ndeb-src http://ftp.debian.org/debian bullseye main contrib non-free\ndeb http://ftp.debian.org/debian bullseye-backports main\ndeb-src http://ftp.debian.org/debian bullseye-backports main\n\nThis is the error message.\nError! Bad return status for module build on kernel: 5.16.0-0.bpo.4-amd64 (x86_64)\nConsult /var/lib/dkms/nvidia-current/460.91.03/build/make.log for more information.\ndpkg: error processing package nvidia-kernel-dkms (--configure):\n installed nvidia-kernel-dkms package post-installation script subprocess returned error exit status 10\ndpkg: dependency problems prevent configuration of nvidia-driver:\n nvidia-driver depends on nvidia-kernel-dkms (\u003d 460.91.03-1) | nvidia-kernel-460.91.03; however:\n  Package nvidia-kernel-dkms is not configured yet.\n  Package nvidia-kernel-460.91.03 is not installed.\n  Package nvidia-kernel-dkms which provides nvidia-kernel-460.91.03 is not configured yet.\n\ndpkg: error processing package nvidia-driver (--configure):\n dependency problems - leaving unconfigured",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 28
+      },
+      "revId": "c502d838a0ef80f833c03f534ba0375123cc471d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
