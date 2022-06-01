@@ -18,6 +18,7 @@
 
 import ctypes
 import ctypes.util
+import errno
 import os
 import socket
 import sys
@@ -132,6 +133,12 @@ def IfPossibleEnterNewNetworkNamespace():
 
   sys.stdout.write('Creating clean namespace... ')
 
+  # sysctl only present on 4.14 and earlier kernels
+  if net_test.LINUX_VERSION < (4, 15, 0):
+    TCP_DEFAULT_INIT_RWND = "/proc/sys/net/ipv4/tcp_default_init_rwnd"
+    # In root netns this should succeed
+    f = open(TCP_DEFAULT_INIT_RWND, "w")
+
   try:
     UnShare(CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWNET)
   except OSError as err:
@@ -151,6 +158,16 @@ def IfPossibleEnterNewNetworkNamespace():
     print('failed.')
     # We've already transitioned into the new netns -- it's too late to recover.
     raise
+
+  if net_test.LINUX_VERSION < (4, 15, 0):
+    # In non-root netns this might fail due to non-namespace-ified sysctl
+    try:
+      f = open(TCP_DEFAULT_INIT_RWND, "w")
+    except IOError as e:
+      if e.errno != errno.ENOENT:
+        raise
+      # Note! This is *still* the root netns sysctl
+      f.write("60");
 
   print('succeeded.')
   return True
