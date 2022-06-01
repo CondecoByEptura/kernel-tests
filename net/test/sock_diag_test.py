@@ -38,6 +38,7 @@ TcpInfo = cstruct.Struct("TcpInfo", "64xI", "tcpi_rcv_ssthresh")
 NUM_SOCKETS = 30
 NO_BYTECODE = ""
 LINUX_4_9_OR_ABOVE = net_test.LINUX_VERSION >= (4, 9, 0)
+LINUX_4_14_182_OR_ABOVE = net_test.LINUX_VERSION >= (4, 14, 182)
 LINUX_4_19_OR_ABOVE = net_test.LINUX_VERSION >= (4, 19, 0)
 
 IPPROTO_SCTP = 132
@@ -558,7 +559,7 @@ class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
   def setUp(self):
     super(TcpRcvWindowTest, self).setUp()
-    if LINUX_4_19_OR_ABOVE:
+    if LINUX_4_14_182_OR_ABOVE:
       self.assertRaisesErrno(ENOENT, open, self.TCP_DEFAULT_INIT_RWND, "w")
       return
 
