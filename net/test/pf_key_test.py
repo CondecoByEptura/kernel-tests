@@ -80,19 +80,31 @@ class PfKeyTest(unittest.TestCase):
     self.assertTrue(attrs6["XFRMA_ALG_AUTH"].name.startswith(sha256_name))
 
     self.assertEqual(256, attrs4["XFRMA_ALG_CRYPT"].key_len)
-    self.assertEqual(256, attrs4["XFRMA_ALG_CRYPT"].key_len)
+    self.assertEqual(256, attrs6["XFRMA_ALG_CRYPT"].key_len)
+    self.assertEqual(256, attrs4["XFRMA_ALG_AUTH"].key_len)
     self.assertEqual(256, attrs6["XFRMA_ALG_AUTH"].key_len)
-    self.assertEqual(256, attrs6["XFRMA_ALG_AUTH"].key_len)
-    self.assertEqual(256, attrs6["XFRMA_ALG_AUTH_TRUNC"].key_len)
+    self.assertEqual(256, attrs4["XFRMA_ALG_AUTH_TRUNC"].key_len)
     self.assertEqual(256, attrs6["XFRMA_ALG_AUTH_TRUNC"].key_len)
 
-    self.assertEqual(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
-    self.assertEqual(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
+    if attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len == 96:
+        missing4 = True
+    else:
+        self.assertEqual(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
+        missing4 = False
+
+    if attrs6["XFRMA_ALG_AUTH_TRUNC"].trunc_len == 96:
+        missing6 = True
+    else:
+        self.assertEqual(128, attrs6["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
+        missing6 = False
 
     self.pf_key.DelSa(src4, dst4, 0xdeadbeef, pf_key.SADB_TYPE_ESP)
     self.assertEqual(1, len(self.xfrm.DumpSaInfo()))
     self.pf_key.DelSa(src6, dst6, 0xbeefdead, pf_key.SADB_TYPE_ESP)
     self.assertEqual(0, len(self.xfrm.DumpSaInfo()))
+
+    if missing4 or missing6:
+        self.assertFalse("missing b8a72fd7c4e9 ANDROID: net: xfrm: make PF_KEY SHA256 use RFC-compliant truncation.")
 
 
 if __name__ == "__main__":
