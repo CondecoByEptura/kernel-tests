@@ -562,8 +562,17 @@ class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertRaisesErrno(ENOENT, open, self.TCP_DEFAULT_INIT_RWND, "w")
       return
 
-    f = open(self.TCP_DEFAULT_INIT_RWND, "w")
-    f.write("60")
+    try:
+      open(self.TCP_DEFAULT_INIT_RWND, "w").write("60")
+    except IOError as e:
+      # sysctl was namespace-ified on May 25, 2020 in android-4.14-stable just after 4.14.181 by:
+      #   https://android-review.googlesource.com/c/kernel/common/+/1312623
+      #   ANDROID: namespace'ify tcp_default_init_rwnd implementation
+      # as such open should not fail on kernels newer than 4.14.181
+      if net_test.LINUX_VERSION > (4, 14, 181):
+        raise
+      if e.errno != ENOENT:
+        raise
 
   def checkInitRwndSize(self, version, netid):
     self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
