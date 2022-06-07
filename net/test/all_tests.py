@@ -49,10 +49,7 @@ test_modules = [
 ]
 
 if __name__ == '__main__':
-  # Check whether ADB over TCP is occupying TCP port 5555,
-  # or if we're on a real Android device
-  if os.path.isdir('/system') or namespace.HasEstablishedTcpSessionOnPort(5555):
-    namespace.IfPossibleEnterNewNetworkNamespace()
+  namespace.IfPossibleEnterNewNetworkNamespace()
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
   for name in test_modules:

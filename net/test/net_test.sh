@@ -158,13 +158,17 @@ fi
 # Minimal network setup.
 ip link set lo up
 ip link set lo mtu 16436
-ip link set eth0 up
+if [[ -d /sys/class/net/eth0 ]]; then
+  ip link set eth0 up
+fi
 
 # Allow people to run ping.
 echo '0 2147483647' > /proc/sys/net/ipv4/ping_group_range
 
 # Allow unprivileged use of eBPF (matches Android OS)
-echo 0 > /proc/sys/kernel/unprivileged_bpf_disabled
+if [[ "$(< /proc/sys/kernel/unprivileged_bpf_disabled)" != '0' ]]; then
+  echo 0 > /proc/sys/kernel/unprivileged_bpf_disabled
+fi
 
 # Read environment variables passed to the kernel to determine if script is
 # running on builder and to find which test to run.
