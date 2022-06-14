@@ -178,8 +178,17 @@ sudo chown root:root "${workdir}"
 
 # Run the debootstrap first
 cd "${workdir}"
-sudo debootstrap --arch="${arch}" --variant=minbase --include="${packages}" \
-                 --foreign "${suite%-*}" . "${mirror}"
+
+retries=5
+while ! sudo debootstrap --arch="${arch}" --variant=minbase --include="${packages}" \
+        --foreign "${suite%-*}" . "${mirror}"; do
+    retries=$((${retries} - 1))
+    if [ ${retries} -le 0 ]; then
+	failure
+	exit 1
+    fi
+    echo "debootstrap failed - trying again - ${retries} retries left"
+done
 
 # Copy some bootstrapping scripts into the rootfs
 sudo cp -a "${SCRIPT_DIR}"/rootfs/*.sh root/
