@@ -89,7 +89,7 @@ while getopts ":hs:a:m:n:r:k:i:d:e" opt; do
 done
 
 # Disable Debian's "persistent" network device renaming
-cmdline="net.ifnames=0 rw 8250.nr_uarts=2 PATH=/usr/sbin:/usr/bin"
+cmdline="net.ifnames=0 rw 8250.nr_uarts=2 PATH=/usr/sbin:/bin:/usr/bin"
 
 # Pass down embedding option, if specified
 if [ -n "${embed_kernel_initrd_dtb}" ]; then
@@ -178,8 +178,17 @@ sudo chown root:root "${workdir}"
 
 # Run the debootstrap first
 cd "${workdir}"
-sudo debootstrap --arch="${arch}" --variant=minbase --include="${packages}" \
-                 --foreign "${suite%-*}" . "${mirror}"
+
+retries=5
+while ! sudo debootstrap --arch="${arch}" --variant=minbase --include="${packages}" \
+        --foreign "${suite%-*}" . "${mirror}"; do
+    retries=$((${retries} - 1))
+    if [ ${retries} -le 0 ]; then
+	failure
+	exit 1
+    fi
+    echo "debootstrap failed - trying again - ${retries} retries left"
+done
 
 # Copy some bootstrapping scripts into the rootfs
 sudo cp -a "${SCRIPT_DIR}"/rootfs/*.sh root/
@@ -232,7 +241,8 @@ trap initrd_remove EXIT
 
 # Copy the initial ramdisk to the final rootfs name and extend it
 sudo cp -a "${initrd}" "${rootfs}"
-truncate -s 2G "${rootfs}"
+# Original 2G isn't enough to install nvidia-driver
+truncate -s 3G "${rootfs}"
 e2fsck -p -f "${rootfs}" || true
 resize2fs "${rootfs}"
 

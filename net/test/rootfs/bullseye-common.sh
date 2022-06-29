@@ -126,6 +126,9 @@ setup_and_build_cuttlefish() {
 install_and_cleanup_cuttlefish() {
   # Install and clean up cuttlefish-common
   cd /usr/src
+    apt-get install -y -f ./cuttlefish-base_*.deb
+    apt-get install -y -f ./cuttlefish-user_*.deb
+    apt-get install -y -f ./cuttlefish-integration_*.deb
     apt-get install -y -f ./cuttlefish-common_*.deb
     rm -rf $cuttlefish cuttlefish*.{buildinfo,changes,deb,dsc}
   cd -

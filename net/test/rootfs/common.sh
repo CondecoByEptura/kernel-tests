@@ -23,7 +23,7 @@ update_apt_sources() {
   cat >/etc/apt/sources.list << EOF
 EOF
   for source in $1; do
-    cat >/etc/apt/sources.list <<EOF
+    cat >>/etc/apt/sources.list <<EOF
 deb http://ftp.debian.org/debian $source main
 deb-src http://ftp.debian.org/debian $source main
 EOF
