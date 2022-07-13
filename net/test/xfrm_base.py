@@ -182,9 +182,7 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
   # the passed-in packet pointer. For consistency, this function now returns
   # a new packet and does not modify the user's original packet.
   packet = packet.copy()
-  udp_layer = packet.getlayer(scapy.UDP)
-  if not udp_layer:
-    raise ValueError("Expected a UDP packet")
+
   # Build an ESP header.
   esp_packet = scapy.Raw(xfrm.EspHdr((spi, seq)).Pack())
 
@@ -197,8 +195,10 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
     esp_nexthdr = {scapy.IPv6: IPPROTO_IPV6,
                    scapy.IP: IPPROTO_IPIP}[type(packet)]
   else:
+    inner_layer = packet.getlayer(scapy.UDP)
+    if not inner_layer:
+        raise ValueError("Expected a UDP packet")
     new_ip_layer = None
-    inner_layer = udp_layer
     esp_nexthdr = IPPROTO_UDP
 
   trailer = GetEspTrailer(len(inner_layer), esp_nexthdr)

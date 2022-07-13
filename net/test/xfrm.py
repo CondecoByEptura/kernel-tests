@@ -643,7 +643,7 @@ class Xfrm(netlink.NetlinkSocket):
     self._SendNlRequest(XFRM_MSG_FLUSHSA, usersa_flush.Pack(), flags)
 
   def CreateTunnel(self, direction, selector, src, dst, spi, encryption,
-                   auth_trunc, mark, output_mark, xfrm_if_id, match_method):
+                   auth_trunc, mark, output_mark, xfrm_if_id, match_method, reqid=0):
     """Create an XFRM Tunnel Consisting of a Policy and an SA.
 
     Create a unidirectional XFRM tunnel, which entails one Policy and one
@@ -690,7 +690,7 @@ class Xfrm(netlink.NetlinkSocket):
     # Device code does not use mark; during AllocSpi, the mark is unset, and
     # UPDSA does not update marks at this time. Actual use case will have no
     # mark set. Test this use case.
-    self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, 0, encryption, auth_trunc,
+    self.AddSaInfo(src, dst, spi, XFRM_MODE_TUNNEL, reqid, encryption, auth_trunc,
                    None, None, None, output_mark, xfrm_if_id=xfrm_if_id)
 
     if selector is None:
@@ -700,7 +700,7 @@ class Xfrm(netlink.NetlinkSocket):
 
     for selector in selectors:
       policy = UserPolicy(direction, selector)
-      tmpl = UserTemplate(outer_family, tmpl_spi, 0, (src, dst))
+      tmpl = UserTemplate(outer_family, tmpl_spi, reqid, (src, dst))
       self.AddPolicyInfo(policy, tmpl, mark, xfrm_if_id=xfrm_if_id)
 
   def DeleteTunnel(self, direction, selector, dst, spi, mark, xfrm_if_id):

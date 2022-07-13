@@ -20,6 +20,7 @@ from socket import *  # pylint: disable=wildcard-import
 
 import random
 import itertools
+import subprocess
 import struct
 import unittest
 
@@ -30,6 +31,7 @@ import csocket
 import iproute
 import multinetwork_base
 import net_test
+import os
 import packets
 import util
 import xfrm
@@ -146,7 +148,8 @@ def _GetRemoteOuterAddress(version):
 
 def _GetNullAuthCryptTunnelModePkt(inner_version, src_inner, src_outer,
                                    src_port, dst_inner, dst_outer,
-                                   dst_port, spi, seq_num, ip_hdr_options=None):
+                                   dst_port, spi, seq_num, ip_hdr_options=None,
+                                   payload=None):
   if ip_hdr_options is None:
     ip_hdr_options = {}
 
@@ -154,10 +157,13 @@ def _GetNullAuthCryptTunnelModePkt(inner_version, src_inner, src_outer,
 
   # Build and receive an ESP packet destined for the inner socket
   IpType = {4: scapy.IP, 6: scapy.IPv6}[inner_version]
-  input_pkt = (
-      IpType(**ip_hdr_options) / scapy.UDP(sport=src_port, dport=dst_port) /
-      net_test.UDP_PAYLOAD)
-  input_pkt = IpType(bytes(input_pkt))  # Compute length, checksum.
+  if payload is None:
+    input_pkt = (
+        IpType(**ip_hdr_options) / scapy.UDP(sport=src_port, dport=dst_port) /
+        net_test.UDP_PAYLOAD)
+    input_pkt = IpType(bytes(input_pkt))  # Compute length, checksum.
+  else:
+    input_pkt = payload
   input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, spi, seq_num,
                                               (src_outer, dst_outer))
 
@@ -474,12 +480,12 @@ class VtiInterface(IpSecBaseInterface):
     #       the same, but rekeys are asymmetric, and only update the outbound
     #       policy.
     self.xfrm.AddSaInfo(self.local, self.remote, new_out_sa.spi,
-                        xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL,
+                        xfrm.XFRM_MODE_TUNNEL, self.netid, xfrm_base._ALGO_CRYPT_NULL,
                         xfrm_base._ALGO_AUTH_NULL, None, None,
                         xfrm.ExactMatchMark(self.okey), self.underlying_netid)
 
     self.xfrm.AddSaInfo(self.remote, self.local, new_in_sa.spi,
-                        xfrm.XFRM_MODE_TUNNEL, 0, xfrm_base._ALGO_CRYPT_NULL,
+                        xfrm.XFRM_MODE_TUNNEL, self.netid, xfrm_base._ALGO_CRYPT_NULL,
                         xfrm_base._ALGO_AUTH_NULL, None, None,
                         xfrm.ExactMatchMark(self.ikey), None)
 
@@ -487,7 +493,7 @@ class VtiInterface(IpSecBaseInterface):
     for sel in [xfrm.EmptySelector(AF_INET), xfrm.EmptySelector(AF_INET6)]:
       # Add SPI-specific output policy to enforce using new outbound SPI
       policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
-      tmpl = xfrm.UserTemplate(outer_family, new_out_sa.spi, 0,
+      tmpl = xfrm.UserTemplate(outer_family, new_out_sa.spi, self.netid,
                                     (self.local, self.remote))
       self.xfrm.UpdatePolicyInfo(policy, tmpl, xfrm.ExactMatchMark(self.okey),
                                  0)
@@ -537,10 +543,11 @@ class XfrmInterface(IpSecBaseInterface):
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_OUT, None, self.local, self.remote,
                            self.out_sa.spi, crypt_algo, auth_algo, None,
                            self.underlying_netid, self.xfrm_if_id,
-                           xfrm.MATCH_METHOD_ALL)
+                           xfrm.MATCH_METHOD_ALL, reqid=os.getuid())
     self.xfrm.CreateTunnel(xfrm.XFRM_POLICY_IN, None, self.remote, self.local,
                            self.in_sa.spi, crypt_algo, auth_algo, None, None,
-                           self.xfrm_if_id, xfrm.MATCH_METHOD_IFID)
+                           self.xfrm_if_id, xfrm.MATCH_METHOD_IFID,
+                           reqid=os.getuid())
 
   def TeardownXfrm(self):
     self.xfrm.DeleteTunnel(xfrm.XFRM_POLICY_OUT, None, self.remote,
@@ -553,12 +560,12 @@ class XfrmInterface(IpSecBaseInterface):
     #       the same, but rekeys are asymmetric, and only update the outbound
     #       policy.
     self.xfrm.AddSaInfo(
-        self.local, self.remote, new_out_sa.spi, xfrm.XFRM_MODE_TUNNEL, 0,
+        self.local, self.remote, new_out_sa.spi, xfrm.XFRM_MODE_TUNNEL, self.netid,
         xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL, None, None,
         None, self.underlying_netid, xfrm_if_id=self.xfrm_if_id)
 
     self.xfrm.AddSaInfo(
-        self.remote, self.local, new_in_sa.spi, xfrm.XFRM_MODE_TUNNEL, 0,
+        self.remote, self.local, new_in_sa.spi, xfrm.XFRM_MODE_TUNNEL, self.netid,
         xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL, None, None,
         None, None, xfrm_if_id=self.xfrm_if_id)
 
@@ -566,7 +573,7 @@ class XfrmInterface(IpSecBaseInterface):
     for sel in [xfrm.EmptySelector(AF_INET), xfrm.EmptySelector(AF_INET6)]:
       # Add SPI-specific output policy to enforce using new outbound SPI
       policy = xfrm.UserPolicy(xfrm.XFRM_POLICY_OUT, sel)
-      tmpl = xfrm.UserTemplate(outer_family, new_out_sa.spi, 0,
+      tmpl = xfrm.UserTemplate(outer_family, new_out_sa.spi, self.netid,
                                     (self.local, self.remote))
       self.xfrm.UpdatePolicyInfo(policy, tmpl, None, self.xfrm_if_id)
 
@@ -733,6 +740,63 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     self.assertEqual((tunnel.rx, tunnel.tx),
                       self.iproute.GetRxTxPackets(tunnel.iface))
     sa_info.seq_num += 1
+
+  def _CheckNestedTunnelInput4(self, tunnel, inner_version, local_inner, remote_inner,
+                        sa_info=None, expect_fail=False):
+    self._CheckNestedTunnelInput(tunnel, inner_version, local_inner, remote_inner, 4, sa_info=sa_info, expect_fail=expect_fail)
+
+  def _CheckNestedTunnelInput6(self, tunnel, inner_version, local_inner, remote_inner,
+                        sa_info=None, expect_fail=False):
+    self._CheckNestedTunnelInput(tunnel, inner_version, local_inner, remote_inner, 6, sa_info=sa_info, expect_fail=expect_fail)
+
+  def _CheckNestedTunnelInput(self, tunnel, inner_version, local_inner, remote_inner, nested_version,
+                        sa_info=None, expect_fail=False):
+    nested_netid = 199 + _TUNNEL_NETID_OFFSET
+    nested_iface = "stk_ipsec%s" % nested_netid
+    nested_local = tunnel.addrs[inner_version]
+
+    if inner_version == 4:
+      nested_version = 6
+      nested_remote = (net_test.IPV4_ADDR if (tunnel.netid % 2) else net_test.IPV4_ADDR2)
+    else:
+      nested_version = 4
+      nested_remote = (net_test.IPV6_ADDR if (tunnel.netid % 2) else net_test.IPV6_ADDR2)
+
+    nested_ifindex = self.ifindices[tunnel.underlying_netid]
+    nested_tunnel = self.INTERFACE_CLASS(nested_iface, nested_netid, tunnel.netid, nested_ifindex,
+                                nested_local, nested_remote, inner_version, use_null_crypt=True)
+
+    try:
+      self._SetInboundMarking(nested_netid, nested_iface, True)
+      self._SetupTunnelNetwork(nested_tunnel, True)
+
+      nested_sa_info = nested_tunnel.in_sa
+
+      """Test null-crypt input path over an IPsec interface."""
+      if sa_info is None:
+        sa_info = tunnel.in_sa
+      read_sock, local_port = _CreateReceiveSock(nested_version)
+
+      inner_pkt = _GetNullAuthCryptTunnelModePkt(
+          nested_version, _GetRemoteInnerAddress(nested_version), nested_remote, _TEST_REMOTE_PORT,
+          nested_tunnel.addrs[nested_version], nested_local, local_port, nested_sa_info.spi, nested_sa_info.seq_num)
+
+      input_pkt = xfrm_base.EncryptPacketWithNull(inner_pkt, sa_info.spi, sa_info.seq_num, (tunnel.remote, tunnel.local))
+
+      self.ReceivePacketOn(tunnel.underlying_netid, input_pkt)
+
+      if expect_fail:
+        self.assertRaisesErrno(EAGAIN, read_sock.recv, 4096)
+      else:
+        # Verify that the packet data and src are correct
+        data, src = read_sock.recvfrom(4096)
+        self.assertReceivedPacket(tunnel, sa_info)
+        self.assertEqual(net_test.UDP_PAYLOAD, data)
+        self.assertEqual((_GetRemoteInnerAddress(nested_version), _TEST_REMOTE_PORT), src[:2])
+    finally:
+      self._SetInboundMarking(nested_tunnel.netid, nested_tunnel.iface, False)
+      self._SetupTunnelNetwork(nested_tunnel, False)
+      nested_tunnel.Teardown()
 
   def _CheckTunnelInput(self, tunnel, inner_version, local_inner, remote_inner,
                         sa_info=None, expect_fail=False):
@@ -1018,6 +1082,12 @@ class XfrmInterfaceTest(XfrmTunnelBase):
 
   def ParamTestXfrmIntfInput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelInput, True)
+
+  def ParamTestXfrmStackedTunnelInput4(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckStackedTunnelInput4, True)
+
+  def ParamTestXfrmStackedTunnelInput6(self, inner_version, outer_version):
+    self._TestTunnel(inner_version, outer_version, self._CheckStackedTunnelInput6, True)
 
   def ParamTestXfrmIntfOutput(self, inner_version, outer_version):
     self._TestTunnel(inner_version, outer_version, self._CheckTunnelOutput,
