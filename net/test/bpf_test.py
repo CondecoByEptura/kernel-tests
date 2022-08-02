@@ -40,6 +40,7 @@ from bpf import BPF_FUNC_map_lookup_elem
 from bpf import BPF_FUNC_map_update_elem
 from bpf import BPF_FUNC_skb_change_head
 from bpf import BPF_JNE
+from bpf import BPF_MAP_TYPE_ARRAY
 from bpf import BPF_MAP_TYPE_HASH
 from bpf import BPF_PROG_TYPE_CGROUP_SKB
 from bpf import BPF_PROG_TYPE_CGROUP_SOCK
@@ -99,7 +100,7 @@ HAVE_EBPF_KTIME_GET_NS_APACHE2 = (
 )
 HAVE_EBPF_KTIME_GET_BOOT_NS = HAVE_EBPF_KTIME_GET_NS_APACHE2
 
-KEY_SIZE = 8
+KEY_SIZE = 4
 VALUE_SIZE = 4
 TOTAL_ENTRIES = 20
 TEST_UID = 54321
@@ -280,6 +281,13 @@ class BpfTest(net_test.NetworkTest):
     first_key = GetFirstKey(self.map_fd)
     key = first_key.value
     self.CheckAllMapEntry(key, TOTAL_ENTRIES - 1, value)
+
+  def testArrayNonZeroOffset(self):
+    self.map_fd = CreateMap(BPF_MAP_TYPE_ARRAY, KEY_SIZE, VALUE_SIZE, 2)
+    key = 1
+    value = 123
+    UpdateMap(self.map_fd, key, value)
+    self.assertEqual(value, LookupMap(self.map_fd, key).value)
 
   def testRdOnlyMap(self):
     self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
