@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3317fe49_d347d806",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-08-02T12:00:07Z",
+      "side": 1,
+      "message": "Tested on ACK-4.19-R:\n\n$ ARCH\u003dum SUBARCH\u003dx86_64 /aosp-tests/net/test/run_net_test.sh --builder bpf_test.py\n\nRunning /host/mnt/zoom/maze/aosp-tests/net/test/bpf_test.py\n\nWARNING: No route found for IPv6 destination :: (no default route?)\n....................\n----------------------------------------------------------------------\nRan 20 tests in 0.064s\n\nOK\nepollctl add err fd 3, Operation not permitted\nepollctl add err fd 19, Operation not permitted\nreboot: System halted\n\nInfo: retrieved exit code 0.\nReturning exit code 0.\n\nand with \u0027[ALPS05162612] bpf: fix ubsan error\"\u0027, ie.\ncommit 09df06aaf9ac9e1592b921061ac17d35df422a62 reverted:\n\nRunning /host/mnt/zoom/maze/aosp-tests/net/test/bpf_test.py\n\nWARNING: No route found for IPv6 destination :: (no default route?)\n.....E..............\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nERROR: testArrayNonZeroOffset (__main__.BpfTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/bpf_test.py\", line 289, in testArrayNonZeroOffset\n    UpdateMap(self.map_fd, key, value)\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/bpf.py\", line 222, in UpdateMap\n    BpfSyscall(BPF_MAP_UPDATE_ELEM, attr)\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/bpf.py\", line 207, in BpfSyscall\n    csocket.MaybeRaiseSocketError(ret)\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/csocket.py\", line 109, in MaybeRaiseSocketError\n    raise socket.error(errno, os.strerror(errno))\nerror: [Errno 22] Invalid argument\n\n----------------------------------------------------------------------\nRan 20 tests in 0.082s\n\nFAILED (errors\u003d1)\nepollctl add err fd 3, Operation not permitted\nepollctl add err fd 19, Operation not permitted\nreboot: System halted\n\nWarning: UML exited with 1 instead of zero.\nInfo: retrieved exit code 1.\nReturning exit code 1.\n\n",
+      "revId": "452bd344ac5891a1ef7864ec77c9f3a10331fc54",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
