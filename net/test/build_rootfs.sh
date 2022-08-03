@@ -255,11 +255,17 @@ raw_initrd_remove() {
 trap raw_initrd_remove EXIT
 truncate -s 64M "${raw_initrd}"
 
+# Get number of cores for qemu. Restrict the maximum value to 8.
+qemucpucores=$(nproc)
+if [[ ${qemucpucores} -gt 8 ]]; then
+  qemucpucores=8
+fi
+
 # Complete the bootstrap process using QEMU and the specified kernel
 ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
   -no-reboot -display none -nographic -serial stdio -parallel none \
-  -smp 8,sockets=8,cores=1,threads=1 \
+  -smp "${qemucpucores}",sockets="${qemucpucores}",cores=1,threads=1 \
   -object rng-random,id=objrng0,filename=/dev/urandom \
   -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
   -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
@@ -336,7 +342,7 @@ trap raw_initrd_remove EXIT
 ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
   -no-reboot -display none -nographic -serial stdio -parallel none \
-  -smp 8,sockets=8,cores=1,threads=1 \
+  -smp "${qemucpucores}",sockets="${qemucpucores}",cores=1,threads=1 \
   -object rng-random,id=objrng0,filename=/dev/urandom \
   -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
   -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
