@@ -16,6 +16,23 @@
       "message": "(side note: AFAICT this code leaks map fds left and right... oh well, not going to be fixed in this cl, and it doesn\u0027t really truly matter)",
       "revId": "7a72ff9792427499a1fd202ad9b2d24747f3823d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f44fa9a9_0861298a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-08-08T18:17:21Z",
+      "side": 1,
+      "message": "TH+2 expired.",
+      "revId": "7a72ff9792427499a1fd202ad9b2d24747f3823d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
