@@ -16,6 +16,24 @@
       "message": "lorenzo: heads up that i\u0027ll be along later complaining that these `vts_kernel_net_tests` tests don\u0027t support python3 too :-)\n\nthe good news is that there are only a handful of tests standing in the way of removing python2 (https://cs.android.com/search?q\u003dfile:%5C.*%5C.bp%20python_test%5Cb.*%7B%20-file:external%2Fpython\u0026ss\u003dandroid%2Fplatform%2Fsuperproject). the bad news is that you own some of them!",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d66d383_1a2b7a0d",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-08-10T21:41:08Z",
+      "side": 0,
+      "message": "I\u0027ve fixed a lot of the python2-isms, but I don\u0027t really know python so I\u0027m not sure how much work is truly left... additionally these tests still run against a prebuilt disk image which only includes an ancient python2 interpreter, so would need to support both.",
+      "parentUuid": "df92942d_ce164ade",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
