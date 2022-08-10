@@ -52,6 +52,24 @@
       "parentUuid": "2d66d383_1a2b7a0d",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a29dbba0_7d2ed078",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-08-10T21:47:40Z",
+      "side": 0,
+      "message": "I\u0027m pretty sure (though haven\u0027t recently checked) that the code outright fails to run on py3 interpreter.\n\nI wish... see http://cs/aosp-master/kernel/tests/net/test/run_net_test.sh?rcl\u003d04a54a947eb00ba22a25c09bec3e8f92d6eb01da\u0026l\u003d87\n\n\n# The root filesystem disk image we\u0027ll use.\nROOTFS\u003d${ROOTFS:-net_test.rootfs.20150203}\nCOMPRESSED_ROOTFS\u003d$ROOTFS.xz\nURL\u003dhttps://dl.google.com/dl/android/$COMPRESSED_ROOTFS",
+      "parentUuid": "6d30a378_c7116b29",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
