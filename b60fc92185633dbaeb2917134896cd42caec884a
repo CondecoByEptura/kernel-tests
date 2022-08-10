@@ -88,6 +88,24 @@
       "parentUuid": "a29dbba0_7d2ed078",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffbef968_31d09974",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003224
+      },
+      "writtenOn": "2022-08-10T21:54:04Z",
+      "side": 0,
+      "message": "2015?! is this even an _Android_ image?\n\n(on the bright side, the one _good_ thing about a dynamic language is that you usually can paper over these kinds of cracks. if you+danalbert can tell us how to _run_ the damn thing under both python2 and python3 i suspect i can find people who know enough python to come up with fixes.)",
+      "parentUuid": "a29dbba0_7d2ed078",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
