@@ -34,6 +34,24 @@
       "parentUuid": "df92942d_ce164ade",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d30a378_c7116b29",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003224
+      },
+      "writtenOn": "2022-08-10T21:44:32Z",
+      "side": 0,
+      "message": "\u003e I don\u0027t really know python so I\u0027m not sure how much work is truly left\n\ngreat, that makes two of us! /s\n\ni think adding something like\n```\n    version: {\n        py3: {\n            enabled: true,\n        },\n    },\n```\nshould switch you over?\n\n\u003e additionally these tests still run against a prebuilt disk image which only includes an ancient python2 interpreter, so would need to support both.\n\nyou mean like GSI or something? otherwise can\u0027t we just recreate the disk image with +dwillemsen\u0027s python3?",
+      "parentUuid": "2d66d383_1a2b7a0d",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
