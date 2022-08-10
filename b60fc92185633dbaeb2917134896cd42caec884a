@@ -70,6 +70,24 @@
       "parentUuid": "6d30a378_c7116b29",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b08eded7_57cb073b",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-08-10T21:52:39Z",
+      "side": 0,
+      "message": "We\u0027d need to build, test and upload new images, presumably for all 4 of x86/arm 32/64-bit... and based on a newer version of Debian.  Ideally we\u0027d also switch from UML to QEMU...\n\nThe build runs into issues because the Android version of iptables (and possibly iproute2) is Android-specific, and the Debian version doesn\u0027t just work.\n\nAdditionally the uploading part ran into issues with beer licensed Debian packages (beer license is no longer permitted) -- I think this might have eventually been worked out with Chris DiBona, though I\u0027m unsure of the ultimate resolution.\n\nEither way it\u0027s really a fair bit of work we\u0027ve been putting off...",
+      "parentUuid": "a29dbba0_7d2ed078",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
