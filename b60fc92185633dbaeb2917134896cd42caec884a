@@ -124,6 +124,24 @@
       "parentUuid": "ffbef968_31d09974",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17702783_be5dc2dd",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1074628
+      },
+      "writtenOn": "2022-08-11T03:10:19Z",
+      "side": 0,
+      "message": "Ah, we run the same test code in vts through this module definition, and separately via a shell script in the ancient linux image. So we could change the module config, but the code would need to be compatible with both (which is increasingly difficult as python moves on)",
+      "parentUuid": "26281830_e352f71c",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
