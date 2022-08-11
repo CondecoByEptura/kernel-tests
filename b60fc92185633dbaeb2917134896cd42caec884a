@@ -106,6 +106,24 @@
       "parentUuid": "a29dbba0_7d2ed078",
       "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26281830_e352f71c",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1074628
+      },
+      "writtenOn": "2022-08-11T03:06:10Z",
+      "side": 0,
+      "message": "Elliott, if those are what I think they are, then no, they\u0027re not Android.\n\nBut this test shouldn\u0027t be running there, since the output of this module is a self-contained executable (containing either cpython2 or cpython3) that links against android bionic, not a set of python files.",
+      "parentUuid": "ffbef968_31d09974",
+      "revId": "b60fc92185633dbaeb2917134896cd42caec884a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
