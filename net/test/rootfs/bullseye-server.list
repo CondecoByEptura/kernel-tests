@@ -2,6 +2,7 @@
 aapt
 bzip2
 gcc
+grub-efi
 make
 openjdk-11-jre
 screen

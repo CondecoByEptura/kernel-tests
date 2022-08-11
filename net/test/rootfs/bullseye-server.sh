@@ -105,7 +105,7 @@ if [ "${arch}" = "amd64" ]; then
     ln -s /proc/self/fd /dev/fd
   fi
   # Add noninteractive because config-keyboard package will ask 22+ keyboard options
-  DEBIAN_FRONTEND=noninteractive apt-get install -y -t bullseye-backports nvidia-driver
+  DEBIAN_FRONTEND=noninteractive apt-get install -y -d -t bullseye-backports nvidia-driver
 fi
 
 get_installed_packages >/root/originally-installed
