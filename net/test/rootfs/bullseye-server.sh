@@ -43,6 +43,13 @@ if [ "${arch}" = "amd64" ]; then
   cat >/etc/apt/sources.list.d/google-cloud-sdk.list <<EOF
 deb https://packages.cloud.google.com/apt cloud-sdk main
 EOF
+  # Add eth0 dhcp in startup/boot
+  cat >/etc/network/interfaces.d/eth0 <<EOF
+auto eth0
+allow-hotplug eth0
+
+iface eth0 inet dhcp
+EOF
 fi
 
 update_apt_sources "bullseye bullseye-backports"
@@ -98,7 +105,7 @@ if [ "${arch}" = "amd64" ]; then
     ln -s /proc/self/fd /dev/fd
   fi
   # Add noninteractive because config-keyboard package will ask 22+ keyboard options
-  DEBIAN_FRONTEND=noninteractive apt-get install -y -t bullseye-backports nvidia-driver
+  DEBIAN_FRONTEND=noninteractive apt-get install -y -t -d bullseye-backports nvidia-driver
 fi
 
 get_installed_packages >/root/originally-installed
@@ -112,6 +119,8 @@ remove_installed_packages /root/originally-installed /root/installed
 install_and_cleanup_cuttlefish
 
 create_systemd_getty_symlinks ttyS0 hvc1
+
+setup_grub "net.ifnames=0 8250.nr_uarts=1"
 
 apt-get purge -y vim-tiny
 bullseye_cleanup
