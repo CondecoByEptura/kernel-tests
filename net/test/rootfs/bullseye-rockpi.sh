@@ -51,6 +51,8 @@ if dhcp ${scriptaddr} manifest.txt; then
 		run manifest1
 	elif test "$ManifestVersion" = "2"; then
 		run manifest2
+	elif test "$ManifestVersion" = "3"; then
+		run manifest3
 	else
 		run manifestX
 	fi
@@ -85,6 +87,28 @@ if test "$DFUethaddr" = "$ethaddr" || test "$DFUethaddr" = ""; then
 		setenv file $TrustImg; offset=0x6000; size=0x2000; run tftpget1; setenv TrustImg
 		setenv file $RootfsImg; offset=0x8000; size=0; run tftpget1; setenv RootfsImg
 		setenv file $UbootEnv; offset=0x1fc0; size=0x40; run tftpget1; setenv UbootEnv
+		mw.b ${scriptaddr} 0 0x8000
+		env export -b ${scriptaddr} 0x8000
+		mmc write ${scriptaddr} 0x1fc0 0x40
+	else
+		echo "Already have ${Sha}. Booting..."
+	fi
+else
+	echo "Update ${Sha} is not for me. Booting..."
+fi'
+setenv manifest3 '
+env import -t ${scriptaddr} 0x8000
+if test "$DFUethaddr" = "$ethaddr" || test "$DFUethaddr" = ""; then
+	if test "$Sha" != "$OldSha"; then
+		setenv serverip ${TftpServer}
+		setenv loadaddr 0x00200000
+		mmc dev 0 0;
+		setenv file $TplSplImg; offset=0x40; size=0x1f80; run tftpget1; setenv TplSplImg
+		setenv file $UbootEnv; offset=0x1fc0; size=0x40; run tftpget1; setenv UbootEnv
+		setenv file $UbootItb;  offset=0x4000; size=0x2000; run tftpget1; setenv UbootItb
+		setenv file $TrustImg; offset=0x6000; size=0x2000; run tftpget1; setenv TrustImg
+		setenv file $EspImg; offset=0x8000; size=0x40000; run tftpget1; setenv EspImg
+		setenv file $RootfsImg; offset=0x48000; size=0; run tftpget1; setenv RootfsImg
 		mw.b ${scriptaddr} 0 0x8000
 		env export -b ${scriptaddr} 0x8000
 		mmc write ${scriptaddr} 0x1fc0 0x40
@@ -266,12 +290,14 @@ part_num=p5
 if [ -e /dev/mmcblk0p5 ] && [ -e /dev/mmcblk1p5 ]; then
 	led 1
 
-	sgdisk -Z -a1 /dev/${dest_dev}
-	sgdisk -a1 -n:1:64:8127 -t:1:8301 -c:1:loader1 /dev/${dest_dev}
-	sgdisk -a1 -n:2:8128:8191 -t:2:8301 -c:2:env /dev/${dest_dev}
-	sgdisk -a1 -n:3:16384:24575 -t:3:8301 -c:3:loader2 /dev/${dest_dev}
-	sgdisk -a1 -n:4:24576:32767 -t:4:8301 -c:4:trust /dev/${dest_dev}
-	sgdisk -a1 -n:5:32768:- -A:5:set:2 -t:5:8305 -c:5:rootfs /dev/${dest_dev}
+	sgdisk -Z /dev/${dest_dev}
+
+	sgdisk -a1 -n:1:64:8127   -t:1:8301 -c:1:idbloader         /dev/${dest_dev}
+	sgdisk -a1 -n:2:8128:+64  -t:2:8301 -c:2:uboot_env         /dev/${dest_dev}
+	sgdisk     -n:3:8M:+4M    -t:3:8301 -c:3:uboot             /dev/${dest_dev}
+	sgdisk     -n:4:12M:+4M   -t:4:8301 -c:4:trust             /dev/${dest_dev}
+	sgdisk     -n:5:16M:+128M -t:5:ef00 -c:5:esp    -A:5:set:0 /dev/${dest_dev}
+	sgdisk     -n:6:144M:0    -t:6:8305 -c:6:rootfs -A:6:set:2 /dev/${dest_dev}
 
 	src_block_count=$(tune2fs -l /dev/${src_dev}${part_num} | grep "Block count:" | sed 's/.*: *//')
 	src_block_size=$(tune2fs -l /dev/${src_dev}${part_num} | grep "Block size:" | sed 's/.*: *//')

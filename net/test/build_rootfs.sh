@@ -257,22 +257,53 @@ loopdev_delete() {
   initrd_remove
 }
 if [[ "${install_grub}" = 1 ]]; then
+  part_num=0
+  # $1 partition size
+  # $2 gpt partition type
+  # $3 partition name
+  # $4 bypass alignment checks (use on <1MB partitions only)
+  # $5 partition attribute bit to set
+  sgdisk() {
+    part_num=$((part_num+1))
+    [[ -n "${4:-}" ]] && prefix="-a1" || prefix=
+    [[ -n "${5:-}" ]] && suffix="-A:${part_num}:set:$5" || suffix=
+    /sbin/sgdisk ${prefix} \
+      "-n:${part_num}:$1" "-t:${part_num}:$2" "-c:${part_num}:$3" \
+      ${suffix} "${disk}" >/dev/null 2>&1
+  }
   # If there's a bootloader, we need to make space for the GPT header, GPT
   # footer and EFI system partition (legacy boot is not supported)
   # Keep this simple - modern gdisk reserves 1MB for the GPT header and
   # assumes all partitions are 1MB aligned
   truncate -s "$((1 + 128 + 10 * 1024 + 1))M" "${disk}"
   /sbin/sgdisk --zap-all "${disk}" >/dev/null 2>&1
-  /sbin/sgdisk --new="1:0:+128M" --typecode="1:ef00" "${disk}" >/dev/null 2>&1
-  /sbin/sgdisk --new="2:0:0" --typecode="1:${partguid}" "${disk}" >/dev/null 2>&1
+  # On RockPi devices, steal a bit of space at the start of the disk for
+  # some special bootloader partitions. Some of these have to start/end
+  # at specific offsets as well
+  if [[ "${suite#*-}" = "rockpi" ]]; then
+    # See https://opensource.rock-chips.com/wiki_Boot_option
+    # Keep in sync with rootfs/*-rockpi.sh
+    sgdisk "64:8127"   "8301"        "idbloader" "true"
+    sgdisk "8128:+64"  "8301"        "uboot_env" "true"
+    sgdisk "8M:+4M"    "8301"        "uboot"
+    sgdisk "12M:+4M"   "8301"        "trust"
+    sgdisk "16M:+128M" "ef00"        "esp"       ""     "0"
+    sgdisk "144M:0"    "8305"        "rootfs"    ""     "2"
+    system_loopdev="${loopdev}p5"
+    rootfs_loopdev="${loopdev}p6"
+  else
+    sgdisk "0:+128M"   "ef00"        "esp"       ""     "0"
+    sgdisk "0:0"       "${partguid}" "rootfs"    ""     "2"
+    system_loopdev="${loopdev}p1"
+    rootfs_loopdev="${loopdev}p2"
+  fi
+
   # Temporarily set up a partitioned loop device so we can resize the rootfs
   # This also simplifes the mkfs and rootfs copy
   sudo losetup -P "${loopdev}" "${disk}"
-  system_loopdev="${loopdev}p1"
-  rootfs_loopdev="${loopdev}p2"
   trap loopdev_delete EXIT
   # Create an empty EFI system partition; it will be initialized later
-  sudo /sbin/mkfs.vfat -n SYSTEM -F32 "${loopdev}p1" >/dev/null
+  sudo /sbin/mkfs.vfat -n SYSTEM -F32 "${system_loopdev}" >/dev/null
   # Copy the rootfs to just after the EFI system partition
   sudo dd if="${initrd}" of="${rootfs_loopdev}" bs=1M 2>/dev/null
   sudo /sbin/e2fsck -p -f "${rootfs_loopdev}" || true
