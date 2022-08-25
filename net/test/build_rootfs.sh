@@ -24,21 +24,24 @@ usage() {
   echo -n "usage: $0 [-h] [-s bullseye|bullseye-cuttlefish|bullseye-rockpi|bullseye-server] "
   echo -n "[-a i386|amd64|armhf|arm64] -k /path/to/kernel "
   echo -n "-i /path/to/initramfs.gz [-d /path/to/dtb:subdir] "
-  echo "[-m http://mirror/debian] [-n rootfs] [-r initrd] [-e]"
+  echo "[-m http://mirror/debian] [-n rootfs|disk] [-r initrd] [-e] [-g]"
   exit 1
 }
 
 mirror=http://ftp.debian.org/debian
+embed_kernel_initrd_dtb=0
+install_grub=0
 suite=bullseye
 arch=amd64
 
-embed_kernel_initrd_dtb=
 dtb_subdir=
+initramfs=
+kernel=
 ramdisk=
-rootfs=
+disk=
 dtb=
 
-while getopts ":hs:a:m:n:r:k:i:d:e" opt; do
+while getopts ":hs:a:m:n:r:k:i:d:eg" opt; do
   case "${opt}" in
     h)
       usage
@@ -57,7 +60,7 @@ while getopts ":hs:a:m:n:r:k:i:d:e" opt; do
       mirror="${OPTARG}"
       ;;
     n)
-      rootfs="${OPTARG}"
+      disk="${OPTARG}"
       ;;
     r)
       ramdisk="${OPTARG}"
@@ -77,6 +80,9 @@ while getopts ":hs:a:m:n:r:k:i:d:e" opt; do
     e)
       embed_kernel_initrd_dtb=1
       ;;
+    g)
+      install_grub=1
+      ;;
     \?)
       echo "Invalid option: ${OPTARG}" >&2
       usage
@@ -90,35 +96,36 @@ done
 
 # Disable Debian's "persistent" network device renaming
 cmdline="net.ifnames=0 rw 8250.nr_uarts=2 PATH=/usr/sbin:/bin:/usr/bin"
-
-# Pass down embedding option, if specified
-if [ -n "${embed_kernel_initrd_dtb}" ]; then
-  cmdline="${cmdline} embed_kernel_initrd_dtb=${embed_kernel_initrd_dtb}"
-fi
+cmdline="${cmdline} embed_kernel_initrd_dtb=${embed_kernel_initrd_dtb}"
+cmdline="${cmdline} install_grub=${install_grub}"
 
 case "${arch}" in
   i386)
     cmdline="${cmdline} console=ttyS0 exitcode=/dev/ttyS1"
     machine="pc-i440fx-2.8,accel=kvm"
     qemu="qemu-system-i386"
+    partguid="8303"
     cpu="max"
     ;;
   amd64)
     cmdline="${cmdline} console=ttyS0 exitcode=/dev/ttyS1"
     machine="pc-i440fx-2.8,accel=kvm"
     qemu="qemu-system-x86_64"
+    partguid="8304"
     cpu="max"
     ;;
   armhf)
     cmdline="${cmdline} console=ttyAMA0 exitcode=/dev/ttyS0"
     machine="virt,gic-version=2"
     qemu="qemu-system-arm"
+    partguid="8307"
     cpu="cortex-a15"
     ;;
   arm64)
     cmdline="${cmdline} console=ttyAMA0 exitcode=/dev/ttyS0"
     machine="virt,gic-version=2"
     qemu="qemu-system-aarch64"
+    partguid="8305"
     cpu="cortex-a53" # "max" is too slow
     ;;
   *)
@@ -127,10 +134,15 @@ case "${arch}" in
     ;;
 esac
 
-if [[ -z "${rootfs}" ]]; then
-  rootfs="rootfs.${arch}.${suite}.$(date +%Y%m%d)"
+if [[ -z "${disk}" ]]; then
+  if [[ "${install_grub}" = "1" ]]; then
+    base_image_name=disk
+  else
+    base_image_name=rootfs
+  fi
+  disk="${base_image_name}.${arch}.${suite}.$(date +%Y%m%d)"
 fi
-rootfs=$(realpath "${rootfs}")
+disk=$(realpath "${disk}")
 
 if [[ -z "${ramdisk}" ]]; then
   ramdisk="initrd.${arch}.${suite}.$(date +%Y%m%d)"
@@ -156,7 +168,7 @@ fi
 # Sometimes it isn't obvious when the script fails
 failure() {
   echo "Filesystem generation process failed." >&2
-  rm -f "${rootfs}" "${ramdisk}"
+  rm -f "${disk}" "${ramdisk}"
 }
 trap failure ERR
 
@@ -221,7 +233,7 @@ initrd_remove() {
 }
 trap initrd_remove EXIT
 truncate -s 512M "${initrd}"
-mke2fs -F -t ext3 -L ROOT "${initrd}"
+/sbin/mke2fs -F -t ext3 -L ROOT "${initrd}"
 
 # Mount the new filesystem locally
 sudo mount -o loop -t ext3 "${initrd}" "${mount}"
@@ -239,18 +251,80 @@ sudo rm -rf "${workdir}"
 sudo umount "${mount}"
 trap initrd_remove EXIT
 
-# Copy the initial ramdisk to the final rootfs name and extend it
-sudo cp -a "${initrd}" "${rootfs}"
-# Original 2G isn't enough to install nvidia-driver
-truncate -s 3G "${rootfs}"
-e2fsck -p -f "${rootfs}" || true
-resize2fs "${rootfs}"
+loopdev="$(sudo losetup -f)"
+loopdev_delete() {
+  sudo losetup -d "${loopdev}"
+  initrd_remove
+}
+if [[ "${install_grub}" = 1 ]]; then
+  part_num=0
+  # $1 partition size
+  # $2 gpt partition type
+  # $3 partition name
+  # $4 bypass alignment checks (use on <1MB partitions only)
+  # $5 partition attribute bit to set
+  sgdisk() {
+    part_num=$((part_num+1))
+    [[ -n "${4:-}" ]] && prefix="-a1" || prefix=
+    [[ -n "${5:-}" ]] && suffix="-A:${part_num}:set:$5" || suffix=
+    /sbin/sgdisk ${prefix} \
+      "-n:${part_num}:$1" "-t:${part_num}:$2" "-c:${part_num}:$3" \
+      ${suffix} "${disk}" >/dev/null 2>&1
+  }
+  # If there's a bootloader, we need to make space for the GPT header, GPT
+  # footer and EFI system partition (legacy boot is not supported)
+  # Keep this simple - modern gdisk reserves 1MB for the GPT header and
+  # assumes all partitions are 1MB aligned
+  truncate -s "$((1 + 128 + 10 * 1024 + 1))M" "${disk}"
+  /sbin/sgdisk --zap-all "${disk}" >/dev/null 2>&1
+  # On RockPi devices, steal a bit of space at the start of the disk for
+  # some special bootloader partitions. Some of these have to start/end
+  # at specific offsets as well
+  if [[ "${suite#*-}" = "rockpi" ]]; then
+    # See https://opensource.rock-chips.com/wiki_Boot_option
+    # Keep in sync with rootfs/*-rockpi.sh
+    sgdisk "64:8127"   "8301"        "idbloader" "true"
+    sgdisk "8128:+64"  "8301"        "uboot_env" "true"
+    sgdisk "8M:+4M"    "8301"        "uboot"
+    sgdisk "12M:+4M"   "8301"        "trust"
+    sgdisk "16M:+128M" "ef00"        "esp"       ""     "0"
+    sgdisk "144M:0"    "8305"        "rootfs"    ""     "2"
+    system_loopdev="${loopdev}p5"
+    rootfs_loopdev="${loopdev}p6"
+  else
+    sgdisk "0:+128M"   "ef00"        "esp"       ""     "0"
+    sgdisk "0:0"       "${partguid}" "rootfs"    ""     "2"
+    system_loopdev="${loopdev}p1"
+    rootfs_loopdev="${loopdev}p2"
+  fi
+
+  # Temporarily set up a partitioned loop device so we can resize the rootfs
+  # This also simplifes the mkfs and rootfs copy
+  sudo losetup -P "${loopdev}" "${disk}"
+  trap loopdev_delete EXIT
+  # Create an empty EFI system partition; it will be initialized later
+  sudo /sbin/mkfs.vfat -n SYSTEM -F32 "${system_loopdev}" >/dev/null
+  # Copy the rootfs to just after the EFI system partition
+  sudo dd if="${initrd}" of="${rootfs_loopdev}" bs=1M 2>/dev/null
+  sudo /sbin/e2fsck -p -f "${rootfs_loopdev}" || true
+  sudo /sbin/resize2fs "${rootfs_loopdev}"
+else
+  # If there's no bootloader, the initrd is the disk image
+  cp -a "${initrd}" "${disk}"
+  truncate -s 10G "${disk}"
+  /sbin/e2fsck -p -f "${disk}" || true
+  /sbin/resize2fs "${disk}"
+  sudo losetup "${loopdev}" "${disk}"
+  system_loopdev=
+  rootfs_loopdev="${loopdev}"
+  trap loopdev_delete EXIT
+fi
 
 # Create another fake block device for initrd.img writeout
 raw_initrd=$(mktemp)
 raw_initrd_remove() {
   rm -f "${raw_initrd}"
-  initrd_remove
+  loopdev_delete
 }
 trap raw_initrd_remove EXIT
 truncate -s 64M "${raw_initrd}"
@@ -268,7 +342,7 @@ ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -smp "${qemucpucores}",sockets="${qemucpucores}",cores=1,threads=1 \
   -object rng-random,id=objrng0,filename=/dev/urandom \
   -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
-  -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
+  -drive file="${disk}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
   -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk0 \
   -drive file="${raw_initrd}",format=raw,if=none,aio=threads,id=drive-virtio-disk1 \
   -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk1 \
@@ -283,7 +357,10 @@ if [ "${exitcode}" != "0" ]; then
 fi
 
 # Fix up any issues from the unclean shutdown
-e2fsck -p -f "${rootfs}" || true
+sudo e2fsck -p -f "${rootfs_loopdev}" || true
+if [[ -n "${system_loopdev}" ]]; then
+  sudo fsck.vfat -a "${system_loopdev}" || true
+fi
 
 # New workdir for the initrd extraction
 workdir="${tmpdir}/initrd"
@@ -316,7 +393,7 @@ cat "${ramdisk}" "${initramfs}" >"${initrd}"
 cd -
 
 # Mount the new filesystem locally
-sudo mount -o loop -t ext3 "${rootfs}" "${mount}"
+sudo mount -t ext3 "${rootfs_loopdev}" "${mount}"
 image_unmount2() {
   sudo umount "${mount}"
   raw_initrd_remove
@@ -324,7 +401,7 @@ image_unmount2() {
 trap image_unmount2 EXIT
 
 # Embed the kernel and dtb images now, if requested
-if [ -n "${embed_kernel_initrd_dtb}" ]; then
+if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
   if [ -n "${dtb}" ]; then
     sudo mkdir -p "${mount}/boot/dtb/${dtb_subdir}"
     sudo cp -a "${dtb}" "${mount}/boot/dtb/${dtb_subdir}"
@@ -345,7 +422,7 @@ ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -smp "${qemucpucores}",sockets="${qemucpucores}",cores=1,threads=1 \
   -object rng-random,id=objrng0,filename=/dev/urandom \
   -device virtio-rng-pci-non-transitional,rng=objrng0,id=rng0,max-bytes=1024,period=2000 \
-  -drive file="${rootfs}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
+  -drive file="${disk}",format=raw,if=none,aio=threads,id=drive-virtio-disk0 \
   -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk0 \
   -chardev file,id=exitcode,path=exitcode \
   -device pci-serial,chardev=exitcode \
@@ -360,10 +437,13 @@ if [ "${exitcode}" != "0" ]; then
 fi
 
 # Fix up any issues from the unclean shutdown
-e2fsck -p -f "${rootfs}" || true
+sudo e2fsck -p -f "${rootfs_loopdev}" || true
+if [[ -n "${system_loopdev}" ]]; then
+  sudo fsck.vfat -a "${system_loopdev}" || true
+fi
 
-# Mount the final rootfs locally
-sudo mount -o loop -t ext3 "${rootfs}" "${mount}"
+# Mount the final disk image locally
+sudo mount -t ext3 "${rootfs_loopdev}" "${mount}"
 image_unmount3() {
   sudo umount "${mount}"
   raw_initrd_remove
@@ -374,5 +454,5 @@ trap image_unmount3 EXIT
 sudo dd if=/dev/zero of="${mount}/sparse" bs=1M 2>/dev/null || true
 sudo rm -f "${mount}/sparse"
 
-echo "Debian ${suite} for ${arch} filesystem generated at '${rootfs}'."
+echo "Debian ${suite} for ${arch} filesystem generated at '${disk}'."
 echo "Initial ramdisk generated at '${ramdisk}'."

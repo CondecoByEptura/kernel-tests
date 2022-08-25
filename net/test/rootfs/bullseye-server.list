@@ -2,8 +2,10 @@
 aapt
 bzip2
 gcc
+libglvnd0
 make
 openjdk-11-jre
 screen
 software-properties-common
 unzip
+xz-utils
