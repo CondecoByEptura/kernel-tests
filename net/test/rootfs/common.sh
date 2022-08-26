@@ -128,7 +128,11 @@ setup_grub() {
 
     # Install GRUB EFI (removable, for Cloud)
     apt-get install -y grub-efi
-    grub-install --target $(uname -m)-efi --removable
+    grub_arch="$(uname -m)"
+    # Remap some mismatches with uname -m
+    [ "${grub_arch}" = "i686" ] && grub_arch=i386
+    [ "${grub_arch}" = "aarch64" ] && grub_arch=arm64
+    grub-install --target "${grub_arch}-efi" --removable
   else
     # Install common grub components
     apt-get install -y grub2-common

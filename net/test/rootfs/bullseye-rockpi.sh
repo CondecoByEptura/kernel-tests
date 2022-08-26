@@ -159,7 +159,7 @@ if test -e mmc ${devnum}:${distro_bootpart} /boot/rootfs.gz; then
 	gzwrite mmc ${devnum} ${loadaddr} 0x${filesize} 100000 0x1000000
 fi
 load mmc ${devnum}:${distro_bootpart} 0x06080000 /boot/boot.fit
-setenv bootargs "8250.nr_uarts=4 earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 kvm-arm.mode=nvhe sdhci.debug_quirks=0x20000000 root=LABEL=ROOT"
+setenv bootargs "net.ifnames=0 8250.nr_uarts=4 earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 kvm-arm.mode=nvhe sdhci.debug_quirks=0x20000000 root=LABEL=ROOT"
 bootm 0x06080000
 EOF
 mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
@@ -391,7 +391,7 @@ systemctl enable poe
 systemctl enable led
 systemctl enable sd-dupe
 
-setup_dynamic_networking "en*" ""
+setup_dynamic_networking "eth0" ""
 
 update_apt_sources bullseye
 
@@ -403,7 +403,9 @@ setup_and_build_iptables
 install_and_cleanup_cuttlefish
 install_and_cleanup_iptables
 
-create_systemd_getty_symlinks ttyS0 hvc1
+create_systemd_getty_symlinks ttyS2
+
+setup_grub "net.ifnames=0 8250.nr_uarts=4 earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 kvm-arm.mode=nvhe sdhci.debug_quirks=0x20000000"
 
 apt-get purge -y vim-tiny
 bullseye_cleanup
