@@ -63,8 +63,13 @@ wget -q https://us.download.nvidia.com/tesla/${nvidia_version}/NVIDIA-Linux-${nv
 chmod a+x NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run
 ./NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run -x
 cd NVIDIA-Linux-${nvidia_arch}-${nvidia_version}
-./nvidia-installer --silent --no-install-compat32-libs --no-backup \
-                   --no-wine-files --install-libglvnd --dkms -k "${kmodver}"
+if [[ "${nvidia_arch}" = "x86_64" ]]; then
+  installer_flags="--no-install-compat32-libs"
+else
+  installer_flags=""
+fi
+./nvidia-installer ${installer_flags} --silent --no-backup --no-wine-files \
+                   --install-libglvnd --dkms -k "${kmodver}"
 cd -
 rm -rf NVIDIA-Linux-${nvidia_arch}-${nvidia_version}*
 

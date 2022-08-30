@@ -107,6 +107,7 @@ setup_and_build_cuttlefish() {
   apt-get install -y \
     cdbs \
     config-package-dev \
+    curl \
     debhelper \
     dpkg-dev \
     git \
