@@ -288,9 +288,10 @@ if [[ "${install_grub}" = 1 ]]; then
     sgdisk "8M:+4M"    "8301"        "uboot"
     sgdisk "12M:+4M"   "8301"        "trust"
     sgdisk "16M:+128M" "ef00"        "esp"       ""     "0"
-    sgdisk "144M:0"    "8305"        "rootfs"    ""     "2"
+    sgdisk "144M:+1M"  "8301"        "misc"
+    sgdisk "145M:0"    "8305"        "rootfs"    ""     "2"
     system_loopdev="${loopdev}p5"
-    rootfs_loopdev="${loopdev}p6"
+    rootfs_loopdev="${loopdev}p7"
   else
     sgdisk "0:+128M"   "ef00"        "esp"       ""     "0"
     sgdisk "0:0"       "${partguid}" "rootfs"    ""     "2"

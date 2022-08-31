@@ -156,7 +156,7 @@ if test -e mmc ${devnum}:${distro_bootpart} /boot/rootfs.gz; then
 	setenv loadaddr 0x00200000
 	mw.b ${loadaddr} 0 0x400000
 	load mmc ${devnum}:${distro_bootpart} ${loadaddr} /boot/rootfs.gz
-	gzwrite mmc ${devnum} ${loadaddr} 0x${filesize} 100000 0x1000000
+	gzwrite mmc ${devnum} ${loadaddr} 0x${filesize} 100000 0x9100000
 fi
 load mmc ${devnum}:${distro_bootpart} 0x06080000 /boot/boot.fit
 setenv bootargs "net.ifnames=0 8250.nr_uarts=4 earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 kvm-arm.mode=nvhe sdhci.debug_quirks=0x20000000 root=LABEL=ROOT"
@@ -285,7 +285,7 @@ led 0
 
 src_dev=mmcblk0
 dest_dev=mmcblk1
-part_num=p6
+part_num=p7
 
 if [ -e "/dev/${src_dev}" ] && [ -e "/dev/${dest_dev}" ]; then
 	led 1
@@ -297,7 +297,8 @@ if [ -e "/dev/${src_dev}" ] && [ -e "/dev/${dest_dev}" ]; then
 	sgdisk     -n:3:8M:+4M    -t:3:8301 -c:3:uboot             /dev/${dest_dev}
 	sgdisk     -n:4:12M:+4M   -t:4:8301 -c:4:trust             /dev/${dest_dev}
 	sgdisk     -n:5:16M:+128M -t:5:ef00 -c:5:esp    -A:5:set:0 /dev/${dest_dev}
-	sgdisk     -n:6:144M:0    -t:6:8305 -c:6:rootfs -A:6:set:2 /dev/${dest_dev}
+	sgdisk     -n:6:144M:+1M  -t:6:8301 -c:6:misc              /dev/${dest_dev}
+	sgdisk     -n:7:145M:0    -t:7:8305 -c:7:rootfs -A:7:set:2 /dev/${dest_dev}
 
 	src_block_count=$(tune2fs -l /dev/${src_dev}${part_num} | grep "Block count:" | sed 's/.*: *//')
 	src_block_size=$(tune2fs -l /dev/${src_dev}${part_num} | grep "Block size:" | sed 's/.*: *//')
