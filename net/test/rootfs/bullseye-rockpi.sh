@@ -285,7 +285,7 @@ led 0
 
 src_dev=mmcblk0
 dest_dev=mmcblk1
-part_num=p6
+part_num=p7
 
 if [ -e "/dev/${src_dev}" ] && [ -e "/dev/${dest_dev}" ]; then
 	led 1
@@ -296,8 +296,9 @@ if [ -e "/dev/${src_dev}" ] && [ -e "/dev/${dest_dev}" ]; then
 	sgdisk -a1 -n:2:8128:+64  -t:2:8301 -c:2:uboot_env         /dev/${dest_dev}
 	sgdisk     -n:3:8M:+4M    -t:3:8301 -c:3:uboot             /dev/${dest_dev}
 	sgdisk     -n:4:12M:+4M   -t:4:8301 -c:4:trust             /dev/${dest_dev}
-	sgdisk     -n:5:16M:+128M -t:5:ef00 -c:5:esp    -A:5:set:0 /dev/${dest_dev}
-	sgdisk     -n:6:144M:0    -t:6:8305 -c:6:rootfs -A:6:set:2 /dev/${dest_dev}
+	sgdisk     -n:5:16M:+1M   -t:5:8301 -c:5:misc              /dev/${dest_dev}
+	sgdisk     -n:6:17M:+128M -t:6:ef00 -c:6:esp    -A:6:set:0 /dev/${dest_dev}
+	sgdisk     -n:7:145M:0    -t:7:8305 -c:7:rootfs -A:7:set:2 /dev/${dest_dev}
 
 	src_block_count=$(tune2fs -l /dev/${src_dev}${part_num} | grep "Block count:" | sed 's/.*: *//')
 	src_block_size=$(tune2fs -l /dev/${src_dev}${part_num} | grep "Block size:" | sed 's/.*: *//')
