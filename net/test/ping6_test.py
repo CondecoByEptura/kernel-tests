@@ -316,7 +316,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
                 "%s:%04X" % (net_test.FormatSockStatAddress(dstaddr), dstport),
                 "%02X" % state,
                 "%08X:%08X" % (txmem, rxmem),
-                str(os.getuid()), "2", "0"]
+                str(os.getuid()), "ref", "0"]
     for actual in self.ReadProcNetSocket(name):
       # Check that rxmem and txmem don't differ too much from each other.
       actual_txmem, actual_rxmem = expected[3].split(":")
@@ -327,6 +327,8 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
 
       # Check all the parameters except rxmem and txmem.
       expected[3] = actual[3]
+      # also do not check ref, it's always 2 on older kernels, but 1 for 'raw6' on 6.0+
+      expected[5] = actual[5]
       if expected == actual:
         return
 

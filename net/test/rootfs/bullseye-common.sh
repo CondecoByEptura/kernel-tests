@@ -97,20 +97,21 @@ install_and_cleanup_iptables() {
 }
 
 setup_and_build_cuttlefish() {
+  if [ "$(uname -m)" = "aarch64" ]; then
+    apt-get install -y libc6:amd64
+  fi
+
   get_installed_packages >/root/originally-installed
 
   # Install everything needed from bullseye to build cuttlefish-common
   apt-get install -y \
     cdbs \
     config-package-dev \
+    curl \
     debhelper \
     dpkg-dev \
     git \
     golang
-
-  if [ "$(uname -m)" = "arm64" ]; then
-    apt-get install -y libc6-dev:amd64
-  fi
 
   # Fetch cuttlefish and build it for cuttlefish-common
   git clone https://github.com/google/android-cuttlefish.git /usr/src/$cuttlefish
@@ -126,6 +127,9 @@ setup_and_build_cuttlefish() {
 install_and_cleanup_cuttlefish() {
   # Install and clean up cuttlefish-common
   cd /usr/src
+    apt-get install -y -f ./cuttlefish-base_*.deb
+    apt-get install -y -f ./cuttlefish-user_*.deb
+    apt-get install -y -f ./cuttlefish-integration_*.deb
     apt-get install -y -f ./cuttlefish-common_*.deb
     rm -rf $cuttlefish cuttlefish*.{buildinfo,changes,deb,dsc}
   cd -

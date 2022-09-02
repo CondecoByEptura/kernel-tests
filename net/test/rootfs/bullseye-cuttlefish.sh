@@ -37,7 +37,7 @@ install_and_cleanup_iptables
 
 create_systemd_getty_symlinks ttyS0 hvc1
 
-setup_grub "net.ifnames=0 8250.nr_uarts=1"
+setup_grub "quiet net.ifnames=0 8250.nr_uarts=1"
 
 apt-get purge -y vim-tiny
 bullseye_cleanup
