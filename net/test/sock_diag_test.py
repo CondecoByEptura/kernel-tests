@@ -631,6 +631,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.ExpectNoPacketsOn(self.netid, msg)
 
 
+@unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "does not yet exist")
 class SockDestroyUdpTest(SockDiagBaseTest):
 
   """Tests SOCK_DESTROY on UDP sockets.
@@ -754,6 +755,7 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
     self.CheckPermissions(SOCK_STREAM)
 
 
+@unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "does not yet exist")
 class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
   """Tests SOCK_DIAG bytecode filters that use marks.
