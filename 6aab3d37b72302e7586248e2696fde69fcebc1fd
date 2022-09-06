@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "406d36ab_e17d3c4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-09-06T17:06:40Z",
+      "side": 1,
+      "message": "Can you put misc before esp? Otherwise the rockpi and non-rockpi disk layouts are different after ESP",
+      "revId": "6aab3d37b72302e7586248e2696fde69fcebc1fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
