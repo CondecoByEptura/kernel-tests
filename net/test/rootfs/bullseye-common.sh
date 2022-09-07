@@ -109,7 +109,9 @@ setup_and_build_cuttlefish() {
     config-package-dev \
     curl \
     debhelper \
+    devscripts \
     dpkg-dev \
+    equivs \
     git \
     golang
 
@@ -117,6 +119,7 @@ setup_and_build_cuttlefish() {
   git clone https://github.com/google/android-cuttlefish.git /usr/src/$cuttlefish
   for subdir in base frontend; do
     cd /usr/src/$cuttlefish/$subdir
+      mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
       dpkg-buildpackage -d -uc -us
     cd -
   done
