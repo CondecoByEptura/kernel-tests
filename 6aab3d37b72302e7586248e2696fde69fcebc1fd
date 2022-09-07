@@ -18,6 +18,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a8ddf47_f837e4a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2022-09-07T07:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "406d36ab_e17d3c4a",
+      "revId": "6aab3d37b72302e7586248e2696fde69fcebc1fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1998b9e3_53cf5ab6",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-06T17:07:32Z",
       "side": 1,
       "message": "Maybe split this into a different change as I think I broke this with my older changes?",
+      "revId": "6aab3d37b72302e7586248e2696fde69fcebc1fd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5a8091_aa5cebda",
+        "filename": "net/test/rootfs/bullseye-rockpi.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2022-09-07T07:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1998b9e3_53cf5ab6",
       "revId": "6aab3d37b72302e7586248e2696fde69fcebc1fd",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
