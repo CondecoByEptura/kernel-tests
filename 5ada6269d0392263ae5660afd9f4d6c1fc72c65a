@@ -22,6 +22,30 @@
       },
       "revId": "5ada6269d0392263ae5660afd9f4d6c1fc72c65a",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb13740_4cc369bd",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2022-09-07T17:10:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49ef9bf5_03cef34b",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 293,
+        "endChar": 33
+      },
+      "revId": "5ada6269d0392263ae5660afd9f4d6c1fc72c65a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
