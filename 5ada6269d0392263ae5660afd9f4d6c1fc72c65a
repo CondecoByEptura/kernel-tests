@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ef9bf5_03cef34b",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-09-07T16:16:24Z",
+      "side": 1,
+      "message": "p6",
+      "range": {
+        "startLine": 293,
+        "startChar": 4,
+        "endLine": 293,
+        "endChar": 33
+      },
+      "revId": "5ada6269d0392263ae5660afd9f4d6c1fc72c65a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
