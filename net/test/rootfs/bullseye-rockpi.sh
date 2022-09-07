@@ -156,7 +156,7 @@ if test -e mmc ${devnum}:${distro_bootpart} /boot/rootfs.gz; then
 	setenv loadaddr 0x00200000
 	mw.b ${loadaddr} 0 0x400000
 	load mmc ${devnum}:${distro_bootpart} ${loadaddr} /boot/rootfs.gz
-	gzwrite mmc ${devnum} ${loadaddr} 0x${filesize} 100000 0x1000000
+	gzwrite mmc ${devnum} ${loadaddr} 0x${filesize} 100000 0x9100000
 fi
 load mmc ${devnum}:${distro_bootpart} 0x06080000 /boot/boot.fit
 setenv bootargs "net.ifnames=0 8250.nr_uarts=4 earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 kvm-arm.mode=nvhe sdhci.debug_quirks=0x20000000 root=LABEL=ROOT"
