@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a35ea38_440d8274",
+        "filename": "net/test/rootfs/bullseye-common.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-09-08T19:27:04Z",
+      "side": 1,
+      "message": "Nice. If we do this, can we remove golang/curl/etc. from above since they aren\u0027t needed to run dpkg-buildpackage directly?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 124
+      },
+      "revId": "5afae1ec759099c76d4f543b41eb057c8abaa083",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
