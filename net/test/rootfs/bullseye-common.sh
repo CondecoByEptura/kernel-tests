@@ -103,7 +103,7 @@ setup_and_build_cuttlefish() {
 
   get_installed_packages >/root/originally-installed
 
-  # Install everything needed from bullseye to build cuttlefish-common
+  # Install everything needed from bullseye to build android-cuttlefish
   apt-get install -y \
     cdbs \
     config-package-dev \
@@ -113,11 +113,13 @@ setup_and_build_cuttlefish() {
     git \
     golang
 
-  # Fetch cuttlefish and build it for cuttlefish-common
+  # Fetch android-cuttlefish and build it
   git clone https://github.com/google/android-cuttlefish.git /usr/src/$cuttlefish
-  cd /usr/src/$cuttlefish
-    dpkg-buildpackage -d -uc -us
-  cd -
+  for subdir in base frontend; do
+    cd /usr/src/$cuttlefish/$subdir
+      dpkg-buildpackage -d -uc -us
+    cd -
+  done
 
   get_installed_packages >/root/installed
   remove_installed_packages /root/originally-installed /root/installed
@@ -125,14 +127,14 @@ setup_and_build_cuttlefish() {
 }
 
 install_and_cleanup_cuttlefish() {
-  # Install and clean up cuttlefish-common
-  cd /usr/src
+  # Install and clean up cuttlefish host packages
+  cd /usr/src/$cuttlefish
     apt-get install -y -f ./cuttlefish-base_*.deb
     apt-get install -y -f ./cuttlefish-user_*.deb
     apt-get install -y -f ./cuttlefish-integration_*.deb
     apt-get install -y -f ./cuttlefish-common_*.deb
-    rm -rf $cuttlefish cuttlefish*.{buildinfo,changes,deb,dsc}
   cd -
+  rm -rf /usr/src/$cuttlefish
 }
 
 bullseye_cleanup() {
