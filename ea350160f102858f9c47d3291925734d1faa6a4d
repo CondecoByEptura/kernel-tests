@@ -16,6 +16,24 @@
       "message": "I only have +1 privileges in this project",
       "revId": "ea350160f102858f9c47d3291925734d1faa6a4d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6b8b6ea_16534c5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1535516
+      },
+      "writtenOn": "2022-09-12T22:14:19Z",
+      "side": 1,
+      "message": "This actually breaks `vts_kernel_net_tests`, I need to update that to python 3. Strange that it wasn\u0027t found by your script though.",
+      "parentUuid": "3bbefda1_70563e30",
+      "revId": "ea350160f102858f9c47d3291925734d1faa6a4d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
