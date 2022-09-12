@@ -98,7 +98,7 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
     syn.getlayer("TCP").options = [(TCPOPT_FASTOPEN, "")]
     msg = "Fastopen connect: expected %s" % desc
     syn = self.ExpectPacketOn(netid, msg, syn)
-    syn = ip_layer(str(syn))
+    syn = ip_layer(bytes(syn))
 
     # Receive a SYN+ACK with a TFO cookie and expect the connection to proceed
     # as normal.
@@ -106,7 +106,7 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
     synack.getlayer("TCP").options = [
         (TCPOPT_FASTOPEN, "helloT"), ("NOP", None), ("NOP", None)]
     self.ReceivePacketOn(netid, synack)
-    synack = ip_layer(str(synack))
+    synack = ip_layer(bytes(synack))
     desc, ack = packets.ACK(version, myaddr, remoteaddr, synack)
     msg = "First connect: got SYN+ACK, expected %s" % desc
     self.ExpectPacketOn(netid, msg, ack)

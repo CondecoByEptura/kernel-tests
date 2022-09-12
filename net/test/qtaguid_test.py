@@ -47,14 +47,14 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     self.RunIptablesCommand("-X qtaguid_test_OUTPUT")
 
   def WriteToCtrl(self, command):
-    ctrl_file = open(CTRL_PROCPATH, 'w')
-    ctrl_file.write(command)
-    ctrl_file.close()
+    with open(CTRL_PROCPATH, 'w') as ctrl_file:
+      ctrl_file.write(command)
 
   def CheckTag(self, tag, uid):
-    for line in open(CTRL_PROCPATH, 'r').readlines():
-      if "tag=0x%x (uid=%d)" % ((tag|uid), uid) in line:
-        return True
+    with open(CTRL_PROCPATH, 'r') as f:
+      for line in f.readlines():
+        if "tag=0x%x (uid=%d)" % ((tag|uid), uid) in line:
+          return True
     return False
 
   def SetIptablesRule(self, version, is_add, is_gid, my_id, inverted):
@@ -166,7 +166,6 @@ class QtaguidTest(tcp_test.TcpBaseTest):
       self.DelIptablesRule(version, False, OTHER_UID_GID)
 
   def testCloseWithoutUntag(self):
-    self.dev_file = open("/dev/xt_qtaguid", "r");
     sk = socket(AF_INET, SOCK_DGRAM, 0)
     uid = os.getuid()
     tag = 0xff00ff00 << 32
@@ -175,7 +174,6 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     self.assertTrue(self.CheckTag(tag, uid))
     sk.close();
     self.assertFalse(self.CheckTag(tag, uid))
-    self.dev_file.close();
 
   def testTagWithoutDeviceOpen(self):
     sk = socket(AF_INET, SOCK_DGRAM, 0)
@@ -184,10 +182,8 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     command = "t %d %d %d" % (sk.fileno(), tag, uid)
     self.WriteToCtrl(command)
     self.assertTrue(self.CheckTag(tag, uid))
-    self.dev_file = open("/dev/xt_qtaguid", "r")
     sk.close()
     self.assertFalse(self.CheckTag(tag, uid))
-    self.dev_file.close();
 
   def testUidGidMatch(self):
     self.CheckSocketOutput(4, False)
@@ -200,7 +196,8 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     self.CheckSocketOutputInverted(6, False)
 
   def testCheckNotMatchGid(self):
-    self.assertIn("match_no_sk_gid", open(CTRL_PROCPATH, 'r').read())
+    with open(CTRL_PROCPATH, 'r') as f:
+      self.assertIn("match_no_sk_gid", f.read())
 
   def testRstPacketNotDropped(self):
     my_uid = os.getuid()

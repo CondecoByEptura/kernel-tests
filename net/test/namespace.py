@@ -78,7 +78,8 @@ libc.unshare.argtypes = (ctypes.c_int,)
 
 
 def Mount(src, tgt, fs, flags=MS_NODEV|MS_NOEXEC|MS_NOSUID|MS_RELATIME):
-  ret = libc.mount(src, tgt, fs, flags, None)
+  fs = fs if fs else ""
+  ret = libc.mount(src.encode(), tgt.encode(), fs.encode(), flags, None)
   if ret < 0:
     errno = ctypes.get_errno()
     raise OSError(errno, '%s mounting %s on %s (fs=%s flags=0x%x)'
@@ -86,25 +87,26 @@ def Mount(src, tgt, fs, flags=MS_NODEV|MS_NOEXEC|MS_NOSUID|MS_RELATIME):
 
 
 def ReMountProc():
-  libc.umount2('/proc', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/proc', MNT_DETACH)  # Ignore failure: might not be mounted
   Mount('proc', '/proc', 'proc')
 
 
 def ReMountSys():
-  libc.umount2('/sys/fs/cgroup', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2('/sys/fs/bpf', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2('/sys', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys/fs/cgroup', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys/fs/bpf', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys', MNT_DETACH)  # Ignore failure: might not be mounted
   Mount('sysfs', '/sys', 'sysfs')
   Mount('bpf', '/sys/fs/bpf', 'bpf')
   Mount('cgroup2', '/sys/fs/cgroup', 'cgroup2')
 
 
-def SetFileContents(f, s):
-  open(f, 'w').write(s)
+def SetFileContents(filename, s):
+  with open(filename, 'w') as f:
+    f.write(s)
 
 
 def SetHostname(s):
-  ret = libc.sethostname(s, len(s))
+  ret = libc.sethostname(s.encode(), len(s))
   if ret < 0:
     errno = ctypes.get_errno()
     raise OSError(errno, '%s while sethostname(%s)' % (os.strerror(errno), s))
@@ -120,7 +122,8 @@ def UnShare(flags):
 def DumpMounts(hdr):
   print('')
   print(hdr)
-  sys.stdout.write(open('/proc/mounts', 'r').read())
+  with open('/proc/mounts', 'r') as f:
+    sys.stdout.write(f.read())
   print('---')
 
 

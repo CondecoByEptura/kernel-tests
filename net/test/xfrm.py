@@ -213,7 +213,7 @@ UDP_ENCAP_ESPINUDP = 2
 
 _INF = 2 ** 64 -1
 NO_LIFETIME_CFG = XfrmLifetimeCfg((_INF, _INF, _INF, _INF, 0, 0, 0, 0))
-NO_LIFETIME_CUR = "\x00" * len(XfrmLifetimeCur)
+NO_LIFETIME_CUR = b"\x00" * len(XfrmLifetimeCur)
 
 # IPsec constants.
 IPSEC_PROTO_ANY = 255
@@ -243,7 +243,7 @@ def PaddedAddress(addr):
   """Converts an IP address string to binary format for InetDiagSockId."""
   padded = RawAddress(addr)
   if len(padded) < 16:
-    padded += "\x00" * (16 - len(padded))
+    padded += b"\x00" * (16 - len(padded))
   return padded
 
 
@@ -516,7 +516,7 @@ class Xfrm(netlink.NetlinkSocket):
     xfrm_id = XfrmId((PaddedAddress(dst), spi, proto))
     family = AF_INET6 if ":" in dst else AF_INET
 
-    nlattrs = ""
+    nlattrs = b""
     if encryption is not None:
       enc, key = encryption
       nlattrs += self._NlAttr(XFRMA_ALG_CRYPT, enc.Pack() + key)
@@ -602,7 +602,7 @@ class Xfrm(netlink.NetlinkSocket):
       min_spi: The minimum value of the acceptable SPI range (inclusive).
       max_spi: The maximum value of the acceptable SPI range (inclusive).
     """
-    spi = XfrmUserSpiInfo("\x00" * len(XfrmUserSpiInfo))
+    spi = XfrmUserSpiInfo(b"\x00" * len(XfrmUserSpiInfo))
     spi.min = min_spi
     spi.max = max_spi
     spi.info.id.daddr = PaddedAddress(dst)
@@ -623,10 +623,10 @@ class Xfrm(netlink.NetlinkSocket):
     raise ValueError("Unexpected netlink message type: %d" % nl_hdr.type)
 
   def DumpSaInfo(self):
-    return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo, "")
+    return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo, b"")
 
   def DumpPolicyInfo(self):
-    return self._Dump(XFRM_MSG_GETPOLICY, None, XfrmUserpolicyInfo, "")
+    return self._Dump(XFRM_MSG_GETPOLICY, None, XfrmUserpolicyInfo, b"")
 
   def FindSaInfo(self, spi):
     sainfo = [sa for sa, attrs in self.DumpSaInfo() if sa.id.spi == spi]
@@ -635,7 +635,7 @@ class Xfrm(netlink.NetlinkSocket):
   def FlushPolicyInfo(self):
     """Send a Netlink Request to Flush all records from the SPD"""
     flags = netlink.NLM_F_REQUEST | netlink.NLM_F_ACK
-    self._SendNlRequest(XFRM_MSG_FLUSHPOLICY, "", flags)
+    self._SendNlRequest(XFRM_MSG_FLUSHPOLICY, b"", flags)
 
   def FlushSaInfo(self):
     usersa_flush = XfrmUsersaFlush((IPSEC_PROTO_ANY,))
