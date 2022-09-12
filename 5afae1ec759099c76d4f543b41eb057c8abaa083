@@ -22,6 +22,30 @@
       },
       "revId": "5afae1ec759099c76d4f543b41eb057c8abaa083",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cbcdfbb_95dbf5e7",
+        "filename": "net/test/rootfs/bullseye-common.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2022-09-12T04:45:46Z",
+      "side": 1,
+      "message": "Yes. I remove the redundant build-depends. Done",
+      "parentUuid": "8a35ea38_440d8274",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 124
+      },
+      "revId": "5afae1ec759099c76d4f543b41eb057c8abaa083",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
