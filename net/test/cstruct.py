@@ -45,7 +45,7 @@ NLMsgHdr(length=0, type=0, flags=0, seq=0, pid=0)
 NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 >>>
 >>> # Serialize to raw bytes.
-... print(n1.Pack().encode("hex"))
+... print(n1.Pack().hex())
 2c0000002000020000000000eb010000
 >>>
 >>> # Parse the beginning of a byte stream as a struct, and return the struct
@@ -76,7 +76,7 @@ import re
 def CalcSize(fmt):
   if "A" in fmt:
     fmt = fmt.replace("A", "s")
-  # Remove the last digital since it will cause error in python3.
+  # Remove the last number since it will cause error in python3.
   fmt = (re.split('\d+$', fmt)[0])
   return struct.calcsize(fmt)
 
@@ -84,7 +84,11 @@ def CalcNumElements(fmt):
   prevlen = len(fmt)
   fmt = fmt.replace("S", "")
   numstructs = prevlen - len(fmt)
+  # Remove the last number since it will cause error in python3.
+  fmt = (re.split('\d+$', fmt)[0])
   size = CalcSize(fmt)
+  if size == 0:
+    return numstructs
   elements = struct.unpack(fmt, b"\x00" * size)
   return len(elements) + numstructs
 
@@ -101,10 +105,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
       # Make the class object have the name that's passed in.
       type.__init__(cls, namespace["_name"], unused_bases, namespace)
 
-  class CStruct(object):
+  class CStruct(object, metaclass=Meta):
     """Class representing a C-like structure."""
-
-    __metaclass__ = Meta
 
     # Name of the struct.
     _name = name
@@ -165,7 +167,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       data = data[:self._length]
       values = list(struct.unpack(self._format, data))
       for index, value in enumerate(values):
-        if isinstance(value, str) and index in self._nested:
+        if isinstance(value, bytes) and index in self._nested:
           values[index] = self._nested[index](value)
       self._SetValues(values)
 
@@ -183,23 +185,28 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
       if tuple_or_bytes is None:
         # Default construct from null bytes.
-        self._Parse("\x00" * len(self))
+        self._Parse(b"\x00" * len(self))
         # If any keywords were supplied, set those fields.
         for k, v in kwargs.items():
+          if isinstance(v, str):
+            raise TypeError(f"Invalid field {k}, got str instead of bytes")
           setattr(self, k, v)
-      elif isinstance(tuple_or_bytes, str):
-        # Initializing from a string.
+      elif isinstance(tuple_or_bytes, bytes):
+        # Initializing from bytes.
         if len(tuple_or_bytes) < self._length:
           raise TypeError("%s requires string of length %d, got %d" %
                           (self._name, self._length, len(tuple_or_bytes)))
         self._Parse(tuple_or_bytes)
-      else:
+      elif isinstance(tuple_or_bytes, tuple):
         # Initializing from a tuple.
         if len(tuple_or_bytes) != len(self._fieldnames):
           raise TypeError("%s has exactly %d fieldnames (%d given)" %
                           (self._name, len(self._fieldnames),
                            len(tuple_or_bytes)))
+        tuple_or_bytes = tuple(x.encode() if isinstance(x, str) else x for x in tuple_or_bytes)
         self._SetValues(tuple_or_bytes)
+      else:
+        raise TypeError("Unknown type: %s" % type(tuple_or_bytes))
 
     def _FieldIndex(self, attr):
       try:
@@ -236,9 +243,9 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     @staticmethod
     def _MaybePackStruct(value):
-      if hasattr(value, "__metaclass__"):# and value.__metaclass__ == Meta:
+      try:
         return value.Pack()
-      else:
+      except AttributeError:
         return value
 
     def Pack(self):
@@ -247,11 +254,11 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     def __str__(self):
       def FieldDesc(index, name, value):
-        if isinstance(value, str):
+        if isinstance(value, bytes):
           if index in self._asciiz:
-            value = value.rstrip("\x00")
-          elif any(c not in string.printable for c in value):
-            value = value.encode("hex")
+            value = value.rstrip(b"\x00").decode('ascii')
+          else:
+            value = value.hex()
         return "%s=%s" % (name, value)
 
       descriptions = [

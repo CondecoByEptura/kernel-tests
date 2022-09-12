@@ -126,8 +126,8 @@ class RemovedFeatureTest(net_test.NetworkTest):
          + pkt2_frag_payload)
 
     s = socket.socket(socket.AF_INET6, socket.SOCK_RAW, socket.IPPROTO_RAW)
-    s.sendto(pkt1.decode('hex'), ('::1', 0))
-    s.sendto(pkt2.decode('hex'), ('::1', 0))
+    s.sendto(bytes.fromhex(pkt1), ('::1', 0))
+    s.sendto(bytes.fromhex(pkt2), ('::1', 0))
     s.close()
 
 

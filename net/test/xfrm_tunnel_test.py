@@ -134,7 +134,7 @@ def _GetNullAuthCryptTunnelModePkt(inner_version, src_inner, src_outer,
   input_pkt = (
       IpType(**ip_hdr_options) / scapy.UDP(sport=src_port, dport=dst_port) /
       net_test.UDP_PAYLOAD)
-  input_pkt = IpType(str(input_pkt))  # Compute length, checksum.
+  input_pkt = IpType(bytes(input_pkt))  # Compute length, checksum.
   input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, spi, seq_num,
                                               (src_outer, dst_outer))
 
@@ -339,6 +339,8 @@ class SaInfo(object):
 class IpSecBaseInterface(object):
 
   def __init__(self, iface, netid, underlying_netid, local, remote, version):
+    if not isinstance(iface, bytes):
+      raise TypeError(f"iface should be bytes, not {type(iface)}")
     self.iface = iface
     self.netid = netid
     self.underlying_netid = underlying_netid
@@ -596,7 +598,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
           remote = (net_test.IPV6_ADDR if (i % 2) else net_test.IPV6_ADDR2)
 
         ifindex = cls.ifindices[underlying_netid]
-        tunnel = cls.INTERFACE_CLASS(iface, netid, underlying_netid, ifindex,
+        tunnel = cls.INTERFACE_CLASS(iface.encode(), netid, underlying_netid, ifindex,
                                    local, remote, version)
         cls._SetInboundMarking(netid, iface, True)
         cls._SetupTunnelNetwork(tunnel, True)
@@ -673,7 +675,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       # underlying # network which fails the assertion that only one ESP packet
       # is received.
       cls.SetSysctl(
-          "/proc/sys/net/ipv6/conf/%s/router_solicitations" % tunnel.iface, 0)
+          "/proc/sys/net/ipv6/conf/%s/router_solicitations" % tunnel.iface.decode(), 0)
       net_test.SetInterfaceUp(tunnel.iface)
 
     for version in [4, 6]:
@@ -752,11 +754,11 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     # workaround in this manner
     if inner_version == 4:
       ip_hdr_options = {
-        'id': scapy.IP(str(pkt.payload)[8:]).id,
-        'flags': scapy.IP(str(pkt.payload)[8:]).flags
+        'id': scapy.IP(bytes(pkt.payload)[8:]).id,
+        'flags': scapy.IP(bytes(pkt.payload)[8:]).flags
       }
     else:
-      ip_hdr_options = {'fl': scapy.IPv6(str(pkt.payload)[8:]).fl}
+      ip_hdr_options = {'fl': scapy.IPv6(bytes(pkt.payload)[8:]).fl}
 
     expected = _GetNullAuthCryptTunnelModePkt(
         inner_version, local_inner, tunnel.local, local_port, remote_inner,
@@ -771,7 +773,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     self.assertEqual(len(expected), len(pkt))
 
     # Check everything else
-    self.assertEqual(str(expected.payload), str(pkt.payload))
+    self.assertEqual(bytes(expected.payload), bytes(pkt.payload))
 
   def _CheckTunnelEncryption(self, tunnel, inner_version, local_inner,
                              remote_inner):
@@ -790,7 +792,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
                                   tunnel.remote)
 
     # Check that packet is not sent in plaintext
-    self.assertTrue(str(net_test.UDP_PAYLOAD) not in str(pkt))
+    self.assertTrue(bytes(net_test.UDP_PAYLOAD) not in bytes(pkt))
 
     # Check src/dst
     self.assertEqual(tunnel.local, pkt.src)
@@ -1031,7 +1033,7 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
     local = self.MyAddress(outer_version, underlying_netid)
     remote = net_test.IPV4_ADDR if outer_version == 4 else net_test.IPV6_ADDR
 
-    tunnel = XfrmInterface(iface, netid, underlying_netid, ifindex,
+    tunnel = XfrmInterface(iface.encode(), netid, underlying_netid, ifindex,
                            local, remote, outer_version, use_null_crypt)
     self._SetInboundMarking(netid, iface, True)
     self._SetupTunnelNetwork(tunnel, True)
@@ -1044,9 +1046,8 @@ class XfrmInterfaceMigrateTest(XfrmTunnelBase):
     tunnel.Teardown()
 
   def _TestTunnel(self, inner_version, outer_version, func, use_null_crypt):
+    tunnel = self.setUpTunnel(outer_version, use_null_crypt)
     try:
-      tunnel = self.setUpTunnel(outer_version, use_null_crypt)
-
       # Verify functionality before migration
       local_inner = tunnel.addrs[inner_version]
       remote_inner = _GetRemoteInnerAddress(inner_version)

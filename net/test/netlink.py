@@ -72,7 +72,7 @@ class NetlinkSocket(object):
   def _NlAttr(self, nla_type, data):
     datalen = len(data)
     # Pad the data if it's not a multiple of NLA_ALIGNTO bytes long.
-    padding = "\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
+    padding = b"\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
     nla_len = datalen + len(NLAttr)
     return NLAttr((nla_len, nla_type)).Pack() + data + padding
 
@@ -80,8 +80,10 @@ class NetlinkSocket(object):
     return self._NlAttr(nla_type, socket.inet_pton(family, address))
 
   def _NlAttrStr(self, nla_type, value):
-    value = value + "\x00"
-    return self._NlAttr(nla_type, value.encode("UTF-8"))
+    if isinstance(value, str):
+      value = value.encode()
+    value += b"\x00"
+    return self._NlAttr(nla_type, value)
 
   def _NlAttrU32(self, nla_type, value):
     return self._NlAttr(nla_type, struct.pack("=I", value))
@@ -164,14 +166,11 @@ class NetlinkSocket(object):
     pass
 
   def _Send(self, msg):
-    # self._Debug(msg.encode("hex"))
     self.seq += 1
     self.sock.send(msg)
 
   def _Recv(self):
-    data = self.sock.recv(self.BUFSIZE)
-    # self._Debug(data.encode("hex"))
-    return data
+    return self.sock.recv(self.BUFSIZE)
 
   def _ExpectDone(self):
     response = self._Recv()
@@ -256,7 +255,7 @@ class NetlinkSocket(object):
     """
     # Create a netlink dump request containing the msg.
     flags = NLM_F_DUMP | NLM_F_REQUEST
-    msg = "" if msg is None else msg.Pack()
+    msg = b"" if msg is None else msg.Pack()
     length = len(NLMsgHdr) + len(msg) + len(attrs)
     nlmsghdr = NLMsgHdr((length, command, flags, self.seq, self.pid))
 

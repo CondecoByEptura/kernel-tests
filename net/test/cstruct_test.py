@@ -87,9 +87,9 @@ class CstructTest(unittest.TestCase):
         " nest2=Nested(word1=33214, nest2=TestStructA(byte1=3, int2=4),"
         " nest3=TestStructB(byte1=7, int2=33627591), int4=-55), byte3=252)")
     self.assertEqual(expected, str(d))
-    expected = ("01" "02000000"
-                "81be" "03" "04000000"
-                "07" "c71d0102" "ffffffc9" "fc").decode("hex")
+    expected = bytes.fromhex("01" "02000000"
+                             "81be" "03" "04000000"
+                             "07" "c71d0102" "ffffffc9" "fc")
     self.assertEqual(expected, d.Pack())
     unpacked = DoubleNested(expected)
     self.CheckEquals(unpacked, d)
@@ -115,26 +115,26 @@ class CstructTest(unittest.TestCase):
                                 "byte1 string2 int3 ascii4 word5")
     t = TestStruct()
     self.assertEqual(0, t.byte1)
-    self.assertEqual("\x00" * 16, t.string2)
+    self.assertEqual(b"\x00" * 16, t.string2)
     self.assertEqual(0, t.int3)
-    self.assertEqual("\x00" * 16, t.ascii4)
+    self.assertEqual(b"\x00" * 16, t.ascii4)
     self.assertEqual(0, t.word5)
-    self.assertEqual("\x00" * len(TestStruct), t.Pack())
+    self.assertEqual(b"\x00" * len(TestStruct), t.Pack())
 
   def testKeywordInitialization(self):
     TestStruct = cstruct.Struct("TestStruct", "=B16sIH",
                                 "byte1 string2 int3 word4")
-    text = "hello world! ^_^"
-    text_bytes = text.encode("hex")
+    text = b"hello world! ^_^"
+    text_bytes = text.hex()
 
     # Populate all fields
     t1 = TestStruct(byte1=1, string2=text, int3=0xFEDCBA98, word4=0x1234)
-    expected = ("01" + text_bytes + "98BADCFE" "3412").decode("hex")
+    expected = bytes.fromhex("01" + text_bytes + "98BADCFE" "3412")
     self.assertEqual(expected, t1.Pack())
 
     # Partially populated
     t1 = TestStruct(string2=text, word4=0x1234)
-    expected = ("00" + text_bytes + "00000000" "3412").decode("hex")
+    expected = bytes.fromhex("00" + text_bytes + "00000000" "3412")
     self.assertEqual(expected, t1.Pack())
 
   def testCstructOffset(self):
