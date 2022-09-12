@@ -69,7 +69,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       for proto in ["ipv4", "ipv6"]:
           cls.SetSysctl(
               "/proc/sys/net/%s/neigh/%s/delay_first_probe_time" % (proto, iface),
-              cls.DELAY_TIME_MS / 1000)
+              cls.DELAY_TIME_MS // 1000)
           cls.SetSysctl(
               "/proc/sys/net/%s/neigh/%s/retrans_time_ms" % (proto, iface),
               cls.RETRANS_TIME_MS)
@@ -167,7 +167,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
         dst = addr
       else:
         solicited = inet_pton(AF_INET6, addr)
-        last3bytes = tuple([ord(b) for b in solicited[-3:]])
+        last3bytes = tuple([b for b in solicited[-3:]])
         dst = "ff02::1:ff%02x:%02x%02x" % last3bytes
         src = self.MyAddress(6, self.netid)
       expected = (

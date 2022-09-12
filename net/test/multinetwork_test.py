@@ -47,9 +47,6 @@ HAVE_UNICAST_IF = net_test.LINUX_VERSION >= (3, 4, 0)
 # RTPROT_RA is working properly with 4.14
 HAVE_RTPROT_RA = net_test.LINUX_VERSION >= (4, 14, 0)
 
-class ConfigurationError(AssertionError):
-  pass
-
 
 class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
 
@@ -119,7 +116,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     inner_version = {4: 6, 6: 4}[version]
     inner_src = self.MyAddress(inner_version, netid)
     inner_dst = self.GetRemoteAddress(inner_version)
-    inner = str(packets.UDP(inner_version, inner_src, inner_dst, sport=None)[1])
+    inner = bytes(packets.UDP(inner_version, inner_src, inner_dst, sport=None)[1])
 
     ethertype = {4: net_test.ETH_P_IP, 6: net_test.ETH_P_IPV6}[inner_version]
     # A GRE header can be as simple as two zero bytes and the ethertype.
@@ -279,11 +276,11 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         s.setsockopt(net_test.SOL_IPV6, net_test.IPV6_FLOWINFO_SEND, 1)
 
         # Set some destination options.
-        nonce = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c"
-        dstopts = "".join([
-            "\x11\x02",              # Next header=UDP, 24 bytes of options.
-            "\x01\x06", "\x00" * 6,  # PadN, 6 bytes of padding.
-            "\x8b\x0c",              # ILNP nonce, 12 bytes.
+        nonce = b"\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c"
+        dstopts = b"".join([
+            b"\x11\x02",              # Next header=UDP, 24 bytes of options.
+            b"\x01\x06", b"\x00" * 6,  # PadN, 6 bytes of padding.
+            b"\x8b\x0c",              # ILNP nonce, 12 bytes.
             nonce
         ])
         s.setsockopt(net_test.SOL_IPV6, IPV6_DSTOPTS, dstopts)
@@ -421,10 +418,10 @@ class MarkTest(multinetwork_base.InboundMarkingTest):
 
 class TCPAcceptTest(multinetwork_base.InboundMarkingTest):
 
-  MODE_BINDTODEVICE = "SO_BINDTODEVICE"
-  MODE_INCOMING_MARK = "incoming mark"
-  MODE_EXPLICIT_MARK = "explicit mark"
-  MODE_UID = "uid"
+  MODE_BINDTODEVICE = b"SO_BINDTODEVICE"
+  MODE_INCOMING_MARK = b"incoming mark"
+  MODE_EXPLICIT_MARK = b"explicit mark"
+  MODE_UID = b"uid"
 
   @classmethod
   def setUpClass(cls):
@@ -834,7 +831,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     for netid in self.tuns:
       # Send a UDP packet to a random on-link destination.
       s = net_test.UDPSocket(AF_INET6)
-      iface = self.GetInterfaceName(netid)
+      iface = self.GetInterfaceName(netid).encode()
       self.BindToDevice(s, iface)
       # dstaddr can never be our address because GetRandomDestination only fills
       # in the lower 32 bits, but our address has 0xff in the byte before that
@@ -981,7 +978,7 @@ class PMTUTest(multinetwork_base.InboundMarkingTest):
         if use_connect:
           s.connect((dstaddr, 1234))
 
-        payload = self.PAYLOAD_SIZE * "a"
+        payload = self.PAYLOAD_SIZE * b"a"
 
         # Send a packet and receive a packet too big.
         SendBigPacket(version, s, dstaddr, netid, payload)
@@ -1255,9 +1252,9 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
 
     def CheckSendFails():
       self.assertRaisesErrno(errno.ENETUNREACH,
-                             s.sendto, "foo", (remoteaddr, 53))
+                             s.sendto, b"foo", (remoteaddr, 53))
     def CheckSendSucceeds():
-      self.assertEqual(len("foo"), s.sendto("foo", (remoteaddr, 53)))
+      self.assertEqual(len(b"foo"), s.sendto(b"foo", (remoteaddr, 53)))
 
     CheckSendFails()
     self.iproute.UidRangeRule(6, True, uid, uid, table, self.PRIORITY_UID)

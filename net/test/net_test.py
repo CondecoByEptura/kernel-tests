@@ -63,8 +63,8 @@ IPV6_FL_S_ANY = 255
 
 IFNAMSIZ = 16
 
-IPV4_PING = "\x08\x00\x00\x00\x0a\xce\x00\x03"
-IPV6_PING = "\x80\x00\x00\x00\x0a\xce\x00\x03"
+IPV4_PING = b"\x08\x00\x00\x00\x0a\xce\x00\x03"
+IPV6_PING = b"\x80\x00\x00\x00\x0a\xce\x00\x03"
 
 IPV4_ADDR = "8.8.8.8"
 IPV4_ADDR2 = "8.8.4.4"
@@ -80,7 +80,7 @@ IPV6_SEQ_DGRAM_HEADER = ("  sl  "
 UDP_HDR_LEN = 8
 
 # Arbitrary packet payload.
-UDP_PAYLOAD = str(scapy.DNS(rd=1,
+UDP_PAYLOAD = bytes(scapy.DNS(rd=1,
                             id=random.randint(0, 65535),
                             qd=scapy.DNSQR(qname="wWW.GoOGle.CoM",
                                            qtype="AAAA")))
@@ -101,7 +101,7 @@ def GetIpHdrLength(version):
   return {4: 20, 6: 40}[version]
 
 def GetAddressFamily(version):
-  return {4: AF_INET, 5: AF_INET6, 6: AF_INET6}[version]
+  return {4: int(AF_INET), 5: int(AF_INET6), 6: int(AF_INET6)}[version]
 
 
 def AddressLengthBits(version):
@@ -208,6 +208,8 @@ def CreateSocketPair(family, socktype, addr):
 
 
 def GetInterfaceIndex(ifname):
+  if isinstance(ifname, str):
+    ifname = ifname.encode()
   s = UDPSocket(AF_INET)
   ifr = struct.pack("%dsi" % IFNAMSIZ, ifname, 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
@@ -217,14 +219,16 @@ def GetInterfaceIndex(ifname):
 def SetInterfaceHWAddr(ifname, hwaddr):
   s = UDPSocket(AF_INET)
   hwaddr = hwaddr.replace(":", "")
-  hwaddr = hwaddr.decode("hex")
+  hwaddr = bytes.fromhex(hwaddr)
   if len(hwaddr) != 6:
     raise ValueError("Unknown hardware address length %d" % len(hwaddr))
-  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname, scapy.ARPHDR_ETHER, hwaddr)
+  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER, hwaddr)
   fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
 
 
 def SetInterfaceState(ifname, up):
+  if isinstance(ifname, str):
+    ifname = ifname.encode()
   s = UDPSocket(AF_INET)
   ifr = struct.pack("%dsH" % IFNAMSIZ, ifname, 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
@@ -272,7 +276,8 @@ def FormatSockStatAddress(address):
 
 
 def GetLinkAddress(ifname, linklocal):
-  addresses = open("/proc/net/if_inet6").readlines()
+  with open("/proc/net/if_inet6") as f:
+    addresses = f.readlines()
   for address in addresses:
     address = [s for s in address.strip().split(" ") if s]
     if address[5] == ifname:
@@ -285,7 +290,8 @@ def GetLinkAddress(ifname, linklocal):
 
 def GetDefaultRoute(version=6):
   if version == 6:
-    routes = open("/proc/net/ipv6_route").readlines()
+    with open("/proc/net/ipv6_route") as f:
+      routes = f.readlines()
     for route in routes:
       route = [s for s in route.strip().split(" ") if s]
       if (route[0] == "00000000000000000000000000000000" and route[1] == "00"
@@ -294,12 +300,13 @@ def GetDefaultRoute(version=6):
         return FormatProcAddress(route[4]), route[9]
     raise ValueError("No IPv6 default route found")
   elif version == 4:
-    routes = open("/proc/net/route").readlines()
+    with open("/proc/net/route") as f:
+      routes = f.readlines()
     for route in routes:
       route = [s for s in route.strip().split("\t") if s]
       if route[1] == "00000000" and route[7] == "00000000":
         gw, iface = route[2], route[0]
-        gw = inet_ntop(AF_INET, gw.decode("hex")[::-1])
+        gw = inet_ntop(AF_INET, bytes.fromhex(gw)[::-1])
         return gw, iface
     raise ValueError("No IPv4 default route found")
   else:
@@ -331,7 +338,7 @@ def MakeFlowLabelOption(addr, label):
   action = IPV6_FL_A_GET
   share = IPV6_FL_S_ANY
   flags = IPV6_FL_F_CREATE
-  pad = "\x00" * 4
+  pad = b"\x00" * 4
   return struct.pack(fmt, addr, label, action, share, flags, 0, 0, pad)
 
 
@@ -393,11 +400,11 @@ class RunAsUid(RunAsUidGid):
 
 class NetworkTest(unittest.TestCase):
 
-  def assertRaisesRegex(self, *args, **kwargs):
-    if sys.version_info.major < 3:
-      return self.assertRaisesRegexp(*args, **kwargs)
-    else:
-      return super().assertRaisesRegex(*args, **kwargs)
+  # def assertRaisesRegex(self, *args, **kwargs):
+  #   if sys.version_info.major < 3:
+  #     return self.assertRaisesRegex(*args, **kwargs)
+  #   else:
+  #     return super().assertRaisesRegex(*args, **kwargs)
 
   def assertRaisesErrno(self, err_num, f=None, *args):
     """Test that the system returns an errno error.
@@ -424,7 +431,8 @@ class NetworkTest(unittest.TestCase):
   def ReadProcNetSocket(self, protocol):
     # Read file.
     filename = "/proc/net/%s" % protocol
-    lines = open(filename).readlines()
+    with open(filename) as f:
+      lines = f.readlines()
 
     # Possibly check, and strip, header.
     if protocol in ["icmp6", "raw6", "udp6"]:
@@ -474,11 +482,13 @@ class NetworkTest(unittest.TestCase):
 
   @staticmethod
   def GetConsoleLogLevel():
-    return int(open("/proc/sys/kernel/printk").readline().split()[0])
+    with open("/proc/sys/kernel/printk") as f:
+      return int(f.readline().split()[0])
 
   @staticmethod
   def SetConsoleLogLevel(level):
-    return open("/proc/sys/kernel/printk", "w").write("%s\n" % level)
+    with open("/proc/sys/kernel/printk", "w") as f:
+      return f.write("%s\n" % level)
 
 
 if __name__ == "__main__":

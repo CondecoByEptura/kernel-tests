@@ -62,6 +62,9 @@ HAVE_AUTOCONF_TABLE = os.path.isfile(AUTOCONF_TABLE_SYSCTL)
 class UnexpectedPacketError(AssertionError):
   pass
 
+class ConfigurationError(AssertionError):
+  pass
+
 
 def MakePktInfo(version, addr, ifindex):
   family = {4: AF_INET, 6: AF_INET6}[version]
@@ -211,11 +214,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def CreateTunInterface(cls, netid):
     iface = cls.GetInterfaceName(netid)
     try:
-      f = open("/dev/net/tun", "r+b")
+      f = open("/dev/net/tun", "r+b", buffering=0)
     except IOError:
-      f = open("/dev/tun", "r+b")
-    ifr = struct.pack("16sH", iface, IFF_TAP | IFF_NO_PI)
-    ifr += "\x00" * (40 - len(ifr))
+      f = open("/dev/tun", "r+b", buffering=0)
+    ifr = struct.pack("16sH", iface.encode(), IFF_TAP | IFF_NO_PI)
+    ifr += b"\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
     # Give ourselves a predictable MAC address.
     net_test.SetInterfaceHWAddr(iface, cls.MyMacAddress(netid))
@@ -256,7 +259,10 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
                                       preferredlifetime=validity))
     for option in options:
       ra /= option
-    posix.write(cls.tuns[netid].fileno(), str(ra))
+    payload = bytes(ra)
+    written = posix.write(cls.tuns[netid].fileno(), payload)
+    if written != len(payload):
+      raise Exception("Written != len(payload): %d != %d" % (written, len(payload)))
 
   @classmethod
   def _RunSetupCommands(cls, netid, is_add):
@@ -272,7 +278,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       start, end = cls.UidRangeForNetid(netid)
       cls.iproute.UidRangeRule(version, is_add, start, end, table,
                                cls.PRIORITY_UID)
-      cls.iproute.OifRule(version, is_add, iface, table, cls.PRIORITY_OIF)
+      cls.iproute.OifRule(version, is_add, iface.encode(), table, cls.PRIORITY_OIF)
       cls.iproute.FwmarkRule(version, is_add, netid, cls.NETID_FWMASK, table,
                              cls.PRIORITY_FWMARK)
 
@@ -319,12 +325,13 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def _SetInboundMarking(cls, netid, iface, is_add):
+    if isinstance(iface, bytes):
+      iface = iface.decode()
     for version in [4, 6]:
       # Run iptables to set up incoming packet marking.
       add_del = "-A" if is_add else "-D"
       iptables = {4: "iptables", 6: "ip6tables"}[version]
-      args = "%s INPUT -t mangle -i %s -j MARK --set-mark %d" % (
-          add_del, iface, netid)
+      args = f"{add_del} INPUT -t mangle -i {iface} -j MARK --set-mark {netid}"
       if net_test.RunIptablesCommand(version, args):
         raise ConfigurationError("Setup command failed: %s" % args)
 
@@ -346,7 +353,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def GetSysctl(cls, sysctl):
-    return open(sysctl, "r").read()
+    with open(sysctl, "r") as f:
+      return f.read()
 
   @classmethod
   def SetSysctl(cls, sysctl, value):
@@ -355,7 +363,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     # correctly at the end.
     if sysctl not in cls.saved_sysctls:
       cls.saved_sysctls[sysctl] = cls.GetSysctl(sysctl)
-    open(sysctl, "w").write(str(value) + "\n")
+    with open(sysctl, "w") as f:
+      f.write(str(value) + "\n")
 
   @classmethod
   def SetIPv6SysctlOnAllIfaces(cls, sysctl, value):
@@ -368,7 +377,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def _RestoreSysctls(cls):
     for sysctl, value in cls.saved_sysctls.items():
       try:
-        open(sysctl, "w").write(value)
+        with open(sysctl, "w") as f:
+          f.write(value)
       except IOError:
         pass
 
@@ -455,7 +465,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   def BindToDevice(self, s, iface):
     if not iface:
-      iface = ""
+      iface = b""
     s.setsockopt(SOL_SOCKET, SO_BINDTODEVICE, iface)
 
   def SetUnicastInterface(self, s, ifindex):
@@ -489,7 +499,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       self.SetSocketMark(s, netid)
     elif mode == "oif":
       iface = self.GetInterfaceName(netid) if netid else ""
-      self.BindToDevice(s, iface)
+      self.BindToDevice(s, iface.encode())
     elif mode == "ucast_oif":
       self.SetUnicastInterface(s, self.ifindices.get(netid, 0))
     else:
@@ -529,7 +539,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 
   def ReceiveEtherPacketOn(self, netid, packet):
-    posix.write(self.tuns[netid].fileno(), str(packet))
+    posix.write(self.tuns[netid].fileno(), bytes(packet))
 
   def ReceivePacketOn(self, netid, ip_packet):
     routermac = self.RouterMacAddress(netid)
@@ -560,7 +570,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
           packets.append(ether.payload)
       except OSError as e:
         # EAGAIN means there are no more packets waiting.
-        if re.match(e.message, os.strerror(errno.EAGAIN)):
+        if e.errno == errno.EAGAIN:
           # If we didn't see any packets, try again for good luck.
           if not packets and retries < max_retries:
             time.sleep(0.01)
@@ -664,8 +674,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
     # Serialize the packet so that expected packet fields that are only set when
     # a packet is serialized e.g., the checksum) are filled in.
-    expected_real = expected.__class__(str(expected))
-    actual_real = actual.__class__(str(actual))
+    expected_real = expected.__class__(bytes(expected))
+    actual_real = actual.__class__(bytes(actual))
     # repr() can be expensive. Call it only if the test is going to fail and we
     # want to see the error.
     if expected_real != actual_real:
@@ -727,7 +737,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
       # ... coming in on all our interfaces.
       for netid in self.tuns:
-        iif = self.GetInterfaceName(netid)
+        iif = self.GetInterfaceName(netid).encode()
         combinations.append((netid, iif, ip_if, myaddr, remoteaddr))
 
     return combinations

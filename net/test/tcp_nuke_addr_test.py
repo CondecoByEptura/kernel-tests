@@ -86,7 +86,7 @@ class TcpNukeAddrTest(net_test.NetworkTest):
   def CheckNukeAddrUnsupported(self, socketpair, addr):
     s1, s2 = socketpair
     self.assertRaisesErrno(errno.ENOTTY, KillAddrIoctl, addr)
-    data = "foo"
+    data = b"foo"
     try:
       self.assertEqual(len(data), s1.send(data))
       self.assertEqual(data, s2.recv(4096))
