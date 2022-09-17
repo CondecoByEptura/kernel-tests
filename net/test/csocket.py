@@ -155,7 +155,7 @@ def _MakeMsgControl(optlist):
       data = struct.pack("=I", data)
     elif isinstance(data, ctypes.c_uint32):
       data = struct.pack("=I", data.value)
-    elif not isinstance(data, str):
+    elif not isinstance(data, bytes):
       raise TypeError("unknown data type for opt (%d, %d): %s" % (
           msg_level, msg_type, type(data)))
 
@@ -326,7 +326,7 @@ def Recvmsg(s, buflen, controllen, flags, addrlen=len(SockaddrStorage)):
   MaybeRaiseSocketError(ret)
 
   data = buf.raw[:ret]
-  msghdr = MsgHdr(str(msghdr._buffer.raw))
+  msghdr = MsgHdr(msghdr._buffer.raw)
   addr = _ToSocketAddress(addr, msghdr.namelen)
   control = control.raw[:msghdr.msg_controllen]
   msglist = _ParseMsgControl(control)
