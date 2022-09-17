@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -210,7 +210,7 @@ def CreateSocketPair(family, socktype, addr):
 
 def GetInterfaceIndex(ifname):
   s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname, 0)
+  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode(), 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
   return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
 
@@ -218,23 +218,24 @@ def GetInterfaceIndex(ifname):
 def SetInterfaceHWAddr(ifname, hwaddr):
   s = UDPSocket(AF_INET)
   hwaddr = hwaddr.replace(":", "")
-  hwaddr = hwaddr.decode("hex")
+  hwaddr = bytes.fromhex(hwaddr)
   if len(hwaddr) != 6:
     raise ValueError("Unknown hardware address length %d" % len(hwaddr))
-  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname, scapy.ARPHDR_ETHER, hwaddr)
+  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER, hwaddr)
   fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
 
 
 def SetInterfaceState(ifname, up):
+  ifname_bytes = ifname.encode()
   s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname, 0)
+  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
   _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)
   if up:
     flags |= scapy.IFF_UP
   else:
     flags &= ~scapy.IFF_UP
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname, flags)
+  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, flags)
   ifr = fcntl.ioctl(s, scapy.SIOCSIFFLAGS, ifr)
 
 
@@ -300,7 +301,7 @@ def GetDefaultRoute(version=6):
       route = [s for s in route.strip().split("\t") if s]
       if route[1] == "00000000" and route[7] == "00000000":
         gw, iface = route[2], route[0]
-        gw = inet_ntop(AF_INET, gw.decode("hex")[::-1])
+        gw = inet_ntop(AF_INET, bytes.fromhex(gw)[::-1])
         return gw, iface
     raise ValueError("No IPv4 default route found")
   else:

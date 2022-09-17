@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -304,7 +304,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
 
     # Check the sequence number and the data.
     self.assertEqual(len(data), len(rcvd))
-    self.assertEqual(data[6:].encode("hex"), rcvd[6:].encode("hex"))
+    self.assertEqual(data[6:], rcvd[6:])
 
   @staticmethod
   def IsAlmostEqual(expected, actual, delta):
@@ -589,11 +589,9 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
                            s.bind, (self.lladdr, 1026, 0, 0))
 
     # Binding to a link-local address with a scope ID works, and the scope ID is
-    # returned by a subsequent getsockname. Interestingly, Python's getsockname
-    # returns "fe80:1%foo", even though it does not understand it.
-    expected = self.lladdr + "%" + self.ifname
+    # returned by a subsequent getsockname.
     s.bind((self.lladdr, 4646, 0, self.ifindex))
-    self.assertEqual((expected, 4646, 0, self.ifindex), s.getsockname())
+    self.assertEqual((self.lladdr, 4646, 0, self.ifindex), s.getsockname())
 
     # Of course, for the above to work the address actually has to be configured
     # on the machine.
