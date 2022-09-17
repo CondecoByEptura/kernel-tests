@@ -3,22 +3,13 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
-python_defaults {
-    name: "kernel_net_tests_defaults",
-    srcs: [
-        "*.py",
-    ],
-    libs: [
-        "scapy",
-    ],
-    defaults: ["kernel_tests_defaults",],
-}
-
 python_test {
     name: "vts_kernel_net_tests",
     stem: "kernel_net_tests_bin",
     main: "all_tests.py",
-    defaults: ["kernel_net_tests_defaults",],
+    defaults: ["kernel_tests_defaults"],
+    srcs: ["*.py"],
+    libs: ["scapy"],
     test_suites: ["vts", "general-tests"],
     test_config: "vts_kernel_net_tests.xml",
 }
