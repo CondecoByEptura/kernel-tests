@@ -45,7 +45,7 @@ NLMsgHdr(length=0, type=0, flags=0, seq=0, pid=0)
 NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 >>>
 >>> # Serialize to raw bytes.
-... print(n1.Pack().encode("hex"))
+... print(n1.Pack().hex())
 2c0000002000020000000000eb010000
 >>>
 >>> # Parse the beginning of a byte stream as a struct, and return the struct
@@ -104,10 +104,8 @@ class StructMetaclass(type):
 def Struct(name, fmt, fieldnames, substructs={}):
   """Function that returns struct classes."""
 
-  class CStruct(object):
+  class CStruct(object, metaclass=StructMetaclass):
     """Class representing a C-like structure."""
-
-    __metaclass__ = StructMetaclass
 
     # Name of the struct.
     _name = name
@@ -168,7 +166,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       data = data[:self._length]
       values = list(struct.unpack(self._format, data))
       for index, value in enumerate(values):
-        if isinstance(value, str) and index in self._nested:
+        if isinstance(value, bytes) and index in self._nested:
           values[index] = self._nested[index](value)
       self._SetValues(values)
 
@@ -183,7 +181,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
       if tuple_or_bytes and kwargs:
         raise TypeError(
             "%s: cannot specify both a tuple and keyword args" % self._name)
-
+      if isinstance(tuple_or_bytes, str):
+        raise TypeError("%s: cannot initialize from string" % self._name)
       if tuple_or_bytes is None:
         # Default construct from null bytes.
         self._Parse(b"\x00" * len(self))
@@ -193,7 +192,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       elif isinstance(tuple_or_bytes, bytes):
         # Initializing from bytes.
         if len(tuple_or_bytes) < self._length:
-          raise TypeError("%s requires string of length %d, got %d" %
+          raise TypeError("%s requires a bytes object of length %d, got %d" %
                           (self._name, self._length, len(tuple_or_bytes)))
         self._Parse(tuple_or_bytes)
       else:
@@ -203,6 +202,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
                           (self._name, len(self._fieldnames),
                            ", ".join(self._fieldnames), len(tuple_or_bytes),
                            ", ".join(str(x) for x in tuple_or_bytes)))
+        for v in tuple_or_bytes:
+          assert not isinstance(v, str)
         self._SetValues(tuple_or_bytes)
 
     def _FieldIndex(self, attr):
@@ -218,6 +219,8 @@ def Struct(name, fmt, fieldnames, substructs={}):
     def __setattr__(self, name, value):
       # TODO: check value type against self._format and throw here, or else
       # callers get an unhelpful exception when they call Pack().
+      if isinstance(value, str):
+        raise ValueError(f"{name} set to str, must be bytes")
       self._values[self._FieldIndex(name)] = value
 
     def offset(self, name):
@@ -253,9 +256,9 @@ def Struct(name, fmt, fieldnames, substructs={}):
       def FieldDesc(index, name, value):
         if isinstance(value, bytes):
           if index in self._asciiz:
-            value = value.rstrip(b"\x00")
-          elif any(c not in string.printable for c in value):
-            value = value.encode("hex")
+            value = value.rstrip(b"\x00").decode("ascii")
+          else:
+            value = value.hex()
         return "%s=%s" % (name, value)
 
       descriptions = [
