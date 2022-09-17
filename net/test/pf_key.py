@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 # Copyright 2017 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +14,7 @@
 
 """Partial implementation of the PFKEYv2 interface."""
 
-# pylint: disable=g-bad-todo,bad-whitespace
+# pylint: disable=bad-whitespace
 
 import os
 from socket import *  # pylint: disable=wildcard-import
@@ -191,8 +189,7 @@ def ParseExtension(exttype, data):
   return exttype, ext, attrs
 
 
-class PfKey(object):
-
+class PfKey:
   """PF_KEY interface to kernel IPsec implementation."""
 
   def __init__(self):
@@ -320,8 +317,8 @@ class PfKey(object):
         exttype = _GetMultiConstantName(exttype, ["SADB_EXT", "SADB_X_EXT"])
         if exttype == SADB_EXT_SA:
           print(" %s %s %s" %
-                (exttype, self.DecodeSadbSa(ext), attrs.encode("hex")))
-        print(" %s %s %s" % (exttype, ext, attrs.encode("hex")))
+                (exttype, self.DecodeSadbSa(ext), attrs.hex()))
+        print(" %s %s %s" % (exttype, ext, attrs.hex()))
       print("")
 
 
