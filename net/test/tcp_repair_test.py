@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2019 The Android Open Source Project
 #
@@ -138,7 +138,7 @@ class TcpRepairTest(multinetwork_base.MultiNetworkBaseTest):
     sock.setsockopt(SOL_TCP, TCP_REPAIR, TCP_REPAIR_ON)
 
     # In repair mode with NO_QUEUE, writes fail...
-    self.assertRaisesErrno(EINVAL, sock.send, "write test")
+    self.assertRaisesErrno(EINVAL, sock.send, b"write test")
 
     # remote data is coming.
     TEST_RECEIVED = net_test.UDP_PAYLOAD
@@ -334,7 +334,7 @@ class SocketExceptionThread(threading.Thread):
   def run(self):
     try:
       self.operation(self.sock)
-    except (IOError, AssertionError) as e:
+    except (OSError, AssertionError) as e:
       self.exception = e
 
 if __name__ == '__main__':

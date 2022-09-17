@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -70,9 +70,10 @@ class NetlinkSocket(object):
       print(s)
 
   def _NlAttr(self, nla_type, data):
+    assert isinstance(data, bytes)
     datalen = len(data)
     # Pad the data if it's not a multiple of NLA_ALIGNTO bytes long.
-    padding = "\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
+    padding = b"\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
     nla_len = datalen + len(NLAttr)
     return NLAttr((nla_len, nla_type)).Pack() + data + padding
 
@@ -164,13 +165,13 @@ class NetlinkSocket(object):
     pass
 
   def _Send(self, msg):
-    # self._Debug(msg.encode("hex"))
+    # self._Debug(msg.hex())
     self.seq += 1
     self.sock.send(msg)
 
   def _Recv(self):
     data = self.sock.recv(self.BUFSIZE)
-    # self._Debug(data.encode("hex"))
+    # self._Debug(data.hex())
     return data
 
   def _ExpectDone(self):
@@ -183,9 +184,9 @@ class NetlinkSocket(object):
     # Find the error code.
     hdr, data = cstruct.Read(response, NLMsgHdr)
     if hdr.type == NLMSG_ERROR:
-      error = NLMsgErr(data).error
+      error = -NLMsgErr(data).error
       if error:
-        raise IOError(-error, os.strerror(-error))
+        raise OSError(error, os.strerror(error))
     else:
       raise ValueError("Expected ACK, got type %d" % hdr.type)
 
@@ -241,7 +242,7 @@ class NetlinkSocket(object):
       self._ExpectDone()
     return out
 
-  def _Dump(self, command, msg, msgtype, attrs):
+  def _Dump(self, command, msg, msgtype, attrs=b""):
     """Sends a dump request and returns a list of decoded messages.
 
     Args:
@@ -256,7 +257,7 @@ class NetlinkSocket(object):
     """
     # Create a netlink dump request containing the msg.
     flags = NLM_F_DUMP | NLM_F_REQUEST
-    msg = "" if msg is None else msg.Pack()
+    msg = b"" if msg is None else msg.Pack()
     length = len(NLMsgHdr) + len(msg) + len(attrs)
     nlmsghdr = NLMsgHdr((length, command, flags, self.seq, self.pid))
 
