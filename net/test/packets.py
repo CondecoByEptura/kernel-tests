@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2015 The Android Open Source Project
 #
@@ -189,7 +189,7 @@ def ICMPReply(version, srcaddr, dstaddr, packet):
 
 def NS(srcaddr, tgtaddr, srcmac):
   solicited = inet_pton(AF_INET6, tgtaddr)
-  last3bytes = tuple([ord(b) for b in solicited[-3:]])
+  last3bytes = tuple(solicited[-3:])
   solicited = "ff02::1:ff%02x:%02x%02x" % last3bytes
   packet = (scapy.IPv6(src=srcaddr, dst=solicited) /
             scapy.ICMPv6ND_NS(tgt=tgtaddr) /
