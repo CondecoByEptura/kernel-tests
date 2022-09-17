@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2015 The Android Open Source Project
 #
@@ -128,7 +128,7 @@ class SockDiag(netlink.NetlinkSocket):
 
     if name in ["INET_DIAG_SHUTDOWN", "INET_DIAG_TOS", "INET_DIAG_TCLASS",
                 "INET_DIAG_SKV6ONLY"]:
-      data = ord(nla_data)
+      data = nla_data[0]
     elif name == "INET_DIAG_CONG":
       data = nla_data.strip(b"\x00")
     elif name == "INET_DIAG_MEMINFO":
@@ -254,7 +254,7 @@ class SockDiag(netlink.NetlinkSocket):
       no = positions[i + no] - positions[i]
       instruction = InetDiagBcOp((op, yes, no)).Pack() + args[i]
       #print("%3d: %d %3d %3d %s %s" % (positions[i], op, yes, no,
-      #                                 arg, instruction.encode("hex")))
+      #                                 arg, instruction.hex()))
       packed += instruction
     #print
 
