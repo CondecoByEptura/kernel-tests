@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -191,8 +191,7 @@ def ParseExtension(exttype, data):
   return exttype, ext, attrs
 
 
-class PfKey(object):
-
+class PfKey:
   """PF_KEY interface to kernel IPsec implementation."""
 
   def __init__(self):
@@ -320,8 +319,8 @@ class PfKey(object):
         exttype = _GetMultiConstantName(exttype, ["SADB_EXT", "SADB_X_EXT"])
         if exttype == SADB_EXT_SA:
           print(" %s %s %s" %
-                (exttype, self.DecodeSadbSa(ext), attrs.encode("hex")))
-        print(" %s %s %s" % (exttype, ext, attrs.encode("hex")))
+                (exttype, self.DecodeSadbSa(ext), attrs.hex()))
+        print(" %s %s %s" % (exttype, ext, attrs.hex()))
       print("")
 
 
