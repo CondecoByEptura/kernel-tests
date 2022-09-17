@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -52,10 +52,10 @@ def HaveXfrmInterfaces():
     try:
       i.GetIfIndex(_TEST_XFRM_IFNAME)
       assert "Deleted interface %s still exists!" % _TEST_XFRM_IFNAME
-    except IOError:
+    except OSError:
       pass
     return True
-  except IOError:
+  except OSError:
     return False
 
 HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
@@ -81,7 +81,7 @@ def SupportsXfrmMigrate():
                     None, None, None, None, None, None)
     print("Migration succeeded unexpectedly, assuming XFRM_MIGRATE is enabled")
     return True
-  except IOError as err:
+  except OSError as err:
     if err.errno == ENOPROTOOPT:
       return False
     elif err.errno == EINVAL:
@@ -134,7 +134,7 @@ def _GetNullAuthCryptTunnelModePkt(inner_version, src_inner, src_outer,
   input_pkt = (
       IpType(**ip_hdr_options) / scapy.UDP(sport=src_port, dport=dst_port) /
       net_test.UDP_PAYLOAD)
-  input_pkt = IpType(str(input_pkt))  # Compute length, checksum.
+  input_pkt = IpType(bytes(input_pkt))  # Compute length, checksum.
   input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, spi, seq_num,
                                               (src_outer, dst_outer))
 
@@ -314,13 +314,13 @@ class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
       # Validate that the netlink interface matches the ioctl interface.
       self.assertEqual(net_test.GetInterfaceIndex(_TEST_XFRM_IFNAME), if_index)
       self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
-      with self.assertRaises(IOError):
+      with self.assertRaises(OSError):
         self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
 
   def _QuietDeleteLink(self, ifname):
     try:
       self.iproute.DeleteLink(ifname)
-    except IOError:
+    except OSError:
       # The link was not present.
       pass
 
@@ -481,7 +481,7 @@ class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
     # Validate that the netlink interface matches the ioctl interface.
     self.assertEqual(net_test.GetInterfaceIndex(_TEST_XFRM_IFNAME), if_index)
     self.iproute.DeleteLink(_TEST_XFRM_IFNAME)
-    with self.assertRaises(IOError):
+    with self.assertRaises(OSError):
       self.iproute.GetIfIndex(_TEST_XFRM_IFNAME)
 
 
@@ -752,11 +752,11 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     # workaround in this manner
     if inner_version == 4:
       ip_hdr_options = {
-        'id': scapy.IP(str(pkt.payload)[8:]).id,
-        'flags': scapy.IP(str(pkt.payload)[8:]).flags
+        'id': scapy.IP(bytes(pkt.payload)[8:]).id,
+        'flags': scapy.IP(bytes(pkt.payload)[8:]).flags
       }
     else:
-      ip_hdr_options = {'fl': scapy.IPv6(str(pkt.payload)[8:]).fl}
+      ip_hdr_options = {'fl': scapy.IPv6(bytes(pkt.payload)[8:]).fl}
 
     expected = _GetNullAuthCryptTunnelModePkt(
         inner_version, local_inner, tunnel.local, local_port, remote_inner,
@@ -771,7 +771,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
     self.assertEqual(len(expected), len(pkt))
 
     # Check everything else
-    self.assertEqual(str(expected.payload), str(pkt.payload))
+    self.assertEqual(bytes(expected.payload), bytes(pkt.payload))
 
   def _CheckTunnelEncryption(self, tunnel, inner_version, local_inner,
                              remote_inner):
@@ -790,7 +790,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
                                   tunnel.remote)
 
     # Check that packet is not sent in plaintext
-    self.assertTrue(str(net_test.UDP_PAYLOAD) not in str(pkt))
+    self.assertTrue(bytes(net_test.UDP_PAYLOAD) not in bytes(pkt))
 
     # Check src/dst
     self.assertEqual(tunnel.local, pkt.src)
