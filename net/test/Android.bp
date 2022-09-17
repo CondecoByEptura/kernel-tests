@@ -3,48 +3,17 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
-python_defaults {
-    name: "kernel_net_tests_defaults",
-    stem: "kernel_net_tests_bin",
-    srcs: [
-        "*.py",
-    ],
-    libs: [
-        "scapy",
-    ],
-    main: "all_tests.py",
-}
-
-
-// Main target used for VTS tests. Still uses Python 2.
 python_test {
     name: "vts_kernel_net_tests",
-    defaults: ["kernel_net_tests_defaults"],
-    version: {
-        py2: {
-            embedded_launcher: true,
-            enabled: true,
-        },
-        py3: {
-            enabled: false,
-        },
-    },
+    stem: "kernel_net_tests_bin",
+    main: "all_tests.py",
+    srcs: ["*.py"],
+    libs: ["scapy"],
     test_config: "vts_kernel_net_tests.xml",
     test_suites: ["vts", "general-tests"],
-}
-
-// Python 3 target for development only.
-// TODO: switch the main target to Python 3.
-python_test {
-    name: "vts_kernel_net_tests_python3",
-    defaults: ["kernel_net_tests_defaults"],
     version: {
-        py2: {
-            enabled: false,
-        },
         py3: {
             embedded_launcher: true,
-            enabled: true,
         },
     },
 }
