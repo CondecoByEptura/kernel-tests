@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -590,15 +590,9 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
                            s.bind, (self.lladdr, 1026, 0, 0))
 
     # Binding to a link-local address with a scope ID works, and the scope ID is
-    # returned by a subsequent getsockname. On Python 2, getsockname returns
-    # "fe80:1%foo". Strip it off, since the ifindex field in the return value is
-    # what matters.
+    # returned by a subsequent getsockname.
     s.bind((self.lladdr, 4646, 0, self.ifindex))
-    sockname = s.getsockname()
-    expected = self.lladdr
-    if "%" in sockname[0]:
-      expected += "%" + self.ifname
-    self.assertEqual((expected, 4646, 0, self.ifindex), sockname)
+    self.assertEqual((self.lladdr, 4646, 0, self.ifindex), s.getsockname())
 
     # Of course, for the above to work the address actually has to be configured
     # on the machine.

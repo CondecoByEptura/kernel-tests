@@ -26,7 +26,7 @@ import threading
 from scapy import all as scapy
 
 
-class TunTwister(object):
+class TunTwister:
   """TunTwister transports traffic travelling twixt two terminals.
 
   TunTwister is a context manager that will read packets from a tun file
@@ -59,7 +59,7 @@ class TunTwister(object):
         sock = socket(AF_INET, SOCK_DGRAM, 0)
         sock.bind(("0.0.0.0", 8080))
         sock.settimeout(1.0)
-        sock.sendto("hello", ("1.2.3.4", 8080))
+        sock.sendto(b"hello", ("1.2.3.4", 8080))
         data, addr = sock.recvfrom(1024)
         self.assertEqual(b"hello", data)
         self.assertEqual(("1.2.3.4", 8080), addr)
@@ -162,7 +162,7 @@ class TunTwister(object):
   @staticmethod
   def _DecodeIpPacket(packet_bytes):
     """Decode 'packet_bytes' as an IPv4 or IPv6 scapy object."""
-    ip_ver = (ord(packet_bytes[0]) & 0xF0) >> 4
+    ip_ver = (packet_bytes[0] & 0xF0) >> 4
     if ip_ver == 4:
       return scapy.IP(packet_bytes)
     elif ip_ver == 6:

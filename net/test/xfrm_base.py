@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 # Copyright 2017 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -197,7 +195,7 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
   esplen = (len(inner_layer) + 2)  # UDP length plus Pad Length and Next Header.
   padlen = util.GetPadLength(4, esplen)
   # The pad bytes are consecutive integers starting from 0x01.
-  padding = "".join((chr(i) for i in range(1, padlen + 1))).encode("utf-8")
+  padding = b"".join((bytes([i]) for i in range(1, padlen + 1)))
   trailer = padding + struct.pack("BB", padlen, esp_nexthdr)
 
   # Assemble the packet.

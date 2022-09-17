@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -368,7 +368,7 @@ try:
 except ValueError:
   HAVE_IPV6 = False
 
-class RunAsUidGid(object):
+class RunAsUidGid:
   """Context guard to run a code block as a given UID."""
 
   def __init__(self, uid, gid):

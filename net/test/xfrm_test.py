@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -83,7 +83,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
             binascii.hexlify(xfrm_base._AUTHENTICATION_KEY_128).decode("utf-8"),
             binascii.hexlify(xfrm_base._ENCRYPTION_KEY_256).decode("utf-8")))
 
-    actual = subprocess.check_output("ip xfrm state".split()).decode("utf-8")
+    actual = subprocess.check_output("ip xfrm state".split(), encoding="utf-8")
     # Newer versions of IP also show anti-replay context. Don't choke if it's
     # missing.
     actual = actual.replace(

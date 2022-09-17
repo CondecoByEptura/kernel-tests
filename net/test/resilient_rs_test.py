@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -77,15 +77,12 @@ class ResilientRouterSolicitationTest(multinetwork_base.MultiNetworkBaseTest):
 
   @classmethod
   def isIPv6RouterSolicitation(cls, packet):
-    def ToByte(c):
-      return c if isinstance(c, int) else ord(c)
-
     return ((len(packet) >= 14 + 40 + 1) and
             # Use net_test.ETH_P_IPV6 here
-            (ToByte(packet[12]) == 0x86) and
-            (ToByte(packet[13]) == 0xdd) and
-            (ToByte(packet[14]) >> 4 == 6) and
-            (ToByte(packet[14 + 40]) == cls.ROUTER_SOLICIT))
+            (packet[12] == 0x86) and
+            (packet[13] == 0xdd) and
+            (packet[14] >> 4 == 6) and
+            (packet[14 + 40] == cls.ROUTER_SOLICIT))
 
   def makeTunInterface(self, netid):
     defaultDisableIPv6Path = self._PROC_NET_TUNABLE % ("default", "disable_ipv6")
