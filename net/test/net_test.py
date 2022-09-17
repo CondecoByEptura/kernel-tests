@@ -395,7 +395,7 @@ class NetworkTest(unittest.TestCase):
 
   def assertRaisesRegex(self, *args, **kwargs):
     if sys.version_info.major < 3:
-      return self.assertRaisesRegexp(*args, **kwargs)
+      return self.assertRaisesRegex(*args, **kwargs)
     else:
       return super().assertRaisesRegex(*args, **kwargs)
 
