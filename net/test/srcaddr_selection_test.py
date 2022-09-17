@@ -86,7 +86,7 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
     return src_addr
 
   def assertAddressNotPresent(self, address):
-    self.assertRaises(IOError, self.iproute.GetAddress, address)
+    self.assertRaises(OSError, self.iproute.GetAddress, address)
 
   def assertAddressHasExpectedAttributes(
       self, address, expected_ifindex, expected_flags):
@@ -109,7 +109,7 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
     pktinfo = multinetwork_base.MakePktInfo(6, address, 0)
     cmsgs = [(net_test.SOL_IPV6, IPV6_PKTINFO, pktinfo)]
     s = self.BuildSocket(6, net_test.UDPSocket, netid, "mark")
-    return csocket.Sendmsg(s, (dest, 53), "Hello", cmsgs, 0)
+    return csocket.Sendmsg(s, (dest, 53), b"Hello", cmsgs, 0)
 
   def assertAddressUsable(self, address, netid):
     self.BindToAddress(address)
