@@ -53,7 +53,7 @@ class NetilterRejectTargetTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect this to fail with ICMP unreachable
     try:
       sock.connect((addr, 53))
-    except IOError:
+    except OSError:
       pass
 
   def testRejectTcp4(self):
@@ -72,7 +72,7 @@ class NetilterRejectTargetTest(multinetwork_base.MultiNetworkBaseTest):
     # Expect this to fail with ICMP unreachable
     try:
       sock.sendto(net_test.UDP_PAYLOAD, (addr, 53))
-    except IOError:
+    except OSError:
       pass
 
   def testRejectUdp4(self):

@@ -6,12 +6,8 @@ package {
 python_defaults {
     name: "kernel_tests_defaults",
     version: {
-        py2: {
-            embedded_launcher: true,
-            enabled: true,
-        },
         py3: {
-            enabled: false,
+            embedded_launcher: true,
         },
     },
 }
