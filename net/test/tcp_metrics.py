@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 # Copyright 2017 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -79,7 +77,7 @@ class TcpMetrics(genetlink.GenericNetlink):
     elif name == "TCP_METRICS_ATTR_FOPEN_COOKIE":
       data = nla_data
     else:
-      data = nla_data.encode("hex")
+      data = nla_data.hex()
 
     return name, data
 

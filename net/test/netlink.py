@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 # Copyright 2014 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +13,6 @@
 # limitations under the License.
 
 """Partial Python implementation of iproute functionality."""
-
-# pylint: disable=g-bad-todo
 
 import os
 import socket
@@ -57,7 +53,7 @@ NLA_ALIGNTO = 4
 # These can appear more than once but don't seem to contain any data.
 DUP_ATTRS_OK = ["INET_DIAG_NONE", "IFLA_PAD"]
 
-class NetlinkSocket(object):
+class NetlinkSocket:
   """A basic netlink socket object."""
 
   BUFSIZE = 65536
@@ -165,13 +161,13 @@ class NetlinkSocket(object):
     pass
 
   def _Send(self, msg):
-    # self._Debug(msg.encode("hex"))
+    # self._Debug(msg.hex())
     self.seq += 1
     self.sock.send(msg)
 
   def _Recv(self):
     data = self.sock.recv(self.BUFSIZE)
-    # self._Debug(data.encode("hex"))
+    # self._Debug(data.hex())
     return data
 
   def _ExpectDone(self):

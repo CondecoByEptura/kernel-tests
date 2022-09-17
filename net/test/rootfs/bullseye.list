@@ -25,7 +25,7 @@ openssl
 pciutils
 procps
 psmisc
-python2
+python3
 python3-scapy
 strace
 systemd-sysv

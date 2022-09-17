@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -328,14 +328,14 @@ class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
     self._QuietDeleteLink(_TEST_XFRM_IFNAME)
 
 
-class SaInfo(object):
+class SaInfo:
 
   def __init__(self, spi):
     self.spi = spi
     self.seq_num = 1
 
 
-class IpSecBaseInterface(object):
+class IpSecBaseInterface:
 
   def __init__(self, iface, netid, underlying_netid, local, remote, version):
     self.iface = iface
