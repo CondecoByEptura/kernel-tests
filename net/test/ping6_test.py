@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -94,7 +94,7 @@ class PingReplyThread(threading.Thread):
 
     # Serialize the packet, so scapy recalculates the checksums, and compare
     # them with the ones in the packet.
-    packet = packet.__class__(str(packet))
+    packet = packet.__class__(bytes(packet))
     for name in layers:
       layer = packet.getlayer(name)
       if layer and GetChecksum(layer) != sums[name]:
@@ -122,7 +122,7 @@ class PingReplyThread(threading.Thread):
       self.SendPacket(
           scapy.IPv6(src=self.INTERMEDIATE_IPV6, dst=src) /
           scapy.ICMPv6PacketTooBig(mtu=self.LINK_MTU) /
-          str(packet)[:datalen])
+          bytes(packet)[:datalen])
 
   def IPv4Packet(self, ip):
     icmp = ip.getlayer(scapy.ICMP)
@@ -184,7 +184,7 @@ class PingReplyThread(threading.Thread):
   def SendPacket(self, packet):
     packet = scapy.Ether(src=self._routermac, dst=self._mymac) / packet
     try:
-      posix.write(self._tun.fileno(), str(packet))
+      posix.write(self._tun.fileno(), bytes(packet))
     except Exception as e:
       if not self._stopped_flag:
         raise e
@@ -304,7 +304,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
 
     # Check the sequence number and the data.
     self.assertEqual(len(data), len(rcvd))
-    self.assertEqual(data[6:].encode("hex"), rcvd[6:].encode("hex"))
+    self.assertEqual(data[6:], rcvd[6:])
 
   @staticmethod
   def IsAlmostEqual(expected, actual, delta):
@@ -589,11 +589,9 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
                            s.bind, (self.lladdr, 1026, 0, 0))
 
     # Binding to a link-local address with a scope ID works, and the scope ID is
-    # returned by a subsequent getsockname. Interestingly, Python's getsockname
-    # returns "fe80:1%foo", even though it does not understand it.
-    expected = self.lladdr + "%" + self.ifname
+    # returned by a subsequent getsockname.
     s.bind((self.lladdr, 4646, 0, self.ifindex))
-    self.assertEqual((expected, 4646, 0, self.ifindex), s.getsockname())
+    self.assertEqual((self.lladdr, 4646, 0, self.ifindex), s.getsockname())
 
     # Of course, for the above to work the address actually has to be configured
     # on the machine.

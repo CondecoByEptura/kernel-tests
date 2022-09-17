@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -70,6 +70,7 @@ class NetlinkSocket(object):
       print(s)
 
   def _NlAttr(self, nla_type, data):
+    assert isinstance(data, bytes)
     datalen = len(data)
     # Pad the data if it's not a multiple of NLA_ALIGNTO bytes long.
     padding = b"\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
@@ -164,13 +165,13 @@ class NetlinkSocket(object):
     pass
 
   def _Send(self, msg):
-    # self._Debug(msg.encode("hex"))
+    # self._Debug(msg.hex())
     self.seq += 1
     self.sock.send(msg)
 
   def _Recv(self):
     data = self.sock.recv(self.BUFSIZE)
-    # self._Debug(data.encode("hex"))
+    # self._Debug(data.hex())
     return data
 
   def _ExpectDone(self):
