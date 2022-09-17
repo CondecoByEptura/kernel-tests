@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -251,7 +251,7 @@ class IPRoute(netlink.NetlinkSocket):
   """Provides a tiny subset of iproute functionality."""
 
   def _NlAttrInterfaceName(self, nla_type, interface):
-    return self._NlAttr(nla_type, interface + "\x00")
+    return self._NlAttr(nla_type, interface.encode() + b"\x00")
 
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
@@ -320,13 +320,13 @@ class IPRoute(netlink.NetlinkSocket):
     elif name == "FRA_SUPPRESS_PREFIXLEN":
       data = struct.unpack("=i", nla_data)[0]
     elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER"]:
-      data = ord(nla_data)
+      data = nla_data[0]
     elif name in ["IFA_ADDRESS", "IFA_LOCAL", "RTA_DST", "RTA_SRC",
                   "RTA_GATEWAY", "RTA_PREFSRC", "NDA_DST"]:
       data = socket.inet_ntop(msg.family, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
-      data = nla_data.strip("\x00")
+      data = nla_data.strip(b"\x00")
     elif name == "RTA_METRICS":
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
     elif name == "IFLA_LINKINFO":
@@ -340,7 +340,7 @@ class IPRoute(netlink.NetlinkSocket):
     elif name == "NDA_CACHEINFO":
       data = NDACacheinfo(nla_data)
     elif name in ["NDA_LLADDR", "IFLA_ADDRESS", "IFLA_BROADCAST"]:
-      data = ":".join(x.encode("hex") for x in nla_data)
+      data = ":".join(format(x, "02x") for x in nla_data)
     elif name == "FRA_UID_RANGE":
       data = FibRuleUidRange(nla_data)
     elif name == "IFLA_STATS":
@@ -629,7 +629,7 @@ class IPRoute(netlink.NetlinkSocket):
     ndmsg = NdMsg((family, dev, state, 0, RTN_UNICAST)).Pack()
     ndmsg += self._NlAttrIPAddress(NDA_DST, family, addr)
     if is_add and lladdr:
-      ndmsg += self._NlAttr(NDA_LLADDR, lladdr)
+      ndmsg += self._NlAttr(NDA_LLADDR, lladdr.encode())
     command = RTM_NEWNEIGH if is_add else RTM_DELNEIGH
     self._SendNlRequest(command, ndmsg, flags)
 
@@ -645,7 +645,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DumpNeighbours(self, version, ifindex):
     ndmsg = NdMsg((self._AddressFamily(version), 0, 0, 0, 0))
-    attrs = self._NlAttrU32(NDA_IFINDEX, ifindex) if ifindex else ""
+    attrs = self._NlAttrU32(NDA_IFINDEX, ifindex) if ifindex else b""
     return self._Dump(RTM_GETNEIGH, ndmsg, NdMsg, attrs)
 
   def ParseNeighbourMessage(self, msg):

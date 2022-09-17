@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -64,8 +64,8 @@ IPV6_FL_S_ANY = 255
 
 IFNAMSIZ = 16
 
-IPV4_PING = "\x08\x00\x00\x00\x0a\xce\x00\x03"
-IPV6_PING = "\x80\x00\x00\x00\x0a\xce\x00\x03"
+IPV4_PING = b"\x08\x00\x00\x00\x0a\xce\x00\x03"
+IPV6_PING = b"\x80\x00\x00\x00\x0a\xce\x00\x03"
 
 IPV4_ADDR = "8.8.8.8"
 IPV4_ADDR2 = "8.8.4.4"
@@ -81,10 +81,10 @@ IPV6_SEQ_DGRAM_HEADER = ("  sl  "
 UDP_HDR_LEN = 8
 
 # Arbitrary packet payload.
-UDP_PAYLOAD = str(scapy.DNS(rd=1,
-                            id=random.randint(0, 65535),
-                            qd=scapy.DNSQR(qname="wWW.GoOGle.CoM",
-                                           qtype="AAAA")))
+UDP_PAYLOAD = bytes(scapy.DNS(rd=1,
+                              id=random.randint(0, 65535),
+                              qd=scapy.DNSQR(qname="wWW.GoOGle.CoM",
+                                             qtype="AAAA")))
 
 # Unix group to use if we want to open sockets as non-root.
 AID_INET = 3003
@@ -210,7 +210,7 @@ def CreateSocketPair(family, socktype, addr):
 
 def GetInterfaceIndex(ifname):
   s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname, 0)
+  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode(), 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
   return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
 
@@ -218,23 +218,24 @@ def GetInterfaceIndex(ifname):
 def SetInterfaceHWAddr(ifname, hwaddr):
   s = UDPSocket(AF_INET)
   hwaddr = hwaddr.replace(":", "")
-  hwaddr = hwaddr.decode("hex")
+  hwaddr = bytes.fromhex(hwaddr)
   if len(hwaddr) != 6:
     raise ValueError("Unknown hardware address length %d" % len(hwaddr))
-  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname, scapy.ARPHDR_ETHER, hwaddr)
+  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER, hwaddr)
   fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
 
 
 def SetInterfaceState(ifname, up):
+  ifname_bytes = ifname.encode()
   s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname, 0)
+  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, 0)
   ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
   _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)
   if up:
     flags |= scapy.IFF_UP
   else:
     flags &= ~scapy.IFF_UP
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname, flags)
+  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, flags)
   ifr = fcntl.ioctl(s, scapy.SIOCSIFFLAGS, ifr)
 
 
@@ -300,7 +301,7 @@ def GetDefaultRoute(version=6):
       route = [s for s in route.strip().split("\t") if s]
       if route[1] == "00000000" and route[7] == "00000000":
         gw, iface = route[2], route[0]
-        gw = inet_ntop(AF_INET, gw.decode("hex")[::-1])
+        gw = inet_ntop(AF_INET, bytes.fromhex(gw)[::-1])
         return gw, iface
     raise ValueError("No IPv4 default route found")
   else:
@@ -332,7 +333,7 @@ def MakeFlowLabelOption(addr, label):
   action = IPV6_FL_A_GET
   share = IPV6_FL_S_ANY
   flags = IPV6_FL_F_CREATE
-  pad = "\x00" * 4
+  pad = b"\x00" * 4
   return struct.pack(fmt, addr, label, action, share, flags, 0, 0, pad)
 
 

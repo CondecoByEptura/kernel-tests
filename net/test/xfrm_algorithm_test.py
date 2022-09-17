@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -143,13 +143,13 @@ def AlgoEnforcedOrEnabled(crypt, auth, aead, target_algo, target_kernel):
 # Return true if this algorithm should be enforced or is enabled on this kernel
 def AuthEnforcedOrEnabled(authCase):
   auth = authCase[0]
-  crypt = xfrm.XfrmAlgo(("ecb(cipher_null)", 0))
+  crypt = xfrm.XfrmAlgo((b"ecb(cipher_null)", 0))
   return AlgoEnforcedOrEnabled(crypt, auth, None, auth.name, authCase[1])
 
 # Return true if this algorithm should be enforced or is enabled on this kernel
 def CryptEnforcedOrEnabled(cryptCase):
   crypt = cryptCase[0]
-  auth = xfrm.XfrmAlgoAuth(("digest_null", 0, 0))
+  auth = xfrm.XfrmAlgoAuth((b"digest_null", 0, 0))
   return AlgoEnforcedOrEnabled(crypt, auth, None, crypt.name, cryptCase[1])
 
 # Return true if this algorithm should be enforced or is enabled on this kernel
@@ -341,8 +341,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         self.assertEqual(remote_addr, peer[0])
         self.assertEqual(client_port, peer[1])
         data = accepted.recv(2048)
-        self.assertEqual("hello request", data)
-        accepted.send("hello response")
+        self.assertEqual(b"hello request", data)
+        accepted.send(b"hello response")
       except Exception as e:
         server_error = e
       finally:
@@ -354,8 +354,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         data, peer = sock.recvfrom(2048)
         self.assertEqual(remote_addr, peer[0])
         self.assertEqual(client_port, peer[1])
-        self.assertEqual("hello request", data)
-        sock.sendto("hello response", peer)
+        self.assertEqual(b"hello request", data)
+        sock.sendto(b"hello response", peer)
       except Exception as e:
         server_error = e
       finally:
@@ -382,9 +382,9 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
 
     with TapTwister(fd=self.tuns[netid].fileno(), validator=AssertEncrypted):
       sock_left.connect((remote_addr, right_port))
-      sock_left.send("hello request")
+      sock_left.send(b"hello request")
       data = sock_left.recv(2048)
-      self.assertEqual("hello response", data)
+      self.assertEqual(b"hello response", data)
       sock_left.close()
       server.join(timeout=2.0)
       self.assertFalse(server.is_alive(), "Timed out waiting for server exit")
