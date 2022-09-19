@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14540c0f_237528e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-09-19T18:37:00Z",
+      "side": 1,
+      "message": "Awesome work... but does it work with python2, because that\u0027s all we have access to in the images atm?",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
