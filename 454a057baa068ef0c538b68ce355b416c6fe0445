@@ -16,6 +16,24 @@
       "message": "Awesome work... but does it work with python2, because that\u0027s all we have access to in the images atm?",
       "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e063f810_5e9bac44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-09-19T20:24:59Z",
+      "side": 1,
+      "message": "These are device tests and they don\u0027t interact with system Python (which wouldn\u0027t even be the correct arch), they use the module \"py3-launcher\" which is built from source in external/python/cpython3.",
+      "parentUuid": "14540c0f_237528e5",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
