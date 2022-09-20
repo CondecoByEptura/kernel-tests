@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1451a781_c5ef5cf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1535516
+      },
+      "writtenOn": "2022-09-20T20:04:15Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t have CR+2 privileges.",
+      "revId": "bc6471e621086b615c0b124aff66a0bb152b9602",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
