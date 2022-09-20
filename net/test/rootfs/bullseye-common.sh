@@ -106,17 +106,17 @@ setup_and_build_cuttlefish() {
   # Install everything needed from bullseye to build android-cuttlefish
   apt-get install -y \
     cdbs \
-    config-package-dev \
-    curl \
     debhelper \
+    devscripts \
     dpkg-dev \
-    git \
-    golang
+    equivs \
+    git
 
   # Fetch android-cuttlefish and build it
   git clone https://github.com/google/android-cuttlefish.git /usr/src/$cuttlefish
   for subdir in base frontend; do
     cd /usr/src/$cuttlefish/$subdir
+      mk-build-deps --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
       dpkg-buildpackage -d -uc -us
     cd -
   done
