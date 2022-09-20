@@ -126,6 +126,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad2024ed_49a8a106",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-09-20T22:05:08Z",
+      "side": 1,
+      "message": "Or at least tell me how to use build_rootfs.sh to update it. I don\u0027t know what to pass as the -k and -z parameters (kernel and initramfs).",
+      "parentUuid": "e79f5395_c996f302",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbdb4dd_354a1370",
