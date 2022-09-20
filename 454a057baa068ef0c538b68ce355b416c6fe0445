@@ -72,6 +72,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b323109a_b750a2f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1535516
+      },
+      "writtenOn": "2022-09-20T20:51:19Z",
+      "side": 1,
+      "message": "+1 to what Krzysztof is saying. Since this test uses `embedded_launcher: true`, we will embed the python 3 interpreter into the resulting binary, and it doesn\u0027t matter what python version(s) the host/device support.",
+      "parentUuid": "4c4e1931_c0f26009",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbdb4dd_354a1370",
