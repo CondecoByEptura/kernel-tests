@@ -54,6 +54,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4e1931_c0f26009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-09-20T16:16:50Z",
+      "side": 1,
+      "message": "That\u0027s not particularly helpful. What are \"the images\"? What are the other ways in which these tests are run?\n\nHere\u0027s the situation:\n1. This is literally the last remaining use of Python 2 in all of Android.\n2. If \"the images\" means Linux OS images used by build machines, then this is not relevant - these tests will never interact with Python from the system image, because they run on the device only. Android does not contain an arm64 Python prebuilt.\n3. Even if someone compiled these tests for host, the vts_kernel_net_tests executable contains bundled Python, that\u0027s what embedded_launcher means.\n4. Most of these tests have a dependency on Scapy, which is highly unlikely to exist on \"the images\" if they don\u0027t even contain Python 3.\n\nIt may be theoretically possible to make these tests compatible with both versions, but it\u0027s going to be very difficult and I\u0027d rather avoid this unless it\u0027s strictly necessary.",
+      "parentUuid": "79ca143d_55e5c1f7",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbdb4dd_354a1370",
