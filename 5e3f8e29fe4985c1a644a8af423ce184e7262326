@@ -16,6 +16,24 @@
       "message": "It\u0027s \u0027checked in\u0027 at https://dl.google.com/dl/android/net_test.rootfs.20150203.xz",
       "revId": "5e3f8e29fe4985c1a644a8af423ce184e7262326",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f8676d_92b985af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-09-20T22:11:55Z",
+      "side": 1,
+      "message": "Interesting... it looks like the tests were outright deleted in https://critique.corp.google.com/cl/456342331 - that\u0027s certainly surprising.",
+      "parentUuid": "4011a622_08db40b9",
+      "revId": "5e3f8e29fe4985c1a644a8af423ce184e7262326",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
