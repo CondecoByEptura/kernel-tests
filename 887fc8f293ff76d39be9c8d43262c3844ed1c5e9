@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d471a43_3d140ce3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-09-20T19:28:11Z",
+      "side": 1,
+      "message": "Seems like we did the same thing simultaneously: aosp/2219408\n\nMy CL has some differences though, I changed everything that goes into native structs to bytes and passing `str` to CStruct constructors is an error.",
+      "revId": "887fc8f293ff76d39be9c8d43262c3844ed1c5e9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae6209f8_f5230321",
+        "filename": "net/test/cstruct.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-09-20T19:28:11Z",
+      "side": 1,
+      "message": "I had a different solution here: aosp/2219408\n\nThe metaclass needs to be moved outside the `Struct()` function, then you can do what the original code intended by calling `isinstance(type(value), Meta)`.",
+      "revId": "887fc8f293ff76d39be9c8d43262c3844ed1c5e9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
