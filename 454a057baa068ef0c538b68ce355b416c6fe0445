@@ -90,6 +90,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c55ba3bc_23964bd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003224
+      },
+      "writtenOn": "2022-09-20T21:06:38Z",
+      "side": 1,
+      "message": "in the context of http://b/243057700 \"python2 dependency in kernel/tests/net/test/Android.bp\" where i was hassling him about this, he explained (over chat, sadly, so it\u0027s not in the bug) that this stuff is used two ways --- the regular way that we\u0027re familiar with, but also in some checked-in non-reproducible debian (?) image from 2015.\n\nlooks like kernel/tests/net/test/README describes it a bit. seems like the image is called net_test.rootfs.20150203 but i can\u0027t find it checked in anywhere?\n\n(if it\u0027s not actually true that these run both ways, we could just leave this python2 and remove the build support and let them worry about moving to python3 when they update their rootfs...)",
+      "parentUuid": "b323109a_b750a2f5",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbdb4dd_354a1370",
