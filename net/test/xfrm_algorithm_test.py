@@ -385,7 +385,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
       data = sock_left.recv(2048)
       self.assertEqual("hello response", data)
       sock_left.close()
-      server.join()
+      server.join(timeout=2.0)
+      self.assertFalse(server.is_alive(), "Timed out waiting for server exit")
     if server_error:
       raise server_error
 
