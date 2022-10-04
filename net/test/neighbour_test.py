@@ -69,7 +69,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
       for proto in ["ipv4", "ipv6"]:
           cls.SetSysctl(
               "/proc/sys/net/%s/neigh/%s/delay_first_probe_time" % (proto, iface),
-              cls.DELAY_TIME_MS / 1000)
+              cls.DELAY_TIME_MS // 1000)
           cls.SetSysctl(
               "/proc/sys/net/%s/neigh/%s/retrans_time_ms" % (proto, iface),
               cls.RETRANS_TIME_MS)
