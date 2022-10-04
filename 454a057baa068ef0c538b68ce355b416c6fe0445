@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff46da82_a793a172",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-10-04T08:59:05Z",
+      "side": 1,
+      "message": "Perhaps adelva@ can help with build_rootfs.sh? I believe he was the one who initially wrote it, and he has been actively changing it recently.\n\nIt\u0027s definitely worth trying to keep the rootfs-based tests running. If all it takes is to use python3 instead of python2 in the rootfs, and the script hasn\u0027t bitrotted, then we should definitely do that.",
+      "parentUuid": "ad2024ed_49a8a106",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "efbdb4dd_354a1370",
         "filename": "net/test/pf_key.py",
         "patchSetId": 2
