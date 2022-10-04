@@ -88,12 +88,12 @@ def _GetCryptParameters(crypt_alg):
   Returns:
     A tuple of the block size, and IV length
   """
-  cryptParameters = {
-    _ALGO_CRYPT_NULL: (4, 0),
-    _ALGO_CBC_AES_256: (16, 16)
-  }
+  if crypt_alg == _ALGO_CRYPT_NULL:
+    return (4, 0)
+  if crypt_alg == _ALGO_CBC_AES_256:
+    return (16, 16)
+  return (0, 0)
 
-  return cryptParameters.get(crypt_alg, (0, 0))
 
 def GetEspPacketLength(mode, version, udp_encap, payload,
                        auth_alg, crypt_alg):
