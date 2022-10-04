@@ -241,7 +241,7 @@ class NetlinkSocket(object):
       self._ExpectDone()
     return out
 
-  def _Dump(self, command, msg, msgtype, attrs):
+  def _Dump(self, command, msg, msgtype, attrs=b""):
     """Sends a dump request and returns a list of decoded messages.
 
     Args:
