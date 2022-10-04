@@ -98,7 +98,7 @@ class TunTwister(object):
     os.close(self._signal_write)
     self._thread.join(TunTwister._POLL_TIMEOUT_SEC)
     os.close(self._signal_read)
-    if self._thread.isAlive():
+    if self._thread.is_alive():
       raise RuntimeError("Timed out waiting for thread exit")
     # Re-raise any error thrown from our thread.
     if isinstance(self._error, Exception):
