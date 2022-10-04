@@ -130,7 +130,7 @@ class SockDiag(netlink.NetlinkSocket):
                 "INET_DIAG_SKV6ONLY"]:
       data = ord(nla_data)
     elif name == "INET_DIAG_CONG":
-      data = nla_data.strip("\x00")
+      data = nla_data.strip(b"\x00")
     elif name == "INET_DIAG_MEMINFO":
       data = InetDiagMeminfo(nla_data)
     elif name == "INET_DIAG_INFO":
@@ -168,7 +168,7 @@ class SockDiag(netlink.NetlinkSocket):
 
   @staticmethod
   def _EmptyInetDiagSockId():
-    return InetDiagSockId(("\x00" * len(InetDiagSockId)))
+    return InetDiagSockId((b"\x00" * len(InetDiagSockId)))
 
   @staticmethod
   def PackBytecode(instructions):
@@ -220,10 +220,10 @@ class SockDiag(netlink.NetlinkSocket):
         raise ValueError("Jumps must be > 0")
 
       if op in [INET_DIAG_BC_NOP, INET_DIAG_BC_JMP, INET_DIAG_BC_AUTO]:
-        arg = ""
+        arg = b""
       elif op in [INET_DIAG_BC_S_GE, INET_DIAG_BC_S_LE,
                   INET_DIAG_BC_D_GE, INET_DIAG_BC_D_LE]:
-        arg = "\x00\x00" + struct.pack("=H", arg)
+        arg = b"\x00\x00" + struct.pack("=H", arg)
       elif op in [INET_DIAG_BC_S_COND, INET_DIAG_BC_D_COND]:
         addr, prefixlen, port = arg
         family = AF_INET6 if ":" in addr else AF_INET
@@ -248,7 +248,7 @@ class SockDiag(netlink.NetlinkSocket):
 
     # print(positions)
 
-    packed = ""
+    packed = b""
     for i, (op, yes, no, arg) in enumerate(instructions):
       yes = positions[i + yes] - positions[i]
       no = positions[i + no] - positions[i]
@@ -346,7 +346,7 @@ class SockDiag(netlink.NetlinkSocket):
     """Converts an IP address string to binary format for InetDiagSockId."""
     padded = SockDiag.RawAddress(addr)
     if len(padded) < 16:
-      padded += "\x00" * (16 - len(padded))
+      padded += b"\x00" * (16 - len(padded))
     return padded
 
   @staticmethod
@@ -371,7 +371,7 @@ class SockDiag(netlink.NetlinkSocket):
         raise e
     src = SockDiag.PaddedAddress(src)
     dst = SockDiag.PaddedAddress(dst)
-    sock_id = InetDiagSockId((sport, dport, src, dst, iface, "\x00" * 8))
+    sock_id = InetDiagSockId((sport, dport, src, dst, iface, b"\x00" * 8))
     return InetDiagReqV2((family, protocol, 0, 0xffffffff, sock_id))
 
   @staticmethod
@@ -387,7 +387,7 @@ class SockDiag(netlink.NetlinkSocket):
     # the inode number to ensure we don't mistakenly match another socket on
     # the same port but with a different IP address.
     inode = os.fstat(s.fileno()).st_ino
-    results = self.Dump(req, "")
+    results = self.Dump(req, b"")
     if len(results) == 0:
       raise ValueError("Dump of %s returned no sockets" % req)
     for diag_msg, attrs in results:
@@ -423,11 +423,10 @@ class SockDiag(netlink.NetlinkSocket):
 if __name__ == "__main__":
   n = SockDiag()
   n.DEBUG = True
-  bytecode = ""
   sock_id = n._EmptyInetDiagSockId()
   sock_id.dport = 443
   ext = 1 << (INET_DIAG_TOS - 1) | 1 << (INET_DIAG_TCLASS - 1)
   states = 0xffffffff
-  diag_msgs = n.DumpAllInetSockets(IPPROTO_TCP, "",
+  diag_msgs = n.DumpAllInetSockets(IPPROTO_TCP, b"",
                                    sock_id=sock_id, ext=ext, states=states)
   print(diag_msgs)

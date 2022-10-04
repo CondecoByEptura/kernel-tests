@@ -32,7 +32,7 @@ TCP_WINDOW = 14400
 PTB_MTU = 1280
 
 PING_IDENT = 0xff19
-PING_PAYLOAD = "foobarbaz"
+PING_PAYLOAD = b"foobarbaz"
 PING_SEQ = 3
 PING_TOS = 0x83
 
@@ -107,7 +107,7 @@ def SYNACK(version, srcaddr, dstaddr, packet):
                     ack=original.seq + 1, seq=None,
                     flags=TCP_SYN | TCP_ACK, window=None))
 
-def ACK(version, srcaddr, dstaddr, packet, payload=""):
+def ACK(version, srcaddr, dstaddr, packet, payload=b""):
   ip = _GetIpLayer(version)
   original = packet.getlayer("TCP")
   was_syn_or_fin = (original.flags & (TCP_SYN | TCP_FIN)) != 0
@@ -203,4 +203,3 @@ def NA(srcaddr, dstaddr, srcmac):
             scapy.ICMPv6ND_NA(tgt=srcaddr, R=0, S=1, O=1) /
             scapy.ICMPv6NDOptDstLLAddr(lladdr=srcmac))
   return ("ICMPv6 NA", packet)
-
