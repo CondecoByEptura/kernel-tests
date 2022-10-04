@@ -258,7 +258,7 @@ def DeleteMap(map_fd, key):
 
 
 def BpfProgLoad(prog_type, instructions, prog_license=b"GPL"):
-  bpf_prog = "".join(instructions)
+  bpf_prog = b"".join(instructions)
   insn_buff = ctypes.create_string_buffer(bpf_prog)
   gpl_license = ctypes.create_string_buffer(prog_license)
   log_buf = ctypes.create_string_buffer(b"", LOG_SIZE)

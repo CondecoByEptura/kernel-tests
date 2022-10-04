@@ -36,7 +36,7 @@ import tcp_test
 TcpInfo = cstruct.Struct("TcpInfo", "64xI", "tcpi_rcv_ssthresh")
 
 NUM_SOCKETS = 30
-NO_BYTECODE = ""
+NO_BYTECODE = b""
 LINUX_4_9_OR_ABOVE = net_test.LINUX_VERSION >= (4, 9, 0)
 LINUX_4_19_OR_ABOVE = net_test.LINUX_VERSION >= (4, 19, 0)
 
@@ -698,7 +698,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     d = self.sock_diag.FindSockDiagFromFd(self.s)
     req = self.sock_diag.DiagReqFromDiagMsg(d, IPPROTO_TCP)
     req.states = 1 << tcp_test.TCP_SYN_RECV | 1 << tcp_test.TCP_ESTABLISHED
-    req.id.cookie = "\x00" * 8
+    req.id.cookie = b"\x00" * 8
 
     bad_bytecode = self.PackAndCheckBytecode(
         [(sock_diag.INET_DIAG_BC_MARK_COND, 1, 2, (0xffff, 0xffff))])
@@ -785,10 +785,10 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.IncomingConnection(version, tcp_test.TCP_LISTEN, self.netid)
       self.assertRaisesErrno(ENOTCONN, self.s.recv, 4096)
       self.CloseDuringBlockingCall(self.s, lambda sock: sock.accept(), EINVAL)
-      self.assertRaisesErrno(ECONNABORTED, self.s.send, "foo")
+      self.assertRaisesErrno(ECONNABORTED, self.s.send, b"foo")
       self.assertRaisesErrno(EINVAL, self.s.accept)
       # TODO: this should really return an error such as ENOTCONN...
-      self.assertEqual("", self.s.recv(4096))
+      self.assertEqual(b"", self.s.recv(4096))
 
   def testReadInterrupted(self):
     """Tests that read() is interrupted by SOCK_DESTROY."""
@@ -797,9 +797,9 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.CloseDuringBlockingCall(self.accepted, lambda sock: sock.recv(4096),
                                    ECONNABORTED)
       # Writing returns EPIPE, and reading returns EOF.
-      self.assertRaisesErrno(EPIPE, self.accepted.send, "foo")
-      self.assertEqual("", self.accepted.recv(4096))
-      self.assertEqual("", self.accepted.recv(4096))
+      self.assertRaisesErrno(EPIPE, self.accepted.send, b"foo")
+      self.assertEqual(b"", self.accepted.recv(4096))
+      self.assertEqual(b"", self.accepted.recv(4096))
 
   def testConnectInterrupted(self):
     """Tests that connect() is interrupted by SOCK_DESTROY."""
@@ -867,9 +867,9 @@ class PollOnCloseTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     self.assertRaisesErrno(errno, self.accepted.recv, 4096)
 
     # Subsequent operations behave as normal.
-    self.assertRaisesErrno(EPIPE, self.accepted.send, "foo")
-    self.assertEqual("", self.accepted.recv(4096))
-    self.assertEqual("", self.accepted.recv(4096))
+    self.assertRaisesErrno(EPIPE, self.accepted.send, b"foo")
+    self.assertEqual(b"", self.accepted.recv(4096))
+    self.assertEqual(b"", self.accepted.recv(4096))
 
   def CheckPollDestroy(self, mask, expected, ignoremask):
     """Interrupts a poll() with SOCK_DESTROY."""
@@ -1005,13 +1005,13 @@ class SockDestroyUdpTest(SockDiagBaseTest):
 
       # Check that reads on connected sockets are interrupted.
       s.connect((addr, 53))
-      self.assertEqual(3, s.send("foo"))
+      self.assertEqual(3, s.send(b"foo"))
       self.CloseDuringBlockingCall(s, lambda sock: sock.recv(4096),
                                    ECONNABORTED)
 
       # A destroyed socket is no longer connected, but still usable.
-      self.assertRaisesErrno(EDESTADDRREQ, s.send, "foo")
-      self.assertEqual(3, s.sendto("foo", (addr, 53)))
+      self.assertRaisesErrno(EDESTADDRREQ, s.send, b"foo")
+      self.assertEqual(3, s.sendto(b"foo", (addr, 53)))
 
       # Check that reads on unconnected sockets are also interrupted.
       self.CloseDuringBlockingCall(s, lambda sock: sock.recv(4096),
