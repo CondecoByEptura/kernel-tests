@@ -262,7 +262,7 @@ def BpfProgLoad(prog_type, instructions, prog_license=b"GPL"):
   insn_buff = ctypes.create_string_buffer(bpf_prog)
   gpl_license = ctypes.create_string_buffer(prog_license)
   log_buf = ctypes.create_string_buffer(b"", LOG_SIZE)
-  attr = BpfAttrProgLoad((prog_type, len(insn_buff) / len(BpfInsn),
+  attr = BpfAttrProgLoad((prog_type, len(insn_buff) // len(BpfInsn),
                           ctypes.addressof(insn_buff),
                           ctypes.addressof(gpl_license), LOG_LEVEL,
                           LOG_SIZE, ctypes.addressof(log_buf), 0))

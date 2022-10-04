@@ -93,7 +93,7 @@ def AddressVersion(addr):
 
 
 def SetSocketTimeout(sock, ms):
-  s = ms / 1000
+  s = ms // 1000
   us = (ms % 1000) * 1000
   sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO,
                   struct.pack("LL", s, us))
