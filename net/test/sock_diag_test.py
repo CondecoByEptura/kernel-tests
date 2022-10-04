@@ -65,7 +65,7 @@ def HaveUdpDiag():
   s.bind(("::", 0))
   s.connect((s.getsockname()))
   sd = sock_diag.SockDiag()
-  have_udp_diag = len(sd.DumpAllInetSockets(IPPROTO_UDP, "")) > 0
+  have_udp_diag = len(sd.DumpAllInetSockets(IPPROTO_UDP, NO_BYTECODE)) > 0
   s.close()
   return have_udp_diag
 
@@ -322,7 +322,7 @@ class SockDiagTest(SockDiagBaseTest):
     # sockets other than the ones it creates itself. Make the bytecode more
     # specific and remove it.
     states = 1 << tcp_test.TCP_ESTABLISHED
-    self.assertFalse(self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, "",
+    self.assertFalse(self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, NO_BYTECODE,
                                                        states=states))
 
     unused_pair4 = net_test.CreateSocketPair(AF_INET, SOCK_STREAM, "127.0.0.1")
@@ -376,7 +376,7 @@ class SockDiagTest(SockDiagBaseTest):
       sock_id = self.sock_diag._EmptyInetDiagSockId()
       req = sock_diag.InetDiagReqV2((AF_INET6, IPPROTO_TCP, 0, 0xffffffff,
                                      sock_id))
-      self.sock_diag._Dump(code, req, sock_diag.InetDiagMsg, "")
+      self.sock_diag._Dump(code, req, sock_diag.InetDiagMsg)
 
     op = sock_diag.SOCK_DIAG_BY_FAMILY
     DiagDump(op)  # No errors? Good.
@@ -688,7 +688,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       # to work on 3.10.
       if net_test.LINUX_VERSION >= (3, 18):
         diag_req.states = 1 << tcp_test.TCP_FIN_WAIT2
-        infos = self.sock_diag.Dump(diag_req, "")
+        infos = self.sock_diag.Dump(diag_req, NO_BYTECODE)
         self.assertTrue(any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
                             for diag_msg, attrs in infos),
                         "Expected to find FIN_WAIT2 socket in %s" % infos)
