@@ -63,7 +63,7 @@ class GenericNetlink(netlink.NetlinkSocket):
 
   def _Dump(self, family, command, version):
     msg = Genlmsghdr((command, version))
-    return super(GenericNetlink, self)._Dump(family, msg, Genlmsghdr, "")
+    return super(GenericNetlink, self)._Dump(family, msg, Genlmsghdr)
 
 
 class GenericNetlinkControl(GenericNetlink):

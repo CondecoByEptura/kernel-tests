@@ -474,16 +474,16 @@ class IPRoute(netlink.NetlinkSocket):
     # Create a struct rtmsg specifying the table and the given match attributes.
     family = self._AddressFamily(version)
     rtmsg = RTMsg((family, 0, 0, 0, 0, 0, 0, 0, 0))
-    return self._Dump(RTM_GETRULE, rtmsg, RTMsg, "")
+    return self._Dump(RTM_GETRULE, rtmsg, RTMsg)
 
   def DumpLinks(self):
     ifinfomsg = IfinfoMsg((0, 0, 0, 0, 0, 0))
-    return self._Dump(RTM_GETLINK, ifinfomsg, IfinfoMsg, "")
+    return self._Dump(RTM_GETLINK, ifinfomsg, IfinfoMsg)
 
   def DumpAddresses(self, version):
     family = self._AddressFamily(version)
     ifaddrmsg = IfAddrMsg((family, 0, 0, 0, 0))
-    return self._Dump(RTM_GETADDR, ifaddrmsg, IfAddrMsg, "")
+    return self._Dump(RTM_GETADDR, ifaddrmsg, IfAddrMsg)
 
   def _Address(self, version, command, addr, prefixlen, flags, scope, ifindex):
     """Adds or deletes an IP address."""
@@ -612,7 +612,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DumpRoutes(self, version, ifindex):
     rtmsg = RTMsg(family=self._AddressFamily(version))
-    return [(m, r) for (m, r) in self._Dump(RTM_GETROUTE, rtmsg, RTMsg, "")
+    return [(m, r) for (m, r) in self._Dump(RTM_GETROUTE, rtmsg, RTMsg)
             if r['RTA_TABLE'] == ifindex]
 
   def _Neighbour(self, version, is_add, addr, lladdr, dev, state, flags=0):
