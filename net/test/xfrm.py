@@ -623,10 +623,10 @@ class Xfrm(netlink.NetlinkSocket):
     raise ValueError("Unexpected netlink message type: %d" % nl_hdr.type)
 
   def DumpSaInfo(self):
-    return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo, "")
+    return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo)
 
   def DumpPolicyInfo(self):
-    return self._Dump(XFRM_MSG_GETPOLICY, None, XfrmUserpolicyInfo, "")
+    return self._Dump(XFRM_MSG_GETPOLICY, None, XfrmUserpolicyInfo)
 
   def FindSaInfo(self, spi):
     sainfo = [sa for sa, attrs in self.DumpSaInfo() if sa.id.spi == spi]
