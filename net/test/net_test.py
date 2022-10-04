@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import contextlib
 import fcntl
 import os
 import random
@@ -393,11 +394,11 @@ class RunAsUid(RunAsUidGid):
 
 class NetworkTest(unittest.TestCase):
 
-  def assertRaisesRegex(self, *args, **kwargs):
-    if sys.version_info.major < 3:
-      return self.assertRaisesRegexp(*args, **kwargs)
-    else:
-      return super().assertRaisesRegex(*args, **kwargs)
+  @contextlib.contextmanager
+  def _errnoCheck(self, err_num):
+    with self.assertRaises(EnvironmentError) as context:
+      yield context
+    self.assertEqual(context.exception.errno, err_num)
 
   def assertRaisesErrno(self, err_num, f=None, *args):
     """Test that the system returns an errno error.
@@ -415,11 +416,11 @@ class NetworkTest(unittest.TestCase):
       f: (optional) A callable that should result in error
       *args: arguments passed to f
     """
-    msg = os.strerror(err_num)
     if f is None:
-      return self.assertRaisesRegex(EnvironmentError, msg)
+      return self._errnoCheck(err_num)
     else:
-      self.assertRaisesRegex(EnvironmentError, msg, f, *args)
+      with self._errnoCheck(err_num):
+        f(*args)
 
   def ReadProcNetSocket(self, protocol):
     # Read file.
