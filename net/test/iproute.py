@@ -673,8 +673,8 @@ class IPRoute(netlink.NetlinkSocket):
     if hdr.type == RTM_NEWLINK:
       return cstruct.Read(data, IfinfoMsg)
     elif hdr.type == netlink.NLMSG_ERROR:
-      error = netlink.NLMsgErr(data).error
-      raise IOError(error, os.strerror(-error))
+      error = -netlink.NLMsgErr(data).error
+      raise IOError(error, os.strerror(error))
     else:
       raise ValueError("Unknown Netlink Message Type %d" % hdr.type)
 

@@ -183,9 +183,9 @@ class NetlinkSocket(object):
     # Find the error code.
     hdr, data = cstruct.Read(response, NLMsgHdr)
     if hdr.type == NLMSG_ERROR:
-      error = NLMsgErr(data).error
+      error = -NLMsgErr(data).error
       if error:
-        raise IOError(-error, os.strerror(-error))
+        raise IOError(error, os.strerror(error))
     else:
       raise ValueError("Expected ACK, got type %d" % hdr.type)
 
