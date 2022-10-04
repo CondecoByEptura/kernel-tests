@@ -18,7 +18,6 @@ import ctypes
 import errno
 import os
 import socket
-import subprocess
 import tempfile
 import unittest
 

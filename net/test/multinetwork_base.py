@@ -211,9 +211,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def CreateTunInterface(cls, netid):
     iface = cls.GetInterfaceName(netid)
     try:
-      f = open("/dev/net/tun", "r+b")
+      f = open("/dev/net/tun", "r+b", buffering=0)
     except IOError:
-      f = open("/dev/tun", "r+b")
+      f = open("/dev/tun", "r+b", buffering=0)
     ifr = struct.pack("16sH", iface, IFF_TAP | IFF_NO_PI)
     ifr += "\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
