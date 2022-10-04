@@ -56,17 +56,17 @@ class PingReplyThread(threading.Thread):
   def __init__(self, tun, mymac, routermac, routeraddr):
     super(PingReplyThread, self).__init__()
     self._tun = tun
-    self._started = False
-    self._stopped = False
+    self._started_flag = False
+    self._stopped_flag = False
     self._mymac = mymac
     self._routermac = routermac
     self._routeraddr = routeraddr
 
   def IsStarted(self):
-    return self._started
+    return self._started_flag
 
   def Stop(self):
-    self._stopped = True
+    self._stopped_flag = True
 
   def ChecksumValid(self, packet):
     # Get and clear the checksums.
@@ -186,12 +186,12 @@ class PingReplyThread(threading.Thread):
     try:
       posix.write(self._tun.fileno(), str(packet))
     except Exception as e:
-      if not self._stopped:
+      if not self._stopped_flag:
         raise e
 
   def run(self):
-    self._started = True
-    while not self._stopped:
+    self._started_flag = True
+    while not self._stopped_flag:
       try:
         packet = posix.read(self._tun.fileno(), 4096)
       except OSError as e:
@@ -200,7 +200,7 @@ class PingReplyThread(threading.Thread):
         else:
           break
       except ValueError as e:
-        if not self._stopped:
+        if not self._stopped_flag:
           raise e
 
       ether = scapy.Ether(packet)
