@@ -61,7 +61,7 @@ class TunTwister(object):
         sock.settimeout(1.0)
         sock.sendto("hello", ("1.2.3.4", 8080))
         data, addr = sock.recvfrom(1024)
-        self.assertEqual("hello", data)
+        self.assertEqual(b"hello", data)
         self.assertEqual(("1.2.3.4", 8080), addr)
   """
 
@@ -94,7 +94,7 @@ class TunTwister(object):
 
   def __exit__(self, *args):
     # Signal thread exit.
-    os.write(self._signal_write, "bye")
+    os.write(self._signal_write, b"bye")
     os.close(self._signal_write)
     self._thread.join(TunTwister._POLL_TIMEOUT_SEC)
     os.close(self._signal_read)

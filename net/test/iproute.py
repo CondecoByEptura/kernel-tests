@@ -251,7 +251,7 @@ class IPRoute(netlink.NetlinkSocket):
   """Provides a tiny subset of iproute functionality."""
 
   def _NlAttrInterfaceName(self, nla_type, interface):
-    return self._NlAttr(nla_type, interface + "\x00")
+    return self._NlAttr(nla_type, interface + b"\x00")
 
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
@@ -326,7 +326,7 @@ class IPRoute(netlink.NetlinkSocket):
       data = socket.inet_ntop(msg.family, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
-      data = nla_data.strip("\x00")
+      data = nla_data.strip(b"\x00")
     elif name == "RTA_METRICS":
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
     elif name == "IFLA_LINKINFO":
@@ -645,7 +645,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DumpNeighbours(self, version, ifindex):
     ndmsg = NdMsg((self._AddressFamily(version), 0, 0, 0, 0))
-    attrs = self._NlAttrU32(NDA_IFINDEX, ifindex) if ifindex else ""
+    attrs = self._NlAttrU32(NDA_IFINDEX, ifindex) if ifindex else b""
     return self._Dump(RTM_GETNEIGH, ndmsg, NdMsg, attrs)
 
   def ParseNeighbourMessage(self, msg):
