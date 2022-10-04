@@ -86,11 +86,11 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     addr = {4: "127.0.0.1", 6: "::1"}[version]
     s.bind((addr, 0))
     addr = s.getsockname()
-    self.assertRaisesErrno(errno.EPERM, s.sendto, "foo", addr)
+    self.assertRaisesErrno(errno.EPERM, s.sendto, b"foo", addr)
     self.DelIptablesRule(version, is_gid, myId)
-    s.sendto("foo", addr)
+    s.sendto(b"foo", addr)
     data, sockaddr = s.recvfrom(4096)
-    self.assertEqual("foo", data)
+    self.assertEqual(b"foo", data)
     self.assertEqual(sockaddr, addr)
 
   def CheckSocketOutputInverted(self, version, is_gid):
@@ -103,9 +103,9 @@ class QtaguidTest(tcp_test.TcpBaseTest):
     addr1 = {4: "127.0.0.1", 6: "::1"}[version]
     s.bind((addr1, 0))
     addr1 = s.getsockname()
-    s.sendto("foo", addr1)
+    s.sendto(b"foo", addr1)
     data, sockaddr = s.recvfrom(4096)
-    self.assertEqual("foo", data)
+    self.assertEqual(b"foo", data)
     self.assertEqual(sockaddr, addr1)
     with net_test.RunAsUidGid(0 if is_gid else 12345,
                               12345 if is_gid else 0):
@@ -113,11 +113,11 @@ class QtaguidTest(tcp_test.TcpBaseTest):
       addr2 = {4: "127.0.0.1", 6: "::1"}[version]
       s2.bind((addr2, 0))
       addr2 = s2.getsockname()
-      self.assertRaisesErrno(errno.EPERM, s2.sendto, "foo", addr2)
+      self.assertRaisesErrno(errno.EPERM, s2.sendto, b"foo", addr2)
     self.DelIptablesInvertedRule(version, is_gid, myId)
-    s.sendto("foo", addr1)
+    s.sendto(b"foo", addr1)
     data, sockaddr = s.recvfrom(4096)
-    self.assertEqual("foo", data)
+    self.assertEqual(b"foo", data)
     self.assertEqual(sockaddr, addr1)
 
   def SendRSTOnClosedSocket(self, version, netid, expect_rst):

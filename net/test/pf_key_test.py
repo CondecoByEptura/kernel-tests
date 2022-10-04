@@ -72,8 +72,8 @@ class PfKeyTest(unittest.TestCase):
 
     # The algorithm names are null-terminated, but after that contain garbage.
     # Kernel bug?
-    aes_name = "cbc(aes)\x00"
-    sha256_name = "hmac(sha256)\x00"
+    aes_name = b"cbc(aes)\x00"
+    sha256_name = b"hmac(sha256)\x00"
     self.assertTrue(attrs4["XFRMA_ALG_CRYPT"].name.startswith(aes_name))
     self.assertTrue(attrs6["XFRMA_ALG_CRYPT"].name.startswith(aes_name))
     self.assertTrue(attrs4["XFRMA_ALG_AUTH"].name.startswith(sha256_name))

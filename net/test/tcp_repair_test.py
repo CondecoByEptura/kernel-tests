@@ -138,7 +138,7 @@ class TcpRepairTest(multinetwork_base.MultiNetworkBaseTest):
     sock.setsockopt(SOL_TCP, TCP_REPAIR, TCP_REPAIR_ON)
 
     # In repair mode with NO_QUEUE, writes fail...
-    self.assertRaisesErrno(EINVAL, sock.send, "write test")
+    self.assertRaisesErrno(EINVAL, sock.send, b"write test")
 
     # remote data is coming.
     TEST_RECEIVED = net_test.UDP_PAYLOAD

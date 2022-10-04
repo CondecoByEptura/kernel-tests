@@ -186,7 +186,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
       if tuple_or_bytes is None:
         # Default construct from null bytes.
-        self._Parse("\x00" * len(self))
+        self._Parse(b"\x00" * len(self))
         # If any keywords were supplied, set those fields.
         for k, v in kwargs.items():
           setattr(self, k, v)
@@ -253,7 +253,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       def FieldDesc(index, name, value):
         if isinstance(value, str):
           if index in self._asciiz:
-            value = value.rstrip("\x00")
+            value = value.rstrip(b"\x00")
           elif any(c not in string.printable for c in value):
             value = value.encode("hex")
         return "%s=%s" % (name, value)

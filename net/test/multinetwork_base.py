@@ -72,7 +72,7 @@ def MakePktInfo(version, addr, ifindex):
   if version == 6:
     return csocket.In6Pktinfo((addr, ifindex)).Pack()
   else:
-    return csocket.InPktinfo((ifindex, addr, "\x00" * 4)).Pack()
+    return csocket.InPktinfo((ifindex, addr, b"\x00" * 4)).Pack()
 
 
 class MultiNetworkBaseTest(net_test.NetworkTest):
@@ -215,7 +215,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     except IOError:
       f = open("/dev/tun", "r+b", buffering=0)
     ifr = struct.pack("16sH", iface, IFF_TAP | IFF_NO_PI)
-    ifr += "\x00" * (40 - len(ifr))
+    ifr += b"\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
     # Give ourselves a predictable MAC address.
     net_test.SetInterfaceHWAddr(iface, cls.MyMacAddress(netid))
