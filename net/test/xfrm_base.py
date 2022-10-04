@@ -151,7 +151,7 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
   The input packet is assumed to be a UDP packet. The input packet *MUST* have
   its length and checksum fields in IP and UDP headers set appropriately. This
   can be done by "rebuilding" the scapy object. e.g.,
-      ip6_packet = scapy.IPv6(str(ip6_packet))
+      ip6_packet = scapy.IPv6(bytes(ip6_packet))
 
   TODO: Support TCP
 
@@ -202,7 +202,7 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
   # Assemble the packet.
   esp_packet.payload = scapy.Raw(inner_layer)
   packet = new_ip_layer if new_ip_layer else packet
-  packet.payload = scapy.Raw(str(esp_packet) + trailer)
+  packet.payload = scapy.Raw(bytes(esp_packet) + trailer)
 
   # TODO: Can we simplify this and avoid the initial copy()?
   # Fix the IPv4/IPv6 headers.
@@ -210,13 +210,13 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
     packet.nh = IPPROTO_ESP
     # Recompute plen.
     packet.plen = None
-    packet = scapy.IPv6(str(packet))
+    packet = scapy.IPv6(bytes(packet))
   elif type(packet) is scapy.IP:
     packet.proto = IPPROTO_ESP
     # Recompute IPv4 len and checksum.
     packet.len = None
     packet.chksum = None
-    packet = scapy.IP(str(packet))
+    packet = scapy.IP(bytes(packet))
   else:
     raise ValueError("First layer in packet should be IPv4 or IPv6: " + repr(packet))
   return packet
@@ -237,7 +237,7 @@ def DecryptPacketWithNull(packet):
   Returns:
     A tuple of decrypted packet (scapy.IPv6 or scapy.IP) and EspHdr
   """
-  esp_hdr, esp_data = cstruct.Read(str(packet.payload), xfrm.EspHdr)
+  esp_hdr, esp_data = cstruct.Read(bytes(packet.payload), xfrm.EspHdr)
   # Parse and strip ESP trailer.
   pad_len, esp_nexthdr = struct.unpack("BB", esp_data[-2:])
   trailer_len = pad_len + 2 # Add the size of the pad_len and next_hdr fields.
@@ -256,12 +256,12 @@ def DecryptPacketWithNull(packet):
   if type(packet) is scapy.IPv6:
     packet.nh = IPPROTO_UDP
     packet.plen = None # Recompute packet length.
-    packet = scapy.IPv6(str(packet))
+    packet = scapy.IPv6(bytes(packet))
   elif type(packet) is scapy.IP:
     packet.proto = IPPROTO_UDP
     packet.len = None # Recompute packet length.
     packet.chksum = None # Recompute IPv4 checksum.
-    packet = scapy.IP(str(packet))
+    packet = scapy.IP(bytes(packet))
   else:
     raise ValueError("First layer in packet should be IPv4 or IPv6: " + repr(packet))
   return packet, esp_hdr
@@ -305,7 +305,7 @@ class XfrmBaseTest(multinetwork_base.MultiNetworkBaseTest):
     if src_addr is not None:
       self.assertEqual(src_addr, packet.src)
     # extract the ESP header
-    esp_hdr, _ = cstruct.Read(str(packet.payload), xfrm.EspHdr)
+    esp_hdr, _ = cstruct.Read(bytes(packet.payload), xfrm.EspHdr)
     self.assertEqual(xfrm.EspHdr((spi, seq)), esp_hdr)
     return packet
 

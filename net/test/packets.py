@@ -156,7 +156,7 @@ def ICMPPacketTooBig(version, srcaddr, dstaddr, packet):
   if version == 4:
     desc = "ICMPv4 fragmentation needed"
     pkt = (scapy.IP(src=srcaddr, dst=dstaddr, proto=1) /
-           scapy.ICMPerror(type=3, code=4) / str(packet)[:64])
+           scapy.ICMPerror(type=3, code=4) / bytes(packet)[:64])
     # Only newer versions of scapy understand that since RFC 1191, the last two
     # bytes of a fragmentation needed ICMP error contain the MTU.
     if hasattr(scapy.ICMP, "nexthopmtu"):
@@ -167,7 +167,7 @@ def ICMPPacketTooBig(version, srcaddr, dstaddr, packet):
   else:
     return ("ICMPv6 Packet Too Big",
             scapy.IPv6(src=srcaddr, dst=dstaddr) /
-            scapy.ICMPv6PacketTooBig(mtu=PTB_MTU) / str(packet)[:1232])
+            scapy.ICMPv6PacketTooBig(mtu=PTB_MTU) / bytes(packet)[:1232])
 
 def ICMPEcho(version, srcaddr, dstaddr):
   ip = _GetIpLayer(version)
