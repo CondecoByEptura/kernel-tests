@@ -560,7 +560,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
           packets.append(ether.payload)
       except OSError as e:
         # EAGAIN means there are no more packets waiting.
-        if re.match(e.message, os.strerror(errno.EAGAIN)):
+        if e.errno == errno.EAGAIN:
           # If we didn't see any packets, try again for good luck.
           if not packets and retries < max_retries:
             time.sleep(0.01)
