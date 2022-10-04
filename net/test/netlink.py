@@ -70,6 +70,7 @@ class NetlinkSocket(object):
       print(s)
 
   def _NlAttr(self, nla_type, data):
+    assert isinstance(data, bytes)
     datalen = len(data)
     # Pad the data if it's not a multiple of NLA_ALIGNTO bytes long.
     padding = b"\x00" * util.GetPadLength(NLA_ALIGNTO, datalen)
