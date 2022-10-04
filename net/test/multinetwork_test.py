@@ -119,7 +119,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     inner_version = {4: 6, 6: 4}[version]
     inner_src = self.MyAddress(inner_version, netid)
     inner_dst = self.GetRemoteAddress(inner_version)
-    inner = str(packets.UDP(inner_version, inner_src, inner_dst, sport=None)[1])
+    inner = bytes(packets.UDP(inner_version, inner_src, inner_dst, sport=None)[1])
 
     ethertype = {4: net_test.ETH_P_IP, 6: net_test.ETH_P_IPV6}[inner_version]
     # A GRE header can be as simple as two zero bytes and the ethertype.

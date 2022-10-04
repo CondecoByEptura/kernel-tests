@@ -256,7 +256,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
                                       preferredlifetime=validity))
     for option in options:
       ra /= option
-    posix.write(cls.tuns[netid].fileno(), str(ra))
+    posix.write(cls.tuns[netid].fileno(), bytes(ra))
 
   @classmethod
   def _RunSetupCommands(cls, netid, is_add):
@@ -529,7 +529,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 
   def ReceiveEtherPacketOn(self, netid, packet):
-    posix.write(self.tuns[netid].fileno(), str(packet))
+    posix.write(self.tuns[netid].fileno(), bytes(packet))
 
   def ReceivePacketOn(self, netid, ip_packet):
     routermac = self.RouterMacAddress(netid)
@@ -664,8 +664,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
     # Serialize the packet so that expected packet fields that are only set when
     # a packet is serialized e.g., the checksum) are filled in.
-    expected_real = expected.__class__(str(expected))
-    actual_real = actual.__class__(str(actual))
+    expected_real = expected.__class__(bytes(expected))
+    actual_real = actual.__class__(bytes(actual))
     # repr() can be expensive. Call it only if the test is going to fail and we
     # want to see the error.
     if expected_real != actual_real:

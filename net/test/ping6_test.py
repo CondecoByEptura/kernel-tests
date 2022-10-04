@@ -94,7 +94,7 @@ class PingReplyThread(threading.Thread):
 
     # Serialize the packet, so scapy recalculates the checksums, and compare
     # them with the ones in the packet.
-    packet = packet.__class__(str(packet))
+    packet = packet.__class__(bytes(packet))
     for name in layers:
       layer = packet.getlayer(name)
       if layer and GetChecksum(layer) != sums[name]:
@@ -122,7 +122,7 @@ class PingReplyThread(threading.Thread):
       self.SendPacket(
           scapy.IPv6(src=self.INTERMEDIATE_IPV6, dst=src) /
           scapy.ICMPv6PacketTooBig(mtu=self.LINK_MTU) /
-          str(packet)[:datalen])
+          bytes(packet)[:datalen])
 
   def IPv4Packet(self, ip):
     icmp = ip.getlayer(scapy.ICMP)
@@ -184,7 +184,7 @@ class PingReplyThread(threading.Thread):
   def SendPacket(self, packet):
     packet = scapy.Ether(src=self._routermac, dst=self._mymac) / packet
     try:
-      posix.write(self._tun.fileno(), str(packet))
+      posix.write(self._tun.fileno(), bytes(packet))
     except Exception as e:
       if not self._stopped_flag:
         raise e

@@ -155,7 +155,7 @@ def _MakeMsgControl(optlist):
       data = struct.pack("=I", data)
     elif isinstance(data, ctypes.c_uint32):
       data = struct.pack("=I", data.value)
-    elif not isinstance(data, str):
+    elif not isinstance(data, bytes):
       raise TypeError("unknown data type for opt (%d, %d): %s" % (
           msg_level, msg_type, type(data)))
 
