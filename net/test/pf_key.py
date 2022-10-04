@@ -212,7 +212,7 @@ class PfKey(object):
     self.seq += 1
     msg.seq = self.seq
     msg.pid = os.getpid()
-    msg.len = (len(SadbMsg) + len(extensions)) / 8
+    msg.len = (len(SadbMsg) + len(extensions)) // 8
     self.sock.send(msg.Pack() + extensions)
     # print("SEND: " + self.DecodeSadbMsg(msg))
     return self.Recv()
@@ -221,7 +221,7 @@ class PfKey(object):
     extensions = ""
     for exttype, extstruct, attrs in extlist:
       extdata = extstruct.Pack()
-      ext = SadbExt(((len(extdata) + len(SadbExt) + len(attrs)) / 8, exttype))
+      ext = SadbExt(((len(extdata) + len(SadbExt) + len(attrs)) // 8, exttype))
       extensions += ext.Pack() + extdata + attrs
     return extensions
 

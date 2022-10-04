@@ -94,7 +94,7 @@ AEAD_ALGOS = [
 def GenerateKey(key_len):
   if key_len % 8 != 0:
     raise ValueError("Invalid key length in bits: " + str(key_len))
-  return os.urandom(key_len / 8)
+  return os.urandom(key_len // 8)
 
 # Does the kernel support this algorithm?
 def HaveAlgo(crypt_algo, auth_algo, aead_algo):
@@ -233,17 +233,17 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     local_addr = self.MyAddress(version, netid)
     remote_addr = self.GetRemoteSocketAddress(version)
     auth_left = (xfrm.XfrmAlgoAuth((auth.name, auth.key_len, auth.trunc_len)),
-                 os.urandom(auth.key_len / 8)) if auth else None
+                 os.urandom(auth.key_len // 8)) if auth else None
     auth_right = (xfrm.XfrmAlgoAuth((auth.name, auth.key_len, auth.trunc_len)),
-                  os.urandom(auth.key_len / 8)) if auth else None
+                  os.urandom(auth.key_len // 8)) if auth else None
     crypt_left = (xfrm.XfrmAlgo((crypt.name, crypt.key_len)),
-                  os.urandom(crypt.key_len / 8)) if crypt else None
+                  os.urandom(crypt.key_len // 8)) if crypt else None
     crypt_right = (xfrm.XfrmAlgo((crypt.name, crypt.key_len)),
-                   os.urandom(crypt.key_len / 8)) if crypt else None
+                   os.urandom(crypt.key_len // 8)) if crypt else None
     aead_left = (xfrm.XfrmAlgoAead((aead.name, aead.key_len, aead.icv_len)),
-                 os.urandom(aead.key_len / 8)) if aead else None
+                 os.urandom(aead.key_len // 8)) if aead else None
     aead_right = (xfrm.XfrmAlgoAead((aead.name, aead.key_len, aead.icv_len)),
-                  os.urandom(aead.key_len / 8)) if aead else None
+                  os.urandom(aead.key_len // 8)) if aead else None
     spi_left = 0xbeefface
     spi_right = 0xcafed00d
     req_ids = [100, 200, 300, 400]  # Used to match templates and SAs.

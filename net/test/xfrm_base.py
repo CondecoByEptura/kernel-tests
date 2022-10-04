@@ -120,7 +120,7 @@ def GetEspPacketLength(mode, version, udp_encap, payload,
 
   # Size constants
   esp_hdr_len = len(xfrm.EspHdr) # SPI + Seq number
-  icv_len = auth_trunc_len / 8
+  icv_len = auth_trunc_len // 8
 
   # Add inner IP header if tunnel mode
   if mode == xfrm.XFRM_MODE_TUNNEL:
