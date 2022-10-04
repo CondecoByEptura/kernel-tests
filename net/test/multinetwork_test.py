@@ -279,11 +279,11 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         s.setsockopt(net_test.SOL_IPV6, net_test.IPV6_FLOWINFO_SEND, 1)
 
         # Set some destination options.
-        nonce = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c"
-        dstopts = "".join([
-            "\x11\x02",              # Next header=UDP, 24 bytes of options.
-            "\x01\x06", "\x00" * 6,  # PadN, 6 bytes of padding.
-            "\x8b\x0c",              # ILNP nonce, 12 bytes.
+        nonce = b"\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c"
+        dstopts = b"".join([
+            b"\x11\x02",               # Next header=UDP, 24 bytes of options.
+            b"\x01\x06", b"\x00" * 6,  # PadN, 6 bytes of padding.
+            b"\x8b\x0c",               # ILNP nonce, 12 bytes.
             nonce
         ])
         s.setsockopt(net_test.SOL_IPV6, IPV6_DSTOPTS, dstopts)
@@ -981,7 +981,7 @@ class PMTUTest(multinetwork_base.InboundMarkingTest):
         if use_connect:
           s.connect((dstaddr, 1234))
 
-        payload = self.PAYLOAD_SIZE * "a"
+        payload = self.PAYLOAD_SIZE * b"a"
 
         # Send a packet and receive a packet too big.
         SendBigPacket(version, s, dstaddr, netid, payload)
@@ -1255,9 +1255,9 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
 
     def CheckSendFails():
       self.assertRaisesErrno(errno.ENETUNREACH,
-                             s.sendto, "foo", (remoteaddr, 53))
+                             s.sendto, b"foo", (remoteaddr, 53))
     def CheckSendSucceeds():
-      self.assertEqual(len("foo"), s.sendto("foo", (remoteaddr, 53)))
+      self.assertEqual(len(b"foo"), s.sendto(b"foo", (remoteaddr, 53)))
 
     CheckSendFails()
     self.iproute.UidRangeRule(6, True, uid, uid, table, self.PRIORITY_UID)
