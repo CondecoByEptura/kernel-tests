@@ -712,7 +712,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       self.assertPacketMatches(expected, packets[-1])
     except Exception as e:
       raise UnexpectedPacketError(
-          "%s: diff with last packet:\n%s" % (msg, e.message))
+          "%s: diff with last packet:\n%s" % (msg, str(e)))
 
   def Combinations(self, version):
     """Produces a list of combinations to test."""
