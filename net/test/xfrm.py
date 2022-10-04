@@ -618,8 +618,8 @@ class Xfrm(netlink.NetlinkSocket):
     if nl_hdr.type == XFRM_MSG_NEWSA:
       return XfrmUsersaInfo(data)
     if nl_hdr.type == netlink.NLMSG_ERROR:
-      error = netlink.NLMsgErr(data).error
-      raise IOError(error, os.strerror(-error))
+      error = -netlink.NLMsgErr(data).error
+      raise IOError(error, os.strerror(error))
     raise ValueError("Unexpected netlink message type: %d" % nl_hdr.type)
 
   def DumpSaInfo(self):
