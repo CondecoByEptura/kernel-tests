@@ -86,14 +86,14 @@ def Mount(src, tgt, fs, flags=MS_NODEV|MS_NOEXEC|MS_NOSUID|MS_RELATIME):
 
 
 def ReMountProc():
-  libc.umount2('/proc', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/proc', MNT_DETACH)  # Ignore failure: might not be mounted
   Mount('proc', '/proc', 'proc')
 
 
 def ReMountSys():
-  libc.umount2('/sys/fs/cgroup', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2('/sys/fs/bpf', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2('/sys', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys/fs/cgroup', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys/fs/bpf', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys', MNT_DETACH)  # Ignore failure: might not be mounted
   Mount('sysfs', '/sys', 'sysfs')
   Mount('bpf', '/sys/fs/bpf', 'bpf')
   Mount('cgroup2', '/sys/fs/cgroup', 'cgroup2')
@@ -191,7 +191,7 @@ def HasEstablishedTcpSessionOnPort(port):
 
   states = 1 << tcp_test.TCP_ESTABLISHED
 
-  matches = sd.DumpAllInetSockets(socket.IPPROTO_TCP, "",
+  matches = sd.DumpAllInetSockets(socket.IPPROTO_TCP, b"",
                                   sock_id=sock_id, states=states)
 
   return len(matches) > 0

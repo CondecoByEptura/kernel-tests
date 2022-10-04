@@ -43,7 +43,7 @@ class LeakTest(net_test.NetworkTest):
     # testing for a bug where the kernel returns garbage, it's probably safer
     # to call the syscall directly.
     data, addr = csocket.Recvfrom(s, 4096)
-    self.assertEqual("", data)
+    self.assertEqual(b"", data)
     self.assertEqual(None, addr)
 
 
