@@ -20,7 +20,6 @@ import os
 import itertools
 from scapy import all as scapy
 from socket import *  # pylint: disable=wildcard-import
-import subprocess
 import threading
 import unittest
 
