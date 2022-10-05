@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39814e05_700e0647",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-10-05T05:05:28Z",
+      "side": 1,
+      "message": "adelva@ said that he tried to update it before, but he got stuck at the open source license review required to submit the updated rootfs to google3.",
+      "parentUuid": "ff46da82_a793a172",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "efbdb4dd_354a1370",
         "filename": "net/test/pf_key.py",
         "patchSetId": 2
