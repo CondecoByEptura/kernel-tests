@@ -32,12 +32,12 @@ setup_and_build_cuttlefish
 setup_and_build_iptables
 
 install_and_cleanup_cuttlefish
-sed -i "s,^#\(bridge_interface=\),\1br0," /etc/default/cuttlefish-common
+sed -i "s,^#\(bridge_interface=\),\1br0," /etc/default/cuttlefish-host-resources
 install_and_cleanup_iptables
 
 create_systemd_getty_symlinks ttyS0 hvc1
 
-setup_grub "net.ifnames=0 8250.nr_uarts=1"
+setup_grub "quiet net.ifnames=0 8250.nr_uarts=1"
 
 apt-get purge -y vim-tiny
 bullseye_cleanup

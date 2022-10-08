@@ -39,7 +39,14 @@ module_dir=/lib/modules/$(uname -r)/kernel
 mount -t devtmpfs devtmpfs /dev
 
 # Mount /dev/vda over the top of /root
-mount /dev/vda /root
+rm -f /dev/ram0
+mount -n -t proc proc /proc
+mount LABEL=ROOT /root
+if [[ "${install_grub}" = "1" ]]; then
+  mkdir -p /root/boot/efi
+  mount LABEL=SYSTEM /root/boot/efi
+fi
+umount /proc
 
 # Switch to the new root and start stage 2
 mount -n --move /dev /root/dev
