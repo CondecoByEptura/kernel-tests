@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74ab17bd_84ac09b8",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-10-18T15:58:10Z",
+      "side": 1,
+      "message": "I don\u0027t think these sync calls will do anything, because they will only affect the host\u0027s buffer cache, and the problem was the zapped guest buffer cache.",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 370,
+        "endChar": 4
+      },
+      "revId": "762a71cd2ce9d2843bf284d39d777981d0fba5dc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
