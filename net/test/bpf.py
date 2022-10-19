@@ -46,6 +46,7 @@ __NR_bpf = {  # pylint: disable=invalid-name
     "i686-64bit": 321,
     "x86_64-32bit": 357,
     "x86_64-64bit": 321,
+    "riscv64-64bit": 280,
 }[os.uname()[4] + "-" + platform.architecture()[0]]
 
 LOG_LEVEL = 1
