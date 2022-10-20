@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35ba669_63e979c1",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2022-10-20T03:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3dea49d_735dd1fd",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 1
+      },
+      "revId": "762a71cd2ce9d2843bf284d39d777981d0fba5dc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74ab17bd_84ac09b8",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-18T15:58:10Z",
       "side": 1,
       "message": "I don\u0027t think these sync calls will do anything, because they will only affect the host\u0027s buffer cache, and the problem was the zapped guest buffer cache.",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 370,
+        "endChar": 4
+      },
+      "revId": "762a71cd2ce9d2843bf284d39d777981d0fba5dc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f47a458_555c6079",
+        "filename": "net/test/build_rootfs.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2022-10-20T03:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74ab17bd_84ac09b8",
       "range": {
         "startLine": 370,
         "startChar": 0,
