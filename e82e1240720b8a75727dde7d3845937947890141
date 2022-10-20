@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c270fef_ae12d758",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-10-20T21:12:18Z",
+      "side": 1,
+      "message": "This seems fine, but perhaps a bit odd. We shouldn\u0027t be using the legacy PCI devices. Assuming we are not, I wonder why the module has to be loaded? Which drivers use symbols from it?",
+      "revId": "e82e1240720b8a75727dde7d3845937947890141",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
