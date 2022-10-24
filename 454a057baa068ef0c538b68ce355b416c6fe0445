@@ -198,6 +198,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0229f36_df2fca74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-10-24T23:29:37Z",
+      "side": 1,
+      "message": "Updated rootfs and initrd are submitted, now I just need to add them to dl.google.com, which is pending on China review, b/254767914",
+      "parentUuid": "62a1d5dd_d5ee14b0",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbdb4dd_354a1370",
