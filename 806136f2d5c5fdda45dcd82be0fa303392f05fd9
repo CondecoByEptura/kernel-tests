@@ -16,6 +16,23 @@
       "message": "Thanks for doing this work!\n\nGiven that we no longer have continuous \"tests\" for this code now that the kernel_test targets have been turned down, is there a way to verify that these changes keep the tests passing? Perhaps you could use forrest to run the VTS tests on devices with a variety of different kernels?",
       "revId": "806136f2d5c5fdda45dcd82be0fa303392f05fd9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ba1572c_e809560b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1293738
+      },
+      "writtenOn": "2022-10-26T21:15:19Z",
+      "side": 1,
+      "message": "If this artifact is approved for dl.google.com, and it actually works, we could add support to CF to use it, then we would be able to restore the kernel testing using virtualization instead of UML.",
+      "revId": "806136f2d5c5fdda45dcd82be0fa303392f05fd9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
