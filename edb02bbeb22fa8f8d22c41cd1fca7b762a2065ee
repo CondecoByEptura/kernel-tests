@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1be21b43_16d46501",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2022-10-27T02:34:28Z",
+      "side": 1,
+      "message": "Looks overall fine to me, just one comment on code reuse",
+      "revId": "edb02bbeb22fa8f8d22c41cd1fca7b762a2065ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95303ea6_42acd22d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2022-10-27T02:34:28Z",
+      "side": 1,
+      "message": "Is this something that can be common? It looks familiar; i think this is likely used somewhere else in this file? Should we do this in some common place?",
+      "range": {
+        "startLine": 1087,
+        "startChar": 0,
+        "endLine": 1099,
+        "endChar": 15
+      },
+      "revId": "edb02bbeb22fa8f8d22c41cd1fca7b762a2065ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
