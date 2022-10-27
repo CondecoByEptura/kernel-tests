@@ -237,7 +237,7 @@ def CommandVerb(command):
 
 
 def CommandSubject(command):
-  return ["LINK", "ADDR", "ROUTE", "NEIGH", "RULE"][(command - 16) / 4]
+  return ["LINK", "ADDR", "ROUTE", "NEIGH", "RULE"][(command - 16) // 4]
 
 
 def CommandName(command):
