@@ -89,22 +89,23 @@ def CalcNumElements(fmt):
   return len(elements) + numstructs
 
 
+class StructMetaclass(type):
+
+  def __len__(cls):
+    return cls._length
+
+  def __init__(cls, unused_name, unused_bases, namespace):
+    # Make the class object have the name that's passed in.
+    type.__init__(cls, namespace["_name"], unused_bases, namespace)
+
+
 def Struct(name, fmt, fieldnames, substructs={}):
   """Function that returns struct classes."""
-
-  class Meta(type):
-
-    def __len__(cls):
-      return cls._length
-
-    def __init__(cls, unused_name, unused_bases, namespace):
-      # Make the class object have the name that's passed in.
-      type.__init__(cls, namespace["_name"], unused_bases, namespace)
 
   class CStruct(object):
     """Class representing a C-like structure."""
 
-    __metaclass__ = Meta
+    __metaclass__ = StructMetaclass
 
     # Name of the struct.
     _name = name
@@ -237,7 +238,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     @staticmethod
     def _MaybePackStruct(value):
-      if hasattr(value, "__metaclass__"):# and value.__metaclass__ == Meta:
+      if isinstance(type(value), StructMetaclass):
         return value.Pack()
       else:
         return value
