@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d46faef8_959101c4",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-10-28T07:39:47Z",
+      "side": 1,
+      "message": "It doesn\u0027t.  But it also doesn\u0027t hurt, and it *could* have some library self tests at some point or something.\n\nMore importantly, this means the set of tests is simply *_test.py",
+      "parentUuid": "9c5d0dce_68f66356",
+      "range": {
+        "startLine": 33,
+        "startChar": 5,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "cd112291cbb0d95618e8ecf7324bbca9b251f9ce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e34ef28_2501cd6e",
@@ -47,6 +71,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4caeb2c4_d5bfc52c",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-10-28T07:39:47Z",
+      "side": 1,
+      "message": "As mentioned in the commit message there are 9 tests here.",
+      "parentUuid": "5e34ef28_2501cd6e",
+      "range": {
+        "startLine": 35,
+        "startChar": 5,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "cd112291cbb0d95618e8ecf7324bbca9b251f9ce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b7f8645_a9d35e4b",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-10-28T04:30:45Z",
       "side": 1,
       "message": "This looks like it was never added to this file because we forgot about it :-(\n\nI think the problem is that we have two ways of running these tests. The interactive mode that runs in the VM uses all_tests.sh, which finds the tests using:\n\nfind . -name \u0027*_test.py\u0027 -type f -executable\n\nand VTS uses all_tests.py. Seems like we should make all_tests.sh use all_tests.py...",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "cd112291cbb0d95618e8ecf7324bbca9b251f9ce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0325cc19_7ee71b18",
+        "filename": "net/test/all_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-10-28T07:39:47Z",
+      "side": 1,
+      "message": "Probably yes, or some sort of verification that they match.\nThis btw. is why I listed net_test in here.\nI wanted things to trivially match the full set of *_test.py files.",
+      "parentUuid": "4b7f8645_a9d35e4b",
       "range": {
         "startLine": 44,
         "startChar": 5,
