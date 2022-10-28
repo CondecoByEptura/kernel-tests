@@ -73,18 +73,20 @@ import struct
 import re
 
 
-def CalcSize(fmt):
+def _PythonFormat(fmt):
   if "A" in fmt:
     fmt = fmt.replace("A", "s")
-  # Remove the last digital since it will cause error in python3.
-  fmt = (re.split('\d+$', fmt)[0])
-  return struct.calcsize(fmt)
+  return re.split('\d+$', fmt)[0]
+
+def CalcSize(fmt):
+  return struct.calcsize(_PythonFormat(fmt))
 
 def CalcNumElements(fmt):
+  fmt = _PythonFormat(fmt)
   prevlen = len(fmt)
   fmt = fmt.replace("S", "")
   numstructs = prevlen - len(fmt)
-  size = CalcSize(fmt)
+  size = struct.calcsize(fmt)
   elements = struct.unpack(fmt, b"\x00" * size)
   return len(elements) + numstructs
 
