@@ -196,9 +196,10 @@ def Struct(name, fmt, fieldnames, substructs={}):
       else:
         # Initializing from a tuple.
         if len(tuple_or_bytes) != len(self._fieldnames):
-          raise TypeError("%s has exactly %d fieldnames (%d given)" %
+          raise TypeError("%s has exactly %d fieldnames: (%s), %d given: (%s)" %
                           (self._name, len(self._fieldnames),
-                           len(tuple_or_bytes)))
+                           ", ".join(self._fieldnames), len(tuple_or_bytes),
+                           ", ".join(str(x) for x in tuple_or_bytes)))
         self._SetValues(tuple_or_bytes)
 
     def _FieldIndex(self, attr):
