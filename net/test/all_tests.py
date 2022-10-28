@@ -30,7 +30,6 @@ test_modules = [
     'leak_test',
     'multinetwork_test',
     'neighbour_test',
-    'net_test',
     'nf_test',
     'parameterization_test',
     'pf_key_test',
