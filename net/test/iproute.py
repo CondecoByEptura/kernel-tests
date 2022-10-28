@@ -251,7 +251,7 @@ class IPRoute(netlink.NetlinkSocket):
   """Provides a tiny subset of iproute functionality."""
 
   def _NlAttrInterfaceName(self, nla_type, interface):
-    return self._NlAttr(nla_type, interface + "\x00")
+    return self._NlAttr(nla_type, interface + b"\x00")
 
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
@@ -326,7 +326,7 @@ class IPRoute(netlink.NetlinkSocket):
       data = socket.inet_ntop(msg.family, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
-      data = nla_data.strip("\x00")
+      data = nla_data.strip(b"\x00")
     elif name == "RTA_METRICS":
       data = self._ParseAttributes(-RTA_METRICS, None, nla_data, nested + 1)
     elif name == "IFLA_LINKINFO":
@@ -474,16 +474,16 @@ class IPRoute(netlink.NetlinkSocket):
     # Create a struct rtmsg specifying the table and the given match attributes.
     family = self._AddressFamily(version)
     rtmsg = RTMsg((family, 0, 0, 0, 0, 0, 0, 0, 0))
-    return self._Dump(RTM_GETRULE, rtmsg, RTMsg, "")
+    return self._Dump(RTM_GETRULE, rtmsg, RTMsg)
 
   def DumpLinks(self):
     ifinfomsg = IfinfoMsg((0, 0, 0, 0, 0, 0))
-    return self._Dump(RTM_GETLINK, ifinfomsg, IfinfoMsg, "")
+    return self._Dump(RTM_GETLINK, ifinfomsg, IfinfoMsg)
 
   def DumpAddresses(self, version):
     family = self._AddressFamily(version)
     ifaddrmsg = IfAddrMsg((family, 0, 0, 0, 0))
-    return self._Dump(RTM_GETADDR, ifaddrmsg, IfAddrMsg, "")
+    return self._Dump(RTM_GETADDR, ifaddrmsg, IfAddrMsg)
 
   def _Address(self, version, command, addr, prefixlen, flags, scope, ifindex):
     """Adds or deletes an IP address."""
@@ -612,7 +612,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DumpRoutes(self, version, ifindex):
     rtmsg = RTMsg(family=self._AddressFamily(version))
-    return [(m, r) for (m, r) in self._Dump(RTM_GETROUTE, rtmsg, RTMsg, "")
+    return [(m, r) for (m, r) in self._Dump(RTM_GETROUTE, rtmsg, RTMsg)
             if r['RTA_TABLE'] == ifindex]
 
   def _Neighbour(self, version, is_add, addr, lladdr, dev, state, flags=0):
@@ -645,7 +645,7 @@ class IPRoute(netlink.NetlinkSocket):
 
   def DumpNeighbours(self, version, ifindex):
     ndmsg = NdMsg((self._AddressFamily(version), 0, 0, 0, 0))
-    attrs = self._NlAttrU32(NDA_IFINDEX, ifindex) if ifindex else ""
+    attrs = self._NlAttrU32(NDA_IFINDEX, ifindex) if ifindex else b""
     return self._Dump(RTM_GETNEIGH, ndmsg, NdMsg, attrs)
 
   def ParseNeighbourMessage(self, msg):

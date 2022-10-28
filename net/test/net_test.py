@@ -64,8 +64,8 @@ IPV6_FL_S_ANY = 255
 
 IFNAMSIZ = 16
 
-IPV4_PING = "\x08\x00\x00\x00\x0a\xce\x00\x03"
-IPV6_PING = "\x80\x00\x00\x00\x0a\xce\x00\x03"
+IPV4_PING = b"\x08\x00\x00\x00\x0a\xce\x00\x03"
+IPV6_PING = b"\x80\x00\x00\x00\x0a\xce\x00\x03"
 
 IPV4_ADDR = "8.8.8.8"
 IPV4_ADDR2 = "8.8.4.4"
@@ -81,10 +81,10 @@ IPV6_SEQ_DGRAM_HEADER = ("  sl  "
 UDP_HDR_LEN = 8
 
 # Arbitrary packet payload.
-UDP_PAYLOAD = str(scapy.DNS(rd=1,
-                            id=random.randint(0, 65535),
-                            qd=scapy.DNSQR(qname="wWW.GoOGle.CoM",
-                                           qtype="AAAA")))
+UDP_PAYLOAD = bytes(scapy.DNS(rd=1,
+                              id=random.randint(0, 65535),
+                              qd=scapy.DNSQR(qname="wWW.GoOGle.CoM",
+                                             qtype="AAAA")))
 
 # Unix group to use if we want to open sockets as non-root.
 AID_INET = 3003
@@ -332,7 +332,7 @@ def MakeFlowLabelOption(addr, label):
   action = IPV6_FL_A_GET
   share = IPV6_FL_S_ANY
   flags = IPV6_FL_F_CREATE
-  pad = "\x00" * 4
+  pad = b"\x00" * 4
   return struct.pack(fmt, addr, label, action, share, flags, 0, 0, pad)
 
 

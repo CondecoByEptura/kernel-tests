@@ -94,7 +94,7 @@ class PingReplyThread(threading.Thread):
 
     # Serialize the packet, so scapy recalculates the checksums, and compare
     # them with the ones in the packet.
-    packet = packet.__class__(str(packet))
+    packet = packet.__class__(bytes(packet))
     for name in layers:
       layer = packet.getlayer(name)
       if layer and GetChecksum(layer) != sums[name]:
@@ -122,7 +122,7 @@ class PingReplyThread(threading.Thread):
       self.SendPacket(
           scapy.IPv6(src=self.INTERMEDIATE_IPV6, dst=src) /
           scapy.ICMPv6PacketTooBig(mtu=self.LINK_MTU) /
-          str(packet)[:datalen])
+          bytes(packet)[:datalen])
 
   def IPv4Packet(self, ip):
     icmp = ip.getlayer(scapy.ICMP)
@@ -184,7 +184,7 @@ class PingReplyThread(threading.Thread):
   def SendPacket(self, packet):
     packet = scapy.Ether(src=self._routermac, dst=self._mymac) / packet
     try:
-      posix.write(self._tun.fileno(), str(packet))
+      posix.write(self._tun.fileno(), bytes(packet))
     except Exception as e:
       if not self._stopped_flag:
         raise e
@@ -277,9 +277,9 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     # Check the data being sent is valid.
     self.assertGreater(len(data), 7, "Not enough data for ping packet")
     if family == AF_INET:
-      self.assertTrue(data.startswith("\x08\x00"), "Not an IPv4 echo request")
+      self.assertTrue(data.startswith(b"\x08\x00"), "Not an IPv4 echo request")
     elif family == AF_INET6:
-      self.assertTrue(data.startswith("\x80\x00"), "Not an IPv6 echo request")
+      self.assertTrue(data.startswith(b"\x80\x00"), "Not an IPv6 echo request")
     else:
       self.fail("Unknown socket address family %d" * s.family)
 
@@ -287,11 +287,11 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     if family == AF_INET:
       addr, unused_port = src
       self.assertGreaterEqual(len(addr), len("1.1.1.1"))
-      self.assertTrue(rcvd.startswith("\x00\x00"), "Not an IPv4 echo reply")
+      self.assertTrue(rcvd.startswith(b"\x00\x00"), "Not an IPv4 echo reply")
     else:
       addr, unused_port, flowlabel, scope_id = src  # pylint: disable=unbalanced-tuple-unpacking
       self.assertGreaterEqual(len(addr), len("::"))
-      self.assertTrue(rcvd.startswith("\x81\x00"), "Not an IPv6 echo reply")
+      self.assertTrue(rcvd.startswith(b"\x81\x00"), "Not an IPv6 echo reply")
       # Check that the flow label is zero and that the scope ID is sane.
       self.assertEqual(flowlabel, 0)
       if addr.startswith("fe80::"):
@@ -345,7 +345,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
   def testIPv4LoopbackPingWithConnect(self):
     s = net_test.IPv4PingSocket()
     s.connect(("127.0.0.1", 55))
-    data = net_test.IPV4_PING + "foobarbaz"
+    data = net_test.IPV4_PING + b"foobarbaz"
     s.send(data)
     self.assertValidPingResponse(s, data)
 
@@ -439,7 +439,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     ipv4sockaddr = csocket.Sockaddr((net_test.IPV4_ADDR, 53))
     ipv4sockaddr = csocket.SockaddrIn6(
         ipv4sockaddr.Pack() +
-        "\x00" * (len(csocket.SockaddrIn6) - len(csocket.SockaddrIn)))
+        b"\x00" * (len(csocket.SockaddrIn6) - len(csocket.SockaddrIn)))
 
     s4 = net_test.IPv4PingSocket()
     s6 = net_test.IPv6PingSocket()
@@ -609,12 +609,12 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     s = net_test.IPv6PingSocket()
     s.bind((self.globaladdr, 0xf976))
     s.sendto(net_test.IPV6_PING, (net_test.IPV6_ADDR, 55))
-    self.assertEqual("\xf9\x76", s.recv(32768)[4:6])
+    self.assertEqual(b"\xf9\x76", s.recv(32768)[4:6])
 
     s = net_test.IPv6PingSocket()
     s.bind((self.globaladdr, 0xace))
     s.sendto(net_test.IPV6_PING, (net_test.IPV6_ADDR, 55))
-    self.assertEqual("\x0a\xce", s.recv(32768)[4:6])
+    self.assertEqual(b"\x0a\xce", s.recv(32768)[4:6])
 
   def testLinkLocalAddress(self):
     s = net_test.IPv6PingSocket()
@@ -736,14 +736,14 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
 
   def testIPv4LargePacket(self):
     s = net_test.IPv4PingSocket()
-    data = net_test.IPV4_PING + 20000 * "a"
+    data = net_test.IPV4_PING + 20000 * b"a"
     s.sendto(data, ("127.0.0.1", 987))
     self.assertValidPingResponse(s, data)
 
   def testIPv6LargePacket(self):
     s = net_test.IPv6PingSocket()
     s.bind(("::", 0xace))
-    data = net_test.IPV6_PING + "\x01" + 19994 * "\x00" + "aaaaa"
+    data = net_test.IPV6_PING + b"\x01" + 19994 * b"\x00" + b"aaaaa"
     s.sendto(data, ("::1", 953))
 
   @unittest.skipUnless(HAVE_PROC_NET_ICMP6, "skipping: no /proc/net/icmp6")
@@ -832,7 +832,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     s.setsockopt(net_test.SOL_IPV6, csocket.IPV6_MTU_DISCOVER, 2)
     s.setsockopt(net_test.SOL_IPV6, net_test.IPV6_RECVERR, 1)
     s.connect((net_test.IPV6_ADDR, 55))
-    pkt = net_test.IPV6_PING + (PingReplyThread.LINK_MTU + 100) * "a"
+    pkt = net_test.IPV6_PING + (PingReplyThread.LINK_MTU + 100) * b"a"
     s.send(pkt)
     self.assertRaisesErrno(errno.EMSGSIZE, s.recv, 32768)
     data, addr, cmsg = csocket.Recvmsg(s, 4096, 1024, csocket.MSG_ERRQUEUE)
@@ -842,7 +842,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     # the one we received.
     ident = struct.pack("!H", s.getsockname()[1])
     pkt = pkt[:4] + ident + pkt[6:]
-    data = data[:2] + "\x00\x00" + pkt[4:]
+    data = data[:2] + b"\x00\x00" + pkt[4:]
     self.assertEqual(pkt, data)
 
     # Check the address that the packet was sent to.

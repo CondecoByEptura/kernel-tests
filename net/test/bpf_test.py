@@ -18,7 +18,6 @@ import ctypes
 import errno
 import os
 import socket
-import subprocess
 import tempfile
 import unittest
 
@@ -138,9 +137,9 @@ def SocketUDPLoopBack(packet_count, version, prog_fd):
   addr = sock.getsockname()
   sockaddr = csocket.Sockaddr(addr)
   for _ in range(packet_count):
-    sock.sendto("foo", addr)
+    sock.sendto(b"foo", addr)
     data, retaddr = csocket.Recvfrom(sock, 4096, 0)
-    assert "foo" == data
+    assert b"foo" == data
     assert sockaddr == retaddr
   return sock
 

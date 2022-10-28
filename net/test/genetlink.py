@@ -63,7 +63,7 @@ class GenericNetlink(netlink.NetlinkSocket):
 
   def _Dump(self, family, command, version):
     msg = Genlmsghdr((command, version))
-    return super(GenericNetlink, self)._Dump(family, msg, Genlmsghdr, "")
+    return super(GenericNetlink, self)._Dump(family, msg, Genlmsghdr)
 
 
 class GenericNetlinkControl(GenericNetlink):
@@ -100,7 +100,7 @@ class GenericNetlinkControl(GenericNetlink):
     if name == "CTRL_ATTR_FAMILY_ID":
       data = struct.unpack("=H", nla_data)[0]
     elif name == "CTRL_ATTR_FAMILY_NAME":
-      data = nla_data.strip("\x00")
+      data = nla_data.strip(b"\x00")
     elif name in ["CTRL_ATTR_VERSION", "CTRL_ATTR_HDRSIZE", "CTRL_ATTR_MAXATTR"]:
       data = struct.unpack("=I", nla_data)[0]
     elif name == "CTRL_ATTR_OPS":

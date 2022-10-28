@@ -168,7 +168,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       data = data[:self._length]
       values = list(struct.unpack(self._format, data))
       for index, value in enumerate(values):
-        if isinstance(value, str) and index in self._nested:
+        if isinstance(value, bytes) and index in self._nested:
           values[index] = self._nested[index](value)
       self._SetValues(values)
 
@@ -178,7 +178,7 @@ def Struct(name, fmt, fieldnames, substructs={}):
       1. With no args, the whole struct is zero-initialized.
       2. With keyword args, the matching fields are populated; rest are zeroed.
       3. With one tuple as the arg, the fields are assigned based on position.
-      4. With one string arg, the Struct is parsed from bytes.
+      4. With one bytes arg, the Struct is parsed from bytes.
       """
       if tuple_or_bytes and kwargs:
         raise TypeError(
@@ -186,14 +186,14 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
       if tuple_or_bytes is None:
         # Default construct from null bytes.
-        self._Parse("\x00" * len(self))
+        self._Parse(b"\x00" * len(self))
         # If any keywords were supplied, set those fields.
         for k, v in kwargs.items():
           setattr(self, k, v)
-      elif isinstance(tuple_or_bytes, str):
-        # Initializing from a string.
+      elif isinstance(tuple_or_bytes, bytes):
+        # Initializing from bytes.
         if len(tuple_or_bytes) < self._length:
-          raise TypeError("%s requires string of length %d, got %d" %
+          raise TypeError("%s requires a bytes object of length %d, got %d" %
                           (self._name, self._length, len(tuple_or_bytes)))
         self._Parse(tuple_or_bytes)
       else:
@@ -251,9 +251,9 @@ def Struct(name, fmt, fieldnames, substructs={}):
 
     def __str__(self):
       def FieldDesc(index, name, value):
-        if isinstance(value, str):
+        if isinstance(value, bytes):
           if index in self._asciiz:
-            value = value.rstrip("\x00")
+            value = value.rstrip(b"\x00")
           elif any(c not in string.printable for c in value):
             value = value.encode("hex")
         return "%s=%s" % (name, value)

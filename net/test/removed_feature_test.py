@@ -28,7 +28,7 @@ class RemovedFeatureTest(net_test.NetworkTest):
   @classmethod
   def loadKernelConfig(cls):
     cls.KCONFIG = {}
-    with gzip.open('/proc/config.gz') as f:
+    with gzip.open("/proc/config.gz", mode="rt") as f:
       for line in f:
         line = line.strip()
         parts = line.split("=")

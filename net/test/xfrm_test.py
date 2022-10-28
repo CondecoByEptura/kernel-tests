@@ -57,7 +57,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     udp_hdr = packet[scapy.UDP]
     self.assertEqual(4500, udp_hdr.dport)
     self.assertEqual(length, len(udp_hdr))
-    esp_hdr, _ = cstruct.Read(str(udp_hdr.payload), xfrm.EspHdr)
+    esp_hdr, _ = cstruct.Read(bytes(udp_hdr.payload), xfrm.EspHdr)
     # FIXME: this file currently swaps SPI byte order manually, so SPI needs to
     # be double-swapped here.
     self.assertEqual(xfrm.EspHdr((spi, seq)), esp_hdr)
@@ -237,7 +237,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
 
     # Create inbound and outbound SAs that specify UDP encapsulation.
     encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
-                                    htons(4500), 16 * "\x00"))
+                                    htons(4500), 16 * b"\x00"))
     self.CreateNewSa(myaddr, remoteaddr, out_spi, out_reqid, encaptmpl,
                      use_null_auth)
 
@@ -292,7 +292,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
 
     # Save the payload of the packet so we can replay it back to ourselves, and
     # replace the SPI with our inbound SPI.
-    payload = str(packet.payload)[8:]
+    payload = bytes(packet.payload)[8:]
     spi_seq = xfrm.EspHdr((in_spi, seq_num)).Pack()
     payload = spi_seq + payload[len(spi_seq):]
 
@@ -302,7 +302,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     # Now play back the valid packet and check that we receive it.
     incoming = (scapy.IP(src=remoteaddr, dst=myaddr) /
                 scapy.UDP(sport=4500, dport=encap_port) / payload)
-    incoming = scapy.IP(str(incoming))
+    incoming = scapy.IP(bytes(incoming))
     self.ReceivePacketOn(netid, incoming)
 
     sainfo = self.xfrm.FindSaInfo(in_spi)
@@ -507,27 +507,27 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     IpType = {4: scapy.IP, 6: scapy.IPv6}[version]
     input_pkt = (IpType(src=remote_addr, dst=local_addr) /
                  scapy.UDP(sport=remote_port, dport=local_port) /
-                 "input hello")
-    input_pkt = IpType(str(input_pkt)) # Compute length, checksum.
+                 b"input hello")
+    input_pkt = IpType(bytes(input_pkt)) # Compute length, checksum.
     input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, 0x9876,
                                                 1, (tun_remote, tun_local))
 
     self.ReceivePacketOn(netid, input_pkt)
     msg, addr = sock.recvfrom(1024)
-    self.assertEqual("input hello", msg)
+    self.assertEqual(b"input hello", msg)
     self.assertEqual((remote_addr, remote_port), addr[:2])
 
     # Send and capture a packet.
-    sock.sendto("output hello", (remote_addr, remote_port))
+    sock.sendto(b"output hello", (remote_addr, remote_port))
     packets = self.ReadAllPacketsOn(netid)
     self.assertEqual(1, len(packets))
     output_pkt = packets[0]
     output_pkt, esp_hdr = xfrm_base.DecryptPacketWithNull(output_pkt)
-    self.assertEqual(output_pkt[scapy.UDP].len, len("output_hello") + 8)
+    self.assertEqual(output_pkt[scapy.UDP].len, len(b"output_hello") + 8)
     self.assertEqual(remote_addr, output_pkt.dst)
     self.assertEqual(remote_port, output_pkt[scapy.UDP].dport)
     # length of the payload plus the UDP header
-    self.assertEqual("output hello", str(output_pkt[scapy.UDP].payload))
+    self.assertEqual(b"output hello", bytes(output_pkt[scapy.UDP].payload))
     self.assertEqual(0xABCD, esp_hdr.spi)
 
   def testNullEncryptionTunnelMode(self):
@@ -571,26 +571,26 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     IpType = {4: scapy.IP, 6: scapy.IPv6}[version]
     input_pkt = (IpType(src=remote_addr, dst=local_addr) /
                  scapy.UDP(sport=remote_port, dport=local_port) /
-                 "input hello")
-    input_pkt = IpType(str(input_pkt)) # Compute length, checksum.
+                 b"input hello")
+    input_pkt = IpType(bytes(input_pkt)) # Compute length, checksum.
     input_pkt = xfrm_base.EncryptPacketWithNull(input_pkt, 0x9876, 1, None)
 
     self.ReceivePacketOn(netid, input_pkt)
     msg, addr = sock.recvfrom(1024)
-    self.assertEqual("input hello", msg)
+    self.assertEqual(b"input hello", msg)
     self.assertEqual((remote_addr, remote_port), addr[:2])
 
     # Send and capture a packet.
-    sock.sendto("output hello", (remote_addr, remote_port))
+    sock.sendto(b"output hello", (remote_addr, remote_port))
     packets = self.ReadAllPacketsOn(netid)
     self.assertEqual(1, len(packets))
     output_pkt = packets[0]
     output_pkt, esp_hdr = xfrm_base.DecryptPacketWithNull(output_pkt)
     # length of the payload plus the UDP header
-    self.assertEqual(output_pkt[scapy.UDP].len, len("output_hello") + 8)
+    self.assertEqual(output_pkt[scapy.UDP].len, len(b"output_hello") + 8)
     self.assertEqual(remote_addr, output_pkt.dst)
     self.assertEqual(remote_port, output_pkt[scapy.UDP].dport)
-    self.assertEqual("output hello", str(output_pkt[scapy.UDP].payload))
+    self.assertEqual(b"output hello", bytes(output_pkt[scapy.UDP].payload))
     self.assertEqual(0xABCD, esp_hdr.spi)
 
   def testNullEncryptionTransportMode(self):
@@ -769,8 +769,8 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
 
   def testInvalidAlgorithms(self):
     key = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
-    invalid_auth = (xfrm.XfrmAlgoAuth(("invalid(algo)", 128, 96)), key)
-    invalid_crypt = (xfrm.XfrmAlgo(("invalid(algo)", 128)), key)
+    invalid_auth = (xfrm.XfrmAlgoAuth((b"invalid(algo)", 128, 96)), key)
+    invalid_crypt = (xfrm.XfrmAlgo((b"invalid(algo)", 128)), key)
     with self.assertRaisesErrno(ENOSYS):
         self.xfrm.AddSaInfo(TEST_ADDR1, TEST_ADDR2, 0x1234,
             xfrm.XFRM_MODE_TRANSPORT, 0, xfrm_base._ALGO_CBC_AES_256,

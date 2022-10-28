@@ -147,7 +147,7 @@ def _MakeMsgControl(optlist):
   Raises:
     TypeError: Option data is neither an integer nor a string.
   """
-  msg_control = ""
+  msg_control = b""
 
   for i, opt in enumerate(optlist):
     msg_level, msg_type, data = opt
@@ -155,13 +155,13 @@ def _MakeMsgControl(optlist):
       data = struct.pack("=I", data)
     elif isinstance(data, ctypes.c_uint32):
       data = struct.pack("=I", data.value)
-    elif not isinstance(data, str):
+    elif not isinstance(data, bytes):
       raise TypeError("unknown data type for opt (%d, %d): %s" % (
           msg_level, msg_type, type(data)))
 
     datalen = len(data)
     msg_len = len(CMsgHdr) + datalen
-    padding = "\x00" * util.GetPadLength(CMSG_ALIGNTO, datalen)
+    padding = b"\x00" * util.GetPadLength(CMSG_ALIGNTO, datalen)
     msg_control += CMsgHdr((msg_len, msg_level, msg_type)).Pack()
     msg_control += data + padding
 
