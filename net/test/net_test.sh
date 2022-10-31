@@ -110,6 +110,17 @@ fi
 #  - it is no longer /dev/console, so job control should function
 #    (this means working ctrl+c [abort] and ctrl+z [suspend])
 
+# Mount tmpfs at /tmp
+mount -t tmpfs tmpfs /tmp
+
+# HACK: Make /usr/bin/python3 usable as #! - even if we only have python2
+if [[ ! -e /usr/bin/python3 ]]; then
+  mount -t tmpfs tmpfs /mnt
+  mkdir /mnt/usr-bin-upper
+  mkdir /mnt/usr-bin-work
+  mount -t overlay -o lowerdir=/usr/bin,upperdir=/mnt/usr-bin-upper,workdir=/mnt/usr-bin-work/ overlay /usr/bin
+  ln -s python2.7 /usr/bin/python3
+fi
 
 # This defaults to 60 which is needlessly long during boot
 # (we will reset it back to the default later)
@@ -120,7 +131,7 @@ if [[ -n "${entropy}" ]]; then
 
   # In kernel/include/uapi/linux/random.h RNDADDENTROPY is defined as
   # _IOW('R', 0x03, int[2]) =(R is 0x52)= 0x40085203 = 1074287107
-  /usr/bin/python 3>/dev/random <<EOF
+  /usr/bin/python3 3>/dev/random <<EOF
 import fcntl, struct
 rnd = '${entropy}'.decode('base64')
 fcntl.ioctl(3, 0x40085203, struct.pack('ii', len(rnd) * 8, len(rnd)) + rnd)
