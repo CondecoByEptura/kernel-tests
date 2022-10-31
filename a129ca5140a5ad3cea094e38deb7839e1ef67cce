@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db69281_afa4e9bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-10-31T11:21:10Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nERROR: testAddDelSa (pf_key_test.PfKeyTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/pf_key_test.py\", line 51, in testAddDelSa\n    sainfos \u003d self.xfrm.DumpSaInfo()\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/xfrm.py\", line 626, in DumpSaInfo\n    return self._Dump(XFRM_MSG_GETSA, None, XfrmUsersaInfo)\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/netlink.py\", line 280, in _Dump\n    out.extend(self._GetMsgList(msgtype, data, False))\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/netlink.py\", line 237, in _GetMsgList\n    msg, data \u003d self._ParseNLMsg(data, msgtype)\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/netlink.py\", line 224, in _ParseNLMsg\n    attributes \u003d self._ParseAttributes(nlmsghdr.type, nlmsg, data[:attrlen])\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/netlink.py\", line 146, in _ParseAttributes\n    self._Debug(\"      %s\" % (str((nla_name, nla_data))))\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/cstruct.py\", line 281, in __repr__\n    return str(self)\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/cstruct.py\", line 276, in __str__\n    enumerate(zip(self._fieldnames, self._values))]\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/cstruct.py\", line 269, in FieldDesc\n    value \u003d value.rstrip(b\"\\x00\").decode()\nUnicodeDecodeError: \u0027ascii\u0027 codec can\u0027t decode byte 0xc0 in position 18: ordinal not in range(128)\n\n----------------------------------------------------------------------\nRan 623 tests in 168.925s\n\nFAILED (errors\u003d1, skipped\u003d7)",
+      "revId": "a129ca5140a5ad3cea094e38deb7839e1ef67cce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
