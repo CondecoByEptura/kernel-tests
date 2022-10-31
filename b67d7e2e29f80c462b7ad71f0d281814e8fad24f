@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc7c8b2_b76d493a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-10-31T11:20:16Z",
+      "side": 1,
+      "message": "(unfortunately this probably breaks VTS until we switch to py3)",
+      "revId": "b67d7e2e29f80c462b7ad71f0d281814e8fad24f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
