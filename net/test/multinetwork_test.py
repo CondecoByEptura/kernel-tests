@@ -42,8 +42,6 @@ SYNCOOKIES_SYSCTL = "/proc/sys/net/ipv4/tcp_syncookies"
 TCP_MARK_ACCEPT_SYSCTL = "/proc/sys/net/ipv4/tcp_fwmark_accept"
 
 # The IP[V6]UNICAST_IF socket option was added between 3.1 and 3.4.
-HAVE_UNICAST_IF = net_test.LINUX_VERSION >= (3, 4, 0)
-
 # RTPROT_RA is working properly with 4.14
 HAVE_RTPROT_RA = net_test.LINUX_VERSION >= (4, 14, 0)
 
@@ -171,7 +169,6 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     """Checks that oif routing selects the right outgoing interface."""
     self.CheckOutgoingPackets("oif")
 
-  @unittest.skipUnless(HAVE_UNICAST_IF, "no support for UNICAST_IF")
   def testUcastOifRouting(self):
     """Checks that ucast oif routing selects the right outgoing interface."""
     self.CheckOutgoingPackets("ucast_oif")
@@ -179,7 +176,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
   def CheckRemarking(self, version, use_connect):
     modes = ["mark", "oif", "uid"]
     # Setting UNICAST_IF on connected sockets does not work.
-    if not use_connect and HAVE_UNICAST_IF:
+    if not use_connect:
       modes += ["ucast_oif"]
 
     for mode in modes:
@@ -893,7 +890,6 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     lft_plc = (lifetime & 0xfff8) | 0  # 96-bit prefix length
     return self.Pref64Option((self.ND_OPT_PREF64, 2, lft_plc, prefix))
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not backported")
   def testPref64UserOption(self):
     # Open a netlink socket to receive RTM_NEWNDUSEROPT messages.
     s = netlink.NetlinkSocket(netlink.NETLINK_ROUTE, iproute.RTMGRP_ND_USEROPT)
@@ -999,7 +995,7 @@ class PMTUTest(multinetwork_base.InboundMarkingTest):
 
         # If this is a connected socket, make sure the socket MTU was set.
         # Note that in IPv4 this only started working in Linux 3.6!
-        if use_connect and (version == 6 or net_test.LINUX_VERSION >= (3, 6)):
+        if use_connect:
           self.assertEqual(packets.PTB_MTU, self.GetSocketMTU(version, s))
 
         s.close()
@@ -1178,29 +1174,27 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
     finally:
       self.iproute.FwmarkRule(version, False, 300, fwmask, 301, priority + 1)
 
-    # Test that EEXIST worksfor UID range rules too. This behaviour was only
-    # added in 4.8.
-    if net_test.LINUX_VERSION >= (4, 8, 0):
-      ranges = [(100, 101), (100, 102), (99, 101), (1234, 5678)]
-      dup = ranges[0]
-      try:
-        # Check that otherwise identical rules with different UID ranges can be
-        # created without EEXIST.
-        for start, end in ranges:
-          self.iproute.UidRangeRule(version, True, start, end, table, priority)
-        # ... but EEXIST is returned if the UID range is identical.
-        self.assertRaisesErrno(
-          errno.EEXIST,
-          self.iproute.UidRangeRule, version, True, dup[0], dup[1], table,
-          priority)
-      finally:
-        # Clean up.
-        for start, end in ranges + [dup]:
-          try:
-            self.iproute.UidRangeRule(version, False, start, end, table,
-                                      priority)
-          except IOError:
-            pass
+    # Test that EEXIST worksfor UID range rules too.
+    ranges = [(100, 101), (100, 102), (99, 101), (1234, 5678)]
+    dup = ranges[0]
+    try:
+      # Check that otherwise identical rules with different UID ranges can be
+      # created without EEXIST.
+      for start, end in ranges:
+        self.iproute.UidRangeRule(version, True, start, end, table, priority)
+      # ... but EEXIST is returned if the UID range is identical.
+      self.assertRaisesErrno(
+        errno.EEXIST,
+        self.iproute.UidRangeRule, version, True, dup[0], dup[1], table,
+        priority)
+    finally:
+      # Clean up.
+      for start, end in ranges + [dup]:
+        try:
+          self.iproute.UidRangeRule(version, False, start, end, table,
+                                    priority)
+        except IOError:
+          pass
 
   def testIPv4GetAndSetRules(self):
     self.CheckGetAndSetRules(4)
@@ -1208,7 +1202,6 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
   def testIPv6GetAndSetRules(self):
     self.CheckGetAndSetRules(6)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not backported")
   def testDeleteErrno(self):
     for version in [4, 6]:
       table = self._Random()

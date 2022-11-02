@@ -133,11 +133,9 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
     msg = "TFO write, expected %s" % desc
     self.ExpectPacketOn(netid, msg, syn)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
   def testConnectOptionIPv4(self):
     self.CheckConnectOption(4)
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 9, 0), "not yet backported")
   def testConnectOptionIPv6(self):
     self.CheckConnectOption(6)
 

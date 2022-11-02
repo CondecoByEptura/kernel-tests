@@ -184,9 +184,7 @@ def ICMPReply(version, srcaddr, dstaddr, packet):
   icmp = {4: icmpv4_reply, 6: scapy.ICMPv6EchoReply}[version]
   packet = (ip(src=srcaddr, dst=dstaddr) /
             icmp(id=PING_IDENT, seq=PING_SEQ) / PING_PAYLOAD)
-  # IPv6 only started copying the tclass to echo replies in 3.14.
-  if version == 4 or net_test.LINUX_VERSION >= (3, 14):
-    _SetPacketTos(packet, PING_TOS)
+  _SetPacketTos(packet, PING_TOS)
   return ("ICMPv%d echo reply" % version, packet)
 
 def NS(srcaddr, tgtaddr, srcmac):

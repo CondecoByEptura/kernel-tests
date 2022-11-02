@@ -84,7 +84,6 @@ import sock_diag
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 
-HAVE_EBPF_ACCOUNTING = bpf.HAVE_EBPF_4_9
 HAVE_EBPF_SOCKET = bpf.HAVE_EBPF_4_14
 
 # bpf_ktime_get_ns() was made non-GPL requiring in 5.8 and at the same time
@@ -217,8 +216,6 @@ INS_BPF_PARAM_STORE = [
 ]
 
 
-@unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
-                     "BPF helper function is not fully supported")
 class BpfTest(net_test.NetworkTest):
 
   def setUp(self):
@@ -469,8 +466,6 @@ class BpfTest(net_test.NetworkTest):
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
 
 
-@unittest.skipUnless(HAVE_EBPF_ACCOUNTING,
-                     "Cgroup BPF is not fully supported")
 class BpfCgroupTest(net_test.NetworkTest):
 
   @classmethod

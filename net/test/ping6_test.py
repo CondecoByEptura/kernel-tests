@@ -846,14 +846,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     self.assertEqual(pkt, data)
 
     # Check the address that the packet was sent to.
-    # ... except in 4.1, where it just returns an AF_UNSPEC, like this:
-    # recvmsg(9, {msg_name(0)={sa_family=AF_UNSPEC,
-    #     sa_data="\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"},
-    #     msg_iov(1)=[{"\x80\x00\x04\x6b\x00\xc4\x00\x03\x61\x61\x61\x61\x61\x61"..., 4096}],
-    #     msg_controllen=64, {cmsg_len=60, cmsg_level=SOL_IPV6, cmsg_type=, ...},
-    #     msg_flags=MSG_ERRQUEUE}, MSG_ERRQUEUE) = 1232
-    if net_test.LINUX_VERSION != (4, 1, 0):
-      self.assertEqual(csocket.Sockaddr(("2001:4860:4860::8888", 0)), addr)
+    self.assertEqual(csocket.Sockaddr(("2001:4860:4860::8888", 0)), addr)
 
     # Check the cmsg data, including the link MTU.
     mtu = PingReplyThread.LINK_MTU
@@ -864,12 +857,6 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
                                    ICMPV6_PKT_TOOBIG, 0, mtu, 0)),
           csocket.Sockaddr((src, 0))))
     ]
-
-    # IP[V6]_RECVERR in 3.10 appears to return incorrect data for the port.
-    # The fix might have been in 676d236, but we don't have that in 3.10 and it
-    # touches code all over the tree. Instead, just don't check the port.
-    if net_test.LINUX_VERSION <= (3, 14, 0):
-      msglist[0][2][1].port = cmsg[0][2][1].port
 
     self.assertEqual(msglist, cmsg)
 

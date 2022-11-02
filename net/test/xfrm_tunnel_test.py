@@ -266,7 +266,6 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
                      xfrm.XFRM_POLICY_OUT, True)
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
 class XfrmAddDeleteVtiTest(xfrm_base.XfrmBaseTest):
   def _VerifyVtiInfoData(self, vti_info_data, version, local_addr, remote_addr,
                          ikey, okey):
@@ -959,7 +958,6 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       tunnel.SetupXfrm(False)
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (3, 18, 0), "VTI Unsupported")
 class XfrmVtiTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = VtiInterface

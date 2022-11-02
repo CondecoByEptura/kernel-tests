@@ -68,7 +68,6 @@ def CreateIPv6SocketPair():
   return net_test.CreateSocketPair(AF_INET6, SOCK_STREAM, IPV6_LOOPBACK_ADDR)
 
 
-@unittest.skipUnless(net_test.LINUX_VERSION >= (4, 4, 0), "grace period")
 class TcpNukeAddrTest(net_test.NetworkTest):
 
   """Tests that SIOCKILLADDR no longer exists.

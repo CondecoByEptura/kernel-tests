@@ -37,41 +37,11 @@ TcpInfo = cstruct.Struct("TcpInfo", "64xI", "tcpi_rcv_ssthresh")
 
 NUM_SOCKETS = 30
 NO_BYTECODE = b""
-LINUX_4_9_OR_ABOVE = net_test.LINUX_VERSION >= (4, 9, 0)
 LINUX_4_19_OR_ABOVE = net_test.LINUX_VERSION >= (4, 19, 0)
 
 IPPROTO_SCTP = 132
 
-def HaveUdpDiag():
-  """Checks if the current kernel has config CONFIG_INET_UDP_DIAG enabled.
-
-  This config is required for device running 4.9 kernel that ship with P, In
-  this case always assume the config is there and use the tests to check if the
-  config is enabled as required.
-
-  For all ther other kernel version, there is no way to tell whether a dump
-  succeeded: if the appropriate handler wasn't found, __inet_diag_dump just
-  returns an empty result instead of an error. So, just check to see if a UDP
-  dump returns no sockets when we know it should return one. If not, some tests
-  will be skipped.
-
-  Returns:
-    True if the kernel is 4.9 or above, or the CONFIG_INET_UDP_DIAG is enabled.
-    False otherwise.
-  """
-  if LINUX_4_9_OR_ABOVE:
-      return True;
-  s = socket(AF_INET6, SOCK_DGRAM, 0)
-  s.bind(("::", 0))
-  s.connect((s.getsockname()))
-  sd = sock_diag.SockDiag()
-  have_udp_diag = len(sd.DumpAllInetSockets(IPPROTO_UDP, NO_BYTECODE)) > 0
-  s.close()
-  return have_udp_diag
-
 def HaveSctp():
-  if net_test.LINUX_VERSION < (4, 7, 0):
-    return False
   try:
     s = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP)
     s.close()
@@ -79,7 +49,6 @@ def HaveSctp():
   except IOError:
     return False
 
-HAVE_UDP_DIAG = HaveUdpDiag()
 HAVE_SCTP = HaveSctp()
 
 
@@ -254,7 +223,6 @@ class SockDiagTest(SockDiagBaseTest):
   def testFindsAllMySocketsTcp(self):
     self.CheckFindsAllMySockets(SOCK_STREAM, IPPROTO_TCP)
 
-  @unittest.skipUnless(HAVE_UDP_DIAG, "INET_UDP_DIAG not enabled")
   def testFindsAllMySocketsUdp(self):
     self.CheckFindsAllMySockets(SOCK_DGRAM, IPPROTO_UDP)
 
@@ -390,12 +358,10 @@ class SockDiagTest(SockDiagBaseTest):
       cookie = sock.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
       self.assertEqual(diag_msg.id.cookie, cookie)
 
-  @unittest.skipUnless(LINUX_4_9_OR_ABOVE, "SO_COOKIE not supported")
   def testGetsockoptcookie(self):
     self.CheckSocketCookie(AF_INET, "127.0.0.1")
     self.CheckSocketCookie(AF_INET6, "::1")
 
-  @unittest.skipUnless(HAVE_UDP_DIAG, "INET_UDP_DIAG not enabled")
   def testDemonstrateUdpGetSockIdBug(self):
     # TODO: this is because udp_dump_one mistakenly uses __udp[46]_lib_lookup
     # by passing the source address as the source address argument.
@@ -414,10 +380,7 @@ class SockDiagTest(SockDiagBaseTest):
       # Create a fully-specified diag req from our socket, including cookie if
       # we can get it.
       req = self.sock_diag.DiagReqFromSocket(s)
-      if LINUX_4_9_OR_ABOVE:
-        req.id.cookie = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
-      else:
-        req.id.cookie = "\xff" * 16  # INET_DIAG_NOCOOKIE[2]
+      req.id.cookie = s.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
 
       # As is, this request does not find anything.
       with self.assertRaisesErrno(ENOENT):
@@ -684,14 +647,12 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       diag_msg, attrs = self.sock_diag.GetSockInfo(diag_req)
       self.ReceivePacketOn(self.netid, finack)
 
-      # See if we can find the resulting FIN_WAIT2 socket. This does not appear
-      # to work on 3.10.
-      if net_test.LINUX_VERSION >= (3, 18):
-        diag_req.states = 1 << tcp_test.TCP_FIN_WAIT2
-        infos = self.sock_diag.Dump(diag_req, NO_BYTECODE)
-        self.assertTrue(any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
-                            for diag_msg, attrs in infos),
-                        "Expected to find FIN_WAIT2 socket in %s" % infos)
+      # See if we can find the resulting FIN_WAIT2 socket.
+      diag_req.states = 1 << tcp_test.TCP_FIN_WAIT2
+      infos = self.sock_diag.Dump(diag_req, NO_BYTECODE)
+      self.assertTrue(any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
+                          for diag_msg, attrs in infos),
+                      "Expected to find FIN_WAIT2 socket in %s" % infos)
 
   def FindChildSockets(self, s):
     """Finds the SYN_RECV child sockets of a given listening socket."""
@@ -723,19 +684,10 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     is_established = (state == tcp_test.TCP_NOT_YET_ACCEPTED)
     expected_state = tcp_test.TCP_ESTABLISHED if is_established else state
 
-    # The new TCP listener code in 4.4 makes SYN_RECV sockets live in the
-    # regular TCP hash tables, and inet_diag_find_one_icsk can find them.
-    # Before 4.4, we can see those sockets in dumps, but we can't fetch
-    # or close them.
-    can_close_children = is_established or net_test.LINUX_VERSION >= (4, 4)
-
     for child in children:
-      if can_close_children:
-        diag_msg, attrs = self.sock_diag.GetSockInfo(child)
-        self.assertEqual(diag_msg.state, expected_state)
-        self.assertMarkIs(self.netid, attrs)
-      else:
-        self.assertRaisesErrno(ENOENT, self.sock_diag.GetSockInfo, child)
+      diag_msg, attrs = self.sock_diag.GetSockInfo(child)
+      self.assertEqual(diag_msg.state, expected_state)
+      self.assertMarkIs(self.netid, attrs)
 
     def CloseParent(expect_reset):
       msg = "Closing parent IPv%d %s socket %s child" % (
@@ -762,13 +714,12 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       CloseParent(is_established)
       if is_established:
         CheckChildrenClosed()
-      elif can_close_children:
+      else:
         CloseChildren()
         CheckChildrenClosed()
       self.s.close()
     else:
-      if can_close_children:
-        CloseChildren()
+      CloseChildren()
       CloseParent(False)
       self.s.close()
 
@@ -920,7 +871,6 @@ class PollOnCloseTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
     self.CheckPollDestroy(self.POLLIN_OUT, select.POLLOUT, 0)
 
 
-@unittest.skipUnless(HAVE_UDP_DIAG, "INET_UDP_DIAG not enabled")
 class SockDestroyUdpTest(SockDiagBaseTest):
 
   """Tests SOCK_DESTROY on UDP sockets.
@@ -1037,7 +987,6 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
     self.assertRaises(ValueError, self.sock_diag.CloseSocketFromFd, s)
 
 
-  @unittest.skipUnless(HAVE_UDP_DIAG, "INET_UDP_DIAG not enabled")
   def testUdp(self):
     self.CheckPermissions(SOCK_DGRAM)
 
@@ -1170,12 +1119,11 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       # Other TCP states are tested in SockDestroyTcpTest.
 
       # UDP sockets.
-      if HAVE_UDP_DIAG:
-        s = socket(family, SOCK_DGRAM, 0)
-        mark = self.SetRandomMark(s)
-        s.connect(("", 53))
-        self.assertSocketMarkIs(s, mark)
-        s.close()
+      s = socket(family, SOCK_DGRAM, 0)
+      mark = self.SetRandomMark(s)
+      s.connect(("", 53))
+      self.assertSocketMarkIs(s, mark)
+      s.close()
 
       # Basic test for SCTP. sctp_diag was only added in 4.7.
       if HAVE_SCTP:
