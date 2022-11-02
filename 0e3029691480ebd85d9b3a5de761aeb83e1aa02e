@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31973257_d0a0dc0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-11-02T08:08:09Z",
+      "side": 1,
+      "message": "In order to avoid a repeat of the recent 4.9 issues... is it actual policy that 4.14 should not be supported on U, and are there already tests that would prevent running U on 4.14? If not, let\u0027s work on adding an explicit test for that first - wherever it needs to be in the tree, such as in the kernel team\u0027s tests, or anywhere that tests the VINTF compatibility matrix, or...",
+      "revId": "0e3029691480ebd85d9b3a5de761aeb83e1aa02e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
