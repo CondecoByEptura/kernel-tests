@@ -52,6 +52,23 @@
       "parentUuid": "d7c76ea6_a74d2499",
       "revId": "0e3029691480ebd85d9b3a5de761aeb83e1aa02e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2d4951d_cde9ec36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-02T10:10:20Z",
+      "side": 1,
+      "message": "To quote Todd from the \"Support for kernel 4.9 with Android 13\" email thread:\n\nAll 4.9 kernel cases should be deleted in Feb 2023 when 4.9 is EOL.\n\nSince that is long before Android U releases (that\u0027s even before aosp/master stops merging into internal u-dev), we can make this assumption in U VTS right now, with no loss of generality.",
+      "revId": "0e3029691480ebd85d9b3a5de761aeb83e1aa02e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
