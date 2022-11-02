@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60dee96b_473babbb",
+        "filename": "net/test/sysctls_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-11-02T07:41:46Z",
+      "side": 1,
+      "message": "Given that Android only uses 4.14 and 4.19 then we might as well put 4.19 here. Either way.",
+      "range": {
+        "startLine": 40,
+        "startChar": 53,
+        "endLine": 40,
+        "endChar": 55
+      },
+      "revId": "d700b27d33655a4dc2e659d19ff49907fe2b29d9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
