@@ -72,13 +72,14 @@ libc = ctypes.CDLL(ctypes.util.find_library('c'), use_errno=True)
 #   https://docs.python.org/3/library/ctypes.html#fundamental-data-types
 libc.mount.argtypes = (ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p,
                        ctypes.c_ulong, ctypes.c_void_p)
-libc.sethostname.argtype = (ctypes.c_char_p, ctypes.c_size_t)
+libc.sethostname.argtypes = (ctypes.c_char_p, ctypes.c_size_t)
 libc.umount2.argtypes = (ctypes.c_char_p, ctypes.c_int)
 libc.unshare.argtypes = (ctypes.c_int,)
 
 
 def Mount(src, tgt, fs, flags=MS_NODEV|MS_NOEXEC|MS_NOSUID|MS_RELATIME):
-  ret = libc.mount(src, tgt, fs, flags, None)
+  ret = libc.mount(src.encode(), tgt.encode(), fs.encode() if fs else None,
+                   flags, None)
   if ret < 0:
     errno = ctypes.get_errno()
     raise OSError(errno, '%s mounting %s on %s (fs=%s flags=0x%x)'
@@ -104,7 +105,8 @@ def SetFileContents(f, s):
 
 
 def SetHostname(s):
-  ret = libc.sethostname(s, len(s))
+  hostname = s.encode()
+  ret = libc.sethostname(hostname, len(hostname))
   if ret < 0:
     errno = ctypes.get_errno()
     raise OSError(errno, '%s while sethostname(%s)' % (os.strerror(errno), s))

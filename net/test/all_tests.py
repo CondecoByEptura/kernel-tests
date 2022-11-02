@@ -52,6 +52,11 @@ test_modules = [
 
 if __name__ == '__main__':
   namespace.IfPossibleEnterNewNetworkNamespace()
+
+  # If one or more tests were passed in on the command line, only run those.
+  if len(sys.argv) > 1:
+    test_modules = sys.argv[1:]
+
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
   for name in test_modules:
@@ -59,11 +64,7 @@ if __name__ == '__main__':
     if hasattr(sys.modules[name], 'InjectTests'):
       sys.modules[name].InjectTests()
 
-  loader = unittest.defaultTestLoader
-  if len(sys.argv) > 1:
-    test_suite = loader.loadTestsFromNames(sys.argv[1:])
-  else:
-    test_suite = loader.loadTestsFromNames(test_modules)
+  test_suite = unittest.defaultTestLoader.loadTestsFromNames(test_modules)
 
   assert test_suite.countTestCases() > 0, (
       'Inconceivable: no tests found! Command line: %s' % ' '.join(sys.argv))

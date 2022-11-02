@@ -5,20 +5,46 @@ package {
 
 python_defaults {
     name: "kernel_net_tests_defaults",
+    stem: "kernel_net_tests_bin",
     srcs: [
         "*.py",
     ],
     libs: [
         "scapy",
     ],
-    defaults: ["kernel_tests_defaults",],
+    main: "all_tests.py",
 }
 
+
+// Main target used for VTS tests. Still uses Python 2.
 python_test {
     name: "vts_kernel_net_tests",
-    stem: "kernel_net_tests_bin",
-    main: "all_tests.py",
-    defaults: ["kernel_net_tests_defaults",],
-    test_suites: ["vts", "general-tests"],
+    defaults: ["kernel_net_tests_defaults"],
+    version: {
+        py2: {
+            embedded_launcher: true,
+            enabled: true,
+        },
+        py3: {
+            enabled: false,
+        },
+    },
     test_config: "vts_kernel_net_tests.xml",
+    test_suites: ["vts", "general-tests"],
+}
+
+// Python 3 target for development only.
+// TODO: switch the main target to Python 3.
+python_test {
+    name: "vts_kernel_net_tests_python3",
+    defaults: ["kernel_net_tests_defaults"],
+    version: {
+        py2: {
+            enabled: false,
+        },
+        py3: {
+            embedded_launcher: true,
+            enabled: true,
+        },
+    },
 }
