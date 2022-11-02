@@ -34,6 +34,24 @@
       "parentUuid": "31973257_d0a0dc0c",
       "revId": "0e3029691480ebd85d9b3a5de761aeb83e1aa02e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b5ddb76_f1e3b358",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-02T08:26:09Z",
+      "side": 1,
+      "message": "btw. this is also a chicken and egg problem...\n\nthere are no tests enforcing a minimum so we have to support it\n\nbecause we have to support it there are no tests enforcing a minimum...",
+      "parentUuid": "d7c76ea6_a74d2499",
+      "revId": "0e3029691480ebd85d9b3a5de761aeb83e1aa02e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
