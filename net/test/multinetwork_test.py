@@ -41,10 +41,6 @@ IPV6_FLOWINFO = 11
 SYNCOOKIES_SYSCTL = "/proc/sys/net/ipv4/tcp_syncookies"
 TCP_MARK_ACCEPT_SYSCTL = "/proc/sys/net/ipv4/tcp_fwmark_accept"
 
-# The IP[V6]UNICAST_IF socket option was added between 3.1 and 3.4.
-# RTPROT_RA is working properly with 4.14
-HAVE_RTPROT_RA = net_test.LINUX_VERSION >= (4, 14, 0)
-
 class ConfigurationError(AssertionError):
   pass
 
@@ -657,13 +653,7 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     table = self._TableForNetid(netid)
     router = self._RouterAddress(netid, version)
     ifindex = self.ifindices[netid]
-    # We actually want to specify RTPROT_RA, however an upstream
-    # kernel bug causes RAs to be installed with RTPROT_BOOT.
-    if HAVE_RTPROT_RA:
-       rtprot = iproute.RTPROT_RA
-    else:
-       rtprot = iproute.RTPROT_BOOT
-    self.iproute._Route(version, rtprot, iproute.RTM_DELROUTE,
+    self.iproute._Route(version, iproute.RTPROT_RA, iproute.RTM_DELROUTE,
                         table, prefix, plen, router, ifindex, None, None)
 
   def testSetAcceptRaRtInfoMinPlen(self):

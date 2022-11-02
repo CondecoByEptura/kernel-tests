@@ -843,15 +843,7 @@ class PollOnCloseTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertSocketErrors(ECONNRESET)
 
   def testReadPollRst(self):
-    # Until 3d4762639d ("tcp: remove poll() flakes when receiving RST"), poll()
-    # would sometimes return POLLERR and sometimes POLLIN|POLLERR|POLLHUP. This
-    # is due to a race inside the kernel and thus is not visible on the VM, only
-    # on physical hardware.
-    if net_test.LINUX_VERSION < (4, 14, 0):
-      ignoremask = select.POLLIN | select.POLLHUP
-    else:
-      ignoremask = 0
-    self.CheckPollRst(select.POLLIN, self.POLLIN_ERR_HUP, ignoremask)
+    self.CheckPollRst(select.POLLIN, self.POLLIN_ERR_HUP, 0)
 
   def testWritePollRst(self):
     self.CheckPollRst(select.POLLOUT, select.POLLOUT, 0)

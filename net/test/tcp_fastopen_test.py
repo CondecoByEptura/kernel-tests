@@ -66,8 +66,6 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
       self.tcp_metrics.GetMetrics(saddr, daddr)
 
   def clearBlackhole(self):
-    if net_test.LINUX_VERSION < (4, 14, 0):
-      return
     # Prior to 4.15 this sysctl is not namespace aware.
     if net_test.LINUX_VERSION < (4, 15, 0) and not os.path.exists(BH_TIMEOUT_SYSCTL):
       return
