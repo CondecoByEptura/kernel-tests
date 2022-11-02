@@ -67,6 +67,7 @@ NLMsgHdr(length=44, type=33, flags=0, seq=0, pid=0)
 >>>
 """
 
+import binascii
 import ctypes
 import string
 import struct
@@ -104,10 +105,18 @@ class StructMetaclass(type):
 def Struct(name, fmt, fieldnames, substructs={}):
   """Function that returns struct classes."""
 
-  class CStruct(object):
-    """Class representing a C-like structure."""
+  # Hack to make struct classes use the StructMetaclass class on both python2 and
+  # python3. This is needed because in python2 the metaclass is assigned in the
+  # class definition, but in python3 it's passed into the constructor via
+  # keyword argument. Works by making all structs subclass CStructSuperclass,
+  # whose __new__ method uses StructMetaclass as its metaclass.
+  #
+  # A better option would be to use six.with_metaclass, but the existing python2
+  # VM image doesn't have the six module.
+  CStructSuperclass = type.__new__(StructMetaclass, 'unused', (), {})
 
-    __metaclass__ = StructMetaclass
+  class CStruct(CStructSuperclass):
+    """Class representing a C-like structure."""
 
     # Name of the struct.
     _name = name
@@ -132,8 +141,11 @@ def Struct(name, fmt, fieldnames, substructs={}):
         laststructindex += 1
         _format += "%ds" % len(_nested[index])
       elif fmt[i] == "A":
-        # Null-terminated ASCII string.
-        index = CalcNumElements(fmt[:i])
+        # Null-terminated ASCII string. Remove digits before the A, so we don't
+        # call CalcNumElements on an (invalid) format that ends with a digit.
+        start = i
+        while start > 0 and fmt[start - 1].isdigit(): start -= 1
+        index = CalcNumElements(fmt[:start])
         _asciiz.add(index)
         _format += "s"
       else:
@@ -250,13 +262,22 @@ def Struct(name, fmt, fieldnames, substructs={}):
       return struct.pack(self._format, *values)
 
     def __str__(self):
+
+      def HasNonPrintableChar(s):
+        for c in s:
+          # Iterating over bytes yields chars in python2 but ints in python3.
+          if isinstance(c, int): c = chr(c)
+          if c not in string.printable: return True
+        return False
+
       def FieldDesc(index, name, value):
-        if isinstance(value, bytes):
+        if isinstance(value, bytes) or isinstance(value, str):
           if index in self._asciiz:
-            value = value.rstrip(b"\x00")
-          elif any(c not in string.printable for c in value):
-            value = value.encode("hex")
-        return "%s=%s" % (name, value)
+            # TODO: use "backslashreplace" when python 2 is no longer supported.
+            value = value.rstrip(b"\x00").decode(errors="ignore")
+          elif HasNonPrintableChar(value):
+            value = binascii.hexlify(value).decode()
+        return "%s=%s" % (name, str(value))
 
       descriptions = [
           FieldDesc(i, n, v) for i, (n, v) in
