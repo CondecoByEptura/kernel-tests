@@ -216,6 +216,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "523545d9_4d3032e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-03T03:52:56Z",
+      "side": 1,
+      "message": "Updated rootfs and initrd are now accessible from dl.google.com, I updated the script to point to the new rootfs.",
+      "parentUuid": "c0229f36_df2fca74",
+      "revId": "454a057baa068ef0c538b68ce355b416c6fe0445",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efbdb4dd_354a1370",
