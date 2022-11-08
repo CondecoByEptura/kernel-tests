@@ -68,10 +68,19 @@ class RemovedFeatureTest(net_test.NetworkTest):
     self.assertFeatureEnabled("CONFIG_IP6_NF_TARGET_REJECT")
     self.assertFeatureAbsent("CONFIG_IP6_NF_TARGET_REJECT_SKERR")
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 19, 0), "removed in 4.14-r")
   def testRemovedAndroidParanoidNetwork(self):
-    """Verify that ANDROID_PARANOID_NETWORK is gone."""
+    """Verify that ANDROID_PARANOID_NETWORK is gone.
 
+       On a 4.14-q kernel you can achieve this by simply
+       changing the ANDROID_PARANOID_NETWORK default y to n
+       in your kernel source code in net/Kconfig:
+
+       @@ -94,3 +94,3 @@ endif # if INET
+        config ANDROID_PARANOID_NETWORK
+               bool "Only allow certain groups to create sockets"
+       -       default y
+       +       default n
+    """
     AID_NET_RAW = 3004
     with net_test.RunAsUidGid(12345, AID_NET_RAW):
       self.assertRaisesErrno(errno.EPERM, socket, AF_PACKET, SOCK_RAW, 0)
