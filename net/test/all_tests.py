@@ -35,7 +35,6 @@ test_modules = [
     'pf_key_test',
     'ping6_test',
     'policy_crash_test',
-    'qtaguid_test',
     'removed_feature_test',
     'resilient_rs_test',
     'sock_diag_test',
