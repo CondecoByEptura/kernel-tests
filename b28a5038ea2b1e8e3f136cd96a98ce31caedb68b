@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6156eb9a_5f18c434",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1466604
+      },
+      "writtenOn": "2022-11-08T09:54:22Z",
+      "side": 1,
+      "message": "Paul - going forward please start uploading code using your @google.com address. You should have permissions to trigger presubmit from that account.",
+      "revId": "b28a5038ea2b1e8e3f136cd96a98ce31caedb68b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
