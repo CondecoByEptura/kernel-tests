@@ -152,6 +152,19 @@ fi'
 if mmc dev 1 0; then; else
 	run bootcmd_dhcp;
 fi
+if bcb load 0 misc; then
+	# valid BCB found
+	if bcb test command = bootonce-bootloader; then
+		bcb clear command; bcb store
+		setenv autoload no; dhcp
+		fastboot udp
+		reset
+	elif bcb test command = boot-recovery; then
+		bcb clear command; bcb store
+		# we don't have recovery, reboot.
+		reset
+	fi
+fi
 if test -e mmc ${devnum}:${distro_bootpart} /boot/rootfs.gz; then
 	setenv loadaddr 0x00200000
 	mw.b ${loadaddr} 0 0x400000
