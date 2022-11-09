@@ -23,10 +23,13 @@
         <option name="cleanup" value="true" />
     </target_preparer>
 
+<<<<<<< HEAD   (db5726 net-test: not supported in netns before 4.15 if BH_TIMEOUT_S)
     <target_preparer class="com.android.tradefed.targetprep.DeviceSetup">
         <option name="airplane-mode" value="ON" />
     </target_preparer>
 
+=======
+>>>>>>> CHANGE (37b987 net-test: airplane mode should not be needed)
     <test class="com.android.tradefed.testtype.binary.ExecutableTargetTest" >
         <option name="per-binary-timeout" value="10m" />
         <option name="test-command-line" key="vts_kernel_net_tests" value="/data/local/tmp/vts_kernel_net_tests/kernel_net_tests_bin" />
