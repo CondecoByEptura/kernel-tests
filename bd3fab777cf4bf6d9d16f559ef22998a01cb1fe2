@@ -57,6 +57,30 @@
       },
       "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e69e2d98_4982c775",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1088076
+      },
+      "writtenOn": "2022-11-09T00:46:18Z",
+      "side": 1,
+      "message": "The module won\u0027t reset it to OFF. Maybe it should be changed to a RunCommandTargetPreparer so teardown can reset the setting?",
+      "parentUuid": "823f54f5_b61f5133",
+      "range": {
+        "startLine": 27,
+        "startChar": 44,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
