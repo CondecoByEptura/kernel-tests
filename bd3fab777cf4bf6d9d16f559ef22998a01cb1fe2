@@ -81,6 +81,30 @@
       },
       "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a650e570_868a9f09",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-09T00:53:32Z",
+      "side": 1,
+      "message": "hmm, actually I think we originally did this to isolate the device from unrelated network traffic while the test is running - to prevent test flakes.\n\nBut as we\u0027ve switched to running the tests in network namespaces:\n\n[kernel_net_tests_bin is all_tests.py which first runs   namespace.IfPossibleEnterNewNetworkNamespace() - which I think will always succeed on all supported devices]\n\nI think airplane mode is simply no longer useful any more...\n\nI\u0027m not sure how to usefully verify this (since it would presumably just show up as elevated flake rate)",
+      "parentUuid": "e69e2d98_4982c775",
+      "range": {
+        "startLine": 27,
+        "startChar": 44,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
