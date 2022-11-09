@@ -16,6 +16,29 @@
       "message": "no idea what this does or why this is a correct or desirable change\n\nwhat are system props? why are they set by default?",
       "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "823f54f5_b61f5133",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-09T00:30:43Z",
+      "side": 1,
+      "message": "btw. what turns airplane mode off afterwards?",
+      "range": {
+        "startLine": 27,
+        "startChar": 44,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
