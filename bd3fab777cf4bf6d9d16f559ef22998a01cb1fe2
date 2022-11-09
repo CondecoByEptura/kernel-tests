@@ -105,6 +105,30 @@
       },
       "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7abba5_b86aaf05",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1121894
+      },
+      "writtenOn": "2022-11-09T00:56:03Z",
+      "side": 1,
+      "message": "I will let Dan decide what he prefers as follow up (update to RunCommand to have proper teardown or if you have a way to test cleaning up?) since he has more context on kernel tests than me 😊",
+      "parentUuid": "a650e570_868a9f09",
+      "range": {
+        "startLine": 27,
+        "startChar": 44,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
