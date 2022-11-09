@@ -18,6 +18,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "200075bf_9a853191",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1121894
+      },
+      "writtenOn": "2022-11-09T00:32:17Z",
+      "side": 1,
+      "message": "Sorry for lack of context:\n- This is something we already do for all user of DeviceSetup in CTS so i was aligning.\n- DeviceSetup by default attempts to setup a few system properties (like test harness mode, etc.) it\u0027s kind of a misconfiguration/unexpected to do it again in a module since usually lab does it automatically. Those also don\u0027t work on OEM since they require root on device so we skip them by default.\n\nIt\u0027s not wrong to use DeviceSetup, we just want to make sure the preparer does only what the test owner expect.",
+      "parentUuid": "af9d6298_10eb77c8",
+      "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "823f54f5_b61f5133",
