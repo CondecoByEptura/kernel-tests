@@ -50,7 +50,7 @@ test_modules = [
 ]
 
 if __name__ == '__main__':
-  namespace.IfPossibleEnterNewNetworkNamespace()
+  namespace.EnterNewNetworkNamespace()
 
   # If one or more tests were passed in on the command line, only run those.
   if len(sys.argv) > 1:
