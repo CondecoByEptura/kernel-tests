@@ -25,6 +25,7 @@
 
     <target_preparer class="com.android.tradefed.targetprep.DeviceSetup">
         <option name="airplane-mode" value="ON" />
+        <option name="force-skip-system-props" value="true" />
     </target_preparer>
 
     <test class="com.android.tradefed.testtype.binary.ExecutableTargetTest" >
