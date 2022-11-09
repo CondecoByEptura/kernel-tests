@@ -213,6 +213,15 @@ lz4 -lcd "${initramfs}" | sudo cpio -idum lib/modules/*
 # Create /host, for the pivot_root and 9p mount use cases
 sudo mkdir host
 
+# debootstrap workaround: Run debootstrap in docker sometimes causes the
+# /proc being a symlink in first stage. We need to fix the symlink to an empty
+# directory.
+if [ -L "${workdir}/proc" ]; then
+  echo "/proc in debootstrap 1st stage is a symlink. Fixed!"
+  sudo rm -f "${workdir}/proc"
+  sudo mkdir "${workdir}/proc"
+fi
+
 # Leave the workdir, to build the filesystem
 cd -
 
