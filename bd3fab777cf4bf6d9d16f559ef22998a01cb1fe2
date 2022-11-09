@@ -129,6 +129,30 @@
       },
       "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79ec5244_4fbce015",
+        "filename": "net/test/vts_kernel_net_tests.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-09T01:01:43Z",
+      "side": 1,
+      "message": "remote:   https://android-review.googlesource.com/c/kernel/tests/+/2292942 net-test: make network namespaces required [NEW]\nremote:   https://android-review.googlesource.com/c/kernel/tests/+/2292943 net-test: airplane mode should not be needed [NEW]",
+      "parentUuid": "a650e570_868a9f09",
+      "range": {
+        "startLine": 27,
+        "startChar": 44,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "bd3fab777cf4bf6d9d16f559ef22998a01cb1fe2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ],
   "submitRequirementResults": [
