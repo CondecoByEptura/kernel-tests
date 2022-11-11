@@ -34,6 +34,24 @@
       "parentUuid": "ef20f402_619e75a6",
       "revId": "acb97785825077cf54045fb999f0e2375a8f49c2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa5850c_023e3468",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-11T20:37:41Z",
+      "side": 1,
+      "message": "It\u0027s passing for me locally on P7Pro. What device is this failing on for you?\n\nThere is a lot of presubmit instability recently and the failure is not from the test this CL is modifying.\n\nI used the build_rootfs.sh script to build the image, so the image size is an unrelated pre-existing issue. I can help you update the image again after this is submitted.",
+      "parentUuid": "437e3f18_554bd180",
+      "revId": "acb97785825077cf54045fb999f0e2375a8f49c2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
