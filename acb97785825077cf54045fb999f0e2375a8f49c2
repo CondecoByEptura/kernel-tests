@@ -16,6 +16,24 @@
       "message": "Hmm I don\u0027t think the TEST_MAPPING is working correctly.\nAdditionally this is failing for me when I run it locally.\nWill debug...",
       "revId": "acb97785825077cf54045fb999f0e2375a8f49c2",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "437e3f18_554bd180",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-11T09:00:58Z",
+      "side": 1,
+      "message": "(also the image is not 32-bit capable [neither was the old one] and really big [8GB vs old 1GB] post decompression)",
+      "parentUuid": "ef20f402_619e75a6",
+      "revId": "acb97785825077cf54045fb999f0e2375a8f49c2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
