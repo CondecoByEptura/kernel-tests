@@ -16,6 +16,7 @@
 
 from socket import *  # pylint: disable=wildcard-import
 from scapy import all as scapy
+import binascii
 import struct
 
 import csocket
@@ -25,9 +26,9 @@ import net_test
 import util
 import xfrm
 
-_ENCRYPTION_KEY_256 = ("308146eb3bd84b044573d60f5a5fd159"
-                       "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
-_AUTHENTICATION_KEY_128 = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
+_ENCRYPTION_KEY_256 = binascii.unhexlify("308146eb3bd84b044573d60f5a5fd159"
+                                         "57c7d4fe567a2120f35bae0f9869ec22")
+_AUTHENTICATION_KEY_128 = binascii.unhexlify("af442892cdcd0ef650e9c299f9a8436a")
 
 _ALGO_AUTH_NULL = (xfrm.XfrmAlgoAuth((b"digest_null", 0, 0)), b"")
 _ALGO_HMAC_SHA1 = (xfrm.XfrmAlgoAuth((xfrm.XFRM_AALG_HMAC_SHA1, 128, 96)),
@@ -196,7 +197,7 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
   esplen = (len(inner_layer) + 2)  # UDP length plus Pad Length and Next Header.
   padlen = util.GetPadLength(4, esplen)
   # The pad bytes are consecutive integers starting from 0x01.
-  padding = b"".join((chr(i) for i in range(1, padlen + 1)))
+  padding = "".join((chr(i) for i in range(1, padlen + 1))).encode("utf-8")
   trailer = padding + struct.pack("BB", padlen, esp_nexthdr)
 
   # Assemble the packet.

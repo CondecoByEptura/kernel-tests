@@ -18,6 +18,7 @@
 from errno import *  # pylint: disable=wildcard-import
 from scapy import all as scapy
 from socket import *  # pylint: disable=wildcard-import
+import binascii
 import struct
 import subprocess
 import threading
@@ -79,10 +80,10 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
         "\tauth-trunc hmac(sha1) 0x%s 96\n"
         "\tenc cbc(aes) 0x%s\n"
         "\tsel src ::/0 dst ::/0 \n" % (
-            xfrm_base._AUTHENTICATION_KEY_128.encode("hex"),
-            xfrm_base._ENCRYPTION_KEY_256.encode("hex")))
+            binascii.hexlify(xfrm_base._AUTHENTICATION_KEY_128).decode("utf-8"),
+            binascii.hexlify(xfrm_base._ENCRYPTION_KEY_256).decode("utf-8")))
 
-    actual = subprocess.check_output("ip xfrm state".split())
+    actual = subprocess.check_output("ip xfrm state".split()).decode("utf-8")
     # Newer versions of IP also show anti-replay context. Don't choke if it's
     # missing.
     actual = actual.replace(
@@ -768,7 +769,7 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
     self.assertEqual(mark, attributes["XFRMA_OUTPUT_MARK"])
 
   def testInvalidAlgorithms(self):
-    key = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
+    key = binascii.unhexlify("af442892cdcd0ef650e9c299f9a8436a")
     invalid_auth = (xfrm.XfrmAlgoAuth((b"invalid(algo)", 128, 96)), key)
     invalid_crypt = (xfrm.XfrmAlgo((b"invalid(algo)", 128)), key)
     with self.assertRaisesErrno(ENOSYS):
