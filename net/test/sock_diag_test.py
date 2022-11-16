@@ -16,6 +16,7 @@
 
 # pylint: disable=g-bad-todo,g-bad-file-header,wildcard-import
 from errno import *  # pylint: disable=wildcard-import
+import binascii
 import os
 import random
 import select
@@ -220,6 +221,13 @@ class SockDiagTest(SockDiagBaseTest):
         info = self.sock_diag.GetSockInfo(req)
         self.assertSockInfoMatchesSocket(sock, info)
 
+  def assertItemsEqual(self, expected, actual):
+    try:
+      super(SockDiagTest, self).assertItemsEqual(expected, actual)
+    except AttributeError:
+      # This was renamed in python3 but has the same behaviour.
+      super(SockDiagTest, self).assertCountEqual(expected, actual)
+
   def testFindsAllMySocketsTcp(self):
     self.CheckFindsAllMySockets(SOCK_STREAM, IPPROTO_TCP)
 
@@ -242,16 +250,16 @@ class SockDiagTest(SockDiagBaseTest):
     # pylint: enable=bad-whitespace
     bytecode = self.PackAndCheckBytecode(instructions)
     expected = (
-        "0208500000000000"
-        "050848000000ffff"
-        "071c20000a800000ffffffff00000000000000000000000000000001"
-        "01041c00"
-        "0718200002200000ffffffff7f000001"
-        "0508100000006566"
-        "00040400"
+        b"0208500000000000"
+        b"050848000000ffff"
+        b"071c20000a800000ffffffff00000000000000000000000000000001"
+        b"01041c00"
+        b"0718200002200000ffffffff7f000001"
+        b"0508100000006566"
+        b"00040400"
     )
     states = 1 << tcp_test.TCP_ESTABLISHED
-    self.assertMultiLineEqual(expected, bytecode.encode("hex"))
+    self.assertEquals(expected, binascii.hexlify(bytecode))
     self.assertEqual(76, len(bytecode))
     self.socketpairs = self._CreateLotsOfSockets(SOCK_STREAM)
     filteredsockets = self.sock_diag.DumpAllInetSockets(IPPROTO_TCP, bytecode,
