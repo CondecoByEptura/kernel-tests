@@ -189,8 +189,8 @@ def ICMPReply(version, srcaddr, dstaddr, packet):
 
 def NS(srcaddr, tgtaddr, srcmac):
   solicited = inet_pton(AF_INET6, tgtaddr)
-  last3bytes = tuple([ord(b) for b in solicited[-3:]])
-  solicited = "ff02::1:ff%02x:%02x%02x" % last3bytes
+  last3bytes = tuple([net_test.ByteToHex(b) for b in solicited[-3:]])
+  solicited = "ff02::1:ff%s:%s%s" % last3bytes
   packet = (scapy.IPv6(src=srcaddr, dst=solicited) /
             scapy.ICMPv6ND_NS(tgt=tgtaddr) /
             scapy.ICMPv6NDOptSrcLLAddr(lladdr=srcmac))

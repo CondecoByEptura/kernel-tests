@@ -96,6 +96,9 @@ KERN_INFO = 6
 LINUX_VERSION = csocket.LinuxVersion()
 LINUX_ANY_VERSION = (0, 0)
 
+def ByteToHex(b):
+  return "%02x" % (ord(b) if isinstance(b, str) else b)
+
 def GetWildcardAddress(version):
   return {4: "0.0.0.0", 6: "::"}[version]
 
