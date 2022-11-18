@@ -235,7 +235,7 @@ IFLA_VTI_REMOTE = 5
 
 CONSTANT_PREFIXES = netlink.MakeConstantPrefixes(
     ["RTM_", "RTN_", "RTPROT_", "RT_SCOPE_", "RT_TABLE_", "RTA_", "RTMGRP_",
-     "RTNLGRP_", "RTAX_", "IFA_", "IFA_F", "NDA_", "FRA_", "IFLA_",
+     "RTNLGRP_", "RTAX_", "IFA_", "IFA_F_", "NDA_", "FRA_", "IFLA_",
      "IFLA_INFO_", "IFLA_XFRM_", "IFLA_VTI_"])
 
 
