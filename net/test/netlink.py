@@ -57,6 +57,11 @@ NLA_ALIGNTO = 4
 # These can appear more than once but don't seem to contain any data.
 DUP_ATTRS_OK = ["INET_DIAG_NONE", "IFLA_PAD"]
 
+
+def MakeConstantPrefixes(prefixes):
+  return sorted(prefixes, key=len, reverse=True)
+
+
 class NetlinkSocket(object):
   """A basic netlink socket object."""
 
@@ -87,15 +92,33 @@ class NetlinkSocket(object):
   def _NlAttrU32(self, nla_type, value):
     return self._NlAttr(nla_type, struct.pack("=I", value))
 
-  def _GetConstantName(self, module, value, prefix):
+  @staticmethod
+  def _GetConstantName(module, value, prefix):
+    def FirstMatching(name, prefixlist):
+      for prefix in prefixlist:
+        if name.startswith(prefix):
+         return prefix
+      return None
+
     thismodule = sys.modules[module]
+    prefixes = getattr(thismodule, "CONSTANT_PREFIXES", [])
     for name in dir(thismodule):
-      if name.startswith("INET_DIAG_BC"):
+      if value != getattr(thismodule, name) or not name.isupper():
         continue
-      if (name.startswith(prefix) and
-          not name.startswith(prefix + "F_") and
-          name.isupper() and getattr(thismodule, name) == value):
+
+      if prefixes:
+        # Find longest declared prefix that matches the passed-in prefix.
+        # The longest matching prefix is always the first matching prefix
+        # because MakeConstantPrefixes sorts the prefixes longest first.
+        #
+        # This is necessary, for example, to ensure that code that passes in a
+        # prefix of "IFA_" and a value of 1 gets "IFA_ADDRESS" instead of
+        # "IFA_F_SECONDARY".
+        matchingprefix = FirstMatching(name, prefixes)
+        if name.startswith(prefix) and prefix == matchingprefix:
           return name
+      elif name.startswith(prefix):
+        return name
     return value
 
   def _Decode(self, command, msg, nla_type, nla_data):
