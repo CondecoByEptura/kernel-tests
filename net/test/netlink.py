@@ -94,7 +94,6 @@ class NetlinkSocket(object):
 
   @staticmethod
   def _GetConstantName(module, value, prefix):
-
     def FirstMatching(name, prefixlist):
       for prefix in prefixlist:
         if name.startswith(prefix):
