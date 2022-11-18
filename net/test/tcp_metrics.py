@@ -19,6 +19,7 @@
 from socket import *  # pylint: disable=wildcard-import
 import struct
 
+import binascii
 import cstruct
 import genetlink
 import net_test
@@ -79,7 +80,7 @@ class TcpMetrics(genetlink.GenericNetlink):
     elif name == "TCP_METRICS_ATTR_FOPEN_COOKIE":
       data = nla_data
     else:
-      data = nla_data.encode("hex")
+      data = binascii.hexlify(nla_data)
 
     return name, data
 
