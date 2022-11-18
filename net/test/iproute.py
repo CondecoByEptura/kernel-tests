@@ -221,6 +221,18 @@ IFLA_INFO_KIND = 1
 IFLA_INFO_DATA = 2
 IFLA_INFO_XSTATS = 3
 
+IFLA_INET_CONF = 1
+
+IFLA_INET6_FLAGS = 1
+IFLA_INET6_CONF = 2
+IFLA_INET6_STATS = 3
+IFLA_INET6_MCAST = 4
+IFLA_INET6_CACHEINFO = 5
+IFLA_INET6_ICMP6STATS = 6
+IFLA_INET6_TOKEN = 7
+IFLA_INET6_ADDR_GEN_MODE = 8
+IFLA_INET6_RA_MTU = 9
+
 IFLA_XFRM_UNSPEC = 0
 IFLA_XFRM_LINK = 1
 IFLA_XFRM_IF_ID = 2
@@ -233,11 +245,17 @@ IFLA_VTI_OKEY = 3
 IFLA_VTI_LOCAL = 4
 IFLA_VTI_REMOTE = 5
 
+# Hack to use _ParseAttributes to parse family-specific interface attributes.
+# These are not actual kernel constants.
+IFLA_AF_SPEC_AF_INET = AF_INET
+IFLA_AF_SPEC_AF_INET6 = AF_INET6
+
 
 CONSTANT_PREFIXES = netlink.MakeConstantPrefixes(
     ["RTM_", "RTN_", "RTPROT_", "RT_SCOPE_", "RT_TABLE_", "RTA_", "RTMGRP_",
      "RTNLGRP_", "RTAX_", "IFA_", "IFA_F_", "NDA_", "FRA_", "IFLA_",
-     "IFLA_INFO_", "IFLA_XFRM_", "IFLA_VTI_"])
+     "IFLA_INFO_", "IFLA_XFRM_", "IFLA_VTI_", "IFLA_AF_SPEC_", "IFLA_INET_",
+     "IFLA_INET6_"])
 
 
 def CommandVerb(command):
@@ -300,6 +318,12 @@ class IPRoute(netlink.NetlinkSocket):
       name = self._GetConstantName(nla_type, "IFLA_INFO_")
     elif lastnested == "IFLA_INFO_DATA":
       name = self._GetConstantName(nla_type, "IFLA_VTI_")
+    elif lastnested == "IFLA_AF_SPEC":
+      name = self._GetConstantName(nla_type, "IFLA_AF_SPEC_")
+    elif lastnested == "IFLA_AF_SPEC_AF_INET":
+      name = self._GetConstantName(nla_type, "IFLA_INET_")
+    elif lastnested == "IFLA_AF_SPEC_AF_INET6":
+      name = self._GetConstantName(nla_type, "IFLA_INET6_")
     elif CommandSubject(command) == "ADDR":
       name = self._GetConstantName(nla_type, "IFA_")
     elif CommandSubject(command) == "LINK":
@@ -320,21 +344,29 @@ class IPRoute(netlink.NetlinkSocket):
                 "IFLA_PROMISCUITY", "IFLA_NUM_RX_QUEUES",
                 "IFLA_NUM_TX_QUEUES", "NDA_PROBES", "RTAX_MTU",
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
-                "IFLA_GSO_MAX_SIZE", "RTA_UID"]:
+                "IFLA_GSO_MAX_SIZE", "RTA_UID", "IFLA_INET6_FLAGS"]:
       data = struct.unpack("=I", nla_data)[0]
     elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
       data = struct.unpack("!I", nla_data)[0]
     elif name == "FRA_SUPPRESS_PREFIXLEN":
       data = struct.unpack("=i", nla_data)[0]
-    elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER"]:
+    elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER",
+                  "IFLA_INET6_ADDR_GEN_MODE"]:
       data = ord(nla_data)
     elif name in ["IFA_ADDRESS", "IFA_LOCAL", "RTA_DST", "RTA_SRC",
                   "RTA_GATEWAY", "RTA_PREFSRC", "NDA_DST"]:
       data = socket.inet_ntop(msg.family, nla_data)
+    elif name in ["IFLA_INET_CONF", "IFLA_INET6_CONF"]:
+      data = [struct.unpack("=I", nla_data[i:i+4])[0]
+              for i in range(0, len(nla_data), 4)]
+    elif name == "IFLA_INET6_TOKEN":
+      data = socket.inet_ntop(AF_INET6, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
       data = nla_data.strip(b"\x00")
-    elif name in ["RTA_METRICS", "IFLA_LINKINFO", "IFLA_INFO_DATA"]:
+    elif name in ["RTA_METRICS", "IFLA_LINKINFO", "IFLA_INFO_DATA",
+                  "IFLA_AF_SPEC", "IFLA_AF_SPEC_AF_INET",
+                  "IFLA_AF_SPEC_AF_INET6"]:
       data = self._ParseAttributes(command, None, nla_data, nested + [name])
     elif name == "RTA_CACHEINFO":
       data = RTACacheinfo(nla_data)
