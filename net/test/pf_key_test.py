@@ -18,13 +18,14 @@
 from socket import *
 import unittest
 
+import binascii
 import csocket
 import pf_key
 import xfrm
 
-ENCRYPTION_KEY = ("308146eb3bd84b044573d60f5a5fd159"
-                  "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
-AUTH_KEY = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
+ENCRYPTION_KEY = binascii.unhexlify("308146eb3bd84b044573d60f5a5fd159"
+                                    "57c7d4fe567a2120f35bae0f9869ec22")
+AUTH_KEY = binascii.unhexlify("af442892cdcd0ef650e9c299f9a8436a")
 
 
 class PfKeyTest(unittest.TestCase):
