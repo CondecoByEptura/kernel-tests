@@ -75,6 +75,7 @@ class GenericNetlinkControl(GenericNetlink):
   def _DecodeOps(self, data):
     ops = []
     Op = collections.namedtuple("Op", ["id", "flags"])
+    # TODO: call _ParseAttributes on the nested data instead of manual parsing.
     while data:
       # Skip the nest marker.
       datalen, index, data = data[:2], data[2:4], data[4:]
@@ -92,7 +93,7 @@ class GenericNetlinkControl(GenericNetlink):
       ops.append(Op(op_id, op_flags))
     return ops
 
-  def _Decode(self, command, msg, nla_type, nla_data):
+  def _Decode(self, command, msg, nla_type, nla_data, nested):
     """Decodes generic netlink control attributes to human-readable format."""
 
     name = self._GetConstantName(__name__, nla_type, "CTRL_ATTR_")
