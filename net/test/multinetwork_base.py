@@ -232,7 +232,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     return f
 
   @classmethod
-  def SendRA(cls, netid, retranstimer=None, reachabletime=0, options=()):
+  def SendRA(cls, netid, retranstimer=None, reachabletime=0, m=0, o=0,
+             options=()):
     validity = cls.RA_VALIDITY # seconds
     macaddr = cls.RouterMacAddress(netid)
     lladdr = cls._RouterAddress(netid, 6)
@@ -252,7 +253,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
           scapy.ICMPv6ND_RA(reachabletime=reachabletime,
                             retranstimer=retranstimer,
                             routerlifetime=routerlifetime,
-                            M=1, O=1) /
+                            M=m, O=o) /
           scapy.ICMPv6NDOptSrcLLAddr(lladdr=macaddr) /
           scapy.ICMPv6NDOptPrefixInfo(prefix=cls.OnlinkPrefix(6, netid),
                                       prefixlen=cls.OnlinkPrefixLen(6),
