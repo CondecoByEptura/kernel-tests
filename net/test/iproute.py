@@ -318,13 +318,11 @@ class IPRoute(netlink.NetlinkSocket):
       name = self._GetConstantName(nla_type, "IFLA_INFO_")
     elif lastnested == "IFLA_INFO_DATA":
       name = self._GetConstantName(nla_type, "IFLA_VTI_")
-    elif command == -IFLA_AF_SPEC:
+    elif lastnested == "IFLA_AF_SPEC":
       name = self._GetConstantName(nla_type, "IFLA_AF_SPEC_")
-    elif command == -IFLA_AF_SPEC_AF_INET:
-      # TODO: this doesn't work because IFLA_INET_ = IFLA_VTI_
-      # Probably convert into a string?
+    elif lastnested == "IFLA_AF_SPEC_AF_INET":
       name = self._GetConstantName(nla_type, "IFLA_INET_")
-    elif command == -IFLA_AF_SPEC_AF_INET6:
+    elif lastnested == "IFLA_AF_SPEC_AF_INET6":
       name = self._GetConstantName(nla_type, "IFLA_INET6_")
     elif CommandSubject(command) == "ADDR":
       name = self._GetConstantName(nla_type, "IFA_")
@@ -348,8 +346,8 @@ class IPRoute(netlink.NetlinkSocket):
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
                 "IFLA_GSO_MAX_SIZE", "RTA_UID", "IFLA_INET6_FLAGS"]:
       data = struct.unpack("=I", nla_data)[0]
-#    elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
-#      data = struct.unpack("!I", nla_data)[0]
+    elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
+      data = struct.unpack("!I", nla_data)[0]
     elif name == "FRA_SUPPRESS_PREFIXLEN":
       data = struct.unpack("=i", nla_data)[0]
     elif name in ["IFLA_LINKMODE", "IFLA_OPERSTATE", "IFLA_CARRIER",
@@ -358,7 +356,7 @@ class IPRoute(netlink.NetlinkSocket):
     elif name in ["IFA_ADDRESS", "IFA_LOCAL", "RTA_DST", "RTA_SRC",
                   "RTA_GATEWAY", "RTA_PREFSRC", "NDA_DST"]:
       data = socket.inet_ntop(msg.family, nla_data)
-    elif name == "IFLA_INET6_CONF":
+    elif name in ["IFLA_INET_CONF", "IFLA_INET6_CONF"]:
       data = [struct.unpack("=I", nla_data[i:i+4])[0]
               for i in range(0, len(nla_data), 4)]
     elif name == "IFLA_INET6_TOKEN":
@@ -366,7 +364,9 @@ class IPRoute(netlink.NetlinkSocket):
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
       data = nla_data.strip(b"\x00")
-    elif name in ["RTA_METRICS", "IFLA_LINKINFO", "IFLA_INFO_DATA"]:
+    elif name in ["RTA_METRICS", "IFLA_LINKINFO", "IFLA_INFO_DATA",
+                  "IFLA_AF_SPEC", "IFLA_AF_SPEC_AF_INET",
+                  "IFLA_AF_SPEC_AF_INET6"]:
       data = self._ParseAttributes(command, None, nla_data, nested + [name])
     elif name == "RTA_CACHEINFO":
       data = RTACacheinfo(nla_data)
@@ -382,12 +382,6 @@ class IPRoute(netlink.NetlinkSocket):
       data = RtnlLinkStats(nla_data)
     elif name == "IFLA_STATS64":
       data = RtnlLinkStats64(nla_data)
-    elif name == "IFLA_AF_SPEC":
-        data = self._ParseAttributes(-IFLA_AF_SPEC, None, nla_data, nested + 1)
-    elif name == "IFLA_AF_SPEC_AF_INET":
-      data = self._ParseAttributes(-IFLA_AF_SPEC_AF_INET, None, nla_data, nested + 1)
-    elif name == "IFLA_AF_SPEC_AF_INET6":
-      data = self._ParseAttributes(-IFLA_AF_SPEC_AF_INET6, None, nla_data, nested + 1)
     else:
       data = nla_data
 
