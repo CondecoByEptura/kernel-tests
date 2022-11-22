@@ -132,7 +132,7 @@ class NetlinkSocket(object):
 
     return nla, nla_data, data
 
-  def _ParseAttributes(self, command, msg, data, nested):
+  def _ParseAttributes(self, command, msg, data, nested, all_attrs=None):
     """Parses and decodes netlink attributes.
 
     Takes a block of NLAttr data structures, decodes them using Decode, and
@@ -152,15 +152,18 @@ class NetlinkSocket(object):
       ValueError: There was a duplicate attribute type.
     """
     attributes = {}
+    all_attrs = all_attrs if all_attrs else attributes
     while data:
       nla, nla_data, data = self._ReadNlAttr(data)
 
       # If it's an attribute we know about, try to decode it.
-      nla_name, nla_data = self._Decode(command, msg, nla.nla_type, nla_data, nested)
+      nla_name, nla_data = self._Decode(command, msg, nla.nla_type, nla_data,
+                                        nested, all_attrs=all_attrs)
 
-      if nla_name in attributes and nla_name not in DUP_ATTRS_OK:
-        raise ValueError("Duplicate attribute %s" % nla_name)
+#      if nla_name in attributes and nla_name not in DUP_ATTRS_OK:
+#        raise ValueError("Duplicate attribute %s" % nla_name)
 
+#      print ("Setting attribute %s, attributes=%s"% (nla_name, attributes))
       attributes[nla_name] = nla_data
       if not nested:
         self._Debug("      %s" % (str((nla_name, nla_data))))
