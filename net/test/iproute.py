@@ -376,7 +376,8 @@ class IPRoute(netlink.NetlinkSocket):
                 "IFLA_PROMISCUITY", "IFLA_NUM_RX_QUEUES",
                 "IFLA_NUM_TX_QUEUES", "NDA_PROBES", "RTAX_MTU",
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
-                "IFLA_GSO_MAX_SIZE", "RTA_UID", "IFLA_INET6_FLAGS"]:
+                "IFLA_GSO_MAX_SIZE", "RTA_UID", "IFLA_INET6_FLAGS",
+                "IFLA_VTI_LINK"]:
       data = struct.unpack("=I", nla_data)[0]
     elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
       data = struct.unpack("!I", nla_data)[0]
@@ -391,6 +392,8 @@ class IPRoute(netlink.NetlinkSocket):
     elif name in ["IFLA_INET_CONF", "IFLA_INET6_CONF"]:
       data = [struct.unpack("=I", nla_data[i:i+4])[0]
               for i in range(0, len(nla_data), 4)]
+    elif name in ["IFLA_VTI_LOCAL", "IFLA_VTI_REMOTE"]:
+      data = socket.inet_ntop(AF_INET, nla_data)
     elif name == "IFLA_INET6_TOKEN":
       data = socket.inet_ntop(AF_INET6, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
