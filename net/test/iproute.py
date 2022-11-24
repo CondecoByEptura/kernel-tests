@@ -289,7 +289,7 @@ class IPRoute(netlink.NetlinkSocket):
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
 
-  def _Decode(self, command, msg, nla_type, nla_data, nested, all_attrs=None):
+  def _Decode(self, command, msg, nla_type, nla_data, nested, attributes):
     """Decodes netlink attributes to Python types.
 
     Values for which the code knows the type (e.g., the fwmark ID in a
@@ -308,9 +308,10 @@ class IPRoute(netlink.NetlinkSocket):
       nla_data: A byte string, the netlink attribute data.
       nested: A list, outermost first, of each of the attributes the NLAttrs are
               nested inside. Empty for non-nested attributes.
-      all_attrs: A dict of all the attributes that have been passed so far.
-        Needed only in the case that parsing a specific attribute depends on the
-        values of other attributes that have been parsed so far.
+      attributes: A dict containing the attributes that have been parsed so far
+        at this level of nesting. Needed only in the case that parsing a
+        specific attribute depends on the values of other attributes that have
+        been parsed so far.
 
     Returns:
       A tuple (name, data):
@@ -328,28 +329,12 @@ class IPRoute(netlink.NetlinkSocket):
       name = self._GetConstantName(nla_type, "IFLA_INFO_")
     elif lastnested == "IFLA_INFO_DATA":
       # Look for the INFO_KIND attribute that's a peer of this attribute.
-      info_kind = None
-#      print ("Looking for IFLA_INFO_KIND, nested=%s, all_attrs=%s" % (nested, all_attrs))
-      attrs = all_attrs
-      for attrname in nested[:-2]:
-        print ("  " + attrname)
-        attrs = attrs[attrname]
-      info_kind = attrs.get("IFLA_INFO_KIND")
-
-#      print ("Parsing IFLA_INFO_DATA: found IFLA_INFO_KIND=%s" % info_kind)
+      print ("IFLA_INFO_DATA, nested=%s attributes=%s" % (nested, attributes))
+      info_kind = attributes.get("IFLA_INFO_KIND", None)
       if info_kind == b"vti":
         name = self._GetConstantName(nla_type, "IFLA_VTI_")
       else:
         name = nla_type
-
-
-      # TODO: this is incorrect. In order to know how to interpret this, the
-      # code must look at the IFLA_INFO_KIND attribute nested inside
-      # IFLA_LINKINFO. Not sure how to do this, perhaps pass in the top-level
-      # attributes through all recursive calls to _ParseAttributes? Or maybe
-      # just the most-recently nested attribute? the IFLA_INFO_DATA that we
-      # need to interpret is a peer of the IFLA_INFO_KIND, they are both
-      # directly nested inside IFLA_LINKINFO.
     elif lastnested == "IFLA_AF_SPEC":
       name = self._GetConstantName(nla_type, "IFLA_AF_SPEC_")
     elif lastnested == "IFLA_AF_SPEC_AF_INET":
@@ -402,15 +387,10 @@ class IPRoute(netlink.NetlinkSocket):
     elif name in ["RTA_METRICS", "IFLA_LINKINFO", "IFLA_INFO_DATA",
                   "IFLA_AF_SPEC", "IFLA_AF_SPEC_AF_INET",
                   "IFLA_AF_SPEC_AF_INET6"]:
-#      print ("Parsing nested attribute: %s" % (nested + [name]))
-      attrs = all_attrs
-      for attrname in nested[:-1]:
-#        print ("  " + attrname)
-        attrs = attrs[attrname]
-      if name not in attrs:
-        attrs[name] = {}
-      data = self._ParseAttributes(command, None, nla_data, nested + [name],
-                                   all_attrs=all_attrs)
+      print ("Parsing nested attribute: %s" % (nested + [name]))
+      # Prepare nested attributes
+      data = {}
+      self._ParseAttributes(command, None, nla_data, nested + [name], data)
     elif name == "RTA_CACHEINFO":
       data = RTACacheinfo(nla_data)
     elif name == "IFA_CACHEINFO":
@@ -428,12 +408,7 @@ class IPRoute(netlink.NetlinkSocket):
     else:
       data = nla_data
 
-    attrs = all_attrs
-    for attrname in nested[:-1]:
-#      print ("  " + attrname)
-      attrs = attrs[attrname]
-    attrs[name] = data
-
+    attributes[name] = data
     return name, data
 
   def __init__(self):
