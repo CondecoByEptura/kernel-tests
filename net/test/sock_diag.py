@@ -72,6 +72,9 @@ INET_DIAG_BC_D_COND = 8
 INET_DIAG_BC_DEV_COND = 9
 INET_DIAG_BC_MARK_COND = 10
 
+CONSTANT_PREFIXES = netlink.MakeConstantPrefixes([
+    "INET_DIAG_", "INET_DIAG_REQ_", "INET_DIAG_BC_"])
+
 # Data structure formats.
 # These aren't constants, they're classes. So, pylint: disable=invalid-name
 InetDiagSockId = cstruct.Struct(
@@ -118,9 +121,9 @@ class SockDiag(netlink.NetlinkSocket):
     """Decodes netlink attributes to Python types."""
     if msg.family == AF_INET or msg.family == AF_INET6:
       if isinstance(msg, InetDiagReqV2):
-        prefix = "INET_DIAG_REQ"
+        prefix = "INET_DIAG_REQ_"
       else:
-        prefix = "INET_DIAG"
+        prefix = "INET_DIAG_"
       name = self._GetConstantName(__name__, nla_type, prefix)
     else:
       # Don't know what this is. Leave it as an integer.
