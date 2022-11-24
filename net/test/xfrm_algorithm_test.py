@@ -182,16 +182,16 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     param_string = ""
     if cryptCase is not None:
       crypt = cryptCase[0]
-      param_string += "%s_%d_" % (crypt.name, crypt.key_len)
+      param_string += "%s_%d_" % (crypt.name.decode(), crypt.key_len)
 
     if authCase is not None:
       auth = authCase[0]
-      param_string += "%s_%d_%d_" % (auth.name, auth.key_len,
+      param_string += "%s_%d_%d_" % (auth.name.decode(), auth.key_len,
           auth.trunc_len)
 
     if aeadCase is not None:
       aead = aeadCase[0]
-      param_string += "%s_%d_%d_" % (aead.name, aead.key_len,
+      param_string += "%s_%d_%d_" % (aead.name.decode(), aead.key_len,
           aead.icv_len)
 
     param_string += "%s_%s" % ("IPv4" if version == 4 else "IPv6",
