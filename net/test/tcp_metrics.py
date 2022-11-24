@@ -62,7 +62,7 @@ class TcpMetrics(genetlink.GenericNetlink):
     ctrl = genetlink.GenericNetlinkControl()
     self.family = ctrl.GetFamily(TCP_METRICS_GENL_NAME)
 
-  def _Decode(self, command, msg, nla_type, nla_data):
+  def _Decode(self, command, msg, nla_type, nla_data, nested):
     """Decodes TCP metrics netlink attributes to human-readable format."""
 
     name = self._GetConstantName(__name__, nla_type, "TCP_METRICS_ATTR_")

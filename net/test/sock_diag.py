@@ -117,7 +117,7 @@ class SockDiag(netlink.NetlinkSocket):
   def __init__(self):
     super(SockDiag, self).__init__(netlink.NETLINK_SOCK_DIAG)
 
-  def _Decode(self, command, msg, nla_type, nla_data):
+  def _Decode(self, command, msg, nla_type, nla_data, nested):
     """Decodes netlink attributes to Python types."""
     if msg.family == AF_INET or msg.family == AF_INET6:
       if isinstance(msg, InetDiagReqV2):
