@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6c8a9f_4ec3329a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-11-24T08:34:22Z",
+      "side": 1,
+      "message": "(though allowing 1 character mac address bytes doesn\u0027t seem useful)",
+      "revId": "4280397996756ed92e9f6f6a00276a68ed3a4be7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
