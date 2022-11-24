@@ -16,6 +16,7 @@
 
 # pylint: disable=g-bad-todo
 
+import binascii
 import errno
 import os
 import posix
@@ -304,7 +305,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
 
     # Check the sequence number and the data.
     self.assertEqual(len(data), len(rcvd))
-    self.assertEqual(data[6:].encode("hex"), rcvd[6:].encode("hex"))
+    self.assertEqual(binascii.hexlify(data[6:]), binascii.hexlify(rcvd[6:]))
 
   @staticmethod
   def IsAlmostEqual(expected, actual, delta):
@@ -589,11 +590,15 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
                            s.bind, (self.lladdr, 1026, 0, 0))
 
     # Binding to a link-local address with a scope ID works, and the scope ID is
-    # returned by a subsequent getsockname. Interestingly, Python's getsockname
-    # returns "fe80:1%foo", even though it does not understand it.
-    expected = self.lladdr + "%" + self.ifname
+    # returned by a subsequent getsockname. On Python 2, getsockname returns
+    # "fe80:1%foo". Strip it off, since the ifindex field in the return value is
+    # what matters.
     s.bind((self.lladdr, 4646, 0, self.ifindex))
-    self.assertEqual((expected, 4646, 0, self.ifindex), s.getsockname())
+    sockname = s.getsockname()
+    expected = self.lladdr
+    if "%" in sockname[0]:
+      expected += "%" + self.ifname
+    self.assertEqual((expected, 4646, 0, self.ifindex), sockname)
 
     # Of course, for the above to work the address actually has to be configured
     # on the machine.
