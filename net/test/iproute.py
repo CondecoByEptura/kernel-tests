@@ -27,6 +27,7 @@ import os
 import socket
 import struct
 
+import net_test
 import csocket
 import cstruct
 import netlink
@@ -308,9 +309,6 @@ class IPRoute(netlink.NetlinkSocket):
       # Don't know what this is. Leave it as an integer.
       name = nla_type
 
-    def ByteToHex(b):
-      return "%02x" % (ord(b) if isinstance(b, str) else b)
-
     if name in ["FRA_PRIORITY", "FRA_FWMARK", "FRA_TABLE", "FRA_FWMASK",
                 "RTA_OIF", "RTA_PRIORITY", "RTA_TABLE", "RTA_MARK",
                 "IFLA_MTU", "IFLA_TXQLEN", "IFLA_GROUP", "IFLA_EXT_MASK",
@@ -344,7 +342,7 @@ class IPRoute(netlink.NetlinkSocket):
     elif name == "NDA_CACHEINFO":
       data = NDACacheinfo(nla_data)
     elif name in ["NDA_LLADDR", "IFLA_ADDRESS", "IFLA_BROADCAST"]:
-      data = ":".join(ByteToHex(x) for x in nla_data)
+      data = ":".join(net_test.ByteToHex(x) for x in nla_data)
     elif name == "FRA_UID_RANGE":
       data = FibRuleUidRange(nla_data)
     elif name == "IFLA_STATS":
