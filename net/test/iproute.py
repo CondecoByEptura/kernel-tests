@@ -21,6 +21,7 @@
 from socket import AF_INET
 from socket import AF_INET6
 
+import binascii
 import errno
 import os
 import socket
@@ -251,7 +252,7 @@ class IPRoute(netlink.NetlinkSocket):
   """Provides a tiny subset of iproute functionality."""
 
   def _NlAttrInterfaceName(self, nla_type, interface):
-    return self._NlAttr(nla_type, interface + b"\x00")
+    return self._NlAttr(nla_type, interface.encode() + b"\x00")
 
   def _GetConstantName(self, value, prefix):
     return super(IPRoute, self)._GetConstantName(__name__, value, prefix)
@@ -622,9 +623,9 @@ class IPRoute(netlink.NetlinkSocket):
     # Convert the link-layer address to a raw byte string.
     if is_add and lladdr:
       lladdr = lladdr.split(":")
-      if len(lladdr) != 6:
+      if len(lladdr) != 6 or any (len(b) not in range(1, 3) for b in lladdr):
         raise ValueError("Invalid lladdr %s" % ":".join(lladdr))
-      lladdr = "".join(chr(int(hexbyte, 16)) for hexbyte in lladdr)
+      lladdr = binascii.unhexlify("".join(lladdr))
 
     ndmsg = NdMsg((family, dev, state, 0, RTN_UNICAST)).Pack()
     ndmsg += self._NlAttrIPAddress(NDA_DST, family, addr)

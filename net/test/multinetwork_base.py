@@ -214,7 +214,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       f = open("/dev/net/tun", "r+b", buffering=0)
     except IOError:
       f = open("/dev/tun", "r+b", buffering=0)
-    ifr = struct.pack("16sH", iface, IFF_TAP | IFF_NO_PI)
+    ifr = struct.pack("16sH", iface.encode(), IFF_TAP | IFF_NO_PI)
     ifr += b"\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
     # Give ourselves a predictable MAC address.
@@ -456,7 +456,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def BindToDevice(self, s, iface):
     if not iface:
       iface = ""
-    s.setsockopt(SOL_SOCKET, SO_BINDTODEVICE, iface)
+    s.setsockopt(SOL_SOCKET, SO_BINDTODEVICE, iface.encode())
 
   def SetUnicastInterface(self, s, ifindex):
     # Otherwise, Python thinks it's a 1-byte option.
