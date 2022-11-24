@@ -43,7 +43,6 @@ test_modules = [
     'tcp_fastopen_test',
     'tcp_nuke_addr_test',
     'tcp_repair_test',
-    'tcp_test',
     'xfrm_algorithm_test',
     'xfrm_test',
     'xfrm_tunnel_test',
