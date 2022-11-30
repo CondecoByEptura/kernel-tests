@@ -34,6 +34,47 @@
       "parentUuid": "5784c538_ef4db328",
       "revId": "250e279cae222da3c046ffc85562aec1069679cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74324e2b_4a2ceec1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-11-30T06:51:30Z",
+      "side": 1,
+      "message": "When was it made available on dl.google.com? At some point I heard it was blocked due to some China-specific review issues, when was that resolved?\n\nIn any case - no objection to removing python 2 support if it\u0027s really not needed. In this case, could you split this effort into a few phases? Something like:\n\n1. Update the default version of the rootfs file from 20150203 to 20221014 and update the rootfs build scripts accordingly.\n2. Update the documentation at https://source.android.com/docs/core/architecture/kernel/network_tests to change \"Python 2.x\" to \"Python 3.x\" or \"Python\".\n3. Wait a while to see if builds turn red or users of this code (e.g., OEMs) report issues.\n4. Proceed with something like the rest of this CL.\n5. After a while, delete the old rootfs.\n\nIn step #4, can we avoid having changing all the #!/usr/bin/python shebang lines to #!/usr/bin/python3 ? The explicit 3 definitely doesn\u0027t seem to be required on Android.",
+      "parentUuid": "ffa1a3ba_4b3c7024",
+      "revId": "250e279cae222da3c046ffc85562aec1069679cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b026f21f_7816dece",
+        "filename": "net/test/sock_diag_test.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-11-30T06:51:30Z",
+      "side": 1,
+      "message": "Isn\u0027t this assertEqual order-sensitive? Won\u0027t it fail if the order in which the sockets are found doesn\u0027t match the expected order?",
+      "range": {
+        "startLine": 269,
+        "startChar": 9,
+        "endLine": 269,
+        "endChar": 20
+      },
+      "revId": "250e279cae222da3c046ffc85562aec1069679cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
