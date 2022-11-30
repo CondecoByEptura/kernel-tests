@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92efb982_3f7b6274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-30T09:57:39Z",
+      "side": 1,
+      "message": "I updated this CL to contain the minimal changes necessary for tests to succeed both on Android (via atest) and in the UML environment (run_net_test.sh).",
+      "revId": "19ba6b7cbd147eaa92b6b8369cdaced92fdcf3f8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
