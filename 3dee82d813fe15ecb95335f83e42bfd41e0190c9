@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb398c5_4b76ac0d",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 30
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-30T11:20:12Z",
+      "side": 1,
+      "message": "Note: this path is not correct for the 5.15 kernel, the bzImage is actually in arch/x86_64/boot.",
+      "revId": "3dee82d813fe15ecb95335f83e42bfd41e0190c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9118663_84d39542",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 30
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-30T11:20:12Z",
+      "side": 1,
+      "message": "Note: QEMU exits immediately unless I comment this out.",
+      "revId": "3dee82d813fe15ecb95335f83e42bfd41e0190c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}

@@ -72,6 +72,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fadfd00_9e8d8135",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-30T11:20:12Z",
+      "side": 1,
+      "message": "Regarding the plan - points 1 and 4 cannot be done in separate phases, because the new rootfs does not contain Python 2. I ran the test in the UML environment with the 5.15 kernel and it passes. The tests also pass on QEMU x86_64 if I make two modifications (see other comments).",
+      "parentUuid": "08c20d49_71b4c71a",
+      "revId": "250e279cae222da3c046ffc85562aec1069679cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b026f21f_7816dece",
