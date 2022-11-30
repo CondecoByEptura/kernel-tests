@@ -85,7 +85,7 @@ DISABLE_OPTIONS=" REISERFS_FS ANDROID_PMEM"
 NUMTAPINTERFACES=0
 
 # The root filesystem disk image we'll use.
-ROOTFS=${ROOTFS:-net_test.rootfs.20150203}
+ROOTFS=${ROOTFS:-net_test.rootfs.20221014}
 COMPRESSED_ROOTFS=$ROOTFS.xz
 URL=https://dl.google.com/dl/android/$COMPRESSED_ROOTFS
 
