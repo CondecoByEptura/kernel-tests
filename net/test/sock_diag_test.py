@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2015 The Android Open Source Project
 #
@@ -551,6 +551,7 @@ class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       return
 
     f.write("60")
+    f.close()
 
   def checkInitRwndSize(self, version, netid):
     self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
