@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5784c538_ef4db328",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-11-30T05:52:28Z",
+      "side": 1,
+      "message": "Actually I think the kernel tests at HEAD will pass on both python 2 and python 3 at the moment. Do they not work for you?\n\nThe reason I made these tests compatible with both python 2 and python 3 was that at the time the debian VM disk image we use for the UML-based tests still hadn\u0027t been updated to support python 3. Do you know if that has been fixed?",
+      "revId": "250e279cae222da3c046ffc85562aec1069679cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
