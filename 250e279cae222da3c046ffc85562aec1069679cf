@@ -16,6 +16,24 @@
       "message": "Actually I think the kernel tests at HEAD will pass on both python 2 and python 3 at the moment. Do they not work for you?\n\nThe reason I made these tests compatible with both python 2 and python 3 was that at the time the debian VM disk image we use for the UML-based tests still hadn\u0027t been updated to support python 3. Do you know if that has been fixed?",
       "revId": "250e279cae222da3c046ffc85562aec1069679cf",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffa1a3ba_4b3c7024",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-11-30T05:55:52Z",
+      "side": 1,
+      "message": "The rootfs image has been updated over a month ago and is available from dl.google.com - see run_net_test.sh\nhttps://critique.corp.google.com/cl/483514615\n\nThe point of this CL is not to make the tests pass on Python 3, it is to remove Python 2 support.",
+      "parentUuid": "5784c538_ef4db328",
+      "revId": "250e279cae222da3c046ffc85562aec1069679cf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
