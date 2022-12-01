@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -349,10 +349,18 @@ def SetFlowLabel(s, addr, label):
 
 
 def RunIptablesCommand(version, args):
-  iptables = {4: "iptables", 6: "ip6tables"}[version]
-  iptables_path = "/sbin/" + iptables
-  if not os.access(iptables_path, os.X_OK):
-    iptables_path = "/system/bin/" + iptables
+  if version == 4:
+    iptables_path = "/sbin/iptables"
+    if not os.access(iptables_path, os.X_OK):
+      iptables_path = "/system/bin/iptables"
+  elif version == 6:
+    iptables_path = "/sbin/ip6tables-legacy"
+    if not os.access(iptables_path, os.X_OK):
+      iptables_path = "/system/bin/ip6tables-legacy"
+    if not os.access(iptables_path, os.X_OK):
+      iptables_path = "/sbin/ip6tables"
+    if not os.access(iptables_path, os.X_OK):
+      iptables_path = "/system/bin/ip6tables"
   return os.spawnvp(os.P_WAIT, iptables_path, [iptables_path] + args.split(" "))
 
 # Determine network configuration.

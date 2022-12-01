@@ -16,35 +16,35 @@ python_defaults {
 }
 
 
-// Main target used for VTS tests. Still uses Python 2.
+// Legacy Python 2 target.
+// Will be deleted once the Python 3 target gets some soak time.
+python_test {
+    name: "vts_kernel_net_tests_python2",
+    defaults: ["kernel_net_tests_defaults"],
+    version: {
+        py2: {
+            embedded_launcher: true,
+            enabled: true,
+        },
+        py3: {
+            enabled: false,
+        },
+    },
+}
+
+// Main target used for VTS tests.
 python_test {
     name: "vts_kernel_net_tests",
     defaults: ["kernel_net_tests_defaults"],
     version: {
         py2: {
-            embedded_launcher: true,
-            enabled: true,
+            enabled: false,
         },
         py3: {
-            enabled: false,
+            embedded_launcher: true,
+            enabled: true,
         },
     },
     test_config: "vts_kernel_net_tests.xml",
     test_suites: ["vts", "general-tests"],
-}
-
-// Python 3 target for development only.
-// TODO: switch the main target to Python 3.
-python_test {
-    name: "vts_kernel_net_tests_python3",
-    defaults: ["kernel_net_tests_defaults"],
-    version: {
-        py2: {
-            enabled: false,
-        },
-        py3: {
-            embedded_launcher: true,
-            enabled: true,
-        },
-    },
 }
