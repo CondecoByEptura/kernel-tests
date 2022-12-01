@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2713b79c_592ccca1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-01T22:46:16Z",
+      "side": 1,
+      "message": "- we can\u0027t delete the old image from dl.google.com because it\u0027s still needed by anyone wanting to run older versions of this.\n\n- we can\u0027t use just #!/.../python instead of python3 because we\u0027d need to rebuild the image with \u0027python-is-python3\u0027 included, and then republish that\n\nThere\u0027s a very hacky way to use the old image and run against python2 in:\n  https://android-review.git.corp.google.com/c/kernel/tests/+/2278403",
+      "revId": "3dee82d813fe15ecb95335f83e42bfd41e0190c9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4bb398c5_4b76ac0d",
         "filename": "net/test/run_net_test.sh",
         "patchSetId": 30
