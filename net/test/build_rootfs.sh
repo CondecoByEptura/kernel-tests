@@ -213,6 +213,15 @@ lz4 -lcd "${initramfs}" | sudo cpio -idum lib/modules/*
 # Create /host, for the pivot_root and 9p mount use cases
 sudo mkdir host
 
+# debootstrap workaround: Run debootstrap in docker sometimes causes the
+# /proc being a symlink in first stage. We need to fix the symlink to an empty
+# directory.
+if [ -L "${workdir}/proc" ]; then
+  echo "/proc in debootstrap 1st stage is a symlink. Fixed!"
+  sudo rm -f "${workdir}/proc"
+  sudo mkdir "${workdir}/proc"
+fi
+
 # Leave the workdir, to build the filesystem
 cd -
 
@@ -251,11 +260,6 @@ sudo rm -rf "${workdir}"
 sudo umount "${mount}"
 trap initrd_remove EXIT
 
-loopdev="$(sudo losetup -f)"
-loopdev_delete() {
-  sudo losetup -d "${loopdev}"
-  initrd_remove
-}
 if [[ "${install_grub}" = 1 ]]; then
   part_num=0
   # $1 partition size
@@ -290,42 +294,50 @@ if [[ "${install_grub}" = 1 ]]; then
     sgdisk "16M:+1M"   "8301"        "misc"
     sgdisk "17M:+128M" "ef00"        "esp"       ""     "0"
     sgdisk "145M:0"    "8305"        "rootfs"    ""     "2"
-    system_loopdev="${loopdev}p6"
-    rootfs_loopdev="${loopdev}p7"
+    system_partition="6"
+    rootfs_partition="7"
   else
     sgdisk "0:+128M"   "ef00"        "esp"       ""     "0"
     sgdisk "0:0"       "${partguid}" "rootfs"    ""     "2"
-    system_loopdev="${loopdev}p1"
-    rootfs_loopdev="${loopdev}p2"
+    system_partition="1"
+    rootfs_partition="2"
   fi
 
-  # Temporarily set up a partitioned loop device so we can resize the rootfs
-  # This also simplifes the mkfs and rootfs copy
-  sudo losetup -P "${loopdev}" "${disk}"
-  trap loopdev_delete EXIT
   # Create an empty EFI system partition; it will be initialized later
-  sudo /sbin/mkfs.vfat -n SYSTEM -F32 "${system_loopdev}" >/dev/null
+  system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)
+  system_partition_end=$(partx -g -o END -s -n "${system_partition}" "${disk}" | xargs)
+  system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
+  system_partition_num_vfat_blocks=$((${system_partition_num_sectors} / 2))
+  /sbin/mkfs.vfat -n SYSTEM -F 16 --offset=${system_partition_start} "${disk}" ${system_partition_num_vfat_blocks} >/dev/null
   # Copy the rootfs to just after the EFI system partition
-  sudo dd if="${initrd}" of="${rootfs_loopdev}" bs=1M 2>/dev/null
-  sudo /sbin/e2fsck -p -f "${rootfs_loopdev}" || true
-  sudo /sbin/resize2fs "${rootfs_loopdev}"
+  rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+  rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+  rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
+  rootfs_partition_offset=$((${rootfs_partition_start} * 512))
+  rootfs_partition_size=$((${rootfs_partition_num_sectors} * 512))
+  dd if="${initrd}" of="${disk}" bs=512 seek="${rootfs_partition_start}" conv=fsync,notrunc 2>/dev/null
+  /sbin/e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
+  disksize=$(stat -c %s "${disk}")
+  /sbin/resize2fs "${disk}"?offset=${rootfs_partition_offset} ${rootfs_partition_num_sectors}s
+  truncate -s "${disksize}" "${disk}"
+  /sbin/sgdisk -e "${disk}"
+  /sbin/e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
+  /sbin/e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 else
   # If there's no bootloader, the initrd is the disk image
   cp -a "${initrd}" "${disk}"
   truncate -s 10G "${disk}"
   /sbin/e2fsck -p -f "${disk}" || true
   /sbin/resize2fs "${disk}"
-  sudo losetup "${loopdev}" "${disk}"
-  system_loopdev=
-  rootfs_loopdev="${loopdev}"
-  trap loopdev_delete EXIT
+  system_partition=
+  rootfs_partition="raw"
 fi
 
 # Create another fake block device for initrd.img writeout
 raw_initrd=$(mktemp)
 raw_initrd_remove() {
   rm -f "${raw_initrd}"
-  loopdev_delete
+  initrd_remove
 }
 trap raw_initrd_remove EXIT
 truncate -s 64M "${raw_initrd}"
@@ -358,9 +370,24 @@ if [ "${exitcode}" != "0" ]; then
 fi
 
 # Fix up any issues from the unclean shutdown
-sudo e2fsck -p -f "${rootfs_loopdev}" || true
-if [[ -n "${system_loopdev}" ]]; then
-  sudo fsck.vfat -a "${system_loopdev}" || true
+if [[ ${rootfs_partition} = "raw" ]]; then
+    sudo e2fsck -p -f "${disk}" || true
+else
+    rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_offset=$((${rootfs_partition_start} * 512))
+    e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
+    e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
+fi
+if [[ -n "${system_partition}" ]]; then
+  system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)
+  system_partition_end=$(partx -g -o END -s -n "${system_partition}" "${disk}" | xargs)
+  system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
+  system_partition_offset=$((${system_partition_start} * 512))
+  system_partition_size=$((${system_partition_num_sectors} * 512))
+  loopdev_system="$(sudo losetup -f)"
+  sudo losetup --offset ${system_partition_offset} --sizelimit ${system_partition_size} "${loopdev_system}" "${disk}"
+  sudo fsck.vfat -a "${loopdev_system}" || true
+  sudo losetup -d "${loopdev_system}"
 fi
 
 # New workdir for the initrd extraction
@@ -394,7 +421,13 @@ cat "${ramdisk}" "${initramfs}" >"${initrd}"
 cd -
 
 # Mount the new filesystem locally
-sudo mount -t ext3 "${rootfs_loopdev}" "${mount}"
+if [[ ${rootfs_partition} = "raw" ]]; then
+    sudo mount -o loop -t ext3 "${disk}" "${mount}"
+else
+    rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_offset=$((${rootfs_partition_start} * 512))
+    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext3 "${disk}" "${mount}"
+fi
 image_unmount2() {
   sudo umount "${mount}"
   raw_initrd_remove
@@ -438,13 +471,34 @@ if [ "${exitcode}" != "0" ]; then
 fi
 
 # Fix up any issues from the unclean shutdown
-sudo e2fsck -p -f "${rootfs_loopdev}" || true
-if [[ -n "${system_loopdev}" ]]; then
-  sudo fsck.vfat -a "${system_loopdev}" || true
+if [[ ${rootfs_partition} = "raw" ]]; then
+    sudo e2fsck -p -f "${disk}" || true
+else
+    rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_offset=$((${rootfs_partition_start} * 512))
+    e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
+    e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
+fi
+if [[ -n "${system_partition}" ]]; then
+  system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)
+  system_partition_end=$(partx -g -o END -s -n "${system_partition}" "${disk}" | xargs)
+  system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
+  system_partition_offset=$((${system_partition_start} * 512))
+  system_partition_size=$((${system_partition_num_sectors} * 512))
+  loopdev_system="$(sudo losetup -f)"
+  sudo losetup --offset ${system_partition_offset} --sizelimit ${system_partition_size=} "${loopdev_system}" "${disk}"
+  sudo fsck.vfat -a "${loopdev_system}" || true
+  sudo losetup -d "${loopdev_system}"
 fi
 
 # Mount the final disk image locally
-sudo mount -t ext3 "${rootfs_loopdev}" "${mount}"
+if [[ ${rootfs_partition} = "raw" ]]; then
+    sudo mount -o loop -t ext3 "${disk}" "${mount}"
+else
+    rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_offset=$((${rootfs_partition_start} * 512))
+    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext3 "${disk}" "${mount}"
+fi
 image_unmount3() {
   sudo umount "${mount}"
   raw_initrd_remove

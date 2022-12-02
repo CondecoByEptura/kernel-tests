@@ -1,0 +1,7 @@
+{
+  "presubmit": [
+    {
+      "name": "vts_kernel_net_tests"
+    }
+  ]
+}

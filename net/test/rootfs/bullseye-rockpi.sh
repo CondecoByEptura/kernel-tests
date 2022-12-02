@@ -152,6 +152,19 @@ fi'
 if mmc dev 1 0; then; else
 	run bootcmd_dhcp;
 fi
+if bcb load 0 misc; then
+	# valid BCB found
+	if bcb test command = bootonce-bootloader; then
+		bcb clear command; bcb store
+		setenv autoload no; dhcp
+		fastboot udp
+		reset
+	elif bcb test command = boot-recovery; then
+		bcb clear command; bcb store
+		# we don't have recovery, reboot.
+		reset
+	fi
+fi
 if test -e mmc ${devnum}:${distro_bootpart} /boot/rootfs.gz; then
 	setenv loadaddr 0x00200000
 	mw.b ${loadaddr} 0 0x400000
@@ -409,4 +422,5 @@ create_systemd_getty_symlinks ttyS2
 setup_grub "net.ifnames=0 8250.nr_uarts=4 earlycon=uart8250,mmio32,0xff1a0000 console=ttyS2,1500000n8 loglevel=7 kvm-arm.mode=nvhe sdhci.debug_quirks=0x20000000"
 
 apt-get purge -y vim-tiny
+rm -f /etc/network/interfaces.d/eth0.conf
 bullseye_cleanup

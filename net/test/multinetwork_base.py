@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2014 The Android Open Source Project
 #
@@ -59,6 +59,10 @@ IPV6_MARK_REFLECT_SYSCTL = "/proc/sys/net/ipv6/fwmark_reflect"
 HAVE_AUTOCONF_TABLE = os.path.isfile(AUTOCONF_TABLE_SYSCTL)
 
 
+class ConfigurationError(AssertionError):
+  pass
+
+
 class UnexpectedPacketError(AssertionError):
   pass
 
@@ -72,7 +76,7 @@ def MakePktInfo(version, addr, ifindex):
   if version == 6:
     return csocket.In6Pktinfo((addr, ifindex)).Pack()
   else:
-    return csocket.InPktinfo((ifindex, addr, "\x00" * 4)).Pack()
+    return csocket.InPktinfo((ifindex, addr, b"\x00" * 4)).Pack()
 
 
 class MultiNetworkBaseTest(net_test.NetworkTest):
@@ -211,11 +215,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def CreateTunInterface(cls, netid):
     iface = cls.GetInterfaceName(netid)
     try:
-      f = open("/dev/net/tun", "r+b")
+      f = open("/dev/net/tun", "r+b", buffering=0)
     except IOError:
-      f = open("/dev/tun", "r+b")
-    ifr = struct.pack("16sH", iface, IFF_TAP | IFF_NO_PI)
-    ifr += "\x00" * (40 - len(ifr))
+      f = open("/dev/tun", "r+b", buffering=0)
+    ifr = struct.pack("16sH", iface.encode(), IFF_TAP | IFF_NO_PI)
+    ifr += b"\x00" * (40 - len(ifr))
     fcntl.ioctl(f, TUNSETIFF, ifr)
     # Give ourselves a predictable MAC address.
     net_test.SetInterfaceHWAddr(iface, cls.MyMacAddress(netid))
@@ -256,7 +260,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
                                       preferredlifetime=validity))
     for option in options:
       ra /= option
-    posix.write(cls.tuns[netid].fileno(), str(ra))
+    posix.write(cls.tuns[netid].fileno(), bytes(ra))
 
   @classmethod
   def _RunSetupCommands(cls, netid, is_add):
@@ -456,7 +460,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def BindToDevice(self, s, iface):
     if not iface:
       iface = ""
-    s.setsockopt(SOL_SOCKET, SO_BINDTODEVICE, iface)
+    s.setsockopt(SOL_SOCKET, SO_BINDTODEVICE, iface.encode())
 
   def SetUnicastInterface(self, s, ifindex):
     # Otherwise, Python thinks it's a 1-byte option.
@@ -529,7 +533,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     csocket.Sendmsg(s, (dstaddr, dstport), payload, cmsgs, csocket.MSG_CONFIRM)
 
   def ReceiveEtherPacketOn(self, netid, packet):
-    posix.write(self.tuns[netid].fileno(), str(packet))
+    posix.write(self.tuns[netid].fileno(), bytes(packet))
 
   def ReceivePacketOn(self, netid, ip_packet):
     routermac = self.RouterMacAddress(netid)
@@ -560,7 +564,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
           packets.append(ether.payload)
       except OSError as e:
         # EAGAIN means there are no more packets waiting.
-        if re.match(e.message, os.strerror(errno.EAGAIN)):
+        if e.errno == errno.EAGAIN:
           # If we didn't see any packets, try again for good luck.
           if not packets and retries < max_retries:
             time.sleep(0.01)
@@ -664,8 +668,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
     # Serialize the packet so that expected packet fields that are only set when
     # a packet is serialized e.g., the checksum) are filled in.
-    expected_real = expected.__class__(str(expected))
-    actual_real = actual.__class__(str(actual))
+    expected_real = expected.__class__(bytes(expected))
+    actual_real = actual.__class__(bytes(actual))
     # repr() can be expensive. Call it only if the test is going to fail and we
     # want to see the error.
     if expected_real != actual_real:
@@ -712,7 +716,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       self.assertPacketMatches(expected, packets[-1])
     except Exception as e:
       raise UnexpectedPacketError(
-          "%s: diff with last packet:\n%s" % (msg, e.message))
+          "%s: diff with last packet:\n%s" % (msg, str(e)))
 
   def Combinations(self, version):
     """Produces a list of combinations to test."""

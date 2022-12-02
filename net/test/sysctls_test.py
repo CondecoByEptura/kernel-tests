@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2021 The Android Open Source Project
 #
@@ -29,12 +29,15 @@ class SysctlsTest(net_test.NetworkTest):
            "users and must be disabled. Found: %s" % bad_algs)
     self.assertEqual(bad_algs, [], msg)
 
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (5, 7, 0), "not yet namespaced")
   def testAllowedCongestionControl(self):
     self.check('/proc/sys/net/ipv4/tcp_allowed_congestion_control')
 
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (5, 7, 0), "not yet namespaced")
   def testAvailableCongestionControl(self):
     self.check('/proc/sys/net/ipv4/tcp_available_congestion_control')
 
+  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 15, 0), "not yet namespaced")
   def testCongestionControl(self):
     self.check('/proc/sys/net/ipv4/tcp_congestion_control')
 

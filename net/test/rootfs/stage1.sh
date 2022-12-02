@@ -31,6 +31,10 @@ ln -s /tmp/bin/kmod /tmp/insmod
 module_dir=/lib/modules/$(uname -r)/kernel
 # virtio_pci_modern_dev was split out in 5.12
 /tmp/insmod ${module_dir}/drivers/virtio/virtio_pci_modern_dev.ko || true
+# virtio_pci_legacy_dev.ko for 6.0 kernel
+if [ -e "${module_dir}/drivers/virtio/virtio_pci_legacy_dev.ko" ]; then
+    /tmp/insmod ${module_dir}/drivers/virtio/virtio_pci_legacy_dev.ko || true
+fi
 /tmp/insmod ${module_dir}/drivers/virtio/virtio_pci.ko
 /tmp/insmod ${module_dir}/drivers/block/virtio_blk.ko
 /tmp/insmod ${module_dir}/drivers/char/hw_random/virtio-rng.ko
