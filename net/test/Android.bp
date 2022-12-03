@@ -30,6 +30,7 @@ python_test {
             enabled: false,
         },
     },
+    test_config: "vts_kernel_net_tests.xml",
 }
 
 // Main target used for VTS tests.

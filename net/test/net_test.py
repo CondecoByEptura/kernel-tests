@@ -348,19 +348,31 @@ def SetFlowLabel(s, addr, label):
   # Caller also needs to do s.setsockopt(SOL_IPV6, IPV6_FLOWINFO_SEND, 1).
 
 
-def RunIptablesCommand(version, args):
+def GetIptablesBinaryPath(version):
   if version == 4:
-    iptables_path = "/sbin/iptables"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/system/bin/iptables"
+    paths = (
+        "/sbin/iptables-legacy",
+        "/sbin/iptables",
+        "/system/bin/iptables-legacy",
+        "/system/bin/iptables",
+    )
   elif version == 6:
-    iptables_path = "/sbin/ip6tables-legacy"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/system/bin/ip6tables-legacy"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/sbin/ip6tables"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/system/bin/ip6tables"
+    paths = (
+        "/sbin/ip6tables-legacy",
+        "/sbin/ip6tables",
+        "/system/bin/ip6tables-legacy",
+        "/system/bin/ip6tables",
+    )
+  for iptables_path in paths:
+    if os.access(iptables_path, os.X_OK):
+      return iptables_path
+  raise FileNotFoundError(
+      "iptables binary for IPv{} not found".format(version) +
+      ", checked: {}".format(", ".join(paths)))
+
+
+def RunIptablesCommand(version, args):
+  iptables_path = GetIptablesBinaryPath(version)
   return os.spawnvp(os.P_WAIT, iptables_path, [iptables_path] + args.split(" "))
 
 # Determine network configuration.
