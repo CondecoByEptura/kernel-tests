@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b35e5f0_f8fc81d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "why are they skipped and not failed?\n\nI thought the code was checking for 5.10+ not 5.11+\n\noh I think this is because it\u0027s 105 not 107\n\nyou should have a pass on 5.10 and 5.15 ideally",
+      "range": {
+        "startLine": 19,
+        "startChar": 30,
+        "endLine": 19,
+        "endChar": 37
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6ffb4fd_4db95e2d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "This isn\u0027t technically true.\n\nThey weren\u0027t backported - backporting is an individual patch-by-patch thing.\nThere would be specific AOSP gerrit review changes you could point at if this was the case (2 patches, at least 3 branches, so at least 6 of them, but there\u0027s more than 3 branches for different versions of Android/Kernel, so probably a dozen or more).\n\nThese were simply pulled in to upstream 5.4/10/15 LTS, and then LTS as a whole was merged into our ACK trees.\n\nThis is a very important distinction because if something is backported, you have to make sure it\u0027s backported into *every* ACK/GKI branch individually.\n\nFind at what 5.4.x versions it was pulled in, then bump that version by one (5.4.x+1), and take the maximum across all 5.4 ack/gki branches. \n\nie. you could potentially have a 5.4.186 kernel that doesn\u0027t have the fixes.\n\nHowever, because this was added to upstream LTS, any 5.4.186 kernel will have the fixes (unless someone reverts them of course, but let\u0027s ignore that).\n\nThis is among other reasons why getting stuff into LTS is so much better.\n\nAnyway... the correct comment here is:\n\n\"These two fixes were pulled into upstream LTS releases 5.4.186, 5.10.107 and 5.15.30, from whence they flowed into the Android Common Kernel (via standard LTS merges).\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 40,
+        "endLine": 67,
+        "endChar": 58
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c11115bb_fc2b1d9b",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "this function seems like it needs either to be simplified or much better comments about what/why it is doing what it is doing...",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 26
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f63b3f29_b7753bd6",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "don\u0027t understand this...\n\nwouldn\u0027t it be enough to do\n\ndef SupportsXfrmMigrate():\n  return HasXfrmMigrateFiles()",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 42
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac1c1eda_0e6843f0",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "this seems to disable some tests that were previously enabled and passed...\n\nis this desirable?  I guess the tests weren\u0027t actually useful?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 32
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "091a353e_e831f5bb",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "maybe this is important...\n\nbut why can\u0027t we just do:\n\nif net_test.LINUX_VERSION \u003c (5, 10, 0) and not HAVE_XFRM_INTERFACES:\n  return False\n  \nreturn HasXfrmMigrateFiles()",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 16
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3df57818_d32779ec",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "you could also just do\n\nif not HasXfrmMigrateFiles():\n  return False\n\nbefore the try block, or even literally as the first thing in the function",
+      "range": {
+        "startLine": 95,
+        "startChar": 11,
+        "endLine": 95,
+        "endChar": 30
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6e617fb_49548d18",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "you sure you don\u0027t want to run:\n  InjectParameterizedTests(XfrmInterfaceMigrateTest)\nas well?\n\nWhy not?",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 59
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57235d0_37704ce3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-05T11:34:15Z",
+      "side": 1,
+      "message": "This commit id isn\u0027t all that useful, as it\u0027s a merge commit and not the actual fix(es) - which afaict came in via LTS\n\n[the specific merge commit will then depend on the ACK branch...\n\nI think I\u0027d just rewrite this comment to say \u0027Upstream 5.17 fixes \u0027name/sha1\u0027 and \u0027name/sha1\u0027 were pulled in to LTS in kernel versions 5.4.x 5.10.x 5.15.x\u0027\n\nIf you do want to provide more links...\n\nThen for 5.10.107 it should probably say something like:\n\nVanilla 5.10.107 LTS, see log at: https://android.googlesource.com/kernel/common/+log/4c8814277b5dc2b9d2745c6493614b1ce10cef09\n\nincludes fixes:\nhttps://android.googlesource.com/kernel/common/+/ca142038a54f44ffd407ae2f6c65958f5e382ec6\nxfrm: Fix xfrm migrate issues when address family changes\n\nhttps://android.googlesource.com/kernel/common/+/d8889a445b538dbcc25d9a8c118d18228b5bbab5\nxfrm: Check if_id in xfrm_migrate\n\nBut seeing as these are fixed in upstream LTS I don\u0027t think that\u0027s really all that useful.",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1037,
+        "endChar": 57
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
