@@ -407,7 +407,7 @@ else
 
   # Map the --readonly flag to a QEMU block device flag
   if ((nowrite > 0)); then
-    blockdevice=",readonly"
+    blockdevice=",readonly=on"
   else
     blockdevice=
   fi
