@@ -74,6 +74,9 @@ OPTIONS="$OPTIONS IP_NF_TARGET_REJECT_SKERR IP6_NF_TARGET_REJECT_SKERR"
 # These two break the flo kernel due to differences in -Werror on recent GCC.
 DISABLE_OPTIONS=" REISERFS_FS ANDROID_PMEM"
 
+# Disable frame size warning on arm64. GCC 10 generates >1k stack frames.
+DISABLE_OPTIONS="$DISABLE_OPTIONS FRAME_WARN"
+
 # How many TAP interfaces to create to provide the VM with real network access
 # via the host. This requires privileges (e.g., root access) on the host.
 #
