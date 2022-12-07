@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6f2a59_ba28b38f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-12-07T00:52:19Z",
+      "side": 1,
+      "message": "Code change LGTM, not sure about the Android.bp changes.",
+      "revId": "48cf55335c0731d786a7d3a2cc8224d3ec893cfe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5ecd336_e947c0bb",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2022-12-07T00:52:19Z",
+      "side": 1,
+      "message": "Does this actually work if you try to build both vts_kernel_net_tests_python2 and vts_kernel_net_tests? Or does it result in the build system complaining because more than one target uses this xml file?\n\nAlso, is it actually incorrect? the XML file says that the binary is called kernel_net_tests_bin, but are both the python 2 and python 3 called that? Or...?\n\nAnd... does this belong in this CL?",
+      "range": {
+        "startLine": 33,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "48cf55335c0731d786a7d3a2cc8224d3ec893cfe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
