@@ -39,6 +39,30 @@
       },
       "revId": "48cf55335c0731d786a7d3a2cc8224d3ec893cfe",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4de98644_b9e53dbd",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-12-07T01:17:55Z",
+      "side": 1,
+      "message": "Without this addition, `atest vts_kernel_net_tests_python2` does not work due to missing root permissions. The Python 3 and Python 2 tests have the same binary name (`stem` attribute), so the same XML file works for both of them. I moved this fix to another CL.",
+      "parentUuid": "e5ecd336_e947c0bb",
+      "range": {
+        "startLine": 33,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "48cf55335c0731d786a7d3a2cc8224d3ec893cfe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
