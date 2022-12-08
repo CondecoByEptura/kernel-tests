@@ -16,6 +16,24 @@
       "message": "(but I was thinking we\u0027d just remove this target)",
       "revId": "c68dcebbaadb6d478805f21d2ebc1e88e0bc5fe8",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98d845d2_a59db252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-12-08T17:45:09Z",
+      "side": 1,
+      "message": "Yes, we will remove it in a few weeks, but it should work while it still exists.",
+      "parentUuid": "177f8415_5241214a",
+      "revId": "c68dcebbaadb6d478805f21d2ebc1e88e0bc5fe8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ],
   "submitRequirementResults": [
