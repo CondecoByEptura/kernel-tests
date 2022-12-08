@@ -16,6 +16,24 @@
       "message": "was something known to be broken or was this based purely on my comments?",
       "revId": "7eb1dc3a7abedc24485e6a72102636d6853a81e4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6fe848c_9563982b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1307979
+      },
+      "writtenOn": "2022-12-08T17:44:03Z",
+      "side": 1,
+      "message": "It\u0027s based on your comments. Presumably Debian will eventually apply the same renaming to IPV4 iptables.",
+      "parentUuid": "e436fa68_5806d822",
+      "revId": "7eb1dc3a7abedc24485e6a72102636d6853a81e4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ],
   "submitRequirementResults": [
