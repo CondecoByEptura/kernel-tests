@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34c7c722_6eca41dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "How are you testing this?  Because I don\u0027t see how this could possibly work as is?",
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc3fffe_94be6858",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "2 more spaces",
+      "range": {
+        "startLine": 757,
+        "startChar": 0,
+        "endLine": 757,
+        "endChar": 6
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30819ad9_e03b20cb",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "or more likely there\u0027s 2 too many spaces here",
+      "range": {
+        "startLine": 760,
+        "startChar": 0,
+        "endLine": 760,
+        "endChar": 8
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d34bcf03_16f09d69",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "?",
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f39818_e1fc7fb3",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "we already have net_test here... can we just use net_test.LINUX_VERSION below?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f439f451_dd013990",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "or",
+      "range": {
+        "startLine": 69,
+        "startChar": 73,
+        "endLine": 69,
+        "endChar": 76
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d046c59c_424e774c",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "probably more readable with newline after the first ( and before the final )",
+      "range": {
+        "startLine": 72,
+        "startChar": 11,
+        "endLine": 72,
+        "endChar": 12
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556f9202_17bcffab",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "i there not some or missing here and in the previous line?",
+      "range": {
+        "startLine": 73,
+        "startChar": 72,
+        "endLine": 73,
+        "endChar": 73
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b32697_1a503038",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "or do you want to remove this net_test.",
+      "range": {
+        "startLine": 84,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89873149_7173df45",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "indent seems wrong now",
+      "range": {
+        "startLine": 889,
+        "startChar": 0,
+        "endLine": 889,
+        "endChar": 6
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbe325da_457e2394",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-09T14:15:28Z",
+      "side": 1,
+      "message": "extra space? or 1 space less here, and 2 less in block below (my preference the latter)",
+      "range": {
+        "startLine": 1036,
+        "startChar": 0,
+        "endLine": 1036,
+        "endChar": 1
+      },
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
