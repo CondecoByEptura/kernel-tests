@@ -95,6 +95,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5503ef4_1dce540f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1297255
+      },
+      "writtenOn": "2022-12-09T00:29:38Z",
+      "side": 1,
+      "message": "My understanding is we also need to support 4.14, and 4.19 kernel in Android U, according to https://source.android.com/docs/core/architecture/kernel/android-common. Please let me know if that is not correct though.",
+      "parentUuid": "9de66dae_4fe2abfe",
+      "range": {
+        "startLine": 66,
+        "startChar": 40,
+        "endLine": 67,
+        "endChar": 58
+      },
+      "revId": "10a07c18aa83ead23479984643b176a26cb0f581",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c11115bb_fc2b1d9b",
