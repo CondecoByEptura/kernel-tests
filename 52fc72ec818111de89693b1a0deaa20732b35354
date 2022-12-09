@@ -18,6 +18,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f62cfba5_df52e3cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1297255
+      },
+      "writtenOn": "2022-12-09T22:43:58Z",
+      "side": 1,
+      "message": "I tested on different ACKs and switched the sub version by doing git reset to the commit that gets LTS. For example, aosp/2028472",
+      "parentUuid": "34c7c722_6eca41dc",
+      "revId": "52fc72ec818111de89693b1a0deaa20732b35354",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbc3fffe_94be6858",
