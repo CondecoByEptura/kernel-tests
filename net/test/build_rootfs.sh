@@ -384,10 +384,11 @@ if [[ -n "${system_partition}" ]]; then
   system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
   system_partition_offset=$((${system_partition_start} * 512))
   system_partition_size=$((${system_partition_num_sectors} * 512))
-  loopdev_system="$(sudo losetup -f)"
-  sudo losetup --offset ${system_partition_offset} --sizelimit ${system_partition_size} "${loopdev_system}" "${disk}"
-  sudo fsck.vfat -a "${loopdev_system}" || true
-  sudo losetup -d "${loopdev_system}"
+  system_partition_tempfile=$(mktemp)
+  dd if="${disk}" of="${system_partition_tempfile}" bs=512 skip=${system_partition_start} count=${system_partition_num_sectors}
+  fsck.vfat -a "${system_partition_tempfile}" || true
+  dd if="${system_partition_tempfile}" of="${disk}" bs=512 seek=${system_partition_start} count=${system_partition_num_sectors} conv=fsync,notrunc
+  rm -f "${system_partition_tempfile}"
 fi
 
 # New workdir for the initrd extraction
@@ -485,10 +486,11 @@ if [[ -n "${system_partition}" ]]; then
   system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
   system_partition_offset=$((${system_partition_start} * 512))
   system_partition_size=$((${system_partition_num_sectors} * 512))
-  loopdev_system="$(sudo losetup -f)"
-  sudo losetup --offset ${system_partition_offset} --sizelimit ${system_partition_size=} "${loopdev_system}" "${disk}"
-  sudo fsck.vfat -a "${loopdev_system}" || true
-  sudo losetup -d "${loopdev_system}"
+  system_partition_tempfile=$(mktemp)
+  dd if="${disk}" of="${system_partition_tempfile}" bs=512 skip=${system_partition_start} count=${system_partition_num_sectors}
+  fsck.vfat -a "${system_partition_tempfile}" || true
+  dd if="${system_partition_tempfile}" of="${disk}" bs=512 seek=${system_partition_start} count=${system_partition_num_sectors} conv=fsync,notrunc
+  rm -f "${system_partition_tempfile}"
 fi
 
 # Mount the final disk image locally
