@@ -90,6 +90,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "51e203c6_7bccaa87",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:54:48Z",
+      "side": 1,
+      "message": "side note:\n\nI think we likely don\u0027t have a 4.14 device that\u0027s getting U, because Pixel 4/4xl are already EOL and I believe Pixel 4a is likely going EOL just prior to U launch...  [4a 5G is 4.19 based]\n\nAs such our U on 4.14 testing is pretty much AWOL...\n\nPerhaps it would be better to just never test/enable the feature on 4.14?\n\nThough do note that if the feature is enabled via mainline, then theoretically it could still hit Pixel 4 via that route...",
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2cff0e0_3c389efe",
         "filename": "net/test/xfrm_tunnel_test.py",
         "patchSetId": 12
