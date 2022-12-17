@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fa2a554_7f55fc4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:49:55Z",
+      "side": 1,
+      "message": "It would be useful to test this on 4.14.big x - I assume it *is* possible for it to pass on a 4.14 kernel?\n\nThe logic about which kernel versions are supported is a bit confusing...\n\nkernel/tests/net/test/run_net_test.sh\nsays\nOPTIONS\u003d\"$OPTIONS XFRM_MIGRATE\"                  # Added in 5.10\n\nbut I assume that comment is wrong (or rather at least some older kernels got backports or something?)",
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061b7452_68aecd10",
+        "filename": "net/test/xfrm.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:49:55Z",
+      "side": 1,
+      "message": "2 spurious spaces",
+      "range": {
+        "startLine": 761,
+        "startChar": 29,
+        "endLine": 761,
+        "endChar": 31
+      },
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c274424_cad8bb19",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:49:55Z",
+      "side": 1,
+      "message": "add a comment saying that 4.19+ must support xfrmi interfaces\n(I assume this is either a kernel feature or a config option?\nthat can be available on 4.14 but isn\u0027t required?)",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2cff0e0_3c389efe",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:49:55Z",
+      "side": 1,
+      "message": "looks like this needs an extra space",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 11
+      },
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899cf780_24b89068",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:49:55Z",
+      "side": 1,
+      "message": "add a comment saying that 5.10+ *must* have CONFIG_XFRM_MIGRATE enabled",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 4
+      },
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbba2e15_906ed1d1",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-17T11:49:55Z",
+      "side": 1,
+      "message": "line 69 claims 4.14.273+, 4.19.236+, ...",
+      "range": {
+        "startLine": 1049,
+        "startChar": 1,
+        "endLine": 1049,
+        "endChar": 2
+      },
+      "revId": "41e1505281f66d4a4004f2c8724a636df0148f60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
