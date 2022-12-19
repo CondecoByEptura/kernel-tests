@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50940c41_ed5ede78",
+        "filename": "net/test/Android.bp",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2022-12-19T19:16:20Z",
+      "side": 1,
+      "message": "This defaults to true for py3, so you can remove it as well now.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "99c7285f30ea666ff7ddbbcfb5eba4dd3179172f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
