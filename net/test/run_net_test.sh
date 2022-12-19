@@ -71,6 +71,20 @@ OPTIONS="$OPTIONS SERIAL_AMBA_PL011_CONSOLE"
 # Obsolete options present at some time in Android kernels
 OPTIONS="$OPTIONS IP_NF_TARGET_REJECT_SKERR IP6_NF_TARGET_REJECT_SKERR"
 
+# b/262323440 - UML *sometimes* seems to have issues with:
+#   UPSTREAM: hardening: Clarify Kconfig text for auto-var-init
+# which is in 4.14.~299/4.19.~266 LTS and which does:
+#   prompt "Initialize kernel stack variables at function entry"
+#   default GCC_PLUGIN_STRUCTLEAK_BYREF_ALL if COMPILE_TEST && GCC_PLUGINS
+#   default INIT_STACK_ALL_PATTERN if COMPILE_TEST && CC_HAS_AUTO_VAR_INIT_PATTERN
+# + default INIT_STACK_ALL_ZERO if CC_HAS_AUTO_VAR_INIT_PATTERN
+#   default INIT_STACK_NONE
+# and thus presumably switches from INIT_STACK_NONE to INIT_STACK_ALL_ZERO
+#
+# My guess it that this is triggering some sort of UML and/or compiler bug...
+# Let's just turn it off... we don't care that much.
+OPTIONS="$OPTIONS INIT_STACK_NONE"
+
 # These two break the flo kernel due to differences in -Werror on recent GCC.
 DISABLE_OPTIONS=" REISERFS_FS ANDROID_PMEM"
 
