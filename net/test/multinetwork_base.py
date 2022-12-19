@@ -443,6 +443,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       cls._RunSetupCommands(netid, False)
       cls.tuns[netid].close()
 
+    cls.iproute.close()
     cls._RestoreSysctls()
     cls.SetConsoleLogLevel(cls.loglevel)
 

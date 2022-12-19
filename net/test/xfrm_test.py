@@ -194,10 +194,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     xfrm_base.SetPolicySockopt(s, family, None)
     s.sendto(net_test.UDP_PAYLOAD, (remotesockaddr, 53))
     self.ExpectPacketOn(netid, "Send after clear 2, expected %s" % desc, pkt)
+    s.close()
 
     # Clearing if a policy was never set is safe.
     s = socket(AF_INET6, SOCK_DGRAM, 0)
     xfrm_base.SetPolicySockopt(s, family, None)
+
+    s.close()
+    s2.close()
 
   def testSocketPolicyIPv4(self):
     self._TestSocketPolicy(4)
@@ -329,6 +333,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
             sport=srcport, dport=53) / net_test.UDP_PAYLOAD)
     self.assertRaisesErrno(EAGAIN, twisted_socket.recv, 4096)
 
+    twisted_socket.close()
+
   def _RunEncapSocketPolicyTest(self, in_spi, out_spi, use_null_auth):
     netid, myaddr, remoteaddr, encap_sock, encap_port, s = \
         self._SetupUdpEncapSockets()
@@ -339,6 +345,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     # Check that UDP encap sockets work with socket policy and given SAs
     self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s, in_spi,
                                out_spi, use_null_auth, 1)
+    encap_sock.close()
+    s.close()
 
   # TODO: Add tests for ESP (non-encap) sockets.
   def testUdpEncapSameSpisNullAuth(self):
@@ -397,6 +405,8 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     # Check that UDP encap socket works with updated socket policy and new SAs
     self._VerifyUdpEncapSocket(netid, remoteaddr, myaddr, encap_port, s,
                                rekey_spi, rekey_spi, True, 3)
+    encap_sock.close()
+    s.close()
 
   def testAllocSpecificSpi(self):
     spi = 0xABCD
@@ -467,6 +477,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     with self.assertRaisesErrno(EAGAIN):
       s.send(net_test.UDP_PAYLOAD)
     self.ExpectNoPacketsOn(netid, "Packet not blocked by policy")
+    s.close()
 
   def _CheckNullEncryptionTunnelMode(self, version):
     family = net_test.GetAddressFamily(version)
@@ -530,6 +541,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     # length of the payload plus the UDP header
     self.assertEqual(b"output hello", bytes(output_pkt[scapy.UDP].payload))
     self.assertEqual(0xABCD, esp_hdr.spi)
+    sock.close()
 
   def testNullEncryptionTunnelMode(self):
     """Verify null encryption in tunnel mode.
@@ -593,6 +605,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self.assertEqual(remote_port, output_pkt[scapy.UDP].dport)
     self.assertEqual(b"output hello", bytes(output_pkt[scapy.UDP].payload))
     self.assertEqual(0xABCD, esp_hdr.spi)
+    sock.close()
 
   def testNullEncryptionTransportMode(self):
     """Verify null encryption in transport mode.
@@ -731,6 +744,8 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
     else:
       with self.assertRaisesErrno(ENETUNREACH):
         s.sendto(net_test.UDP_PAYLOAD, (remoteaddr, 53))
+
+    s.close()
 
   def testTunnelModeOutputMarkIPv4(self):
     for netid in self.NETIDS:
@@ -900,6 +915,8 @@ class XfrmOutputMarkTest(xfrm_base.XfrmLazyTest):
 
       self.xfrm.DeleteSaInfo(remote, TEST_SPI, IPPROTO_ESP, mark)
       self.xfrm.DeletePolicyInfo(sel, xfrm.XFRM_POLICY_OUT, mark)
+
+      s.close()
 
 if __name__ == "__main__":
   unittest.main()
