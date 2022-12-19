@@ -181,6 +181,9 @@ class NetlinkSocket(object):
     self.sock = self._OpenNetlinkSocket(family, groups)
     self.pid = self.sock.getsockname()[1]
 
+  def close(self):
+    self.sock.close()
+
   def MaybeDebugCommand(self, command, flags, data):
     # Default no-op implementation to be overridden by subclasses.
     pass

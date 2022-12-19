@@ -324,3 +324,4 @@ class XfrmLazyTest(XfrmBaseTest):
     super(XfrmBaseTest, self).tearDown()
     self.xfrm.FlushSaInfo()
     self.xfrm.FlushPolicyInfo()
+    self.xfrm.close()

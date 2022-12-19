@@ -213,35 +213,35 @@ def CreateSocketPair(family, socktype, addr):
 
 
 def GetInterfaceIndex(ifname):
-  s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode(), 0)
-  ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
-  return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
+  with UDPSocket(AF_INET) as s:
+    ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode(), 0)
+    ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
+    return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
 
 
 def SetInterfaceHWAddr(ifname, hwaddr):
-  s = UDPSocket(AF_INET)
-  hwaddr = hwaddr.replace(":", "")
-  hwaddr = binascii.unhexlify(hwaddr)
-  if len(hwaddr) != 6:
-    raise ValueError("Unknown hardware address length %d" % len(hwaddr))
-  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER,
-                    hwaddr)
-  fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
+  with UDPSocket(AF_INET) as s:
+    hwaddr = hwaddr.replace(":", "")
+    hwaddr = binascii.unhexlify(hwaddr)
+    if len(hwaddr) != 6:
+      raise ValueError("Unknown hardware address length %d" % len(hwaddr))
+    ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER,
+                      hwaddr)
+    fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
 
 
 def SetInterfaceState(ifname, up):
   ifname_bytes = ifname.encode()
-  s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, 0)
-  ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
-  _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)
-  if up:
-    flags |= scapy.IFF_UP
-  else:
-    flags &= ~scapy.IFF_UP
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, flags)
-  ifr = fcntl.ioctl(s, scapy.SIOCSIFFLAGS, ifr)
+  with UDPSocket(AF_INET) as s:
+    ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, 0)
+    ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
+    _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)
+    if up:
+      flags |= scapy.IFF_UP
+    else:
+      flags &= ~scapy.IFF_UP
+    ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, flags)
+    ifr = fcntl.ioctl(s, scapy.SIOCSIFFLAGS, ifr)
 
 
 def SetInterfaceUp(ifname):
