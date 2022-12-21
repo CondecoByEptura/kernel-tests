@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db921e47_1af7ecd8",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-21T10:00:39Z",
+      "side": 1,
+      "message": "unused?",
+      "range": {
+        "startLine": 146,
+        "startChar": 26,
+        "endLine": 146,
+        "endChar": 36
+      },
+      "revId": "7825c5091bc6c1f3eba4c3aa388ee2f2a4329edb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03c235e7_414616e5",
+        "filename": "net/test/xfrm_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-21T10:00:39Z",
+      "side": 1,
+      "message": "should this comment move to the func?",
+      "range": {
+        "startLine": 201,
+        "startChar": 2,
+        "endLine": 204,
+        "endChar": 25
+      },
+      "revId": "7825c5091bc6c1f3eba4c3aa388ee2f2a4329edb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12da272a_b7eddbd7",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-21T10:00:39Z",
+      "side": 1,
+      "message": "why do we want to pass with the bug??",
+      "range": {
+        "startLine": 436,
+        "startChar": 17,
+        "endLine": 436,
+        "endChar": 20
+      },
+      "revId": "7825c5091bc6c1f3eba4c3aa388ee2f2a4329edb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386ceae7_8fbfdee3",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-21T10:00:39Z",
+      "side": 1,
+      "message": "version * 10 - 20\n\n:-)",
+      "range": {
+        "startLine": 454,
+        "startChar": 28,
+        "endLine": 454,
+        "endChar": 51
+      },
+      "revId": "7825c5091bc6c1f3eba4c3aa388ee2f2a4329edb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3848a22a_2b447e1b",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-21T10:00:39Z",
+      "side": 1,
+      "message": "comment which patch[es] fix it\nwhat about 5.15 and 6.1 ? 5.4?",
+      "range": {
+        "startLine": 482,
+        "startChar": 57,
+        "endLine": 482,
+        "endChar": 60
+      },
+      "revId": "7825c5091bc6c1f3eba4c3aa388ee2f2a4329edb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
