@@ -402,6 +402,7 @@ cd "${workdir}"
 
 # Process the initrd to remove kernel-specific metadata
 kernel_version=$(basename $(lz4 -lcd "${raw_initrd}" | sudo cpio -idumv 2>&1 | grep usr/lib/modules/ - | head -n1))
+lz4 -lcd "${raw_initrd}" | sudo cpio -idumv
 sudo rm -rf usr/lib/modules
 sudo mkdir -p usr/lib/modules
 
