@@ -444,20 +444,24 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
       datalen = len(data)
       data += xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP)
       self.assertEqual(32, len(data) + 8)
+      # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
+      inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
+          scapy.UDP(sport=443, dport=32123) / data)
       input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
                    scapy.UDP(sport=4500, dport=encap_port) /
-                   scapy.ESP(spi=TEST_SPI, seq=1) /
-                   scapy.UDP(sport=443, dport=32123) / data)
+                   inner_pkt)
     else:
       # TODO: test IPv4 in IPv6 encap and vice versa.
       data = b""  # Empty UDP payload
       datalen = len(data) + {4: 20, 6: 40}[version]
       data += xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP)
+      # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
+      inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
+          IpType(src=remoteaddr, dst=myaddr) /
+          scapy.UDP(sport=443, dport=32123) / data)
       input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
                    scapy.UDP(sport=4500, dport=encap_port) /
-                   scapy.ESP(spi=TEST_SPI, seq=1) /
-                   IpType(src=remoteaddr, dst=myaddr) /
-                   scapy.UDP(sport=443, dport=32123) / data)
+                   inner_pkt)
 
     # input_pkt.show2()
     self.ReceivePacketOn(netid, input_pkt)
