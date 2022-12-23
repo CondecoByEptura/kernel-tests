@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fabdeb78_71f14b9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2022-12-23T07:50:19Z",
+      "side": 1,
+      "message": "vts passes on Pixel Seven Pro (though the kernel is a bit old and the v6 tests are skipped)\n\nit also passes via UML on 6.1\n\npresubmit clearly doesn\u0027t offer much benefit since it didn\u0027t actually work before this change due to external/scapy dependency being too old .",
+      "revId": "7f8083bf049ae47053c9b5c665eba4b8baf74707",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
