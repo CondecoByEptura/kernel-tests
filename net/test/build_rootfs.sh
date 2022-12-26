@@ -422,33 +422,56 @@ cat "${ramdisk}" "${initramfs}" >"${initrd}"
 # Leave workdir to boot-test combined initrd
 cd -
 
+rootfs_partition_tempfile=$(mktemp)
 # Mount the new filesystem locally
 if [[ ${rootfs_partition} = "raw" ]]; then
     sudo mount -o loop -t ext3 "${disk}" "${mount}"
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
-    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext3 "${disk}" "${mount}"
+    rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
+    dd if="${disk}" of="${rootfs_partition_tempfile}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
 fi
 image_unmount2() {
   sudo umount "${mount}"
   raw_initrd_remove
 }
-trap image_unmount2 EXIT
+if [[ ${rootfs_partition} = "raw" ]]; then
+    trap image_unmount2 EXIT
+fi
 
 # Embed the kernel and dtb images now, if requested
-if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
-  if [ -n "${dtb}" ]; then
-    sudo mkdir -p "${mount}/boot/dtb/${dtb_subdir}"
-    sudo cp -a "${dtb}" "${mount}/boot/dtb/${dtb_subdir}"
-    sudo chown -R root:root "${mount}/boot/dtb/${dtb_subdir}"
-  fi
-  sudo cp -a "${kernel}" "${mount}/boot/vmlinuz-${kernel_version}"
-  sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
+if [[ ${rootfs_partition} = "raw" ]]; then
+    if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
+	if [ -n "${dtb}" ]; then
+	    sudo mkdir -p "${mount}/boot/dtb/${dtb_subdir}"
+	    sudo cp -a "${dtb}" "${mount}/boot/dtb/${dtb_subdir}"
+	    sudo chown -R root:root "${mount}/boot/dtb/${dtb_subdir}"
+	fi
+	sudo cp -a "${kernel}" "${mount}/boot/vmlinuz-${kernel_version}"
+	sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
+    fi
+else
+    if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
+	if [ -n "${dtb}" ]; then
+	    e2mkdir -G 0 -O 0 "${rootfs_partition_tempfile}":"/boot/dtb/${dtb_subdir}"
+	    e2cp -G 0 -O 0 "${dtb}" "${rootfs_partition_tempfile}":"/boot/dtb/${dtb_subdir}"
+	fi
+	e2cp -G 0 -O 0 "${kernel}" "${rootfs_partition_tempfile}":"/boot/vmlinuz-${kernel_version}"
+    fi
 fi
 
 # Unmount the initial ramdisk
-sudo umount "${mount}"
+if [[ ${rootfs_partition} = "raw" ]]; then
+    sudo umount "${mount}"
+else
+    rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
+    dd if="${rootfs_partition_tempfile}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
+fi
+rm -f "${rootfs_partition_tempfile}"
 trap raw_initrd_remove EXIT
 
 # Boot test the new system and run stage 3
