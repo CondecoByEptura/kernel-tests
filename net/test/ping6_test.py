@@ -35,8 +35,6 @@ import multinetwork_base
 import net_test
 
 
-HAVE_PROC_NET_ICMP6 = os.path.isfile("/proc/net/icmp6")
-
 ICMP_ECHO = 8
 ICMP_ECHOREPLY = 0
 ICMPV6_ECHO_REQUEST = 128
@@ -751,7 +749,6 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     data = net_test.IPV6_PING + b"\x01" + 19994 * b"\x00" + b"aaaaa"
     s.sendto(data, ("::1", 953))
 
-  @unittest.skipUnless(HAVE_PROC_NET_ICMP6, "skipping: no /proc/net/icmp6")
   def testIcmpSocketsNotInIcmp6(self):
     numrows = len(self.ReadProcNetSocket("icmp"))
     numrows6 = len(self.ReadProcNetSocket("icmp6"))
@@ -761,7 +758,6 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     self.assertEqual(numrows + 1, len(self.ReadProcNetSocket("icmp")))
     self.assertEqual(numrows6, len(self.ReadProcNetSocket("icmp6")))
 
-  @unittest.skipUnless(HAVE_PROC_NET_ICMP6, "skipping: no /proc/net/icmp6")
   def testIcmp6SocketsNotInIcmp(self):
     numrows = len(self.ReadProcNetSocket("icmp"))
     numrows6 = len(self.ReadProcNetSocket("icmp6"))
@@ -777,7 +773,6 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     s.connect(("127.0.0.1", 0xbeef))
     self.CheckSockStatFile("icmp", "127.0.0.1", 0xace, "127.0.0.1", 0xbeef, 1)
 
-  @unittest.skipUnless(HAVE_PROC_NET_ICMP6, "skipping: no /proc/net/icmp6")
   def testProcNetIcmp6(self):
     numrows6 = len(self.ReadProcNetSocket("icmp6"))
     s = net_test.IPv6PingSocket()
