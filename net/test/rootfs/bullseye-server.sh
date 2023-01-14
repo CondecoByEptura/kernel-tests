@@ -27,6 +27,12 @@ nvidia_arch=${arch}
 [ "${arch}" = "x86_64" ] && arch=amd64
 [ "${arch}" = "aarch64" ] && arch=arm64
 
+# Framedrivers needed for our servers, if any
+cat >>/etc/initramfs-tools/modules <<EOF
+ast
+virtio_gpu
+EOF
+
 setup_dynamic_networking "eth0" ""
 
 # NVIDIA driver needs dkms which requires /dev/fd
@@ -86,7 +92,7 @@ install_and_cleanup_cuttlefish
 # hvc1 for nested Cuttlefish (login console only)
 create_systemd_getty_symlinks ttyAMA0 ttyS0 hvc1
 
-setup_grub "net.ifnames=0 console=ttyAMA0 8250.nr_uarts=1 console=ttyS0 loglevel=4"
+setup_grub "net.ifnames=0 console=tty0 console=ttyAMA0 8250.nr_uarts=1 console=ttyS0 loglevel=4"
 
 apt-get purge -y vim-tiny
 bullseye_cleanup
