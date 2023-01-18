@@ -37,7 +37,7 @@ if [ ! -d /dev/fd ]; then
  ln -s /proc/self/fd /dev/fd
 fi
 
-update_apt_sources "bullseye bullseye-backports"
+update_apt_sources "bullseye bullseye-backports" "non-free"
 
 setup_cuttlefish_user
 
