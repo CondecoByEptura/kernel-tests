@@ -33,6 +33,9 @@ ast
 virtio_gpu
 EOF
 
+# Workaround for unnecessary firmware warning
+touch /lib/firmware/ast_dp501_fw.bin
+
 setup_dynamic_networking "eth0" ""
 
 # NVIDIA driver needs dkms which requires /dev/fd
@@ -40,7 +43,7 @@ if [ ! -d /dev/fd ]; then
  ln -s /proc/self/fd /dev/fd
 fi
 
-update_apt_sources "bullseye bullseye-backports"
+update_apt_sources "bullseye bullseye-backports" "non-free"
 
 setup_cuttlefish_user
 
