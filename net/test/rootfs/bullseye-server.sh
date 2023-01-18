@@ -45,7 +45,7 @@ update_apt_sources "bullseye bullseye-backports"
 setup_cuttlefish_user
 
 # Get kernel and QEMU from backports
-for package in linux-image-cloud-${arch} qemu-system-arm qemu-system-x86; do
+for package in linux-image-${arch} qemu-system-arm qemu-system-x86; do
   apt-get install -y -t bullseye-backports ${package}
 done
 
@@ -53,9 +53,9 @@ get_installed_packages >/root/originally-installed
 
 # Using "Depends:" is more reliable than "Version:", because it works for
 # backported ("bpo") kernels as well. NOTE: "Package" can be used instead
-# if we don't install the metapackage ("linux-image-cloud-${arch}") but a
+# if we don't install the metapackage ("linux-image-${arch}") but a
 # specific version in the future
-kmodver=$(dpkg -s linux-image-cloud-${arch} | grep ^Depends: | \
+kmodver=$(dpkg -s linux-image-${arch} | grep ^Depends: | \
           cut -d: -f2 | cut -d" " -f2 | sed 's/linux-image-//')
 
 # Install headers from backports, to match the linux-image (removed below)
@@ -64,7 +64,7 @@ apt-get install -y -t bullseye-backports $(echo linux-headers-${kmodver})
 # Dependencies for nvidia-installer (removed below)
 apt-get install -y dkms libglvnd-dev libc6-dev pkg-config
 
-nvidia_version=515.65.01
+nvidia_version=525.60.13
 wget -q https://us.download.nvidia.com/tesla/${nvidia_version}/NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run
 chmod a+x NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run
 ./NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run -x
