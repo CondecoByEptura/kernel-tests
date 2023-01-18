@@ -89,8 +89,7 @@ install_and_cleanup_cuttlefish
 
 # ttyAMA0 for ampere/gigabyte
 # ttyS0 for GCE t2a
-# hvc1 for nested Cuttlefish (login console only)
-create_systemd_getty_symlinks ttyAMA0 ttyS0 hvc1
+create_systemd_getty_symlinks ttyAMA0 ttyS0
 
 setup_grub "net.ifnames=0 console=tty0 console=ttyAMA0 8250.nr_uarts=1 console=ttyS0 loglevel=4"
 
