@@ -18,14 +18,15 @@
 trap "echo 3 >${exitcode}" ERR
 
 # $1 - Suite names for apt sources
+# $2 - Additional repos, if any
 update_apt_sources() {
   # Add the needed debian sources
   cat >/etc/apt/sources.list << EOF
 EOF
   for source in $1; do
     cat >>/etc/apt/sources.list <<EOF
-deb http://ftp.debian.org/debian $source main
-deb-src http://ftp.debian.org/debian $source main
+deb http://ftp.debian.org/debian $source main $2
+deb-src http://ftp.debian.org/debian $source main $2
 EOF
   done
 
