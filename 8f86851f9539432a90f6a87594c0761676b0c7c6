@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f001bfa_21988a49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2023-01-19T08:51:48Z",
+      "side": 1,
+      "message": "Looks good to me.Builds OK. https://ci.linaro.org/job/android-rockpi-cuttlefish/90/",
+      "revId": "8f86851f9539432a90f6a87594c0761676b0c7c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
