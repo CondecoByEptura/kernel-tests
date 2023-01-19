@@ -27,6 +27,9 @@ nvidia_arch=${arch}
 [ "${arch}" = "x86_64" ] && arch=amd64
 [ "${arch}" = "aarch64" ] && arch=arm64
 
+# Workaround for unnecessary firmware warning on ampere/gigabyte
+touch /lib/firmware/ast_dp501_fw.bin
+
 setup_dynamic_networking "eth0" ""
 
 # NVIDIA driver needs dkms which requires /dev/fd
