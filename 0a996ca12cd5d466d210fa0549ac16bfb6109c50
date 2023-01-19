@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea8c850c_81d4f44d",
+        "filename": "net/test/rootfs/stage1.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2023-01-19T02:00:31Z",
+      "side": 1,
+      "message": "Should we use || true instead of || sh?",
+      "revId": "0a996ca12cd5d466d210fa0549ac16bfb6109c50",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
