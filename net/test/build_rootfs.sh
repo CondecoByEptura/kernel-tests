@@ -242,10 +242,10 @@ initrd_remove() {
 }
 trap initrd_remove EXIT
 truncate -s 512M "${initrd}"
-/sbin/mke2fs -F -t ext3 -L ROOT "${initrd}"
+/sbin/mke2fs -F -t ext4 -L ROOT "${initrd}"
 
 # Mount the new filesystem locally
-sudo mount -o loop -t ext3 "${initrd}" "${mount}"
+sudo mount -o loop -t ext4 "${initrd}" "${mount}"
 image_unmount() {
   sudo umount "${mount}"
   initrd_remove
@@ -425,7 +425,7 @@ cd -
 rootfs_partition_tempfile=$(mktemp)
 # Mount the new filesystem locally
 if [[ ${rootfs_partition} = "raw" ]]; then
-    sudo mount -o loop -t ext3 "${disk}" "${mount}"
+    sudo mount -o loop -t ext4 "${disk}" "${mount}"
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
@@ -519,11 +519,11 @@ fi
 
 # Mount the final disk image locally
 if [[ ${rootfs_partition} = "raw" ]]; then
-    sudo mount -o loop -t ext3 "${disk}" "${mount}"
+    sudo mount -o loop -t ext4 "${disk}" "${mount}"
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
-    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext3 "${disk}" "${mount}"
+    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext4 "${disk}" "${mount}"
 fi
 image_unmount3() {
   sudo umount "${mount}"
