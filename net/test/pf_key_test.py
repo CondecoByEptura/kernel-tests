@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Copyright 2017 The Android Open Source Project
 #
@@ -18,13 +18,14 @@
 from socket import *
 import unittest
 
+import binascii
 import csocket
 import pf_key
 import xfrm
 
-ENCRYPTION_KEY = ("308146eb3bd84b044573d60f5a5fd159"
-                  "57c7d4fe567a2120f35bae0f9869ec22".decode("hex"))
-AUTH_KEY = "af442892cdcd0ef650e9c299f9a8436a".decode("hex")
+ENCRYPTION_KEY = binascii.unhexlify("308146eb3bd84b044573d60f5a5fd159"
+                                    "57c7d4fe567a2120f35bae0f9869ec22")
+AUTH_KEY = binascii.unhexlify("af442892cdcd0ef650e9c299f9a8436a")
 
 
 class PfKeyTest(unittest.TestCase):
@@ -72,8 +73,8 @@ class PfKeyTest(unittest.TestCase):
 
     # The algorithm names are null-terminated, but after that contain garbage.
     # Kernel bug?
-    aes_name = "cbc(aes)\x00"
-    sha256_name = "hmac(sha256)\x00"
+    aes_name = b"cbc(aes)\x00"
+    sha256_name = b"hmac(sha256)\x00"
     self.assertTrue(attrs4["XFRMA_ALG_CRYPT"].name.startswith(aes_name))
     self.assertTrue(attrs6["XFRMA_ALG_CRYPT"].name.startswith(aes_name))
     self.assertTrue(attrs4["XFRMA_ALG_AUTH"].name.startswith(sha256_name))
