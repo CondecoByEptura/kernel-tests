@@ -1,9 +1,13 @@
 #include "bullseye-cuttlefish.list"
 aapt
 bzip2
+eject
 gcc
+gdisk
+libglvnd0
 make
 openjdk-11-jre
 screen
 software-properties-common
 unzip
+xz-utils
