@@ -17,6 +17,7 @@
 
 set -e
 set -u
+set -x
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
@@ -201,6 +202,9 @@ while ! sudo debootstrap --arch="${arch}" --variant=minbase --include="${package
     fi
     echo "debootstrap failed - trying again - ${retries} retries left"
 done
+
+# Remove any packages downloaded by debootstrap
+sudo rm -rf var/cache/apt/archives/* tmp/*
 
 # Copy some bootstrapping scripts into the rootfs
 sudo cp -a "${SCRIPT_DIR}"/rootfs/*.sh root/
