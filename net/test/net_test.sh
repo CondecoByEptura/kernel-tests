@@ -120,9 +120,9 @@ if [[ -n "${entropy}" ]]; then
 
   # In kernel/include/uapi/linux/random.h RNDADDENTROPY is defined as
   # _IOW('R', 0x03, int[2]) =(R is 0x52)= 0x40085203 = 1074287107
-  /usr/bin/python 3>/dev/random <<EOF
-import fcntl, struct
-rnd = '${entropy}'.decode('base64')
+  /usr/bin/python3 3>/dev/random <<EOF
+import base64, fcntl, struct
+rnd = base64.b64decode('${entropy}')
 fcntl.ioctl(3, 0x40085203, struct.pack('ii', len(rnd) * 8, len(rnd)) + rnd)
 EOF
 
