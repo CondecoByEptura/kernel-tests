@@ -17,7 +17,6 @@
 
 set -e
 set -u
-set -x
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
@@ -203,10 +202,7 @@ while ! sudo debootstrap --arch="${arch}" --variant=minbase --include="${package
     echo "debootstrap failed - trying again - ${retries} retries left"
 done
 
-# Remove any packages downloaded by debootstrap
-sudo mv var/cache/apt/archives/kmod*.deb .
-sudo rm -rf var/cache/apt/archives/* tmp/*
-sudo mv kmod*.deb var/cache/apt/archives
+sudo du -sh .
 
 # Copy some bootstrapping scripts into the rootfs
 sudo cp -a "${SCRIPT_DIR}"/rootfs/*.sh root/
@@ -239,32 +235,45 @@ mount_remove() {
 }
 trap mount_remove EXIT
 
-# The initial ramdisk filesystem must be <=512M, or QEMU's -initrd
-# option won't touch it
-initrd=$(mktemp)
-initrd_remove() {
-  rm -f "${initrd}"
+stage1=$(mktemp -d)
+stage1_remove() {
+  rm -rf "${stage1}"
   mount_remove
 }
-trap initrd_remove EXIT
-truncate -s 512M "${initrd}"
-/sbin/mke2fs -F -t ext4 -L ROOT "${initrd}"
+trap stage1_remove EXIT
+
+# Temporary (but minimum) size for final filesystem
+truncate -s 1G "${stage1}/ROOT"
+/sbin/mke2fs -F -t ext4 -L ROOT "${stage1}/ROOT"
 
 # Mount the new filesystem locally
-sudo mount -o loop -t ext4 "${initrd}" "${mount}"
+sudo mount -o loop -t ext4 "${stage1}/ROOT" "${mount}"
 image_unmount() {
   sudo umount "${mount}"
-  initrd_remove
+  stage1_remove
 }
 trap image_unmount EXIT
 
 # Copy the patched debootstrap results into the new filesystem
 sudo cp -a "${workdir}"/* "${mount}"
-sudo rm -rf "${workdir}"
 
 # Unmount the initial ramdisk
 sudo umount "${mount}"
-trap initrd_remove EXIT
+trap stage1_remove EXIT
+
+# Use erofs to build a compressed initrd
+sudo $(which make_erofs) -z lz4 -T 0 "${stage1}/initrd" "${workdir}"
+
+# The initial ramdisk filesystem must be <=512M, or QEMU's -initrd
+# option won't touch it
+initrd_size_kb=$(("$(stat -c %s ${stage1}/initrd)" / 1024))
+if [[ "${initrd_size_kb}" > 524288 ]]; then
+  echo "erofs initrd exceeds 512M limit, aborting.." >&2
+  false
+fi
+
+# The stage1 workdir can now be removed
+sudo rm -rf "${workdir}"
 
 if [[ "${install_grub}" = 1 ]]; then
   part_num=0
@@ -321,7 +330,7 @@ if [[ "${install_grub}" = 1 ]]; then
   rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
   rootfs_partition_offset=$((${rootfs_partition_start} * 512))
   rootfs_partition_size=$((${rootfs_partition_num_sectors} * 512))
-  dd if="${initrd}" of="${disk}" bs=512 seek="${rootfs_partition_start}" conv=fsync,notrunc 2>/dev/null
+  dd if="${stage1}/ROOT" of="${disk}" bs=512 seek="${rootfs_partition_start}" conv=fsync,notrunc 2>/dev/null
   /sbin/e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
   disksize=$(stat -c %s "${disk}")
   /sbin/resize2fs "${disk}"?offset=${rootfs_partition_offset} ${rootfs_partition_num_sectors}s
@@ -330,8 +339,8 @@ if [[ "${install_grub}" = 1 ]]; then
   /sbin/e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
   /sbin/e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 else
-  # If there's no bootloader, the initrd is the disk image
-  cp -a "${initrd}" "${disk}"
+  # If there's no bootloader, the stage1 ROOT is the disk image
+  cp -a "${stage1}/ROOT" "${disk}"
   truncate -s 10G "${disk}"
   /sbin/e2fsck -p -f "${disk}" || true
   /sbin/resize2fs "${disk}"
@@ -343,7 +352,7 @@ fi
 raw_initrd=$(mktemp)
 raw_initrd_remove() {
   rm -f "${raw_initrd}"
-  initrd_remove
+  stage1_remove
 }
 trap raw_initrd_remove EXIT
 truncate -s 64M "${raw_initrd}"
@@ -356,7 +365,7 @@ fi
 
 # Complete the bootstrap process using QEMU and the specified kernel
 ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
-  -kernel "${kernel}" -initrd "${initrd}" -no-user-config -nodefaults \
+  -kernel "${kernel}" -initrd "${stage1}/initrd" -no-user-config -nodefaults \
   -no-reboot -display none -nographic -serial stdio -parallel none \
   -smp "${qemucpucores}",sockets="${qemucpucores}",cores=1,threads=1 \
   -object rng-random,id=objrng0,filename=/dev/urandom \
@@ -367,11 +376,12 @@ ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -device virtio-blk-pci-non-transitional,scsi=off,drive=drive-virtio-disk1 \
   -chardev file,id=exitcode,path=exitcode \
   -device pci-serial,chardev=exitcode \
-  -append "root=/dev/ram0 ramdisk_size=524288 init=/root/stage1.sh ${cmdline}"
+  -append "root=/dev/ram0 ramdisk_size=${initrd_size_kb} init=/root/stage1.sh ${cmdline}"
 [[ -s exitcode ]] && exitcode=$(cat exitcode | tr -d '\r') || exitcode=2
 rm -f exitcode
 if [ "${exitcode}" != "0" ]; then
   echo "Second stage debootstrap failed (err=${exitcode})"
+  sh
   exit "${exitcode}"
 fi
 
