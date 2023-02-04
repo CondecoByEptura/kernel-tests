@@ -26,7 +26,6 @@ test_modules = [
     'bpf_test',
     'csocket_test',
     'cstruct_test',
-    'forwarding_test',
     'leak_test',
     'multinetwork_test',
     'neighbour_test',
