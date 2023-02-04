@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a16f1db_8351e4fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-02-04T12:21:54Z",
+      "side": 1,
+      "message": "AFAICT all the referenced kernel patches are pre minimum supported version of 4.14",
+      "revId": "9a465b0b05dc04acb5907b72932a238d5a863312",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
