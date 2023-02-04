@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (593b83 Mark android12L-tests-dev@8941410 as merged.)
 #!/usr/bin/python
 #
 # Copyright 2015 The Android Open Source Project
@@ -170,3 +171,5 @@ class ForwardingTest(multinetwork_base.MultiNetworkBaseTest):
 
 if __name__ == "__main__":
   unittest.main()
+=======
+>>>>>>> CHANGE (9a465b net-test: remove forwarding_test)
