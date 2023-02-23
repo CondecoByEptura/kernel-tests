@@ -6,6 +6,9 @@ gcc
 gdisk
 libglvnd0
 make
+ntp
+ntpdate
+ntpstat
 screen
 software-properties-common
 unzip
