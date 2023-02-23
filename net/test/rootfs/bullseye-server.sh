@@ -102,6 +102,20 @@ create_systemd_getty_symlinks ttyAMA0 ttyS0
 
 setup_grub "net.ifnames=0 console=ttyAMA0 8250.nr_uarts=1 console=ttyS0 loglevel=4 amdgpu.runpm=0 amdgpu.dc=0"
 
+# Set up NTP using Google time servers and switch to UTC for uniformity
+# NOTE: Installing ntp removes systemd-timesyncd
+apt-get install -y ntp
+sed -i -e 's,^\(pool .*debian.*\)$,# \1,' /etc/ntp.conf
+cat >>/etc/ntp.conf <<EOF
+pool time1.google.com iburst
+pool time2.google.com iburst
+pool time3.google.com iburst
+pool time4.google.com iburst
+# time.google.com as backup
+pool time.google.com iburst
+EOF
+timedatectl set-timezone {{timezone | default('UTC')}}
+
 # Switch to NetworkManager. To disrupt the bootstrapping the least, do this
 # right at the end..
 rm -f /etc/network/interfaces.d/eth0.conf
