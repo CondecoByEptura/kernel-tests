@@ -242,10 +242,10 @@ initrd_remove() {
 }
 trap initrd_remove EXIT
 truncate -s 512M "${initrd}"
-/sbin/mke2fs -F -t ext3 -L ROOT "${initrd}"
+/sbin/mke2fs -F -t ext4 -L ROOT "${initrd}"
 
 # Mount the new filesystem locally
-sudo mount -o loop -t ext3 "${initrd}" "${mount}"
+sudo mount -o loop -t ext4 "${initrd}" "${mount}"
 image_unmount() {
   sudo umount "${mount}"
   initrd_remove
@@ -374,8 +374,14 @@ if [[ ${rootfs_partition} = "raw" ]]; then
     sudo e2fsck -p -f "${disk}" || true
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
-    e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
+    rootfs_partition_tempfile2=$(mktemp)
+    dd if="${disk}" of="${rootfs_partition_tempfile2}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
+    e2fsck -p -f "${rootfs_partition_tempfile2}" || true
+    dd if="${rootfs_partition_tempfile2}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
+    rm -f "${rootfs_partition_tempfile2}"
     e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 fi
 if [[ -n "${system_partition}" ]]; then
@@ -384,10 +390,11 @@ if [[ -n "${system_partition}" ]]; then
   system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
   system_partition_offset=$((${system_partition_start} * 512))
   system_partition_size=$((${system_partition_num_sectors} * 512))
-  loopdev_system="$(sudo losetup -f)"
-  sudo losetup --offset ${system_partition_offset} --sizelimit ${system_partition_size} "${loopdev_system}" "${disk}"
-  sudo fsck.vfat -a "${loopdev_system}" || true
-  sudo losetup -d "${loopdev_system}"
+  system_partition_tempfile=$(mktemp)
+  dd if="${disk}" of="${system_partition_tempfile}" bs=512 skip=${system_partition_start} count=${system_partition_num_sectors}
+  /sbin/fsck.vfat -a "${system_partition_tempfile}" || true
+  dd if="${system_partition_tempfile}" of="${disk}" bs=512 seek=${system_partition_start} count=${system_partition_num_sectors} conv=fsync,notrunc
+  rm -f "${system_partition_tempfile}"
 fi
 
 # New workdir for the initrd extraction
@@ -401,6 +408,7 @@ cd "${workdir}"
 
 # Process the initrd to remove kernel-specific metadata
 kernel_version=$(basename $(lz4 -lcd "${raw_initrd}" | sudo cpio -idumv 2>&1 | grep usr/lib/modules/ - | head -n1))
+lz4 -lcd "${raw_initrd}" | sudo cpio -idumv
 sudo rm -rf usr/lib/modules
 sudo mkdir -p usr/lib/modules
 
@@ -420,33 +428,56 @@ cat "${ramdisk}" "${initramfs}" >"${initrd}"
 # Leave workdir to boot-test combined initrd
 cd -
 
+rootfs_partition_tempfile=$(mktemp)
 # Mount the new filesystem locally
 if [[ ${rootfs_partition} = "raw" ]]; then
-    sudo mount -o loop -t ext3 "${disk}" "${mount}"
+    sudo mount -o loop -t ext4 "${disk}" "${mount}"
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
-    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext3 "${disk}" "${mount}"
+    rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
+    dd if="${disk}" of="${rootfs_partition_tempfile}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
 fi
 image_unmount2() {
   sudo umount "${mount}"
   raw_initrd_remove
 }
-trap image_unmount2 EXIT
+if [[ ${rootfs_partition} = "raw" ]]; then
+    trap image_unmount2 EXIT
+fi
 
 # Embed the kernel and dtb images now, if requested
-if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
-  if [ -n "${dtb}" ]; then
-    sudo mkdir -p "${mount}/boot/dtb/${dtb_subdir}"
-    sudo cp -a "${dtb}" "${mount}/boot/dtb/${dtb_subdir}"
-    sudo chown -R root:root "${mount}/boot/dtb/${dtb_subdir}"
-  fi
-  sudo cp -a "${kernel}" "${mount}/boot/vmlinuz-${kernel_version}"
-  sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
+if [[ ${rootfs_partition} = "raw" ]]; then
+    if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
+	if [ -n "${dtb}" ]; then
+	    sudo mkdir -p "${mount}/boot/dtb/${dtb_subdir}"
+	    sudo cp -a "${dtb}" "${mount}/boot/dtb/${dtb_subdir}"
+	    sudo chown -R root:root "${mount}/boot/dtb/${dtb_subdir}"
+	fi
+	sudo cp -a "${kernel}" "${mount}/boot/vmlinuz-${kernel_version}"
+	sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
+    fi
+else
+    if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
+	if [ -n "${dtb}" ]; then
+	    e2mkdir -G 0 -O 0 "${rootfs_partition_tempfile}":"/boot/dtb/${dtb_subdir}"
+	    e2cp -G 0 -O 0 "${dtb}" "${rootfs_partition_tempfile}":"/boot/dtb/${dtb_subdir}"
+	fi
+	e2cp -G 0 -O 0 "${kernel}" "${rootfs_partition_tempfile}":"/boot/vmlinuz-${kernel_version}"
+    fi
 fi
 
 # Unmount the initial ramdisk
-sudo umount "${mount}"
+if [[ ${rootfs_partition} = "raw" ]]; then
+    sudo umount "${mount}"
+else
+    rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
+    dd if="${rootfs_partition_tempfile}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
+fi
+rm -f "${rootfs_partition_tempfile}"
 trap raw_initrd_remove EXIT
 
 # Boot test the new system and run stage 3
@@ -475,8 +506,14 @@ if [[ ${rootfs_partition} = "raw" ]]; then
     sudo e2fsck -p -f "${disk}" || true
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_end=$(partx -g -o END -s -n "${rootfs_partition}" "${disk}" | xargs)
+    rootfs_partition_num_sectors=$((${rootfs_partition_end} - ${rootfs_partition_start} + 1))
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
-    e2fsck -p -f "${disk}"?offset=${rootfs_partition_offset} || true
+    rootfs_partition_tempfile2=$(mktemp)
+    dd if="${disk}" of="${rootfs_partition_tempfile2}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
+    e2fsck -p -f "${rootfs_partition_tempfile2}" || true
+    dd if="${rootfs_partition_tempfile2}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
+    rm -f "${rootfs_partition_tempfile2}"
     e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 fi
 if [[ -n "${system_partition}" ]]; then
@@ -485,19 +522,20 @@ if [[ -n "${system_partition}" ]]; then
   system_partition_num_sectors=$((${system_partition_end} - ${system_partition_start} + 1))
   system_partition_offset=$((${system_partition_start} * 512))
   system_partition_size=$((${system_partition_num_sectors} * 512))
-  loopdev_system="$(sudo losetup -f)"
-  sudo losetup --offset ${system_partition_offset} --sizelimit ${system_partition_size=} "${loopdev_system}" "${disk}"
-  sudo fsck.vfat -a "${loopdev_system}" || true
-  sudo losetup -d "${loopdev_system}"
+  system_partition_tempfile=$(mktemp)
+  dd if="${disk}" of="${system_partition_tempfile}" bs=512 skip=${system_partition_start} count=${system_partition_num_sectors}
+  /sbin/fsck.vfat -a "${system_partition_tempfile}" || true
+  dd if="${system_partition_tempfile}" of="${disk}" bs=512 seek=${system_partition_start} count=${system_partition_num_sectors} conv=fsync,notrunc
+  rm -f "${system_partition_tempfile}"
 fi
 
 # Mount the final disk image locally
 if [[ ${rootfs_partition} = "raw" ]]; then
-    sudo mount -o loop -t ext3 "${disk}" "${mount}"
+    sudo mount -o loop -t ext4 "${disk}" "${mount}"
 else
     rootfs_partition_start=$(partx -g -o START -s -n "${rootfs_partition}" "${disk}" | xargs)
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
-    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext3 "${disk}" "${mount}"
+    sudo mount -o loop,offset=${rootfs_partition_offset} -t ext4 "${disk}" "${mount}"
 fi
 image_unmount3() {
   sudo umount "${mount}"

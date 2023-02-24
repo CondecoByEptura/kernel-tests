@@ -753,9 +753,12 @@ class Xfrm(netlink.NetlinkSocket):
                       net_test.GetAddressFamily(net_test.GetAddressVersion(new_saddr))))
     nlattrs.append((XFRMA_MIGRATE, xfrmMigrate))
 
+    if xfrm_if_id is not None:
+      nlattrs.append((XFRMA_IF_ID, struct.pack("=I", xfrm_if_id)))
+
     for selector in selectors:
-        self.SendXfrmNlRequest(XFRM_MSG_MIGRATE,
-                               XfrmUserpolicyId(sel=selector, dir=direction), nlattrs)
+      self.SendXfrmNlRequest(XFRM_MSG_MIGRATE,
+                             XfrmUserpolicyId(sel=selector, dir=direction), nlattrs)
 
     # UPDSA is called exclusively to update the set_mark=new_output_mark.
     self.AddSaInfo(new_saddr, new_daddr, spi, XFRM_MODE_TUNNEL, 0, encryption,

@@ -96,6 +96,32 @@ KERN_INFO = 6
 LINUX_VERSION = csocket.LinuxVersion()
 LINUX_ANY_VERSION = (0, 0)
 
+def KernelAtLeast(versions):
+  """Checks the kernel version matches the specified versions.
+
+  Args:
+    versions: a list of versions expressed as tuples,
+    e.g., [(5, 10, 108), (5, 15, 31)]. The kernel version matches if it's
+    between each specified version and the next minor version with last digit
+    set to 0. In this example, the kernel version must match either:
+      >= 5.10.108 and < 5.15.0
+      >= 5.15.31
+    While this is less flexible than matching exact tuples, it allows the caller
+    to pass in fewer arguments, because Android only supports certain minor
+    versions (4.19, 5.4, 5.10, ...)
+
+  Returns:
+    True if the kernel version matches, False otherwise
+  """
+  maxversion = (1000, 255, 65535)
+  for version in sorted(versions, reverse=True):
+    if version[:2] == maxversion[:2]:
+      raise ValueError("Duplicate minor version: %s %s", (version, maxversion))
+    if LINUX_VERSION >= version and LINUX_VERSION < maxversion:
+      return True
+    maxversion = (version[0], version[1], 0)
+  return False
+
 def ByteToHex(b):
   return "%02x" % (ord(b) if isinstance(b, str) else b)
 
@@ -213,35 +239,35 @@ def CreateSocketPair(family, socktype, addr):
 
 
 def GetInterfaceIndex(ifname):
-  s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode(), 0)
-  ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
-  return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
+  with UDPSocket(AF_INET) as s:
+    ifr = struct.pack("%dsi" % IFNAMSIZ, ifname.encode(), 0)
+    ifr = fcntl.ioctl(s, scapy.SIOCGIFINDEX, ifr)
+    return struct.unpack("%dsi" % IFNAMSIZ, ifr)[1]
 
 
 def SetInterfaceHWAddr(ifname, hwaddr):
-  s = UDPSocket(AF_INET)
-  hwaddr = hwaddr.replace(":", "")
-  hwaddr = binascii.unhexlify(hwaddr)
-  if len(hwaddr) != 6:
-    raise ValueError("Unknown hardware address length %d" % len(hwaddr))
-  ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER,
-                    hwaddr)
-  fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
+  with UDPSocket(AF_INET) as s:
+    hwaddr = hwaddr.replace(":", "")
+    hwaddr = binascii.unhexlify(hwaddr)
+    if len(hwaddr) != 6:
+      raise ValueError("Unknown hardware address length %d" % len(hwaddr))
+    ifr = struct.pack("%dsH6s" % IFNAMSIZ, ifname.encode(), scapy.ARPHDR_ETHER,
+                      hwaddr)
+    fcntl.ioctl(s, SIOCSIFHWADDR, ifr)
 
 
 def SetInterfaceState(ifname, up):
   ifname_bytes = ifname.encode()
-  s = UDPSocket(AF_INET)
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, 0)
-  ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
-  _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)
-  if up:
-    flags |= scapy.IFF_UP
-  else:
-    flags &= ~scapy.IFF_UP
-  ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, flags)
-  ifr = fcntl.ioctl(s, scapy.SIOCSIFFLAGS, ifr)
+  with UDPSocket(AF_INET) as s:
+    ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, 0)
+    ifr = fcntl.ioctl(s, scapy.SIOCGIFFLAGS, ifr)
+    _, flags = struct.unpack("%dsH" % IFNAMSIZ, ifr)
+    if up:
+      flags |= scapy.IFF_UP
+    else:
+      flags &= ~scapy.IFF_UP
+    ifr = struct.pack("%dsH" % IFNAMSIZ, ifname_bytes, flags)
+    ifr = fcntl.ioctl(s, scapy.SIOCSIFFLAGS, ifr)
 
 
 def SetInterfaceUp(ifname):
@@ -279,7 +305,8 @@ def FormatSockStatAddress(address):
 
 
 def GetLinkAddress(ifname, linklocal):
-  addresses = open("/proc/net/if_inet6").readlines()
+  with open("/proc/net/if_inet6") as if_inet6:
+    addresses = if_inet6.readlines()
   for address in addresses:
     address = [s for s in address.strip().split(" ") if s]
     if address[5] == ifname:
@@ -292,7 +319,8 @@ def GetLinkAddress(ifname, linklocal):
 
 def GetDefaultRoute(version=6):
   if version == 6:
-    routes = open("/proc/net/ipv6_route").readlines()
+    with open("/proc/net/ipv6_route") as ipv6_route:
+      routes = ipv6_route.readlines()
     for route in routes:
       route = [s for s in route.strip().split(" ") if s]
       if (route[0] == "00000000000000000000000000000000" and route[1] == "00"
@@ -301,7 +329,8 @@ def GetDefaultRoute(version=6):
         return FormatProcAddress(route[4]), route[9]
     raise ValueError("No IPv6 default route found")
   elif version == 4:
-    routes = open("/proc/net/route").readlines()
+    with open("/proc/net/route") as ipv4_route:
+      routes = ipv4_route.readlines()
     for route in routes:
       route = [s for s in route.strip().split("\t") if s]
       if route[1] == "00000000" and route[7] == "00000000":
@@ -348,19 +377,31 @@ def SetFlowLabel(s, addr, label):
   # Caller also needs to do s.setsockopt(SOL_IPV6, IPV6_FLOWINFO_SEND, 1).
 
 
-def RunIptablesCommand(version, args):
+def GetIptablesBinaryPath(version):
   if version == 4:
-    iptables_path = "/sbin/iptables"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/system/bin/iptables"
+    paths = (
+        "/sbin/iptables-legacy",
+        "/sbin/iptables",
+        "/system/bin/iptables-legacy",
+        "/system/bin/iptables",
+    )
   elif version == 6:
-    iptables_path = "/sbin/ip6tables-legacy"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/system/bin/ip6tables-legacy"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/sbin/ip6tables"
-    if not os.access(iptables_path, os.X_OK):
-      iptables_path = "/system/bin/ip6tables"
+    paths = (
+        "/sbin/ip6tables-legacy",
+        "/sbin/ip6tables",
+        "/system/bin/ip6tables-legacy",
+        "/system/bin/ip6tables",
+    )
+  for iptables_path in paths:
+    if os.access(iptables_path, os.X_OK):
+      return iptables_path
+  raise FileNotFoundError(
+      "iptables binary for IPv{} not found".format(version) +
+      ", checked: {}".format(", ".join(paths)))
+
+
+def RunIptablesCommand(version, args):
+  iptables_path = GetIptablesBinaryPath(version)
   return os.spawnvp(os.P_WAIT, iptables_path, [iptables_path] + args.split(" "))
 
 # Determine network configuration.
@@ -439,7 +480,8 @@ class NetworkTest(unittest.TestCase):
   def ReadProcNetSocket(self, protocol):
     # Read file.
     filename = "/proc/net/%s" % protocol
-    lines = open(filename).readlines()
+    with open(filename) as f:
+      lines = f.readlines()
 
     # Possibly check, and strip, header.
     if protocol in ["icmp6", "raw6", "udp6"]:
@@ -489,11 +531,13 @@ class NetworkTest(unittest.TestCase):
 
   @staticmethod
   def GetConsoleLogLevel():
-    return int(open("/proc/sys/kernel/printk").readline().split()[0])
+    with open("/proc/sys/kernel/printk") as printk:
+      return int(printk.readline().split()[0])
 
   @staticmethod
   def SetConsoleLogLevel(level):
-    return open("/proc/sys/kernel/printk", "w").write("%s\n" % level)
+    with open("/proc/sys/kernel/printk", "w") as printk:
+      return printk.write("%s\n" % level)
 
 
 if __name__ == "__main__":

@@ -27,6 +27,10 @@ nvidia_arch=${arch}
 [ "${arch}" = "x86_64" ] && arch=amd64
 [ "${arch}" = "aarch64" ] && arch=arm64
 
+# Workaround for unnecessary firmware warning on ampere/gigabyte
+mkdir -p /lib/firmware
+touch /lib/firmware/ast_dp501_fw.bin
+
 setup_dynamic_networking "eth0" ""
 
 # NVIDIA driver needs dkms which requires /dev/fd
@@ -34,22 +38,28 @@ if [ ! -d /dev/fd ]; then
  ln -s /proc/self/fd /dev/fd
 fi
 
-update_apt_sources "bullseye bullseye-backports"
+update_apt_sources "bullseye bullseye-backports" "non-free"
 
 setup_cuttlefish_user
 
+# Install JRE
+apt-get install -y openjdk-11-jre
+
 # Get kernel and QEMU from backports
-for package in linux-image-cloud-${arch} qemu-system-arm qemu-system-x86; do
+for package in linux-image-${arch} qemu-system-arm qemu-system-x86; do
   apt-get install -y -t bullseye-backports ${package}
 done
+
+# Install firmware package for AMD graphics
+apt-get install -y firmware-amd-graphics
 
 get_installed_packages >/root/originally-installed
 
 # Using "Depends:" is more reliable than "Version:", because it works for
 # backported ("bpo") kernels as well. NOTE: "Package" can be used instead
-# if we don't install the metapackage ("linux-image-cloud-${arch}") but a
+# if we don't install the metapackage ("linux-image-${arch}") but a
 # specific version in the future
-kmodver=$(dpkg -s linux-image-cloud-${arch} | grep ^Depends: | \
+kmodver=$(dpkg -s linux-image-${arch} | grep ^Depends: | \
           cut -d: -f2 | cut -d" " -f2 | sed 's/linux-image-//')
 
 # Install headers from backports, to match the linux-image (removed below)
@@ -58,7 +68,7 @@ apt-get install -y -t bullseye-backports $(echo linux-headers-${kmodver})
 # Dependencies for nvidia-installer (removed below)
 apt-get install -y dkms libglvnd-dev libc6-dev pkg-config
 
-nvidia_version=515.65.01
+nvidia_version=525.60.13
 wget -q https://us.download.nvidia.com/tesla/${nvidia_version}/NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run
 chmod a+x NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run
 ./NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run -x
@@ -81,9 +91,11 @@ setup_and_build_cuttlefish
 
 install_and_cleanup_cuttlefish
 
-create_systemd_getty_symlinks ttyS0 hvc1
+# ttyAMA0 for ampere/gigabyte
+# ttyS0 for GCE t2a
+create_systemd_getty_symlinks ttyAMA0 ttyS0
 
-setup_grub "net.ifnames=0 8250.nr_uarts=1 console=ttyS0 loglevel=4"
+setup_grub "net.ifnames=0 console=ttyAMA0 8250.nr_uarts=1 console=ttyS0 loglevel=4 amdgpu.runpm=0 amdgpu.dc=0"
 
 apt-get purge -y vim-tiny
 bullseye_cleanup

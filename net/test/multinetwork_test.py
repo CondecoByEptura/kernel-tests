@@ -855,7 +855,8 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
                        "no support for per-table autoconf")
   def testLeftoverRoutes(self):
     def GetNumRoutes():
-      return len(open("/proc/net/ipv6_route").readlines())
+      with open("/proc/net/ipv6_route") as ipv6_route:
+        return len(ipv6_route.readlines())
 
     num_routes = GetNumRoutes()
     for i in range(10, 20):

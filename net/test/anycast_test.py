@@ -35,7 +35,8 @@ _CLOSE_HUNG = False
 
 
 def CauseOops():
-  open("/proc/sysrq-trigger", "w").write("c")
+  with open("/proc/sysrq-trigger", "w") as trigger:
+    trigger.write("c")
 
 
 class CloseFileDescriptorThread(threading.Thread):

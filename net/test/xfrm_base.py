@@ -143,6 +143,18 @@ def GetEspPacketLength(mode, version, udp_encap, payload,
   return payload_len
 
 
+def GetEspTrailer(length, nexthdr):
+  # ESP padding per RFC 4303 section 2.4.
+  # For a null cipher with a block size of 1, padding is only necessary to
+  # ensure that the 1-byte Pad Length and Next Header fields are right aligned
+  # on a 4-byte boundary.
+  esplen = length + 2  # Packet length plus Pad Length and Next Header.
+  padlen = util.GetPadLength(4, esplen)
+  # The pad bytes are consecutive integers starting from 0x01.
+  padding = "".join((chr(i) for i in range(1, padlen + 1))).encode("utf-8")
+  return padding + struct.pack("BB", padlen, nexthdr)
+
+
 def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
   """Apply null encryption to a packet.
 
@@ -189,16 +201,7 @@ def EncryptPacketWithNull(packet, spi, seq, tun_addrs):
     inner_layer = udp_layer
     esp_nexthdr = IPPROTO_UDP
 
-
-  # ESP padding per RFC 4303 section 2.4.
-  # For a null cipher with a block size of 1, padding is only necessary to
-  # ensure that the 1-byte Pad Length and Next Header fields are right aligned
-  # on a 4-byte boundary.
-  esplen = (len(inner_layer) + 2)  # UDP length plus Pad Length and Next Header.
-  padlen = util.GetPadLength(4, esplen)
-  # The pad bytes are consecutive integers starting from 0x01.
-  padding = "".join((chr(i) for i in range(1, padlen + 1))).encode("utf-8")
-  trailer = padding + struct.pack("BB", padlen, esp_nexthdr)
+  trailer = GetEspTrailer(len(inner_layer), esp_nexthdr)
 
   # Assemble the packet.
   esp_packet.payload = scapy.Raw(inner_layer)
@@ -324,3 +327,4 @@ class XfrmLazyTest(XfrmBaseTest):
     super(XfrmBaseTest, self).tearDown()
     self.xfrm.FlushSaInfo()
     self.xfrm.FlushPolicyInfo()
+    self.xfrm.close()

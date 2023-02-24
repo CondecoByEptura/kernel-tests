@@ -407,7 +407,7 @@ systemctl enable sd-dupe
 
 setup_dynamic_networking "eth0" ""
 
-update_apt_sources bullseye
+update_apt_sources bullseye ""
 
 setup_cuttlefish_user
 

@@ -67,7 +67,9 @@ find /var/log -type f -exec rm -f '{}' ';'
 find /var/tmp -type f -exec rm -f '{}' ';'
 
 # Create an empty initramfs to be combined with modules later
-sed -i 's,^COMPRESS=gzip,COMPRESS=lz4,' /etc/initramfs-tools/initramfs.conf
+sed -i -e 's,^MODULES=dep,MODULES=most,' \
+       -e 's,^COMPRESS=gzip,COMPRESS=lz4,' \
+       /etc/initramfs-tools/initramfs.conf
 depmod -a $(uname -r)
 update-initramfs -c -k $(uname -r)
 dd if=/boot/initrd.img-$(uname -r) of=/dev/vdb conv=fsync

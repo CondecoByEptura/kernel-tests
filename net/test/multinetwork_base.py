@@ -350,7 +350,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def GetSysctl(cls, sysctl):
-    return open(sysctl, "r").read()
+    with open(sysctl, "r") as sysctl_file:
+      return sysctl_file.read()
 
   @classmethod
   def SetSysctl(cls, sysctl, value):
@@ -359,7 +360,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     # correctly at the end.
     if sysctl not in cls.saved_sysctls:
       cls.saved_sysctls[sysctl] = cls.GetSysctl(sysctl)
-    open(sysctl, "w").write(str(value) + "\n")
+    with open(sysctl, "w") as sysctl_file:
+      sysctl_file.write(str(value) + "\n")
 
   @classmethod
   def SetIPv6SysctlOnAllIfaces(cls, sysctl, value):
@@ -372,7 +374,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   def _RestoreSysctls(cls):
     for sysctl, value in cls.saved_sysctls.items():
       try:
-        open(sysctl, "w").write(value)
+        with open(sysctl, "w") as sysctl_file:
+          sysctl_file.write(value)
       except IOError:
         pass
 
@@ -440,6 +443,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       cls._RunSetupCommands(netid, False)
       cls.tuns[netid].close()
 
+    cls.iproute.close()
     cls._RestoreSysctls()
     cls.SetConsoleLogLevel(cls.loglevel)
 

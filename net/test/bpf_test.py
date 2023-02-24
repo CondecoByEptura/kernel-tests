@@ -84,18 +84,6 @@ import sock_diag
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 
-# bpf_ktime_get_ns() was made non-GPL requiring in 5.8 and at the same time
-# bpf_ktime_get_boot_ns() was added, both of these changes were backported to
-# Android Common Kernel in 4.14.221, 4.19.175, 5.4.97.
-# As such we require 4.14.222+ 4.19.176+ 5.4.98+ 5.8.0+,
-# but since we only really care about LTS releases:
-HAVE_EBPF_KTIME_GET_NS_APACHE2 = (
-    ((LINUX_VERSION > (4, 14, 221)) and (LINUX_VERSION < (4, 19, 0))) or
-    ((LINUX_VERSION > (4, 19, 175)) and (LINUX_VERSION < (5, 4, 0))) or
-    (LINUX_VERSION > (5, 4, 97))
-)
-HAVE_EBPF_KTIME_GET_BOOT_NS = HAVE_EBPF_KTIME_GET_NS_APACHE2
-
 KEY_SIZE = 4
 VALUE_SIZE = 4
 TOTAL_ENTRIES = 20
@@ -383,8 +371,6 @@ class BpfTest(net_test.NetworkTest):
   # 5.4:  https://android-review.googlesource.com/c/kernel/common/+/1355422
   #       commit 45217b91eaaa3a563247c4f470f4cb785de6b1c6
   #
-  @unittest.skipUnless(HAVE_EBPF_KTIME_GET_NS_APACHE2,
-                       "no bpf_ktime_get_ns() support for non-GPL programs")
   def testKtimeGetNsApache2(self):
     instructions = [BpfFuncCall(BPF_FUNC_ktime_get_ns)] + INS_BPF_EXIT_BLOCK
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SCHED_CLS, instructions,
@@ -406,8 +392,6 @@ class BpfTest(net_test.NetworkTest):
   # 5.4:  https://android-review.googlesource.com/c/kernel/common/+/1585252
   #       commit 57b3f4830fb66a6038c4c1c66ca2e138fe8be231
   #
-  @unittest.skipUnless(HAVE_EBPF_KTIME_GET_BOOT_NS,
-                       "no bpf_ktime_get_boot_ns() support")
   def testKtimeGetBootNs(self):
     instructions = [
         BpfFuncCall(BPF_FUNC_ktime_get_boot_ns),

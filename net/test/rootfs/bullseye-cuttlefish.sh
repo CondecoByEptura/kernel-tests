@@ -24,7 +24,7 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 setup_dynamic_networking "eth1" "br0"
 
-update_apt_sources bullseye
+update_apt_sources bullseye ""
 
 setup_cuttlefish_user
 

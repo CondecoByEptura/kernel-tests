@@ -3,5 +3,10 @@
     {
       "name": "vts_kernel_net_tests"
     }
+  ],
+  "kernel-presubmit": [
+    {
+      "name": "vts_kernel_net_tests"
+    }
   ]
 }
