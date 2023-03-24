@@ -49,6 +49,16 @@ __NR_bpf = {  # pylint: disable=invalid-name
     "riscv64-64bit": 280,
 }[os.uname()[4] + "-" + platform.architecture()[0]]
 
+# After ACK merge of 5.10.168 is when support for this was backported from
+# upstream Linux 5.14 and was merged into ACK android{12,13}-5.10 branches.
+#   ACK android12-5.10 was >= 5.10.168 without this support only for ~4.5 hours
+#   ACK android13-4.10 was >= 5.10.168 without this support only for ~25 hours
+# as such we can >= 5.10.168 instead of > 5.10.168
+HAVE_SO_NETNS_COOKIE = net_test.LINUX_VERSION >= (5, 10, 168)
+
+# Note: This is *not* correct for parisc & sparc architectures
+SO_NETNS_COOKIE = 71
+
 LOG_LEVEL = 1
 LOG_SIZE = 65536
 

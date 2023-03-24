@@ -79,7 +79,6 @@ from bpf import LookupMap
 from bpf import UpdateMap
 import csocket
 import net_test
-from net_test import LINUX_VERSION
 import sock_diag
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
@@ -406,6 +405,43 @@ class BpfTest(net_test.NetworkTest):
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SCHED_CLS, instructions,
                                b"Apache 2.0")
     # No exceptions? Good.
+
+  ##############################################################################
+  #
+  # Test for presence of upstream 5.14 kernel patches:
+  #
+  # Android12-5.10:
+  #   UPSTREAM: net: initialize net->net_cookie at netns setup
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503195
+  #
+  #   UPSTREAM: net: retrieve netns cookie via getsocketopt
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503056
+  #
+  # (and potentially if you care about kernel ABI)
+  #
+  #   ANDROID: fix ABI by undoing atomic64_t -> u64 type conversion
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2504335
+  #
+  # Android13-5.10:
+  #   UPSTREAM: net: initialize net->net_cookie at netns setup
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503795
+  #
+  #   UPSTREAM: net: retrieve netns cookie via getsocketopt
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503796
+  #
+  # (and potentially if you care about kernel ABI)
+  #
+  #   ANDROID: fix ABI by undoing atomic64_t -> u64 type conversion
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2506895
+  #
+  @unittest.skipUnless(bpf.HAVE_SO_NETNS_COOKIE, "no SO_NETNS_COOKIE support")
+  def testGetNetNsCookie(self):
+    sk = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM, 0)
+    cookie = sk.getsockopt(socket.SOL_SOCKET, bpf.SO_NETNS_COOKIE, 8)  # sizeof(u64) == 8
+    sk.close()
+    self.assertEqual(len(cookie), 8)
+    cookie = int.from_bytes(cookie, "little")
+    self.assertGreaterEqual(cookie, 0)
 
   def testGetSocketCookie(self):
     self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
