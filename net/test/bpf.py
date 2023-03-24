@@ -49,6 +49,10 @@ __NR_bpf = {  # pylint: disable=invalid-name
     "riscv64-64bit": 280,
 }[os.uname()[4] + "-" + platform.architecture()[0]]
 
+HAVE_SO_NETNS_COOKIE = net_test.LINUX_VERSION >= (5, 10, 169)
+# Note: This is *not* correct for parisc & sparc architectures
+SO_NETNS_COOKIE = 71
+
 LOG_LEVEL = 1
 LOG_SIZE = 65536
 
