@@ -400,6 +400,42 @@ class BpfTest(net_test.NetworkTest):
                                b"Apache 2.0")
     # No exceptions? Good.
 
+  ##############################################################################
+  #
+  # Test for presence of kernel patches:
+  #
+  # Android12-5.10:
+  #   UPSTREAM: net: initialize net->net_cookie at netns setup
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503195
+  #
+  #   UPSTREAM: net: retrieve netns cookie via getsocketopt
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503056
+  #
+  # (and potentially if you care about kernel ABI)
+  #
+  #   ANDROID: fix ABI by undoing atomic64_t -> u64 type conversion
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2504335
+  #
+  # Android13-5.10:
+  #   UPSTREAM: net: initialize net->net_cookie at netns setup
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503795
+  #
+  #   UPSTREAM: net: retrieve netns cookie via getsocketopt
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2503796
+  #
+  # (and potentially if you care about kernel ABI)
+  #
+  #   ANDROID: fix ABI by undoing atomic64_t -> u64 type conversion
+  #   https://android-review.git.corp.google.com/c/kernel/common/+/2506895
+  #
+  @unittest.skipUnless(HAVE_SO_NETNS_COOKIE, "no SO_NETNS_COOKIE support")
+  def testGetNetNsCookie(self):
+    sk = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM, 0)
+    self.assertGreaterEqual(sk, 3)
+    cookie = getsockopt(sk, SOL_SOCKET, SO_NETNS_COOKIE)
+    self.assertGreaterEqual(cookie, 0)
+    sk.close()
+
   def testGetSocketCookie(self):
     self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
                             TOTAL_ENTRIES)
