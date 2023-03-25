@@ -114,19 +114,23 @@ def PrintMapInfo(map_fd):
 def SocketUDPLoopBack(packet_count, version, prog_fd):
   family = {4: socket.AF_INET, 6: socket.AF_INET6}[version]
   sock = socket.socket(family, socket.SOCK_DGRAM, 0)
-  if prog_fd is not None:
-    BpfProgAttachSocket(sock.fileno(), prog_fd)
-  net_test.SetNonBlocking(sock)
-  addr = {4: "127.0.0.1", 6: "::1"}[version]
-  sock.bind((addr, 0))
-  addr = sock.getsockname()
-  sockaddr = csocket.Sockaddr(addr)
-  for _ in range(packet_count):
-    sock.sendto(b"foo", addr)
-    data, retaddr = csocket.Recvfrom(sock, 4096, 0)
-    assert b"foo" == data
-    assert sockaddr == retaddr
-  return sock
+  try:
+    if prog_fd is not None:
+      BpfProgAttachSocket(sock.fileno(), prog_fd)
+    net_test.SetNonBlocking(sock)
+    addr = {4: "127.0.0.1", 6: "::1"}[version]
+    sock.bind((addr, 0))
+    addr = sock.getsockname()
+    sockaddr = csocket.Sockaddr(addr)
+    for _ in range(packet_count):
+      sock.sendto(b"foo", addr)
+      data, retaddr = csocket.Recvfrom(sock, 4096, 0)
+      assert b"foo" == data
+      assert sockaddr == retaddr
+    return sock
+  except Exception as e:
+    sock.close()
+    raise e
 
 
 # The main code block for eBPF packet counting program. It takes a preloaded
@@ -213,10 +217,13 @@ class BpfTest(net_test.NetworkTest):
   def tearDown(self):
     if self.prog_fd >= 0:
       os.close(self.prog_fd)
+      self.prog_fd = -1
     if self.map_fd >= 0:
       os.close(self.map_fd)
+      self.map_fd = -1
     if self.sock:
       self.sock.close()
+      self.sock = None
     super(BpfTest, self).tearDown()
 
   def testCreateMap(self):
@@ -294,8 +301,8 @@ class BpfTest(net_test.NetworkTest):
     ]
     instructions += INS_SK_FILTER_ACCEPT
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER, instructions)
-    SocketUDPLoopBack(1, 4, self.prog_fd)
-    SocketUDPLoopBack(1, 6, self.prog_fd)
+    SocketUDPLoopBack(1, 4, self.prog_fd).close()
+    SocketUDPLoopBack(1, 6, self.prog_fd).close()
 
   def testPacketBlock(self):
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER, INS_BPF_EXIT_BLOCK)
@@ -317,8 +324,8 @@ class BpfTest(net_test.NetworkTest):
                      + INS_SK_FILTER_ACCEPT)
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_SOCKET_FILTER, instructions)
     packet_count = 10
-    SocketUDPLoopBack(packet_count, 4, self.prog_fd)
-    SocketUDPLoopBack(packet_count, 6, self.prog_fd)
+    SocketUDPLoopBack(packet_count, 4, self.prog_fd).close()
+    SocketUDPLoopBack(packet_count, 6, self.prog_fd).close()
     self.assertEqual(packet_count * 2, LookupMap(self.map_fd, key).value)
 
   ##############################################################################
@@ -439,10 +446,10 @@ class BpfTest(net_test.NetworkTest):
     uid = TEST_UID
     with net_test.RunAsUid(uid):
       self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, uid)
-      SocketUDPLoopBack(packet_count, 4, self.prog_fd)
+      SocketUDPLoopBack(packet_count, 4, self.prog_fd).close()
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
       DeleteMap(self.map_fd, uid)
-      SocketUDPLoopBack(packet_count, 6, self.prog_fd)
+      SocketUDPLoopBack(packet_count, 6, self.prog_fd).close()
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
 
 
@@ -493,8 +500,8 @@ class BpfCgroupTest(net_test.NetworkTest):
     self.assertRaisesErrno(errno.EAGAIN, SocketUDPLoopBack, 1, 4, None)
     self.assertRaisesErrno(errno.EAGAIN, SocketUDPLoopBack, 1, 6, None)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
-    SocketUDPLoopBack(1, 4, None)
-    SocketUDPLoopBack(1, 6, None)
+    SocketUDPLoopBack(1, 4, None).close()
+    SocketUDPLoopBack(1, 6, None).close()
 
   def testCgroupEgress(self):
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SKB, INS_BPF_EXIT_BLOCK)
@@ -502,8 +509,8 @@ class BpfCgroupTest(net_test.NetworkTest):
     self.assertRaisesErrno(errno.EPERM, SocketUDPLoopBack, 1, 4, None)
     self.assertRaisesErrno(errno.EPERM, SocketUDPLoopBack, 1, 6, None)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
-    SocketUDPLoopBack(1, 4, None)
-    SocketUDPLoopBack(1, 6, None)
+    SocketUDPLoopBack(1, 4, None).close()
+    SocketUDPLoopBack(1, 6, None).close()
 
   def testCgroupBpfUid(self):
     self.map_fd = CreateMap(BPF_MAP_TYPE_HASH, KEY_SIZE, VALUE_SIZE,
@@ -522,10 +529,10 @@ class BpfCgroupTest(net_test.NetworkTest):
     uid = TEST_UID
     with net_test.RunAsUid(uid):
       self.assertRaisesErrno(errno.ENOENT, LookupMap, self.map_fd, uid)
-      SocketUDPLoopBack(packet_count, 4, None)
+      SocketUDPLoopBack(packet_count, 4, None).close()
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
       DeleteMap(self.map_fd, uid)
-      SocketUDPLoopBack(packet_count, 6, None)
+      SocketUDPLoopBack(packet_count, 6, None).close()
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
 
