@@ -200,6 +200,13 @@ class PfKey(object):
     net_test.SetNonBlocking(self.sock)
     self.seq = 0
 
+  def close(self):
+    self.sock.close()
+    self.sock = None
+
+  def __del__(self):
+    if self.sock: self.close()
+
   def Recv(self):
     reply = self.sock.recv(4096)
     msg = SadbMsg(reply)

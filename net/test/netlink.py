@@ -183,6 +183,11 @@ class NetlinkSocket(object):
 
   def close(self):
     self.sock.close()
+    self.sock = None
+
+  def __del__(self):
+    if self.sock:
+      self.close()
 
   def MaybeDebugCommand(self, command, flags, data):
     # Default no-op implementation to be overridden by subclasses.
