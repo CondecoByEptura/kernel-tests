@@ -43,7 +43,12 @@ update_apt_sources "bullseye bullseye-backports" "non-free"
 setup_cuttlefish_user
 
 # Install JRE
-apt-get install -y openjdk-11-jre
+apt-get install -y openjdk-17-jre
+
+# Ubuntu compatibility
+cat >>/etc/skel/.profile << EOF
+PATH="/usr/sbin:\$PATH"
+EOF
 
 # Get kernel and QEMU from backports
 for package in linux-image-${arch} qemu-system-arm qemu-system-x86; do
@@ -97,5 +102,23 @@ create_systemd_getty_symlinks ttyAMA0 ttyS0
 
 setup_grub "net.ifnames=0 console=ttyAMA0 8250.nr_uarts=1 console=ttyS0 loglevel=4 amdgpu.runpm=0 amdgpu.dc=0"
 
+# Set up NTP using Google time servers and switch to UTC for uniformity
+# NOTE: Installing ntp removes systemd-timesyncd
+apt-get install -y ntp
+sed -i -e 's,^\(pool .*debian.*\)$,# \1,' /etc/ntp.conf
+cat >>/etc/ntp.conf <<EOF
+pool time1.google.com iburst
+pool time2.google.com iburst
+pool time3.google.com iburst
+pool time4.google.com iburst
+# time.google.com as backup
+pool time.google.com iburst
+EOF
+timedatectl set-timezone UTC
+
+# Switch to NetworkManager. To disrupt the bootstrapping the least, do this
+# right at the end..
+rm -f /etc/network/interfaces.d/eth0.conf
+apt-get install -y network-manager
 apt-get purge -y vim-tiny
 bullseye_cleanup

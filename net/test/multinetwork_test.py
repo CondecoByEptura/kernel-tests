@@ -65,6 +65,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     s.sendto(packet + packets.PING_PAYLOAD, (dstsockaddr, 19321))
 
     self.ExpectPacketOn(netid, msg, expected)
+    s.close()
 
   def CheckTCPSYNPacket(self, version, netid, routing_mode):
     s = self.BuildSocket(version, net_test.TCPSocket, netid, routing_mode)
@@ -102,7 +103,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
       s.connect((dstsockaddr, 53))
       s.send(UDP_PAYLOAD)
       self.ExpectPacketOn(netid, msg % "connect/send", expected)
-      s.close()
+
+    s.close()
 
   def CheckRawGrePacket(self, version, netid, routing_mode):
     s = self.BuildSocket(version, net_test.RawGRESocket, netid, routing_mode)
@@ -123,6 +125,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
     msg = "Raw IPv%d GRE with inner IPv%d UDP: expected %s on %s" % (
         version, inner_version, desc, self.GetInterfaceName(netid))
     self.ExpectPacketOn(netid, msg, expected)
+    s.close()
 
   def CheckOutgoingPackets(self, routing_mode):
     for _ in range(self.ITERATIONS):
@@ -249,6 +252,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         self.SelectInterface(s, None, mode)
         prevnetid = netid
 
+      s.close()
+
   def testIPv4Remarking(self):
     """Checks that updating the mark on an IPv4 socket changes routing."""
     self.CheckRemarking(4, False)
@@ -300,6 +305,7 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         msg = "IPv6 UDP using sticky pktinfo: expected UDP packet on %s" % (
             self.GetInterfaceName(netid))
         self.ExpectPacketOn(netid, msg, expected)
+        s.close()
 
   def CheckPktinfoRouting(self, version):
     for _ in range(self.ITERATIONS):
@@ -339,6 +345,8 @@ class OutgoingTest(multinetwork_base.MultiNetworkBaseTest):
         msg = "IPv%d UDP using pktinfo routing: expected %s on %s" % (
             version, desc, self.GetInterfaceName(netid))
         self.ExpectPacketOn(netid, msg, expected)
+
+        s.close()
 
   def testIPv4PktinfoRouting(self):
     self.CheckPktinfoRouting(4)
@@ -801,6 +809,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
         else:
           self.assertRaisesErrno(errno.ENETUNREACH, s.sendto, UDP_PAYLOAD,
                                  (net_test.IPV6_ADDR, 1234))
+        s.close()
 
     try:
       CheckIPv6Connectivity(True)
@@ -850,6 +859,8 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
       msg = "After NA response, expecting %s" % desc
       self.ExpectPacketOn(netid, msg, expected)
 
+      s.close()
+
   # This test documents a known issue: routing tables are never deleted.
   @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
                        "no support for per-table autoconf")
@@ -896,6 +907,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
       self.fail("Should have received an RTM_NEWNDUSEROPT message. "
                 "Please ensure the kernel supports receiving the "
                 "PREF64 RA option. Error: %s" % e)
+    s.close()
 
     # Check that the message is received correctly.
     nlmsghdr, data = cstruct.Read(data, netlink.NLMsgHdr)
@@ -1004,6 +1016,8 @@ class PMTUTest(multinetwork_base.InboundMarkingTest):
         self.assertEqual(iproute.RTN_UNICAST, rtmsg.type)
         metrics = attributes["RTA_METRICS"]
         self.assertEqual(packets.PTB_MTU, metrics["RTAX_MTU"])
+
+        s2.close()
 
   def testIPv4BasicPMTU(self):
     """Tests IPv4 path MTU discovery.
@@ -1256,6 +1270,7 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
       CheckSendFails()
     finally:
       self.iproute.UidRangeRule(6, False, uid, uid, table, self.PRIORITY_UID)
+      s.close()
 
 
 class RulesTest(net_test.NetworkTest):

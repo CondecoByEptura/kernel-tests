@@ -34,6 +34,10 @@ class PfKeyTest(unittest.TestCase):
     self.pf_key = pf_key.PfKey()
     self.xfrm = xfrm.Xfrm()
 
+  def tearDown(self):
+    self.pf_key.close()
+    self.pf_key = None
+
   def testAddDelSa(self):
     src4 = csocket.Sockaddr(("192.0.2.1", 0))
     dst4 = csocket.Sockaddr(("192.0.2.2", 1))
