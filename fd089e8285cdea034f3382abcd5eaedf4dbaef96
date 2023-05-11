@@ -93,6 +93,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07701297_2670cbc5",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2023-05-11T17:59:24Z",
+      "side": 1,
+      "message": "oof this was debug code, remoed.",
+      "parentUuid": "a07dd16c_a144a639",
+      "range": {
+        "startLine": 776,
+        "startChar": 4,
+        "endLine": 776,
+        "endChar": 5
+      },
+      "revId": "fd089e8285cdea034f3382abcd5eaedf4dbaef96",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d07c7225_4a21b18d",
@@ -106,6 +130,30 @@
       "writtenOn": "2022-07-15T15:07:27Z",
       "side": 1,
       "message": "should there not be an indented no-op, ie. \u0027pass\u0027 here now that the finally clause is empty?",
+      "range": {
+        "startLine": 780,
+        "startChar": 6,
+        "endLine": 780,
+        "endChar": 10
+      },
+      "revId": "fd089e8285cdea034f3382abcd5eaedf4dbaef96",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2d4ba71_5905244d",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1221725
+      },
+      "writtenOn": "2023-05-11T17:59:24Z",
+      "side": 1,
+      "message": "This block was the finally; the subprocess calls should have been removed as debug code.",
+      "parentUuid": "d07c7225_4a21b18d",
       "range": {
         "startLine": 780,
         "startChar": 6,
