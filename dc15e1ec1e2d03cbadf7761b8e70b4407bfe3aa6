@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c911eea4_4f6b89d4",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-05-12T03:29:52Z",
+      "side": 1,
+      "message": "Isn\u0027t this always zero for most tests? Could you use something else here?",
+      "range": {
+        "startLine": 546,
+        "startChar": 59,
+        "endLine": 546,
+        "endChar": 65
+      },
+      "revId": "dc15e1ec1e2d03cbadf7761b8e70b4407bfe3aa6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd975903_a9a3902f",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-05-12T03:29:52Z",
+      "side": 1,
+      "message": "This is always XfrmInterface, right? Might as well just use that.\n\nWe should delete the VTI code, right? We\u0027ve never used it outside tests, I think?",
+      "range": {
+        "startLine": 766,
+        "startChar": 25,
+        "endLine": 766,
+        "endChar": 40
+      },
+      "revId": "dc15e1ec1e2d03cbadf7761b8e70b4407bfe3aa6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683b8021_da37f773",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-05-12T03:29:52Z",
+      "side": 1,
+      "message": "Is this ever non-null? If not, remove?",
+      "range": {
+        "startLine": 776,
+        "startChar": 6,
+        "endLine": 776,
+        "endChar": 24
+      },
+      "revId": "dc15e1ec1e2d03cbadf7761b8e70b4407bfe3aa6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
