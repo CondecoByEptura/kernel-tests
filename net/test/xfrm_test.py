@@ -77,7 +77,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
         "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
-        "\treplay-window 4 \n"
+        "\treplay-window 32 \n"
         "\tauth-trunc hmac(sha1) 0x%s 96\n"
         "\tenc cbc(aes) 0x%s\n"
         "\tsel src ::/0 dst ::/0 \n" % (
