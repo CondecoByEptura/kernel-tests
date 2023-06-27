@@ -379,10 +379,10 @@ else
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
     rootfs_partition_tempfile2=$(mktemp)
     dd if="${disk}" of="${rootfs_partition_tempfile2}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
-    e2fsck -p -f "${rootfs_partition_tempfile2}" || true
+    /sbin/e2fsck -p -f "${rootfs_partition_tempfile2}" || true
     dd if="${rootfs_partition_tempfile2}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
     rm -f "${rootfs_partition_tempfile2}"
-    e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
+    /sbin/e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 fi
 if [[ -n "${system_partition}" ]]; then
   system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)
@@ -511,10 +511,10 @@ else
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
     rootfs_partition_tempfile2=$(mktemp)
     dd if="${disk}" of="${rootfs_partition_tempfile2}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
-    e2fsck -p -f "${rootfs_partition_tempfile2}" || true
+    /sbin/e2fsck -p -f "${rootfs_partition_tempfile2}" || true
     dd if="${rootfs_partition_tempfile2}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
     rm -f "${rootfs_partition_tempfile2}"
-    e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
+    /sbin/e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 fi
 if [[ -n "${system_partition}" ]]; then
   system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)
