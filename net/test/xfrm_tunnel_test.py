@@ -65,13 +65,12 @@ HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
 # Two kernel fixes have been added in 5.17 to allow XFRM_MIGRATE to work correctly
 # when (1) there are multiple tunnels with the same selectors; and (2) addresses
 # are updated to a different IP family. These two fixes were pulled into upstream
-# LTS releases 4.14.273, 4.19.236, 5.4.186, 5.10.107 and 5.15.30, from whence they
+# LTS releases 4.19.236, 5.4.186, 5.10.107 and 5.15.30, from whence they
 # flowed into the Android Common Kernel (via standard LTS merges).
-# As such we require 4.14.273+, 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
+# As such we require 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
 # to have these fixes.
 def HasXfrmMigrateFixes():
     return (
-            ((LINUX_VERSION >= (4, 14, 273)) and (LINUX_VERSION < (4, 19, 0))) or
             ((LINUX_VERSION >= (4, 19, 236)) and (LINUX_VERSION < (5, 4, 0))) or
             ((LINUX_VERSION >= (5, 4, 186)) and (LINUX_VERSION < (5, 10, 0))) or
             ((LINUX_VERSION >= (5, 10, 107)) and (LINUX_VERSION < (5, 15, 0))) or
@@ -1048,7 +1047,7 @@ class XfrmInterfaceTest(XfrmTunnelBase):
 #   Upstream commit: e03c3bba351f99ad932e8f06baa9da1afc418e02
 #
 # Those two upstream 5.17 fixes above were pulled in to LTS in kernel versions
-# 4.14.273, 4.19.236, 5.4.186, 5.10.107, 5.15.30.
+# 4.19.236, 5.4.186, 5.10.107, 5.15.30.
 #
 @unittest.skipUnless(SUPPORTS_XFRM_MIGRATE,
                      "XFRM migration unsupported or fixes not included")
