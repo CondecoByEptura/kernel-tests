@@ -1,8 +1,10 @@
+anacron
 apt
 apt-utils
 bash-completion
 bsdmainutils
 ca-certificates
+cron
 e2fsprogs
 file
 gpgv
