@@ -174,6 +174,7 @@ cleanup() {
   # Miscellaneous cleanup
   rm -rf /var/lib/apt/lists/* || true
   rm -f /root/* || true
+  rm -f /etc/cron.d/cron-run-installer-script || true
   apt-get clean
 
   echo 0 >"${exitcode}"
