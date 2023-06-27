@@ -130,6 +130,7 @@ class TcpFastOpenTest(multinetwork_base.MultiNetworkBaseTest):
     t.payload = scapy.Raw(net_test.UDP_PAYLOAD)
     msg = "TFO write, expected %s" % desc
     self.ExpectPacketOn(netid, msg, syn)
+    s.close()
 
   def testConnectOptionIPv4(self):
     self.CheckConnectOption(4)
