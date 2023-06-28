@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "193e3284_c73cd85c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-06-28T07:42:16Z",
+      "side": 1,
+      "message": "Why was this wrong in the first place?\n\nIt looks like the mentioned 4.14.273 has only 1 of the 2 fixes.\nHave you checked the version required is correct for 4.19.x 5.4.x etc?\n\nDoes https://android-review.git.corp.google.com/c/kernel/common/+/2640243 + bump up to 4.14.320+ also fix it?\n\nIs that what we should do instead?\n\nAlso note that:\n\nT required 4.9\nU requires 4.14\nV will [I believe] require 4.19\n\nSo from an aosp/master perspective I think I\u0027ll\n(a) drop support for \u003c4.19\n(b) probably just require the fixes to be present unconditionally.\n\n[but I assume you still want to cp to udc-dev...]",
+      "revId": "7e009b5b42c6e5997bcb7af720bdcae095661b86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
