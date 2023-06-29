@@ -52,6 +52,24 @@
       "tag": "mailMessageId\u003d\u003cCANP3RGeykK6H_TTVtSqFb5dGtWTvu4QRuQd5v3HMmTTWbpxnZQ@mail.gmail.com\u003e",
       "revId": "7e009b5b42c6e5997bcb7af720bdcae095661b86",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26bd9cda_cf3e7333",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1297255
+      },
+      "writtenOn": "2023-06-29T21:14:34Z",
+      "side": 1,
+      "message": "OK I just realized that the if_id exists in ACK 4.14 but not the LTS. Then yes, we should merge aosp/2640243 and continue running the test on 4.14. It\u0027s probably too late for U. I will check how we can get it in U QPR",
+      "parentUuid": "0117a702_b9877830",
+      "revId": "7e009b5b42c6e5997bcb7af720bdcae095661b86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
