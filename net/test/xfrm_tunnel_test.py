@@ -40,28 +40,6 @@ _TEST_XFRM_IFNAME = "ipsec42"
 _TEST_XFRM_IF_ID = 42
 _TEST_SPI = 0x1234
 
-# Does the kernel support CONFIG_XFRM_INTERFACE?
-def HaveXfrmInterfaces():
-  # 4.19+ must have CONFIG_XFRM_INTERFACE enabled
-  if LINUX_VERSION >= (4, 19, 0):
-    return True
-
-  try:
-    i = iproute.IPRoute()
-    i.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
-                          _LOOPBACK_IFINDEX)
-    i.DeleteLink(_TEST_XFRM_IFNAME)
-    try:
-      i.GetIfIndex(_TEST_XFRM_IFNAME)
-      assert "Deleted interface %s still exists!" % _TEST_XFRM_IFNAME
-    except IOError:
-      pass
-    return True
-  except IOError:
-    return False
-
-HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
-
 # Two kernel fixes have been added in 5.17 to allow XFRM_MIGRATE to work correctly
 # when (1) there are multiple tunnels with the same selectors; and (2) addresses
 # are updated to a different IP family. These two fixes were pulled into upstream
@@ -87,10 +65,6 @@ def SupportsXfrmMigrate():
   # 5.10+ must have CONFIG_XFRM_MIGRATE enabled
   if LINUX_VERSION >= (5, 10, 0):
     return True
-
-  # XFRM_MIGRATE depends on xfrmi interfaces
-  if not HAVE_XFRM_INTERFACES:
-    return False
 
   try:
     x = xfrm.Xfrm()
@@ -499,7 +473,6 @@ class VtiInterface(IpSecBaseInterface):
                            xfrm.ExactMatchMark(self.okey))
 
 
-@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
   """Test the creation of an XFRM Interface."""
 
@@ -1011,7 +984,6 @@ class XfrmVtiTest(XfrmTunnelBase):
     self._TestTunnelRekey(inner_version, outer_version)
 
 
-@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmInterfaceTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = XfrmInterface
