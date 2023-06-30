@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0fb413_bcfd55ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-06-30T19:30:59Z",
+      "side": 1,
+      "message": "(might be worth pointing out that the only \u003c 4.19 pixel that we still support is the pixel 4a, but it is being EOL\u0027ed in [I believe] August 2023 and thus isn\u0027t even getting Android U, let alone later U QPRs or V)",
+      "revId": "86b3e18d0d695233f0e4123ce80b541baeade9e3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
