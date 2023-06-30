@@ -67,11 +67,16 @@ HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
 # are updated to a different IP family. These two fixes were pulled into upstream
 # LTS releases 4.14.273, 4.19.236, 5.4.186, 5.10.107 and 5.15.30, from whence they
 # flowed into the Android Common Kernel (via standard LTS merges).
-# As such we require 4.14.273+, 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
+#
+# Note 'xfrm: Check if_id in xfrm_migrate' did not end up in 4.14 LTS,
+# and is only present in ACK android-4.14-stable after 4.14.320 LTS merge.
+# See https://android-review.git.corp.google.com/c/kernel/common/+/2640243
+#
+# As such we require 4.14.321+, 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
 # to have these fixes.
 def HasXfrmMigrateFixes():
     return (
-            ((LINUX_VERSION >= (4, 14, 273)) and (LINUX_VERSION < (4, 19, 0))) or
+            ((LINUX_VERSION >= (4, 14, 321)) and (LINUX_VERSION < (4, 19, 0))) or
             ((LINUX_VERSION >= (4, 19, 236)) and (LINUX_VERSION < (5, 4, 0))) or
             ((LINUX_VERSION >= (5, 4, 186)) and (LINUX_VERSION < (5, 10, 0))) or
             ((LINUX_VERSION >= (5, 10, 107)) and (LINUX_VERSION < (5, 15, 0))) or
