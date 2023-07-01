@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "815cce23_61e79f98",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-01T12:42:44Z",
+      "side": 1,
+      "message": "hmm, this is transport mode, maybe this one is wrong and should be UDP to match line 449",
+      "range": {
+        "startLine": 445,
+        "startChar": 0,
+        "endLine": 445,
+        "endChar": 93
+      },
+      "revId": "33b6aba458400a4767f88a711cb8fa5673d72a66",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
