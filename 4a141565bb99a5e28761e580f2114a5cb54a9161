@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f39aa37_0720d335",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-05T15:18:34Z",
+      "side": 1,
+      "message": "Would:\n  (version * 10 - 20)\nor\n  (version - 2) * 10\nbe any better?\n\n:-)",
+      "range": {
+        "startLine": 455,
+        "startChar": 16,
+        "endLine": 455,
+        "endChar": 39
+      },
+      "revId": "4a141565bb99a5e28761e580f2114a5cb54a9161",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
