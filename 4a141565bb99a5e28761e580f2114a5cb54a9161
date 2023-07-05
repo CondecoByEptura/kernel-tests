@@ -22,6 +22,30 @@
       },
       "revId": "4a141565bb99a5e28761e580f2114a5cb54a9161",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86fd0c7_dd187aa1",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-07-05T21:23:06Z",
+      "side": 1,
+      "message": "I find `{4: 20, 6: 40}[version]` much more readable.",
+      "parentUuid": "9f39aa37_0720d335",
+      "range": {
+        "startLine": 455,
+        "startChar": 16,
+        "endLine": 455,
+        "endChar": 39
+      },
+      "revId": "4a141565bb99a5e28761e580f2114a5cb54a9161",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
