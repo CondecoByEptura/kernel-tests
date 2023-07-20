@@ -38,7 +38,6 @@ class SysctlsTest(net_test.NetworkTest):
   def testAvailableCongestionControl(self):
     self.check('/proc/sys/net/ipv4/tcp_available_congestion_control')
 
-  @unittest.skipUnless(net_test.LINUX_VERSION >= (4, 15, 0), "not yet namespaced")
   def testCongestionControl(self):
     self.check('/proc/sys/net/ipv4/tcp_congestion_control')
 

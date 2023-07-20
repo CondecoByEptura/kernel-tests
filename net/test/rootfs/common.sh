@@ -125,7 +125,10 @@ setup_grub() {
 
   if [[ "${install_grub}" = "1" ]]; then
     # Mount fstab entry added by stage2
-    mount /boot/efi
+    findmnt /boot/efi > /dev/null 2>&1
+    if [ $? != 0 ]; then
+	mount /boot/efi
+    fi
 
     # Install GRUB EFI (removable, for Cloud)
     apt-get install -y grub-efi
@@ -171,6 +174,7 @@ cleanup() {
   # Miscellaneous cleanup
   rm -rf /var/lib/apt/lists/* || true
   rm -f /root/* || true
+  rm -f /etc/cron.d/cron-run-installer-script || true
   apt-get clean
 
   echo 0 >"${exitcode}"
