@@ -454,7 +454,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
       # TODO: test IPv4 in IPv6 encap and vice versa.
       data = b""  # Empty UDP payload
       datalen = len(data) + {4: 20, 6: 40}[version]
-      data += xfrm_base.GetEspTrailer(len(data), {4: IPPROTO_IPIP, 6: IPPROTO_IPV6}[version])
+      data += xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP)
       # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
       inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
           IpType(src=remoteaddr, dst=myaddr) /
