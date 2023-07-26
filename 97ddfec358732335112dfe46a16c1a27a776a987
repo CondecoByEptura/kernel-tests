@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6acab25_07a29ec1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-26T12:58:13Z",
+      "side": 1,
+      "message": "That\u0027s not what this change does.\n\nIt skips on \u003c5.7, which includes both 4.19 and 5.4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a3d26d8_c4344acc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-26T12:58:13Z",
+      "side": 1,
+      "message": "Additionally the test is quite intentional.",
+      "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20831985_10d704d6",
+        "filename": "net/test/sysctls_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-26T12:58:13Z",
+      "side": 1,
+      "message": "This appears to be incorrect.\n\nroot@uml-x86-64# uname -r\n4.19.275-00892-g12d190ed22fb\n\nroot@uml-x86-64# cat /proc/sys/net/ipv4/tcp_congestion_control\ncubic\nroot@uml-x86-64# unshare -n\n\n# cat /proc/sys/net/ipv4/tcp_congestion_control\ncubic\n# cat /proc/sys/net/ipv4/tcp_available_congestion_control\ncat: /proc/sys/net/ipv4/tcp_available_congestion_control: No such file or directory\n\nThis particular sysctl was namespaced prior to 4.19, not in 5.7.\n\nI believe the relevant commit is v4.14-rc8-2510-g6670e1524477:\n\ncommit 6670e152447732ba90626f36dfc015a13fbf150e\nAuthor: Stephen Hemminger \u003cstephen@networkplumber.org\u003e\nDate:   Tue Nov 14 08:25:49 2017 -0800\ntcp: Namespace-ify sysctl_tcp_default_congestion_control\n    \nso presumably it landed in 4.15.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 81
+      },
+      "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
