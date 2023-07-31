@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61949c78_f6dc8c6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-31T07:59:15Z",
+      "side": 1,
+      "message": "I have no idea if this is appropriate for Android 12 or not.",
+      "revId": "0a6fd587789fd56123bd49d9925315c6f37dbac7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
