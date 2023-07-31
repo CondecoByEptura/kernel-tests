@@ -33,6 +33,24 @@
       "message": "AFAICT the precursor change \u0027net-test: make network namespaces required\u0027 isn\u0027t in Android 12/13, thus the reasoning behind the change is incorrect - which likely means this isn\u0027t appropriate to merge.\n\nIt would require much more deep thought but it\u0027s probably not appropriate to cherrypick that earlier precursor change to earlier Android versions either.",
       "revId": "0a6fd587789fd56123bd49d9925315c6f37dbac7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c973cf1_c25cec29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1871447
+      },
+      "writtenOn": "2023-07-31T08:15:48Z",
+      "side": 1,
+      "message": "Thanks! The motivation is to fix our VTS failures in b/293812968 (I believe they have always failed). Would you be able to help suggest a better fix?",
+      "parentUuid": "798b2892_f2f173d3",
+      "revId": "0a6fd587789fd56123bd49d9925315c6f37dbac7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
