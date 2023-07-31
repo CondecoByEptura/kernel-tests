@@ -51,6 +51,24 @@
       "parentUuid": "798b2892_f2f173d3",
       "revId": "0a6fd587789fd56123bd49d9925315c6f37dbac7",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10b4aa73_1c20d447",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-07-31T10:35:07Z",
+      "side": 1,
+      "message": "No, sorry... Android 12 is old and finished (as is 13 and - for all\npractical purposes at this point - 14).\nI simply don\u0027t remember what the state of the world was back then -\nwe\u0027ve moved on.\nWith 14 I could still help you (even though we\u0027ve also moved past it,\nsince we branched April 20th ifirc), but 12 and 13 requires code\nspelunking in an area where we have had a fair number of gotchas...\n\nOn Mon, Jul 31, 2023 at 10:15 AM Igor Tolkov (Gerrit)\n\u003cnoreply-gerritcodereview-Yz1SYswUFTKCfY_pkOf90Q\u003d\u003d@google.com\u003e wrote:",
+      "tag": "mailMessageId\u003d\u003cCANP3RGfxMfLeFWP_FZM4_nPG0ykMk6LPHzs6vrOTH4OYMDKQoQ@mail.gmail.com\u003e",
+      "revId": "0a6fd587789fd56123bd49d9925315c6f37dbac7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
