@@ -62,6 +62,30 @@
       },
       "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe8438ce_38b03bd1",
+        "filename": "net/test/sysctls_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1355299
+      },
+      "writtenOn": "2023-08-02T08:10:47Z",
+      "side": 1,
+      "message": "（1）If i modify this code to this ，this sysctls_test case will pass：\n  @unittest.skipUnless(net_test.LINUX_VERSION \u003e\u003d (4, 20, 0), \"not yet namespaced\")\nOr\n  @unittest.skipUnless(net_test.LINUX_VERSION \u003e (4, 20, 0), \"not yet namespaced\")\n\nResult：\n./kernel_net_tests_bin sysctls_test\nCreating clean namespace... succeeded.\ntestAllowedCongestionControl (sysctls_test.SysctlsTest) ... skipped \u0027not yet namespaced\u0027\ntestAvailableCongestionControl (sysctls_test.SysctlsTest) ... skipped \u0027not yet namespaced\u0027\ntestCongestionControl (sysctls_test.SysctlsTest) ... skipped \u0027not yet namespaced\u0027\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK (skipped\u003d3)\n\n\n\n(2) If i modify this code to this ，this sysctls_test case is fail：\n  @unittest.skipUnless(net_test.LINUX_VERSION \u003e\u003d (4, 14, 0), \"not yet namespaced\")\nOr\n  @unittest.skipUnless(net_test.LINUX_VERSION \u003e\u003d (4, 19, 0), \"not yet namespaced\")\nOr \n  @unittest.skipUnless(net_test.LINUX_VERSION \u003e (4, 19, 0), \"not yet namespaced\")\n\n./kernel_net_tests_bin sysctls_test\nCreating clean namespace... succeeded.\ntestAllowedCongestionControl (sysctls_test.SysctlsTest) ... skipped \u0027not yet namespaced\u0027\ntestAvailableCongestionControl (sysctls_test.SysctlsTest) ... skipped \u0027not yet namespaced\u0027\ntestCongestionControl (sysctls_test.SysctlsTest) ... FAIL\n\nResult：\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFAIL: testCongestionControl (sysctls_test.SysctlsTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"sysctls_test.py\", line 43, in testCongestionControl\n  File \"sysctls_test.py\", line 31, in check\nAssertionError: Lists differ: [\u0027bic\u0027] !\u003d []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n\u0027bic\u0027\n\n- [\u0027bic\u0027]\n+ [] : Obsolete TCP congestion control algorithm found. These algorithms will decrease real-world networking performance for users and must be disabled. Found: [\u0027bic\u0027]\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nFAILED (failures\u003d1, skipped\u003d2)",
+      "parentUuid": "20831985_10d704d6",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 81
+      },
+      "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
