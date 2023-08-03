@@ -86,6 +86,30 @@
       },
       "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae9cb4f4_f28ad941",
+        "filename": "net/test/sysctls_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-03T09:00:47Z",
+      "side": 1,
+      "message": "It passes just fine on Pixel 5 which is 4.19 based.\nIt also passes on the ACK 4.19 branches.\n\nThis is not an issue in any way related to the version of the kernel.\n\nYour test failure is a result of how *your* kernel is configured.",
+      "parentUuid": "fe8438ce_38b03bd1",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 81
+      },
+      "revId": "97ddfec358732335112dfe46a16c1a27a776a987",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
