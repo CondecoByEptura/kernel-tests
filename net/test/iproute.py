@@ -245,6 +245,13 @@ IFLA_VTI_OKEY = 3
 IFLA_VTI_LOCAL = 4
 IFLA_VTI_REMOTE = 5
 
+# include/net/if_inet6.h
+IF_RA_OTHERCONF = 0x80
+IF_RA_MANAGED   = 0x40
+IF_RA_RCVD      = 0x20
+IF_RS_SENT      = 0x10
+IF_READY        = 0x80000000
+
 # Hack to use _ParseAttributes to parse family-specific interface attributes.
 # These are not actual kernel constants.
 IFLA_AF_SPEC_AF_INET = AF_INET
@@ -346,7 +353,15 @@ class IPRoute(netlink.NetlinkSocket):
                 "RTAX_HOPLIMIT", "IFLA_CARRIER_CHANGES", "IFLA_GSO_MAX_SEGS",
                 "IFLA_GSO_MAX_SIZE", "RTA_UID", "IFLA_INET6_FLAGS"]:
       data = struct.unpack("=I", nla_data)[0]
-    elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"]:
+    # HACK: the code cannot distinguish between IFLA_VTI_OKEY and
+    # IFLA_INET6_STATS, because they have the same values and similar context:
+    # they're both in an IFLA_INFO_DATA attribue, and knowing which one is
+    # being used requires remembering the IFLA_INFO_KIND attribute which is a
+    # peer of the IFLA_INFO_DATA).
+    # TODO: support parsing attributes whose meaning depends on the value of
+    # attributes that don't directly contain them.
+    # For now, disambiguate by checking the length.
+    elif name in ["IFLA_VTI_OKEY", "IFLA_VTI_IKEY"] and len(nla_data) == 4:
       data = struct.unpack("!I", nla_data)[0]
     elif name == "FRA_SUPPRESS_PREFIXLEN":
       data = struct.unpack("=i", nla_data)[0]
@@ -733,6 +748,17 @@ class IPRoute(netlink.NetlinkSocket):
   def GetRxTxPackets(self, dev_name):
     stats = self.GetIfaceStats(dev_name)
     return stats.rx_packets, stats.tx_packets
+
+  def GetIflaAfSpecificData(self, dev_name, family):
+    _, attrs = self.GetIfinfo(dev_name)
+    attrs = self._ParseAttributes(RTM_NEWLINK, IfinfoMsg, attrs, [])
+    if family == AF_INET:
+      attrname = "IFLA_AF_SPEC_AF_INET"
+    elif family == AF_INET6:
+      attrname = "IFLA_AF_SPEC_AF_INET6"
+    else:
+      raise ValueError("Unsupported address family %d" % family)
+    return attrs["IFLA_AF_SPEC"][attrname]
 
   def CreateVirtualTunnelInterface(self, dev_name, local_addr, remote_addr,
                                    i_key=None, o_key=None, is_update=False):
