@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa7c0f5c_c1a80867",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-08-16T06:03:33Z",
+      "side": 1,
+      "message": "Typo fixed, but the +2 went away. Patrick or Maciej, care to +2 again?",
+      "revId": "8b56888faf6d01b5848447566210e8f20ace35cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
