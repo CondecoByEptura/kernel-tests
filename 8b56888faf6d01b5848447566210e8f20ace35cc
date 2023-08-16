@@ -16,6 +16,23 @@
       "message": "Typo fixed, but the +2 went away. Patrick or Maciej, care to +2 again?",
       "revId": "8b56888faf6d01b5848447566210e8f20ace35cc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "431e4271_35c01ce0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-08-16T08:28:30Z",
+      "side": 1,
+      "message": "Presubmit failed because the checkpatch script doesn\u0027t like projects without a BUILD file. Uploaded a fix in aosp/2709314.",
+      "revId": "8b56888faf6d01b5848447566210e8f20ace35cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
