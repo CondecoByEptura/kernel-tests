@@ -232,9 +232,19 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     return f
 
   @classmethod
-  def SendRA(cls, netid, retranstimer=None, reachabletime=0, m=0, o=0,
-             options=()):
-    validity = cls.RA_VALIDITY # seconds
+  def SendRA(cls, netid, retranstimer=None, reachabletime=0, routerlft=-1,
+             piolft=-1, m=0, o=0, options=()):
+    if routerlft == -1:
+      routerlft = cls.RA_VALIDITY
+
+    if piolft == -1:
+      piolft = cls.RA_VALIDITY
+
+    # We don't want any routes in the main table. If the kernel doesn't support
+    # putting RA routes into per-interface tables, configure routing manually.
+    if not HAVE_AUTOCONF_TABLE:
+      routerlft = 0
+
     macaddr = cls.RouterMacAddress(netid)
     lladdr = cls._RouterAddress(netid, 6)
 
@@ -242,24 +252,20 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       # If no retrans timer was specified, pick one that's as long as the
       # router lifetime. This ensures that no spurious ND retransmits
       # will interfere with test expectations.
-      retranstimer = validity * 1000  # Lifetime is in s, retrans timer in ms.
-
-    # We don't want any routes in the main table. If the kernel doesn't support
-    # putting RA routes into per-interface tables, configure routing manually.
-    routerlifetime = validity if HAVE_AUTOCONF_TABLE else 0
+      retranstimer = cls.RA_VALIDITY * 1000  # Lifetime is in s, retrans timer in ms.
 
     ra = (scapy.Ether(src=macaddr, dst="33:33:00:00:00:01") /
           scapy.IPv6(src=lladdr, hlim=255) /
           scapy.ICMPv6ND_RA(reachabletime=reachabletime,
                             retranstimer=retranstimer,
-                            routerlifetime=routerlifetime,
+                            routerlifetime=routerlft,
                             M=m, O=o) /
           scapy.ICMPv6NDOptSrcLLAddr(lladdr=macaddr) /
           scapy.ICMPv6NDOptPrefixInfo(prefix=cls.OnlinkPrefix(6, netid),
                                       prefixlen=cls.OnlinkPrefixLen(6),
                                       L=1, A=1,
-                                      validlifetime=validity,
-                                      preferredlifetime=validity))
+                                      validlifetime=piolft,
+                                      preferredlifetime=piolft))
     for option in options:
       ra /= option
     posix.write(cls.tuns[netid].fileno(), bytes(ra))
