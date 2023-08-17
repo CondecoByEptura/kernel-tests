@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9736f398_52e1d651",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-17T17:27:31Z",
+      "side": 1,
+      "message": "huh, I just figured out this works as well: `routerlft\u003dRA_VALIDITY`. Let me replace them, it makes the code much cleaner.",
+      "range": {
+        "startLine": 235,
+        "startChar": 61,
+        "endLine": 235,
+        "endChar": 73
+      },
+      "revId": "43246eb1b09360a21592997f506d007cf707adc2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
