@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "043fa25b_1d4ac2fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-17T21:35:49Z",
+      "side": 1,
+      "message": "I\u0027d like to see a backport of your upstream change merged into ACK, then we\u0027ll know what minimum kver to require.",
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
