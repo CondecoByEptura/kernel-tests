@@ -33,6 +33,23 @@
       "message": "Presubmit failed because the checkpatch script doesn\u0027t like projects without a BUILD file. Uploaded a fix in aosp/2709314.",
       "revId": "8b56888faf6d01b5848447566210e8f20ace35cc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f0b4f91_9bde3f25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-08-17T03:49:17Z",
+      "side": 1,
+      "message": "The checkpatch presubmit failed because it doesn\u0027t deal properly with changes in kernel/tests. I have a fix in aosp/2709314 which is awaiting review.",
+      "revId": "8b56888faf6d01b5848447566210e8f20ace35cc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
