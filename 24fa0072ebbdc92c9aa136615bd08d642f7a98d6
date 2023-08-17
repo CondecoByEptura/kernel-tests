@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2b3b3de_028b74bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-17T17:33:50Z",
+      "side": 1,
+      "message": "Maze, do you know what kernel branches these test run against? Trying to figure out if I need to check for the presence of the sysctl (I am thinking that I probably do) or wait for the patches to be present in android-mainline.",
+      "revId": "24fa0072ebbdc92c9aa136615bd08d642f7a98d6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
