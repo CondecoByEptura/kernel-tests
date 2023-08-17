@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4b7490c_8995fe24",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-17T19:02:04Z",
+      "side": 1,
+      "message": "should this not be routerlft per comment?",
+      "range": {
+        "startLine": 241,
+        "startChar": 1,
+        "endLine": 245,
+        "endChar": 0
+      },
+      "revId": "0b2b5d0afdcc34c51f3d4cfd2cb2c0f4b6abb6bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
