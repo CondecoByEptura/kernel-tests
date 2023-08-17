@@ -22,6 +22,30 @@
       },
       "revId": "0b2b5d0afdcc34c51f3d4cfd2cb2c0f4b6abb6bc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bb11703_549c0b7d",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-17T19:04:57Z",
+      "side": 1,
+      "message": "Yes, it should be, thanks!",
+      "parentUuid": "f4b7490c_8995fe24",
+      "range": {
+        "startLine": 241,
+        "startChar": 1,
+        "endLine": 245,
+        "endChar": 0
+      },
+      "revId": "0b2b5d0afdcc34c51f3d4cfd2cb2c0f4b6abb6bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
