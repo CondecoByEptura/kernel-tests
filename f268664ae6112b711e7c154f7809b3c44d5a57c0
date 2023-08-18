@@ -16,6 +16,144 @@
       "message": "I\u0027d like to see a backport of your upstream change merged into ACK, then we\u0027ll know what minimum kver to require.",
       "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5865f1d4_1befe8d9",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-18T09:39:59Z",
+      "side": 1,
+      "message": "side note: the existence of this HAVE_AUTOCONF_TABLE is basically a test bug...\n\nsince it means we won\u0027t enforce the sysctl\u0027s existence - we\u0027ll just skip / adjust tests if they\u0027re missing\n\nI have a todo to fix this... or add a test that it\u0027s true (which might be better for upstream testing)\n\n(so it\u0027s not a good thing to replicate...)",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 59
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144f7ce3_54dfec32",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-18T09:39:59Z",
+      "side": 1,
+      "message": "doesn\u0027t this fit on prev line?",
+      "range": {
+        "startLine": 627,
+        "startChar": 0,
+        "endLine": 627,
+        "endChar": 8
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda8985d_e624a7bd",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-18T09:39:59Z",
+      "side": 1,
+      "message": "should we try 255 instead - considering the u8 likely hack?",
+      "range": {
+        "startLine": 805,
+        "startChar": 27,
+        "endLine": 805,
+        "endChar": 29
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b829e9_f317274d",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-18T09:39:59Z",
+      "side": 1,
+      "message": "I think i\u0027d prefer 0.1 here and below, unless you\u0027re certain 0.01 is enough to not flake...",
+      "range": {
+        "startLine": 816,
+        "startChar": 15,
+        "endLine": 816,
+        "endChar": 19
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf45b85d_4a7432c4",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-18T09:39:59Z",
+      "side": 1,
+      "message": "PREF would be a bit easier to read",
+      "range": {
+        "startLine": 861,
+        "startChar": 4,
+        "endLine": 861,
+        "endChar": 7
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a398fc50_27fdd660",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-18T09:39:59Z",
+      "side": 1,
+      "message": "the order of args is weird... plen before prefix.",
+      "range": {
+        "startLine": 867,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 39
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
