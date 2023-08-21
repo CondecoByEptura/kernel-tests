@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bfcebea_e275985c",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-21T20:11:51Z",
+      "side": 1,
+      "message": "Maybe this should just be something like:\n```\nHAVE_AUTOCONF_TABLE \u003d os.path.isfile(AUTOCONF_TABLE_SYSCTL) || kernelVersion \u003e\u003d 6.5\n```\n\nI would like these tests to be compatible with old kernels where we\u0027ve backported this functionality.",
+      "parentUuid": "5865f1d4_1befe8d9",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 59
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "144f7ce3_54dfec32",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 8
@@ -54,6 +78,30 @@
       "writtenOn": "2023-08-18T09:39:59Z",
       "side": 1,
       "message": "doesn\u0027t this fit on prev line?",
+      "range": {
+        "startLine": 627,
+        "startChar": 0,
+        "endLine": 627,
+        "endChar": 8
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47f60bf3_1bbdc8a6",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-21T20:11:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "144f7ce3_54dfec32",
       "range": {
         "startLine": 627,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8d7a473_c1852f12",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-21T20:11:51Z",
+      "side": 1,
+      "message": "changed to 500, since it\u0027s now a u16 in the hacky version.",
+      "parentUuid": "eda8985d_e624a7bd",
+      "range": {
+        "startLine": 805,
+        "startChar": 27,
+        "endLine": 805,
+        "endChar": 29
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37b829e9_f317274d",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-08-18T09:39:59Z",
       "side": 1,
       "message": "I think i\u0027d prefer 0.1 here and below, unless you\u0027re certain 0.01 is enough to not flake...",
+      "range": {
+        "startLine": 816,
+        "startChar": 15,
+        "endLine": 816,
+        "endChar": 19
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd9cf99b_65f805a0",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-21T20:11:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37b829e9_f317274d",
       "range": {
         "startLine": 816,
         "startChar": 15,
@@ -135,6 +231,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a4a0dfc2_aa9c6076",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-21T20:11:51Z",
+      "side": 1,
+      "message": "This is copied from above, but it\u0027s Prf in rfc4191 (see https://datatracker.ietf.org/doc/html/rfc4191#section-2.3).",
+      "parentUuid": "bf45b85d_4a7432c4",
+      "range": {
+        "startLine": 861,
+        "startChar": 4,
+        "endLine": 861,
+        "endChar": 7
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a398fc50_27fdd660",
         "filename": "net/test/multinetwork_test.py",
         "patchSetId": 8
@@ -146,6 +266,30 @@
       "writtenOn": "2023-08-18T09:39:59Z",
       "side": 1,
       "message": "the order of args is weird... plen before prefix.",
+      "range": {
+        "startLine": 867,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 39
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17a4f54e_3afa35bd",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-21T20:11:51Z",
+      "side": 1,
+      "message": "Agreed. It might make more sense to copy the order of the RIO though? In that case, we would use: prefix length, prf, route lifetime, prefix. Or would you prefer a more natural order: prefix, prefix length, lft, prf?",
+      "parentUuid": "a398fc50_27fdd660",
       "range": {
         "startLine": 867,
         "startChar": 0,
