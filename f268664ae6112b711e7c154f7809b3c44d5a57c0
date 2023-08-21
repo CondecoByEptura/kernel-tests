@@ -65,6 +65,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c6baac_f1397548",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-21T21:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bfcebea_e275985c",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 59
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "144f7ce3_54dfec32",
@@ -290,6 +314,30 @@
       "side": 1,
       "message": "Agreed. It might make more sense to copy the order of the RIO though? In that case, we would use: prefix length, prf, route lifetime, prefix. Or would you prefer a more natural order: prefix, prefix length, lft, prf?",
       "parentUuid": "a398fc50_27fdd660",
+      "range": {
+        "startLine": 867,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 39
+      },
+      "revId": "f268664ae6112b711e7c154f7809b3c44d5a57c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef7e5d2_dca2c4af",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-21T21:13:46Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "17a4f54e_3afa35bd",
       "range": {
         "startLine": 867,
         "startChar": 0,
