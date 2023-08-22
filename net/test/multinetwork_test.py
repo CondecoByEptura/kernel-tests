@@ -594,11 +594,9 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     super(RIOTest, self).setUp()
     self.NETID = random.choice(self.NETIDS)
     self.IFACE = self.GetInterfaceName(self.NETID)
-    # return sysctls to default values before each test case
+    # return min/max plen to default values before each test case
     self.SetAcceptRaRtInfoMinPlen(0)
     self.SetAcceptRaRtInfoMaxPlen(0)
-    if multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT:
-      self.SetAcceptRaMinLft(0)
 
   def GetRoutingTable(self):
     return self._TableForNetid(self.NETID)
@@ -620,14 +618,6 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def GetAcceptRaRtInfoMaxPlen(self):
     return int(self.GetSysctl(
         "/proc/sys/net/ipv6/conf/%s/accept_ra_rt_info_max_plen" % self.IFACE))
-
-  def SetAcceptRaMinLft(self, min_lft):
-    self.SetSysctl(
-        "/proc/sys/net/ipv6/conf/%s/accept_ra_min_lft" % self.IFACE, min_lft)
-
-  def GetAcceptRaMinLft(self):
-    return int(self.GetSysctl(
-        "/proc/sys/net/ipv6/conf/%s/accept_ra_min_lft" % self.IFACE))
 
   def SendRIO(self, rtlifetime, plen, prefix, prf):
     options = scapy.ICMPv6NDOptRouteInfo(rtlifetime=rtlifetime, plen=plen,
@@ -794,89 +784,6 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
       self.DelRA6(prefix, PLEN)
     # Expect that we can return to baseline config without lingering routes.
     self.assertEqual(baseline, self.CountRoutes())
-
-  # Contextually, testAcceptRa tests do not belong in RIOTest, but as it
-  # turns out, RIOTest has all the useful helpers defined for these tests.
-  # TODO: Rename test class or merge RIOTest with RATest.
-  @unittest.skipUnless(multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT,
-                       "need support for accept_ra_min_lft")
-  def testAcceptRaMinLftReadWrite(self):
-    self.SetAcceptRaMinLft(500)
-    self.assertEqual(500, self.GetAcceptRaMinLft())
-
-  @unittest.skipUnless(multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT,
-                       "need support for accept_ra_min_lft")
-  def testAcceptRaMinLftRouterLifetime(self):
-    self.SetAcceptRaMinLft(500)
-
-    # Test setup has sent an initial RA. Expire it and test that the RA with
-    # lifetime 0 deletes the default route.
-    self.SendRA(self.NETID, routerlft=0, piolft=0)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertEqual([], self.FindRoutesWithGateway())
-
-    # RA with lifetime 400 is ignored
-    self.SendRA(self.NETID, routerlft=400)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertEqual([], self.FindRoutesWithGateway())
-
-    # RA with lifetime 600 is processed
-    self.SendRA(self.NETID, routerlft=600)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertEqual(1, len(self.FindRoutesWithGateway()))
-
-  @unittest.skipUnless(multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT,
-                       "need support for accept_ra_min_lft")
-  def testAcceptRaMinLftPIOLifetime(self):
-    self.SetAcceptRaMinLft(500)
-
-    # Test setup has sent an initial RA -- expire it.
-    self.SendRA(self.NETID, routerlft=0, piolft=0)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    # Check that the prefix route was deleted.
-    prefixroutes = self.FindRoutesWithDestination(self.OnlinkPrefix(6, self.NETID))
-    self.assertEqual([], prefixroutes)
-
-    # Sending a 0-lifetime PIO does not cause the address to be deleted, see
-    # rfc2462#section-5.5.3.
-    address = self.MyAddress(6, self.NETID)
-    self.iproute.DelAddress(address, 64, self.ifindices[self.NETID])
-
-    # PIO with lifetime 400 is ignored
-    self.SendRA(self.NETID, piolft=400)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertIsNone(self.MyAddress(6, self.NETID))
-
-    # PIO with lifetime 600 is processed
-    self.SendRA(self.NETID, piolft=600)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertIsNotNone(self.MyAddress(6, self.NETID))
-
-  @unittest.skipUnless(multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT,
-                       "need support for accept_ra_min_lft")
-  def testAcceptRaMinLftRIOLifetime(self):
-    PREFIX = "2001:db8:8901:2300::"
-    PLEN = 64
-    PRF = 0
-
-    self.SetAcceptRaRtInfoMaxPlen(PLEN)
-    self.SetAcceptRaMinLft(500)
-
-    # RIO with lifetime 400 is ignored
-    self.SendRIO(400, PLEN, PREFIX, PRF)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertFalse(self.FindRoutesWithDestination(PREFIX))
-
-    # RIO with lifetime 600 is processed
-    self.SendRIO(600, PLEN, PREFIX, PRF)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertTrue(self.FindRoutesWithDestination(PREFIX))
-
-    # RIO with lifetime 0 deletes the route
-    self.SendRIO(0, PLEN, PREFIX, PRF)
-    time.sleep(0.1) # Give the kernel time to notice our RA
-    self.assertFalse(self.FindRoutesWithDestination(PREFIX))
-
 
 class RATest(multinetwork_base.MultiNetworkBaseTest):
 

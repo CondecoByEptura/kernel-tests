@@ -52,13 +52,10 @@ IPV6_FLOWINFO = 11
 IPV6_HOPLIMIT = 52  # Different from IPV6_UNICAST_HOPS, this is cmsg only.
 
 
-ACCEPT_RA_MIN_LFT_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_min_lft"
 AUTOCONF_TABLE_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_rt_table"
 IPV4_MARK_REFLECT_SYSCTL = "/proc/sys/net/ipv4/fwmark_reflect"
 IPV6_MARK_REFLECT_SYSCTL = "/proc/sys/net/ipv6/fwmark_reflect"
 
-HAVE_ACCEPT_RA_MIN_LFT = os.path.isfile(ACCEPT_RA_MIN_LFT_SYSCTL) ||
-                         net_test.KernelAtLeast([6, 6, 0])
 HAVE_AUTOCONF_TABLE = os.path.isfile(AUTOCONF_TABLE_SYSCTL)
 
 
@@ -128,7 +125,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   IPV4_PING = net_test.IPV4_PING
   IPV6_PING = net_test.IPV6_PING
 
-  RA_VALIDITY = 600 # seconds
+  RA_VALIDITY = 300 # seconds
 
   @classmethod
   def UidRangeForNetid(cls, netid):
