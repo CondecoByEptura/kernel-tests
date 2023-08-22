@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b203b8_57801197",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-08-22T08:18:02Z",
+      "side": 1,
+      "message": "This is going to be make the test flaky, and it will also add up - the new tests you are adding in this CL will take a minimum of 0.9 seconds. \n\nSuggest having a method that checks that the routes are eventually deleted. The method could either listening to netlink for RTM_DELROUTE or else have a poll loop that checks X times, every Y ms, whether the routes have been deleted. The method should fail if the routes don\u0027t get deleted after un unreasonably long time (e.g., 3 seconds). Because the timeout is never hit when the test passes, it shouldn\u0027t slow down development cycles.",
+      "range": {
+        "startLine": 815,
+        "startChar": 4,
+        "endLine": 815,
+        "endChar": 19
+      },
+      "revId": "3fb00d60c02b158873a6eb1185fc1cd7e4b8e1c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2ec47cf_84194865",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-08-22T08:18:02Z",
+      "side": 1,
+      "message": "Unrelated to this CL, but actually these days this is a bug, not a feature. There\u0027s an adopted 6man draft that is trying to change it, but it\u0027s moving slowly. :-(",
+      "range": {
+        "startLine": 841,
+        "startChar": 27,
+        "endLine": 841,
+        "endChar": 28
+      },
+      "revId": "3fb00d60c02b158873a6eb1185fc1cd7e4b8e1c8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
