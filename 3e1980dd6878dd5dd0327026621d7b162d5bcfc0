@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "091ab3e6_e6e07006",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-23T17:57:12Z",
+      "side": 1,
+      "message": "TreeHugger appears to fail to ever actually +1/+2 the change even though it ran to completion and found no issues afaict.",
+      "revId": "3e1980dd6878dd5dd0327026621d7b162d5bcfc0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
