@@ -67,7 +67,9 @@ from bpf import BpfMov64Reg
 from bpf import BpfProgAttach
 from bpf import BpfProgAttachSocket
 from bpf import BpfProgDetach
+from bpf import BpfProgGetFdById
 from bpf import BpfProgLoad
+from bpf import BpfProgQuery
 from bpf import BpfRawInsn
 from bpf import BpfStMem
 from bpf import BpfStxMem
@@ -508,6 +510,9 @@ class BpfCgroupTest(net_test.NetworkTest):
     super(BpfCgroupTest, self).setUp()
     self.prog_fd = None
     self.map_fd = None
+    self.cg_inet_ingress = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_INGRESS, 0, 0))
+    self.cg_inet_egress = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_EGRESS, 0, 0))
+    self.cg_inet_sock_create = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
 
   def tearDown(self):
     if self.prog_fd is not None:
@@ -518,14 +523,26 @@ class BpfCgroupTest(net_test.NetworkTest):
       self.map_fd = None
     try:
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+      if self.cg_inet_egress is not None:
+        BpfProgAttach(self.cg_inet_egress, self._cg_fd, BPF_CGROUP_INET_EGRESS)
+        os.close(self.cg_inet_egress)
+        self.cg_inet_egress = None
     except socket.error:
       pass
     try:
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+      if self.cg_inet_ingress is not None:
+        BpfProgAttach(self.cg_inet_ingress, self._cg_fd, BPF_CGROUP_INET_INGRESS)
+        os.close(self.cg_inet_ingress)
+        self.cg_inet_ingress = None
     except socket.error:
       pass
     try:
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+      if self.cg_inet_sock_create is not None:
+        BpfProgAttach(self.cg_inet_sock_create, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+        os.close(self.cg_inet_sock_create)
+        self.cg_inet_sock_create = None
     except socket.error:
       pass
     super(BpfCgroupTest, self).tearDown()
@@ -602,8 +619,17 @@ class BpfCgroupTest(net_test.NetworkTest):
         BpfJumpImm(BPF_JNE, BPF_REG_0, TEST_UID, 2),
     ]
     instructions += INS_BPF_EXIT_BLOCK + INS_CGROUP_ACCEPT
+
+    fd = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
+    assert fd is None
+
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SOCK, instructions)
     BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+
+    fd = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
+    assert fd is not None
+    assert fd == self.prog_fd + 1
+
     with net_test.RunAsUid(TEST_UID):
       # Socket creation with target uid should fail
       self.trySocketCreate(False)
