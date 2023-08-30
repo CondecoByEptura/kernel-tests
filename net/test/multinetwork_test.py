@@ -1023,19 +1023,19 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     netid = random.choice(self.NETIDS)
     iface = self.GetInterfaceName(netid)
     expected = iproute.IF_RS_SENT | iproute.IF_RA_RCVD | iproute.IF_READY
-    self.assertEquals(expected, GetInterfaceIpv6Flags(iface))
+    self.assertEqual(expected, GetInterfaceIpv6Flags(iface))
 
     self.SendRA(netid, m=1, o=0)
     expected |= iproute.IF_RA_MANAGED
-    self.assertEquals(expected, GetInterfaceIpv6Flags(iface))
+    self.assertEqual(expected, GetInterfaceIpv6Flags(iface))
 
     self.SendRA(netid, m=1, o=1)
     expected |= iproute.IF_RA_OTHERCONF
-    self.assertEquals(expected, GetInterfaceIpv6Flags(iface))
+    self.assertEqual(expected, GetInterfaceIpv6Flags(iface))
 
     self.SendRA(netid, m=0, o=1)
     expected &= ~iproute.IF_RA_MANAGED
-    self.assertEquals(expected, GetInterfaceIpv6Flags(iface))
+    self.assertEqual(expected, GetInterfaceIpv6Flags(iface))
 
 
 class PMTUTest(multinetwork_base.InboundMarkingTest):
