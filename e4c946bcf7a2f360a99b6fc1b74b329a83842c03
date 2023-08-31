@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d8f602b_3829fd44",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-31T17:41:38Z",
+      "side": 1,
+      "message": "This was meant to be a non-ideal test that the new functions actually work,\nsince at this point we expect there to not be anything attached...\n\nThis particular test would be easy to move to a different test function\n(since it\u0027s just 2 lines)",
+      "parentUuid": "adda3286_4e9bbf72",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 21
+      },
+      "revId": "e4c946bcf7a2f360a99b6fc1b74b329a83842c03",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a27874ba_bd63d183",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-31T17:36:16Z",
       "side": 1,
       "message": "what\u0027s the value of this assertion?",
+      "range": {
+        "startLine": 637,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 33
+      },
+      "revId": "e4c946bcf7a2f360a99b6fc1b74b329a83842c03",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edfe216_6663d182",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-08-31T17:41:38Z",
+      "side": 1,
+      "message": "similar to up above, since we attached something, we expect it to no longer be null\n(ie. a basically free test the functions are working),\nand we expect the next available free fd to be assigned - which usually should be the previous one +1 (though technically this isn\u0027t rock solidly guaranteed...\nif there was some fd opening and out of order freeing only some of them already done previously) - which seems to work here in practice...",
+      "parentUuid": "a27874ba_bd63d183",
       "range": {
         "startLine": 637,
         "startChar": 4,
