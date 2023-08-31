@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adda3286_4e9bbf72",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-31T17:36:16Z",
+      "side": 1,
+      "message": "since BpfProgDetach is called in setUp now, is there any point in adding this assertion here?",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 21
+      },
+      "revId": "e4c946bcf7a2f360a99b6fc1b74b329a83842c03",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a27874ba_bd63d183",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1594463
+      },
+      "writtenOn": "2023-08-31T17:36:16Z",
+      "side": 1,
+      "message": "what\u0027s the value of this assertion?",
+      "range": {
+        "startLine": 637,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 33
+      },
+      "revId": "e4c946bcf7a2f360a99b6fc1b74b329a83842c03",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
