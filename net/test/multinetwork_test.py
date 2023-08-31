@@ -599,6 +599,8 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     self.SetAcceptRaRtInfoMaxPlen(0)
     if multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT:
       self.SetAcceptRaMinLft(0)
+    if multinetwork_base.HAVE_RA_PINFO_RFC4862_5_5_3E:
+      self.SetRaPinfoRfc4862_5_5_3e(1)
 
   def GetRoutingTable(self):
     return self._TableForNetid(self.NETID)
@@ -628,6 +630,14 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def GetAcceptRaMinLft(self):
     return int(self.GetSysctl(
         "/proc/sys/net/ipv6/conf/%s/accept_ra_min_lft" % self.IFACE))
+
+  def SetRaPinfoRfc4862_5_5_3e(self, enabled):
+    self.SetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/ra_pinfo_rfc4862_5_5_3e" % self.IFACE, enabled)
+
+  def GetRaPinfoRfc4862_5_5_3e(self):
+    return int(self.GetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/ra_pinfo_rfc4862_5_5_3e" % self.IFACE))
 
   def SendRIO(self, rtlifetime, plen, prefix, prf):
     options = scapy.ICMPv6NDOptRouteInfo(rtlifetime=rtlifetime, plen=plen,
@@ -803,6 +813,25 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def testAcceptRaMinLftReadWrite(self):
     self.SetAcceptRaMinLft(500)
     self.assertEqual(500, self.GetAcceptRaMinLft())
+
+  @unittest.skipUnless(multinetwork_base.HAVE_RA_PINFO_RFC4862_5_5_3E,
+                       "need support for ra_pinfo_rfc4862_5_5_3e")
+  def testRaPinfoRfc4862ReadWrite(self):
+    self.assertEqual(1, self.GetRaPinfoRfc4862_5_5_3e())
+    self.SetRaPinfoRfc4862_5_5_3e(0)
+    self.assertEqual(0, self.GetRaPinfoRfc4862_5_5_3e())
+
+  @unittest.skipUnless(multinetwork_base.HAVE_RA_PINFO_RFC4862_5_5_3E,
+                       "need support for ra_pinfo_rfc4862_5_5_3e")
+  def testRaPinfoRfc4862ZeroLifetimePIO(self):
+    self.SetRaPinfoRfc4862_5_5_3e(0)
+
+    # Test setup has sent an initial RA -- expire it.
+    self.SendRA(self.NETID, routerlft=0, piolft=0)
+    time.sleep(0.1) # Give the kernel time to notice our RA
+
+    # Assert that the address was deleted.
+    self.assertIsNone(self.MyAddress(6, self.NETID))
 
   @unittest.skipUnless(multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT,
                        "need support for accept_ra_min_lft")
