@@ -635,6 +635,8 @@ class BpfCgroupTest(net_test.NetworkTest):
     fd = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
     assert fd is not None
     assert fd == self.prog_fd + 1
+    os.close(fd)
+    fd = None
 
     with net_test.RunAsUid(TEST_UID):
       # Socket creation with target uid should fail
