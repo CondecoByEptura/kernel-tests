@@ -885,6 +885,9 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
   Pref64Option = cstruct.Struct("pref64_option", "!BBH12s",
                                 "type length lft_plc prefix")
 
+  def testHasAutoconfTable(self):
+    self.assertTrue(multinetwork_base.HAVE_AUTOCONF_TABLE)
+
   def testDoesNotHaveObsoleteSysctl(self):
     self.assertFalse(os.path.isfile(
         "/proc/sys/net/ipv6/route/autoconf_table_offset"))
