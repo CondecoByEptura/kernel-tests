@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3311013d_e14a7a29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-09-01T22:33:35Z",
+      "side": 1,
+      "message": "Passes on 6.1-V UML, fails on 6.5 UML:\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFAIL: testHasAutoconfTable (__main__.RATest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/host/mnt/zoom/maze/aosp-tests/net/test/./multinetwork_test.py\", line 889, in testHasAutoconfTable\n    self.assertTrue(multinetwork_base.HAVE_AUTOCONF_TABLE)\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 56 tests in 21.526s\n\nFAILED (failures\u003d1, skipped\u003d15)\n\u0027./multinetwork_test.py\u0027 failed more than once, giving up",
+      "revId": "8a5981b8328f2adf7a55da618c75272233057804",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
