@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "544cafab_d3eac79f",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-09-01T15:22:10Z",
+      "side": 1,
+      "message": "I guess technically \u0027del fd\u0027 instead of \u0027fd \u003d None\u0027 is more pythonic?",
+      "range": {
+        "startLine": 639,
+        "startChar": 0,
+        "endLine": 639,
+        "endChar": 13
+      },
+      "revId": "b396a584531c4a4822b822602167f402958bede6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
