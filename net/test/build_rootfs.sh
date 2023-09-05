@@ -458,6 +458,7 @@ if [[ ${rootfs_partition} = "raw" ]]; then
 	sudo cp -a "${kernel}" "${mount}/boot/vmlinuz-${kernel_version}"
 	sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
     fi
+    sudo cp -a "${SCRIPT_DIR}"/rootfs/cron-run-installer-script "${mount}/etc/cron.d/cron-run-installer-script"
 else
     if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
 	if [ -n "${dtb}" ]; then
@@ -466,6 +467,7 @@ else
 	fi
 	e2cp -G 0 -O 0 "${kernel}" "${rootfs_partition_tempfile}":"/boot/vmlinuz-${kernel_version}"
     fi
+    e2cp -G 0 -O 0 "${SCRIPT_DIR}"/rootfs/cron-run-installer-script "${rootfs_partition_tempfile}":"/etc/cron.d/cron-run-installer-script"
 fi
 
 # Unmount the initial ramdisk
@@ -493,7 +495,7 @@ ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -device pci-serial,chardev=exitcode \
   -netdev user,id=usernet0,ipv6=off \
   -device virtio-net-pci-non-transitional,netdev=usernet0,id=net0 \
-  -append "root=LABEL=ROOT init=/root/${suite}.sh ${cmdline}"
+  -append "root=LABEL=ROOT installer_script=/root/${suite}.sh ${cmdline}"
 [[ -s exitcode ]] && exitcode=$(cat exitcode | tr -d '\r') || exitcode=2
 rm -f exitcode
 if [ "${exitcode}" != "0" ]; then
