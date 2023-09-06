@@ -527,33 +527,24 @@ class BpfCgroupTest(net_test.NetworkTest):
     if self.map_fd is not None:
       os.close(self.map_fd)
       self.map_fd = None
-    try:
-      if self.cg_inet_ingress is None:
-        BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
-      else:
-        BpfProgAttach(self.cg_inet_ingress, self._cg_fd, BPF_CGROUP_INET_INGRESS)
-        os.close(self.cg_inet_ingress)
-        self.cg_inet_ingress = None
-    except socket.error:
-      pass
-    try:
-      if self.cg_inet_egress is None:
-        BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
-      else:
-        BpfProgAttach(self.cg_inet_egress, self._cg_fd, BPF_CGROUP_INET_EGRESS)
-        os.close(self.cg_inet_egress)
-        self.cg_inet_egress = None
-    except socket.error:
-      pass
-    try:
-      if self.cg_inet_sock_create is None:
-        BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
-      else:
-        BpfProgAttach(self.cg_inet_sock_create, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
-        os.close(self.cg_inet_sock_create)
-        self.cg_inet_sock_create = None
-    except socket.error:
-      pass
+    if self.cg_inet_ingress is None:
+      BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
+    else:
+      BpfProgAttach(self.cg_inet_ingress, self._cg_fd, BPF_CGROUP_INET_INGRESS)
+      os.close(self.cg_inet_ingress)
+      self.cg_inet_ingress = None
+    if self.cg_inet_egress is None:
+      BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_EGRESS)
+    else:
+      BpfProgAttach(self.cg_inet_egress, self._cg_fd, BPF_CGROUP_INET_EGRESS)
+      os.close(self.cg_inet_egress)
+      self.cg_inet_egress = None
+    if self.cg_inet_sock_create is None:
+      BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+    else:
+      BpfProgAttach(self.cg_inet_sock_create, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+      os.close(self.cg_inet_sock_create)
+      self.cg_inet_sock_create = None
     super(BpfCgroupTest, self).tearDown()
 
   def testCgroupBpfAttach(self):
