@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "335bb64c_69cbbc3b",
+        "filename": "net/test/bpf_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-09-06T06:44:27Z",
+      "side": 1,
+      "message": "hmm, maybe the try would be better after the if only around the detach,\nand indeed maybe it would be even better inside of BpfProgDetach\n\nTraceback (most recent call last):\n  File \"bpf_test.py\", line 531, in tearDown\n  File \"bpf.py\", line 304, in BpfProgDetach\n  File \"bpf.py\", line 223, in BpfSyscall\n  File \"csocket.py\", line 109, in MaybeRaiseSocketError\nFileNotFoundError: [Errno 2] No such file or directory\n\n^ this doesn\u0027t seem like a thing worth reporting in BpfProgDetach...",
+      "range": {
+        "startLine": 530,
+        "startChar": 4,
+        "endLine": 530,
+        "endChar": 7
+      },
+      "revId": "37c74d08e7dbec5405236aaefe177c019c7794f9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
