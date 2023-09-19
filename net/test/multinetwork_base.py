@@ -650,8 +650,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       if expectedudp.sport is None:
         actualudp.sport = None
         actualudp.chksum = None
-      elif actualudp.chksum == 0xffff:
+      elif actualudp.chksum == 0xffff and expectedudp.chksum == 0:
         # Scapy does not appear to change 0 to 0xffff as required by RFC 768.
+        # It is possible that scapy has been upgraded and this no longer triggers.
         actualudp.chksum = 0
 
     # Since the TCP code below messes with options, recalculate the length.
