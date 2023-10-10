@@ -599,6 +599,8 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     self.SetAcceptRaRtInfoMaxPlen(0)
     if multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT:
       self.SetAcceptRaMinLft(0)
+    if multinetwork_base.HAVE_RA_HONOR_PIO_LIFE:
+      self.SetRaHonorPioLife(0)
 
   def GetRoutingTable(self):
     return self._TableForNetid(self.NETID)
@@ -628,6 +630,14 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def GetAcceptRaMinLft(self):
     return int(self.GetSysctl(
         "/proc/sys/net/ipv6/conf/%s/accept_ra_min_lft" % self.IFACE))
+
+  def SetRaHonorPioLife(self, enabled):
+    self.SetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/ra_honor_pio_life" % self.IFACE, enabled)
+
+  def GetRaHonorPioLife(self):
+    return int(self.GetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/ra_honor_pio_life" % self.IFACE))
 
   def SendRIO(self, rtlifetime, plen, prefix, prf):
     options = scapy.ICMPv6NDOptRouteInfo(rtlifetime=rtlifetime, plen=plen,
@@ -803,6 +813,25 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def testAcceptRaMinLftReadWrite(self):
     self.SetAcceptRaMinLft(500)
     self.assertEqual(500, self.GetAcceptRaMinLft())
+
+  @unittest.skipUnless(multinetwork_base.HAVE_RA_HONOR_PIO_LIFE,
+                       "need support for ra_honor_pio_life")
+  def testRaHonorPioLifeReadWrite(self):
+    self.assertEqual(0, self.GetRaHonorPioLife())
+    self.SetRaHonorPioLife(1)
+    self.assertEqual(1, self.GetRaHonorPioLife())
+
+  @unittest.skipUnless(multinetwork_base.HAVE_RA_HONOR_PIO_LIFE,
+                       "need support for ra_honor_pio_life")
+  def testRaHonorPioLife(self):
+    self.SetRaHonorPioLife(1)
+
+    # Test setup has sent an initial RA -- expire it.
+    self.SendRA(self.NETID, routerlft=0, piolft=0)
+    time.sleep(0.1) # Give the kernel time to notice our RA
+
+    # Assert that the address was deleted.
+    self.assertIsNone(self.MyAddress(6, self.NETID))
 
   @unittest.skipUnless(multinetwork_base.HAVE_ACCEPT_RA_MIN_LFT,
                        "need support for accept_ra_min_lft")
