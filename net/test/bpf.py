@@ -198,7 +198,6 @@ BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 # pylint: enable=invalid-name
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
-HAVE_EBPF_4_19 = net_test.LINUX_VERSION >= (4, 19, 0)
 HAVE_EBPF_5_4 = net_test.LINUX_VERSION >= (5, 4, 0)
 
 # set memlock resource 1 GiB
