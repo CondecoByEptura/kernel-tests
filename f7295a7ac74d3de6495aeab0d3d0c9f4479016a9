@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75484e7b_2635c8bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-10-19T18:42:00Z",
+      "side": 1,
+      "message": "Ran UML net test with this change included on upstream Linux 6.5.7.",
+      "revId": "f7295a7ac74d3de6495aeab0d3d0c9f4479016a9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
