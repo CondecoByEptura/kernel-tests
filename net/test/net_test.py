@@ -402,7 +402,9 @@ def GetIptablesBinaryPath(version):
 
 def RunIptablesCommand(version, args):
   iptables_path = GetIptablesBinaryPath(version)
-  return os.spawnvp(os.P_WAIT, iptables_path, [iptables_path] + args.split(" "))
+  return os.spawnvp(
+      os.P_WAIT, iptables_path,
+      [iptables_path, "-w"] + args.split(" "))
 
 # Determine network configuration.
 try:
