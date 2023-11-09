@@ -41,7 +41,7 @@ ramdisk=
 disk=
 dtb=
 
-while getopts ":hs:a:m:n:r:k:i:d:eg" opt; do
+while getopts ":hs:a:m:n:r:k:O:i:d:eg" opt; do
   case "${opt}" in
     h)
       usage
@@ -67,6 +67,9 @@ while getopts ":hs:a:m:n:r:k:i:d:eg" opt; do
       ;;
     k)
       kernel="${OPTARG}"
+      ;;
+    O)
+      extradeb="${OPTARG}"
       ;;
     i)
       initramfs="${OPTARG}"
@@ -459,6 +462,10 @@ if [[ ${rootfs_partition} = "raw" ]]; then
 	sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
     fi
     sudo cp -a "${SCRIPT_DIR}"/rootfs/cron-run-installer-script "${mount}/etc/cron.d/cron-run-installer-script"
+    if [ -e "${extradeb}" ]; then
+	sudo cp -a "${extradeb}" "${mount}/root/extradeb.tar.gz"
+	sudo chown root:root "${mount}/root/extradeb.tar.gz"
+    fi
 else
     if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
 	if [ -n "${dtb}" ]; then
@@ -468,6 +475,9 @@ else
 	e2cp -G 0 -O 0 "${kernel}" "${rootfs_partition_tempfile}":"/boot/vmlinuz-${kernel_version}"
     fi
     e2cp -G 0 -O 0 "${SCRIPT_DIR}"/rootfs/cron-run-installer-script "${rootfs_partition_tempfile}":"/etc/cron.d/cron-run-installer-script"
+    if [ -e "${extradeb}" ]; then
+	e2cp -G 0 -O 0 "${extradeb}" "${rootfs_partition_tempfile}":"/root/extradeb.tar.gz"
+    fi
 fi
 
 # Unmount the initial ramdisk
