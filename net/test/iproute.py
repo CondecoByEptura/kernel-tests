@@ -154,6 +154,13 @@ NDA_LLADDR = 2
 NDA_CACHEINFO = 3
 NDA_PROBES = 4
 NDA_IFINDEX = 8
+NDA_PIO_PREFIX = 32786  # TODO: clear flag at top
+
+NDAPIO_UNSPEC = 0
+NDAPIO_PAD = 1
+NDAPIO_PREFIX = 2
+NDAPIO_PREFIXLEN = 3
+NDAPIO_EXPIRY = 4
 
 # Neighbour cache entry states.
 NUD_PERMANENT = 0x80
@@ -262,7 +269,7 @@ CONSTANT_PREFIXES = netlink.MakeConstantPrefixes(
     ["RTM_", "RTN_", "RTPROT_", "RT_SCOPE_", "RT_TABLE_", "RTA_", "RTMGRP_",
      "RTNLGRP_", "RTAX_", "IFA_", "IFA_F_", "NDA_", "FRA_", "IFLA_",
      "IFLA_INFO_", "IFLA_XFRM_", "IFLA_VTI_", "IFLA_AF_SPEC_", "IFLA_INET_",
-     "IFLA_INET6_"])
+     "IFLA_INET6_", "NDAPIO_"])
 
 
 def CommandVerb(command):
@@ -331,6 +338,8 @@ class IPRoute(netlink.NetlinkSocket):
       name = self._GetConstantName(nla_type, "IFLA_INET_")
     elif lastnested == "IFLA_AF_SPEC_AF_INET6":
       name = self._GetConstantName(nla_type, "IFLA_INET6_")
+    elif lastnested == "NDA_PIO_PREFIX":
+      name = self._GetConstantName(nla_type, "NDAPIO_")
     elif CommandSubject(command) == "ADDR":
       name = self._GetConstantName(nla_type, "IFA_")
     elif CommandSubject(command) == "LINK":
@@ -374,7 +383,7 @@ class IPRoute(netlink.NetlinkSocket):
     elif name in ["IFLA_INET_CONF", "IFLA_INET6_CONF"]:
       data = [struct.unpack("=I", nla_data[i:i+4])[0]
               for i in range(0, len(nla_data), 4)]
-    elif name == "IFLA_INET6_TOKEN":
+    elif name in ["IFLA_INET6_TOKEN", "NDAPIO_PREFIX"]:
       data = socket.inet_ntop(AF_INET6, nla_data)
     elif name in ["FRA_IIFNAME", "FRA_OIFNAME", "IFLA_IFNAME", "IFLA_QDISC",
                   "IFA_LABEL", "IFLA_INFO_KIND"]:
@@ -397,10 +406,28 @@ class IPRoute(netlink.NetlinkSocket):
       data = RtnlLinkStats(nla_data)
     elif name == "IFLA_STATS64":
       data = RtnlLinkStats64(nla_data)
+    elif name == "NDA_PIO_PREFIX":
+      data = self._DecodeNdaPioPrefix(nla_data)
+    elif name == "NDAPIO_PAD":
+      data = "<pad>"
+    elif name == "NDAPIO_PREFIXLEN":
+      data = struct.unpack("B", nla_data)[0]
+    elif name == "NDAPIO_EXPIRY":
+      data = struct.unpack("=Q", nla_data)[0]
     else:
       data = nla_data
 
     return name, data
+
+  # TODO: write a generalized parse list function.
+  def _DecodeNdaPioPrefix(self, data):
+    prefixes = []
+    while len(data):
+      _, nla_data, data = self._ReadNlAttr(data)
+      parsed = self._ParseAttributes(RTM_NEWNEIGH, None, nla_data,
+                                     ["NDA_PIO_PREFIX"])
+      prefixes.append(parsed)
+    return prefixes
 
   def __init__(self):
     super(IPRoute, self).__init__(netlink.NETLINK_ROUTE)

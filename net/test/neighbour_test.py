@@ -379,5 +379,19 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.DoReconfigureDuringProbing(4)
     self.DoReconfigureDuringProbing(6)
 
+  def _GetPiosForNeigbour(self, netid, neigh):
+    for _, attrs in self.iproute.DumpNeighbours(6, self.ifindices[netid]):
+      if attrs["NDA_DST"] == neigh:
+        return attrs["NDA_PIO_PREFIX"]
+    return None
+
+  def testGetPiosFromNetlink(self):
+    for netid in self.tuns:
+      neigh = self._RouterAddress(netid, 6)
+      pios = self._GetPiosForNeigbour(netid, neigh)
+      self.assertEqual(1, len(pios))
+      self.assertEqual(self.OnlinkPrefix(6, netid), pios[0]["NDAPIO_PREFIX"])
+
+
 if __name__ == "__main__":
   unittest.main()
