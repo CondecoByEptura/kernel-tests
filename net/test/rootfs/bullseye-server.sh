@@ -88,11 +88,11 @@ chmod a+x NVIDIA-Linux-${nvidia_arch}-${nvidia_version}.run
 cd NVIDIA-Linux-${nvidia_arch}-${nvidia_version}
 if [[ "${nvidia_arch}" = "x86_64" ]]; then
   installer_flags="--no-install-compat32-libs"
+  ./nvidia-installer ${installer_flags} --silent --no-backup --no-wine-files \
+                   --install-libglvnd --dkms -k "${kmodver}"
 else
   installer_flags=""
 fi
-./nvidia-installer ${installer_flags} --silent --no-backup --no-wine-files \
-                   --install-libglvnd --dkms -k "${kmodver}"
 cd -
 rm -rf NVIDIA-Linux-${nvidia_arch}-${nvidia_version}*
 

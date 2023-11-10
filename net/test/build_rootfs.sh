@@ -40,6 +40,7 @@ kernel=
 ramdisk=
 disk=
 dtb=
+extradeb=
 
 while getopts ":hs:a:m:n:r:k:O:i:d:eg" opt; do
   case "${opt}" in
