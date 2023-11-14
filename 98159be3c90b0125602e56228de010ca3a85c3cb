@@ -70,6 +70,24 @@
       "parentUuid": "bb450812_66901fcc",
       "revId": "98159be3c90b0125602e56228de010ca3a85c3cb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01f4f4e3_6ee21f0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1466604
+      },
+      "writtenOn": "2023-11-14T18:17:53Z",
+      "side": 1,
+      "message": "Nvidia gpus are going to be present in Gigabyte servers in the future.",
+      "parentUuid": "2cf6218f_7c6e47a8",
+      "revId": "98159be3c90b0125602e56228de010ca3a85c3cb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
