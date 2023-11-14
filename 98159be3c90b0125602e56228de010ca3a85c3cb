@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd193d3_a8d71965",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1955333
+      },
+      "writtenOn": "2023-11-14T12:43:27Z",
+      "side": 1,
+      "message": "This means we don\u0027t install nvidia drivers in arm64 images. Is this correct?",
+      "revId": "98159be3c90b0125602e56228de010ca3a85c3cb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
