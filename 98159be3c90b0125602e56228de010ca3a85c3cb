@@ -16,6 +16,24 @@
       "message": "This means we don\u0027t install nvidia drivers in arm64 images. Is this correct?",
       "revId": "98159be3c90b0125602e56228de010ca3a85c3cb",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c725c6_e70c4393",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1466604
+      },
+      "writtenOn": "2023-11-14T12:44:36Z",
+      "side": 1,
+      "message": "We should but I imagine Wei has a good reason for removing these from the install.\n\nWei - why are you removing the nvidia drivers here?",
+      "parentUuid": "0fd193d3_a8d71965",
+      "revId": "98159be3c90b0125602e56228de010ca3a85c3cb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
