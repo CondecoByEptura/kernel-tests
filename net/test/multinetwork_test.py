@@ -18,6 +18,7 @@ import cstruct
 import ctypes
 import errno
 import os
+import posix
 import random
 from socket import *  # pylint: disable=wildcard-import
 import struct
@@ -1465,6 +1466,66 @@ class RulesTest(net_test.NetworkTest):
                     if a.get("FRA_PRIORITY", 0) == self.RULE_PRIORITY]
       self.assertEqual(1, len(attributes))
       self.assertEqual(301, attributes[0]["FRA_TABLE"])
+
+
+class SelfSendRATest(multinetwork_base.MultiNetworkBaseTest):
+  """Tests that the device works properly when itself sends RA.
+  """
+
+
+  @classmethod
+  def setUpClass(cls):
+    super(SelfSendRATest, cls).setUpClass()
+
+    cls.iproute = iproute.IPRoute()
+    cls.NETID = random.choice(cls.NETIDS);
+    cls.IFACE = cls.GetInterfaceName(cls.NETID)
+    cls.ONLINK_PREFIX = "fd12:4321::"
+    cls.ROUTE_PREFIX = "fd55:1234::"
+
+    # Test setup has sent an initial RA -- expire it.
+    cls.SendRA(cls.NETID, routerlft=0, piolft=0)
+
+  def SelfSendRA(self, netid, retranstimer=None, reachabletime=0, routerlft=0,
+             m=0, o=0, options=()):
+    macaddr = self.MyMacAddress(netid)
+    lladdr = self.MyLinkLocalAddress(netid)
+
+    ra = (scapy.Ether(src=macaddr, dst="33:33:00:00:00:01") /
+          scapy.IPv6(src=lladdr, hlim=255) /
+          scapy.ICMPv6ND_RA(reachabletime=reachabletime,
+                            retranstimer=retranstimer,
+                            routerlifetime=routerlft,
+                            M=m, O=o))
+    for option in options:
+      ra /= option
+    posix.write(self.tuns[netid].fileno(), bytes(ra))
+
+  def DumpRoutes(self):
+    return [r for _, r in self.iproute.DumpRoutes(6, self._TableForNetid(self.NETID))]
+
+  def HaveRoute(self, route):
+    return any(route_info['RTA_DST'] == route for route_info in self.DumpRoutes())
+
+  @unittest.skipUnless(multinetwork_base.HAVE_AUTOCONF_TABLE,
+                       "need support for per-table autoconf")
+  def testSelfSendRA(self):
+    self.SelfSendRA(self.NETID, routerlft=3600, options=(
+      scapy.ICMPv6NDOptPrefixInfo(prefix=self.ONLINK_PREFIX,
+                                  prefixlen=64,
+                                  L=1, A=1,
+                                  validlifetime=1800,
+                                  preferredlifetime=1800),
+      scapy.ICMPv6NDOptRouteInfo(prefix=self.ROUTE_PREFIX, plen=64, rtlifetime=1800, prf=0)
+    ))
+    # Give the kernel time to notice the RA
+    time.sleep(0.1)
+
+    addresses = net_test.GetLinkAddresses(self.IFACE)
+    self.assertTrue(any(addr.startswith(self.ONLINK_PREFIX[:-1]) for addr in addresses))
+    self.assertTrue(self.HaveRoute(self.ONLINK_PREFIX))
+    self.assertFalse(self.HaveRoute('::'))
+    self.assertFalse(self.HaveRoute(self.ROUTE_PREFIX))
 
 
 if __name__ == "__main__":
