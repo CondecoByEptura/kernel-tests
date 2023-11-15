@@ -317,6 +317,18 @@ def GetLinkAddress(ifname, linklocal):
   return None
 
 
+def GetLinkAddresses(ifname):
+  result = []
+  with open("/proc/net/if_inet6") as if_inet6:
+    addresses = if_inet6.readlines()
+  for address in addresses:
+    address = [s for s in address.strip().split(" ") if s]
+    if address[5] == ifname:
+        # Convert the address from raw hex to something with colons in it.
+        result.append(FormatProcAddress(address[0]))
+  return result
+
+
 def GetDefaultRoute(version=6):
   if version == 6:
     with open("/proc/net/ipv6_route") as ipv6_route:
