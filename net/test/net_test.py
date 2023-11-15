@@ -305,16 +305,23 @@ def FormatSockStatAddress(address):
 
 
 def GetLinkAddress(ifname, linklocal):
+  for address in GetLinkAddresses(ifname):
+    if (linklocal and address.startswith("fe80")
+        or not linklocal and not address.startswith("fe80")):
+      return address
+  return None
+
+
+def GetLinkAddresses(ifname):
+  result = []
   with open("/proc/net/if_inet6") as if_inet6:
     addresses = if_inet6.readlines()
   for address in addresses:
     address = [s for s in address.strip().split(" ") if s]
     if address[5] == ifname:
-      if (linklocal and address[0].startswith("fe80")
-          or not linklocal and not address[0].startswith("fe80")):
         # Convert the address from raw hex to something with colons in it.
-        return FormatProcAddress(address[0])
-  return None
+        result.append(FormatProcAddress(address[0]))
+  return result
 
 
 def GetDefaultRoute(version=6):
