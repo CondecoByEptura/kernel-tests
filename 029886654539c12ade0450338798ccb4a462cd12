@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0bbc40f_8fcc452d",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1500,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-11-16T02:51:03Z",
+      "side": 1,
+      "message": "I think you can use ReceivePacketOn instead of calling the raw posix API. (if you do this, don\u0027t forget to remove the posix import.)",
+      "range": {
+        "startLine": 1500,
+        "startChar": 4,
+        "endLine": 1500,
+        "endChar": 15
+      },
+      "revId": "029886654539c12ade0450338798ccb4a462cd12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e9b3f1_be01c364",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-11-16T02:51:03Z",
+      "side": 1,
+      "message": "Can you add a comment here that explains the expected behaviour? It sounds like we expect the kernel to receive and process the PIO, but not the RIO and the default route?",
+      "range": {
+        "startLine": 1522,
+        "startChar": 4,
+        "endLine": 1522,
+        "endChar": 13
+      },
+      "revId": "029886654539c12ade0450338798ccb4a462cd12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
