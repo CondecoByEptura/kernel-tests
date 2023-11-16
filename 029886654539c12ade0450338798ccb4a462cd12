@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "069b647e_93d30bf5",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1500,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2023-11-16T06:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0bbc40f_8fcc452d",
+      "range": {
+        "startLine": 1500,
+        "startChar": 4,
+        "endLine": 1500,
+        "endChar": 15
+      },
+      "revId": "029886654539c12ade0450338798ccb4a462cd12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94e9b3f1_be01c364",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-16T02:51:03Z",
       "side": 1,
       "message": "Can you add a comment here that explains the expected behaviour? It sounds like we expect the kernel to receive and process the PIO, but not the RIO and the default route?",
+      "range": {
+        "startLine": 1522,
+        "startChar": 4,
+        "endLine": 1522,
+        "endChar": 13
+      },
+      "revId": "029886654539c12ade0450338798ccb4a462cd12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e83885f0_15740560",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2023-11-16T06:16:13Z",
+      "side": 1,
+      "message": "Comments are added. Yes we expect the kernel to handle the PIO but ignore the RIO and default route.",
+      "parentUuid": "94e9b3f1_be01c364",
       "range": {
         "startLine": 1522,
         "startChar": 4,
