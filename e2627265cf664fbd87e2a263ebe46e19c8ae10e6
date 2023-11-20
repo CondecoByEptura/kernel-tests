@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ff904ba_adcf9a2b",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2023-11-20T06:54:31Z",
+      "side": 1,
+      "message": "IMHO, this is cleaner code this way...\n(you could also do \u0027del self.sock\u0027)",
+      "parentUuid": "04468c1e_e245e7f8",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 20
+      },
+      "revId": "e2627265cf664fbd87e2a263ebe46e19c8ae10e6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e7a0bc0_556a1d24",
         "filename": "net/test/multicast_routing_test.py",
         "patchSetId": 6
