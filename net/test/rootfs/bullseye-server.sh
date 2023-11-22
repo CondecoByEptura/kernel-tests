@@ -55,6 +55,14 @@ for package in linux-image-${arch} qemu-system-arm qemu-system-x86; do
   apt-get install -y -t bullseye-backports ${package}
 done
 
+# Install AOSP customized kernel package and extra Debian packages
+if [ -e /root/extradeb.tar.gz ]; then
+    tar --one-top-level=/root/extra_deb -zxvf /root/extradeb.tar.gz
+    apt -o APT::Color=0 -o DPkgPM::Progress-Fancy=0 install /root/extra_deb/*.deb
+    rm -rf /root/extra_deb
+    rm -f /root/extradeb.tar.gz
+fi
+
 # Install firmware package for AMD graphics
 apt-get install -y firmware-amd-graphics
 
