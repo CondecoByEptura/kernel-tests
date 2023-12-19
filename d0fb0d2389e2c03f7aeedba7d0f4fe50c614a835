@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d2dc477_bde54d25",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:31:10Z",
+      "side": 1,
+      "message": "Nit: suggest getting rid of MRT6_BASE and just doing \"\u003d 200\", \"\u003d 201\", etc.",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "219c5e1c_8a2c3278",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:31:10Z",
+      "side": 1,
+      "message": "Nit: the plural of index is indices.",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe856302_2c406551",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:31:10Z",
+      "side": 1,
+      "message": "Google Python style (and the style in these tests) uses snake_case, not camelCase.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "968fd071_bda26e15",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:31:10Z",
+      "side": 1,
+      "message": "Nit: I think this could be:\n\n    for index, netid in enumerate(cls.NETIDS):\n      cls.virtual_indexes[netid] \u003d index",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28d41c87_93f27e4a",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:31:10Z",
+      "side": 1,
+      "message": "Not clear what \"filter\" means. Suggest replacing with \"allow\" or \"drop\".",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94cc510c_bda65063",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:31:10Z",
+      "side": 1,
+      "message": "I think you can close this more reliably (even if an exception is thrown) using:\n\n    with self.MulticastSocket() as s:\n      # everything except for the s.close(), which is unnecessary",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 13
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
