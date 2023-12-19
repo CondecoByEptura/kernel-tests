@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b3fc61a_5994ca5e",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:13:57Z",
+      "side": 1,
+      "message": "For consistency with other tests in these file, these should be lowercase.",
+      "range": {
+        "startLine": 1478,
+        "startChar": 8,
+        "endLine": 1478,
+        "endChar": 13
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78de8200_fa2d26fb",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:13:57Z",
+      "side": 1,
+      "message": "FWIW I think most of the tests in these files use lowercase names for these.",
+      "range": {
+        "startLine": 1478,
+        "startChar": 8,
+        "endLine": 1478,
+        "endChar": 13
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ec7a41f_7be56887",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1487,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:13:57Z",
+      "side": 1,
+      "message": "Not for this CL, but... what do these bits do? Are they parsed by the kernel? We need to know because some of the DHCPv6 code we are writing depends on the flags. I think you can check what they do using something like aosp/2709275 .",
+      "range": {
+        "startLine": 1487,
+        "startChar": 13,
+        "endLine": 1487,
+        "endChar": 21
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beb4d9f4_5d2eb0ad",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:13:57Z",
+      "side": 1,
+      "message": "Sleeping in tests makes them flaky and slows them down. Since you have the prefix here, you can predict the address from the MAC address, right? Then maybe you can use something like _WaitForAddress in iproute? You could add a public method in that class like so:\n\n    def WaitForIpv6Address(self, address, ifindex):\n      sock \u003d self._OpenNetlinkSocket(netlink.NETLINK_ROUTE, RTMGRP_IPV6_IFADDR)\n      try:\n        self._WaitForAddress(sock, address, ifindex)\n      finally:\n        sock.close()",
+      "range": {
+        "startLine": 1518,
+        "startChar": 0,
+        "endLine": 1519,
+        "endChar": 19
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b14b335c_ebfc33dc",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1531,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:13:57Z",
+      "side": 1,
+      "message": "Nit: could this be in tearDown instead?",
+      "range": {
+        "startLine": 1531,
+        "startChar": 4,
+        "endLine": 1531,
+        "endChar": 35
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38983596_374c5357",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2023-12-19T15:13:57Z",
+      "side": 1,
+      "message": "Can you refactor this to call the new method you\u0027ve added? Should be something like:\n\n    def GetLinkAddress(ifname, linklocal):\n      for address in GetLinkAddresses(ifname):\n        if (linklocal and address[0].startswith(\"fe80\")\n            or not linklocal and not address[0].startswith(\"fe80\")):\n          return address\n      return None",
+      "range": {
+        "startLine": 307,
+        "startChar": 4,
+        "endLine": 307,
+        "endChar": 18
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
