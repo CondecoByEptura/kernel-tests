@@ -40,38 +40,21 @@ _TEST_XFRM_IFNAME = "ipsec42"
 _TEST_XFRM_IF_ID = 42
 _TEST_SPI = 0x1234
 
-# Does the kernel support CONFIG_XFRM_INTERFACE?
-def HaveXfrmInterfaces():
-  # 4.19+ must have CONFIG_XFRM_INTERFACE enabled
-  if LINUX_VERSION >= (4, 19, 0):
-    return True
-
-  try:
-    i = iproute.IPRoute()
-    i.CreateXfrmInterface(_TEST_XFRM_IFNAME, _TEST_XFRM_IF_ID,
-                          _LOOPBACK_IFINDEX)
-    i.DeleteLink(_TEST_XFRM_IFNAME)
-    try:
-      i.GetIfIndex(_TEST_XFRM_IFNAME)
-      assert "Deleted interface %s still exists!" % _TEST_XFRM_IFNAME
-    except IOError:
-      pass
-    return True
-  except IOError:
-    return False
-
-HAVE_XFRM_INTERFACES = HaveXfrmInterfaces()
-
 # Two kernel fixes have been added in 5.17 to allow XFRM_MIGRATE to work correctly
 # when (1) there are multiple tunnels with the same selectors; and (2) addresses
 # are updated to a different IP family. These two fixes were pulled into upstream
 # LTS releases 4.14.273, 4.19.236, 5.4.186, 5.10.107 and 5.15.30, from whence they
 # flowed into the Android Common Kernel (via standard LTS merges).
-# As such we require 4.14.273+, 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
+#
+# Note 'xfrm: Check if_id in xfrm_migrate' did not end up in 4.14 LTS,
+# and is only present in ACK android-4.14-stable after 4.14.320 LTS merge.
+# See https://android-review.git.corp.google.com/c/kernel/common/+/2640243
+#
+# As such we require 4.14.321+, 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
 # to have these fixes.
 def HasXfrmMigrateFixes():
     return (
-            ((LINUX_VERSION >= (4, 14, 273)) and (LINUX_VERSION < (4, 19, 0))) or
+            ((LINUX_VERSION >= (4, 14, 321)) and (LINUX_VERSION < (4, 19, 0))) or
             ((LINUX_VERSION >= (4, 19, 236)) and (LINUX_VERSION < (5, 4, 0))) or
             ((LINUX_VERSION >= (5, 4, 186)) and (LINUX_VERSION < (5, 10, 0))) or
             ((LINUX_VERSION >= (5, 10, 107)) and (LINUX_VERSION < (5, 15, 0))) or
@@ -87,10 +70,6 @@ def SupportsXfrmMigrate():
   # 5.10+ must have CONFIG_XFRM_MIGRATE enabled
   if LINUX_VERSION >= (5, 10, 0):
     return True
-
-  # XFRM_MIGRATE depends on xfrmi interfaces
-  if not HAVE_XFRM_INTERFACES:
-    return False
 
   try:
     x = xfrm.Xfrm()
@@ -499,7 +478,6 @@ class VtiInterface(IpSecBaseInterface):
                            xfrm.ExactMatchMark(self.okey))
 
 
-@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmAddDeleteXfrmInterfaceTest(xfrm_base.XfrmBaseTest):
   """Test the creation of an XFRM Interface."""
 
@@ -1011,7 +989,6 @@ class XfrmVtiTest(XfrmTunnelBase):
     self._TestTunnelRekey(inner_version, outer_version)
 
 
-@unittest.skipUnless(HAVE_XFRM_INTERFACES, "XFRM interfaces unsupported")
 class XfrmInterfaceTest(XfrmTunnelBase):
 
   INTERFACE_CLASS = XfrmInterface
@@ -1049,6 +1026,9 @@ class XfrmInterfaceTest(XfrmTunnelBase):
 #
 # Those two upstream 5.17 fixes above were pulled in to LTS in kernel versions
 # 4.14.273, 4.19.236, 5.4.186, 5.10.107, 5.15.30.
+#
+# Note: the 'Check if_id in xfrm_migrate' fix did not land in 4.14 LTS,
+# and instead landed in android-4.14-stable after 4.14.320 LTS merge.
 #
 @unittest.skipUnless(SUPPORTS_XFRM_MIGRATE,
                      "XFRM migration unsupported or fixes not included")
