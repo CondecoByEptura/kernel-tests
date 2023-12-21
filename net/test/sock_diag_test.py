@@ -38,7 +38,6 @@ TcpInfo = cstruct.Struct("TcpInfo", "64xI", "tcpi_rcv_ssthresh")
 
 NUM_SOCKETS = 30
 NO_BYTECODE = b""
-LINUX_4_19_OR_ABOVE = net_test.LINUX_VERSION >= (4, 19, 0)
 
 IPPROTO_SCTP = 132
 
@@ -524,34 +523,12 @@ class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
 class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
-  RWND_SIZE = 64000 if LINUX_4_19_OR_ABOVE else 42000
+  RWND_SIZE = 64000
   TCP_DEFAULT_INIT_RWND = "/proc/sys/net/ipv4/tcp_default_init_rwnd"
 
   def setUp(self):
     super(TcpRcvWindowTest, self).setUp()
-    if LINUX_4_19_OR_ABOVE:
-      self.assertRaisesErrno(ENOENT, open, self.TCP_DEFAULT_INIT_RWND, "w")
-      return
-
-    try:
-      f = open(self.TCP_DEFAULT_INIT_RWND, "w")
-    except IOError as e:
-      # sysctl was namespace-ified on May 25, 2020 in android-4.14-stable [R]
-      # just after 4.14.181 by:
-      #   https://android-review.googlesource.com/c/kernel/common/+/1312623
-      #   ANDROID: namespace'ify tcp_default_init_rwnd implementation
-      # But that commit might be missing in Q era kernels even when > 4.14.181
-      # when running T vts.
-      if net_test.LINUX_VERSION >= (4, 15, 0):
-        raise
-      if e.errno != ENOENT:
-        raise
-      # we rely on the network namespace creation code
-      # modifying the root netns sysctl before the namespace is even created
-      return
-
-    f.write("60")
-    f.close()
+    self.assertRaisesErrno(ENOENT, open, self.TCP_DEFAULT_INIT_RWND, "w")
 
   def checkInitRwndSize(self, version, netid):
     self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
