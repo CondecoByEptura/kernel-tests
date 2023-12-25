@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f707d40d_0f8da059",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2024816
+      },
+      "writtenOn": "2023-12-25T09:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d2dc477_bde54d25",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "219c5e1c_8a2c3278",
@@ -70,6 +94,54 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c580e4d4_9f4ae46e",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 2024816
+      },
+      "writtenOn": "2023-12-25T09:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "219c5e1c_8a2c3278",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0095e5d_754744bb",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 2024816
+      },
+      "writtenOn": "2023-12-25T09:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe856302_2c406551",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "968fd071_bda26e15",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-12-19T15:31:10Z",
       "side": 1,
       "message": "Nit: I think this could be:\n\n    for index, netid in enumerate(cls.NETIDS):\n      cls.virtual_indexes[netid] \u003d index",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 13
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dcf0106_2093891c",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2024816
+      },
+      "writtenOn": "2023-12-25T09:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "968fd071_bda26e15",
       "range": {
         "startLine": 54,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b962cfe_ee377418",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2024816
+      },
+      "writtenOn": "2023-12-25T09:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d41c87_93f27e4a",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 12
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94cc510c_bda65063",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-12-19T15:31:10Z",
       "side": 1,
       "message": "I think you can close this more reliably (even if an exception is thrown) using:\n\n    with self.MulticastSocket() as s:\n      # everything except for the s.close(), which is unnecessary",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 13
+      },
+      "revId": "d0fb0d2389e2c03f7aeedba7d0f4fe50c614a835",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3be7d1e_06df4a8b",
+        "filename": "net/test/multicast_routing_test.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 2024816
+      },
+      "writtenOn": "2023-12-25T09:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94cc510c_bda65063",
       "range": {
         "startLine": 126,
         "startChar": 4,
