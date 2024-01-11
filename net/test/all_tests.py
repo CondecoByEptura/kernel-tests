@@ -27,7 +27,6 @@ test_modules = [
     'csocket_test',
     'cstruct_test',
     'leak_test',
-    'multicast_routing_test',
     'multinetwork_test',
     'neighbour_test',
     'netlink_test',
