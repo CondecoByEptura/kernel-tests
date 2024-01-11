@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af411bc7_6eb7703f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-01-11T14:46:39Z",
+      "side": 1,
+      "message": "Test case: vts_kernel_net_tests#vts_kernel_net_tests\nTest Result\n\nFailed\n23 crashes detected\nRelated bugs (1)\nb/304292059  P2 / assigned (maze) \n\nOpen 93 days, modified 2 hours ago\n\nDetails\nBranch\ngit_main\n\nTarget\noriole-trunk_staging-userdebug\n\nBuild ID\n11300953  \nBuilt at 2024-01-11 03:53 UTC-8\n\nExtra Builds (1)\nBranch\ngit_main\n\nTarget\ntest_suites_arm64-trunk_staging\n\nBuild ID\n11300953 \nBuilt at 2024-01-11 03:53 UTC-8",
+      "revId": "31e451f96eb02f84ae14debdd13068be1c1879ee",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
