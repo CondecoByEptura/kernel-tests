@@ -47,6 +47,54 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfed237_ec5e9f85",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2024-01-11T09:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78de8200_fa2d26fb",
+      "range": {
+        "startLine": 1478,
+        "startChar": 8,
+        "endLine": 1478,
+        "endChar": 13
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee709b2a_85fd5770",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2024-01-11T09:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b3fc61a_5994ca5e",
+      "range": {
+        "startLine": 1478,
+        "startChar": 8,
+        "endLine": 1478,
+        "endChar": 13
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ec7a41f_7be56887",
@@ -116,6 +164,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccefd836_e1be2413",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1531,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2024-01-11T09:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b14b335c_ebfc33dc",
+      "range": {
+        "startLine": 1531,
+        "startChar": 4,
+        "endLine": 1531,
+        "endChar": 35
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38983596_374c5357",
@@ -129,6 +201,30 @@
       "writtenOn": "2023-12-19T15:13:57Z",
       "side": 1,
       "message": "Can you refactor this to call the new method you\u0027ve added? Should be something like:\n\n    def GetLinkAddress(ifname, linklocal):\n      for address in GetLinkAddresses(ifname):\n        if (linklocal and address[0].startswith(\"fe80\")\n            or not linklocal and not address[0].startswith(\"fe80\")):\n          return address\n      return None",
+      "range": {
+        "startLine": 307,
+        "startChar": 4,
+        "endLine": 307,
+        "endChar": 18
+      },
+      "revId": "b96c067568a7a8dfdf4ddcbdab06b22df60b43cd",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d52b07b9_92f3b318",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2024-01-11T09:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38983596_374c5357",
       "range": {
         "startLine": 307,
         "startChar": 4,
