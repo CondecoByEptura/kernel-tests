@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05b5c05b_42501697",
+        "filename": "net/test/OWNERS",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-06T01:41:41Z",
+      "side": 1,
+      "message": "We should include at least one other person in case we are on vacation. Did you consider something like this instead?\n\n# Bug component: 31808\n\nset noparent\nfile:platform/packages/modules/Connectivity:main:/OWNERS_core_networking_xts\nmaze@google.com\n\n\nper-file build_rootfs.sh \u003d rammuthiah@google.com, adelva@google.com, muntsinger@google.com",
+      "revId": "bd00a87b837f63b1ef4dd147ded410f48caf4b87",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
