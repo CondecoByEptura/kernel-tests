@@ -16,6 +16,24 @@
       "message": "We should include at least one other person in case we are on vacation. Did you consider something like this instead?\n\n# Bug component: 31808\n\nset noparent\nfile:platform/packages/modules/Connectivity:main:/OWNERS_core_networking_xts\nmaze@google.com\n\n\nper-file build_rootfs.sh \u003d rammuthiah@google.com, adelva@google.com, muntsinger@google.com",
       "revId": "bd00a87b837f63b1ef4dd147ded410f48caf4b87",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52edf53f_43a1ce75",
+        "filename": "net/test/OWNERS",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-02-06T01:52:35Z",
+      "side": 1,
+      "message": "we could add that, it turns out this change is actually a no-op though.",
+      "parentUuid": "05b5c05b_42501697",
+      "revId": "bd00a87b837f63b1ef4dd147ded410f48caf4b87",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ],
   "submitRequirementResults": [
