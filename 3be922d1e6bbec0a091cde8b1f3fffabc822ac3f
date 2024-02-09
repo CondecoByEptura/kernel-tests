@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d610ef0_8d50cd2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1101726
+      },
+      "writtenOn": "2024-02-09T21:37:40Z",
+      "side": 1,
+      "message": "Looks like the CR+2 was not sticky. PTAL again!",
+      "revId": "3be922d1e6bbec0a091cde8b1f3fffabc822ac3f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
