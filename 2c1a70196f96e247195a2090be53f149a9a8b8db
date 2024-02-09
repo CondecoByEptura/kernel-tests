@@ -68,6 +68,30 @@
       },
       "revId": "2c1a70196f96e247195a2090be53f149a9a8b8db",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9378324_2a092257",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T04:05:19Z",
+      "side": 1,
+      "message": "(If you apply the comment above, adjust this suggestion to use the constants.)",
+      "parentUuid": "2ae88aa2_892ea539",
+      "range": {
+        "startLine": 1284,
+        "startChar": 26,
+        "endLine": 1284,
+        "endChar": 28
+      },
+      "revId": "2c1a70196f96e247195a2090be53f149a9a8b8db",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
