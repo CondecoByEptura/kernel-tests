@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89edca79_8b04b216",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T09:45:09Z",
+      "side": 1,
+      "message": "LGTM assuming comments addressed.",
+      "revId": "b3d0e2a9cbaea58f83d3872f96fa24286c257956",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9520cea_89ad6f86",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T09:45:09Z",
+      "side": 1,
+      "message": "Per style guide variables should be snake case. So this should be per_netid_range.",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 17
+      },
+      "revId": "b3d0e2a9cbaea58f83d3872f96fa24286c257956",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e909a83_5854ab98",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T09:45:09Z",
+      "side": 1,
+      "message": "I don\u0027t think this if is necessary. It will always be true, and if it wasn\u0027t, the method would return None which isn\u0027t great. Either remove the if, or check the netid and throw if it\u0027s not valid, using something like:\n\n      def UidRangeForTunnelNetId(cls, netid):\n        if netid \u003c _TUNNEL_NETID_OFFSET:\n          raise ValueError(\"Tunnel netid outside tunnel range\")\n        netid -\u003d _TUNNEL_NETID_OFFSET\n        return ...",
+      "range": {
+        "startLine": 656,
+        "startChar": 4,
+        "endLine": 656,
+        "endChar": 6
+      },
+      "revId": "b3d0e2a9cbaea58f83d3872f96fa24286c257956",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "510a557f_62c821ce",
+        "filename": "net/test/xfrm_tunnel_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T09:45:09Z",
+      "side": 1,
+      "message": "Ditto, snake_case. Or reuse the \"netid\" variable name as suggested in the code snippet above.",
+      "range": {
+        "startLine": 657,
+        "startChar": 6,
+        "endLine": 657,
+        "endChar": 19
+      },
+      "revId": "b3d0e2a9cbaea58f83d3872f96fa24286c257956",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
