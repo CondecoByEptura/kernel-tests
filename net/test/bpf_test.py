@@ -88,7 +88,7 @@ libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
 KEY_SIZE = 4
 VALUE_SIZE = 4
 TOTAL_ENTRIES = 20
-TEST_UID = 54321
+TEST_UID = 5432
 TEST_GID = 12345
 # Offset to store the map key in stack register REG10
 key_offset = -8
