@@ -16,6 +16,23 @@
       "message": "Looks like the CR+2 was not sticky. PTAL again!",
       "revId": "3be922d1e6bbec0a091cde8b1f3fffabc822ac3f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73dbe94d_4c55d569",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-02-09T23:43:36Z",
+      "side": 1,
+      "message": "(based on diff vs 4 matching comments from Lorenzo)",
+      "revId": "3be922d1e6bbec0a091cde8b1f3fffabc822ac3f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
