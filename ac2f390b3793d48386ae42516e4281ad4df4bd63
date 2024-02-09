@@ -22,6 +22,53 @@
       },
       "revId": "ac2f390b3793d48386ae42516e4281ad4df4bd63",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b92dba3_14089465",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T08:14:16Z",
+      "side": 1,
+      "message": "Urg. Looks like there\u0027s some code in xfrm_tunnel_test.py which does something like:\n\n_TUNNEL_NETID_OFFSET \u003d 0xFC00  # Matches reserved netid range for IpSecService\n_BASE_TUNNEL_NETID \u003d {4: 40, 6: 60}\n\n...\n\n    for i, underlying_netid in enumerate(cls.tuns):\n      for version in 4, 6:\n        netid \u003d _BASE_TUNNEL_NETID[version] + _TUNNEL_NETID_OFFSET + i\n\nwhich I think will result in netids 64552-64555 and 64572-64575.\n\nA simple fix might be to treat these specially. You could do something simple like move the constants from xfrm_tunnel_test to this file, and then something like:\n\nTUNNEL_NETID_OFFSET \u003d 0xFC00  # Matches reserved netid range for IpSecService\nBASE_TUNNEL_NETID \u003d {4: 40, 6: 60}\nTUNNEL_NETID_RANGE_START \u003d TUNNEL_NETID_OFFSET + BASE_TUNNEL_NETID[4]\n\n    def UidRangeForNetid(cls, netid):\n      if netid \u003e\u003d TUNNEL_NETID_OFFSET:\n        return 500 + (netid - TUNNEL_NETID_OFFSET) * 50\n      # ... current code",
+      "parentUuid": "70890a08_44d4803f",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 33
+      },
+      "revId": "ac2f390b3793d48386ae42516e4281ad4df4bd63",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d196f3d_20f49762",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T08:14:16Z",
+      "side": 1,
+      "message": "Do you need these \"cls.\" qualifiers here? NETIDS, UID_RANGE_SIZE and UID_RANGE_SIZE are all globals so they should be accessible without cls.",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 11
+      },
+      "revId": "ac2f390b3793d48386ae42516e4281ad4df4bd63",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
