@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d2a28b0_7334f636",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T04:04:30Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to change this if we can avoid it.",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "2c1a70196f96e247195a2090be53f149a9a8b8db",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1dce1ba_57773651",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T04:04:30Z",
+      "side": 1,
+      "message": "IIRC in some tests this range needs to be large to avoid subsequent tests using the same value and failing due to cached data in the kernel. A range of 50 may result in too many collisions which would then make the tests flaky. \n\nInstead of just making this range 20x smaller, can we change UidRangeForNetid to more efficiently use the core UID range? I think we can do this pretty simply because the code doesn\u0027t use arbitary netids. If so, then something like this:\n\n    UID_RANGE_START \u003d 2000\n    UID_RANGE_END \u003d 9999\n    UID_RANGE_SIZE \u003d UID_RANGE_END - UID_RANGE_START + 1\n\n\n    def UidRangeForNetid(netid):\n      length \u003d int(UID_RANGE_SIZE / len(NETIDS))\n      return (\n          UID_RANGE_START + length * NETIDS.index(netid),\n          UID_RANGE_START + length * (NETIDS.index(netid) + 1) -1\n      )\n\nwould work, and even increase the size of the range.",
+      "range": {
+        "startLine": 113,
+        "startChar": 19,
+        "endLine": 113,
+        "endChar": 21
+      },
+      "revId": "2c1a70196f96e247195a2090be53f149a9a8b8db",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae88aa2_892ea539",
+        "filename": "net/test/multinetwork_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1284,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-02-09T04:04:30Z",
+      "side": 1,
+      "message": "Might want to pick something like 2000 here, since UIDs below that are very special.\n```suggestion\n    return random.randint(2000, 9999)\n```",
+      "range": {
+        "startLine": 1284,
+        "startChar": 26,
+        "endLine": 1284,
+        "endChar": 28
+      },
+      "revId": "2c1a70196f96e247195a2090be53f149a9a8b8db",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
