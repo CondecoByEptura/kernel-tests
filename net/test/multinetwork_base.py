@@ -100,7 +100,7 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   """
 
   # Must be between 1 and 256, since we put them in MAC addresses and IIDs.
-  NETIDS = [100, 150, 200, 250]
+  NETIDS = [100, 125, 150, 175]
 
   # Stores sysctl values to write back when the test completes.
   saved_sysctls = {}
@@ -108,8 +108,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   # Wether to output setup commands.
   DEBUG = False
 
-  # The size of our UID ranges.
-  UID_RANGE_SIZE = 1000
+  # The size of our UID ranges. We need to be careful to stay below 10k, as uids above that can
+  # have policies interfering with normal networking.
+  UID_RANGE_SIZE = 50
 
   # Rule priorities.
   PRIORITY_UID = 100
