@@ -1279,6 +1279,10 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
   def _Random():
     return random.randint(1000000, 2000000)
 
+  @staticmethod
+  def _RandomUid(cls):
+    return random.randint(cls.UID_RANGE_START, cls.UID_RANGE_END)
+
   def CheckGetAndSetRules(self, version):
     start, end = tuple(sorted([self._Random(), self._Random()]))
     table = self._Random()
@@ -1404,7 +1408,7 @@ class UidRoutingTest(multinetwork_base.MultiNetworkBaseTest):
 
   def testChangeFdAttributes(self):
     netid = random.choice(self.NETIDS)
-    uid = self._Random()
+    uid = self._RandomUid(self)
     table = self._TableForNetid(netid)
     remoteaddr = self.GetRemoteAddress(6)
     s = socket(AF_INET6, SOCK_DGRAM, 0)
