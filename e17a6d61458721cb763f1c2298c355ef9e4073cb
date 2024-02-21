@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30fcd73a_b0c9e1d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-02-21T06:24:27Z",
+      "side": 1,
+      "message": "Currently failing on\n\naosp_cf_x86_64_phone-trunk_staging-userdebug\n\n\nFAIL: testMinRequiredKernelVersion (kernel_feature_test.RemovedFeatureTest.testMinRequiredKernelVersion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"kernel_feature_test.py\", line 77, in testMinRequiredKernelVersion\nAssertionError: False is not true\n\nwhich afaict is due to:\nLinux version 6.1.25-android14-11-g34fde9ec08a3-ab10675345",
+      "revId": "e17a6d61458721cb763f1c2298c355ef9e4073cb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
