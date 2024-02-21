@@ -22,7 +22,7 @@ import unittest
 import net_test
 
 
-class RemovedFeatureTest(net_test.NetworkTest):
+class KernelFeatureTest(net_test.NetworkTest):
   KCONFIG = None
   AID_NET_RAW = 3004
 
