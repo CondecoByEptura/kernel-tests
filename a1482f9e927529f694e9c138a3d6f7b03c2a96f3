@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d64255_fb57e195",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-02-23T08:36:27Z",
+      "side": 1,
+      "message": "wait for cuttlefish to actually upgrade...",
+      "revId": "a1482f9e927529f694e9c138a3d6f7b03c2a96f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
