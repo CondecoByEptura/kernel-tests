@@ -16,6 +16,23 @@
       "message": "wait for cuttlefish to actually upgrade...",
       "revId": "a1482f9e927529f694e9c138a3d6f7b03c2a96f3",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d632d62_3fd07c7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-02-28T20:37:24Z",
+      "side": 1,
+      "message": "(seeing 6.1.68 on my CF)",
+      "revId": "a1482f9e927529f694e9c138a3d6f7b03c2a96f3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
