@@ -108,8 +108,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   # Wether to output setup commands.
   DEBUG = False
 
-  # The size of our UID ranges.
-  UID_RANGE_SIZE = 1000
+  UID_RANGE_START = 2000
+  UID_RANGE_END = 9999
+  UID_RANGE_SIZE = UID_RANGE_END - UID_RANGE_START + 1
 
   # Rule priorities.
   PRIORITY_UID = 100
@@ -136,9 +137,11 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
 
   @classmethod
   def UidRangeForNetid(cls, netid):
+    per_netid_range = int(cls.UID_RANGE_SIZE / len(cls.NETIDS))
+    idx = cls.NETIDS.index(netid)
     return (
-        cls.UID_RANGE_SIZE * netid,
-        cls.UID_RANGE_SIZE * (netid + 1) - 1
+        cls.UID_RANGE_START + per_netid_range * idx,
+        cls.UID_RANGE_START + per_netid_range * (idx + 1) - 1
     )
 
   @classmethod

@@ -652,6 +652,13 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       return cls.OnlinkPrefix(6, netid - _TUNNEL_NETID_OFFSET) + "1"
 
   @classmethod
+  def UidRangeForTunnelNetId(cls, netid):
+    if netid < _TUNNEL_NETID_OFFSET:
+      raise ValueError("Tunnel netid outside tunnel range")
+    netid -= _TUNNEL_NETID_OFFSET
+    return (500 + 50 * netid, 500 + 50 * (netid + 1) - 1)
+
+  @classmethod
   def _SetupTunnelNetwork(cls, tunnel, is_add):
     """Setup rules and routes for a tunnel Network.
 
@@ -682,7 +689,7 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
       table = tunnel.netid
 
       # Set up routing rules.
-      start, end = cls.UidRangeForNetid(tunnel.netid)
+      start, end = cls.UidRangeForTunnelNetId(tunnel.netid)
       cls.iproute.UidRangeRule(version, is_add, start, end, table,
                                 cls.PRIORITY_UID)
       cls.iproute.OifRule(version, is_add, tunnel.iface, table, cls.PRIORITY_OIF)
