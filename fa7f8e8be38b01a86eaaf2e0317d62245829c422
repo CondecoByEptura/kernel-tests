@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9eadd13_02e1a138",
+        "filename": "net/test/kernel_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1758351
+      },
+      "writtenOn": "2024-03-06T04:54:52Z",
+      "side": 1,
+      "message": "I know if it might not happened.\n\nBut in theory, will it be better off to make the error message/ exception shows\n\nboth `/proc/config.gz` and `\"/boot/config-\" + os.uname()[2]` doesn\u0027t exist if that happened?",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "fa7f8e8be38b01a86eaaf2e0317d62245829c422",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
