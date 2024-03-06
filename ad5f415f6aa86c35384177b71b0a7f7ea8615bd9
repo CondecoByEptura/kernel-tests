@@ -70,6 +70,30 @@
       },
       "revId": "ad5f415f6aa86c35384177b71b0a7f7ea8615bd9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb0c893_42d3baf7",
+        "filename": "net/test/kernel_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1758351
+      },
+      "writtenOn": "2024-03-06T05:03:53Z",
+      "side": 1,
+      "message": "Acked.",
+      "parentUuid": "6efc6605_d7847500",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 64
+      },
+      "revId": "ad5f415f6aa86c35384177b71b0a7f7ea8615bd9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
