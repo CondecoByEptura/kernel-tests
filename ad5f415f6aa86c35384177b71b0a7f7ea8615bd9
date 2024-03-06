@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91243231_95c63447",
+        "filename": "net/test/kernel_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1758351
+      },
+      "writtenOn": "2024-03-06T04:52:49Z",
+      "side": 1,
+      "message": "for readability, will it be better off to do follows:\n\n\ndef assertFeatureEnabled(self, feature_name):\n    return self.assertFeatureBuiltIn(feature_name) or self.assertFeatureModular(feature_name)\n```suggestion\n    return self.assertFeatureBuiltIn(feature_name) or self.assertFeatureModular(feature_name)\n```",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 64
+      },
+      "revId": "ad5f415f6aa86c35384177b71b0a7f7ea8615bd9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
