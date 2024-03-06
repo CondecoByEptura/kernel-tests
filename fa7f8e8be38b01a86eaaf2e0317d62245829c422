@@ -22,6 +22,30 @@
       },
       "revId": "fa7f8e8be38b01a86eaaf2e0317d62245829c422",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66fa6eb_230d996b",
+        "filename": "net/test/kernel_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-03-06T05:02:56Z",
+      "side": 1,
+      "message": "AFAICT we\u0027ll simply have an uncaught exception (FileNotFoundError) in that case (from the open() itself), so it will print a message (and stack trace)...",
+      "parentUuid": "c9eadd13_02e1a138",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "fa7f8e8be38b01a86eaaf2e0317d62245829c422",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
