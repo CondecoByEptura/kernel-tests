@@ -46,6 +46,30 @@
       },
       "revId": "ad5f415f6aa86c35384177b71b0a7f7ea8615bd9",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6efc6605_d7847500",
+        "filename": "net/test/kernel_feature_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-03-06T05:00:58Z",
+      "side": 1,
+      "message": "ie. you cannot \u0027or\u0027 asserts together, you can only \u0027and\u0027 them\n\nassertFOO or assertBAR\n\nis equivalent to\n\nassertFOO\n\nbecause either assertFOO succeeds and \u0027or assertBAR\u0027 isn\u0027t called, or it fails...",
+      "parentUuid": "b0e3f252_9ad2bc2d",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 64
+      },
+      "revId": "ad5f415f6aa86c35384177b71b0a7f7ea8615bd9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
