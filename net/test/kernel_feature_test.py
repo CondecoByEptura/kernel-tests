@@ -20,6 +20,7 @@ import os
 from socket import *  # pylint: disable=wildcard-import,g-importing-member
 import unittest
 
+import gki
 import net_test
 
 
@@ -87,7 +88,15 @@ class KernelFeatureTest(net_test.NetworkTest):
     with net_test.RunAsUidGid(12345, self.AID_NET_RAW):
       self.assertRaisesErrno(errno.EPERM, socket, AF_PACKET, SOCK_RAW, 0)
 
-  @unittest.skipUnless(not net_test.IS_GSI, "GSI")
+  @unittest.skipUnless(net_test.IS_GSI, "not GSI")
+  def testIsGSI(self):
+    pass
+
+  @unittest.skipUnless(gki.IS_GKI, "not GKI")
+  def testIsGKI(self):
+    pass
+
+  @unittest.skipUnless(not net_test.IS_GSI and not gki.IS_GKI, "GSI or GKI")
   def testMinRequiredKernelVersion(self):
     self.assertTrue(net_test.KernelAtLeast([(4, 19, 236),
                                             (5, 4, 186),
