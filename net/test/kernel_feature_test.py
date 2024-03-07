@@ -16,9 +16,11 @@
 
 import errno
 import gzip
+import os
 from socket import *  # pylint: disable=wildcard-import,g-importing-member
 import unittest
 
+import gki
 import net_test
 
 
@@ -27,9 +29,16 @@ class KernelFeatureTest(net_test.NetworkTest):
   AID_NET_RAW = 3004
 
   @classmethod
+  def getKernelConfigFile(cls):
+    try:
+      return gzip.open("/proc/config.gz", mode="rt")
+    except FileNotFoundError:
+      return open("/boot/config-" + os.uname()[2], mode="rt")
+
+  @classmethod
   def loadKernelConfig(cls):
     cls.KCONFIG = {}
-    with gzip.open("/proc/config.gz", mode="rt") as f:
+    with cls.getKernelConfigFile() as f:
       for line in f:
         line = line.strip()
         parts = line.split("=")
@@ -43,19 +52,25 @@ class KernelFeatureTest(net_test.NetworkTest):
     super(net_test.NetworkTest, cls).setUpClass()
     cls.loadKernelConfig()
 
-  def assertFeatureEnabled(self, feature_name):
-    return self.assertEqual("y", self.KCONFIG[feature_name])
-
   def assertFeatureAbsent(self, feature_name):
     return self.assertNotIn(feature_name, self.KCONFIG)
 
+  def assertFeatureBuiltIn(self, feature_name):
+    return self.assertEqual("y", self.KCONFIG[feature_name])
+
+  def assertFeatureModular(self, feature_name):
+    return self.assertEqual("m", self.KCONFIG[feature_name])
+
+  def assertFeatureEnabled(self, feature_name):
+    return self.assertIn(self.KCONFIG[feature_name], ["m", "y"])
+
   def testNetfilterRejectEnabled(self):
     """Verify that CONFIG_IP{,6}_NF_{FILTER,TARGET_REJECT} is enabled."""
-    self.assertFeatureEnabled("CONFIG_IP_NF_FILTER")
-    self.assertFeatureEnabled("CONFIG_IP_NF_TARGET_REJECT")
+    self.assertFeatureBuiltIn("CONFIG_IP_NF_FILTER")
+    self.assertFeatureBuiltIn("CONFIG_IP_NF_TARGET_REJECT")
 
-    self.assertFeatureEnabled("CONFIG_IP6_NF_FILTER")
-    self.assertFeatureEnabled("CONFIG_IP6_NF_TARGET_REJECT")
+    self.assertFeatureBuiltIn("CONFIG_IP6_NF_FILTER")
+    self.assertFeatureBuiltIn("CONFIG_IP6_NF_TARGET_REJECT")
 
   def testRemovedAndroidParanoidNetwork(self):
     """Verify that ANDROID_PARANOID_NETWORK is gone.
@@ -73,12 +88,22 @@ class KernelFeatureTest(net_test.NetworkTest):
     with net_test.RunAsUidGid(12345, self.AID_NET_RAW):
       self.assertRaisesErrno(errno.EPERM, socket, AF_PACKET, SOCK_RAW, 0)
 
+  @unittest.skipUnless(net_test.IS_GSI, "not GSI")
+  def testIsGSI(self):
+    pass
+
+  @unittest.skipUnless(gki.IS_GKI, "not GKI")
+  def testIsGKI(self):
+    pass
+
+  @unittest.skipUnless(not net_test.IS_GSI and not gki.IS_GKI, "GSI or GKI")
   def testMinRequiredKernelVersion(self):
     self.assertTrue(net_test.KernelAtLeast([(4, 19, 236),
                                             (5, 4, 186),
                                             (5, 10, 199),
                                             (5, 15, 136),
-                                            (6, 1, 57)]))
+                                            (6, 1, 57)]),
+                    "%s [%s] is too old." % (os.uname()[2], os.uname()[4]))
 
 
 if __name__ == "__main__":

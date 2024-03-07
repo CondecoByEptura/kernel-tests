@@ -15,13 +15,12 @@
 # limitations under the License.
 
 import importlib
-import os
 import sys
 import unittest
 
 import namespace
 
-test_modules = [
+all_test_modules = [
     'anycast_test',
     'bpf_test',
     'csocket_test',
@@ -48,21 +47,18 @@ test_modules = [
     'xfrm_tunnel_test',
 ]
 
-if __name__ == '__main__':
-  namespace.EnterNewNetworkNamespace()
 
-  # If one or more tests were passed in on the command line, only run those.
-  if len(sys.argv) > 1:
-    test_modules = sys.argv[1:]
+def RunTests(modules_to_test):
+  namespace.EnterNewNetworkNamespace()
 
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
-  for name in test_modules:
+  for name in modules_to_test:
     importlib.import_module(name)
     if hasattr(sys.modules[name], 'InjectTests'):
       sys.modules[name].InjectTests()
 
-  test_suite = unittest.defaultTestLoader.loadTestsFromNames(test_modules)
+  test_suite = unittest.defaultTestLoader.loadTestsFromNames(modules_to_test)
 
   assert test_suite.countTestCases() > 0, (
       'Inconceivable: no tests found! Command line: %s' % ' '.join(sys.argv))
@@ -70,3 +66,11 @@ if __name__ == '__main__':
   runner = unittest.TextTestRunner(verbosity=2)
   result = runner.run(test_suite)
   sys.exit(not result.wasSuccessful())
+
+
+if __name__ == '__main__':
+  # If one or more tests were passed in on the command line, only run those.
+  if len(sys.argv) > 1:
+    RunTests(sys.argv[1:])
+  else:
+    RunTests(all_test_modules)
