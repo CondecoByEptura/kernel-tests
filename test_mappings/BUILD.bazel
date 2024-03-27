@@ -1,0 +1,42 @@
+# Copyright (C) 2024 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+load("@rules_pkg//pkg:pkg.bzl", "pkg_zip")
+
+# Collect into a .zip file the TEST_MAPPING files for packages whose tests
+# should be run in kernel presubmit and postsubmit testing.
+# This rule is in this directory
+# because these TEST_MAPPIING files are used when testing kernel code and
+# kernel/tests is the good place for that.
+#
+# Conventions:
+#   - Each package declares a :test_mappings target that contains all
+#     TEST_MAPPING files in that package. Avoid exports_files(["TEST_MAPPING"])
+#     because it requires this target to poke into the implementation
+#     detail of each package, and it is less flexible if the package has
+#     more TEST_MAPPING files in the future.
+#   - Be careful about package boundaries, especially if you are using a
+#     glob() expression. See
+#     https://bazel.build/reference/be/functions#glob
+pkg_zip(
+    name = "test_mappings_zip",
+    srcs = [
+        "//common:test_mappings",
+        "//external/zlib:test_mappings",
+        "//kernel/tests/net/test:test_mappings",
+        "//prebuilts/rust:test_mappings",
+    ],
+    out = "test_mappings.zip",
+    visibility = ["//visibility:public"],
+)
