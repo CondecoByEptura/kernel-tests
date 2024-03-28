@@ -16,6 +16,29 @@
       "message": "Thanks for the thorough documentation!",
       "revId": "0602e120661b839b40e7785e3ab9e36e7cbf1a36",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05db1e80_7c6c3eec",
+        "filename": "test_mappings/BUILD.bazel",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1961395
+      },
+      "writtenOn": "2024-03-28T10:51:54Z",
+      "side": 1,
+      "message": "typo?",
+      "range": {
+        "startLine": 20,
+        "startChar": 26,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "0602e120661b839b40e7785e3ab9e36e7cbf1a36",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
