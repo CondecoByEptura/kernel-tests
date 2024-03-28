@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a459f8c5_b710f4c1",
+        "filename": "test_mappings/BUILD.bazel",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-03-28T06:53:10Z",
+      "side": 1,
+      "message": "Can you add comments to explain what this does? Sounds like it might be something like:\n\n// Collect into a .zip file the TEST_MAPPING files for projects whose tests should be\n// run in kernel presubmit and postsubmit testing. This rule is in this directory\n// because these TEST_MAPPIING files are used when testing kernel code and kernel/tests\n// is the good place for that.",
+      "revId": "a290a287ea13fb30ed1d7f78aede38bbb250124a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
