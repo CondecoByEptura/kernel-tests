@@ -39,6 +39,30 @@
       },
       "revId": "0602e120661b839b40e7785e3ab9e36e7cbf1a36",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b093d782_0c0a1b81",
+        "filename": "test_mappings/BUILD.bazel",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1121838
+      },
+      "writtenOn": "2024-03-28T17:04:13Z",
+      "side": 1,
+      "message": "I\u0027ll fix it in the next CL because of timezone differences.",
+      "parentUuid": "05db1e80_7c6c3eec",
+      "range": {
+        "startLine": 20,
+        "startChar": 26,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "0602e120661b839b40e7785e3ab9e36e7cbf1a36",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
