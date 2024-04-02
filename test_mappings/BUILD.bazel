@@ -1,0 +1,69 @@
+# Copyright (C) 2024 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+load("@rules_pkg//pkg:pkg.bzl", "pkg_zip")
+
+# Collect into a .zip file the TEST_MAPPING files for packages whose tests
+# should be run in kernel presubmit and postsubmit testing.
+# This rule is in this directory
+# because these TEST_MAPPING files are used when testing kernel code and
+# kernel/tests is the good place for that.
+#
+# Conventions:
+#   - Each package declares a :test_mappings pkg_files() target that contains
+#     all TEST_MAPPING files in that package. Avoid
+#     exports_files(["TEST_MAPPING"])
+#     because it requires this target to poke into the implementation
+#     detail of each package, and it is less flexible if the package has
+#     more TEST_MAPPING files in the future.
+#   - Be careful about package boundaries, especially if you are using a
+#     glob() expression. See
+#     https://bazel.build/reference/be/functions#glob
+#
+# Example for a package with a single TEST_MAPPING file at the top level:
+#
+# pkg_files(
+#     name = "test_mappings",
+#     srcs = ["TEST_MAPPING"],
+#     prefix = package_name(),
+#     visibility = ["//kernel/tests/test_mappings:__pkg__"],
+# )
+#
+# Example for a package with multiple TEST_MAPPING files. Use `renames`
+#   to preserve the directory structure within the archive:
+#
+# _TEST_MAPPINGS = glob(["**/TEST_MAPPING"])
+# pkg_files(
+#     name = "test_mappings",
+#     srcs = _TEST_MAPPINGS,
+#     prefix = package_name(),
+#     renames = {file: file for file in _TEST_MAPPINGS},
+#     visibility = ["//kernel/tests/test_mappings:__pkg__"],
+# )
+pkg_zip(
+    name = "test_mappings_zip",
+    srcs = [
+        "//common:test_mappings",
+        "//external/zlib:test_mappings",
+        "//kernel/tests/net/test:test_mappings",
+        # Drop prebuilts/rust/TEST_MAPPING because:
+        #   - It doesn't contain useful content; the files it imports do not
+        #     exist in the kernel tree as of 2024-03-28.
+        #   - prebuilts/rust does not exist on android15-6.1 manifest.
+        # TODO(b/330775243): Add it back after main-kernel-build-2024 cut over.
+        # "//prebuilts/rust:test_mappings",
+    ],
+    out = "test_mappings.zip",
+    visibility = ["//visibility:public"],
+)
