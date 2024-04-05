@@ -342,7 +342,12 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         data = accepted.recv(2048)
         self.assertEqual(b"hello request", data)
         accepted.send(b"hello response")
-        accepted.shutdown(socket.SHUT_RDWR)
+        try:
+          accepted.shutdown(SHUT_RDWR)
+        except OSError as e:
+          # occasionally: OSError: [Errno 107] Transport endpoint is not connected
+          if e.errno != errno.ENOTCONN:
+            raise e
         accepted.close()
       except Exception as e:
         self.server_error = e
