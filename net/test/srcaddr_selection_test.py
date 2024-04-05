@@ -83,7 +83,6 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
     s.connect((net_test.IPV6_ADDR, 123))
     src_addr = s.getsockname()[0]
     self.assertTrue(src_addr)
-    s.close()
     return src_addr
 
   def assertAddressNotPresent(self, address):
@@ -104,19 +103,13 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
 
   def BindToAddress(self, address):
     s = net_test.UDPSocket(AF_INET6)
-    try:
-      s.bind((address, 0, 0, 0))
-    finally:
-      s.close()
+    s.bind((address, 0, 0, 0))
 
   def SendWithSourceAddress(self, address, netid, dest=net_test.IPV6_ADDR):
     pktinfo = multinetwork_base.MakePktInfo(6, address, 0)
     cmsgs = [(net_test.SOL_IPV6, IPV6_PKTINFO, pktinfo)]
     s = self.BuildSocket(6, net_test.UDPSocket, netid, "mark")
-    try:
-      return csocket.Sendmsg(s, (dest, 53), b"Hello", cmsgs, 0)
-    finally:
-      s.close()
+    return csocket.Sendmsg(s, (dest, 53), b"Hello", cmsgs, 0)
 
   def assertAddressUsable(self, address, netid):
     self.BindToAddress(address)

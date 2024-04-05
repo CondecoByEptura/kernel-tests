@@ -41,12 +41,8 @@ TCP_NOT_YET_ACCEPTED = -1
 class TcpBaseTest(multinetwork_base.MultiNetworkBaseTest):
 
   def tearDown(self):
-    if hasattr(self, "accepted"):
-      self.accepted.close()
-      del self.accepted
     if hasattr(self, "s"):
       self.s.close()
-      del self.s
     super(TcpBaseTest, self).tearDown()
 
   def OpenListenSocket(self, version, netid):

@@ -596,7 +596,6 @@ class IPRoute(netlink.NetlinkSocket):
 
     if version == 6:
       self._WaitForAddress(sock, address, ifindex)
-      sock.close()
 
   def DelAddress(self, address, prefixlen, ifindex):
     self._Address(csocket.AddressVersion(address),
