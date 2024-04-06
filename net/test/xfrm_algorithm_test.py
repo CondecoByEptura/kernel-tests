@@ -350,7 +350,7 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         data = accepted.recv(2048)
         self.assertEqual(b"hello request", data)
         accepted.send(b"hello response")
-        time.sleep(0.1)
+        time.sleep(0.01)
         accepted.close()
       except Exception as e:  # pylint: disable=broad-exception-caught
         nonlocal server_error
