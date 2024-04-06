@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b49da1b4_212603c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-04-06T05:47:18Z",
+      "side": 1,
+      "message": "reduced from 1s to 0.1s - as there is *a* lot of these tests\n\nbasically half are TCP... so the delay is *152\n\nWith no delay: Ran 304 tests in ~47s\nWith 1s: Ran 304 tests in ~199s\nWith 0.1s: Ran 304 tests in ~62s\n\n\nIf this actually deflakes things, we\u0027ll try to lower it further.\nI think all we need is likely an eye blink...",
+      "revId": "8a8835bb5453f813e960bebd5a731e9eb8fce248",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
