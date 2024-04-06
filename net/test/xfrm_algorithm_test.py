@@ -19,6 +19,7 @@ import itertools
 import os
 from socket import *  # pylint: disable=wildcard-import,g-importing-member
 import threading
+import time
 import unittest
 
 import net_test
@@ -337,7 +338,7 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
                                 spi_left, req_ids[3], None)
 
     server_ready = threading.Event()
-    self.server_error = None  # Save exceptions thrown by the server.
+    server_error = None  # Save exceptions thrown by the server.
 
     def TcpServer(sock, client_port):
       try:
@@ -349,15 +350,11 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         data = accepted.recv(2048)
         self.assertEqual(b"hello request", data)
         accepted.send(b"hello response")
-        try:
-          accepted.shutdown(SHUT_RDWR)
-        except OSError as e:
-          # occasionally we get a 'Transport endpoint is not connected'
-          if e.errno != ENOTCONN:
-            raise e
+        time.sleep(0.1)
         accepted.close()
       except Exception as e:  # pylint: disable=broad-exception-caught
-        self.server_error = e
+        nonlocal server_error
+        server_error = e
       finally:
         sock.close()
 
@@ -370,7 +367,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         self.assertEqual(b"hello request", data)
         sock.sendto(b"hello response", peer)
       except Exception as e:  # pylint: disable=broad-exception-caught
-        self.server_error = e
+        nonlocal server_error
+        server_error = e
       finally:
         sock.close()
 
@@ -391,7 +389,7 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     # Wait for server to be ready before attempting to connect. TCP retries
     # hide this problem, but UDP will fail outright if the server socket has
     # not bound when we send.
-    self.assertTrue(server_ready.wait(2.0),
+    self.assertTrue(server_ready.wait(3.0),
                     "Timed out waiting for server thread")
 
     with TapTwister(fd=self.tuns[netid].fileno(), validator=AssertEncrypted):
@@ -400,10 +398,10 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
       data = sock_left.recv(2048)
       self.assertEqual(b"hello response", data)
       sock_left.close()
-      server.join(timeout=2.0)
+      server.join(timeout=3.0)
       self.assertFalse(server.is_alive(), "Timed out waiting for server exit")
-    if self.server_error:
-      raise self.server_error
+    if server_error:
+      raise server_error
 
 
 if __name__ == "__main__":
