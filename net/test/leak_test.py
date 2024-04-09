@@ -45,6 +45,7 @@ class LeakTest(net_test.NetworkTest):
     data, addr = csocket.Recvfrom(s, 4096)
     self.assertEqual(b"", data)
     self.assertEqual(None, addr)
+    s.close()
 
 
 class ForceSocketBufferOptionTest(net_test.NetworkTest):

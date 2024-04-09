@@ -14,17 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# pylint: disable=g-bad-todo,g-bad-file-header,wildcard-import
-from errno import *  # pylint: disable=wildcard-import
-import os
+from errno import *  # pylint: disable=wildcard-import,g-importing-member
 import itertools
-from scapy import all as scapy
-from socket import *  # pylint: disable=wildcard-import
+import os
+from socket import *  # pylint: disable=wildcard-import,g-importing-member
 import threading
+import time
 import unittest
 
-import multinetwork_base
 import net_test
+from scapy import all as scapy
 from tun_twister import TapTwister
 import util
 import xfrm
@@ -87,13 +86,16 @@ AEAD_ALGOS = [
     # 4 bytes (32 bits) of nonce. A fresh nonce value MUST be assigned for
     # each SA. RFC 7634 also specifies that ICV length must be 16 bytes.
     # ChaCha20-Poly1305 is enforced since kernel version 5.8
-    (xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_CHACHA20_POLY1305, 256+32, 16*8)), (5, 8)),
+    (xfrm.XfrmAlgoAead((xfrm.XFRM_AEAD_CHACHA20_POLY1305, 256+32, 16*8)),
+     (5, 8)),
 ]
+
 
 def GenerateKey(key_len):
   if key_len % 8 != 0:
     raise ValueError("Invalid key length in bits: " + str(key_len))
   return os.urandom(key_len // 8)
+
 
 # Does the kernel support this algorithm?
 def HaveAlgo(crypt_algo, auth_algo, aead_algo):
@@ -133,28 +135,33 @@ def HaveAlgo(crypt_algo, auth_algo, aead_algo):
 # False.
 algoState = {}
 
+
 def AlgoEnforcedOrEnabled(crypt, auth, aead, target_algo, target_kernel):
   if algoState.get(target_algo) is None:
-    algoState[target_algo] = net_test.LINUX_VERSION >= target_kernel or HaveAlgo(
-        crypt, auth, aead)
+    algoState[target_algo] = (net_test.LINUX_VERSION >= target_kernel
+                              or HaveAlgo(crypt, auth, aead))
   return algoState.get(target_algo)
 
+
 # Return true if this algorithm should be enforced or is enabled on this kernel
-def AuthEnforcedOrEnabled(authCase):
-  auth = authCase[0]
+def AuthEnforcedOrEnabled(auth_case):
+  auth = auth_case[0]
   crypt = xfrm.XfrmAlgo((b"ecb(cipher_null)", 0))
-  return AlgoEnforcedOrEnabled(crypt, auth, None, auth.name, authCase[1])
+  return AlgoEnforcedOrEnabled(crypt, auth, None, auth.name, auth_case[1])
+
 
 # Return true if this algorithm should be enforced or is enabled on this kernel
-def CryptEnforcedOrEnabled(cryptCase):
-  crypt = cryptCase[0]
+def CryptEnforcedOrEnabled(crypt_case):
+  crypt = crypt_case[0]
   auth = xfrm.XfrmAlgoAuth((b"digest_null", 0, 0))
-  return AlgoEnforcedOrEnabled(crypt, auth, None, crypt.name, cryptCase[1])
+  return AlgoEnforcedOrEnabled(crypt, auth, None, crypt.name, crypt_case[1])
+
 
 # Return true if this algorithm should be enforced or is enabled on this kernel
-def AeadEnforcedOrEnabled(aeadCase):
-  aead = aeadCase[0]
-  return AlgoEnforcedOrEnabled(None, None, aead, aead.name, aeadCase[1])
+def AeadEnforcedOrEnabled(aead_case):
+  aead = aead_case[0]
+  return AlgoEnforcedOrEnabled(None, None, aead, aead.name, aead_case[1])
+
 
 def InjectTests():
   XfrmAlgorithmTest.InjectTests()
@@ -163,66 +170,67 @@ def InjectTests():
 class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
   @classmethod
   def InjectTests(cls):
-    VERSIONS = (4, 6)
-    TYPES = (SOCK_DGRAM, SOCK_STREAM)
+    versions = (4, 6)
+    types = (SOCK_DGRAM, SOCK_STREAM)
 
     # Tests all combinations of auth & crypt. Mutually exclusive with aead.
-    param_list = itertools.product(VERSIONS, TYPES, AUTH_ALGOS, CRYPT_ALGOS,
+    param_list = itertools.product(versions, types, AUTH_ALGOS, CRYPT_ALGOS,
                                    [None])
     util.InjectParameterizedTest(cls, param_list, cls.TestNameGenerator)
 
     # Tests all combinations of aead. Mutually exclusive with auth/crypt.
-    param_list = itertools.product(VERSIONS, TYPES, [None], [None], AEAD_ALGOS)
+    param_list = itertools.product(versions, types, [None], [None], AEAD_ALGOS)
     util.InjectParameterizedTest(cls, param_list, cls.TestNameGenerator)
 
   @staticmethod
-  def TestNameGenerator(version, proto, authCase, cryptCase, aeadCase):
+  def TestNameGenerator(version, proto, auth_case, crypt_case, aead_case):
     # Produce a unique and readable name for each test. e.g.
     #     testSocketPolicySimple_cbc-aes_256_hmac-sha512_512_256_IPv6_UDP
     param_string = ""
-    if cryptCase is not None:
-      crypt = cryptCase[0]
+    if crypt_case is not None:
+      crypt = crypt_case[0]
       param_string += "%s_%d_" % (crypt.name.decode(), crypt.key_len)
 
-    if authCase is not None:
-      auth = authCase[0]
+    if auth_case is not None:
+      auth = auth_case[0]
       param_string += "%s_%d_%d_" % (auth.name.decode(), auth.key_len,
-          auth.trunc_len)
+                                     auth.trunc_len)
 
-    if aeadCase is not None:
-      aead = aeadCase[0]
+    if aead_case is not None:
+      aead = aead_case[0]
       param_string += "%s_%d_%d_" % (aead.name.decode(), aead.key_len,
-          aead.icv_len)
+                                     aead.icv_len)
 
     param_string += "%s_%s" % ("IPv4" if version == 4 else "IPv6",
-        "UDP" if proto == SOCK_DGRAM else "TCP")
+                               "UDP" if proto == SOCK_DGRAM else "TCP")
     return param_string
 
-  def ParamTestSocketPolicySimple(self, version, proto, authCase, cryptCase, aeadCase):
+  def ParamTestSocketPolicySimple(self, version, proto, auth_case, crypt_case,
+                                  aead_case):
     """Test two-way traffic using transport mode and socket policies."""
 
     # Bypass the test if any algorithm going to be tested is not enforced
     # or enabled on this kernel
-    if authCase is not None and not AuthEnforcedOrEnabled(authCase):
+    if auth_case is not None and not AuthEnforcedOrEnabled(auth_case):
       return
-    if cryptCase is not None and not CryptEnforcedOrEnabled(cryptCase):
+    if crypt_case is not None and not CryptEnforcedOrEnabled(crypt_case):
       return
-    if aeadCase is not None and not AeadEnforcedOrEnabled(aeadCase):
+    if aead_case is not None and not AeadEnforcedOrEnabled(aead_case):
       return
 
-    auth = authCase[0] if authCase else None
-    crypt = cryptCase[0] if cryptCase else None
-    aead = aeadCase[0] if aeadCase else None
+    auth = auth_case[0] if auth_case else None
+    crypt = crypt_case[0] if crypt_case else None
+    aead = aead_case[0] if aead_case else None
 
     def AssertEncrypted(packet):
       # This gives a free pass to ICMP and ICMPv6 packets, which show up
       # nondeterministically in tests.
       self.assertEqual(None,
-                        packet.getlayer(scapy.UDP),
-                        "UDP packet sent in the clear")
+                       packet.getlayer(scapy.UDP),
+                       "UDP packet sent in the clear")
       self.assertEqual(None,
-                        packet.getlayer(scapy.TCP),
-                        "TCP packet sent in the clear")
+                       packet.getlayer(scapy.TCP),
+                       "TCP packet sent in the clear")
 
     # We create a pair of sockets, "left" and "right", that will talk to each
     # other using transport mode ESP. Because of TapTwister, both sockets
@@ -342,7 +350,10 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         data = accepted.recv(2048)
         self.assertEqual(b"hello request", data)
         accepted.send(b"hello response")
-      except Exception as e:
+        time.sleep(0.01)
+        accepted.close()
+      except Exception as e:  # pylint: disable=broad-exception-caught
+        nonlocal server_error
         server_error = e
       finally:
         sock.close()
@@ -355,7 +366,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
         self.assertEqual(client_port, peer[1])
         self.assertEqual(b"hello request", data)
         sock.sendto(b"hello response", peer)
-      except Exception as e:
+      except Exception as e:  # pylint: disable=broad-exception-caught
+        nonlocal server_error
         server_error = e
       finally:
         sock.close()
@@ -377,7 +389,8 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
     # Wait for server to be ready before attempting to connect. TCP retries
     # hide this problem, but UDP will fail outright if the server socket has
     # not bound when we send.
-    self.assertTrue(server_ready.wait(2.0), "Timed out waiting for server thread")
+    self.assertTrue(server_ready.wait(3.0),
+                    "Timed out waiting for server thread")
 
     with TapTwister(fd=self.tuns[netid].fileno(), validator=AssertEncrypted):
       sock_left.connect((remote_addr, right_port))
@@ -385,7 +398,7 @@ class XfrmAlgorithmTest(xfrm_base.XfrmLazyTest):
       data = sock_left.recv(2048)
       self.assertEqual(b"hello response", data)
       sock_left.close()
-      server.join(timeout=2.0)
+      server.join(timeout=3.0)
       self.assertFalse(server.is_alive(), "Timed out waiting for server exit")
     if server_error:
       raise server_error

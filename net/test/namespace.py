@@ -18,7 +18,6 @@
 
 import ctypes
 import ctypes.util
-import errno
 import os
 import socket
 import sys
@@ -26,6 +25,8 @@ import sys
 import net_test
 import sock_diag
 import tcp_test
+
+# pylint: disable=bad-whitespace
 
 # //include/linux/fs.h
 MNT_FORCE       = 1         # Attempt to forcibily umount
@@ -66,6 +67,8 @@ CLONE_NEWUSER   = 0x10000000   # New user namespace
 CLONE_NEWPID    = 0x20000000   # New pid namespace
 CLONE_NEWNET    = 0x40000000   # New network namespace
 
+# pylint: enable=bad-whitespace
+
 libc = ctypes.CDLL(ctypes.util.find_library('c'), use_errno=True)
 
 # See the relevant system call's man pages and:
@@ -81,9 +84,9 @@ def Mount(src, tgt, fs, flags=MS_NODEV|MS_NOEXEC|MS_NOSUID|MS_RELATIME):
   ret = libc.mount(src.encode(), tgt.encode(), fs.encode() if fs else None,
                    flags, None)
   if ret < 0:
-    errno = ctypes.get_errno()
-    raise OSError(errno, '%s mounting %s on %s (fs=%s flags=0x%x)'
-                  % (os.strerror(errno), src, tgt, fs, flags))
+    err = ctypes.get_errno()
+    raise OSError(err, '%s mounting %s on %s (fs=%s flags=0x%x)'
+                  % (os.strerror(err), src, tgt, fs, flags))
 
 
 def ReMountProc():
@@ -92,9 +95,9 @@ def ReMountProc():
 
 
 def ReMountSys():
-  libc.umount2(b'/sys/fs/cgroup', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2(b'/sys/fs/bpf', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2(b'/sys', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys/fs/cgroup', MNT_DETACH)  # Ign. fail: might not be mounted
+  libc.umount2(b'/sys/fs/bpf', MNT_DETACH)  # Ignore fail: might not be mounted
+  libc.umount2(b'/sys', MNT_DETACH)  # Ignore fail: might not be mounted
   Mount('sysfs', '/sys', 'sysfs')
   Mount('bpf', '/sys/fs/bpf', 'bpf')
   Mount('cgroup2', '/sys/fs/cgroup', 'cgroup2')
@@ -109,15 +112,15 @@ def SetHostname(s):
   hostname = s.encode()
   ret = libc.sethostname(hostname, len(hostname))
   if ret < 0:
-    errno = ctypes.get_errno()
-    raise OSError(errno, '%s while sethostname(%s)' % (os.strerror(errno), s))
+    err = ctypes.get_errno()
+    raise OSError(err, '%s while sethostname(%s)' % (os.strerror(err), s))
 
 
 def UnShare(flags):
   ret = libc.unshare(flags)
   if ret < 0:
-    errno = ctypes.get_errno()
-    raise OSError(errno, '%s while unshare(0x%x)' % (os.strerror(errno), flags))
+    err = ctypes.get_errno()
+    raise OSError(err, '%s while unshare(0x%x)' % (os.strerror(err), flags))
 
 
 def DumpMounts(hdr):
@@ -134,8 +137,6 @@ def DumpMounts(hdr):
 #   CONFIG_UTS_NS=y
 def EnterNewNetworkNamespace():
   """Instantiate and transition into a fresh new network namespace."""
-
-  sys.stdout.write('Creating clean namespace... ')
 
   try:
     UnShare(CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWNET)
@@ -163,12 +164,12 @@ def EnterNewNetworkNamespace():
 def HasEstablishedTcpSessionOnPort(port):
   sd = sock_diag.SockDiag()
 
-  sock_id = sd._EmptyInetDiagSockId()
+  sock_id = sd._EmptyInetDiagSockId()  # pylint: disable=protected-access
   sock_id.sport = port
 
   states = 1 << tcp_test.TCP_ESTABLISHED
 
-  matches = sd.DumpAllInetSockets(socket.IPPROTO_TCP, b"",
+  matches = sd.DumpAllInetSockets(socket.IPPROTO_TCP, b'',
                                   sock_id=sock_id, states=states)
 
-  return len(matches) > 0
+  return True if matches else False

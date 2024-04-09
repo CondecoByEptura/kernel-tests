@@ -14,11 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# pylint: disable=g-bad-todo,g-bad-file-header,wildcard-import
-from socket import *
+import binascii
+from socket import *  # pylint: disable=g-importing-member,wildcard-import
 import unittest
 
-import binascii
 import csocket
 import pf_key
 import xfrm
@@ -30,11 +29,11 @@ AUTH_KEY = binascii.unhexlify("af442892cdcd0ef650e9c299f9a8436a")
 
 class PfKeyTest(unittest.TestCase):
 
-  def setUp(self):
+  def setUp(self):  # pylint: disable=g-missing-super-call
     self.pf_key = pf_key.PfKey()
     self.xfrm = xfrm.Xfrm()
 
-  def tearDown(self):
+  def tearDown(self):  # pylint: disable=g-missing-super-call
     self.pf_key.close()
     self.pf_key = None
 
@@ -92,24 +91,24 @@ class PfKeyTest(unittest.TestCase):
     self.assertEqual(256, attrs6["XFRMA_ALG_AUTH_TRUNC"].key_len)
 
     if attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len == 96:
-        missing4 = True
+      missing4 = True
     else:
-        self.assertEqual(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
-        missing4 = False
+      self.assertEqual(128, attrs4["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
+      missing4 = False
 
     if attrs6["XFRMA_ALG_AUTH_TRUNC"].trunc_len == 96:
-        missing6 = True
+      missing6 = True
     else:
-        self.assertEqual(128, attrs6["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
-        missing6 = False
+      self.assertEqual(128, attrs6["XFRMA_ALG_AUTH_TRUNC"].trunc_len)
+      missing6 = False
 
     self.pf_key.DelSa(src4, dst4, 0xdeadbeef, pf_key.SADB_TYPE_ESP)
     self.assertEqual(1, len(self.xfrm.DumpSaInfo()))
     self.pf_key.DelSa(src6, dst6, 0xbeefdead, pf_key.SADB_TYPE_ESP)
     self.assertEqual(0, len(self.xfrm.DumpSaInfo()))
 
-    if missing4 or missing6:
-        self.assertFalse("missing b8a72fd7c4e9 ANDROID: net: xfrm: make PF_KEY SHA256 use RFC-compliant truncation.")
+    self.assertFalse(missing4 or missing6, "missing b8a72fd7c4e9 ANDROID: net" +
+                     ": xfrm: make PF_KEY SHA256 use RFC-compliant truncation.")
 
 
 if __name__ == "__main__":

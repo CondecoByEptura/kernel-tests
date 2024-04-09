@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@rules_pkg//pkg:pkg.bzl", "pkg_zip")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_filegroup")
 
 # Collect into a .zip file the TEST_MAPPING files for packages whose tests
 # should be run in kernel presubmit and postsubmit testing.
@@ -51,12 +51,19 @@ load("@rules_pkg//pkg:pkg.bzl", "pkg_zip")
 #     renames = {file: file for file in _TEST_MAPPINGS},
 #     visibility = ["//kernel/tests/test_mappings:__pkg__"],
 # )
-pkg_zip(
-    name = "test_mappings_zip",
+
+# All interesting test_mappings targets, except the one in the kernel tree
+# (usually //common).
+pkg_filegroup(
+    name = "non_kernel_test_mappings",
     srcs = [
-        "//common:test_mappings",
-        "//external/zlib:test_mappings",
         "//kernel/tests/net/test:test_mappings",
+
+        # Drop external/zlib/TEST_MAPPING because //external is not a valid
+        # package. If we need this in the future, it needs to be changed to
+        # @zlib instead.
+        # "//external/zlib:test_mappings",
+
         # Drop prebuilts/rust/TEST_MAPPING because:
         #   - It doesn't contain useful content; the files it imports do not
         #     exist in the kernel tree as of 2024-03-28.
@@ -64,6 +71,5 @@ pkg_zip(
         # TODO(b/330775243): Add it back after main-kernel-build-2024 cut over.
         # "//prebuilts/rust:test_mappings",
     ],
-    out = "test_mappings.zip",
     visibility = ["//visibility:public"],
 )

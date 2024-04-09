@@ -21,18 +21,17 @@ import errno
 import os
 import posix
 import random
-from socket import *  # pylint: disable=wildcard-import
+from socket import *  # pylint: disable=g-importing-member,wildcard-import
 import struct
 import sys
 import threading
 import time
 import unittest
 
-from scapy import all as scapy
-
 import csocket
 import multinetwork_base
 import net_test
+from scapy import all as scapy
 
 
 ICMP_ECHO = 8
@@ -116,12 +115,12 @@ class PingReplyThread(threading.Thread):
           packet)
 
   def SendPacketTooBig(self, packet):
-      src = packet.getlayer(scapy.IPv6).src
-      datalen = IPV6_MIN_MTU - ICMPV6_HEADER_LEN
-      self.SendPacket(
-          scapy.IPv6(src=self.INTERMEDIATE_IPV6, dst=src) /
-          scapy.ICMPv6PacketTooBig(mtu=self.LINK_MTU) /
-          bytes(packet)[:datalen])
+    src = packet.getlayer(scapy.IPv6).src
+    datalen = IPV6_MIN_MTU - ICMPV6_HEADER_LEN
+    self.SendPacket(
+        scapy.IPv6(src=self.INTERMEDIATE_IPV6, dst=src) /
+        scapy.ICMPv6PacketTooBig(mtu=self.LINK_MTU) /
+        bytes(packet)[:datalen])
 
   def IPv4Packet(self, ip):
     icmp = ip.getlayer(scapy.ICMP)
@@ -184,7 +183,7 @@ class PingReplyThread(threading.Thread):
     packet = scapy.Ether(src=self._routermac, dst=self._mymac) / packet
     try:
       posix.write(self._tun.fileno(), bytes(packet))
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
       if not self._stopped_flag:
         raise e
 
@@ -217,15 +216,15 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     # that would cause tearDownClass not to be called and thus not clean up
     # routing configuration, breaking subsequent tests. Instead, just let these
     # tests fail.
-    _INTERVAL = 0.1
-    _ATTEMPTS = 20
-    for i in range(0, _ATTEMPTS):
-      for netid in cls.NETIDS:
-        if all(thread.IsStarted() for thread in list(cls.reply_threads.values())):
+    interval = 0.1
+    attempts = 20
+    for _ in range(attempts):
+      for _ in cls.NETIDS:
+        if all(thrd.IsStarted() for thrd in list(cls.reply_threads.values())):
           return
-        time.sleep(_INTERVAL)
+        time.sleep(interval)
     msg = "WARNING: reply threads not all started after %.1f seconds\n" % (
-        _ATTEMPTS * _INTERVAL)
+        attempts * interval)
     sys.stderr.write(msg)
 
   @classmethod
@@ -239,10 +238,10 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     cls.reply_threads = {}
     for netid in cls.NETIDS:
       cls.reply_threads[netid] = PingReplyThread(
-        cls.tuns[netid],
-        cls.MyMacAddress(netid),
-        cls.RouterMacAddress(netid),
-        cls._RouterAddress(netid, 6))
+          cls.tuns[netid],
+          cls.MyMacAddress(netid),
+          cls.RouterMacAddress(netid),
+          cls._RouterAddress(netid, 6))
       cls.reply_threads[netid].start()
     cls.WaitForReplyThreads()
     cls.netid = random.choice(cls.NETIDS)
@@ -255,6 +254,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     super(Ping6Test, cls).tearDownClass()
 
   def setUp(self):
+    super(Ping6Test, self).setUp()
     self.ifname = self.GetInterfaceName(self.netid)
     self.ifindex = self.ifindices[self.netid]
     self.lladdr = net_test.GetLinkAddress(self.ifname, True)
@@ -294,7 +294,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
       # Check that the flow label is zero and that the scope ID is sane.
       self.assertEqual(flowlabel, 0)
       if addr.startswith("fe80::"):
-        self.assertTrue(scope_id in list(self.ifindices.values()))
+        self.assertIn(scope_id, list(self.ifindices.values()))
       else:
         self.assertEqual(0, scope_id)
 
@@ -326,7 +326,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
 
       # Check all the parameters except rxmem and txmem.
       expected[3] = actual[3]
-      # also do not check ref, it's always 2 on older kernels, but 1 for 'raw6' on 6.0+
+      # Don't check ref, it's always 2 on old kernels, but 1 for 'raw6' on 6.0+
       expected[5] = actual[5]
       if expected == actual:
         return
@@ -735,7 +735,7 @@ class Ping6Test(multinetwork_base.MultiNetworkBaseTest):
     # that is not registered with the flow manager should return EINVAL...
     s.setsockopt(net_test.SOL_IPV6, net_test.IPV6_FLOWINFO_SEND, 1)
     # ... but this doesn't work yet.
-    if False:
+    if False:  # pylint: disable=using-constant-test
       self.assertRaisesErrno(errno.EINVAL, s.sendto, net_test.IPV6_PING,
                              (net_test.IPV6_ADDR, 93, 0xdead, 0))
 

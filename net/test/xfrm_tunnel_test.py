@@ -162,6 +162,7 @@ def _SendPacket(testInstance, netid, version, remote, remote_port):
   testInstance.SelectInterface(write_sock, netid, "mark")
   write_sock.sendto(net_test.UDP_PAYLOAD, (remote, remote_port))
   local_port = write_sock.getsockname()[1]
+  write_sock.close()
 
   return local_port
 
@@ -260,6 +261,9 @@ class XfrmTunnelTest(xfrm_base.XfrmLazyTest):
       sock = write_sock if direction == xfrm.XFRM_POLICY_OUT else read_sock
       func(inner_version, outer_version, u_netid, netid, local_inner,
           remote_inner, local_outer, remote_outer, sock)
+
+      write_sock.close()
+      read_sock.close()
     finally:
       if test_output_mark_unset:
         self.ClearDefaultNetwork()
@@ -731,14 +735,17 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
         local_inner, tunnel.local, local_port, sa_info.spi, sa_info.seq_num)
     self.ReceivePacketOn(tunnel.underlying_netid, input_pkt)
 
-    if expect_fail:
-      self.assertRaisesErrno(EAGAIN, read_sock.recv, 4096)
-    else:
-      # Verify that the packet data and src are correct
-      data, src = read_sock.recvfrom(4096)
-      self.assertReceivedPacket(tunnel, sa_info)
-      self.assertEqual(net_test.UDP_PAYLOAD, data)
-      self.assertEqual((remote_inner, _TEST_REMOTE_PORT), src[:2])
+    try:
+      if expect_fail:
+        self.assertRaisesErrno(EAGAIN, read_sock.recv, 4096)
+      else:
+        # Verify that the packet data and src are correct
+        data, src = read_sock.recvfrom(4096)
+        self.assertReceivedPacket(tunnel, sa_info)
+        self.assertEqual(net_test.UDP_PAYLOAD, data)
+        self.assertEqual((remote_inner, _TEST_REMOTE_PORT), src[:2])
+    finally:
+      read_sock.close()
 
   def _CheckTunnelOutput(self, tunnel, inner_version, local_inner,
                          remote_inner, sa_info=None):
@@ -826,6 +833,8 @@ class XfrmTunnelBase(xfrm_base.XfrmBaseTest):
 
       # Check that the interface statistics recorded the inbound packet
       self.assertReceivedPacket(tunnel, tunnel.in_sa)
+
+      read_sock.close()
     finally:
       # Swap the interface addresses to pretend we are the remote
       self._SwapInterfaceAddress(
