@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c495c63_4d086a41",
+        "filename": "net/test/run_net_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-04-15T21:42:07Z",
+      "side": 1,
+      "message": "it should use [[ ]] ideally...",
+      "range": {
+        "startLine": 128,
+        "startChar": 3,
+        "endLine": 128,
+        "endChar": 4
+      },
+      "revId": "d24c69b73d526ab9b29644ca7d1a8d5cb8a7e3a8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
