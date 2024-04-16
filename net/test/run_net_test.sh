@@ -125,6 +125,11 @@ nowrite=1
 nobuild=0
 norun=0
 
+if [[ ! -f "${KERNEL_DIR}/Makefile" ]]; then
+  echo "No kernel Makefile found. Are you running this from a kernel directory?"
+  exit 1
+fi
+
 KVER_MAJOR="$(sed -rn 's@^ *VERSION *= *([0-9]+)$@\1@p'    < "${KERNEL_DIR}/Makefile")"
 KVER_MINOR="$(sed -rn 's@^ *PATCHLEVEL *= *([0-9]+)$@\1@p' < "${KERNEL_DIR}/Makefile")"
 KVER_LEVEL="$(sed -rn 's@^ *SUBLEVEL *= *([0-9]+)$@\1@p'   < "${KERNEL_DIR}/Makefile")"
