@@ -38,7 +38,6 @@ TcpInfo = cstruct.Struct("TcpInfo", "64xI", "tcpi_rcv_ssthresh")
 
 NUM_SOCKETS = 30
 NO_BYTECODE = b""
-LINUX_4_19_OR_ABOVE = net_test.LINUX_VERSION >= (4, 19, 0)
 
 IPPROTO_SCTP = 132
 
@@ -180,6 +179,9 @@ class SockDiagTest(SockDiagBaseTest):
       self.sock_diag.GetSockInfo(diag_req)
       # No errors? Good.
 
+    for sock in socketpair:
+      sock.close()
+
   def CheckFindsAllMySockets(self, socktype, proto):
     """Tests that basic socket dumping works."""
     self.socketpairs = self._CreateLotsOfSockets(socktype)
@@ -220,6 +222,10 @@ class SockDiagTest(SockDiagBaseTest):
           req.id.src, req.id.dst = req.id.dst, req.id.src
         info = self.sock_diag.GetSockInfo(req)
         self.assertSockInfoMatchesSocket(sock, info)
+
+    for socketpair in socketpairs:
+      for sock in socketpair:
+        sock.close()
 
   def assertItemsEqual(self, expected, actual):
     try:
@@ -333,6 +339,15 @@ class SockDiagTest(SockDiagBaseTest):
     self.assertTrue(all(d in v4socks for d in diag_msgs))
     self.assertTrue(all(d in v6socks for d in diag_msgs))
 
+    for sock in unused_pair4:
+      sock.close()
+
+    for sock in unused_pair6:
+      sock.close()
+
+    for sock in pair5:
+      sock.close()
+
   def testPortComparisonValidation(self):
     """Checks for a bug in validating port comparison bytecode.
 
@@ -365,6 +380,9 @@ class SockDiagTest(SockDiagBaseTest):
       diag_msg = self.sock_diag.FindSockDiagFromFd(sock)
       cookie = sock.getsockopt(net_test.SOL_SOCKET, net_test.SO_COOKIE, 8)
       self.assertEqual(diag_msg.id.cookie, cookie)
+
+    for sock in socketpair:
+      sock.close()
 
   def testGetsockoptcookie(self):
     self.CheckSocketCookie(AF_INET, "127.0.0.1")
@@ -399,6 +417,8 @@ class SockDiagTest(SockDiagBaseTest):
       req.id.src, req.id.dst = req.id.dst, req.id.src
 
       self.assertSockInfoMatchesSocket(s, self.sock_diag.GetSockInfo(req))
+
+      s.close()
 
 
 class SockDestroyTest(SockDiagBaseTest):
@@ -524,34 +544,12 @@ class SockDiagTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
 class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
 
-  RWND_SIZE = 64000 if LINUX_4_19_OR_ABOVE else 42000
+  RWND_SIZE = 64000
   TCP_DEFAULT_INIT_RWND = "/proc/sys/net/ipv4/tcp_default_init_rwnd"
 
   def setUp(self):
     super(TcpRcvWindowTest, self).setUp()
-    if LINUX_4_19_OR_ABOVE:
-      self.assertRaisesErrno(ENOENT, open, self.TCP_DEFAULT_INIT_RWND, "w")
-      return
-
-    try:
-      f = open(self.TCP_DEFAULT_INIT_RWND, "w")
-    except IOError as e:
-      # sysctl was namespace-ified on May 25, 2020 in android-4.14-stable [R]
-      # just after 4.14.181 by:
-      #   https://android-review.googlesource.com/c/kernel/common/+/1312623
-      #   ANDROID: namespace'ify tcp_default_init_rwnd implementation
-      # But that commit might be missing in Q era kernels even when > 4.14.181
-      # when running T vts.
-      if net_test.LINUX_VERSION >= (4, 15, 0):
-        raise
-      if e.errno != ENOENT:
-        raise
-      # we rely on the network namespace creation code
-      # modifying the root netns sysctl before the namespace is even created
-      return
-
-    f.write("60")
-    f.close()
+    self.assertRaisesErrno(ENOENT, open, self.TCP_DEFAULT_INIT_RWND, "w")
 
   def checkInitRwndSize(self, version, netid):
     self.IncomingConnection(version, tcp_test.TCP_ESTABLISHED, netid)
@@ -561,6 +559,7 @@ class TcpRcvWindowTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
                     "Tcp rwnd of netid=%d, version=%d is not enough. "
                     "Expect: %d, actual: %d" % (netid, version, self.RWND_SIZE,
                                                 tcpInfo.tcpi_rcv_ssthresh))
+    self.CloseSockets()
 
   def checkSynPacketWindowSize(self, version, netid):
     s = self.BuildSocket(version, net_test.TCPSocket, netid, "mark")
@@ -618,6 +617,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       if state != tcp_test.TCP_LISTEN:
         msg = "Closing accepted IPv%d %s socket" % (version, statename)
         self.CheckRstOnClose(self.accepted, None, True, msg)
+        self.CloseSockets()
 
   def testTcpResets(self):
     """Checks that closing sockets in appropriate states sends a RST."""
@@ -636,6 +636,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       # Close the socket and check that it goes into FIN_WAIT1 and sends a FIN.
       net_test.EnableFinWait(self.accepted)
       self.accepted.close()
+      del self.accepted
       diag_req.states = 1 << tcp_test.TCP_FIN_WAIT1
       diag_msg, attrs = self.sock_diag.GetSockInfo(diag_req)
       self.assertEqual(tcp_test.TCP_FIN_WAIT1, diag_msg.state)
@@ -662,6 +663,8 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertTrue(any(diag_msg.state == tcp_test.TCP_FIN_WAIT2
                           for diag_msg, attrs in infos),
                       "Expected to find FIN_WAIT2 socket in %s" % infos)
+
+      self.CloseSockets()
 
   def FindChildSockets(self, s):
     """Finds the SYN_RECV child sockets of a given listening socket."""
@@ -726,11 +729,11 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       else:
         CloseChildren()
         CheckChildrenClosed()
-      self.s.close()
     else:
       CloseChildren()
       CloseParent(False)
-      self.s.close()
+
+    self.CloseSockets()
 
   def testChildSockets(self):
     for version in [4, 5, 6]:
@@ -749,6 +752,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertRaisesErrno(EINVAL, self.s.accept)
       # TODO: this should really return an error such as ENOTCONN...
       self.assertEqual(b"", self.s.recv(4096))
+      self.CloseSockets()
 
   def testReadInterrupted(self):
     """Tests that read() is interrupted by SOCK_DESTROY."""
@@ -760,6 +764,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertRaisesErrno(EPIPE, self.accepted.send, b"foo")
       self.assertEqual(b"", self.accepted.recv(4096))
       self.assertEqual(b"", self.accepted.recv(4096))
+      self.CloseSockets()
 
   def testConnectInterrupted(self):
     """Tests that connect() is interrupted by SOCK_DESTROY."""
@@ -779,6 +784,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.ExpectPacketOn(self.netid, desc, syn)
       msg = "SOCK_DESTROY of socket in connect, expected no RST"
       self.ExpectNoPacketsOn(self.netid, msg)
+      s.close()
 
 
 class PollOnCloseTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
@@ -840,6 +846,7 @@ class PollOnCloseTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
           lambda sock: self.BlockingPoll(sock, mask, expected, ignoremask),
           None)
       self.assertSocketErrors(ECONNABORTED)
+      self.CloseSockets()
 
   def CheckPollRst(self, mask, expected, ignoremask):
     """Interrupts a poll() by receiving a TCP RST."""
@@ -850,6 +857,7 @@ class PollOnCloseTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
           lambda sock: self.BlockingPoll(sock, mask, expected, ignoremask),
           None)
       self.assertSocketErrors(ECONNRESET)
+      self.CloseSockets()
 
   def testReadPollRst(self):
     self.CheckPollRst(select.POLLIN, self.POLLIN_ERR_HUP, 0)
@@ -922,6 +930,7 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       s.connect((dst, 53))
       self.sock_diag.CloseSocketFromFd(s)
       self.assertEqual((unspec, 0), s.getsockname()[:2])
+      s.close()
 
       # Closing a socket bound to an IP address leaves the address as is.
       s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
@@ -931,6 +940,7 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       port = s.getsockname()[1]
       self.sock_diag.CloseSocketFromFd(s)
       self.assertEqual((src, 0), s.getsockname()[:2])
+      s.close()
 
       # Closing a socket bound to a port leaves the port as is.
       s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
@@ -938,6 +948,7 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       s.connect((dst, 53))
       self.sock_diag.CloseSocketFromFd(s)
       self.assertEqual((unspec, port), s.getsockname()[:2])
+      s.close()
 
       # Closing a socket bound to IP address and port leaves both as is.
       s = self.BuildSocket(version, net_test.UDPSocket, netid, "mark")
@@ -945,6 +956,7 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       port = self.BindToRandomPort(s, src)
       self.sock_diag.CloseSocketFromFd(s)
       self.assertEqual((src, port), s.getsockname()[:2])
+      s.close()
 
   def testReadInterrupted(self):
     """Tests that read() is interrupted by SOCK_DESTROY."""
@@ -968,6 +980,8 @@ class SockDestroyUdpTest(SockDiagBaseTest):
       self.CloseDuringBlockingCall(s, lambda sock: sock.recv(4096),
                                    ECONNABORTED)
 
+      s.close()
+
 class SockDestroyPermissionTest(SockDiagBaseTest):
 
   def CheckPermissions(self, socktype):
@@ -986,6 +1000,8 @@ class SockDestroyPermissionTest(SockDiagBaseTest):
 
     self.sock_diag.CloseSocketFromFd(s)
     self.assertRaises(ValueError, self.sock_diag.CloseSocketFromFd, s)
+
+    s.close()
 
 
   def testUdp(self):
@@ -1073,6 +1089,9 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
         self.assertRaisesErrno(EPERM, self.FilterEstablishedSockets,
                                0xfff0000, 0xf0fed00)
 
+    s1.close()
+    s2.close()
+
   @staticmethod
   def SetRandomMark(s):
     # Python doesn't like marks that don't fit into a signed int.
@@ -1114,6 +1133,7 @@ class SockDiagMarkTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       self.assertSocketMarkIs(accepted, accepted_mark)
       self.assertSocketMarkIs(server, server_mark)
 
+      accepted.close()
       server.close()
       client.close()
 

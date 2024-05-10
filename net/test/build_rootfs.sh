@@ -41,7 +41,7 @@ ramdisk=
 disk=
 dtb=
 
-while getopts ":hs:a:m:n:r:k:i:d:eg" opt; do
+while getopts ":hs:a:m:n:r:k:O:i:d:eg" opt; do
   case "${opt}" in
     h)
       usage
@@ -67,6 +67,9 @@ while getopts ":hs:a:m:n:r:k:i:d:eg" opt; do
       ;;
     k)
       kernel="${OPTARG}"
+      ;;
+    O)
+      extradeb="${OPTARG}"
       ;;
     i)
       initramfs="${OPTARG}"
@@ -379,10 +382,10 @@ else
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
     rootfs_partition_tempfile2=$(mktemp)
     dd if="${disk}" of="${rootfs_partition_tempfile2}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
-    e2fsck -p -f "${rootfs_partition_tempfile2}" || true
+    /sbin/e2fsck -p -f "${rootfs_partition_tempfile2}" || true
     dd if="${rootfs_partition_tempfile2}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
     rm -f "${rootfs_partition_tempfile2}"
-    e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
+    /sbin/e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 fi
 if [[ -n "${system_partition}" ]]; then
   system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)
@@ -458,6 +461,11 @@ if [[ ${rootfs_partition} = "raw" ]]; then
 	sudo cp -a "${kernel}" "${mount}/boot/vmlinuz-${kernel_version}"
 	sudo chown root:root "${mount}/boot/vmlinuz-${kernel_version}"
     fi
+    sudo cp -a "${SCRIPT_DIR}"/rootfs/cron-run-installer-script "${mount}/etc/cron.d/cron-run-installer-script"
+    if [ -e "${extradeb}" ]; then
+	sudo cp -a "${extradeb}" "${mount}/root/extradeb.tar.gz"
+	sudo chown root:root "${mount}/root/extradeb.tar.gz"
+    fi
 else
     if [[ "${embed_kernel_initrd_dtb}" = "1" ]]; then
 	if [ -n "${dtb}" ]; then
@@ -465,6 +473,10 @@ else
 	    e2cp -G 0 -O 0 "${dtb}" "${rootfs_partition_tempfile}":"/boot/dtb/${dtb_subdir}"
 	fi
 	e2cp -G 0 -O 0 "${kernel}" "${rootfs_partition_tempfile}":"/boot/vmlinuz-${kernel_version}"
+    fi
+    e2cp -G 0 -O 0 "${SCRIPT_DIR}"/rootfs/cron-run-installer-script "${rootfs_partition_tempfile}":"/etc/cron.d/cron-run-installer-script"
+    if [ -e "${extradeb}" ]; then
+	e2cp -G 0 -O 0 "${extradeb}" "${rootfs_partition_tempfile}":"/root/extradeb.tar.gz"
     fi
 fi
 
@@ -493,7 +505,7 @@ ${qemu} -machine "${machine}" -cpu "${cpu}" -m 2048 >&2 \
   -device pci-serial,chardev=exitcode \
   -netdev user,id=usernet0,ipv6=off \
   -device virtio-net-pci-non-transitional,netdev=usernet0,id=net0 \
-  -append "root=LABEL=ROOT init=/root/${suite}.sh ${cmdline}"
+  -append "root=LABEL=ROOT installer_script=/root/${suite}.sh ${cmdline}"
 [[ -s exitcode ]] && exitcode=$(cat exitcode | tr -d '\r') || exitcode=2
 rm -f exitcode
 if [ "${exitcode}" != "0" ]; then
@@ -511,10 +523,10 @@ else
     rootfs_partition_offset=$((${rootfs_partition_start} * 512))
     rootfs_partition_tempfile2=$(mktemp)
     dd if="${disk}" of="${rootfs_partition_tempfile2}" bs=512 skip=${rootfs_partition_start} count=${rootfs_partition_num_sectors}
-    e2fsck -p -f "${rootfs_partition_tempfile2}" || true
+    /sbin/e2fsck -p -f "${rootfs_partition_tempfile2}" || true
     dd if="${rootfs_partition_tempfile2}" of="${disk}" bs=512 seek=${rootfs_partition_start} count=${rootfs_partition_num_sectors} conv=fsync,notrunc
     rm -f "${rootfs_partition_tempfile2}"
-    e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
+    /sbin/e2fsck -fy "${disk}"?offset=${rootfs_partition_offset} || true
 fi
 if [[ -n "${system_partition}" ]]; then
   system_partition_start=$(partx -g -o START -s -n "${system_partition}" "${disk}" | xargs)

@@ -77,7 +77,7 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     expected = (
         "src :: dst 2001:4860:4860::8888\n"
         "\tproto esp spi 0x00001234 reqid 3320 mode transport\n"
-        "\treplay-window 4 \n"
+        "\treplay-window 32 \n"
         "\tauth-trunc hmac(sha1) 0x%s 96\n"
         "\tenc cbc(aes) 0x%s\n"
         "\tsel src ::/0 dst ::/0 \n" % (
@@ -442,23 +442,22 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
       # because IP headers are always at least 20 bytes long.
       data = 19 * b"a"
       datalen = len(data)
-      data += xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP)
-      self.assertEqual(32, len(data) + 8)
       # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
       inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
-          scapy.UDP(sport=443, dport=32123) / data)
+          scapy.UDP(sport=443, dport=32123) / data) + bytes(
+          xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP))
       input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
                    scapy.UDP(sport=4500, dport=encap_port) /
                    inner_pkt)
     else:
       # TODO: test IPv4 in IPv6 encap and vice versa.
       data = b""  # Empty UDP payload
-      datalen = len(data) + {4: 20, 6: 40}[version]
-      data += xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP)
+      datalen = {4: 20, 6: 40}[version] + len(data)
       # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
       inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
           IpType(src=remoteaddr, dst=myaddr) /
-          scapy.UDP(sport=443, dport=32123) / data)
+          scapy.UDP(sport=443, dport=32123) / data) + bytes(
+          xfrm_base.GetEspTrailer(len(data), {4: IPPROTO_IPIP, 6: IPPROTO_IPV6}[version]))
       input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
                    scapy.UDP(sport=4500, dport=encap_port) /
                    inner_pkt)

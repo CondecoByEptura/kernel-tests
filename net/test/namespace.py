@@ -18,7 +18,6 @@
 
 import ctypes
 import ctypes.util
-import errno
 import os
 import socket
 import sys
@@ -26,6 +25,8 @@ import sys
 import net_test
 import sock_diag
 import tcp_test
+
+# pylint: disable=bad-whitespace
 
 # //include/linux/fs.h
 MNT_FORCE       = 1         # Attempt to forcibily umount
@@ -66,6 +67,8 @@ CLONE_NEWUSER   = 0x10000000   # New user namespace
 CLONE_NEWPID    = 0x20000000   # New pid namespace
 CLONE_NEWNET    = 0x40000000   # New network namespace
 
+# pylint: enable=bad-whitespace
+
 libc = ctypes.CDLL(ctypes.util.find_library('c'), use_errno=True)
 
 # See the relevant system call's man pages and:
@@ -81,9 +84,9 @@ def Mount(src, tgt, fs, flags=MS_NODEV|MS_NOEXEC|MS_NOSUID|MS_RELATIME):
   ret = libc.mount(src.encode(), tgt.encode(), fs.encode() if fs else None,
                    flags, None)
   if ret < 0:
-    errno = ctypes.get_errno()
-    raise OSError(errno, '%s mounting %s on %s (fs=%s flags=0x%x)'
-                  % (os.strerror(errno), src, tgt, fs, flags))
+    err = ctypes.get_errno()
+    raise OSError(err, '%s mounting %s on %s (fs=%s flags=0x%x)'
+                  % (os.strerror(err), src, tgt, fs, flags))
 
 
 def ReMountProc():
@@ -92,9 +95,9 @@ def ReMountProc():
 
 
 def ReMountSys():
-  libc.umount2(b'/sys/fs/cgroup', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2(b'/sys/fs/bpf', MNT_DETACH)  # Ignore failure: might not be mounted
-  libc.umount2(b'/sys', MNT_DETACH)  # Ignore failure: might not be mounted
+  libc.umount2(b'/sys/fs/cgroup', MNT_DETACH)  # Ign. fail: might not be mounted
+  libc.umount2(b'/sys/fs/bpf', MNT_DETACH)  # Ignore fail: might not be mounted
+  libc.umount2(b'/sys', MNT_DETACH)  # Ignore fail: might not be mounted
   Mount('sysfs', '/sys', 'sysfs')
   Mount('bpf', '/sys/fs/bpf', 'bpf')
   Mount('cgroup2', '/sys/fs/cgroup', 'cgroup2')
@@ -109,15 +112,15 @@ def SetHostname(s):
   hostname = s.encode()
   ret = libc.sethostname(hostname, len(hostname))
   if ret < 0:
-    errno = ctypes.get_errno()
-    raise OSError(errno, '%s while sethostname(%s)' % (os.strerror(errno), s))
+    err = ctypes.get_errno()
+    raise OSError(err, '%s while sethostname(%s)' % (os.strerror(err), s))
 
 
 def UnShare(flags):
   ret = libc.unshare(flags)
   if ret < 0:
-    errno = ctypes.get_errno()
-    raise OSError(errno, '%s while unshare(0x%x)' % (os.strerror(errno), flags))
+    err = ctypes.get_errno()
+    raise OSError(err, '%s while unshare(0x%x)' % (os.strerror(err), flags))
 
 
 def DumpMounts(hdr):
@@ -134,14 +137,6 @@ def DumpMounts(hdr):
 #   CONFIG_UTS_NS=y
 def EnterNewNetworkNamespace():
   """Instantiate and transition into a fresh new network namespace."""
-
-  sys.stdout.write('Creating clean namespace... ')
-
-  # sysctl only present on 4.14 and earlier Android kernels
-  if net_test.LINUX_VERSION < (4, 15, 0):
-    TCP_DEFAULT_INIT_RWND = "/proc/sys/net/ipv4/tcp_default_init_rwnd"
-    # In root netns this will succeed
-    init_rwnd_sysctl = open(TCP_DEFAULT_INIT_RWND, "w")
 
   try:
     UnShare(CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWNET)
@@ -163,38 +158,18 @@ def EnterNewNetworkNamespace():
     # We've already transitioned into the new netns -- it's too late to recover.
     raise
 
-  if net_test.LINUX_VERSION < (4, 15, 0):
-    # In non-root netns this open might fail due to non-namespace-ified sysctl
-    # ie. lack of kernel commit:
-    #    https://android-review.googlesource.com/c/kernel/common/+/1312623
-    #    ANDROID: namespace'ify tcp_default_init_rwnd implementation
-    try:
-      init_rwnd_sysctl = open(TCP_DEFAULT_INIT_RWND, "w")
-    except IOError as e:
-      if e.errno != errno.ENOENT:
-        raise
-      # Note! if the netns open above succeeded (and thus we don't reach here)
-      # then we don't need to actually update the sysctl, since we'll be able to do
-      # that in the sock_diag_test.py TcpRcvWindowTest test case setUp() call instead.
-      #
-      # As such this write here is *still* to the root netns sysctl
-      # (because we obtained a file descriptor *prior* to unshare/etc...)
-      # and handles the case where the sysctl is not namespace aware and thus
-      # affects the entire system.
-      init_rwnd_sysctl.write("60");
-
   print('succeeded.')
 
 
 def HasEstablishedTcpSessionOnPort(port):
   sd = sock_diag.SockDiag()
 
-  sock_id = sd._EmptyInetDiagSockId()
+  sock_id = sd._EmptyInetDiagSockId()  # pylint: disable=protected-access
   sock_id.sport = port
 
   states = 1 << tcp_test.TCP_ESTABLISHED
 
-  matches = sd.DumpAllInetSockets(socket.IPPROTO_TCP, b"",
+  matches = sd.DumpAllInetSockets(socket.IPPROTO_TCP, b'',
                                   sock_id=sock_id, states=states)
 
-  return len(matches) > 0
+  return True if matches else False

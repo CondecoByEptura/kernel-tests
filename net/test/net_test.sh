@@ -165,6 +165,15 @@ fi
 # Allow people to run ping.
 echo '0 2147483647' > /proc/sys/net/ipv4/ping_group_range
 
+# Adjust tcp_rmem_default on UML as needed by Linux 6.6
+if [[ -e /proc/exitcode ]]; then
+  # UML with mem=512M defaults to '4096 131072 ~4021664'
+  read tcp_rmem_min tcp_rmem_default tcp_rmem_max < /proc/sys/net/ipv4/tcp_rmem
+  if [[ tcp_rmem_default -lt 262144 ]]; then
+    echo "${tcp_rmem_min} 262144 ${tcp_rmem_max}" > /proc/sys/net/ipv4/tcp_rmem
+  fi
+fi
+
 # Allow unprivileged use of eBPF (matches Android OS)
 if [[ "$(< /proc/sys/kernel/unprivileged_bpf_disabled)" != '0' ]]; then
   echo 0 > /proc/sys/kernel/unprivileged_bpf_disabled

@@ -52,11 +52,18 @@ IPV6_FLOWINFO = 11
 IPV6_HOPLIMIT = 52  # Different from IPV6_UNICAST_HOPS, this is cmsg only.
 
 
+ACCEPT_RA_MIN_LFT_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_min_lft"
 AUTOCONF_TABLE_SYSCTL = "/proc/sys/net/ipv6/conf/default/accept_ra_rt_table"
 IPV4_MARK_REFLECT_SYSCTL = "/proc/sys/net/ipv4/fwmark_reflect"
 IPV6_MARK_REFLECT_SYSCTL = "/proc/sys/net/ipv6/fwmark_reflect"
+RA_HONOR_PIO_LIFE_SYSCTL = "/proc/sys/net/ipv6/conf/default/ra_honor_pio_life"
 
+HAVE_ACCEPT_RA_MIN_LFT = (os.path.isfile(ACCEPT_RA_MIN_LFT_SYSCTL) or
+                          net_test.KernelAtLeast([(5, 10, 199), (5, 15, 136),
+                                                  (6, 1, 57), (6, 6, 0)]))
 HAVE_AUTOCONF_TABLE = os.path.isfile(AUTOCONF_TABLE_SYSCTL)
+HAVE_RA_HONOR_PIO_LIFE = (os.path.isfile(RA_HONOR_PIO_LIFE_SYSCTL) or
+                          net_test.KernelAtLeast([(6, 7, 0)]))
 
 
 class ConfigurationError(AssertionError):
@@ -101,8 +108,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   # Wether to output setup commands.
   DEBUG = False
 
-  # The size of our UID ranges.
-  UID_RANGE_SIZE = 1000
+  UID_RANGE_START = 2000
+  UID_RANGE_END = 9999
+  UID_RANGE_SIZE = UID_RANGE_END - UID_RANGE_START + 1
 
   # Rule priorities.
   PRIORITY_UID = 100
@@ -125,13 +133,15 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
   IPV4_PING = net_test.IPV4_PING
   IPV6_PING = net_test.IPV6_PING
 
-  RA_VALIDITY = 300 # seconds
+  RA_VALIDITY = 600 # seconds
 
   @classmethod
   def UidRangeForNetid(cls, netid):
+    per_netid_range = int(cls.UID_RANGE_SIZE / len(cls.NETIDS))
+    idx = cls.NETIDS.index(netid)
     return (
-        cls.UID_RANGE_SIZE * netid,
-        cls.UID_RANGE_SIZE * (netid + 1) - 1
+        cls.UID_RANGE_START + per_netid_range * idx,
+        cls.UID_RANGE_START + per_netid_range * (idx + 1) - 1
     )
 
   @classmethod
@@ -232,8 +242,8 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
     return f
 
   @classmethod
-  def SendRA(cls, netid, retranstimer=None, reachabletime=0, options=()):
-    validity = cls.RA_VALIDITY # seconds
+  def SendRA(cls, netid, retranstimer=None, reachabletime=0, routerlft=RA_VALIDITY,
+             piolft=RA_VALIDITY, m=0, o=0, options=()):
     macaddr = cls.RouterMacAddress(netid)
     lladdr = cls._RouterAddress(netid, 6)
 
@@ -241,23 +251,25 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       # If no retrans timer was specified, pick one that's as long as the
       # router lifetime. This ensures that no spurious ND retransmits
       # will interfere with test expectations.
-      retranstimer = validity * 1000  # Lifetime is in s, retrans timer in ms.
+      retranstimer = routerlft * 1000  # Lifetime is in s, retrans timer in ms.
 
     # We don't want any routes in the main table. If the kernel doesn't support
     # putting RA routes into per-interface tables, configure routing manually.
-    routerlifetime = validity if HAVE_AUTOCONF_TABLE else 0
+    if not HAVE_AUTOCONF_TABLE:
+      routerlft = 0
 
     ra = (scapy.Ether(src=macaddr, dst="33:33:00:00:00:01") /
           scapy.IPv6(src=lladdr, hlim=255) /
           scapy.ICMPv6ND_RA(reachabletime=reachabletime,
                             retranstimer=retranstimer,
-                            routerlifetime=routerlifetime) /
+                            routerlifetime=routerlft,
+                            M=m, O=o) /
           scapy.ICMPv6NDOptSrcLLAddr(lladdr=macaddr) /
           scapy.ICMPv6NDOptPrefixInfo(prefix=cls.OnlinkPrefix(6, netid),
                                       prefixlen=cls.OnlinkPrefixLen(6),
                                       L=1, A=1,
-                                      validlifetime=validity,
-                                      preferredlifetime=validity))
+                                      validlifetime=piolft,
+                                      preferredlifetime=piolft))
     for option in options:
       ra /= option
     posix.write(cls.tuns[netid].fileno(), bytes(ra))
@@ -645,8 +657,9 @@ class MultiNetworkBaseTest(net_test.NetworkTest):
       if expectedudp.sport is None:
         actualudp.sport = None
         actualudp.chksum = None
-      elif actualudp.chksum == 0xffff:
+      elif actualudp.chksum == 0xffff and expectedudp.chksum == 0:
         # Scapy does not appear to change 0 to 0xffff as required by RFC 768.
+        # It is possible that scapy has been upgraded and this no longer triggers.
         actualudp.chksum = 0
 
     # Since the TCP code below messes with options, recalculate the length.

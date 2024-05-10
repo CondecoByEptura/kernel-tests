@@ -94,7 +94,6 @@ class NetlinkSocket(object):
 
   @staticmethod
   def _GetConstantName(module, value, prefix):
-
     def FirstMatching(name, prefixlist):
       for prefix in prefixlist:
         if name.startswith(prefix):
@@ -183,6 +182,11 @@ class NetlinkSocket(object):
 
   def close(self):
     self.sock.close()
+    self.sock = None
+
+  def __del__(self):
+    if self.sock:
+      self.close()
 
   def MaybeDebugCommand(self, command, flags, data):
     # Default no-op implementation to be overridden by subclasses.

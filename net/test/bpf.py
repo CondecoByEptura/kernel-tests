@@ -17,10 +17,11 @@
 """kernel net test library for bpf testing."""
 
 import ctypes
+import errno
 import os
-import platform
 import resource
 import socket
+import sys
 
 import csocket
 import cstruct
@@ -32,10 +33,6 @@ import net_test
 # around this problem and pick the right syscall nr, we can additionally check
 # the bitness of the python interpreter. Assume that the 64-bit architectures
 # are not running with COMPAT_UTS_MACHINE and must be 64-bit at all times.
-#
-# Is there a better way of doing this?
-# Is it correct to use os.uname()[4] instead of platform.machine() ?
-# Should we use 'sys.maxsize > 2**32' instead of platform.architecture()[0] ?
 __NR_bpf = {  # pylint: disable=invalid-name
     "aarch64-32bit": 386,
     "aarch64-64bit": 280,
@@ -47,7 +44,17 @@ __NR_bpf = {  # pylint: disable=invalid-name
     "x86_64-32bit": 357,
     "x86_64-64bit": 321,
     "riscv64-64bit": 280,
-}[os.uname()[4] + "-" + platform.architecture()[0]]
+}[os.uname()[4] + "-" + ("64" if sys.maxsize > 0x7FFFFFFF else "32") + "bit"]
+
+# After ACK merge of 5.10.168 is when support for this was backported from
+# upstream Linux 5.14 and was merged into ACK android{12,13}-5.10 branches.
+#   ACK android12-5.10 was >= 5.10.168 without this support only for ~4.5 hours
+#   ACK android13-4.10 was >= 5.10.168 without this support only for ~25 hours
+# as such we can >= 5.10.168 instead of > 5.10.168
+HAVE_SO_NETNS_COOKIE = net_test.LINUX_VERSION >= (5, 10, 168)
+
+# Note: This is *not* correct for parisc & sparc architectures
+SO_NETNS_COOKIE = 71
 
 LOG_LEVEL = 1
 LOG_SIZE = 65536
@@ -63,6 +70,15 @@ BPF_OBJ_PIN = 6
 BPF_OBJ_GET = 7
 BPF_PROG_ATTACH = 8
 BPF_PROG_DETACH = 9
+BPF_PROG_TEST_RUN = 10
+BPF_PROG_GET_NEXT_ID = 11
+BPF_MAP_GET_NEXT_ID = 12
+BPF_PROG_GET_FD_BY_ID = 13
+BPF_MAP_GET_FD_BY_ID = 14
+BPF_OBJ_GET_INFO_BY_FD = 15
+BPF_PROG_QUERY = 16
+
+# setsockopt SOL_SOCKET constants
 SO_ATTACH_BPF = 50
 
 # BPF map type constant.
@@ -188,11 +204,14 @@ BpfAttrProgLoad = cstruct.Struct(
     " license log_level log_size log_buf kern_version")
 BpfAttrProgAttach = cstruct.Struct(
     "bpf_attr_prog_attach", "=III", "target_fd attach_bpf_fd attach_type")
+BpfAttrGetFdById = cstruct.Struct(
+    "bpf_attr_get_fd_by_id", "=III", "id next_id open_flags")
+BpfAttrProgQuery = cstruct.Struct(
+    "bpf_attr_prog_query", "=IIIIQIQ", "target_fd attach_type query_flags attach_flags prog_ids_ptr prog_cnt prog_attach_flags")
 BpfInsn = cstruct.Struct("bpf_insn", "=BBhi", "code dst_src_reg off imm")
 # pylint: enable=invalid-name
 
 libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
-HAVE_EBPF_4_19 = net_test.LINUX_VERSION >= (4, 19, 0)
 HAVE_EBPF_5_4 = net_test.LINUX_VERSION >= (5, 4, 0)
 
 # set memlock resource 1 GiB
@@ -283,7 +302,48 @@ def BpfProgAttach(prog_fd, target_fd, prog_type):
 # Detach a eBPF filter from a cgroup
 def BpfProgDetach(target_fd, prog_type):
   attr = BpfAttrProgAttach((target_fd, 0, prog_type))
-  return BpfSyscall(BPF_PROG_DETACH, attr)
+  try:
+    return BpfSyscall(BPF_PROG_DETACH, attr)
+  except socket.error as e:
+    if e.errno != errno.ENOENT:
+      raise
+
+
+# Convert a BPF program ID into an open file descriptor
+def BpfProgGetFdById(prog_id):
+  if prog_id is None:
+    return None
+  attr = BpfAttrGetFdById((prog_id, 0, 0))
+  return BpfSyscall(BPF_PROG_GET_FD_BY_ID, attr)
+
+
+# Convert a BPF map ID into an open file descriptor
+def BpfMapGetFdById(map_id):
+  if map_id is None:
+    return None
+  attr = BpfAttrGetFdById((map_id, 0, 0))
+  return BpfSyscall(BPF_MAP_GET_FD_BY_ID, attr)
+
+
+# Return BPF program id attached to a given cgroup & attach point
+# Note: as written this only supports a *single* program per attach point
+def BpfProgQuery(target_fd, attach_type, query_flags, attach_flags):
+  prog_id = ctypes.c_uint32(-1)
+  minus_one = prog_id.value   # but unsigned, so really 4294967295
+  attr = BpfAttrProgQuery((target_fd, attach_type, query_flags, attach_flags, ctypes.addressof(prog_id), 1, 0))
+  if BpfSyscall(BPF_PROG_QUERY, attr) == 0:
+    # to see kernel updates we have to convert back from the buffer that actually went to the kernel...
+    attr._Parse(attr._buffer)
+    assert attr.prog_cnt >= 0, "prog_cnt is %s" % attr.prog_cnt
+    assert attr.prog_cnt <= 1, "prog_cnt is %s" % attr.prog_cnt  # we don't support more atm
+    if attr.prog_cnt == 0:
+      assert prog_id.value == minus_one, "prog_id is %s" % prog_id
+      return None
+    else:
+      assert prog_id.value != minus_one, "prog_id is %s" % prog_id
+      return prog_id.value
+  else:
+    return None
 
 
 # BPF program command constructors

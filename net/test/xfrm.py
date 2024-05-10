@@ -224,7 +224,7 @@ IPSEC_PROTO_ANY = 255
 EspHdr = cstruct.Struct("EspHdr", "!II", "spi seqnum")
 
 # Local constants.
-_DEFAULT_REPLAY_WINDOW = 4
+_DEFAULT_REPLAY_WINDOW = 32
 ALL_ALGORITHMS = 0xffffffff
 
 # Policy-SA match method (for VTI/XFRM-I).

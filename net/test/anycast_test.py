@@ -112,6 +112,7 @@ class AnycastTest(multinetwork_base.MultiNetworkBaseTest):
       # This doesn't seem to help, but still.
       self.AnycastSetsockopt(s, False, netid, addr)
     self.assertTrue(thread.finished)
+    s.close()
 
 
 if __name__ == "__main__":

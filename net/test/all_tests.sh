@@ -18,10 +18,6 @@ readonly PREFIX="#####"
 readonly RETRIES=2
 test_prefix=
 
-# The tests currently have hundreds of ResourceWarnings that make it hard
-# to see errors/failures. Disable this warning for now.
-export PYTHONWARNINGS="ignore::ResourceWarning"
-
 function checkArgOrExit() {
   if [[ $# -lt 2 ]]; then
     echo "Missing argument for option $1" >&2

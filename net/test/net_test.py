@@ -96,6 +96,9 @@ KERN_INFO = 6
 LINUX_VERSION = csocket.LinuxVersion()
 LINUX_ANY_VERSION = (0, 0)
 
+# From //system/gsid/libgsi.cpp IsGsiRunning()
+IS_GSI = os.access("/metadata/gsi/dsu/booted", os.F_OK)
+
 def KernelAtLeast(versions):
   """Checks the kernel version matches the specified versions.
 
@@ -402,7 +405,9 @@ def GetIptablesBinaryPath(version):
 
 def RunIptablesCommand(version, args):
   iptables_path = GetIptablesBinaryPath(version)
-  return os.spawnvp(os.P_WAIT, iptables_path, [iptables_path] + args.split(" "))
+  return os.spawnvp(
+      os.P_WAIT, iptables_path,
+      [iptables_path, "-w"] + args.split(" "))
 
 # Determine network configuration.
 try:

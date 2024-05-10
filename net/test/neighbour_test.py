@@ -116,6 +116,9 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     # so as not to affect other tests.
     self.ChangeRouterNudState(4, NUD_PERMANENT)
 
+    self.sock.close()
+    self.sock = None
+
   def ChangeRouterNudState(self, version, state):
     router = self._RouterAddress(self.netid, version)
     macaddr = self.RouterMacAddress(self.netid)
@@ -268,6 +271,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
 
     # Send a packet, and verify we go into DELAY and then to PROBE.
     s.send(net_test.UDP_PAYLOAD)
+    s.close()
     self.assertNeighbourState(NUD_DELAY, router6)
     self.SleepMs(self.DELAY_TIME_MS * 1.1)
     self.assertNeighbourState(NUD_PROBE, router6)
@@ -323,7 +327,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     time.sleep(1)
 
     # Send another packet and expect a multicast NS.
-    self.SendDnsRequest(net_test.IPV6_ADDR)
+    self.SendDnsRequest(net_test.IPV6_ADDR).close()
     self.ExpectMulticastNS(router6)
 
     # Receive a unicast NA with the R flag set to 0.
@@ -351,7 +355,7 @@ class NeighbourTest(multinetwork_base.MultiNetworkBaseTest):
     self.SetUnicastSolicit(proto, iface, self.UCAST_SOLICIT_LARGE)
 
     # Send a packet and check that we go into DELAY.
-    self.SendDnsRequest(ip_addr)
+    self.SendDnsRequest(ip_addr).close()
     self.assertNeighbourState(NUD_DELAY, router)
 
     # Probing 4 times but no reponse

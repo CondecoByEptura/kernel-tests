@@ -45,6 +45,7 @@ class LeakTest(net_test.NetworkTest):
     data, addr = csocket.Recvfrom(s, 4096)
     self.assertEqual(b"", data)
     self.assertEqual(None, addr)
+    s.close()
 
 
 class ForceSocketBufferOptionTest(net_test.NetworkTest):
@@ -72,6 +73,7 @@ class ForceSocketBufferOptionTest(net_test.NetworkTest):
     bogusval = 2 ** 31 - val
     s.setsockopt(SOL_SOCKET, force_option, bogusval)
     self.assertLessEqual(minbuf, s.getsockopt(SOL_SOCKET, option))
+    s.close()
 
   def testRcvBufForce(self):
     self.CheckForceSocketBufferOption(SO_RCVBUF, self.SO_RCVBUFFORCE)
