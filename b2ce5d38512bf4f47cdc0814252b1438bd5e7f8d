@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d996f47d_ecf31b30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3426416
+      },
+      "writtenOn": "2024-05-15T02:52:10Z",
+      "side": 1,
+      "message": "https://cs.android.com/android/platform/superproject/main/+/main:kernel/tests/METADATA",
+      "revId": "b2ce5d38512bf4f47cdc0814252b1438bd5e7f8d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
