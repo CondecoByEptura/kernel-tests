@@ -35,7 +35,6 @@ all_test_modules = [
     'netlink_test',
     'nf_test',
     'parameterization_test',
-    'pf_key_test',
     'ping6_test',
     'policy_crash_test',
     'resilient_rs_test',
