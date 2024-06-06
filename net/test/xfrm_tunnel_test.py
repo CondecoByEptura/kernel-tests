@@ -53,13 +53,8 @@ _TEST_SPI = 0x1234
 # As such we require 4.14.321+, 4.19.236+, 5.4.186+, 5.10.107+, 5.15.30+ or 5.17+
 # to have these fixes.
 def HasXfrmMigrateFixes():
-    return (
-            ((LINUX_VERSION >= (4, 14, 321)) and (LINUX_VERSION < (4, 19, 0))) or
-            ((LINUX_VERSION >= (4, 19, 236)) and (LINUX_VERSION < (5, 4, 0))) or
-            ((LINUX_VERSION >= (5, 4, 186)) and (LINUX_VERSION < (5, 10, 0))) or
-            ((LINUX_VERSION >= (5, 10, 107)) and (LINUX_VERSION < (5, 15, 0))) or
-            (LINUX_VERSION >= (5, 15, 30))
-           )
+    return net_test.KernelAtLeast([(4, 19, 236), (5, 4, 186),
+                                   (5, 10, 107), (5, 15, 30)]) or net_test.NonGXI(4, 14)
 
 
 # Does the kernel support CONFIG_XFRM_MIGRATE and include the kernel fixes?
