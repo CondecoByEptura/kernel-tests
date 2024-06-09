@@ -594,23 +594,32 @@ class BpfCgroupTest(net_test.NetworkTest):
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
 
-  def checkSocketCreate(self, family, socktype, success):
+  def checkSocketCreate(self, family, socktype, sockproto, success):
     try:
-      sock = socket.socket(family, socktype, 0)
+      sock = socket.socket(family, socktype, sockproto)
       sock.close()
     except socket.error as e:
       if success:
-        self.fail("Failed to create socket family=%d type=%d err=%s" %
-                  (family, socktype, os.strerror(e.errno)))
+        self.fail("Failed to create socket family=%d type=%d proto=%d err=%s" %
+                  (family, socktype, sockproto, os.strerror(e.errno)))
       return
     if not success:
-      self.fail("unexpected socket family=%d type=%d created, should be blocked"
-                % (family, socktype))
+      self.fail("unexpected socket family=%d type=%d proto=%d created, should be blocked"
+                % (family, socktype, sockproto))
+
+  def testPfKeySocketCreate(self):
+    # AF_KEY socket type. See include/linux/socket.h.
+    AF_KEY = 15
+
+    # PFKEYv2 constants. See include/uapi/linux/pfkeyv2.h.
+    PF_KEY_V2 = 2
+
+    self.checkSocketCreate(AF_KEY, socket.SOCK_RAW, PF_KEY_V2, True)
 
   def trySocketCreate(self, success):
     for family in [socket.AF_INET, socket.AF_INET6]:
       for socktype in [socket.SOCK_DGRAM, socket.SOCK_STREAM]:
-        self.checkSocketCreate(family, socktype, success)
+        self.checkSocketCreate(family, socktype, 0, success)
 
   def testCgroupSocketCreateBlock(self):
     instructions = [
