@@ -94,8 +94,13 @@ AID_INET = 3003
 # Kernel log verbosity levels.
 KERN_INFO = 6
 
+# The following ends up being (VERSION, PATCHLEVEL, SUBLEVEL) from top of kernel's Makefile
 LINUX_VERSION = csocket.LinuxVersion()
-LINUX_ANY_VERSION = (0, 0)
+
+LINUX_ANY_VERSION = (0, 0, 0)
+
+# Linus always releases x.y.0-rcZ or x.y.0, any stable (incl. LTS) release will be x.y.1+
+IS_STABLE = (LINUX_VERSION[2] > 0)
 
 # From //system/gsid/libgsi.cpp IsGsiRunning()
 IS_GSI = os.access("/metadata/gsi/dsu/booted", os.F_OK)

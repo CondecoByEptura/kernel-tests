@@ -929,6 +929,11 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
   Pref64Option = cstruct.Struct("pref64_option", "!BBH12s",
                                 "type length lft_plc prefix")
 
+  # Android Common Kernels are always based off of an LTS release,
+  # skipping this (always failing due to lack of an ACK specific patch) test
+  # on Linus's kernels (and various other upstream dev branches) allows
+  # for easier testing of Linux rc's and various developer trees.
+  @unittest.skipUnless(net_test.IS_STABLE, "not STABLE/LTS kernel")
   def testHasAutoconfTable(self):
     self.assertTrue(multinetwork_base.HAVE_AUTOCONF_TABLE)
 
