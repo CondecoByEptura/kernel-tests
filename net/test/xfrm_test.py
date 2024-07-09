@@ -476,11 +476,79 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     encap_sock.close()
     s.close()
 
+  def _MyCheckNonEncapRecvEncap(self, version, mode):
+    netid, myaddr, remoteaddr, encap_sock, encap_port, s = \
+        self._SetupUdpEncapSockets(version)
+
+    # Create inbound and outbound SAs that specify UDP encapsulation.
+    reqid = 123
+
+
+    encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
+                                    htons(4500), 16 * b"\x00"))
+    self.xfrm.AddSaInfo(remoteaddr, myaddr, TEST_SPI, mode, reqid,
+                    xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL, None,
+                    None, # encaptmpl or None to build a non-encap SA
+                    None, None)
+
+    sainfo = self.xfrm.FindSaInfo(TEST_SPI)
+    self.assertEqual(0, sainfo.curlft.packets)
+    self.assertEqual(0, sainfo.curlft.bytes)
+    self.assertEqual(0, sainfo.stats.integrity_failed)
+
+    IpType = {4: scapy.IP, 6: scapy.IPv6}[version]
+    if mode == xfrm.XFRM_MODE_TRANSPORT:
+      # Due to a bug in the IPv6 UDP encap code, there must be at least 32
+      # bytes after the ESP header or the packet will be dropped.
+      # 8 (UDP header) + 18 (payload) + 2 (ESP trailer) = 28, dropped
+      # 8 (UDP header) + 19 (payload) + 4 (ESP trailer) = 32, received
+      # There is a similar bug in IPv4 encap, but the minimum is only 12 bytes,
+      # which is much less likely to occur. This doesn't affect tunnel mode
+      # because IP headers are always at least 20 bytes long.
+      data = 19 * b"a"
+      datalen = len(data)
+      # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
+      inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
+          scapy.UDP(sport=443, dport=32123) / data) + bytes(
+          xfrm_base.GetEspTrailer(len(data), IPPROTO_UDP))
+      input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
+                   scapy.UDP(sport=4500, dport=encap_port) /
+                   inner_pkt)
+    else:
+      # TODO: test IPv4 in IPv6 encap and vice versa.
+      data = b""  # Empty UDP payload
+      datalen = {4: 20, 6: 40}[version] + len(data)
+      # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
+      inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
+          IpType(src=remoteaddr, dst=myaddr) /
+          scapy.UDP(sport=443, dport=32123) / data) + bytes(
+          xfrm_base.GetEspTrailer(len(data), {4: IPPROTO_IPIP, 6: IPPROTO_IPV6}[version]))
+      input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
+                   scapy.UDP(sport=4500, dport=encap_port) /
+                   inner_pkt)
+
+    # input_pkt.show2()
+    self.ReceivePacketOn(netid, input_pkt)
+
+    sainfo = self.xfrm.FindSaInfo(TEST_SPI)
+    self.assertEqual(1, sainfo.curlft.packets)
+    self.assertEqual(datalen + 8, sainfo.curlft.bytes)
+    self.assertEqual(0, sainfo.stats.integrity_failed)
+
+    # Uncomment for debugging.
+    # subprocess.call("ip -s xfrm state".split())
+
+    encap_sock.close()
+    s.close()
+
   def testIPv4UDPEncapRecvTransport(self):
     self._CheckUDPEncapRecv(4, xfrm.XFRM_MODE_TRANSPORT)
 
   def testIPv4UDPEncapRecvTunnel(self):
     self._CheckUDPEncapRecv(4, xfrm.XFRM_MODE_TUNNEL)
+
+  def testMyCheckNonEncapRecvEncap(self):
+    self._MyCheckNonEncapRecvEncap(4, xfrm.XFRM_MODE_TUNNEL)
 
   # IPv6 UDP encap is broken between:
   # 4db4075f92af ("esp6: fix check on ipv6_skip_exthdr's return value") and
