@@ -476,11 +476,72 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     encap_sock.close()
     s.close()
 
+  def _MyCheckNonEncapRecvEncap(self, version, mode):
+    netid, myaddr, remoteaddr, encap_sock, encap_port, s = \
+        self._SetupUdpEncapSockets(version)
+
+    # Create inbound and outbound SAs that specify UDP encapsulation.
+    reqid = 123
+
+
+    ###################  Install SA #############################
+    encaptmpl = xfrm.XfrmEncapTmpl((xfrm.UDP_ENCAP_ESPINUDP, htons(encap_port),
+                                    htons(4500), 16 * b"\x00"))
+    self.xfrm.AddSaInfo(remoteaddr, myaddr, TEST_SPI, mode, reqid,
+                    xfrm_base._ALGO_CRYPT_NULL, xfrm_base._ALGO_AUTH_NULL, None,
+                    encaptmpl, # encaptmpl or None to build a non-encap SA
+                    None, None)
+    #############################################################
+
+    sainfo = self.xfrm.FindSaInfo(TEST_SPI)
+    self.assertEqual(0, sainfo.curlft.packets)
+    self.assertEqual(0, sainfo.curlft.bytes)
+    self.assertEqual(0, sainfo.stats.integrity_failed)
+
+    IpType = {4: scapy.IP, 6: scapy.IPv6}[version]
+
+    data = b""  # Empty UDP payload
+    datalen = {4: 20, 6: 40}[version] + len(data)
+    # TODO: update scapy and use scapy.ESP instead of manually generating ESP header.
+    inner_pkt = xfrm.EspHdr(spi=TEST_SPI, seqnum=1).Pack() + bytes(
+        IpType(src=remoteaddr, dst=myaddr) /
+        scapy.UDP(sport=443, dport=32123) / data) + bytes(
+        xfrm_base.GetEspTrailer(len(data), {4: IPPROTO_IPIP, 6: IPPROTO_IPV6}[version]))
+
+    
+    ###################  Build inbound ESP packet #############################
+    # Encap packet
+    # input_pkt = (IpType(src=remoteaddr, dst=myaddr) /
+    #               scapy.UDP(sport=4500, dport=encap_port) /
+    #               inner_pkt)
+
+    # None-encap packet
+    input_pkt = (IpType(src=remoteaddr, dst=myaddr) / inner_pkt)
+    input_pkt.proto = IPPROTO_ESP
+    ##########################################################################
+
+    # input_pkt.show2()
+    self.ReceivePacketOn(netid, input_pkt)
+
+    sainfo = self.xfrm.FindSaInfo(TEST_SPI)
+    self.assertEqual(1, sainfo.curlft.packets)
+    self.assertEqual(datalen + 8, sainfo.curlft.bytes)
+    self.assertEqual(0, sainfo.stats.integrity_failed)
+
+    # Uncomment for debugging.
+    # subprocess.call("ip -s xfrm state".split())
+
+    encap_sock.close()
+    s.close()
+
   def testIPv4UDPEncapRecvTransport(self):
     self._CheckUDPEncapRecv(4, xfrm.XFRM_MODE_TRANSPORT)
 
   def testIPv4UDPEncapRecvTunnel(self):
     self._CheckUDPEncapRecv(4, xfrm.XFRM_MODE_TUNNEL)
+
+  def testMyCheckNonEncapRecvEncap(self):
+    self._MyCheckNonEncapRecvEncap(4, xfrm.XFRM_MODE_TUNNEL)
 
   # IPv6 UDP encap is broken between:
   # 4db4075f92af ("esp6: fix check on ipv6_skip_exthdr's return value") and
