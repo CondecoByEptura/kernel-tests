@@ -28,6 +28,7 @@ from scapy import all as scapy
 
 import binascii
 import csocket
+import gki
 
 # TODO: Move these to csocket.py.
 SOL_IPV6 = 41
@@ -93,8 +94,36 @@ AID_INET = 3003
 # Kernel log verbosity levels.
 KERN_INFO = 6
 
+# The following ends up being (VERSION, PATCHLEVEL, SUBLEVEL) from top of kernel's Makefile
 LINUX_VERSION = csocket.LinuxVersion()
-LINUX_ANY_VERSION = (0, 0)
+
+LINUX_ANY_VERSION = (0, 0, 0)
+
+# Linus always releases x.y.0-rcZ or x.y.0, any stable (incl. LTS) release will be x.y.1+
+IS_STABLE = (LINUX_VERSION[2] > 0)
+
+# From //system/gsid/libgsi.cpp IsGsiRunning()
+IS_GSI = os.access("/metadata/gsi/dsu/booted", os.F_OK)
+
+# NonGXI() is useful to run tests starting from a specific kernel version,
+# thus allowing one to test for correctly backported fixes,
+# without running the tests on non-updatable kernels (as part of GSI tests).
+#
+# Running vts_net_test on GSI image basically doesn't make sense, since
+# it's not like the unmodified vendor image - including the kernel - can be
+# realistically fixed in such a setup. Particularly problematic is GSI
+# on *older* pixel vendor: newer pixel images will have the fixed kernel,
+# but running newer GSI against ancient vendor will not see those fixes.
+#
+# Normally you'd also want to run on GKI kernels, but older release branches
+# are no longer maintained, so they also need to be excluded.
+# Proper GKI testing will happen on at the tip of the appropriate ACK/GKI branch.
+def NonGXI(major, minor):
+  """Checks the kernel version is >= major.minor, and not GKI or GSI."""
+
+  if IS_GSI or gki.IS_GKI:
+    return False
+  return LINUX_VERSION >= (major, minor, 0)
 
 def KernelAtLeast(versions):
   """Checks the kernel version matches the specified versions.

@@ -18,7 +18,6 @@ import ctypes
 import errno
 import os
 import socket
-import tempfile
 import unittest
 
 import bpf
@@ -439,7 +438,8 @@ class BpfTest(net_test.NetworkTest):
   @unittest.skipUnless(bpf.HAVE_SO_NETNS_COOKIE, "no SO_NETNS_COOKIE support")
   def testGetNetNsCookie(self):
     sk = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM, 0)
-    cookie = sk.getsockopt(socket.SOL_SOCKET, bpf.SO_NETNS_COOKIE, 8)  # sizeof(u64) == 8
+    sizeof_u64 = 8
+    cookie = sk.getsockopt(socket.SOL_SOCKET, bpf.SO_NETNS_COOKIE, sizeof_u64)
     sk.close()
     self.assertEqual(len(cookie), 8)
     cookie = int.from_bytes(cookie, "little")
@@ -510,9 +510,12 @@ class BpfCgroupTest(net_test.NetworkTest):
     super(BpfCgroupTest, self).setUp()
     self.prog_fd = None
     self.map_fd = None
-    self.cg_inet_ingress = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_INGRESS, 0, 0))
-    self.cg_inet_egress = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_EGRESS, 0, 0))
-    self.cg_inet_sock_create = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
+    self.cg_inet_ingress = BpfProgGetFdById(
+        BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_INGRESS, 0, 0))
+    self.cg_inet_egress = BpfProgGetFdById(
+        BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_EGRESS, 0, 0))
+    self.cg_inet_sock_create = BpfProgGetFdById(
+        BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
     if self.cg_inet_ingress:
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
     if self.cg_inet_egress:
@@ -542,7 +545,8 @@ class BpfCgroupTest(net_test.NetworkTest):
     if self.cg_inet_sock_create is None:
       BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
     else:
-      BpfProgAttach(self.cg_inet_sock_create, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
+      BpfProgAttach(self.cg_inet_sock_create, self._cg_fd,
+                    BPF_CGROUP_INET_SOCK_CREATE)
       os.close(self.cg_inet_sock_create)
       self.cg_inet_sock_create = None
     super(BpfCgroupTest, self).tearDown()
@@ -594,23 +598,32 @@ class BpfCgroupTest(net_test.NetworkTest):
       self.assertEqual(packet_count, LookupMap(self.map_fd, uid).value)
     BpfProgDetach(self._cg_fd, BPF_CGROUP_INET_INGRESS)
 
-  def checkSocketCreate(self, family, socktype, success):
+  def checkSocketCreate(self, family, socktype, sockproto, success):
     try:
-      sock = socket.socket(family, socktype, 0)
+      sock = socket.socket(family, socktype, sockproto)
       sock.close()
     except socket.error as e:
       if success:
-        self.fail("Failed to create socket family=%d type=%d err=%s" %
-                  (family, socktype, os.strerror(e.errno)))
+        self.fail("Failed to create socket family=%d type=%d proto=%d err=%s" %
+                  (family, socktype, sockproto, os.strerror(e.errno)))
       return
     if not success:
-      self.fail("unexpected socket family=%d type=%d created, should be blocked"
-                % (family, socktype))
+      self.fail("unexpected socket family=%d type=%d proto=%d created, "
+                "should be blocked" % (family, socktype, sockproto))
+
+  def testPfKeySocketCreate(self):
+    # AF_KEY socket type. See include/linux/socket.h.
+    AF_KEY = 15  # pylint: disable=invalid-name
+
+    # PFKEYv2 constants. See include/uapi/linux/pfkeyv2.h.
+    PF_KEY_V2 = 2  # pylint: disable=invalid-name
+
+    self.checkSocketCreate(AF_KEY, socket.SOCK_RAW, PF_KEY_V2, True)
 
   def trySocketCreate(self, success):
     for family in [socket.AF_INET, socket.AF_INET6]:
       for socktype in [socket.SOCK_DGRAM, socket.SOCK_STREAM]:
-        self.checkSocketCreate(family, socktype, success)
+        self.checkSocketCreate(family, socktype, 0, success)
 
   def testCgroupSocketCreateBlock(self):
     instructions = [
@@ -620,13 +633,15 @@ class BpfCgroupTest(net_test.NetworkTest):
     ]
     instructions += INS_BPF_EXIT_BLOCK + INS_CGROUP_ACCEPT
 
-    fd = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
+    fd = BpfProgGetFdById(
+        BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
     assert fd is None
 
     self.prog_fd = BpfProgLoad(BPF_PROG_TYPE_CGROUP_SOCK, instructions)
     BpfProgAttach(self.prog_fd, self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE)
 
-    fd = BpfProgGetFdById(BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
+    fd = BpfProgGetFdById(
+        BpfProgQuery(self._cg_fd, BPF_CGROUP_INET_SOCK_CREATE, 0, 0))
     assert fd is not None
     # equality while almost certain is not actually 100% guaranteed:
     assert fd >= self.prog_fd + 1

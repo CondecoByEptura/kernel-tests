@@ -485,12 +485,14 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
   # IPv6 UDP encap is broken between:
   # 4db4075f92af ("esp6: fix check on ipv6_skip_exthdr's return value") and
   # 5f9c55c8066b ("ipv6: check return value of ipv6_skip_exthdr")
-  @unittest.skipUnless(net_test.KernelAtLeast([(5, 10, 108), (5, 15, 31)]),
+  @unittest.skipUnless(net_test.KernelAtLeast([(5, 10, 108), (5, 15, 31)]) or
+                       net_test.NonGXI(5, 10),
                        reason="Unsupported or broken on current kernel")
   def testIPv6UDPEncapRecvTransport(self):
     self._CheckUDPEncapRecv(6, xfrm.XFRM_MODE_TRANSPORT)
 
-  @unittest.skipUnless(net_test.KernelAtLeast([(5, 10, 108), (5, 15, 31)]),
+  @unittest.skipUnless(net_test.KernelAtLeast([(5, 10, 108), (5, 15, 31)]) or
+                       net_test.NonGXI(5, 10),
                        reason="Unsupported or broken on current kernel")
   def testIPv6UDPEncapRecvTunnel(self):
     self._CheckUDPEncapRecv(6, xfrm.XFRM_MODE_TUNNEL)

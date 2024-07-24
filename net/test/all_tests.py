@@ -19,9 +19,11 @@ import os
 import sys
 import unittest
 
+import gki
 import namespace
+import net_test
 
-test_modules = [
+all_test_modules = [
     'anycast_test',
     'bpf_test',
     'csocket_test',
@@ -33,7 +35,6 @@ test_modules = [
     'netlink_test',
     'nf_test',
     'parameterization_test',
-    'pf_key_test',
     'ping6_test',
     'policy_crash_test',
     'resilient_rs_test',
@@ -48,21 +49,23 @@ test_modules = [
     'xfrm_tunnel_test',
 ]
 
-if __name__ == '__main__':
-  namespace.EnterNewNetworkNamespace()
 
-  # If one or more tests were passed in on the command line, only run those.
-  if len(sys.argv) > 1:
-    test_modules = sys.argv[1:]
+def RunTests(modules_to_test):
+  print('Running on %s %s %s %s-%sbit%s%s'
+        % (os.uname()[0], os.uname()[2], net_test.LINUX_VERSION, os.uname()[4],
+           '64' if sys.maxsize > 0x7FFFFFFF else '32',
+           ' GKI' if gki.IS_GKI else '', ' GSI' if net_test.IS_GSI else ''),
+        file=sys.stderr)
+  namespace.EnterNewNetworkNamespace()
 
   # First, run InjectTests on all modules, to ensure that any parameterized
   # tests in those modules are injected.
-  for name in test_modules:
+  for name in modules_to_test:
     importlib.import_module(name)
     if hasattr(sys.modules[name], 'InjectTests'):
       sys.modules[name].InjectTests()
 
-  test_suite = unittest.defaultTestLoader.loadTestsFromNames(test_modules)
+  test_suite = unittest.defaultTestLoader.loadTestsFromNames(modules_to_test)
 
   assert test_suite.countTestCases() > 0, (
       'Inconceivable: no tests found! Command line: %s' % ' '.join(sys.argv))
@@ -70,3 +73,11 @@ if __name__ == '__main__':
   runner = unittest.TextTestRunner(verbosity=2)
   result = runner.run(test_suite)
   sys.exit(not result.wasSuccessful())
+
+
+if __name__ == '__main__':
+  # If one or more tests were passed in on the command line, only run those.
+  if len(sys.argv) > 1:
+    RunTests(sys.argv[1:])
+  else:
+    RunTests(all_test_modules)

@@ -83,6 +83,7 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
     s.connect((net_test.IPV6_ADDR, 123))
     src_addr = s.getsockname()[0]
     self.assertTrue(src_addr)
+    s.close()
     return src_addr
 
   def assertAddressNotPresent(self, address):
@@ -103,13 +104,19 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
 
   def BindToAddress(self, address):
     s = net_test.UDPSocket(AF_INET6)
-    s.bind((address, 0, 0, 0))
+    try:
+      s.bind((address, 0, 0, 0))
+    finally:
+      s.close()
 
   def SendWithSourceAddress(self, address, netid, dest=net_test.IPV6_ADDR):
     pktinfo = multinetwork_base.MakePktInfo(6, address, 0)
     cmsgs = [(net_test.SOL_IPV6, IPV6_PKTINFO, pktinfo)]
     s = self.BuildSocket(6, net_test.UDPSocket, netid, "mark")
-    return csocket.Sendmsg(s, (dest, 53), b"Hello", cmsgs, 0)
+    try:
+      return csocket.Sendmsg(s, (dest, 53), b"Hello", cmsgs, 0)
+    finally:
+      s.close()
 
   def assertAddressUsable(self, address, netid):
     self.BindToAddress(address)
@@ -132,7 +139,19 @@ class IPv6SourceAddressSelectionTest(multinetwork_base.MultiNetworkBaseTest):
       if not self.AddressIsTentative(address):
         return
       time.sleep(0.1)
-    raise AssertionError("%s did not complete DAD after 2 seconds")
+    raise AssertionError(f"{address} did not complete DAD after 2 seconds")
+
+  def WaitForDadFailure(self, address):
+    # Address should be either deleted or set IFA_F_DADFAILED flag after DAD failure
+    for _ in range(20):
+      try:
+        ifa_msg = self.iproute.GetAddress(address)[0]
+      except OSError:
+        return
+      if ifa_msg.flags & iproute.IFA_F_DADFAILED:
+        return
+      time.sleep(0.1)
+    raise AssertionError(f"{address} did not complete DAD failure after 2 seconds")
 
 
 class MultiInterfaceSourceAddressSelectionTest(IPv6SourceAddressSelectionTest):
@@ -279,6 +298,7 @@ class DadFailureTest(MultiInterfaceSourceAddressSelectionTest):
     self.SetUseOptimistic(self.test_ifname, 1)
     # Send a RA to start SLAAC and subsequent DAD.
     self.SendRA(self.test_netid, retranstimer=RETRANS_TIMER)
+    time.sleep(0.1) # Give the kernel time to notice our RA
     # Prove optimism and usability.
     self.assertAddressHasExpectedAttributes(
         self.test_ip, self.test_ifindex, iproute.IFA_F_OPTIMISTIC)
@@ -293,7 +313,7 @@ class DadFailureTest(MultiInterfaceSourceAddressSelectionTest):
                    scapy.ICMPv6ND_NA(tgt=self.test_ip, R=0, S=0, O=1) /
                    scapy.ICMPv6NDOptDstLLAddr(lladdr=conflict_macaddr))
     self.ReceiveEtherPacketOn(self.test_netid, dad_defense)
-    self.WaitForDad(self.test_lladdr)
+    self.WaitForDadFailure(self.test_ip)
 
     # The address should have failed DAD, and therefore no longer be usable.
     self.assertAddressNotUsable(self.test_ip, self.test_netid)

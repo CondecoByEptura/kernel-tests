@@ -26,3 +26,23 @@ python_test {
         "general-tests",
     ],
 }
+
+// Main target used for GKI tests.
+// equivalent to above, but has 'gki.IS_GKI == True'
+python_test {
+    name: "gki_kernel_net_tests",
+    stem: "kernel_net_tests_bin",
+    srcs: [
+        "*.py",
+    ],
+    libs: [
+        "scapy",
+    ],
+    main: "all_tests_gki.py",
+    version: {
+        py3: {
+            embedded_launcher: true,
+        },
+    },
+    test_config: "vts_kernel_net_tests.xml",
+}
