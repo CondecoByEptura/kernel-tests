@@ -599,6 +599,8 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
       self.SetAcceptRaMinLft(0)
     if multinetwork_base.HAVE_RA_HONOR_PIO_LIFE:
       self.SetRaHonorPioLife(0)
+    if multinetwork_base.HAVE_RA_HONOR_PIO_PFLAG:
+      self.SetRaHonorPioPflag(0)
 
   def GetRoutingTable(self):
     if multinetwork_base.HAVE_AUTOCONF_TABLE:
@@ -628,6 +630,10 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
   def SetAcceptRaMinLft(self, min_lft):
     self.SetSysctl(
         "/proc/sys/net/ipv6/conf/%s/accept_ra_min_lft" % self.IFACE, min_lft)
+
+  def SetRaHonorPioPflag(self, val):
+    self.SetSysctl(
+        "/proc/sys/net/ipv6/conf/%s/ra_honor_pio_pflag" % self.IFACE, val)
 
   def GetAcceptRaMinLft(self):
     return int(self.GetSysctl(
@@ -920,6 +926,34 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
     self.SendRIO(0, PLEN, PREFIX, PRF)
     time.sleep(0.1) # Give the kernel time to notice our RA
     self.assertFalse(self.FindRoutesWithDestination(PREFIX))
+
+  @unittest.skipUnless(multinetwork_base.HAVE_RA_HONOR_PIO_PFLAG,
+                       "needs support for ra_honor_pio_pflag")
+  def testPioPflag(self):
+    self.SetRaHonorPioPflag(1);
+
+    # Test setup has sent an initial RA -- expire it.
+    self.SendRA(self.NETID, routerlft=0, piolft=0)
+    time.sleep(0.1) # Give the kernel time to notice our RA
+    # Check that the prefix route was deleted.
+    prefixroutes = self.FindRoutesWithDestination(self.OnlinkPrefix(6, self.NETID))
+    self.assertEqual([], prefixroutes)
+
+    # Sending a 0-lifetime PIO does not cause the address to be deleted, see
+    # rfc2462#section-5.5.3.
+    address = self.MyAddress(6, self.NETID)
+    self.iproute.DelAddress(address, 64, self.ifindices[self.NETID])
+
+    # PIO with p-flag is ignored
+    self.SendRA(self.NETID, piopflag=1)
+    time.sleep(0.1) # Give the kernel time to notice our RA
+    self.assertIsNone(self.MyAddress(6, self.NETID))
+
+    self.SetRaHonorPioPflag(0);
+    # PIO with p-flag is processed
+    self.SendRA(self.NETID, piopflag=1)
+    time.sleep(0.1) # Give the kernel time to notice our RA
+    self.assertIsNotNone(self.MyAddress(6, self.NETID))
 
 
 class RATest(multinetwork_base.MultiNetworkBaseTest):
