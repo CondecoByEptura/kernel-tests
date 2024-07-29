@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "571437b2_089b17bb",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-07-29T23:45:46Z",
+      "side": 1,
+      "message": "perhaps better:\n\nres1 \u003d 0x10 if piopflag else 0\n\nor should be add the flag to\nhttps://source.corp.google.com/h/android/platform/superproject/main/+/main:external/scapy/scapy/layers/inet6.py;drc\u003dcf8f5ae5e7b62b92afd49704922153af3f2febfc;l\u003d1705",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "27a0551904d609f529681be9cd21a9c4d5e82505",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
