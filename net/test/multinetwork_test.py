@@ -926,6 +926,7 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
 
   ND_ROUTER_ADVERT = 134
   ND_OPT_PREF64 = 38
+  NDOptHeader = cstruct.Struct("ndopt_header", "!BB", "type length")
   Pref64Option = cstruct.Struct("pref64_option", "!BBH12s",
                                 "type length lft_plc prefix")
 
@@ -1046,26 +1047,57 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     # Check that we get an an RTM_NEWNDUSEROPT message on the socket with the
     # expected option.
     csocket.SetSocketTimeout(s.sock, 100)
-    try:
-      data = s._Recv()
-    except IOError as e:
-      self.fail("Should have received an RTM_NEWNDUSEROPT message. "
-                "Please ensure the kernel supports receiving the "
-                "PREF64 RA option. Error: %s" % e)
+    while True:
+      try:
+        data = s._Recv()
+      except IOError as e:
+        self.fail("Should have received an RTM_NEWNDUSEROPT message. "
+                  "Please ensure the kernel supports receiving the "
+                  "PREF64 RA option. Error: %s" % e)
+      # Check that the message is received correctly.
+      nlmsghdr, data = cstruct.Read(data, netlink.NLMsgHdr)
+      self.assertEqual(iproute.RTM_NEWNDUSEROPT, nlmsghdr.type)
+
+      # print("data=[%s]\n" % data)
+
+      # Check the option contents.
+      ndopthdr, data = cstruct.Read(data, iproute.NdUseroptMsg)
+      self.assertEqual(AF_INET6, ndopthdr.family)
+      self.assertEqual(self.ND_ROUTER_ADVERT, ndopthdr.icmp_type)
+      self.assertEqual(0, ndopthdr.icmp_code)
+
+      self.assertLessEqual(ndopthdr.opts_len, len(data))
+      data, leftover = data[:ndopthdr.opts_len], data[ndopthdr.opts_len:]
+
+      # print("ndopthdr=[%s] data=[%s] leftover=[%s]" % (ndopthdr, data, leftover))
+
+      foundPref64 = False
+
+      while data:
+        # print("data2=[%s]\n" % data)
+
+        header_opt = self.NDOptHeader(data)
+        self.assertNotEqual(header_opt.length, 0)
+        self.assertLessEqual(header_opt.length * 8, len(data))
+        payload, data = data[:header_opt.length * 8], data[header_opt.length * 8:]
+
+        # print("type=%d len=%d payload[%s]\n" % (header_opt.type, header_opt.length * 8, payload))
+
+        if header_opt.type != self.ND_OPT_PREF64:
+          continue
+
+        self.assertEqual(len(opt), len(payload))
+
+        actual_opt = self.Pref64Option(payload)
+        self.assertEqual(opt, actual_opt)
+        foundPref64 = True
+
+      if foundPref64:
+        break
+
     s.close()
 
-    # Check that the message is received correctly.
-    nlmsghdr, data = cstruct.Read(data, netlink.NLMsgHdr)
-    self.assertEqual(iproute.RTM_NEWNDUSEROPT, nlmsghdr.type)
-
-    # Check the option contents.
-    ndopthdr, data = cstruct.Read(data, iproute.NdUseroptMsg)
-    self.assertEqual(AF_INET6, ndopthdr.family)
-    self.assertEqual(self.ND_ROUTER_ADVERT, ndopthdr.icmp_type)
-    self.assertEqual(len(opt), ndopthdr.opts_len)
-
-    actual_opt = self.Pref64Option(data)
-    self.assertEqual(opt, actual_opt)
+    self.assertEqual(foundPref64, True)
 
   def testRaFlags(self):
     def GetInterfaceIpv6Flags(iface):
