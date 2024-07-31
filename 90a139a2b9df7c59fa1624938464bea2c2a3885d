@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0809ddc5_15503956",
+        "filename": "net/test/multinetwork_base.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-07-31T20:57:02Z",
+      "side": 1,
+      "message": "or ... [6,12, 0]",
+      "fixSuggestions": [
+        {
+          "fixId": "b92d1c30_d378fe6c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "net/test/multinetwork_base.py",
+              "range": {
+                "startLine": 69,
+                "startChar": 0,
+                "endLine": 70,
+                "endChar": 0
+              },
+              "replacement": "HAVE_RA_HONOR_PIO_PFLAG \u003d (os.path.isfile(RA_HONOR_PIO_PFLAG) or\n                           net_test.KernelAtLeast([(6, 12, 0)]))\n"
+            }
+          ]
+        }
+      ],
+      "revId": "90a139a2b9df7c59fa1624938464bea2c2a3885d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
