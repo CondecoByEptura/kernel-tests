@@ -97,7 +97,7 @@ LINUX_VERSION = csocket.LinuxVersion()
 LINUX_ANY_VERSION = (0, 0)
 
 # From //system/gsid/libgsi.cpp IsGsiRunning()
-IS_GSI = os.access("/metadata/gsi/dsu/booted", os.F_OK)
+IS_GSI = os.access("/system/system_ext/etc/init/init.gsi.rc", os.F_OK)
 
 def KernelAtLeast(versions):
   """Checks the kernel version matches the specified versions.
