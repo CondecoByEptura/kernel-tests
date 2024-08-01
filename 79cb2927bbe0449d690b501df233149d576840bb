@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3faeac3b_450d73cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-01T16:06:52Z",
+      "side": 1,
+      "message": "The relevant kernel fix is\nhttps://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id\u003da46c68debf3be3a477a69ccbf0a1d050df841676\n(and it\u0027ll likely be LTS backported)",
+      "revId": "79cb2927bbe0449d690b501df233149d576840bb",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
