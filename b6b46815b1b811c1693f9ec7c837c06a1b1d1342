@@ -22,6 +22,30 @@
       },
       "revId": "b6b46815b1b811c1693f9ec7c837c06a1b1d1342",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0baad9c_71cb90c1",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-01T16:27:12Z",
+      "side": 1,
+      "message": "(Note: I do see various hits when I code search for \u0027system/system_ext/etc/init/init.gsi.rc\u0027, so implementation appears to be ...inconsistent...  do we need to look for the presence of *either*?)",
+      "parentUuid": "ffee1b46_b893cfcf",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 46
+      },
+      "revId": "b6b46815b1b811c1693f9ec7c837c06a1b1d1342",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
