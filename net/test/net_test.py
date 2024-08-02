@@ -102,8 +102,7 @@ LINUX_ANY_VERSION = (0, 0, 0)
 # Linus always releases x.y.0-rcZ or x.y.0, any stable (incl. LTS) release will be x.y.1+
 IS_STABLE = (LINUX_VERSION[2] > 0)
 
-# From //system/gsid/libgsi.cpp IsGsiRunning()
-IS_GSI = os.access("/metadata/gsi/dsu/booted", os.F_OK)
+IS_GSI = os.access("/system/system_ext/etc/init/init.gsi.rc", os.F_OK)
 
 # NonGXI() is useful to run tests starting from a specific kernel version,
 # thus allowing one to test for correctly backported fixes,
