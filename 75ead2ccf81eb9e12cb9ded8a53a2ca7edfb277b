@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e285c77_a3992a28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-02T17:02:23Z",
+      "side": 1,
+      "message": "I think you should try to change the system/gsid/libgsi.cpp implementation (upload a patch to aosp, cc me, I\u0027ll try to find appropriate reviewers), even if the change doesn\u0027t actually land, at least perhaps the discussion would result in us (me ;-) ) understanding why there\u0027s different approaches.\n\nI\u0027m a little worried that an approach that disables tests simply based on a file being present in the /system partition is ripe for exploitation.\n\nI think we\u0027d probably need to add a VTS (or perhaps some other xTS?) test that isGSI() is false.\n\nLikely in kernel_test.cpp as I think we can exclude then exclude that test from our own GSI image automation.",
+      "tag": "mailMessageId\u003d\u003cCANP3RGdSrOcd4_+rrByzr2yUxdNnXdu2taq6+WbTF-BoO88aMw@mail.gmail.com\u003e",
+      "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
