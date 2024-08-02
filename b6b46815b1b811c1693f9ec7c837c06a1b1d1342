@@ -46,6 +46,30 @@
       },
       "revId": "b6b46815b1b811c1693f9ec7c837c06a1b1d1342",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e49581_939cad12",
+        "filename": "net/test/net_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 3450567
+      },
+      "writtenOn": "2024-08-02T07:28:44Z",
+      "side": 1,
+      "message": "Removed the outdated comment.\n\nFor the GSI detecting, I agree that it is an unreliable method, but I found a lot of code use the as the marker of GSI build. For example:\n\n1. system/security/keystore2/tests/keystore2_client_test_utils.rs\n// This file is only present on GSI builds.\nlet gsi_marker \u003d PathBuf::from(\"/system/system_ext/etc/init/init.gsi.rc\");\n\n2. packages/modules/Virtualization/tests/helper/src/java/com/android/microdroid/test/device/MicrodroidDeviceTestBase.java\nprotected boolean isGsi() {\n    return new File(\"/system/system_ext/etc/init/init.gsi.rc\").exists();\n}\n\nSo could we just keep the same with them?",
+      "parentUuid": "a0baad9c_71cb90c1",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 46
+      },
+      "revId": "b6b46815b1b811c1693f9ec7c837c06a1b1d1342",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
