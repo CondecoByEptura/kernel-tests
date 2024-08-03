@@ -17,6 +17,24 @@
       "tag": "mailMessageId\u003d\u003cCANP3RGdSrOcd4_+rrByzr2yUxdNnXdu2taq6+WbTF-BoO88aMw@mail.gmail.com\u003e",
       "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e20ddeb4_013e6de4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3450567
+      },
+      "writtenOn": "2024-08-03T03:45:08Z",
+      "side": 1,
+      "message": "OK, updated the IsGsiRunning() method in below CL, please help to review.\n\nhttps://android-review.googlesource.com/c/platform/system/gsid/+/3206391",
+      "parentUuid": "4e285c77_a3992a28",
+      "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
