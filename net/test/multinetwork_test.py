@@ -959,6 +959,7 @@ class RIOTest(multinetwork_base.MultiNetworkBaseTest):
 class RATest(multinetwork_base.MultiNetworkBaseTest):
 
   ND_ROUTER_ADVERT = 134
+  ND_OPT_PIO = 3
   ND_OPT_PREF64 = 38
   NDOptHeader = cstruct.Struct("ndopt_header", "!BB", "type length")
   Pref64Option = cstruct.Struct("pref64_option", "!BBH12s",
@@ -1081,7 +1082,11 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
     # Check that we get an an RTM_NEWNDUSEROPT message on the socket with the
     # expected option.
     csocket.SetSocketTimeout(s.sock, 100)
-    while True:
+
+    needPIO = multinetwork_base.HAVE_USEROPT_PIO_FIX
+    needPref64 = True
+
+    while needPIO or needPref64:
       try:
         data = s._Recv()
       except IOError as e:
@@ -1105,8 +1110,6 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
 
       # print("ndopthdr=[%s] data=[%s] leftover=[%s]" % (ndopthdr, data, leftover))
 
-      foundPref64 = False
-
       while data:
         # print("data2=[%s]\n" % data)
 
@@ -1117,21 +1120,18 @@ class RATest(multinetwork_base.MultiNetworkBaseTest):
 
         # print("type=%d len=%d payload[%s]\n" % (header_opt.type, header_opt.length * 8, payload))
 
-        if header_opt.type != self.ND_OPT_PREF64:
-          continue
+        if header_opt.type == self.ND_OPT_PIO:
+          needPIO = False
+        elif header_opt.type == self.ND_OPT_PREF64:
+          needPref64 = False
+          self.assertEqual(len(opt), len(payload))
+          self.assertEqual(opt, self.Pref64Option(payload))
+        else:
+          # cannot happen: no other options we generate are currently considered user options
+          assert False
 
-        self.assertEqual(len(opt), len(payload))
-
-        actual_opt = self.Pref64Option(payload)
-        self.assertEqual(opt, actual_opt)
-        foundPref64 = True
-
-      if foundPref64:
-        break
-
+    # we only ever reach here if we find all options we need
     s.close()
-
-    self.assertEqual(foundPref64, True)
 
   def testRaFlags(self):
     def GetInterfaceIpv6Flags(iface):
