@@ -67,7 +67,13 @@ HAVE_AUTOCONF_TABLE = os.path.isfile(AUTOCONF_TABLE_SYSCTL)
 HAVE_RA_HONOR_PIO_LIFE = (os.path.isfile(RA_HONOR_PIO_LIFE_SYSCTL) or
                           net_test.KernelAtLeast([(6, 7, 0)]))
 HAVE_RA_HONOR_PIO_PFLAG = (os.path.isfile(RA_HONOR_PIO_PFLAG) or
-                          net_test.KernelAtLeast([(6, 12, 0)]))
+                           net_test.KernelAtLeast([(6, 12, 0)]))
+
+HAVE_USEROPT_PIO_FIX = net_test.KernelAtLeast([(4, 19, 320), (5, 4, 282),
+                                               (5, 10, 224), (5, 15, 165),
+                                               (6, 1, 104), (6, 6, 45),
+                                               (6, 9, 13), (6, 10, 4),
+                                               (6, 11, 0)])
 
 
 class ConfigurationError(AssertionError):
