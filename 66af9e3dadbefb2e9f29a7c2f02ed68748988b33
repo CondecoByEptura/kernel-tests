@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f788bdfa_2c44dd0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-07T21:22:16Z",
+      "side": 1,
+      "message": "what does \u0027itself\u0027 mean? is the important part here the fact the src mac is our own? or the src ip is our link local ip?\n\nbecause -for example- afaik packets with our own mac will be dropped on wifi...\n\n\nhow do you expect to use this functionality in practice?\nie. why do you care about this test...",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
