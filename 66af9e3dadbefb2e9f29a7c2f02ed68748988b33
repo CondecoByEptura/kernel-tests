@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71584f02_8f9a949b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-08T01:47:41Z",
+      "side": 1,
+      "message": "It\u0027s caused by wifi std/implementation basically.\n\nclient-\u003ewifi_AP-\u003eswitch-\u003erouter\n\nIf a client sends a multicast packet to the AP, the AP will of course send it to the switch, but it will also send it back to the client.\n\nThis is because it has to send it to any *other* wifi clients, and that is done by wifi broadcasting the packet back to *all* clients (using a shared crypto key instead of the client specific key used for unicast traffic).\n\nAs a result of this client side drivers will normally drop any incoming packet where the src mac of the frame is their own.\n\nIndeed if they don\u0027t you get bugs reported, because you end up seeing your own multicast traffic (which can for example fail ipv6 dad) ;-)",
+      "parentUuid": "3b42d262_dced10c6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
