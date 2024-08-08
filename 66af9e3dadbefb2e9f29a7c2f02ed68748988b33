@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afe51bc6_197f632e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-08T02:17:25Z",
+      "side": 1,
+      "message": "That\u0027s *probably* true - I can\u0027t imagine that being driver dependent.\nBut this test doesn\u0027t AFAICS use that - it replicates RA coming in from a tun/tap which is more-or-less equivalent to coming in via an ethernet device...",
+      "parentUuid": "ef5fea1e_08f65bc4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
