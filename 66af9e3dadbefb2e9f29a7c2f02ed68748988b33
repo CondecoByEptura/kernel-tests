@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6f2409a_a03bca0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-08T02:20:13Z",
+      "side": 1,
+      "message": "IP_MULTICAST_LOOP\n(RAW and UDP) Enables or disables loopback of outgoing multicast datagrams. Default is enable. When it is enabled, multicast applications that have joined the outgoing multicast group can receive a copy of the multicast datagrams destined for that address/port pair. The loopback indicator is passed as an u_char. The value 0 is specified to disable loopback. The value 1 is specified to enable loopback.\n\n- technically I guess this doesn\u0027t tell you if this includes kernel usecases or not, but it presumably should, since that\u0027s presumably just another usecase...\n\nAlthough it\u0027s certainly not 100% certain/guaranteed as it probably depends whether stuff is using \u0027normal\u0027 sockets or more standard ingress path processing.\n\n(for example does this stuff loopback in such a way that tcpdump shows it as ingress?)",
+      "parentUuid": "afe51bc6_197f632e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
