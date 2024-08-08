@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b42d262_dced10c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2024-08-08T01:41:40Z",
+      "side": 1,
+      "message": "This is for Thread Border Router\u0027s use case. We want to ensure that the kernel will add addresses/routes on receiving an RA from itself. The network could be WiFi or Ethernet. Without the route, we cannot forward packets from Thread to WiFi/Ethernet.\n\nThe RA messages are sent by an ICMPv6 socket created like [this](https://cs.android.com/android/platform/superproject/main/+/main:packages/modules/Connectivity/thread/service/java/com/android/server/thread/InfraInterfaceController.java;l\u003d55;drc\u003d0348cbe874814b1c9b3dcf1ed74719076a8508fb). So I think it\u0027s using the src mac of WiFi/Ethernet.\n\n\u003e because -for example- afaik packets with our own mac will be dropped on wifi...\n\nIs it caused by APF, DTIM or something else?",
+      "parentUuid": "f788bdfa_2c44dd0b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
