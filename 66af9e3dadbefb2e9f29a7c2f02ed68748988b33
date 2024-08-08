@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43e74688_0bc1be64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-08T01:53:00Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m not at all sure, but I think the current implementation of this test doesn\u0027t test the behaviour that the code you linked uses.\n\nhere we have:\n  def ReceiveEtherPacketOn(self, netid, packet):\n    posix.write(self.tuns[netid].fileno(), bytes(packet))\n    \nso presumably uses tun/tap fd, which is not at all comparable to the raw socket case you linked.",
+      "parentUuid": "71584f02_8f9a949b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
