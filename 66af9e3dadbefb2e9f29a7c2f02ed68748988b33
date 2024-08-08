@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef5fea1e_08f65bc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2016993
+      },
+      "writtenOn": "2024-08-08T02:00:15Z",
+      "side": 1,
+      "message": "My previous understanding was that the `IP_MULTICAST_LOOP` option (which is by default on) can always ensure the kernel to receive multicast packets sent by itself. Is this correct?\n\nIs this a misunderstanding or it could be affected by the driver\u0027s implementation?",
+      "parentUuid": "43e74688_0bc1be64",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
