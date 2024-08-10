@@ -23,6 +23,8 @@ import struct
 import subprocess
 import threading
 import unittest
+import time
+from datetime import datetime
 
 import csocket
 import cstruct
@@ -317,6 +319,17 @@ class XfrmFunctionalTest(xfrm_base.XfrmLazyTest):
     self.ReceivePacketOn(netid, incoming)
 
     sainfo = self.xfrm.FindSaInfo(in_spi)
+    if not null_auth and in_spi != out_spi:
+      formatted_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+      print("\n%s: start_integrity_failures: %d. sainfo.stats.integrity_failed: %d" \
+        % (formatted_time, start_integrity_failures, sainfo.stats.integrity_failed))
+      time.sleep(0.1)
+
+    if not null_auth and in_spi != out_spi:
+      formatted_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+      sainfo = self.xfrm.FindSaInfo(in_spi)
+      print("%s: start_integrity_failures: %d. sainfo.stats.integrity_failed: %d" \
+        % (formatted_time, start_integrity_failures, sainfo.stats.integrity_failed))
 
     # TODO: break this out into a separate test
     # If our SPIs are different, and we aren't using null authentication,
