@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5eafed1_17603bee",
+        "filename": "net/test/xfrm_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-12T18:42:19Z",
+      "side": 1,
+      "message": "this if statement seems spurious, as in the block below can be merged with the block up above?",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 328,
+        "endChar": 43
+      },
+      "revId": "1574f1fb15a7d7d847e19eef8e54cff7028949f5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
