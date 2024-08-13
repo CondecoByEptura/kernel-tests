@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c06621a_af9cb111",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-08-13T02:23:41Z",
+      "side": 1,
+      "message": "As Maciej points out, this test should be rewritten to use the same socket calls as ot-daemon uses (which, IIUC, is just an ICMPv6 socket with the loopback option turned on). It should check that the behaviour is as expected (AIUI the expected behaviour is to accept only some parts of the RA, like the PIO, but not other parts, like the routing).",
+      "parentUuid": "e6f2409a_a03bca0b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "66af9e3dadbefb2e9f29a7c2f02ed68748988b33",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad465843_daf595b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
