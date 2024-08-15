@@ -35,6 +35,24 @@
       "parentUuid": "4e285c77_a3992a28",
       "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a2b251_f8893844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3450567
+      },
+      "writtenOn": "2024-08-15T09:36:04Z",
+      "side": 1,
+      "message": "Above CL has been merged, so what about this change?",
+      "parentUuid": "e20ddeb4_013e6de4",
+      "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
