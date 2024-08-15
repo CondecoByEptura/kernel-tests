@@ -46,6 +46,30 @@
       },
       "revId": "97b1210bffb95e44fcc8381216baed9b62e22b22",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e3c4a2e_2d996c6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-15T18:52:17Z",
+      "side": 1,
+      "message": "https://patchwork.kernel.org/project/netdevbpf/list/?series\u003d\u0026submitter\u003d209402\u0026state\u003d*\u0026q\u003d\u0026archive\u003dboth\u0026delegate\u003d",
+      "parentUuid": "5f8648a8_7125ca9d",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "97b1210bffb95e44fcc8381216baed9b62e22b22",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
