@@ -53,6 +53,24 @@
       "parentUuid": "e20ddeb4_013e6de4",
       "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c575e448_d1b94cf0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-15T19:05:04Z",
+      "side": 1,
+      "message": "I\u0027m still not a fan of this, because I think this approach to detecting GSI is unreliable (can easily be spoofed to return true even on non-gsi builds).\n\nIndeed I\u0027d far prefer it if there simply were no GSI/GKI exceptions in the test suite.  Unfortunately realities of testing old/frozen kernels / old kernel branches against tip-of-tree tests makes that not viable.\n\nThat said, does: https://android-review.googlesource.com/c/kernel/tests/+/3212359 workaround the need for this patch?",
+      "parentUuid": "c7a2b251_f8893844",
+      "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
