@@ -71,6 +71,24 @@
       "parentUuid": "c7a2b251_f8893844",
       "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8eb7ae1_dad72593",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3450567
+      },
+      "writtenOn": "2024-08-16T01:15:50Z",
+      "side": 1,
+      "message": "OK, remove the duplicate test in python works for me.",
+      "parentUuid": "c575e448_d1b94cf0",
+      "revId": "75ead2ccf81eb9e12cb9ded8a53a2ca7edfb277b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
