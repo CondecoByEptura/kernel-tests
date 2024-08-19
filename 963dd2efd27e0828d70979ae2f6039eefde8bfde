@@ -35,6 +35,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f0bb668_6010234c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2024-08-19T18:32:16Z",
+      "side": 1,
+      "message": "As expected:\nhttps://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.10.4\nhttps://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.6.45\nhttps://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.1.104\nhttps://cdn.kernel.org/pub/linux/kernel/v5.x/ChangeLog-5.15.165\nhttps://cdn.kernel.org/pub/linux/kernel/v5.x/ChangeLog-5.10.224\nhttps://cdn.kernel.org/pub/linux/kernel/v5.x/ChangeLog-5.4.282\nhttps://cdn.kernel.org/pub/linux/kernel/v4.x/ChangeLog-4.19.320\nare now published and include\n    ipv6: fix ndisc_is_useropt() handling for PIO",
+      "parentUuid": "526d1b54_0e77cf4c",
+      "revId": "963dd2efd27e0828d70979ae2f6039eefde8bfde",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d429385_f5587ee7",
