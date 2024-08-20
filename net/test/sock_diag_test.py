@@ -636,7 +636,7 @@ class SockDestroyTcpTest(tcp_test.TcpBaseTest, SockDiagBaseTest):
       # Close the socket and check that it goes into FIN_WAIT1 and sends a FIN.
       net_test.EnableFinWait(self.accepted)
       self.accepted.close()
-      del self.accepted
+      self.accepted = None
       diag_req.states = 1 << tcp_test.TCP_FIN_WAIT1
       diag_msg, attrs = self.sock_diag.GetSockInfo(diag_req)
       self.assertEqual(tcp_test.TCP_FIN_WAIT1, diag_msg.state)
