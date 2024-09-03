@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cbe5b68_0b55d7a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000835
+      },
+      "writtenOn": "2024-09-03T10:44:08Z",
+      "side": 1,
+      "message": "This test change is needed to ensure that aosp/3253355 and similar patches don\u0027t break VTS.",
+      "revId": "56f489f85bae5dee5dd3a1d1447bb8bdfe39e483",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
