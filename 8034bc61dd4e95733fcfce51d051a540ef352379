@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c59bf2_9ab5eb26",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1942356
+      },
+      "writtenOn": "2024-09-04T20:48:36Z",
+      "side": 1,
+      "message": "nit: extra R\n```suggestion\n    echo \"  -tl \u003ctest_log_dir\u003e, --test_log\u003d\u003ctest_log_dir\u003e\"\n```",
+      "range": {
+        "startLine": 60,
+        "startChar": 29,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "8034bc61dd4e95733fcfce51d051a540ef352379",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
