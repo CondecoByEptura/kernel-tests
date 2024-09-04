@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0452973e_f09539ce",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1942356
+      },
+      "writtenOn": "2024-09-04T23:49:38Z",
+      "side": 1,
+      "message": "I don\u0027t think this part works, needs to be the relative path maybe?",
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
