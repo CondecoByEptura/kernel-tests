@@ -36,6 +36,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60bb04d9_c3b1a1fa",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-05T03:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a04214f_5c39eade",
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e4349ba_e965f7b4",
@@ -49,6 +67,24 @@
       "writtenOn": "2024-09-05T00:18:03Z",
       "side": 1,
       "message": "```suggestion\n            TEST_DIR\u003d\"out/virtual_device_x86_64/dist/tests.zip\"\n```",
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae62ffb1_ce346cb8",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-05T03:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e4349ba_e965f7b4",
       "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
@@ -76,6 +112,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "241c243b_6ff94fe4",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-05T03:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00158392_7c095e1c",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 11
+      },
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "140703f6_26e43b37",
@@ -89,6 +149,30 @@
       "writtenOn": "2024-09-05T00:17:05Z",
       "side": 1,
       "message": "```suggestion\n    if [[ $filename \u003d\u003d \"tests.zip\" ]]; then\n```",
+      "range": {
+        "startLine": 294,
+        "startChar": 10,
+        "endLine": 294,
+        "endChar": 18
+      },
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e4cc4e3_8eb2d036",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-05T03:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140703f6_26e43b37",
       "range": {
         "startLine": 294,
         "startChar": 10,
