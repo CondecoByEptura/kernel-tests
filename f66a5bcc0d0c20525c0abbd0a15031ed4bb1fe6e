@@ -20,6 +20,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a04214f_5c39eade",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1942356
+      },
+      "writtenOn": "2024-09-05T00:18:03Z",
+      "side": 1,
+      "message": "```suggestion\n            TEST_DIR\u003d\"out/virtual_device_aarch64/dist/tests.zip\"\n```",
+      "parentUuid": "0452973e_f09539ce",
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4349ba_e965f7b4",
+        "filename": "tools/run_test_only.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1942356
+      },
+      "writtenOn": "2024-09-05T00:18:03Z",
+      "side": 1,
+      "message": "```suggestion\n            TEST_DIR\u003d\"out/virtual_device_x86_64/dist/tests.zip\"\n```",
+      "revId": "f66a5bcc0d0c20525c0abbd0a15031ed4bb1fe6e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00158392_7c095e1c",
         "filename": "tools/run_test_only.sh",
         "patchSetId": 12
