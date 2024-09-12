@@ -10,7 +10,7 @@ PLATFORM_TF_PREBUILT=tools/tradefederation/prebuilts/filegroups/tradefed/tradefe
 JDK_PATH=prebuilts/jdk/jdk11/linux-x86
 PLATFORM_JDK_PATH=prebuilts/jdk/jdk21/linux-x86
 DEFAULT_LOG_DIR=$PWD/out/test_logs/$(date +%Y%m%d_%H%M%S)
-DOWNLOAD_PATH="/tmp/downloaded"
+DOWNLOAD_PATH="/tmp/downloaded_tests"
 GCOV=false
 FETCH_SCRIPT="kernel/tests/tools/fetch_artifact.sh"
 TRADEFED=
@@ -118,7 +118,7 @@ function run_test_in_platform_repo () {
 }
 
 OLD_PWD=$PWD
-MY_NAME=${0##*/}
+MY_NAME=$0
 
 while test $# -gt 0; do
     case "$1" in
@@ -242,10 +242,10 @@ if [ -z "$LOG_DIR" ]; then
     LOG_DIR="$DEFAULT_LOG_DIR"
 fi
 
-BOARD=$(adb -s $SERIAL_NUMBER shell getprop ro.product.board)
-ABI=$(adb -s $SERIAL_NUMBER shell getprop ro.product.cpu.abi)
-PRODUCT=$(adb -s $SERIAL_NUMBER shell getprop ro.product.name)
-BUILD_TYPE=$(adb -s $SERIAL_NUMBER shell getprop ro.build.type)
+BOARD=$(adb -s "$SERIAL_NUMBER" shell getprop ro.product.board)
+ABI=$(adb -s "$SERIAL_NUMBER" shell getprop ro.product.cpu.abi)
+PRODUCT=$(adb -s "$SERIAL_NUMBER" shell getprop ro.build.product)
+BUILD_TYPE=$(adb -s "$SERIAL_NUMBER" shell getprop ro.build.type)
 
 if [ -z "$TEST_DIR" ]; then
     print_warn "Flag -td <test_dir> is not provided. Will use the default test directory"
@@ -280,7 +280,7 @@ done
 if [[ "$TEST_DIR" == ab://* ]]; then
     # Download test_file if it's remote file ab://
     if [ -d "$DOWNLOAD_PATH" ]; then
-        rm -rf $DOWNLOAD_PATH
+        rm -rf "$DOWNLOAD_PATH"
     fi
     mkdir -p "$DOWNLOAD_PATH" || $(print_error "Fail to create directory $DOWNLOAD_PATH")
     cd $DOWNLOAD_PATH || $(print_error "Fail to go to $DOWNLOAD_PATH")
