@@ -57,7 +57,7 @@ BUILD_INFO=
 BUILD_FORMAT="ab://<branch>/<build_target>/<build_id>/<file_name>"
 EXTRA_OPTIONS=
 
-MY_NAME=${0##*/}
+MY_NAME="${0##*/}"
 
 for i in "$@"; do
     case $i in
