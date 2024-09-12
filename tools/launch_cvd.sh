@@ -174,8 +174,8 @@ function print_error() {
 }
 
 function set_platform_repo () {
-    print_warn "Build target product '${TARGET_PRODUCT}' does not match expected $1"
-    lunch_cli="source build/envsetup.sh && lunch $1"
+    print_warn "Build target product '${TARGET_PRODUCT}' does not match expected '$1'"
+    local lunch_cli="source build/envsetup.sh && lunch $1"
     if [ -f "build/release/release_configs/trunk_staging.textproto" ]; then
         lunch_cli+="-trunk_staging-userdebug"
     else
@@ -199,13 +199,7 @@ function find_repo () {
             fi
             ;;
         *kernel/superproject*)
-            if [[ "$manifest_output" == *private/google-modules/soc/gs* ]]; then
-                PIXEL_KERNEL_REPO_ROOT="$PWD"
-                PIXEL_KERNEL_VERSION=$(grep -e "default revision" .repo/manifests/default.xml | \
-                grep -oP 'revision="\K[^"]*')
-                print_info "PIXEL_KERNEL_REPO_ROOT=$PLATFORM_REPO_ROOT, \
-                PIXEL_KERNEL_VERSION=$PLATFORM_VERSION"
-            elif [[ "$manifest_output" == *common-modules/virtual-device* ]]; then
+            if [[ "$manifest_output" == *common-modules/virtual-device* ]]; then
                 CF_KERNEL_REPO_ROOT="$PWD"
                 CF_KERNEL_VERSION=$(grep -e "common-modules/virtual-device" \
                 .repo/manifests/default.xml | grep -oP 'revision="\K[^"]*')
@@ -244,7 +238,7 @@ adb_checker
 LOCAL_REPO=
 
 OLD_PWD=$PWD
-MY_NAME=${0##*/}
+MY_NAME=$0
 
 parse_arg "$@"
 
@@ -303,7 +297,7 @@ if [ "$SKIP_BUILD" = false ] && [ ! -z "$KERNEL_BUILD" ] && [[ "$KERNEL_BUILD" !
             # TODO: Add build support to android12 and earlier kernels
             print_error "bazel build common-modules/virtual-device is not supported in this kernel tree"
         fi
-        KERNEL_VERSION=$(cat .repo/manifests/default.xml | grep common-modules/virtual-device | grep -oP 'revision="\K[^"]*')
+        KERNEL_VERSION=$(grep -e "common-modules/virtual-device" .repo/manifests/default.xml | grep -oP 'revision="\K[^"]*')
         # Build a new kernel
         build_cmd="tools/bazel run --config=fast"
         if [ "$GCOV" = true ]; then
@@ -330,7 +324,7 @@ fi
 
 
 if [ -z "$ACLOUD_BIN" ] || ! [ -x "$ACLOUD_BIN" ]; then
-    output=$(which acloud 2>&1)
+    local output=$(which acloud 2>&1)
     if [ -z "$output" ]; then
         print_info "Use acloud binary from $ACLOUD_PREBUILT"
         ACLOUD_BIN="$ACLOUD_PREBUILT"
