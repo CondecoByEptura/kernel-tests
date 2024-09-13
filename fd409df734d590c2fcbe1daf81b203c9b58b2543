@@ -24,6 +24,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c1414db_fe35e6d0",
+        "filename": "tools/flash_device.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-13T21:28:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b81346_aa0cebfa",
+      "range": {
+        "startLine": 4,
+        "startChar": 18,
+        "endLine": 4,
+        "endChar": 28
+      },
+      "revId": "fd409df734d590c2fcbe1daf81b203c9b58b2543",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4749e9b_7fb9528d",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "nevermind, vkb is right, but it needs documentation in the help string above",
       "parentUuid": "c4749e9b_7fb9528d",
+      "revId": "fd409df734d590c2fcbe1daf81b203c9b58b2543",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b938db7_004c61de",
+        "filename": "tools/flash_device.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-13T21:28:30Z",
+      "side": 1,
+      "message": "Forgot to update some help doc. Thanks for finding it.",
+      "parentUuid": "47c9860c_20dd44ce",
       "revId": "fd409df734d590c2fcbe1daf81b203c9b58b2543",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
@@ -96,6 +138,30 @@
       "side": 1,
       "message": "and maybe should be renamed to vendor-kernel-build instead",
       "parentUuid": "9bbbf281_b7ae71b5",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 35
+      },
+      "revId": "fd409df734d590c2fcbe1daf81b203c9b58b2543",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "649bf081_03fab61c",
+        "filename": "tools/flash_device.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-09-13T21:28:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b704f24_faa79479",
       "range": {
         "startLine": 150,
         "startChar": 0,
