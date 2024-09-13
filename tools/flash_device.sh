@@ -36,7 +36,7 @@ DEVICE_VARIANT="userdebug"
 function print_help() {
     echo "Usage: $0 [OPTIONS]"
     echo ""
-    echo "This script will build images and launch a Cuttlefish device."
+    echo "This script will build images and flash a physical device."
     echo ""
     echo "Available options:"
     echo "  -s <serial_number>, --serial=<serial_number>"
