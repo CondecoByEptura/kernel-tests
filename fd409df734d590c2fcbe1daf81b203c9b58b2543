@@ -16,6 +16,24 @@
       "message": "should this be -kb?",
       "revId": "fd409df734d590c2fcbe1daf81b203c9b58b2543",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c9860c_20dd44ce",
+        "filename": "tools/flash_device.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1942356
+      },
+      "writtenOn": "2024-09-13T21:15:37Z",
+      "side": 1,
+      "message": "nevermind, vkb is right, but it needs documentation in the help string above",
+      "parentUuid": "c4749e9b_7fb9528d",
+      "revId": "fd409df734d590c2fcbe1daf81b203c9b58b2543",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
