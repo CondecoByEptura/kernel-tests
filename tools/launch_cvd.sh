@@ -206,7 +206,7 @@ function find_repo () {
                 print_info "CF_KERNEL_REPO_ROOT=$CF_KERNEL_REPO_ROOT, \
                 CF_KERNEL_VERSION=$CF_KERNEL_VERSION"
                 if [ -z "$KERNEL_BUILD" ]; then
-                    KERNEL_BUILD="$CF_KERNEL_REPO_ROOT"
+                    KERNEL_BUILD="$CF_KERNEL_REPO_ROOT/out/virtual_device_x86_64/dist"
                 fi
             fi
             ;;
