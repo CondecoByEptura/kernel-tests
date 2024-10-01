@@ -16,6 +16,24 @@
       "message": "I don\u0027t have the permission to +2.",
       "revId": "105e00171d56b1326e889b7f7e0817677266e098",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "865aaed0_3bf0d22a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1123518
+      },
+      "writtenOn": "2024-10-01T07:30:48Z",
+      "side": 1,
+      "message": "it\u0027s weird. you are in the owner list",
+      "parentUuid": "ad9f87ec_6fe93198",
+      "revId": "105e00171d56b1326e889b7f7e0817677266e098",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
