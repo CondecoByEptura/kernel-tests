@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18aedbb5_94f27f81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2048517
+      },
+      "writtenOn": "2024-10-03T10:35:44Z",
+      "side": 1,
+      "message": "@rossyeh@google.com This cherry-pick is not clean, should I create a new change with a new Change-ID/Merged-In?",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "380cf83ea67f0e8d487f503b5f4fb7a40deac8d2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
